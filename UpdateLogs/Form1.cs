@@ -24,9 +24,11 @@ namespace updatelogs
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            string path = Application.StartupPath;
             try
             {
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(@"UPDATELOGS.md"))
+                
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(path + @"\UPDATELOGS.md"))
                 {
                     String line = await sr.ReadToEndAsync();
                     textBox1.Text = line;
@@ -34,7 +36,8 @@ namespace updatelogs
             }
             catch (Exception ex)
             {
-                textBox1.Text = "There is no update logs available now!";
+                textBox1.Text = "There is no update logs available now!\r\nPlease check the link : https://github.com/mostaphaRoudsari/Honeybee";
+                //textBox1.Text = path;
             }
         }
     }
