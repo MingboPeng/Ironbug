@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Grasshopper.Kernel.Data;
 using FreeImageAPI;
 using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 //using Embryo.Generic;
 
@@ -36,17 +38,20 @@ namespace Ironbug
             myRect.X += 16;
             myRect.Y += 4;
             LayoutInputParams(Owner, myRect);
+            ImgBounds = Bounds;
         }
 
 
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
+            base.Render(canvas, graphics, channel);
 
-            if (channel == GH_CanvasChannel.Wires)
-            {
-                base.Render(canvas, graphics, channel);
-                Layout();
-            }
+
+            //if (channel == GH_CanvasChannel.Wires)
+            //{
+            //    base.Render(canvas, graphics, channel);
+            //    Layout();
+            //}
 
             if (channel == GH_CanvasChannel.Objects)
             {
@@ -78,36 +83,41 @@ namespace Ironbug
                     Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
                     scaler = 1.0f;
                 }
-
-                Pen pen;
-                SolidBrush myBrush;
                 var bgColor = Color.Gray;
 
-                if (Owner.RuntimeMessageLevel == GH_RuntimeMessageLevel.Blank)
-                {
-                    pen = new Pen(bgColor, 3);
-                    myBrush = new SolidBrush(bgColor);
-                }
-                else
-                {
-                    pen = new Pen(bgColor, 3);
-                    myBrush = new SolidBrush(bgColor);
-                }
+                Pen pen = new Pen(bgColor, 3);
+                SolidBrush myBrush = new SolidBrush(bgColor);
 
-                graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 19 - 4, 8, 8);
-                graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 49 - 4, 8, 8);
-                
+
+                //if (Owner.RuntimeMessageLevel == GH_RuntimeMessageLevel.Blank)
+                //{
+                //    pen = new Pen(bgColor, 3);
+                //    myBrush = new SolidBrush(bgColor);
+                //}
+                //else
+                //{
+                //    pen = new Pen(bgColor, 3);
+                //    myBrush = new SolidBrush(bgColor);
+                //}
+
+                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 19 - 4, 8, 8);
+                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 49 - 4, 8, 8);
+
                 Font ubuntuFont = new Font("ubuntu", 8);
                 StringFormat myFormat = new StringFormat();
 
                 if (!myData1.IsEmpty)
                 {
                     Bitmap myBitmap;
-                    var tiffFile = myData1.get_FirstItem(true).Value.Replace(".HDR",".TIF");
-                    
+                    var filePath = myData1.get_FirstItem(true).Value;
+                    if (Path.GetExtension(filePath).ToUpper() == ".HDR")
+                    {
+                        filePath = filePath.Replace(".HDR", ".TIF");
+                    }
+
                     try
                     {
-                        myBitmap = new Bitmap(tiffFile);
+                        myBitmap = new Bitmap(filePath);
                     }
                     catch
                     {
@@ -131,10 +141,59 @@ namespace Ironbug
 
         void displayComponent(Graphics graphics, Brush myBrush, Font ubuntuFont, Pen pen, StringFormat myFormat)
         {
-            graphics.FillRectangle(myBrush, Rectangle.Round(Bounds));
-            graphics.DrawRectangle(pen, Rectangle.Round(Bounds));
+            var imgViewBounds = new RectangleF(Pivot, new SizeF(500, 400));
+            graphics.FillRectangle(myBrush, Rectangle.Round(imgViewBounds));
+            graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             //graphics.DrawString("johnharding@fastmail.fm", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 480 - 6 - 10), myFormat);
             //graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 450 - 10);
+        }
+
+        public delegate void Button_Handler(object sender);
+
+        private Button_Handler MouseDownEvent;
+        public event Button_Handler mouseDownEvent
+        {
+            add
+            {
+                Button_Handler buttonHandler = MouseDownEvent;
+                Button_Handler comparand;
+                do
+                {
+                    comparand = buttonHandler;
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseDownEvent, (Button_Handler)Delegate.Combine(comparand, value), comparand);
+                }
+                while (buttonHandler != comparand);
+            }
+            remove
+            {
+                Button_Handler buttonHandler = MouseDownEvent;
+                Button_Handler comparand;
+                do
+                {
+                    comparand = buttonHandler;
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseDownEvent, (Button_Handler)Delegate.Remove(comparand, value), comparand);
+                }
+                while (buttonHandler != comparand);
+            }
+        }
+
+        private System.Drawing.RectangleF ImgBounds { get; set; }
+
+        public override GH_ObjectResponse RespondToMouseDown(GH_Canvas sender, GH_CanvasMouseEvent e)
+        {
+            
+            if (e.Button == MouseButtons.Left)
+            {
+                
+                RectangleF rec = new RectangleF(Pivot, new SizeF(500, 400));
+                if (rec.Contains(e.CanvasLocation))
+                {
+                    //this.MouseDownEvent(this);
+                    MessageBox.Show("clicked at: "+ e.CanvasLocation);
+                    return GH_ObjectResponse.Handled;
+                }
+            }
+            return base.RespondToMouseDown(sender, e);
         }
 
     }

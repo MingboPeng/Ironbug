@@ -65,8 +65,10 @@ namespace Ironbug
             {
                 tiffFile = FilePath;
             }
-            
+
             FilePath = tiffFile;
+            this.ExpireSolution(true);
+
         }
 
         /// <summary>
@@ -96,7 +98,15 @@ namespace Ironbug
 
         public override void CreateAttributes()
         {
-            m_attributes = new ImageFromPathAttrib(this);
+            var newAttri = new ImageFromPathAttrib(this);
+            //newAttri.mouseDownEvent += OnMouseDownEvent;
+            m_attributes = newAttri;
         }
+
+        //private void OnMouseDownEvent(object sender)
+        //{
+        //    var newAttri = new ImageFromPathAttrib(this);
+        //    //newAttri.p
+        //}
     }
 }
