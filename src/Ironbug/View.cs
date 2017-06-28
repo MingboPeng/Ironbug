@@ -31,6 +31,7 @@ namespace Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("P", "P", "File Path", GH_ParamAccess.item);
+            pManager.AddTextParameter("Scale", "s", "File Path", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -38,6 +39,10 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
+            pManager.AddTextParameter("Path", "imagePath", "Converted file path", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "Value", "Converted file path", GH_ParamAccess.item);
+            pManager[0].MutableNickName = false;
+            pManager[1].MutableNickName = false;
         }
 
         /// <summary>

@@ -21,24 +21,47 @@ namespace Ironbug
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        //int sizeX, sizeY;
+        int sizeX,sizeY,offsetTop;
+        Bitmap bitmap;
+        private RectangleF ImgBounds { get; set; }
 
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            //sizeX = 500;
-            //sizeY = 500;
+            sizeX = 400;
+            sizeY = 400;
+            offsetTop = 100;
         }
 
         protected override void Layout()
         {
-            Pivot = GH_Convert.ToPoint(Pivot);
-            Bounds = new RectangleF(Pivot, new SizeF(500, 500));
-            RectangleF myRect = new RectangleF(Bounds.Location, new SizeF(100f, 60f));
-            myRect.X += 16;
-            myRect.Y += 4;
-            LayoutInputParams(Owner, myRect);
-            ImgBounds = Bounds;
+            //Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
+            PointF BoundsLocation = GH_Convert.ToPoint(Pivot);
+
+            //rec0.Size = new Size(sizeX, sizeY);
+            //rec0.Location = BoundsLocation;
+            ////Bounds.Width = sizeX;
+            //Bounds = rec0;
+            //Bounds.Location = BoundsLocation;
+
+            Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
+            RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
+            inputRect.X += 20;
+            inputRect.Y += 4;
+
+            RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
+            outRect.X += sizeX-170;
+            outRect.Y += 4;
+
+            //rec1 for image bound
+            Rectangle rec1 = GH_Convert.ToRectangle(Bounds);
+            rec1.Y += offsetTop;
+            rec1.Height = sizeY-offsetTop;
+            rec1.Inflate(-2, -2);
+
+            LayoutInputParams(Owner, inputRect);
+            LayoutOutputParams(Owner, outRect);
+            this.ImgBounds = rec1;
         }
 
 
@@ -108,7 +131,7 @@ namespace Ironbug
 
                 if (!myData1.IsEmpty)
                 {
-                    Bitmap myBitmap;
+                    
                     var filePath = myData1.get_FirstItem(true).Value;
                     if (Path.GetExtension(filePath).ToUpper() == ".HDR")
                     {
@@ -117,7 +140,7 @@ namespace Ironbug
 
                     try
                     {
-                        myBitmap = new Bitmap(filePath);
+                        bitmap = new Bitmap(filePath);
                     }
                     catch
                     {
@@ -127,8 +150,9 @@ namespace Ironbug
                     }
 
                     // If we've got an image then draw it
-                    Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
-                    graphics.DrawImage(myBitmap, Bounds);
+                    //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
+                    //graphics.DrawImage(myBitmap, Bounds);
+                    graphics.DrawImage(bitmap, ImgBounds);
                 }
                 else
                 {
@@ -141,9 +165,13 @@ namespace Ironbug
 
         void displayComponent(Graphics graphics, Brush myBrush, Font ubuntuFont, Pen pen, StringFormat myFormat)
         {
-            var imgViewBounds = new RectangleF(Pivot, new SizeF(500, 400));
-            graphics.FillRectangle(myBrush, Rectangle.Round(imgViewBounds));
-            graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
+            //Pivot = GH_Convert.ToPoint(Pivot);
+            
+            //PointF imgViewBasePt = new PointF(Pivot.X, Pivot.Y + 100);
+            //var imgViewBounds = new RectangleF(imgViewBasePt, new SizeF(500, 400));
+            var ImgRec = ImgBounds;
+            graphics.FillRectangle(myBrush, Rectangle.Round(ImgRec));
+            //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             //graphics.DrawString("johnharding@fastmail.fm", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 480 - 6 - 10), myFormat);
             //graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 450 - 10);
         }
@@ -176,20 +204,23 @@ namespace Ironbug
                 while (buttonHandler != comparand);
             }
         }
-
-        private System.Drawing.RectangleF ImgBounds { get; set; }
+        
 
         public override GH_ObjectResponse RespondToMouseDown(GH_Canvas sender, GH_CanvasMouseEvent e)
         {
             
             if (e.Button == MouseButtons.Left)
             {
-                
-                RectangleF rec = new RectangleF(Pivot, new SizeF(500, 400));
-                if (rec.Contains(e.CanvasLocation))
+
+                if (ImgBounds.Contains(e.CanvasLocation))
                 {
                     //this.MouseDownEvent(this);
-                    MessageBox.Show("clicked at: "+ e.CanvasLocation);
+                    //SizeF 
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X+2,Pivot.Y+2+offsetTop));
+                    //TODO: check 
+                    var clickedColor = bitmap.GetPixel((int)clickedPt.X, (int)clickedPt.Y);
+                    //MessageBox.Show("clicked at: "+ clickedPt + "; \ne.CanvasLocation: "+ e.CanvasLocation + "; \nImgBounds: " + ImgBounds.Size + "; \nPivot: " + Pivot + "; \nBounds.Location: " + Bounds.Location);
+                    MessageBox.Show("clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }
             }
