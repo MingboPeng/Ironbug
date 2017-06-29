@@ -22,6 +22,7 @@ namespace Ironbug
     {
         //String myPath;
         int sizeX,sizeY,offsetTop;
+        float img2bitmapFactor;
         Bitmap bitmap;
         private RectangleF ImgBounds { get; set; }
 
@@ -31,6 +32,8 @@ namespace Ironbug
             sizeX = 400;
             sizeY = 400;
             offsetTop = 100;
+
+            img2bitmapFactor = 1;
         }
 
         protected override void Layout()
@@ -53,14 +56,15 @@ namespace Ironbug
             outRect.X += sizeX-170;
             outRect.Y += 4;
 
+            LayoutInputParams(Owner, inputRect);
+            LayoutOutputParams(Owner, outRect);
+
             //rec1 for image bound
             Rectangle rec1 = GH_Convert.ToRectangle(Bounds);
             rec1.Y += offsetTop;
             rec1.Height = sizeY-offsetTop;
             rec1.Inflate(-2, -2);
-
-            LayoutInputParams(Owner, inputRect);
-            LayoutOutputParams(Owner, outRect);
+            
             this.ImgBounds = rec1;
         }
 
@@ -141,6 +145,7 @@ namespace Ironbug
                     try
                     {
                         bitmap = new Bitmap(filePath);
+                        
                     }
                     catch
                     {
@@ -149,8 +154,31 @@ namespace Ironbug
                         return;
                     }
 
+                    if (bitmap.Width > 0)
+                    {
+                        img2bitmapFactor = (float)ImgBounds.Width / (float)bitmap.Width;
+                    }
+                    else
+                    {
+                        img2bitmapFactor = 1;
+                    }
+
+
                     // If we've got an image then draw it
                     //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
+
+                    int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
+                    Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
+                    rec0.Height = viewpotHeight + offsetTop;
+                    Bounds = rec0;
+
+                    Rectangle rec1 = rec0;
+                    rec1.Y += offsetTop;
+                    rec1.Height = viewpotHeight;
+                    rec1.Inflate(-2, -2);
+                    ImgBounds = rec1;
+
+                    
                     //graphics.DrawImage(myBitmap, Bounds);
                     graphics.DrawImage(bitmap, ImgBounds);
                 }
@@ -169,8 +197,8 @@ namespace Ironbug
             
             //PointF imgViewBasePt = new PointF(Pivot.X, Pivot.Y + 100);
             //var imgViewBounds = new RectangleF(imgViewBasePt, new SizeF(500, 400));
-            var ImgRec = ImgBounds;
-            graphics.FillRectangle(myBrush, Rectangle.Round(ImgRec));
+            //var ImgRec = ImgBounds;
+            graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             //graphics.DrawString("johnharding@fastmail.fm", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 480 - 6 - 10), myFormat);
             //graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 450 - 10);
@@ -211,17 +239,24 @@ namespace Ironbug
             
             if (e.Button == MouseButtons.Left)
             {
-
-                if (ImgBounds.Contains(e.CanvasLocation))
+               
+                if (ImgBounds.Contains(e.CanvasLocation) && bitmap !=null)
                 {
                     //this.MouseDownEvent(this);
                     //SizeF 
                     PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X+2,Pivot.Y+2+offsetTop));
+                    
+                    PointF convertedPt = new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor);
                     //TODO: check 
-                    var clickedColor = bitmap.GetPixel((int)clickedPt.X, (int)clickedPt.Y);
+                    var clickedColor = bitmap.GetPixel((int)convertedPt.X, (int)convertedPt.Y);
                     //MessageBox.Show("clicked at: "+ clickedPt + "; \ne.CanvasLocation: "+ e.CanvasLocation + "; \nImgBounds: " + ImgBounds.Size + "; \nPivot: " + Pivot + "; \nBounds.Location: " + Bounds.Location);
-                    MessageBox.Show("clicked at: " + clickedColor);
+                    MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
+                }
+                else
+                {
+
+                    //MessageBox.Show("ImgBounds:" + ImgBounds + "\nclicked at: " + e.CanvasLocation+"\n"+ Pivot + "\n" + ImgBounds.Contains(e.CanvasLocation));
                 }
             }
             return base.RespondToMouseDown(sender, e);
