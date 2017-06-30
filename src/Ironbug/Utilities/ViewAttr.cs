@@ -21,17 +21,20 @@ namespace Ironbug
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        int sizeX,sizeY,offsetTop;
+        const int size = 400;
+        const int offsetTop = 60;
+        int sizeX,sizeY;
         float img2bitmapFactor;
+        float scale = 1;
         Bitmap bitmap;
         private RectangleF ImgBounds { get; set; }
 
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            sizeX = 400;
-            sizeY = 400;
-            offsetTop = 100;
+            sizeX = size;
+            sizeY = size;
+            //offsetTop = 60;
 
             img2bitmapFactor = 1;
         }
@@ -49,11 +52,11 @@ namespace Ironbug
 
             Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
             RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
-            inputRect.X += 20;
+            inputRect.X += 65;
             inputRect.Y += 4;
 
             RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
-            outRect.X += sizeX-170;
+            outRect.X += sizeX - 165;
             outRect.Y += 4;
 
             LayoutInputParams(Owner, inputRect);
@@ -83,26 +86,26 @@ namespace Ironbug
             if (channel == GH_CanvasChannel.Objects)
             {
                 GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
-                //GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
-                //GH_Structure<GH_Number> myData2 = new GH_Structure<GH_Number>();
+                GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
 
+                
                 // Get the size to begin with
                 Layout();
 
                 float scaler;
                 try
                 {
-                    //scaler = (float)myData2.get_DataItem(0).Value;
-                    scaler = 1;
+                    scaler = (float)myData2.get_DataItem(0).Value;
+                    //scaler = 1;
                     if (scaler > 10)
                     {
                         scaler = 10f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this");
+                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
                     }
-                    if (scaler < 0)
+                    else if (scaler < 0.5)
                     {
-                        scaler = 1.0f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale cannot be negative. Stop messing with me!");
+                        scaler = 0.5f;
+                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
                     }
                 }
                 catch
@@ -110,26 +113,14 @@ namespace Ironbug
                     Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
                     scaler = 1.0f;
                 }
+
+                scale = scaler;
                 var bgColor = Color.Gray;
 
                 Pen pen = new Pen(bgColor, 3);
                 SolidBrush myBrush = new SolidBrush(bgColor);
 
-
-                //if (Owner.RuntimeMessageLevel == GH_RuntimeMessageLevel.Blank)
-                //{
-                //    pen = new Pen(bgColor, 3);
-                //    myBrush = new SolidBrush(bgColor);
-                //}
-                //else
-                //{
-                //    pen = new Pen(bgColor, 3);
-                //    myBrush = new SolidBrush(bgColor);
-                //}
-
-                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 19 - 4, 8, 8);
-                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 49 - 4, 8, 8);
-
+                
                 Font ubuntuFont = new Font("ubuntu", 8);
                 StringFormat myFormat = new StringFormat();
 
@@ -167,10 +158,16 @@ namespace Ironbug
                     // If we've got an image then draw it
                     //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
 
+                    //viewpotHeight is for ensure the image xy ratio 
                     int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
                     Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-                    rec0.Height = viewpotHeight + offsetTop;
+                    sizeX = (int)(size * scaler);
+                    sizeY = (int)(viewpotHeight) + offsetTop;
+
+                    rec0.Width = sizeX;
+                    rec0.Height = sizeY;
                     Bounds = rec0;
+                    
 
                     Rectangle rec1 = rec0;
                     rec1.Y += offsetTop;
@@ -181,6 +178,7 @@ namespace Ironbug
                     
                     //graphics.DrawImage(myBitmap, Bounds);
                     graphics.DrawImage(bitmap, ImgBounds);
+
                 }
                 else
                 {
@@ -242,8 +240,8 @@ namespace Ironbug
                
                 if (ImgBounds.Contains(e.CanvasLocation) && bitmap !=null)
                 {
-                    //this.MouseDownEvent(this);
-                    //SizeF 
+                    
+                    //this.MouseDownEvnt(this);                    //SizeF 
                     PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X+2,Pivot.Y+2+offsetTop));
                     
                     PointF convertedPt = new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor);
@@ -256,7 +254,7 @@ namespace Ironbug
                 else
                 {
 
-                    //MessageBox.Show("ImgBounds:" + ImgBounds + "\nclicked at: " + e.CanvasLocation+"\n"+ Pivot + "\n" + ImgBounds.Contains(e.CanvasLocation));
+                    //MessageBox.Show("ImgBounds:" + ImgBounds + "\nclicked at: " + e.CanvasLocation + "\n" + Pivot + "\n" + ImgBounds.Contains(e.CanvasLocation));
                 }
             }
             return base.RespondToMouseDown(sender, e);

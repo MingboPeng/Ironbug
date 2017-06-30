@@ -30,8 +30,10 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("P", "P", "File Path", GH_ParamAccess.item);
-            pManager.AddTextParameter("Scale", "s", "File Path", GH_ParamAccess.item);
+            pManager.AddTextParameter("P", "imagePath", "File Path", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Scale", "scale", "File Path", GH_ParamAccess.item);
+            pManager[0].Optional = true;
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -52,7 +54,8 @@ namespace Ironbug
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            DA.GetData(0, ref FilePath);
+            if (!DA.GetData(0, ref FilePath)) return;
+            
 
             string tiffFile = string.Empty;
 
