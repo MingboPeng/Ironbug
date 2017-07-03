@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug", "src\Ironbug\Ironbug.csproj", "{92907A61-60EC-40B2-8071-F09FE8977B70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.test", "Ironbug.test\Ironbug.test.csproj", "{F03AD84D-2E79-4688-9638-DC71F2FA171C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.test", "src\Ironbug.test\Ironbug.test.csproj", "{F03AD84D-2E79-4688-9638-DC71F2FA171C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

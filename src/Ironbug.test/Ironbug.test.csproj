@@ -59,7 +59,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Ironbug\Ironbug.csproj">
+    <ProjectReference Include="..\Ironbug\Ironbug.csproj">
       <Project>{92907a61-60ec-40b2-8071-f09fe8977b70}</Project>
       <Name>Ironbug</Name>
     </ProjectReference>

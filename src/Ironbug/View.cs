@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using GH = Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 using System.Linq;
 using System.IO;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
 
 namespace Ironbug
 {
@@ -30,8 +32,8 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("P", "imagePath", "File Path", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Scale", "scale", "File Path", GH_ParamAccess.item);
+            pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Scale", "scale", "File Path", GH_ParamAccess.item,1);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
         }
@@ -47,6 +49,20 @@ namespace Ironbug
             pManager[1].MutableNickName = false;
         }
 
+        protected override void BeforeSolveInstance()
+        {
+            base.BeforeSolveInstance();
+            var pathParam = this.Params.Input[0];
+            if (pathParam.SourceCount>0)
+            {
+                GH_Structure<GH_String> filePath = (GH_Structure<GH_String>)pathParam.VolatileData;
+
+                CheckImg(filePath.get_DataItem(0).Value);
+            }
+            
+
+        }
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -56,27 +72,40 @@ namespace Ironbug
         {
             if (!DA.GetData(0, ref FilePath)) return;
             
-
-            string tiffFile = string.Empty;
+            //string tiffFile = string.Empty;
 
             if (File.Exists(FilePath) && Path.GetExtension(FilePath).ToUpper() == ".HDR")
             {
-                tiffFile = FilePath.Substring(0, FilePath.Length - 3) + "TIF";
-                string cmdStr1 = @"ra_tiff " + FilePath + " " + tiffFile;
-                var cmdStrings = new List<string>();
-                cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
-                cmdStrings.Add(cmdStr1);
-                CMD.Execute(cmdStrings);
 
-            }
-            else
-            {
-                tiffFile = FilePath;
+                FilePath = FilePath.Replace(".HDR", ".TIF");
+                if (!File.Exists(FilePath))
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
+                    return;
+                }
             }
 
-            FilePath = tiffFile;
-            this.ExpireSolution(true);
+            
 
+            //if (File.Exists(FilePath) && Path.GetExtension(FilePath).ToUpper() == ".HDR")
+            //{
+            //    tiffFile = FilePath.Substring(0, FilePath.Length - 3) + "TIF";
+            //    string cmdStr1 = @"ra_tiff " + FilePath + " " + tiffFile;
+            //    var cmdStrings = new List<string>();
+            //    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+            //    cmdStrings.Add(cmdStr1);
+            //    CMD.Execute(cmdStrings);
+            //    //this.m_attributes.ExpireLayout();
+            //}
+            //else
+            //{
+            //    tiffFile = FilePath;
+            //}
+
+            //FilePath = tiffFile;
+
+            DA.SetData(0, FilePath);
+            
         }
 
         /// <summary>
@@ -108,13 +137,56 @@ namespace Ironbug
         {
             var newAttri = new ImageFromPathAttrib(this);
             //newAttri.mouseDownEvent += OnMouseDownEvent;
+            
+            //TODO: add two way event for click
             m_attributes = newAttri;
+            
+
+        }
+
+        private void CheckImg(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return;
+            }
+            string tiffFile = string.Empty;
+
+            if (File.Exists(filePath) && Path.GetExtension(filePath).ToUpper() == ".HDR")
+            {
+                tiffFile = filePath.Substring(0, filePath.Length - 3) + "TIF";
+                string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
+                var cmdStrings = new List<string>();
+                cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+                cmdStrings.Add(cmdStr1);
+                CMD.Execute(cmdStrings);
+            }
+            else
+            {
+                tiffFile = filePath;
+            }
+
+            //return tiffFile;
+        }
+        protected override void AfterSolveInstance()
+        {
+            base.AfterSolveInstance();
+            
+            GH.Instances.InvalidateCanvas();
+            GH.Instances.ActiveCanvas.Update();
         }
 
         //private void OnMouseDownEvent(object sender)
         //{
         //    var newAttri = new ImageFromPathAttrib(this);
         //    //newAttri.p
+        //}
+
+        //private void displayImg(string imgPath)
+        //{
+        //    if (!File.Exists(imgPath)) return;
+        //    this.m_attributes.
+
         //}
     }
 }

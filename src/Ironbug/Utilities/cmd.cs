@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Ironbug
 {
@@ -26,6 +27,9 @@ namespace Ironbug
                     sw.WriteLine(cmdString);
                 }
             }
+
+            int milliseconds = 100;
+            Thread.Sleep(milliseconds);
         }
     }
 }

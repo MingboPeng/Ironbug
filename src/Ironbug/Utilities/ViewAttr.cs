@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using GH = Grasshopper;
 using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
@@ -11,6 +12,7 @@ using FreeImageAPI;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 
 //using Embryo.Generic;
 
@@ -26,8 +28,11 @@ namespace Ironbug
         int sizeX,sizeY;
         float img2bitmapFactor;
         float scale = 1;
+        string imgPath = string.Empty;
         Bitmap bitmap;
+        Graphics Graphics;
         private RectangleF ImgBounds { get; set; }
+
 
         public ImageFromPathAttrib(View owner)
             : base(owner)
@@ -71,135 +76,179 @@ namespace Ironbug
             this.ImgBounds = rec1;
         }
 
+        protected override void PrepareForRender(GH_Canvas canvas)
+        {
+            base.PrepareForRender(canvas);
 
+            GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
+            GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
+
+            
+            float scaler;
+            try
+            {
+                scaler = (float)myData2.get_DataItem(0).Value;
+                //scaler = 1;
+                if (scaler > 10)
+                {
+
+                    scaler = 10f;
+                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+                }
+                else if (scaler < 0.5)
+                {
+                    scaler = 0.5f;
+                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+                }
+            }
+            catch
+            {
+                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
+                scaler = 1.0f;
+            }
+
+            scale = scaler;
+
+
+
+            if (myData1.Any())
+            {
+
+                imgPath = myData1.get_FirstItem(true).Value;
+
+                //var checkedImgFile = ConvertHDRImg(filePath);
+
+                if (Path.GetExtension(imgPath).ToUpper() == ".HDR")
+                {
+                    imgPath = imgPath.Replace(".HDR", ".TIF");
+                }
+                
+            }
+
+        }
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
             base.Render(canvas, graphics, channel);
 
-
+            Graphics = graphics;
             //if (channel == GH_CanvasChannel.Wires)
             //{
             //    base.Render(canvas, graphics, channel);
             //    Layout();
             //}
 
+            //if (channel == GH_CanvasChannel.Last)
+            //{
+                
+            //    Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
+            //    Layout();
+            //}
+
             if (channel == GH_CanvasChannel.Objects)
             {
-                GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
-                GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
-
-                
                 // Get the size to begin with
                 Layout();
 
-                float scaler;
-                try
-                {
-                    scaler = (float)myData2.get_DataItem(0).Value;
-                    //scaler = 1;
-                    if (scaler > 10)
-                    {
-                        scaler = 10f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
-                    }
-                    else if (scaler < 0.5)
-                    {
-                        scaler = 0.5f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
-                    }
-                }
-                catch
-                {
-                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-                    scaler = 1.0f;
-                }
-
-                scale = scaler;
-                var bgColor = Color.Gray;
-
-                Pen pen = new Pen(bgColor, 3);
-                SolidBrush myBrush = new SolidBrush(bgColor);
-
-                
-                Font ubuntuFont = new Font("ubuntu", 8);
-                StringFormat myFormat = new StringFormat();
-
-                if (!myData1.IsEmpty)
+                if (!string.IsNullOrEmpty(imgPath))
                 {
                     
-                    var filePath = myData1.get_FirstItem(true).Value;
-                    if (Path.GetExtension(filePath).ToUpper() == ".HDR")
-                    {
-                        filePath = filePath.Replace(".HDR", ".TIF");
-                    }
-
-                    try
-                    {
-                        bitmap = new Bitmap(filePath);
-                        
-                    }
-                    catch
-                    {
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
-                        displayComponent(graphics, myBrush, ubuntuFont, pen, myFormat);
-                        return;
-                    }
-
-                    if (bitmap.Width > 0)
-                    {
-                        img2bitmapFactor = (float)ImgBounds.Width / (float)bitmap.Width;
-                    }
-                    else
-                    {
-                        img2bitmapFactor = 1;
-                    }
-
-
-                    // If we've got an image then draw it
-                    //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
-
-                    //viewpotHeight is for ensure the image xy ratio 
-                    int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
-                    Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-                    sizeX = (int)(size * scaler);
-                    sizeY = (int)(viewpotHeight) + offsetTop;
-
-                    rec0.Width = sizeX;
-                    rec0.Height = sizeY;
-                    Bounds = rec0;
+                    displayImg(imgPath);
                     
-
-                    Rectangle rec1 = rec0;
-                    rec1.Y += offsetTop;
-                    rec1.Height = viewpotHeight;
-                    rec1.Inflate(-2, -2);
-                    ImgBounds = rec1;
-
-                    
-                    //graphics.DrawImage(myBitmap, Bounds);
-                    graphics.DrawImage(bitmap, ImgBounds);
-
                 }
                 else
                 {
-                    displayComponent(graphics, myBrush, ubuntuFont, pen, myFormat);
+                    displayComponent();
                 }
 
-                myFormat.Dispose();
+                this.ExpireLayout();
+                
             }
         }
 
-        void displayComponent(Graphics graphics, Brush myBrush, Font ubuntuFont, Pen pen, StringFormat myFormat)
+        private void drawClickPt( Rectangle rect)
         {
-            //Pivot = GH_Convert.ToPoint(Pivot);
+            Graphics.FillEllipse(Brushes.Black, rect);
+            //Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
+        }
+
+        public void displayImg(string filePath)
+        {
             
+
+            try
+            {
+                bitmap = new Bitmap(filePath);
+
+            }
+            catch
+            {
+                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
+                displayComponent();
+                return;
+            }
+
+            //calculate the scale factor
+            if (bitmap.Width > 0)
+            {
+                img2bitmapFactor = (float)ImgBounds.Width / (float)bitmap.Width;
+            }
+            else
+            {
+                img2bitmapFactor = 1;
+            }
+
+
+            // If we've got an image then draw it
+            //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
+
+            //viewpotHeight is for ensure the image xy ratio 
+            int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
+            Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
+            sizeX = (int)(size * scale);
+            sizeY = (int)(viewpotHeight) + offsetTop;
+
+            rec0.Width = sizeX;
+            rec0.Height = sizeY;
+            Bounds = rec0;
+
+
+            Rectangle rec1 = rec0;
+            rec1.Y += offsetTop;
+            rec1.Height = viewpotHeight;
+            rec1.Inflate(-2, -2);
+            ImgBounds = rec1;
+
+
+            //graphics.DrawImage(myBitmap, Bounds);
+            Graphics.DrawImage(bitmap, ImgBounds);
+            
+        }
+
+        void displayComponent()
+        {
+
+            var bgColor = Color.Gray;
+
+            Pen pen = new Pen(bgColor, 3);
+            SolidBrush myBrush = new SolidBrush(bgColor);
+
+
+            Font ubuntuFont = new Font("ubuntu", 8);
+            StringFormat myFormat = new StringFormat();
+
+            //Pivot = GH_Convert.ToPoint(Pivot);
+
             //PointF imgViewBasePt = new PointF(Pivot.X, Pivot.Y + 100);
             //var imgViewBounds = new RectangleF(imgViewBasePt, new SizeF(500, 400));
             //var ImgRec = ImgBounds;
-            graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
+            Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            //graphics.DrawString("johnharding@fastmail.fm", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 480 - 6 - 10), myFormat);
-            //graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 450 - 10);
+            Graphics.DrawString("Please use a valid image file path;\n HDR, TIF, PNG, GIF, or JPG formats", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 380 - 6 - 10), myFormat);
+            Graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 350 - 10);
+
+            myBrush.Dispose();
+            myFormat.Dispose();
+
         }
 
         public delegate void Button_Handler(object sender);
@@ -248,7 +297,20 @@ namespace Ironbug
                     //TODO: check 
                     var clickedColor = bitmap.GetPixel((int)convertedPt.X, (int)convertedPt.Y);
                     //MessageBox.Show("clicked at: "+ clickedPt + "; \ne.CanvasLocation: "+ e.CanvasLocation + "; \nImgBounds: " + ImgBounds.Size + "; \nPivot: " + Pivot + "; \nBounds.Location: " + Bounds.Location);
-                    MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
+                    this.Owner.Message = clickedColor.ToString();
+                    var colors = new List<byte>() { clickedColor.A, clickedColor.R };
+
+                    //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
+                    //drawClickPt(ptRect);
+
+                    this.Owner.Params.Output[1].ExpireSolution(false);
+                    this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0),0, clickedColor);
+                    //this.Owner.Params.Output[1].NickName = "ddd"+ clickedColor;
+                    GH.Instances.ActiveCanvas.Document.NewSolution(false);
+
+
+                    //this.Owner.ExpireSolution(false);
+                    //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }
                 else
