@@ -23,9 +23,10 @@ namespace Ironbug
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        const int size = 400;
+        const int rawSize = 300;
+        const int size = rawSize + 4; // added 2 pixel for each side for boder
         const int offsetTop = 60;
-        int sizeX,sizeY;
+        float sizeX,sizeY;
         float img2bitmapFactor;
         float scale = 1;
         string imgPath = string.Empty;
@@ -68,10 +69,12 @@ namespace Ironbug
             LayoutOutputParams(Owner, outRect);
 
             //rec1 for image bound
-            Rectangle rec1 = GH_Convert.ToRectangle(Bounds);
+            RectangleF rec1 = GH_Convert.ToRectangle(Bounds);
+            rec1.X += 2;
             rec1.Y += offsetTop;
-            rec1.Height = sizeY-offsetTop;
-            rec1.Inflate(-2, -2);
+            rec1.Width -= 4;
+            rec1.Height = sizeY-offsetTop-2;
+            //rec1.Inflate(-2, -2);
             
             this.ImgBounds = rec1;
         }
@@ -115,9 +118,6 @@ namespace Ironbug
             {
 
                 imgPath = myData1.get_FirstItem(true).Value;
-
-                //var checkedImgFile = ConvertHDRImg(filePath);
-
                 if (Path.GetExtension(imgPath).ToUpper() == ".HDR")
                 {
                     imgPath = imgPath.Replace(".HDR", ".TIF");
@@ -160,16 +160,16 @@ namespace Ironbug
                     displayComponent();
                 }
 
-                this.ExpireLayout();
+                //this.ExpireLayout();
                 
             }
         }
 
-        private void drawClickPt( Rectangle rect)
-        {
-            Graphics.FillEllipse(Brushes.Black, rect);
-            //Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
-        }
+        //private void drawClickPt( Rectangle rect)
+        //{
+        //    Graphics.FillEllipse(Brushes.Black, rect);
+        //    //Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
+        //}
 
         public void displayImg(string filePath)
         {
@@ -199,23 +199,24 @@ namespace Ironbug
 
 
             // If we've got an image then draw it
-            //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
 
             //viewpotHeight is for ensure the image xy ratio 
-            int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
-            Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-            sizeX = (int)(size * scale);
-            sizeY = (int)(viewpotHeight) + offsetTop;
+            float viewpotHeight = bitmap.Height * img2bitmapFactor;
+            RectangleF rec0 = GH_Convert.ToRectangle(Bounds);
+            sizeX = (rawSize * scale) + 4;
+            sizeY = viewpotHeight + offsetTop + 2;
 
             rec0.Width = sizeX;
             rec0.Height = sizeY;
             Bounds = rec0;
 
 
-            Rectangle rec1 = rec0;
+            RectangleF rec1 = rec0;
+            rec1.X += 2;
             rec1.Y += offsetTop;
+            rec1.Width -= 4;
             rec1.Height = viewpotHeight;
-            rec1.Inflate(-2, -2);
+            //rec1.Inflate(-2, -2);
             ImgBounds = rec1;
 
 
@@ -243,7 +244,7 @@ namespace Ironbug
             //var ImgRec = ImgBounds;
             Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            Graphics.DrawString("Please use a valid image file path;\n HDR, TIF, PNG, GIF, or JPG formats", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 380 - 6 - 10), myFormat);
+            Graphics.DrawString("Please use a valid image file path;\nHDR, TIF, PNG, GIF, or JPG formats", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 380 - 6 - 10), myFormat);
             Graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 350 - 10);
 
             myBrush.Dispose();
@@ -291,25 +292,31 @@ namespace Ironbug
                 {
                     
                     //this.MouseDownEvnt(this);                    //SizeF 
-                    PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X+2,Pivot.Y+2+offsetTop));
+                    //PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X,Pivot.Y+offsetTop));
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(ImgBounds.X,ImgBounds.Y));
                     
-                    PointF convertedPt = new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor);
+                    //convert current pt location on grasshopper view back to original image size system
+                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor));
                     //TODO: check 
-                    var clickedColor = bitmap.GetPixel((int)convertedPt.X, (int)convertedPt.Y);
-                    //MessageBox.Show("clicked at: "+ clickedPt + "; \ne.CanvasLocation: "+ e.CanvasLocation + "; \nImgBounds: " + ImgBounds.Size + "; \nPivot: " + Pivot + "; \nBounds.Location: " + Bounds.Location);
+                    var clickedColor = bitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
+                    //MessageBox.Show("clicked at: " + clickedPt + "; \ne.CanvasLocation: " + e.CanvasLocation + "; \nImgBounds: " + ImgBounds + "; \nPivot: " + Pivot + "; \nBounds: " + Bounds);
+                    //MessageBox.Show("Bitmap:"+bitmap.Size);
+                    //MessageBox.Show("img2bitmapFactor:"+ img2bitmapFactor + "; \nImgBounds: " + ImgBounds);
                     this.Owner.Message = clickedColor.ToString();
-                    var colors = new List<byte>() { clickedColor.A, clickedColor.R };
+                    //var colors = new List<byte>() { clickedColor.A, clickedColor.R };
+
 
                     //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
+                    //Graphics.FillEllipse(Brushes.Black, ptRect);
                     //drawClickPt(ptRect);
 
+                    var currentDataCount = this.Owner.Params.Output[1].VolatileDataCount;
+
                     this.Owner.Params.Output[1].ExpireSolution(false);
-                    this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0),0, clickedColor);
-                    //this.Owner.Params.Output[1].NickName = "ddd"+ clickedColor;
+                    this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), currentDataCount, clickedColor);
                     GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
-
-                    //this.Owner.ExpireSolution(false);
+                    
                     //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }
