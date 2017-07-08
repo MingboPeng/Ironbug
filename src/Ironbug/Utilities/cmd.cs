@@ -36,9 +36,7 @@ namespace Ironbug
                 int milliseconds = 50;
                 Thread.Sleep(milliseconds);
             }
-
-            cmd.Close();
-
+            
             return true;
 
             

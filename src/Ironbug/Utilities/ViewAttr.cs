@@ -68,16 +68,21 @@ namespace Ironbug
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
-
-            //rec1 for image bound
-            RectangleF rec1 = GH_Convert.ToRectangle(Bounds);
-            rec1.X += 2;
-            rec1.Y += offsetTop;
-            rec1.Width -= 4;
-            rec1.Height = sizeY-offsetTop-2;
-            //rec1.Inflate(-2, -2);
             
-            this.ImgBounds = rec1;
+            this.ImgBounds = getImgBounds(Bounds, offsetTop);
+
+        }
+
+        private RectangleF getImgBounds(RectangleF bounds, int topOffset)
+        {
+
+            RectangleF rec1 = GH_Convert.ToRectangle(bounds);
+            rec1.X += 2;
+            rec1.Y += topOffset;
+            rec1.Width -= 4;
+            rec1.Height = rec1.Height - topOffset - 2;
+
+            return rec1;
         }
 
         protected override void PrepareForRender(GH_Canvas canvas)
@@ -162,7 +167,7 @@ namespace Ironbug
                 }
                 else
                 {
-                    displayComponent();
+                    displayDefaultComponent();
                 }
 
                 //this.ExpireLayout();
@@ -189,7 +194,7 @@ namespace Ironbug
             {
                 
                 Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
-                displayComponent();
+                displayDefaultComponent();
                 return;
             }
 
@@ -221,7 +226,7 @@ namespace Ironbug
             rec1.X += 2;
             rec1.Y += offsetTop;
             rec1.Width -= 4;
-            rec1.Height = viewpotHeight;
+            rec1.Height = sizeY - offsetTop - 2;
             //rec1.Inflate(-2, -2);
             ImgBounds = rec1;
 
@@ -231,24 +236,25 @@ namespace Ironbug
             
         }
 
-        void displayComponent()
+        void displayDefaultComponent()
         {
-            
-            Bounds = new RectangleF(Pivot, new SizeF(size,size));
+            //reset the comonent
+            bitmap = null;
+
+            sizeX = size;
+            sizeY = size;
+            Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
+            ImgBounds = getImgBounds(Bounds, offsetTop);
+            this.Owner.Message = null;
+
             var bgColor = Color.Gray;
 
             Pen pen = new Pen(bgColor, 3);
             SolidBrush myBrush = new SolidBrush(bgColor);
-
-
+            
             Font ubuntuFont = new Font("ubuntu", 8);
             StringFormat myFormat = new StringFormat();
-
-            //Pivot = GH_Convert.ToPoint(Pivot);
-
-            //PointF imgViewBasePt = new PointF(Pivot.X, Pivot.Y + 100);
-            //var imgViewBounds = new RectangleF(imgViewBasePt, new SizeF(500, 400));
-            //var ImgRec = ImgBounds;
+            
             Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             Graphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 265), myFormat);
@@ -306,13 +312,9 @@ namespace Ironbug
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor));
                     //TODO: check 
                     var clickedColor = bitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
-                    //MessageBox.Show("clicked at: " + clickedPt + "; \ne.CanvasLocation: " + e.CanvasLocation + "; \nImgBounds: " + ImgBounds + "; \nPivot: " + Pivot + "; \nBounds: " + Bounds);
-                    //MessageBox.Show("Bitmap:"+bitmap.Size);
-                    //MessageBox.Show("img2bitmapFactor:"+ img2bitmapFactor + "; \nImgBounds: " + ImgBounds);
+                    
                     this.Owner.Message = clickedColor.ToString();
-                    //var colors = new List<byte>() { clickedColor.A, clickedColor.R };
-
-
+                    
                     //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
                     //Graphics.FillEllipse(Brushes.Black, ptRect);
                     //drawClickPt(ptRect);
@@ -326,6 +328,7 @@ namespace Ironbug
                     GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
                     
+
                     //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }

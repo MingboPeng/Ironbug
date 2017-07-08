@@ -59,7 +59,7 @@ namespace Ironbug
             {
                 GH_Structure<GH_String> filePath = (GH_Structure<GH_String>)pathParam.VolatileData;
 
-                CheckImg(filePath.get_DataItem(0).Value);
+                this.FilePath = CheckImg(filePath.get_DataItem(0).Value);
             }
             
         }
@@ -71,19 +71,15 @@ namespace Ironbug
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            if (!DA.GetData(0, ref FilePath)) return;
-            
-            //string tiffFile = string.Empty;
+            //if (!DA.GetData(0, ref filePath)) return;
 
-            if (File.Exists(FilePath) && Path.GetExtension(FilePath).ToUpper() == ".HDR")
+            if (string.IsNullOrEmpty(FilePath)) return;
+
+           
+            if (!File.Exists(FilePath))
             {
-                
-                FilePath = FilePath.Replace(".HDR", ".TIF");
-                if (!File.Exists(FilePath))
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
-                    return;
-                }
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
+                return;
             }
             
             DA.SetData(0, FilePath);
@@ -126,12 +122,13 @@ namespace Ironbug
 
         }
 
-        private void CheckImg(string filePath)
+        private string CheckImg(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
             {
-                return;
+                return filePath;
             }
+
             string tiffFile = string.Empty;
 
             if (File.Exists(filePath) && Path.GetExtension(filePath).ToUpper() == ".HDR")
@@ -165,7 +162,7 @@ namespace Ironbug
                 tiffFile = filePath;
             }
 
-            //return tiffFile;
+            return tiffFile;
         }
         protected override void AfterSolveInstance()
         {
