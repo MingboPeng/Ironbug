@@ -7,6 +7,8 @@ using System.Linq;
 using System.IO;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
+using Ironbug.Properties;
+using System.Windows.Forms;
 
 namespace Ironbug
 {
@@ -33,7 +35,7 @@ namespace Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Scale", "scale", "File Path", GH_ParamAccess.item,1);
+            pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
         }
@@ -44,7 +46,7 @@ namespace Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Path", "imagePath", "Converted file path", GH_ParamAccess.item);
-            pManager.AddTextParameter("Path", "Value", "Converted file path", GH_ParamAccess.item);
+            pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.item);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
         }
@@ -60,7 +62,6 @@ namespace Ironbug
                 CheckImg(filePath.get_DataItem(0).Value);
             }
             
-
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Ironbug
 
             if (File.Exists(FilePath) && Path.GetExtension(FilePath).ToUpper() == ".HDR")
             {
-
+                
                 FilePath = FilePath.Replace(".HDR", ".TIF");
                 if (!File.Exists(FilePath))
                 {
@@ -84,26 +85,7 @@ namespace Ironbug
                     return;
                 }
             }
-
             
-
-            //if (File.Exists(FilePath) && Path.GetExtension(FilePath).ToUpper() == ".HDR")
-            //{
-            //    tiffFile = FilePath.Substring(0, FilePath.Length - 3) + "TIF";
-            //    string cmdStr1 = @"ra_tiff " + FilePath + " " + tiffFile;
-            //    var cmdStrings = new List<string>();
-            //    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
-            //    cmdStrings.Add(cmdStr1);
-            //    CMD.Execute(cmdStrings);
-            //    //this.m_attributes.ExpireLayout();
-            //}
-            //else
-            //{
-            //    tiffFile = FilePath;
-            //}
-
-            //FilePath = tiffFile;
-
             DA.SetData(0, FilePath);
             
         }
@@ -117,8 +99,8 @@ namespace Ironbug
             get
             {
                 // You can add image files to your project resources and access them like this:
-                //return Resources.IconForThisComponent;
-                return null;
+                return Resources.Ladybug_Viewer;
+                //return null;
             }
         }
 
@@ -155,11 +137,28 @@ namespace Ironbug
             if (File.Exists(filePath) && Path.GetExtension(filePath).ToUpper() == ".HDR")
             {
                 tiffFile = filePath.Substring(0, filePath.Length - 3) + "TIF";
-                string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
-                var cmdStrings = new List<string>();
-                cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
-                cmdStrings.Add(cmdStr1);
-                CMD.Execute(cmdStrings);
+                var isNewHDR = true;
+
+                if (File.Exists(tiffFile))
+                {
+                    var hdrTimeStamp = File.GetLastWriteTime(filePath);
+                    var tifTimeStamp = File.GetLastWriteTime(tiffFile);
+
+                    //if ==1: hdrTimeStamp is later than tifTimeStamp
+                    //isNewHDR = true, to convert to a new tiff
+                    isNewHDR = DateTime.Compare(hdrTimeStamp, tifTimeStamp) == 1;
+                }
+
+                if (isNewHDR)
+                {
+                    //convert the hdr to tiff
+                    string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
+                    var cmdStrings = new List<string>();
+                    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+                    cmdStrings.Add(cmdStr1);
+                    CMD.Execute(cmdStrings);
+                }
+                
             }
             else
             {
@@ -176,17 +175,20 @@ namespace Ironbug
             GH.Instances.ActiveCanvas.Update();
         }
 
-        //private void OnMouseDownEvent(object sender)
-        //{
-        //    var newAttri = new ImageFromPathAttrib(this);
-        //    //newAttri.p
-        //}
+        
 
-        //private void displayImg(string imgPath)
-        //{
-        //    if (!File.Exists(imgPath)) return;
-        //    this.m_attributes.
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            base.AppendAdditionalComponentMenuItems(menu);
+            Menu_AppendItem(menu, "ClearValues", ClearValues);
+            
+        }
 
-        //}
+        private void ClearValues(object sender, EventArgs e)
+        {
+            this.Params.Output[1].ExpireSolution(false);
+            this.Params.Output[1].ClearData();
+            GH.Instances.ActiveCanvas.Document.NewSolution(false);
+        }
     }
 }

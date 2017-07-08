@@ -30,6 +30,7 @@ namespace Ironbug
         float img2bitmapFactor;
         float scale = 1;
         string imgPath = string.Empty;
+        List<string> currentValues = new List<string>();
         Bitmap bitmap;
         Graphics Graphics;
         private RectangleF ImgBounds { get; set; }
@@ -85,8 +86,10 @@ namespace Ironbug
 
             GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
             GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
-
+            GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
             
+            currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
+
             float scaler;
             try
             {
@@ -122,7 +125,11 @@ namespace Ironbug
                 {
                     imgPath = imgPath.Replace(".HDR", ".TIF");
                 }
-                
+
+            }
+            else
+            {
+                imgPath = string.Empty;
             }
 
         }
@@ -151,9 +158,7 @@ namespace Ironbug
 
                 if (!string.IsNullOrEmpty(imgPath))
                 {
-                    
                     displayImg(imgPath);
-                    
                 }
                 else
                 {
@@ -182,6 +187,7 @@ namespace Ironbug
             }
             catch
             {
+                
                 Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
                 displayComponent();
                 return;
@@ -219,7 +225,7 @@ namespace Ironbug
             //rec1.Inflate(-2, -2);
             ImgBounds = rec1;
 
-
+            
             //graphics.DrawImage(myBitmap, Bounds);
             Graphics.DrawImage(bitmap, ImgBounds);
             
@@ -227,7 +233,8 @@ namespace Ironbug
 
         void displayComponent()
         {
-
+            
+            Bounds = new RectangleF(Pivot, new SizeF(size,size));
             var bgColor = Color.Gray;
 
             Pen pen = new Pen(bgColor, 3);
@@ -244,9 +251,9 @@ namespace Ironbug
             //var ImgRec = ImgBounds;
             Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            Graphics.DrawString("Please use a valid image file path;\nHDR, TIF, PNG, GIF, or JPG formats", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 380 - 6 - 10), myFormat);
-            Graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 350 - 10);
-
+            Graphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 265), myFormat);
+            Graphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(ImgBounds.X,ImgBounds.Y,ImgBounds.Width,ImgBounds.Width*2/3));
+            
             myBrush.Dispose();
             myFormat.Dispose();
 
@@ -309,11 +316,13 @@ namespace Ironbug
                     //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
                     //Graphics.FillEllipse(Brushes.Black, ptRect);
                     //drawClickPt(ptRect);
-
-                    var currentDataCount = this.Owner.Params.Output[1].VolatileDataCount;
+                    
+                    //var currentDataCount = this.currentValues.Count;
+                    currentValues.Add(clickedColor.ToString());
 
                     this.Owner.Params.Output[1].ExpireSolution(false);
-                    this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), currentDataCount, clickedColor);
+                    //this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), 0, currentValues);
+                    this.Owner.Params.Output[1].AddVolatileDataList(new GH_Path(0), currentValues);
                     GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
                     

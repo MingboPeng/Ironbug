@@ -10,7 +10,7 @@ namespace Ironbug
 {
     public static class CMD
     {
-        public static void Execute(List<string> command)
+        public static bool Execute(List<string> command)
         {
             var cmdString = string.Join("&", command);
 
@@ -25,11 +25,23 @@ namespace Ironbug
                 if (sw.BaseStream.CanWrite)
                 {
                     sw.WriteLine(cmdString);
+                    
                 }
             }
+            
+            cmd.WaitForExit();
 
-            int milliseconds = 100;
-            Thread.Sleep(milliseconds);
+            while (!cmd.HasExited)
+            {
+                int milliseconds = 50;
+                Thread.Sleep(milliseconds);
+            }
+
+            cmd.Close();
+
+            return true;
+
+            
         }
     }
 }
