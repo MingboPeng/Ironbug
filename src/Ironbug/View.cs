@@ -9,6 +9,8 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Ironbug.Properties;
 using System.Windows.Forms;
+using System.Drawing;
+using Grasshopper.GUI;
 
 namespace Ironbug
 {
@@ -36,8 +38,10 @@ namespace Ironbug
         {
             pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
             pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
+            pManager.AddPointParameter("Viewport Scale", "coords", "Set this image viewport scale.", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -46,23 +50,24 @@ namespace Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Path", "imagePath", "Converted file path", GH_ParamAccess.item);
-            pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
+            pManager.AddTextParameter("Color Values", "Colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
         }
 
-        protected override void BeforeSolveInstance()
-        {
-            base.BeforeSolveInstance();
-            var pathParam = this.Params.Input[0];
-            if (pathParam.SourceCount>0)
-            {
-                GH_Structure<GH_String> filePath = (GH_Structure<GH_String>)pathParam.VolatileData;
+        //protected override void BeforeSolveInstance()
+        //{
+        //    base.BeforeSolveInstance();
+        //    var pathParam = this.Params.Input[0];
+        //    if (pathParam.SourceCount>0)
+        //    {
+        //        GH_Structure<GH_String> filePath = (GH_Structure<GH_String>)pathParam.VolatileData;
 
-                this.FilePath = CheckImg(filePath.get_DataItem(0).Value);
-            }
+        //        this.FilePath = CheckImg(filePath.get_DataItem(0).Value);
+        //    }
             
-        }
+        //}
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -71,17 +76,43 @@ namespace Ironbug
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            //if (!DA.GetData(0, ref filePath)) return;
+            
 
-            if (string.IsNullOrEmpty(FilePath)) return;
-
-           
-            if (!File.Exists(FilePath))
+            if (!DA.GetData(0, ref FilePath))
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
+                ((ImageFromPathAttrib)m_attributes).imgPath = string.Empty;
                 return;
             }
+
+            this.FilePath = CheckImg(this.FilePath);
+
+            if (string.IsNullOrEmpty(this.FilePath))
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
+                return;
+            }
+
+            if (Params.Input.Count>2)
+            {
+                var imgCoordinates = new List<Point3d>();
+                if (DA.GetDataList(2, imgCoordinates))
+                {
+                    var colors = GetColors(imgCoordinates, this.FilePath);
+                    DA.SetDataList(2, colors);
+                }
+                else
+                {
+                    //no values
+                }
+                
+            }
             
+
+
+
+            ((ImageFromPathAttrib)m_attributes).imgPath = FilePath;
+            GH.Instances.InvalidateCanvas();
+            GH.Instances.ActiveCanvas.Update();
             DA.SetData(0, FilePath);
             
         }
@@ -119,7 +150,6 @@ namespace Ironbug
             //TODO: add two way event for click
             m_attributes = newAttri;
             
-
         }
 
         private string CheckImg(string filePath)
@@ -155,30 +185,42 @@ namespace Ironbug
                     cmdStrings.Add(cmdStr1);
                     CMD.Execute(cmdStrings);
                 }
-                
+
+            }
+            else if (File.Exists(filePath))
+            {
+                tiffFile = filePath;
             }
             else
             {
-                tiffFile = filePath;
+                
+                return string.Empty;
+
             }
 
             return tiffFile;
         }
-        protected override void AfterSolveInstance()
-        {
-            base.AfterSolveInstance();
-            
-            GH.Instances.InvalidateCanvas();
-            GH.Instances.ActiveCanvas.Update();
-        }
-
         
-
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "ClearValues", ClearValues);
+            Menu_AppendItem(menu, "Clear values", ClearValues);
             
+            //TODO:
+            Menu_AppendItem(menu, "Get colors by clicking");
+
+            Menu_AppendTextItem(menu, "scale", keydownEventHandler, textChanged, true);
+            
+        }
+
+        private void textChanged(GH_MenuTextBox sender, string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void keydownEventHandler(GH_MenuTextBox sender, KeyEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void ClearValues(object sender, EventArgs e)
@@ -186,6 +228,33 @@ namespace Ironbug
             this.Params.Output[1].ExpireSolution(false);
             this.Params.Output[1].ClearData();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
+        }
+
+        private List<Color> GetColors(List<Point3d> imgCoordinates, string imgPath)
+        {
+            var colors = new List<Color>();
+            var bitmap = new Bitmap(imgPath);
+            foreach (var item in imgCoordinates)
+            {
+                int x = (int)item.X;
+                int y = (int)item.Y;
+                bool isValidX = x >= 0 && x <= bitmap.Width;
+                bool isValidY = y >= 0 && y <= bitmap.Height;
+
+                if (isValidX && isValidY)
+                {
+                    colors.Add(bitmap.GetPixel(x, y));
+                    //((ImageFromPathAttrib)m_attributes).displayCoordinates(new System.Drawing.Point(x,y));
+                }
+                else
+                {
+                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "{ "+item.ToString() + "} is not a valid coordinate.\nIt should be no bigger than current image's size " + bitmap.Size);
+                }
+                
+            }
+            
+            return colors;
+
         }
     }
 }

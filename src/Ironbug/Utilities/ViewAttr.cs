@@ -29,7 +29,7 @@ namespace Ironbug
         float sizeX,sizeY;
         float img2bitmapFactor;
         float scale = 1;
-        string imgPath = string.Empty;
+        public string imgPath = string.Empty;
         List<string> currentValues = new List<string>();
         Bitmap bitmap;
         Graphics Graphics;
@@ -50,19 +50,13 @@ namespace Ironbug
         {
             //Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
             PointF BoundsLocation = GH_Convert.ToPoint(Pivot);
-
-            //rec0.Size = new Size(sizeX, sizeY);
-            //rec0.Location = BoundsLocation;
-            ////Bounds.Width = sizeX;
-            //Bounds = rec0;
-            //Bounds.Location = BoundsLocation;
-
+            
             Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
-            RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
+            RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 50f));
             inputRect.X += 65;
             inputRect.Y += 4;
 
-            RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
+            RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 50f));
             outRect.X += sizeX - 165;
             outRect.Y += 4;
 
@@ -89,7 +83,7 @@ namespace Ironbug
         {
             base.PrepareForRender(canvas);
 
-            GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
+            //GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
             GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
             GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
             
@@ -98,11 +92,10 @@ namespace Ironbug
             float scaler;
             try
             {
-                scaler = (float)myData2.get_DataItem(0).Value;
+                scaler = (float) myData2.get_DataItem(0).Value;
                 //scaler = 1;
                 if (scaler > 10)
                 {
-
                     scaler = 10f;
                     Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
                 }
@@ -120,22 +113,7 @@ namespace Ironbug
 
             scale = scaler;
 
-
-
-            if (myData1.Any())
-            {
-
-                imgPath = myData1.get_FirstItem(true).Value;
-                if (Path.GetExtension(imgPath).ToUpper() == ".HDR")
-                {
-                    imgPath = imgPath.Replace(".HDR", ".TIF");
-                }
-
-            }
-            else
-            {
-                imgPath = string.Empty;
-            }
+            
 
         }
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
@@ -169,31 +147,21 @@ namespace Ironbug
                 {
                     displayDefaultComponent();
                 }
-
-                //this.ExpireLayout();
                 
             }
         }
-
-        //private void drawClickPt( Rectangle rect)
-        //{
-        //    Graphics.FillEllipse(Brushes.Black, rect);
-        //    //Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
-        //}
-
+        
         public void displayImg(string filePath)
         {
             
-
             try
             {
                 bitmap = new Bitmap(filePath);
-
             }
             catch
             {
                 
-                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
+                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
                 displayDefaultComponent();
                 return;
             }
@@ -212,28 +180,26 @@ namespace Ironbug
             // If we've got an image then draw it
 
             //viewpotHeight is for ensure the image xy ratio 
-            float viewpotHeight = bitmap.Height * img2bitmapFactor;
+            float convertedImgHeight = bitmap.Height * img2bitmapFactor;
             RectangleF rec0 = GH_Convert.ToRectangle(Bounds);
             sizeX = (rawSize * scale) + 4;
-            sizeY = viewpotHeight + offsetTop + 2;
+            sizeY = convertedImgHeight + offsetTop + 2;
 
             rec0.Width = sizeX;
             rec0.Height = sizeY;
             Bounds = rec0;
 
-
-            RectangleF rec1 = rec0;
-            rec1.X += 2;
-            rec1.Y += offsetTop;
-            rec1.Width -= 4;
-            rec1.Height = sizeY - offsetTop - 2;
-            //rec1.Inflate(-2, -2);
-            ImgBounds = rec1;
-
+            ImgBounds = getImgBounds(Bounds, offsetTop);
             
-            //graphics.DrawImage(myBitmap, Bounds);
             Graphics.DrawImage(bitmap, ImgBounds);
+            displayCoordinates();
             
+        }
+
+        public void displayCoordinates()
+        {
+            SolidBrush myBrush = new SolidBrush(Color.Red);
+            Graphics.FillEllipse(myBrush, ImgBounds.X+10,ImgBounds.Y+10,3,3);
         }
 
         void displayDefaultComponent()
