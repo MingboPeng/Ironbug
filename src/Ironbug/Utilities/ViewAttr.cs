@@ -28,7 +28,7 @@ namespace Ironbug
         const int offsetTop = 60;
         float sizeX,sizeY;
         float img2bitmapFactor;
-        float scale = 1;
+        public double Scale = 1;
         public string imgPath = string.Empty;
         List<string> currentValues = new List<string>();
         Bitmap bitmap;
@@ -84,34 +84,34 @@ namespace Ironbug
             base.PrepareForRender(canvas);
 
             //GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
-            GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
+            //GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
             GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
             
             currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
 
-            float scaler;
-            try
-            {
-                scaler = (float) myData2.get_DataItem(0).Value;
-                //scaler = 1;
-                if (scaler > 10)
-                {
-                    scaler = 10f;
-                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
-                }
-                else if (scaler < 0.5)
-                {
-                    scaler = 0.5f;
-                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
-                }
-            }
-            catch
-            {
-                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-                scaler = 1.0f;
-            }
+            //float scaler;
+            //try
+            //{
+            //    scaler = (float) myData2.get_DataItem(0).Value;
+            //    //scaler = 1;
+            //    if (scaler > 10)
+            //    {
+            //        scaler = 10f;
+            //        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+            //    }
+            //    else if (scaler < 0.5)
+            //    {
+            //        scaler = 0.5f;
+            //        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+            //    }
+            //}
+            //catch
+            //{
+            //    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
+            //    scaler = 1.0f;
+            //}
 
-            scale = scaler;
+            //scale = scaler;
 
             
 
@@ -182,7 +182,7 @@ namespace Ironbug
             //viewpotHeight is for ensure the image xy ratio 
             float convertedImgHeight = bitmap.Height * img2bitmapFactor;
             RectangleF rec0 = GH_Convert.ToRectangle(Bounds);
-            sizeX = (rawSize * scale) + 4;
+            sizeX = (rawSize * (float)Scale) + 4;
             sizeY = convertedImgHeight + offsetTop + 2;
 
             rec0.Width = sizeX;
@@ -278,13 +278,12 @@ namespace Ironbug
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor));
                     //TODO: check 
                     var clickedColor = bitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
-                    
-                    this.Owner.Message = clickedColor.ToString();
-                    
+                    this.Owner.Message = "Clicked at:" + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
+
                     //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
                     //Graphics.FillEllipse(Brushes.Black, ptRect);
                     //drawClickPt(ptRect);
-                    
+
                     //var currentDataCount = this.currentValues.Count;
                     currentValues.Add(clickedColor.ToString());
 

@@ -11,12 +11,14 @@ using Ironbug.Properties;
 using System.Windows.Forms;
 using System.Drawing;
 using Grasshopper.GUI;
+using GH_IO.Serialization;
 
 namespace Ironbug
 {
     public class View : GH_Component
     {
         string FilePath = string.Empty;
+        double Scale = 1;
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -37,11 +39,10 @@ namespace Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
+            //pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
             pManager.AddPointParameter("Viewport Scale", "coords", "Set this image viewport scale.", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
-            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("Path", "imagePath", "Converted file path", GH_ParamAccess.item);
-            pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
+            //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("Color Values", "Colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
@@ -92,27 +93,20 @@ namespace Ironbug
                 return;
             }
 
-            if (Params.Input.Count>2)
+            //get colors from input coordinates
+            var imgCoordinates = new List<Point3d>();
+            if (DA.GetDataList(1, imgCoordinates))
             {
-                var imgCoordinates = new List<Point3d>();
-                if (DA.GetDataList(2, imgCoordinates))
-                {
-                    var colors = GetColors(imgCoordinates, this.FilePath);
-                    DA.SetDataList(2, colors);
-                }
-                else
-                {
-                    //no values
-                }
-                
+                var colors = GetColors(imgCoordinates, this.FilePath);
+                DA.SetDataList(1, colors);
             }
             
 
-
-
             ((ImageFromPathAttrib)m_attributes).imgPath = FilePath;
+            ((ImageFromPathAttrib)m_attributes).Scale = this.Scale;
             GH.Instances.InvalidateCanvas();
             GH.Instances.ActiveCanvas.Update();
+
             DA.SetData(0, FilePath);
             
         }
@@ -200,6 +194,35 @@ namespace Ironbug
 
             return tiffFile;
         }
+
+        private double checkScale (string scale)
+        {
+
+            double scaler;
+            try
+            {
+                scaler = Convert.ToDouble(scale);
+                //scaler = 1;
+                if (scaler > 10)
+                {
+                    scaler = 10;
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+                }
+                else if (scaler < 0.5)
+                {
+                    scaler = 0.5;
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+                }
+            }
+            catch
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
+                scaler = 1.0;
+            }
+
+            return scaler;
+            
+        }
         
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
@@ -207,20 +230,49 @@ namespace Ironbug
             Menu_AppendItem(menu, "Clear values", ClearValues);
             
             //TODO:
-            Menu_AppendItem(menu, "Get colors by clicking");
-
-            Menu_AppendTextItem(menu, "scale", keydownEventHandler, textChanged, true);
+            Menu_AppendItem(menu, "Disable clickable image");
             
+            var menuItemScale = Menu_AppendItem(menu, "Viewport scale");
+
+            Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), keydownEventHandler, textChanged, true);
+            
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("scale"))
+            {
+                this.Scale = reader.GetDouble("scale");
+            }
+            return base.Read(reader);
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetDouble("scale", this.Scale);
+            return base.Write(writer);  
         }
 
         private void textChanged(GH_MenuTextBox sender, string text)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void keydownEventHandler(GH_MenuTextBox sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.Scale = checkScale(sender.Text);
+                
+
+                //this.m_attributes.ExpireLayout();
+                //this.OnDisplayExpired(true);
+                //this.ExpireSolution(true);
+               
+                
+                
+            }
+            
         }
 
         private void ClearValues(object sender, EventArgs e)
