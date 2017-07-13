@@ -59,6 +59,7 @@ namespace Ironbug
                 @in.Height = (float)(double)rawSize;
             this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
             
+
         }
         
         private RectangleF getBounds(PointF location, SizeF imgSizeXY, int topOffset, double scale)
@@ -66,9 +67,10 @@ namespace Ironbug
 
             RectangleF rec = new RectangleF();
             rec.Location = location;
-            rec.Width = imgSizeXY.Width*(float)scale + 4;
-            rec.Height = imgSizeXY.Height * (float)scale + topOffset + 2;
-            
+            rec.Width = imgSizeXY.Width*(float)scale;
+            rec.Height = imgSizeXY.Height * (float)scale + topOffset;
+            rec.Inflate(2f, 2f);
+
             return (RectangleF)GH_Convert.ToRectangle(rec);
         }
 
@@ -85,6 +87,8 @@ namespace Ironbug
         protected override void PrepareForRender(GH_Canvas canvas)
         {
             base.PrepareForRender(canvas);
+
+            this.ExpireLayout();
             //tobe removed later
             GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
             currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
@@ -95,7 +99,7 @@ namespace Ironbug
 
             if (this.imgBitmap == null)
             {
-                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - offsetTop), offsetTop, scale);
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - offsetTop), offsetTop, 1);
             }
             else
             {
@@ -150,23 +154,12 @@ namespace Ironbug
             
             RectangleF rec = getImgBounds(this.Bounds, offsetTop);
 
-            //calculate the scale factor
-            
-            if (inBitmap.Width > 0)
-            {
-                img2bitmapFactor = (float)rec.Width / (float)inBitmap.Width;
-            }
-            else
-            {
-                img2bitmapFactor = 1;
-            }
-
             
             //viewpotHeight is for ensure the image xy ratio 
-            float convertedImgHeight = imgBitmap.Height * img2bitmapFactor;
+            //float convertedImgHeight = imgBitmap.Height * img2bitmapFactor;
 
             //RectangleF rec = new RectangleF();
-            SizeF size = new SizeF(rec.Width, convertedImgHeight);
+            //SizeF size = new SizeF(rec.Width, convertedImgHeight);
             
             //Bounds = getBounds(Pivot, size, offsetTop, scale);
             //ImgBounds = getImgBounds(Bounds, offsetTop);
