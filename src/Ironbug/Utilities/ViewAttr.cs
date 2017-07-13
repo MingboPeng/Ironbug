@@ -24,124 +24,118 @@ namespace Ironbug
     {
         //String myPath;
         const int rawSize = 300;
-        const int size = rawSize + 4; // added 2 pixel for each side for boder
+        //const int size = rawSize + 4; // added 2 pixel for each side for boder
         const int offsetTop = 60;
-        float sizeX,sizeY;
+        //float sizeX,sizeY;
         float img2bitmapFactor;
-        public double Scale = 1;
-        public string imgPath = string.Empty;
+        //public double Scale = 1;
+        private double scale;
+
+        //public string imgPath = string.Empty;
         List<string> currentValues = new List<string>();
-        Bitmap bitmap;
+        Bitmap imgBitmap;
         Graphics Graphics;
-        private RectangleF ImgBounds { get; set; }
-
-
+        //private RectangleF ImgBounds { get; set; }
+        
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            sizeX = size;
-            sizeY = size;
+            //sizeX = size;
+            //sizeY = size;
             //offsetTop = 60;
-
+            this.imgBitmap = owner.DisplayImage;
+            this.scale = owner.Scale;
             img2bitmapFactor = 1;
+            
         }
 
+        
         protected override void Layout()
         {
-            //Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-            PointF BoundsLocation = GH_Convert.ToPoint(Pivot);
+            RectangleF @in = new RectangleF(this.Pivot, this.Bounds.Size);
+            if ((double)@in.Width < (double)rawSize)
+                @in.Width = (float)(double)rawSize;
+            if ((double)@in.Height < (double)(double)rawSize)
+                @in.Height = (float)(double)rawSize;
+            this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
             
-            Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
-            RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 50f));
-            inputRect.X += 65;
-            inputRect.Y += 4;
+        }
+        
+        private RectangleF getBounds(PointF location, SizeF imgSizeXY, int topOffset, double scale)
+        {
 
-            RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 50f));
-            outRect.X += sizeX - 165;
-            outRect.Y += 4;
-
-            LayoutInputParams(Owner, inputRect);
-            LayoutOutputParams(Owner, outRect);
+            RectangleF rec = new RectangleF();
+            rec.Location = location;
+            rec.Width = imgSizeXY.Width*(float)scale + 4;
+            rec.Height = imgSizeXY.Height * (float)scale + topOffset + 2;
             
-            this.ImgBounds = getImgBounds(Bounds, offsetTop);
-
+            return (RectangleF)GH_Convert.ToRectangle(rec);
         }
 
         private RectangleF getImgBounds(RectangleF bounds, int topOffset)
         {
+            RectangleF rec = bounds;
+            rec.Y += topOffset;
+            rec.Height -= topOffset;
 
-            RectangleF rec1 = GH_Convert.ToRectangle(bounds);
-            rec1.X += 2;
-            rec1.Y += topOffset;
-            rec1.Width -= 4;
-            rec1.Height = rec1.Height - topOffset - 2;
-
-            return rec1;
+            rec.Inflate(-2f,-2f);
+            return rec;
         }
 
         protected override void PrepareForRender(GH_Canvas canvas)
         {
             base.PrepareForRender(canvas);
-
-            //GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
-            //GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
+            //tobe removed later
             GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
-            
             currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
 
-            //float scaler;
-            //try
-            //{
-            //    scaler = (float) myData2.get_DataItem(0).Value;
-            //    //scaler = 1;
-            //    if (scaler > 10)
-            //    {
-            //        scaler = 10f;
-            //        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
-            //    }
-            //    else if (scaler < 0.5)
-            //    {
-            //        scaler = 0.5f;
-            //        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
-            //    }
-            //}
-            //catch
-            //{
-            //    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-            //    scaler = 1.0f;
-            //}
+            var owner = (View)this.Owner;
+            this.scale = owner.Scale;
+            this.imgBitmap = owner.DisplayImage;
 
-            //scale = scaler;
+            if (this.imgBitmap == null)
+            {
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - offsetTop), offsetTop, scale);
+            }
+            else
+            {
+                ////dynamic size
+                //this.Bounds = getBounds(this.Pivot, this.imgBitmap.Size, offsetTop, scale);
+
+                //Fixed size
+                var height = this.imgBitmap.Height * (this.Bounds.Width - 4) / this.imgBitmap.Width;
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, height), offsetTop, scale);
+            }
+
+            //locate the inputs outputs
+            //Bounds = new RectangleF(Pivot, new SizeF(rawSize, rawSize));
+            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            inputRect.X += 65;
+            inputRect.Y += 4;
+
+            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            outRect.X += Bounds.Width - 165;
+            outRect.Y += 4;
+
+            LayoutInputParams(Owner, inputRect);
+            LayoutOutputParams(Owner, outRect);
 
             
-
+            
         }
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
             base.Render(canvas, graphics, channel);
 
             Graphics = graphics;
-            //if (channel == GH_CanvasChannel.Wires)
-            //{
-            //    base.Render(canvas, graphics, channel);
-            //    Layout();
-            //}
-
-            //if (channel == GH_CanvasChannel.Last)
-            //{
-                
-            //    Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
-            //    Layout();
-            //}
 
             if (channel == GH_CanvasChannel.Objects)
             {
                 // Get the size to begin with
-                Layout();
 
-                if (!string.IsNullOrEmpty(imgPath))
+                if (this.imgBitmap != null)
                 {
-                    displayImg(imgPath);
+                    displayImg(this.imgBitmap);
                 }
                 else
                 {
@@ -151,66 +145,51 @@ namespace Ironbug
             }
         }
         
-        public void displayImg(string filePath)
+        public void displayImg(Bitmap inBitmap)
         {
             
-            try
-            {
-                bitmap = new Bitmap(filePath);
-            }
-            catch
-            {
-                
-                Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert HDR image.");
-                displayDefaultComponent();
-                return;
-            }
+            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
 
             //calculate the scale factor
-            if (bitmap.Width > 0)
+            
+            if (inBitmap.Width > 0)
             {
-                img2bitmapFactor = (float)ImgBounds.Width / (float)bitmap.Width;
+                img2bitmapFactor = (float)rec.Width / (float)inBitmap.Width;
             }
             else
             {
                 img2bitmapFactor = 1;
             }
 
-
-            // If we've got an image then draw it
-
-            //viewpotHeight is for ensure the image xy ratio 
-            float convertedImgHeight = bitmap.Height * img2bitmapFactor;
-            RectangleF rec0 = GH_Convert.ToRectangle(Bounds);
-            sizeX = (rawSize * (float)Scale) + 4;
-            sizeY = convertedImgHeight + offsetTop + 2;
-
-            rec0.Width = sizeX;
-            rec0.Height = sizeY;
-            Bounds = rec0;
-
-            ImgBounds = getImgBounds(Bounds, offsetTop);
             
-            Graphics.DrawImage(bitmap, ImgBounds);
+            //viewpotHeight is for ensure the image xy ratio 
+            float convertedImgHeight = imgBitmap.Height * img2bitmapFactor;
+
+            //RectangleF rec = new RectangleF();
+            SizeF size = new SizeF(rec.Width, convertedImgHeight);
+            
+            //Bounds = getBounds(Pivot, size, offsetTop, scale);
+            //ImgBounds = getImgBounds(Bounds, offsetTop);
+            Graphics.DrawImage(imgBitmap, rec);
             displayCoordinates();
             
         }
 
         public void displayCoordinates()
         {
+            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
             SolidBrush myBrush = new SolidBrush(Color.Red);
-            Graphics.FillEllipse(myBrush, ImgBounds.X+10,ImgBounds.Y+10,3,3);
+            Graphics.FillEllipse(myBrush, rec.X+10, rec.Y+10,3,3);
         }
 
         void displayDefaultComponent()
         {
             //reset the comonent
-            bitmap = null;
+            imgBitmap = null;
+            this.scale = 1;
+            //Bounds = getBounds(Pivot, new SizeF(rawSize,rawSize-offsetTop), offsetTop, scale);
+            RectangleF rec = getImgBounds(Bounds, offsetTop);
 
-            sizeX = size;
-            sizeY = size;
-            Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
-            ImgBounds = getImgBounds(Bounds, offsetTop);
             this.Owner.Message = null;
 
             var bgColor = Color.Gray;
@@ -221,10 +200,10 @@ namespace Ironbug
             Font ubuntuFont = new Font("ubuntu", 8);
             StringFormat myFormat = new StringFormat();
             
-            Graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
+            Graphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             Graphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 265), myFormat);
-            Graphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(ImgBounds.X,ImgBounds.Y,ImgBounds.Width,ImgBounds.Width*2/3));
+            Graphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
             
             myBrush.Dispose();
             myFormat.Dispose();
@@ -266,19 +245,19 @@ namespace Ironbug
             
             if (e.Button == MouseButtons.Left)
             {
-               
-                if (ImgBounds.Contains(e.CanvasLocation) && bitmap !=null)
+                RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+                if (rec.Contains(e.CanvasLocation) && imgBitmap !=null)
                 {
                     
                     //this.MouseDownEvnt(this);                    //SizeF 
                     //PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X,Pivot.Y+offsetTop));
-                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(ImgBounds.X,ImgBounds.Y));
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
                     
                     //convert current pt location on grasshopper view back to original image size system
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor));
                     //TODO: check 
-                    var clickedColor = bitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
-                    this.Owner.Message = "Clicked at:" + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
+                    var clickedColor = imgBitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
+                    this.Owner.Message = "Clicked at: " + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
 
                     //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
                     //Graphics.FillEllipse(Brushes.Black, ptRect);

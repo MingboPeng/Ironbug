@@ -17,8 +17,9 @@ namespace Ironbug
 {
     public class View : GH_Component
     {
-        string FilePath = string.Empty;
-        double Scale = 1;
+        
+        public Bitmap DisplayImage;
+        public double Scale = 1;
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -77,37 +78,40 @@ namespace Ironbug
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            
+            string filePath = string.Empty;
+            this.DisplayImage = null;
 
-            if (!DA.GetData(0, ref FilePath))
+            if (!DA.GetData(0, ref filePath))
             {
-                ((ImageFromPathAttrib)m_attributes).imgPath = string.Empty;
+                //((ImageFromPathAttrib)m_attributes).imgPath = string.Empty;
                 return;
             }
 
-            this.FilePath = CheckImg(this.FilePath);
+            filePath = CheckImg(filePath);
 
-            if (string.IsNullOrEmpty(this.FilePath))
+            if (string.IsNullOrEmpty(filePath))
             {
+                
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
                 return;
             }
+            this.DisplayImage = new Bitmap(filePath);
 
             //get colors from input coordinates
             var imgCoordinates = new List<Point3d>();
             if (DA.GetDataList(1, imgCoordinates))
             {
-                var colors = GetColors(imgCoordinates, this.FilePath);
+                var colors = GetColors(imgCoordinates, this.DisplayImage);
                 DA.SetDataList(1, colors);
             }
             
 
-            ((ImageFromPathAttrib)m_attributes).imgPath = FilePath;
-            ((ImageFromPathAttrib)m_attributes).Scale = this.Scale;
-            GH.Instances.InvalidateCanvas();
-            GH.Instances.ActiveCanvas.Update();
+            //((ImageFromPathAttrib)m_attributes).imgPath = FilePath;
+            //((ImageFromPathAttrib)m_attributes).Scale = this.Scale;
+            //GH.Instances.InvalidateCanvas();
+            //GH.Instances.ActiveCanvas.Update();
 
-            DA.SetData(0, FilePath);
+            DA.SetData(0, filePath);
             
         }
 
@@ -120,7 +124,7 @@ namespace Ironbug
             get
             {
                 // You can add image files to your project resources and access them like this:
-                return Resources.Ladybug_Viewer;
+                return Resources.Ladybug_Viewer_24;
                 //return null;
             }
         }
@@ -145,7 +149,7 @@ namespace Ironbug
             m_attributes = newAttri;
             
         }
-
+        
         private string CheckImg(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -265,12 +269,10 @@ namespace Ironbug
                 this.Scale = checkScale(sender.Text);
                 
 
-                //this.m_attributes.ExpireLayout();
+                this.m_attributes.ExpireLayout();
                 //this.OnDisplayExpired(true);
-                //this.ExpireSolution(true);
+                this.ExpireSolution(true);
                
-                
-                
             }
             
         }
@@ -282,25 +284,25 @@ namespace Ironbug
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
-        private List<Color> GetColors(List<Point3d> imgCoordinates, string imgPath)
+        private List<Color> GetColors(List<Point3d> imgCoordinates, Bitmap inBitmap)
         {
             var colors = new List<Color>();
-            var bitmap = new Bitmap(imgPath);
+           
             foreach (var item in imgCoordinates)
             {
                 int x = (int)item.X;
                 int y = (int)item.Y;
-                bool isValidX = x >= 0 && x <= bitmap.Width;
-                bool isValidY = y >= 0 && y <= bitmap.Height;
+                bool isValidX = x >= 0 && x <= inBitmap.Width;
+                bool isValidY = y >= 0 && y <= inBitmap.Height;
 
                 if (isValidX && isValidY)
                 {
-                    colors.Add(bitmap.GetPixel(x, y));
+                    colors.Add(inBitmap.GetPixel(x, y));
                     //((ImageFromPathAttrib)m_attributes).displayCoordinates(new System.Drawing.Point(x,y));
                 }
                 else
                 {
-                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "{ "+item.ToString() + "} is not a valid coordinate.\nIt should be no bigger than current image's size " + bitmap.Size);
+                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "{ "+item.ToString() + "} is not a valid coordinate.\nIt should be no bigger than current image's size " + inBitmap.Size);
                 }
                 
             }

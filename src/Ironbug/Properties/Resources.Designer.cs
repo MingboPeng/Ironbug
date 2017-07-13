@@ -63,9 +63,9 @@ namespace Ironbug.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Ladybug_Viewer {
+        internal static System.Drawing.Bitmap Ladybug_Viewer_24 {
             get {
-                object obj = ResourceManager.GetObject("Ladybug_Viewer", resourceCulture);
+                object obj = ResourceManager.GetObject("Ladybug_Viewer_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
