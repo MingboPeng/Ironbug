@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Drawing = System.Drawing;
 using GH = Grasshopper;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
@@ -20,6 +21,9 @@ namespace Ironbug
         
         public Bitmap DisplayImage;
         public double Scale = 1;
+        public List<Drawing.Point> ExtrCoordinates = new List<Drawing.Point>();
+        public bool DisableClickable = false;
+
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
         /// constructor without any arguments.
@@ -41,7 +45,7 @@ namespace Ironbug
         {
             pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
             //pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
-            pManager.AddPointParameter("Viewport Scale", "coords", "Set this image viewport scale.", GH_ParamAccess.list);
+            pManager.AddPointParameter("Viewport Scale", "coordinates", "Set this image viewport scale.", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
         }
@@ -80,6 +84,7 @@ namespace Ironbug
         {
             string filePath = string.Empty;
             this.DisplayImage = null;
+            this.ExtrCoordinates = new List<Drawing.Point>();
 
             if (!DA.GetData(0, ref filePath))
             {
@@ -191,9 +196,7 @@ namespace Ironbug
             }
             else
             {
-                
                 return string.Empty;
-
             }
 
             return tiffFile;
@@ -210,17 +213,19 @@ namespace Ironbug
                 if (scaler > 10)
                 {
                     scaler = 10;
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+                    //this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+                    
                 }
                 else if (scaler < 0.5)
                 {
                     scaler = 0.5;
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+                    //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+                    
                 }
             }
             catch
             {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
+                //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
                 scaler = 1.0;
             }
 
@@ -231,15 +236,50 @@ namespace Ironbug
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "Clear values", ClearValues);
+            Menu_AppendItem(menu, "Clear clicked coordinates", ClearValues);
             
             //TODO:
-            Menu_AppendItem(menu, "Disable clickable image");
-            
-            var menuItemScale = Menu_AppendItem(menu, "Viewport scale");
+            Menu_AppendItem(menu, "Extract all coordinates",OnExtractCoordinatesToGhPoints);
+            Menu_AppendItem(menu, "Disable clickable image", OnDisableClick, true, this.DisableClickable);
+            var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
 
-            Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), keydownEventHandler, textChanged, true);
+            Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler, OnTextChanged, true);
             
+        }
+
+        private void OnExtractCoordinatesToGhPoints(object sender, EventArgs e)
+        {
+            var GHPoints = new List<GH_Point>();
+            foreach (var item in this.ExtrCoordinates)
+            {
+                var pt = new Point3d(item.X, item.Y, 0);
+                GHPoints.Add(new GH_Point(pt));
+            }
+            var thisParamAttr = this.Params.Input[1].Attributes;
+            var paramPt = new Grasshopper.Kernel.Parameters.Param_Point();
+            paramPt.CreateAttributes();
+            paramPt.PersistentData.AppendRange(GHPoints);
+            paramPt.Attributes.Pivot = new PointF(thisParamAttr.Bounds.Left - 80, thisParamAttr.Bounds.Y + 10);
+            GH.Instances.ActiveCanvas.Document.AddObject(paramPt, false);
+            paramPt.ExpireSolution(false);
+
+            //create a group
+            var GhGroup = new Grasshopper.Kernel.Special.GH_Group();
+            GhGroup.CreateAttributes();
+            GhGroup.Colour = Color.White;
+            GhGroup.NickName = "Extracted Coordinates";
+            GhGroup.AddObject(paramPt.InstanceGuid);
+            GH.Instances.ActiveCanvas.Document.AddObject(GhGroup, false);
+            GhGroup.ExpireSolution(false);
+
+            GH.Instances.ActiveCanvas.Document.NewSolution(false);
+
+
+        }
+
+        private void OnDisableClick(object sender, EventArgs e)
+        {
+            this.DisableClickable = !this.DisableClickable;
         }
 
         public override bool Read(GH_IReader reader)
@@ -248,30 +288,36 @@ namespace Ironbug
             {
                 this.Scale = reader.GetDouble("scale");
             }
+
+            if (reader.ItemExists("DisableClickable"))
+            {
+                this.DisableClickable = reader.GetBoolean("DisableClickable");
+            }
             return base.Read(reader);
         }
 
         public override bool Write(GH_IWriter writer)
         {
             writer.SetDouble("scale", this.Scale);
+            writer.SetBoolean("DisableClickable", this.DisableClickable);
             return base.Write(writer);  
         }
 
-        private void textChanged(GH_MenuTextBox sender, string text)
+        private void OnTextChanged(GH_MenuTextBox sender, string text)
         {
             //throw new NotImplementedException();
         }
 
-        private void keydownEventHandler(GH_MenuTextBox sender, KeyEventArgs e)
+        private void OnKeydownEventHandler(GH_MenuTextBox sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 this.Scale = checkScale(sender.Text);
                 
-
-                this.m_attributes.ExpireLayout();
+                //this.m_attributes.ExpireLayout();
                 //this.OnDisplayExpired(true);
                 this.ExpireSolution(true);
+                
                
             }
             
@@ -279,14 +325,27 @@ namespace Ironbug
 
         private void ClearValues(object sender, EventArgs e)
         {
+            
+            var takeCount = this.Params.Input[1].VolatileDataCount;
+
+            this.ExtrCoordinates.Take(takeCount);
+            
+            GH_Structure<GH_String> inputCoordinates = (GH_Structure<GH_String>)this.Params.Output[1].VolatileData;
+            var keptValues = inputCoordinates.AllData(true).Select(_ => _.ToString()).ToList().Take(takeCount);
+
             this.Params.Output[1].ExpireSolution(false);
             this.Params.Output[1].ClearData();
-            GH.Instances.ActiveCanvas.Document.NewSolution(false);
+            this.Params.Output[1].AddVolatileDataList(new GH_Path(0, 0), keptValues);
+
+            this.Message = null;
+            this.ExpireSolution(true);
+            //GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
         private List<Color> GetColors(List<Point3d> imgCoordinates, Bitmap inBitmap)
         {
             var colors = new List<Color>();
+            var coordinates = new List<Drawing.Point>();
            
             foreach (var item in imgCoordinates)
             {
@@ -297,6 +356,7 @@ namespace Ironbug
 
                 if (isValidX && isValidY)
                 {
+                    coordinates.Add(new Drawing.Point(x, y));
                     colors.Add(inBitmap.GetPixel(x, y));
                     //((ImageFromPathAttrib)m_attributes).displayCoordinates(new System.Drawing.Point(x,y));
                 }
@@ -306,7 +366,8 @@ namespace Ironbug
                 }
                 
             }
-            
+
+            this.ExtrCoordinates = coordinates;
             return colors;
 
         }
