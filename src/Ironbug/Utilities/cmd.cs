@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Ironbug
 {
     public static class CMD
     {
-        public static void Execute(List<string> command)
+        public static bool Execute(List<string> command)
         {
             var cmdString = string.Join("&", command);
 
@@ -24,8 +25,21 @@ namespace Ironbug
                 if (sw.BaseStream.CanWrite)
                 {
                     sw.WriteLine(cmdString);
+                    
                 }
             }
+            
+            cmd.WaitForExit();
+
+            while (!cmd.HasExited)
+            {
+                int milliseconds = 50;
+                Thread.Sleep(milliseconds);
+            }
+            
+            return true;
+
+            
         }
     }
 }

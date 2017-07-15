@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using GH = Grasshopper;
 using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
@@ -11,6 +12,7 @@ using FreeImageAPI;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Linq;
 
 //using Embryo.Generic;
 
@@ -21,187 +23,195 @@ namespace Ironbug
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        int sizeX,sizeY,offsetTop;
-        float img2bitmapFactor;
-        Bitmap bitmap;
-        private RectangleF ImgBounds { get; set; }
+        const int rawSize = 300;
+        //const int size = rawSize + 4; // added 2 pixel for each side for boder
+        const int offsetTop = 60;
+        //float sizeX,sizeY;
+        float relativeRatio;
+        //public double Scale = 1;
+        private double scale;
 
+        //public string imgPath = string.Empty;
+        List<Point> coordinates = new List<Point>();
+        List<string> currentValues = new List<string>();
+        Bitmap imgBitmap;
+        Graphics Graphics;
+        //private RectangleF ImgBounds { get; set; }
+        
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            sizeX = 400;
-            sizeY = 400;
-            offsetTop = 100;
-
-            img2bitmapFactor = 1;
+            //sizeX = size;
+            //sizeY = size;
+            //offsetTop = 60;
+            this.imgBitmap = owner.DisplayImage;
+            this.scale = owner.Scale;
+            relativeRatio = 1;
+            
         }
 
+        
         protected override void Layout()
         {
-            //Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-            PointF BoundsLocation = GH_Convert.ToPoint(Pivot);
+            RectangleF @in = new RectangleF(this.Pivot, this.Bounds.Size);
+            if ((double)@in.Width < (double)rawSize)
+                @in.Width = (float)(double)rawSize;
+            if ((double)@in.Height < (double)(double)rawSize)
+                @in.Height = (float)(double)rawSize;
+            this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
+            
 
-            //rec0.Size = new Size(sizeX, sizeY);
-            //rec0.Location = BoundsLocation;
-            ////Bounds.Width = sizeX;
-            //Bounds = rec0;
-            //Bounds.Location = BoundsLocation;
+        }
+        
+        private RectangleF getBounds(PointF location, SizeF imgSizeXY, int topOffset, double scale)
+        {
 
-            Bounds = new RectangleF(Pivot, new SizeF(sizeX, sizeY));
-            RectangleF inputRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
-            inputRect.X += 20;
+            RectangleF rec = new RectangleF();
+            rec.Location = location;
+            rec.Width = imgSizeXY.Width*(float)scale;
+            rec.Height = imgSizeXY.Height * (float)scale + topOffset;
+            rec.Inflate(2f, 2f);
+
+            return (RectangleF)GH_Convert.ToRectangle(rec);
+        }
+
+        private RectangleF getImgBounds(RectangleF bounds, int topOffset)
+        {
+            RectangleF rec = bounds;
+            rec.Y += topOffset;
+            rec.Height -= topOffset;
+
+            rec.Inflate(-2f,-2f);
+            return rec;
+        }
+
+        protected override void PrepareForRender(GH_Canvas canvas)
+        {
+            base.PrepareForRender(canvas);
+
+            
+            //tobe removed later
+            GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
+            currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
+
+            var owner = (View)this.Owner;
+            this.scale = owner.Scale;
+            this.imgBitmap = owner.DisplayImage;
+            this.coordinates = owner.ExtrCoordinates;
+
+            if (this.imgBitmap == null)
+            {
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - offsetTop), offsetTop, 1);
+            }
+            else
+            {
+                ////dynamic size
+                //this.Bounds = getBounds(this.Pivot, this.imgBitmap.Size, offsetTop, scale);
+
+                //Fixed size
+                relativeRatio = (this.Bounds.Width - 4) / this.imgBitmap.Width;
+                var height = this.imgBitmap.Height * relativeRatio;
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, height), offsetTop, scale);
+            }
+
+            //locate the inputs outputs
+            //Bounds = new RectangleF(Pivot, new SizeF(rawSize, rawSize));
+            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            inputRect.X += 65;
             inputRect.Y += 4;
 
-            RectangleF outRect = new RectangleF(BoundsLocation, new SizeF(100f, 40f));
-            outRect.X += sizeX-170;
+            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            outRect.X += Bounds.Width - 165;
             outRect.Y += 4;
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
 
-            //rec1 for image bound
-            Rectangle rec1 = GH_Convert.ToRectangle(Bounds);
-            rec1.Y += offsetTop;
-            rec1.Height = sizeY-offsetTop;
-            rec1.Inflate(-2, -2);
-            
-            this.ImgBounds = rec1;
+            this.ExpireLayout();
+
         }
-
-
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
             base.Render(canvas, graphics, channel);
 
-
-            //if (channel == GH_CanvasChannel.Wires)
-            //{
-            //    base.Render(canvas, graphics, channel);
-            //    Layout();
-            //}
+            Graphics = graphics;
 
             if (channel == GH_CanvasChannel.Objects)
             {
-                GH_Structure<GH_String> myData1 = (GH_Structure<GH_String>)Owner.Params.Input[0].VolatileData;
-                //GH_Structure<GH_Number> myData2 = (GH_Structure<GH_Number>)Owner.Params.Input[1].VolatileData;
-                //GH_Structure<GH_Number> myData2 = new GH_Structure<GH_Number>();
-
                 // Get the size to begin with
-                Layout();
 
-                float scaler;
-                try
+                if (this.imgBitmap != null)
                 {
-                    //scaler = (float)myData2.get_DataItem(0).Value;
-                    scaler = 1;
-                    if (scaler > 10)
-                    {
-                        scaler = 10f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this");
-                    }
-                    if (scaler < 0)
-                    {
-                        scaler = 1.0f;
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale cannot be negative. Stop messing with me!");
-                    }
-                }
-                catch
-                {
-                    Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-                    scaler = 1.0f;
-                }
-                var bgColor = Color.Gray;
-
-                Pen pen = new Pen(bgColor, 3);
-                SolidBrush myBrush = new SolidBrush(bgColor);
-
-
-                //if (Owner.RuntimeMessageLevel == GH_RuntimeMessageLevel.Blank)
-                //{
-                //    pen = new Pen(bgColor, 3);
-                //    myBrush = new SolidBrush(bgColor);
-                //}
-                //else
-                //{
-                //    pen = new Pen(bgColor, 3);
-                //    myBrush = new SolidBrush(bgColor);
-                //}
-
-                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 19 - 4, 8, 8);
-                //graphics.FillEllipse(myBrush, Bounds.Location.X - 4 - 1, Bounds.Location.Y + 49 - 4, 8, 8);
-
-                Font ubuntuFont = new Font("ubuntu", 8);
-                StringFormat myFormat = new StringFormat();
-
-                if (!myData1.IsEmpty)
-                {
-                    
-                    var filePath = myData1.get_FirstItem(true).Value;
-                    if (Path.GetExtension(filePath).ToUpper() == ".HDR")
-                    {
-                        filePath = filePath.Replace(".HDR", ".TIF");
-                    }
-
-                    try
-                    {
-                        bitmap = new Bitmap(filePath);
-                        
-                    }
-                    catch
-                    {
-                        Owner.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Path must be a valid location");
-                        displayComponent(graphics, myBrush, ubuntuFont, pen, myFormat);
-                        return;
-                    }
-
-                    if (bitmap.Width > 0)
-                    {
-                        img2bitmapFactor = (float)ImgBounds.Width / (float)bitmap.Width;
-                    }
-                    else
-                    {
-                        img2bitmapFactor = 1;
-                    }
-
-
-                    // If we've got an image then draw it
-                    //Bounds = new RectangleF(Pivot, new SizeF(myBitmap.Size.Width * scaler, myBitmap.Size.Height * scaler));
-
-                    int viewpotHeight = (int)(bitmap.Height * img2bitmapFactor);
-                    Rectangle rec0 = GH_Convert.ToRectangle(Bounds);
-                    rec0.Height = viewpotHeight + offsetTop;
-                    Bounds = rec0;
-
-                    Rectangle rec1 = rec0;
-                    rec1.Y += offsetTop;
-                    rec1.Height = viewpotHeight;
-                    rec1.Inflate(-2, -2);
-                    ImgBounds = rec1;
-
-                    
-                    //graphics.DrawImage(myBitmap, Bounds);
-                    graphics.DrawImage(bitmap, ImgBounds);
+                    displayImg(this.imgBitmap);
                 }
                 else
                 {
-                    displayComponent(graphics, myBrush, ubuntuFont, pen, myFormat);
+                    displayDefaultComponent();
                 }
-
-                myFormat.Dispose();
+                
             }
         }
-
-        void displayComponent(Graphics graphics, Brush myBrush, Font ubuntuFont, Pen pen, StringFormat myFormat)
+        
+        public void displayImg(Bitmap inBitmap)
         {
-            //Pivot = GH_Convert.ToPoint(Pivot);
             
-            //PointF imgViewBasePt = new PointF(Pivot.X, Pivot.Y + 100);
-            //var imgViewBounds = new RectangleF(imgViewBasePt, new SizeF(500, 400));
-            //var ImgRec = ImgBounds;
-            graphics.FillRectangle(myBrush, Rectangle.Round(ImgBounds));
+            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+            
+            Graphics.DrawImage(imgBitmap, rec);
+            if (this.coordinates.Count>0)
+            {
+                displayCoordinates(this.coordinates);
+            }
+            
+        }
+
+        public void displayCoordinates(List<Point> coordinates)
+        {
+            int dotSize = 4;
+            foreach (var item in coordinates)
+            {
+                RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+                
+                var relativePt = new PointF(item.X * relativeRatio + rec.X - dotSize/2 , item.Y* relativeRatio + rec.Y - dotSize / 2);
+                
+                SolidBrush myBrush = new SolidBrush(Color.White);
+                Pen pen = new Pen(new SolidBrush(Color.Black));
+                Graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
+                Graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
+                
+            }
+            
+
+
+        }
+
+        void displayDefaultComponent()
+        {
+            //reset the comonent
+            imgBitmap = null;
+            this.scale = 1;
+            this.Owner.Message = null;
+
+            RectangleF rec = getImgBounds(Bounds, offsetTop);
+
+            
+
+            var bgColor = Color.Gray;
+
+            Pen pen = new Pen(bgColor, 3);
+            SolidBrush myBrush = new SolidBrush(bgColor);
+            
+            Font ubuntuFont = new Font("ubuntu", 8);
+            StringFormat myFormat = new StringFormat();
+            
+            Graphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            //graphics.DrawString("johnharding@fastmail.fm", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 480 - 6 - 10), myFormat);
-            //graphics.DrawImage(Owner.Icon_24x24, Bounds.Location.X + 12, Bounds.Location.Y + 450 - 10);
+            Graphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 265), myFormat);
+            Graphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
+            
+            myBrush.Dispose();
+            myFormat.Dispose();
+
         }
 
         public delegate void Button_Handler(object sender);
@@ -239,24 +249,41 @@ namespace Ironbug
             
             if (e.Button == MouseButtons.Left)
             {
-               
-                if (ImgBounds.Contains(e.CanvasLocation) && bitmap !=null)
+                RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+                var owner = (View)this.Owner;
+                if (rec.Contains(e.CanvasLocation) && imgBitmap !=null && !owner.DisableClickable)
                 {
-                    //this.MouseDownEvent(this);
-                    //SizeF 
-                    PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X+2,Pivot.Y+2+offsetTop));
+
+                    //this.MouseDownEvnt(this);                    //SizeF 
+                    //PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X,Pivot.Y+offsetTop));
                     
-                    PointF convertedPt = new PointF(clickedPt.X / img2bitmapFactor, clickedPt.Y / img2bitmapFactor);
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
+                    
+                    //convert current pt location on grasshopper view back to original image size system
+                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / relativeRatio, clickedPt.Y / relativeRatio));
+                    owner.ExtrCoordinates.Add(PixelPtOnOriginalBitmap);
                     //TODO: check 
-                    var clickedColor = bitmap.GetPixel((int)convertedPt.X, (int)convertedPt.Y);
-                    //MessageBox.Show("clicked at: "+ clickedPt + "; \ne.CanvasLocation: "+ e.CanvasLocation + "; \nImgBounds: " + ImgBounds.Size + "; \nPivot: " + Pivot + "; \nBounds.Location: " + Bounds.Location);
-                    MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
+                    var clickedColor = imgBitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
+                    this.Owner.Message = "Clicked at: " + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
+
+                    //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
+                    //Graphics.FillEllipse(Brushes.Black, ptRect);
+                    //drawClickPt(ptRect);
+
+                    //var currentDataCount = this.currentValues.Count;
+                    currentValues.Add(clickedColor.ToString());
+
+                    this.Owner.Params.Output[1].ExpireSolution(false);
+                    //this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), 0, currentValues);
+                    this.Owner.Params.Output[1].AddVolatileDataList(new GH_Path(0), currentValues);
+                    GH.Instances.ActiveCanvas.Document.NewSolution(false);
+                    
+                    //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }
                 else
                 {
-
-                    //MessageBox.Show("ImgBounds:" + ImgBounds + "\nclicked at: " + e.CanvasLocation+"\n"+ Pivot + "\n" + ImgBounds.Contains(e.CanvasLocation));
+                    //MessageBox.Show("ImgBounds:" + ImgBounds + "\nclicked at: " + e.CanvasLocation + "\n" + Pivot + "\n" + ImgBounds.Contains(e.CanvasLocation));
                 }
             }
             return base.RespondToMouseDown(sender, e);

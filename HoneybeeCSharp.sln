@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug", "src\Ironbug\Ironbug.csproj", "{92907A61-60EC-40B2-8071-F09FE8977B70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.test", "Ironbug.test\Ironbug.test.csproj", "{F03AD84D-2E79-4688-9638-DC71F2FA171C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,12 +18,6 @@ Global
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Debug64|Any CPU.Build.0 = Debug64|Any CPU
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Debug64|Any CPU.ActiveCfg = Debug|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Debug64|Any CPU.Build.0 = Debug|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F03AD84D-2E79-4688-9638-DC71F2FA171C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
