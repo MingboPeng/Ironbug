@@ -172,8 +172,8 @@ namespace Ironbug
                 var relativePt = new PointF(item.X * relativeRatio * (float)scale + rec.X - dotSize/2 , item.Y * relativeRatio*(float)scale + rec.Y - dotSize / 2);
                 
                 SolidBrush myBrush = new SolidBrush(Color.White);
-                Pen pen = new Pen(new SolidBrush(Color.Black));
-                graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
+                Pen pen = new Pen(new SolidBrush(Color.White));
+                //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
                 graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
                 
             }

@@ -440,24 +440,8 @@ namespace Ironbug
             {
                 foreach (var item in this.ExtrCoordinates)
                 {
-                    var circlePixels = Drawcircle(item.X, item.Y, 3);
-                    var validPixels = new List<Drawing.Point>();
-                    foreach (var pixel in circlePixels)
-                    {
-                        int x = pixel.X;
-                        int y = pixel.Y;
-                        bool isValidX = x >= 0 && x <= bmp.Width;
-                        bool isValidY = y >= 0 && y <= bmp.Height;
-                        if (isValidX && isValidY)
-                        {
-                            validPixels.Add(pixel);
-                        }
-                    }
+                    bmp.DrawCircle(item.X, item.Y, 3, Color.White);
 
-                    foreach (var pixel in validPixels)
-                    {
-                        bmp.SetPixel(pixel.X, pixel.Y, Color.White);
-                    }
                 }
                 saveToFile = filePath.Insert(filePath.Length - 4, "d");
                 
@@ -499,46 +483,6 @@ namespace Ironbug
 
 
         }
-
-        private List<Drawing.Point> Drawcircle(int x0, int y0, int radius)
-        {
-            int x = radius - 1;
-            int y = 0;
-            int dx = 1;
-            int dy = 1;
-            int err = dx - (radius << 1);
-            var pixelCoord = new List<Drawing.Point>();
-
-            while (x >= y)
-            {
-                pixelCoord.Add(new Drawing.Point(x0 + x, y0 + y));
-                pixelCoord.Add(new Drawing.Point(x0 + y, y0 + x));
-                pixelCoord.Add(new Drawing.Point(x0 - y, y0 + x));
-                pixelCoord.Add(new Drawing.Point(x0 - x, y0 + y));
-                pixelCoord.Add(new Drawing.Point(x0 - x, y0 - y));
-                pixelCoord.Add(new Drawing.Point(x0 - y, y0 - x));
-                pixelCoord.Add(new Drawing.Point(x0 + y, y0 - x));
-                pixelCoord.Add(new Drawing.Point(x0 + x, y0 - y));
-
-                if (err <= 0)
-                {
-                    y++;
-                    err += dy;
-                    dy += 2;
-                }
-                else
-                {
-                    x--;
-                    dx += 2;
-                    err += (-radius << 1) + dx;
-                }
-            }
-
-
-
-            return pixelCoord;
-        }
-
         
 
     }
