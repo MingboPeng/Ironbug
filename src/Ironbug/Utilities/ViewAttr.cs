@@ -23,20 +23,16 @@ namespace Ironbug
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        const int rawSize = 300;
-        //const int size = rawSize + 4; // added 2 pixel for each side for boder
+        const int rawSize = 320;
         const int offsetTop = 60;
-        //float sizeX,sizeY;
         float relativeRatio;
-        //public double Scale = 1;
         private double scale;
 
         //public string imgPath = string.Empty;
         List<Point> coordinates = new List<Point>();
-        List<string> currentValues = new List<string>();
+        //List<string> currentValues = new List<string>();
         Bitmap imgBitmap;
-        Graphics Graphics;
-        //private RectangleF ImgBounds { get; set; }
+        Graphics MyGraphics;
         
         public ImageFromPathAttrib(View owner)
             : base(owner)
@@ -90,10 +86,6 @@ namespace Ironbug
             base.PrepareForRender(canvas);
 
             
-            //tobe removed later
-            GH_Structure<GH_String> myData3 = (GH_Structure<GH_String>)Owner.Params.Output[1].VolatileData;
-            currentValues =  myData3.AllData(true).Select(_=>_.ToString()).ToList();
-
             var owner = (View)this.Owner;
             this.scale = owner.Scale;
             this.imgBitmap = owner.DisplayImage;
@@ -116,13 +108,13 @@ namespace Ironbug
 
             //locate the inputs outputs
             //Bounds = new RectangleF(Pivot, new SizeF(rawSize, rawSize));
-            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 40f));
             inputRect.X += 65;
-            inputRect.Y += 4;
+            //inputRect.Y += 4;
 
-            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 50f));
+            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 40f));
             outRect.X += Bounds.Width - 165;
-            outRect.Y += 4;
+            //outRect.Y += 4;
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
@@ -134,7 +126,7 @@ namespace Ironbug
         {
             base.Render(canvas, graphics, channel);
 
-            Graphics = graphics;
+            MyGraphics = graphics;
 
             if (channel == GH_CanvasChannel.Objects)
             {
@@ -148,41 +140,45 @@ namespace Ironbug
                 {
                     displayDefaultComponent();
                 }
-                
+
             }
+
         }
         
+        
+
         public void displayImg(Bitmap inBitmap)
         {
             
             RectangleF rec = getImgBounds(this.Bounds, offsetTop);
             
-            Graphics.DrawImage(imgBitmap, rec);
+            MyGraphics.DrawImage(imgBitmap, rec);
+
+            //draw pixel coordinates
             if (this.coordinates.Count>0)
             {
-                displayCoordinates(this.coordinates);
+                displayCoordinates(this.coordinates, this.MyGraphics);
             }
             
         }
 
-        public void displayCoordinates(List<Point> coordinates)
+        public void displayCoordinates(List<Point> coordinates, Graphics graphics)
         {
             int dotSize = 4;
             foreach (var item in coordinates)
             {
                 RectangleF rec = getImgBounds(this.Bounds, offsetTop);
                 
-                var relativePt = new PointF(item.X * relativeRatio + rec.X - dotSize/2 , item.Y* relativeRatio + rec.Y - dotSize / 2);
+                var relativePt = new PointF(item.X * relativeRatio * (float)scale + rec.X - dotSize/2 , item.Y * relativeRatio*(float)scale + rec.Y - dotSize / 2);
                 
                 SolidBrush myBrush = new SolidBrush(Color.White);
                 Pen pen = new Pen(new SolidBrush(Color.Black));
-                Graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
-                Graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
+                graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
+                graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
                 
             }
+
             
-
-
         }
 
         void displayDefaultComponent()
@@ -195,19 +191,16 @@ namespace Ironbug
             RectangleF rec = getImgBounds(Bounds, offsetTop);
 
             
-
-            var bgColor = Color.Gray;
-
-            Pen pen = new Pen(bgColor, 3);
-            SolidBrush myBrush = new SolidBrush(bgColor);
+            Pen pen = new Pen(Color.Gray, 3);
+            SolidBrush myBrush = new SolidBrush(Color.Gray);
             
             Font ubuntuFont = new Font("ubuntu", 8);
             StringFormat myFormat = new StringFormat();
             
-            Graphics.FillRectangle(myBrush, Rectangle.Round(rec));
+            MyGraphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            Graphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)this.Bounds.Location.X + 12, (int)this.Bounds.Location.Y + 265), myFormat);
-            Graphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
+            MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
+            MyGraphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
             
             myBrush.Dispose();
             myFormat.Dispose();
@@ -260,24 +253,26 @@ namespace Ironbug
                     PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
                     
                     //convert current pt location on grasshopper view back to original image size system
-                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / relativeRatio, clickedPt.Y / relativeRatio));
+                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / relativeRatio/(float)scale, clickedPt.Y / relativeRatio / (float)scale));
                     owner.ExtrCoordinates.Add(PixelPtOnOriginalBitmap);
+
                     //TODO: check 
                     var clickedColor = imgBitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
-                    this.Owner.Message = "Clicked at: " + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
-
-                    //var ptRect = new Rectangle(Point.Round(clickedPt), new Size(2, 2));
-                    //Graphics.FillEllipse(Brushes.Black, ptRect);
-                    //drawClickPt(ptRect);
-
-                    //var currentDataCount = this.currentValues.Count;
-                    currentValues.Add(clickedColor.ToString());
-
-                    this.Owner.Params.Output[1].ExpireSolution(false);
-                    //this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), 0, currentValues);
-                    this.Owner.Params.Output[1].AddVolatileDataList(new GH_Path(0), currentValues);
-                    GH.Instances.ActiveCanvas.Document.NewSolution(false);
+                    owner.Message = "Clicked at: " + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
                     
+                    ////reset output params
+                    //owner.Params.Output[0].ExpireSolution(false);
+                    //string savedFile = owner.SaveImg(owner.newFilePath);
+                    //owner.Params.Output[0].AddVolatileData(new GH_Path(0),0, savedFile);
+
+
+                    
+
+                    //owner.Params.Output[1].ExpireSolution(true);
+                    
+
+
+                    this.MouseDownEvent(this);
                     //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
                     return GH_ObjectResponse.Handled;
                 }
@@ -288,6 +283,8 @@ namespace Ironbug
             }
             return base.RespondToMouseDown(sender, e);
         }
+
+        
 
     }
 }
