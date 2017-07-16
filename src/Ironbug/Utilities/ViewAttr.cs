@@ -144,10 +144,10 @@ namespace Ironbug
             }
 
         }
-        
-        
 
-        public void displayImg(Bitmap inBitmap)
+
+
+        private void displayImg(Bitmap inBitmap)
         {
             
             RectangleF rec = getImgBounds(this.Bounds, offsetTop);
@@ -162,7 +162,7 @@ namespace Ironbug
             
         }
 
-        public void displayCoordinates(List<Point> coordinates, Graphics graphics)
+        private void displayCoordinates(List<Point> coordinates, Graphics graphics)
         {
             int dotSize = 4;
             foreach (var item in coordinates)
@@ -181,7 +181,7 @@ namespace Ironbug
             
         }
 
-        void displayDefaultComponent()
+        private void displayDefaultComponent()
         {
             //reset the comonent
             imgBitmap = null;
@@ -189,7 +189,6 @@ namespace Ironbug
             this.Owner.Message = null;
 
             RectangleF rec = getImgBounds(Bounds, offsetTop);
-
             
             Pen pen = new Pen(Color.Gray, 3);
             SolidBrush myBrush = new SolidBrush(Color.Gray);
@@ -207,7 +206,7 @@ namespace Ironbug
 
         }
 
-        public delegate void Button_Handler(object sender);
+        public delegate void Button_Handler(object sender, Point clickedPtOnOriginalBitmap);
 
         private Button_Handler MouseDownEvent;
         public event Button_Handler mouseDownEvent
@@ -246,34 +245,13 @@ namespace Ironbug
                 var owner = (View)this.Owner;
                 if (rec.Contains(e.CanvasLocation) && imgBitmap !=null && !owner.DisableClickable)
                 {
-
-                    //this.MouseDownEvnt(this);                    //SizeF 
-                    //PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(Pivot.X,Pivot.Y+offsetTop));
                     
                     PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
                     
                     //convert current pt location on grasshopper view back to original image size system
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / relativeRatio/(float)scale, clickedPt.Y / relativeRatio / (float)scale));
-                    owner.ExtrCoordinates.Add(PixelPtOnOriginalBitmap);
-
-                    //TODO: check 
-                    var clickedColor = imgBitmap.GetPixel(PixelPtOnOriginalBitmap.X, PixelPtOnOriginalBitmap.Y);
-                    owner.Message = "Clicked at: " + PixelPtOnOriginalBitmap + "\n" + clickedColor.ToString();
                     
-                    ////reset output params
-                    //owner.Params.Output[0].ExpireSolution(false);
-                    //string savedFile = owner.SaveImg(owner.newFilePath);
-                    //owner.Params.Output[0].AddVolatileData(new GH_Path(0),0, savedFile);
-
-
-                    
-
-                    //owner.Params.Output[1].ExpireSolution(true);
-                    
-
-
-                    this.MouseDownEvent(this);
-                    //MessageBox.Show(clickedPt + "_" +convertedPt + "clicked at: " + clickedColor);
+                    this.MouseDownEvent(this, PixelPtOnOriginalBitmap);
                     return GH_ObjectResponse.Handled;
                 }
                 else
