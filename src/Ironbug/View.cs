@@ -257,7 +257,7 @@ namespace Ironbug
             else if (scale < 0.5)
             {
                 scale = 0.5;
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum scale is 0.5x. I've set your input to this!");
 
             }
 
@@ -267,12 +267,16 @@ namespace Ironbug
         
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "Clear clicked pixel coordinates", ClearValues);
+            //base.AppendAdditionalComponentMenuItems(menu);
+            var newMenu = menu;
+            newMenu.Items.RemoveAt(1); // remove Preview
+            newMenu.Items.RemoveAt(2); // remove Bake
+
+            Menu_AppendItem(newMenu, "Clear clicked pixel coordinates", ClearValues);
             
-            Menu_AppendItem(menu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
-            Menu_AppendItem(menu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
-            Menu_AppendItem(menu, "Save image with extracted coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
+            Menu_AppendItem(newMenu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
+            Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
+            Menu_AppendItem(newMenu, "Save image with extracted coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
 
             //var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
             //Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
