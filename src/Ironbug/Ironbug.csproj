@@ -68,22 +68,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Icon1.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Image1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Ladybug_Viewer.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Ladybug_Viewer_370.png" />
@@ -112,11 +100,5 @@
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
-  <Import Project="..\..\packages\VVVV.FreeImage.3.15.1.1\build\net40\VVVV.FreeImage.targets" Condition="Exists('..\..\packages\VVVV.FreeImage.3.15.1.1\build\net40\VVVV.FreeImage.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\VVVV.FreeImage.3.15.1.1\build\net40\VVVV.FreeImage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\VVVV.FreeImage.3.15.1.1\build\net40\VVVV.FreeImage.targets'))" />
-  </Target>
+  
 </Project>

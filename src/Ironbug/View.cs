@@ -22,6 +22,8 @@ namespace Ironbug
         public Bitmap DisplayImage;
         public double Scale = 1;
         public List<Drawing.Point> ExtrCoordinates = new List<Drawing.Point>();
+        public List<Color> ExtrColors = new List<Color>();
+
         public bool DisableClickable = true;
         public bool SaveImgWithCoords = false;
         public string newFilePath = string.Empty;
@@ -33,9 +35,9 @@ namespace Ironbug
         /// new tabs/panels will automatically be created.
         /// </summary>
         public View()
-          : base("ViewData", "ViewData",
+          : base("ImageViewer", "Viewer",
               "Description",
-              "Ironbug", "Ironbug")
+              "MingboDev", "Ironbug")
         {
         }
 
@@ -44,11 +46,13 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
-            //pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
-            pManager.AddPointParameter("Viewport Scale", "coordinates", "Set this image viewport scale.", GH_ParamAccess.list);
+            pManager.AddTextParameter("Image Path", "ImagePath", "File Path", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Viewport Scale", "Scale", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            pManager.AddPointParameter("Pixel Coordinates", "Coordinates", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
+            
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -56,7 +60,7 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Path", "imagePath", "New image marked with coordinates.\nClicked coordinates will not be ploted, please extract all coordinates first if you want to keep them.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "ImagePath", "A new image marked with coordinates.", GH_ParamAccess.item);
             //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("Color Values", "Colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager[0].MutableNickName = false;
@@ -66,20 +70,11 @@ namespace Ironbug
         protected override void BeforeSolveInstance()
         {
             base.BeforeSolveInstance();
-
-            //var downStreamParams = this.Params.Output[1].DirectConnectedComponents();
-            //foreach (var item in downStreamParams)
-            //{
-            //    item.ExpireSolution(false);
-            //}
-
-            //var pathParam = this.Params.Input[0];
-            //if (pathParam.SourceCount > 0)
-            //{
-            //    GH_Structure<GH_String> filePath = (GH_Structure<GH_String>)pathParam.VolatileData;
-
-            //    this.FilePath = CheckImg(filePath.get_DataItem(0).Value);
-            //}
+            
+            this.DisplayImage = null;
+            this.Message = null;
+            this.ExtrCoordinates = new List<Drawing.Point>();
+            this.ExtrColors = new List<Color>();
 
         }
 
@@ -90,16 +85,25 @@ namespace Ironbug
         /// to store data in output parameters.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+
             string filePath = string.Empty;
-            this.DisplayImage = null;
-            this.Message = null;
-            this.ExtrCoordinates = new List<Drawing.Point>();
+            double scale = 1;
 
             if (!DA.GetData(0, ref filePath))
             {
-                //((ImageFromPathAttrib)m_attributes).imgPath = string.Empty;
                 return;
             }
+
+            if (!DA.GetData(1, ref scale))
+            {
+                return;
+            }
+            else
+            {
+                this.Scale = checkScale(scale);
+            }
+
+
 
             filePath = CheckImg(filePath);
 
@@ -113,21 +117,19 @@ namespace Ironbug
 
             //get colors from input coordinates
             var imgCoordinates = new List<Point3d>();
-            if (DA.GetDataList(1, imgCoordinates))
+            if (DA.GetDataList(2, imgCoordinates))
             {
-                var colors = GetColors(imgCoordinates, this.DisplayImage);
-                DA.SetDataList(1, colors);
+                this.ExtrColors = GetColors(imgCoordinates, this.DisplayImage);
+                DA.SetDataList(1, this.ExtrColors);
             }
             
-            if (this.SaveImgWithCoords)
-            {
-                string imgPathWithCoord = filePath.Insert(filePath.Length - 4, "_v");
-                this.newFilePath = SaveImg(imgPathWithCoord);
-            }
+            this.newFilePath = filePath.Insert(filePath.Length - 4, "_crd");
+
+            var outFilePath = SaveImg(this.newFilePath, this.SaveImgWithCoords);
             
-            if (File.Exists(this.newFilePath))
+            if (File.Exists(outFilePath))
             {
-                DA.SetData(0, this.newFilePath);
+                DA.SetData(0, outFilePath);
             }
             
             
@@ -163,16 +165,19 @@ namespace Ironbug
             var newAttri = new ImageFromPathAttrib(this);
             newAttri.mouseDownEvent += OnMouseDownEvent;
             
-            //TODO: add two way event for click
             m_attributes = newAttri;
             
         }
 
-        private void OnMouseDownEvent(object sender)
+        private void OnMouseDownEvent(object sender, Drawing.Point clickedPtOnOriginalBitmap)
         {
-            //MessageBox.Show(this.ExtrCoordinates.Count.ToString());
-            string savedFile = SaveImg(this.newFilePath);
-            var colors = GetColors(this.ExtrCoordinates, this.DisplayImage);
+            this.ExtrCoordinates.Add(clickedPtOnOriginalBitmap);
+            var clickedColor = this.DisplayImage.GetPixel(clickedPtOnOriginalBitmap.X, clickedPtOnOriginalBitmap.Y);
+            this.ExtrColors.Add(clickedColor);
+
+            string savedFile = SaveImg(this.newFilePath, this.SaveImgWithCoords);
+
+            this.Message = "Clicked at: " + clickedPtOnOriginalBitmap + "\n" + clickedColor.ToString();
 
             if (File.Exists(savedFile))
             {
@@ -183,13 +188,7 @@ namespace Ironbug
             //update color outputs
             this.Params.Output[1].ExpireSolution(false);
             this.Params.Output[1].ClearData();
-            this.Params.Output[1].AddVolatileDataList(new GH_Path(0), colors);
-            //GH_Structure<GH_String> outparam1 = (GH_Structure<GH_String>)this.Params.Output[1].VolatileData;
-            //var currentValues = outparam1.AllData(true).Select(_ => _.ToString()).ToList();
-            //currentValues.Add(clickedColor.ToString());
-            //owner.Params.Output[1].ExpireSolution(false);
-            ////this.Owner.Params.Output[1].AddVolatileData(new GH_Path(0), 0, currentValues);
-            //owner.Params.Output[1].AddVolatileDataList(new GH_Path(0), currentValues);
+            this.Params.Output[1].AddVolatileDataList(new GH_Path(0), this.ExtrColors);
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
@@ -246,50 +245,79 @@ namespace Ironbug
             return tiffFile;
         }
 
-        private double checkScale (string scale)
+        private double checkScale (double scale)
         {
+            
+            if (scale > 10)
+            {
+                scale = 10;
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
 
-            double scaler;
-            try
-            {
-                scaler = Convert.ToDouble(scale);
-                //scaler = 1;
-                if (scaler > 10)
-                {
-                    scaler = 10;
-                    //this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
-                    
-                }
-                else if (scaler < 0.5)
-                {
-                    scaler = 0.5;
-                    //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
-                    
-                }
             }
-            catch
+            else if (scale < 0.5)
             {
-                //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-                scaler = 1.0;
+                scale = 0.5;
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum scale is 0.5x. I've set your input to this!");
+
             }
 
-            return scaler;
+            return scale;
             
         }
         
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            base.AppendAdditionalComponentMenuItems(menu);
-            Menu_AppendItem(menu, "Clear clicked pixel coordinates", ClearValues);
-            
-            //TODO:
-            Menu_AppendItem(menu, "Extract all pixel coordinates",OnExtractCoordinatesToGhPoints);
-            Menu_AppendItem(menu, "Disable clickable image", OnDisableClick, true, this.DisableClickable);
-            Menu_AppendItem(menu, "Save image with extracted coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
-            var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
+            //base.AppendAdditionalComponentMenuItems(menu);
+            var newMenu = menu;
+            newMenu.Items.RemoveAt(1); // remove Preview
+            newMenu.Items.RemoveAt(2); // remove Bake
 
-            Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
+            Menu_AppendItem(newMenu, "Clear clicked pixel coordinates", ClearValues);
             
+            Menu_AppendItem(newMenu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
+            Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
+            Menu_AppendItem(newMenu, "Save image with extracted coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
+
+            //var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
+            //Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
+            
+        }
+
+        //private void OnTextChanged_Scale(GH_MenuTextBox sender, string text)
+        //{
+        //    //throw new NotImplementedException();
+        //}
+
+        //private void OnKeydownEventHandler_Scale(GH_MenuTextBox sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        this.Scale = checkScale(sender.Text);
+
+        //        //this.m_attributes.ExpireLayout();
+        //        //this.OnDisplayExpired(true);
+        //        this.ExpireSolution(true);
+
+
+        //    }
+
+        //}
+
+        private void ClearValues(object sender, EventArgs e)
+        {
+
+            var takeCount = this.Params.Input[2].VolatileDataCount;
+            //MessageBox.Show(takeCount.ToString());
+            this.ExtrCoordinates.Take(takeCount);
+            this.ExtrColors = this.ExtrColors.Take(takeCount).ToList();
+            
+            this.Params.Output[1].ExpireSolution(false);
+            this.Params.Output[1].ClearData();
+            this.Params.Output[1].AddVolatileDataList(new GH_Path(0, 0), this.ExtrColors);
+
+            this.Message = null;
+            this.ExpireSolution(true);
+            //GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
         private void OnSaveImgWithCoords(object sender, EventArgs e)
@@ -298,7 +326,7 @@ namespace Ironbug
             this.ExpireSolution(true);
         }
 
-        private void OnExtractCoordinatesToGhPoints(object sender, EventArgs e)
+        private void OnExtractPtToGhPoints(object sender, EventArgs e)
         {
             var GHPoints = new List<GH_Point>();
             foreach (var item in this.ExtrCoordinates)
@@ -306,7 +334,7 @@ namespace Ironbug
                 var pt = new Point3d(item.X, item.Y, 0);
                 GHPoints.Add(new GH_Point(pt));
             }
-            var thisParamAttr = this.Params.Input[1].Attributes;
+            var thisParamAttr = this.Params.Input[2].Attributes;
             var paramPt = new Grasshopper.Kernel.Parameters.Param_Point();
             paramPt.CreateAttributes();
             paramPt.PersistentData.AppendRange(GHPoints);
@@ -328,7 +356,7 @@ namespace Ironbug
 
         }
 
-        private void OnDisableClick(object sender, EventArgs e)
+        private void OnDisableImgClickable(object sender, EventArgs e)
         {
             this.DisableClickable = !this.DisableClickable;
         }
@@ -345,6 +373,11 @@ namespace Ironbug
             {
                 this.DisableClickable = reader.GetBoolean("DisableClickable");
             }
+
+            if (reader.ItemExists("SaveImgWithCoords"))
+            {
+                this.DisableClickable = reader.GetBoolean("SaveImgWithCoords");
+            }
             return base.Read(reader);
         }
 
@@ -353,52 +386,16 @@ namespace Ironbug
         {
             writer.SetDouble("scale", this.Scale);
             writer.SetBoolean("DisableClickable", this.DisableClickable);
+            writer.SetBoolean("SaveImgWithCoords", this.SaveImgWithCoords);
             return base.Write(writer);  
         }
 
-        private void OnTextChanged_Scale(GH_MenuTextBox sender, string text)
-        {
-            //throw new NotImplementedException();
-        }
-
-        private void OnKeydownEventHandler_Scale(GH_MenuTextBox sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.Scale = checkScale(sender.Text);
-                
-                //this.m_attributes.ExpireLayout();
-                //this.OnDisplayExpired(true);
-                this.ExpireSolution(true);
-                
-               
-            }
-            
-        }
-
-        private void ClearValues(object sender, EventArgs e)
-        {
-            
-            var takeCount = this.Params.Input[1].VolatileDataCount;
-
-            this.ExtrCoordinates.Take(takeCount);
-            
-            GH_Structure<GH_String> inputCoordinates = (GH_Structure<GH_String>)this.Params.Output[1].VolatileData;
-            var keptValues = inputCoordinates.AllData(true).Select(_ => _.ToString()).ToList().Take(takeCount);
-
-            this.Params.Output[1].ExpireSolution(false);
-            this.Params.Output[1].ClearData();
-            this.Params.Output[1].AddVolatileDataList(new GH_Path(0, 0), keptValues);
-
-            this.Message = null;
-            this.ExpireSolution(true);
-            //GH.Instances.ActiveCanvas.Document.NewSolution(false);
-        }
+        
 
         private List<Color> GetColors(List<Drawing.Point> imgCoordinates, Bitmap inBitmap)
         {
             var colors = new List<Color>();
-            var coordinates = new List<Drawing.Point>();
+            var validCoordinates = new List<Drawing.Point>();
            
             foreach (var item in imgCoordinates)
             {
@@ -409,7 +406,7 @@ namespace Ironbug
 
                 if (isValidX && isValidY)
                 {
-                    coordinates.Add(new Drawing.Point(x, y));
+                    validCoordinates.Add(new Drawing.Point(x, y));
                     colors.Add(inBitmap.GetPixel(x, y));
                     //((ImageFromPathAttrib)m_attributes).displayCoordinates(new System.Drawing.Point(x,y));
                 }
@@ -420,7 +417,7 @@ namespace Ironbug
                 
             }
 
-            this.ExtrCoordinates = coordinates;
+            this.ExtrCoordinates = validCoordinates;
             return colors;
 
         }
@@ -439,41 +436,24 @@ namespace Ironbug
         }
 
         //Save Image to file
-        public string SaveImg(string filePath)
+        public string SaveImg(string filePath, bool drawCoordinates)
         {
             Bitmap bmp = new Bitmap(this.DisplayImage);
-            var saveToFile = string.Empty;
+            var saveToFile = filePath;
 
-            if (this.ExtrCoordinates.Count>0)
+            if (!this.ExtrCoordinates.IsNullOrEmpty() && drawCoordinates)
             {
                 foreach (var item in this.ExtrCoordinates)
                 {
-                    var circlePixels = Drawcircle(item.X, item.Y, 3);
-                    var validPixels = new List<Drawing.Point>();
-                    foreach (var pixel in circlePixels)
-                    {
-                        int x = pixel.X;
-                        int y = pixel.Y;
-                        bool isValidX = x >= 0 && x <= bmp.Width;
-                        bool isValidY = y >= 0 && y <= bmp.Height;
-                        if (isValidX && isValidY)
-                        {
-                            validPixels.Add(pixel);
-                        }
-                    }
+                    bmp.DrawCircle(item.X, item.Y, 3, Color.White);
 
-                    foreach (var pixel in validPixels)
-                    {
-                        bmp.SetPixel(pixel.X, pixel.Y, Color.White);
-                    }
                 }
-                saveToFile = filePath.Insert(filePath.Length - 4, "d");
+                //saveToFile = filePath.Insert(filePath.Length - 4, "d");
                 
             }
             else
             {
-                saveToFile = filePath;
-                
+                //saveToFile = filePath;
             }
 
 
@@ -483,18 +463,10 @@ namespace Ironbug
                 {
                     File.Delete(saveToFile);
                 }
-                //var saveToFileTEMP = filePath.Insert(filePath.Length - 4, "TEMP");
-                //bmp.Save(saveToFile);
                 
             }
             catch (Exception ex)
             {
-                //if (ex.Message.Contains("cannot access the file"))
-                //{
-                //    saveToFile = filePath.Insert(filePath.Length - 4, "TEMP");
-                //    //MessageBox.Show("Test");
-                //    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ssss");
-                //}
                 
                 throw ex;
             }
@@ -507,46 +479,6 @@ namespace Ironbug
 
 
         }
-
-        private List<Drawing.Point> Drawcircle(int x0, int y0, int radius)
-        {
-            int x = radius - 1;
-            int y = 0;
-            int dx = 1;
-            int dy = 1;
-            int err = dx - (radius << 1);
-            var pixelCoord = new List<Drawing.Point>();
-
-            while (x >= y)
-            {
-                pixelCoord.Add(new Drawing.Point(x0 + x, y0 + y));
-                pixelCoord.Add(new Drawing.Point(x0 + y, y0 + x));
-                pixelCoord.Add(new Drawing.Point(x0 - y, y0 + x));
-                pixelCoord.Add(new Drawing.Point(x0 - x, y0 + y));
-                pixelCoord.Add(new Drawing.Point(x0 - x, y0 - y));
-                pixelCoord.Add(new Drawing.Point(x0 - y, y0 - x));
-                pixelCoord.Add(new Drawing.Point(x0 + y, y0 - x));
-                pixelCoord.Add(new Drawing.Point(x0 + x, y0 - y));
-
-                if (err <= 0)
-                {
-                    y++;
-                    err += dy;
-                    dy += 2;
-                }
-                else
-                {
-                    x--;
-                    dx += 2;
-                    err += (-radius << 1) + dx;
-                }
-            }
-
-
-
-            return pixelCoord;
-        }
-
         
 
     }

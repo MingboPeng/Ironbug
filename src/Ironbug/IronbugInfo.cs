@@ -42,7 +42,7 @@ namespace Ironbug
             get
             {
                 //Return a string identifying you or your company.
-                return "";
+                return "Mingbo Peng";
             }
         }
         public override string AuthorContact
