@@ -8,7 +8,6 @@ using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Attributes;
 using System.Collections.Generic;
 using Grasshopper.Kernel.Data;
-using FreeImageAPI;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -18,14 +17,14 @@ using System.Linq;
 
 namespace Ironbug
 {
-    //from Embryo https://github.com/johnharding/Embryo/blob/master/src/embryoA/Visulise/ImageFromPathAttrib.cs
+    //Reference Embryo https://github.com/johnharding/Embryo/blob/master/src/embryoA/Visulise/ImageFromPathAttrib.cs
 
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
         const int rawSize = 320;
         const int offsetTop = 60;
-        float relativeRatio;
+        float relativeRatio =1;
         private double scale;
 
         //public string imgPath = string.Empty;
@@ -37,12 +36,8 @@ namespace Ironbug
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            //sizeX = size;
-            //sizeY = size;
-            //offsetTop = 60;
             this.imgBitmap = owner.DisplayImage;
             this.scale = owner.Scale;
-            relativeRatio = 1;
             
         }
 
@@ -84,7 +79,6 @@ namespace Ironbug
         protected override void PrepareForRender(GH_Canvas canvas)
         {
             base.PrepareForRender(canvas);
-
             
             var owner = (View)this.Owner;
             this.scale = owner.Scale;
@@ -107,14 +101,11 @@ namespace Ironbug
             }
 
             //locate the inputs outputs
-            //Bounds = new RectangleF(Pivot, new SizeF(rawSize, rawSize));
             RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 40f));
-            inputRect.X += 65;
-            //inputRect.Y += 4;
+            inputRect.X += 68;
 
             RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 40f));
             outRect.X += Bounds.Width - 165;
-            //outRect.Y += 4;
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);

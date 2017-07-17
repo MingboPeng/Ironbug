@@ -37,7 +37,7 @@ namespace Ironbug
         public View()
           : base("ViewData", "ViewData",
               "Description",
-              "Ironbug", "Ironbug")
+              "MingboDev", "Ironbug")
         {
         }
 
@@ -46,9 +46,9 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Image Path", "imagePath", "File Path", GH_ParamAccess.item);
+            pManager.AddTextParameter("Image Path", "ImagePath", "File Path", GH_ParamAccess.item);
             //pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
-            pManager.AddPointParameter("Viewport Scale", "coordinates", "Set this image viewport scale.", GH_ParamAccess.list);
+            pManager.AddPointParameter("Viewport Scale", "Coordinates", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
         }
@@ -58,7 +58,7 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Path", "imagePath", "New image marked with coordinates.\nClicked coordinates will not be ploted, please extract all coordinates first if you want to keep them.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Path", "ImagePath", "A new image marked with coordinates.", GH_ParamAccess.item);
             //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("Color Values", "Colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager[0].MutableNickName = false;
@@ -110,7 +110,7 @@ namespace Ironbug
                 DA.SetDataList(1, this.ExtrColors);
             }
             
-            this.newFilePath = filePath.Insert(filePath.Length - 4, "_v");
+            this.newFilePath = filePath.Insert(filePath.Length - 4, "_crd");
 
             var outFilePath = SaveImg(this.newFilePath, this.SaveImgWithCoords);
             
@@ -434,22 +434,21 @@ namespace Ironbug
         public string SaveImg(string filePath, bool drawCoordinates)
         {
             Bitmap bmp = new Bitmap(this.DisplayImage);
-            var saveToFile = string.Empty;
+            var saveToFile = filePath;
 
-            if (this.ExtrCoordinates.Count>0 && drawCoordinates)
+            if (!this.ExtrCoordinates.IsNullOrEmpty() && drawCoordinates)
             {
                 foreach (var item in this.ExtrCoordinates)
                 {
                     bmp.DrawCircle(item.X, item.Y, 3, Color.White);
 
                 }
-                saveToFile = filePath.Insert(filePath.Length - 4, "d");
+                //saveToFile = filePath.Insert(filePath.Length - 4, "d");
                 
             }
             else
             {
-                saveToFile = filePath;
-
+                //saveToFile = filePath;
             }
 
 
@@ -459,18 +458,10 @@ namespace Ironbug
                 {
                     File.Delete(saveToFile);
                 }
-                //var saveToFileTEMP = filePath.Insert(filePath.Length - 4, "TEMP");
-                //bmp.Save(saveToFile);
                 
             }
             catch (Exception ex)
             {
-                //if (ex.Message.Contains("cannot access the file"))
-                //{
-                //    saveToFile = filePath.Insert(filePath.Length - 4, "TEMP");
-                //    //MessageBox.Show("Test");
-                //    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "ssss");
-                //}
                 
                 throw ex;
             }
