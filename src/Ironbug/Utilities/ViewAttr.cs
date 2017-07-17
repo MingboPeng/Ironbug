@@ -24,7 +24,7 @@ namespace Ironbug
         //String myPath;
         const int rawSize = 320;
         const int offsetTop = 60;
-        float relativeRatio =1;
+        //float XYRatio =1;
         private double scale;
 
         //public string imgPath = string.Empty;
@@ -95,16 +95,16 @@ namespace Ironbug
                 //this.Bounds = getBounds(this.Pivot, this.imgBitmap.Size, offsetTop, scale);
 
                 //Fixed size
-                relativeRatio = (this.Bounds.Width - 4) / this.imgBitmap.Width;
-                var height = this.imgBitmap.Height * relativeRatio;
-                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, height), offsetTop, scale);
+                //double XYRatio = this.imgBitmap.Width / this.imgBitmap.Height;
+                var size = new SizeF(rawSize, (float)((double)rawSize / (double)this.imgBitmap.Width * (double)this.imgBitmap.Height));
+                this.Bounds = getBounds(this.Pivot, size, offsetTop, scale);
             }
 
             //locate the inputs outputs
-            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 40f));
+            RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 54f));
             inputRect.X += 68;
 
-            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 40f));
+            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 36f));
             outRect.X += Bounds.Width - 165;
 
             LayoutInputParams(Owner, inputRect);
@@ -156,13 +156,16 @@ namespace Ironbug
         private void displayCoordinates(List<Point> coordinates, Graphics graphics)
         {
             int dotSize = 4;
+            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+
+            float img2ViewportRatio = (float)rec.Width / (float)this.imgBitmap.Width;
+
             foreach (var item in coordinates)
             {
-                RectangleF rec = getImgBounds(this.Bounds, offsetTop);
                 
-                var relativePt = new PointF(item.X * relativeRatio * (float)scale + rec.X - dotSize/2 , item.Y * relativeRatio*(float)scale + rec.Y - dotSize / 2);
+                var relativePt = new PointF(item.X * img2ViewportRatio  + rec.X - dotSize/2 , item.Y * img2ViewportRatio + rec.Y - dotSize / 2);
                 
-                SolidBrush myBrush = new SolidBrush(Color.White);
+                //SolidBrush myBrush = new SolidBrush(Color.White);
                 Pen pen = new Pen(new SolidBrush(Color.White));
                 //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
                 graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
@@ -237,10 +240,12 @@ namespace Ironbug
                 if (rec.Contains(e.CanvasLocation) && imgBitmap !=null && !owner.DisableClickable)
                 {
                     
+                    float img2ViewportRatio = (float)rec.Width / (float)this.imgBitmap.Width;
+
                     PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
                     
                     //convert current pt location on grasshopper view back to original image size system
-                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / relativeRatio/(float)scale, clickedPt.Y / relativeRatio / (float)scale));
+                    Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2ViewportRatio, clickedPt.Y / img2ViewportRatio));
                     
                     this.MouseDownEvent(this, PixelPtOnOriginalBitmap);
                     return GH_ObjectResponse.Handled;

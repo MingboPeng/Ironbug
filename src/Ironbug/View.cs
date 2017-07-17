@@ -35,7 +35,7 @@ namespace Ironbug
         /// new tabs/panels will automatically be created.
         /// </summary>
         public View()
-          : base("ViewData", "ViewData",
+          : base("ImageViewer", "Viewer",
               "Description",
               "MingboDev", "Ironbug")
         {
@@ -47,10 +47,12 @@ namespace Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("Image Path", "ImagePath", "File Path", GH_ParamAccess.item);
-            //pManager.AddNumberParameter("Viewport Scale", "scale", "Set this image viewport scale.", GH_ParamAccess.item,1);
-            pManager.AddPointParameter("Viewport Scale", "Coordinates", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Viewport Scale", "Scale", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            pManager.AddPointParameter("Pixel Coordinates", "Coordinates", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
+            
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -85,12 +87,23 @@ namespace Ironbug
         {
 
             string filePath = string.Empty;
+            double scale = 1;
 
             if (!DA.GetData(0, ref filePath))
             {
-                //((ImageFromPathAttrib)m_attributes).imgPath = string.Empty;
                 return;
             }
+
+            if (!DA.GetData(1, ref scale))
+            {
+                return;
+            }
+            else
+            {
+                this.Scale = checkScale(scale);
+            }
+
+
 
             filePath = CheckImg(filePath);
 
@@ -104,7 +117,7 @@ namespace Ironbug
 
             //get colors from input coordinates
             var imgCoordinates = new List<Point3d>();
-            if (DA.GetDataList(1, imgCoordinates))
+            if (DA.GetDataList(2, imgCoordinates))
             {
                 this.ExtrColors = GetColors(imgCoordinates, this.DisplayImage);
                 DA.SetDataList(1, this.ExtrColors);
@@ -232,34 +245,23 @@ namespace Ironbug
             return tiffFile;
         }
 
-        private double checkScale (string scale)
+        private double checkScale (double scale)
         {
+            
+            if (scale > 10)
+            {
+                scale = 10;
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
 
-            double scaler;
-            try
-            {
-                scaler = Convert.ToDouble(scale);
-                //scaler = 1;
-                if (scaler > 10)
-                {
-                    scaler = 10;
-                    //this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
-                    
-                }
-                else if (scaler < 0.5)
-                {
-                    scaler = 0.5;
-                    //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
-                    
-                }
             }
-            catch
+            else if (scale < 0.5)
             {
-                //AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Scale must be a number. Set to 1.0");
-                scaler = 1.0;
+                scale = 0.5;
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 0.5x. I've set your input to this!");
+
             }
 
-            return scaler;
+            return scale;
             
         }
         
@@ -268,40 +270,39 @@ namespace Ironbug
             base.AppendAdditionalComponentMenuItems(menu);
             Menu_AppendItem(menu, "Clear clicked pixel coordinates", ClearValues);
             
-            //TODO:
             Menu_AppendItem(menu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
             Menu_AppendItem(menu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
             Menu_AppendItem(menu, "Save image with extracted coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
-            var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
 
-            Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
+            //var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
+            //Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
             
         }
 
-        private void OnTextChanged_Scale(GH_MenuTextBox sender, string text)
-        {
-            //throw new NotImplementedException();
-        }
+        //private void OnTextChanged_Scale(GH_MenuTextBox sender, string text)
+        //{
+        //    //throw new NotImplementedException();
+        //}
 
-        private void OnKeydownEventHandler_Scale(GH_MenuTextBox sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter)
-            {
-                this.Scale = checkScale(sender.Text);
+        //private void OnKeydownEventHandler_Scale(GH_MenuTextBox sender, KeyEventArgs e)
+        //{
+        //    if (e.KeyCode == Keys.Enter)
+        //    {
+        //        this.Scale = checkScale(sender.Text);
 
-                //this.m_attributes.ExpireLayout();
-                //this.OnDisplayExpired(true);
-                this.ExpireSolution(true);
+        //        //this.m_attributes.ExpireLayout();
+        //        //this.OnDisplayExpired(true);
+        //        this.ExpireSolution(true);
 
 
-            }
+        //    }
 
-        }
+        //}
 
         private void ClearValues(object sender, EventArgs e)
         {
 
-            var takeCount = this.Params.Input[1].VolatileDataCount;
+            var takeCount = this.Params.Input[2].VolatileDataCount;
             //MessageBox.Show(takeCount.ToString());
             this.ExtrCoordinates.Take(takeCount);
             this.ExtrColors = this.ExtrColors.Take(takeCount).ToList();
@@ -329,7 +330,7 @@ namespace Ironbug
                 var pt = new Point3d(item.X, item.Y, 0);
                 GHPoints.Add(new GH_Point(pt));
             }
-            var thisParamAttr = this.Params.Input[1].Attributes;
+            var thisParamAttr = this.Params.Input[2].Attributes;
             var paramPt = new Grasshopper.Kernel.Parameters.Param_Point();
             paramPt.CreateAttributes();
             paramPt.PersistentData.AppendRange(GHPoints);
