@@ -13,6 +13,7 @@ using System.Drawing;
 using Drawing = System.Drawing;
 using Grasshopper.GUI;
 using GH_IO.Serialization;
+using Grasshopper.Kernel.Special;
 
 namespace Ironbug
 {
@@ -22,6 +23,8 @@ namespace Ironbug
         public Bitmap DisplayImage;
         public double Scale = 1;
         public List<Drawing.Point> ExtrCoordinates = new List<Drawing.Point>();
+        private List<Drawing.Point> TempExtrCoordinates = new List<Drawing.Point>();
+        private List<Drawing.Point> TempExtrCoordinates2 = new List<Drawing.Point>();
         public List<Color> ExtrColors = new List<Color>();
 
         public bool DisableClickable = true;
@@ -39,6 +42,7 @@ namespace Ironbug
               "Description",
               "MingboDev", "Ironbug")
         {
+            
         }
 
         /// <summary>
@@ -66,6 +70,7 @@ namespace Ironbug
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
         }
+        
 
         protected override void BeforeSolveInstance()
         {
@@ -73,10 +78,55 @@ namespace Ironbug
             
             this.DisplayImage = null;
             this.Message = null;
-            this.ExtrCoordinates = new List<Drawing.Point>();
-            this.ExtrColors = new List<Color>();
 
+            this.TempExtrCoordinates2 = new List<Drawing.Point>(this.ExtrCoordinates);
+            this.ExtrCoordinates = TempExtrCoordinates;
+            this.TempExtrCoordinates = new List<Drawing.Point>();
+
+
+            this.ExtrColors = new List<Color>();
+            
+
+            if (this.Params.Input[1].SourceCount>0)
+            {
+                //var slider = this.Params.Input[1].Sources[0] as GH_NumberSlider;
+                //if (slider != null)
+                //{
+                //    slider.Slider.ValueChanged -= Slider_ValueChanged;
+                //    slider.Slider.ValueChanged += Slider_ValueChanged;
+                //}
+                //else
+                //{
+                    //other input param
+                    this.Params.Input[1].Sources[0].SolutionExpired -= OnView_SolutionExpired;
+                    this.Params.Input[1].Sources[0].SolutionExpired += OnView_SolutionExpired;
+                //}
+                
+            }
+            else
+            {
+                
+                this.Params.Input[1].ObjectChanged -= OnScaleParam_ObjectChanged;
+                this.Params.Input[1].ObjectChanged += OnScaleParam_ObjectChanged;
+                
+            }
+            
         }
+        
+
+        //happens befor solution
+        private void OnScaleParam_ObjectChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
+        {
+            this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtrCoordinates);
+        }
+        //happens after solution
+        private void OnView_SolutionExpired(IGH_DocumentObject sender, GH_SolutionExpiredEventArgs e)
+        {
+            //((GH_Slider)sender).ValueChanged
+            this.ExtrCoordinates = this.TempExtrCoordinates2;
+            this.TempExtrCoordinates2 = new List<Drawing.Point>();
+        }
+        
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -119,10 +169,17 @@ namespace Ironbug
             var imgCoordinates = new List<Point3d>();
             if (DA.GetDataList(2, imgCoordinates))
             {
-                this.ExtrColors = GetColors(imgCoordinates, this.DisplayImage);
-                DA.SetDataList(1, this.ExtrColors);
+                if (!imgCoordinates.IsNullOrEmpty())
+                {
+                    this.ExtrCoordinates = imgCoordinates.Select(_ => new Drawing.Point((int)_.X, (int)_.Y)).ToList();
+                }
+                
             }
-            
+
+            this.ExtrColors = GetColors(this.ExtrCoordinates, this.DisplayImage);
+            DA.SetDataList(1, this.ExtrColors);
+
+
             this.newFilePath = filePath.Insert(filePath.Length - 4, "_crd");
 
             var outFilePath = SaveImg(this.newFilePath, this.SaveImgWithCoords);
@@ -134,6 +191,8 @@ namespace Ironbug
             
             
         }
+
+       
 
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
@@ -422,18 +481,18 @@ namespace Ironbug
 
         }
 
-        private List<Color> GetColors(List<Point3d> imgCoordinates, Bitmap inBitmap)
-        {
+        //private List<Color> GetColors(List<Point3d> imgCoordinates, Bitmap inBitmap)
+        //{
 
-            var points = new List<Drawing.Point>();
-            foreach (var item in imgCoordinates)
-            {
-                points.Add(new Drawing.Point((int)item.X, (int)item.Y));
-            }
+        //    var points = new List<Drawing.Point>();
+        //    foreach (var item in imgCoordinates)
+        //    {
+        //        points.Add(new Drawing.Point((int)item.X, (int)item.Y));
+        //    }
 
-            var colors = GetColors(points,inBitmap);
-            return colors;
-        }
+        //    var colors = GetColors(points,inBitmap);
+        //    return colors;
+        //}
 
         //Save Image to file
         public string SaveImg(string filePath, bool drawCoordinates)
