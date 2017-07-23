@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="Utilities\CMD.cs" />
     <Compile Include="Utilities\Extension.cs" />
+    <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="Utilities\ViewAttr.cs" />
     <Compile Include="View.cs" />
     <Compile Include="IronbugInfo.cs" />
@@ -100,5 +101,4 @@
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
-  
 </Project>

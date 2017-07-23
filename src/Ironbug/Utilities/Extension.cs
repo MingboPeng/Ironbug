@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Grasshopper.Kernel;
 using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace Ironbug
 {
@@ -50,32 +52,7 @@ namespace Ironbug
             }
             return collection.Count < 1;
         }
-
-        /// <summary>
-        /// Gets all connected components.
-        /// </summary>
-        /// <typeparam name="IGH_Param">The IGH_Param type.</typeparam>
-        /// <param name="outputParam">The outputParam</param>
-        /// <returns>
-        ///     <c>List<GH_Component></c>.
-        /// </returns>
-        public static List<IGH_DocumentObject> DirectConnectedComponents(this IGH_Param outputParam)
-        {
-            var connectedComponent = new List<IGH_DocumentObject>();
-
-            var recipients = outputParam.Recipients;
-            if (recipients.IsNullOrEmpty()) return connectedComponent;
-
-            foreach (var item in recipients)
-            {
-                var recipientComponent = item.Attributes.GetTopLevel.DocObject;
-                connectedComponent.Add(recipientComponent);
-
-
-            }
-            return connectedComponent;
-        }
-
+        
         /// <summary>
         /// Draws a circle. https://rosettacode.org/wiki/Bitmap/Midpoint_circle_algorithm#C.23
         /// </summary>
@@ -124,5 +101,81 @@ namespace Ironbug
                 x++;
             } while (x <= y);
         }
+
+        /// <summary>Saves the images as frames to an animated Gif Image.</summary>
+        /// https://psycodedeveloper.wordpress.com/2013/04/26/saving-an-animated-gif-image-with-c-in-windows-forms/
+        /// <param name="images">The images to save.</param>
+        /// <param name="path">The path of the Gif file to create.</param>
+        /// <param name="delay">The delay between frames, in milliseconds.</param>
+        /// <param name="repeat">The number of times the animation should repeat. Leave this zero 
+        /// for it to loop forever, or specify a value to limit the number of repetitions.</param>
+        public static void SaveAnimatedGifImage(this IEnumerable<Bitmap> images, string path, int delay = 100, int repeat = 0)
+        {
+            var imageArray = images.ToArray();
+
+            using (var stream = new MemoryStream())
+            {
+                using (var encoder = new BumpKit.GifEncoder(stream, null, null, repeat))
+                {
+                    for (int i = 0; i < imageArray.Length; i++)
+                    {
+                        encoder.AddFrame(imageArray[i].CopyImage(), 0, 0, TimeSpan.FromMilliseconds(delay));
+                    }
+                }
+
+                stream.Position = 0;
+                using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 0x2000, false))
+                {
+                    stream.WriteTo(fileStream);
+                }
+            }
+        }
+
+        #region CopyImage
+
+        /// <summary>Creates a 24 bit-per-pixel copy of the source image.</summary>
+        public static Image CopyImage(this Image image)
+        {
+            return CopyImage(image, PixelFormat.Format24bppRgb);
+        }
+
+        /// <summary>Creates a copy of the source image with the specified pixel format.</summary><remarks>
+        /// This can also be achieved with the <see cref="System.Drawing.Bitmap.Clone(int, int, PixelFormat)"/>
+        /// overload, but I have had issues with that method.</remarks>
+        public static Image CopyImage(this Image image, PixelFormat format)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            // Don't try to draw a new Bitmap with an indexed pixel format.
+            if (format == PixelFormat.Format1bppIndexed || format == PixelFormat.Format4bppIndexed || format == PixelFormat.Format8bppIndexed || format == PixelFormat.Indexed)
+                return (image as Bitmap).Clone(new Rectangle(0, 0, image.Width, image.Height), format);
+
+            Image result = null;
+            try
+            {
+                result = new Bitmap(image.Width, image.Height, format);
+
+                using (var graphics = Graphics.FromImage(result))
+                {
+                    graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+
+                    graphics.DrawImage(image, 0, 0, result.Width, result.Height);
+                }
+            }
+            catch
+            {
+                if (result != null)
+                    result.Dispose();
+
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+        
     }
 }
