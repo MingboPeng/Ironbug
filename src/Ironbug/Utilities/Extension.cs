@@ -52,32 +52,7 @@ namespace Ironbug
             }
             return collection.Count < 1;
         }
-
-        /// <summary>
-        /// Gets all connected components.
-        /// </summary>
-        /// <typeparam name="IGH_Param">The IGH_Param type.</typeparam>
-        /// <param name="outputParam">The outputParam</param>
-        /// <returns>
-        ///     <c>List<GH_Component></c>.
-        /// </returns>
-        public static List<IGH_DocumentObject> DirectConnectedComponents(this IGH_Param outputParam)
-        {
-            var connectedComponent = new List<IGH_DocumentObject>();
-
-            var recipients = outputParam.Recipients;
-            if (recipients.IsNullOrEmpty()) return connectedComponent;
-
-            foreach (var item in recipients)
-            {
-                var recipientComponent = item.Attributes.GetTopLevel.DocObject;
-                connectedComponent.Add(recipientComponent);
-
-
-            }
-            return connectedComponent;
-        }
-
+        
         /// <summary>
         /// Draws a circle. https://rosettacode.org/wiki/Bitmap/Midpoint_circle_algorithm#C.23
         /// </summary>
@@ -128,6 +103,7 @@ namespace Ironbug
         }
 
         /// <summary>Saves the images as frames to an animated Gif Image.</summary>
+        /// https://psycodedeveloper.wordpress.com/2013/04/26/saving-an-animated-gif-image-with-c-in-windows-forms/
         /// <param name="images">The images to save.</param>
         /// <param name="path">The path of the Gif file to create.</param>
         /// <param name="delay">The delay between frames, in milliseconds.</param>

@@ -34,6 +34,8 @@ namespace Ironbug
 
         public bool DisableClickable = true;
         public bool SaveImgWithCoords = false;
+
+        private bool isScaleChanged = false;
         //public string newFilePath = string.Empty;
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -43,21 +45,24 @@ namespace Ironbug
         /// new tabs/panels will automatically be created.
         /// </summary>
         public View()
-          : base("ImageViewer", "Viewer",
-              "Description",
-              "MingboDev", "Ironbug")
+          : base("Ladybug_ImageViewer", "Viewer",
+              "Preview image files",
+              "Ladybug", "5 | Extra")
         {
-            
+            this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
+
+
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Image Path", "ImagePath", "File Path", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Viewport Scale", "Scale", "Set this image viewport scale.", GH_ParamAccess.item, 1);
-            pManager.AddPointParameter("Pixel Coordinates", "Coordinates", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
+            pManager.AddTextParameter("Image Path", "imagePath_", "Image file path", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Viewport Scale", "_scale_", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            pManager.AddPointParameter("Pixel Coordinates", "coordinates_", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
             
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -69,9 +74,9 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Path", "ImagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
+            pManager.AddTextParameter("Path", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
             //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
-            pManager.AddTextParameter("Color Values", "Colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
+            pManager.AddTextParameter("Color Values", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
         }
@@ -92,51 +97,53 @@ namespace Ironbug
             this.TempExtrCoordinates = new List<Drawing.Point>();
             
             this.ExtrColors = new List<Color>();
+            
+        }
 
-
+        ////happens befor solution
+        //private void OnScaleParam_ObjectChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
+        //{
+        //    this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtrCoordinates);
+        //}
+        
+        //happens after solution
+        private void OnScale_SolutionExpired(IGH_DocumentObject sender, GH_SolutionExpiredEventArgs e)
+        {
+            //((GH_Slider)sender).ValueChanged
             if (this.Params.Input[1].SourceCount>0)
             {
-                //var slider = this.Params.Input[1].Sources[0] as GH_NumberSlider;
-                //if (slider != null)
-                //{
-                //    slider.Slider.ValueChanged -= Slider_ValueChanged;
-                //    slider.Slider.ValueChanged += Slider_ValueChanged;
-                //}
-                //else
-                //{
-                    //other input param
-                    this.Params.Input[1].Sources[0].SolutionExpired -= OnView_SolutionExpired;
-                    this.Params.Input[1].Sources[0].SolutionExpired += OnView_SolutionExpired;
-                //}
-                
+                this.ExtrCoordinates = this.TempExtrCoordinates2;
+                this.TempExtrCoordinates2 = new List<Drawing.Point>();
+
+                this.ExtrColors = GetColors(this.ExtrCoordinates, this.Bitmap);
+                this.UpdateColorParamValues();
             }
             else
             {
-                
-                this.Params.Input[1].ObjectChanged -= OnScaleParam_ObjectChanged;
-                this.Params.Input[1].ObjectChanged += OnScaleParam_ObjectChanged;
-                
+                sender.SolutionExpired -= this.OnScale_SolutionExpired;
             }
             
         }
 
-        //happens befor solution
-        private void OnScaleParam_ObjectChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
+        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtrCoordinates);
-        }
-        
-        //happens after solution
-        private void OnView_SolutionExpired(IGH_DocumentObject sender, GH_SolutionExpiredEventArgs e)
-        {
-            //((GH_Slider)sender).ValueChanged
-            this.ExtrCoordinates = this.TempExtrCoordinates2;
-            this.TempExtrCoordinates2 = new List<Drawing.Point>();
+            if (e.ParameterSide == GH_ParameterSide.Output) return;
 
-            this.ExtrColors = GetColors(this.ExtrCoordinates, this.Bitmap);
-            this.UpdateColorParamValues();
+            if (e.ParameterIndex == 1)
+            {
+                this.isScaleChanged = true;
+                this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtrCoordinates);
+                if (this.Params.Input[1].SourceCount>0)
+                {
+                    this.Params.Input[1].Sources[0].SolutionExpired -= OnScale_SolutionExpired;
+                    this.Params.Input[1].Sources[0].SolutionExpired += OnScale_SolutionExpired;
+                }
+
+            }
+            
+
+
         }
-        
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -180,9 +187,13 @@ namespace Ironbug
             var imgCoordinates = new List<Point3d>();
             if (DA.GetDataList(2, imgCoordinates))
             {
-                if (!imgCoordinates.IsNullOrEmpty())
+                if (!imgCoordinates.IsNullOrEmpty() && !isScaleChanged)
                 {
                     this.ExtrCoordinates = imgCoordinates.Select(_ => new Drawing.Point((int)_.X, (int)_.Y)).ToList();
+                }
+                else
+                {
+                    this.isScaleChanged = false;
                 }
                 
             }
@@ -191,9 +202,9 @@ namespace Ironbug
             DA.SetDataList(1, this.ExtrColors);
             
             var savedFile = SaveImg(filePath, this.SaveImgWithCoords);
-            var imgs = new List<string>(this.FilePaths);
-            imgs[currentBitmapIndex] = savedFile;
-            DA.SetDataList(0, imgs);
+            //var imgs = new List<string>(this.FilePaths);
+            //imgs[currentBitmapIndex] = savedFile;
+            //DA.SetDataList(0, imgs);
 
 
         }
@@ -329,12 +340,19 @@ namespace Ironbug
             }
 
             string tiffFile = string.Empty;
-            var isHDR = Path.GetExtension(filePath).ToUpper() == ".HDR";
+
+            
+            var folder = Path.GetDirectoryName(filePath);
+            var fileName = Path.GetFileNameWithoutExtension(filePath);
+            var fileExtension = Path.GetExtension(filePath);
+
+            var isHDR = fileExtension.ToUpper() == ".HDR";
 
             //convert HDR
             if (File.Exists(filePath) && isHDR)
             {
-                tiffFile = filePath.Substring(0, filePath.Length - 4) + "_LB.TIF";
+                tiffFile = folder + "\\"+fileName + "_LB.TIF";
+                //tiffFile = filePath.Substring(0, filePath.Length - 4) + "_LB.TIF";
                 var isNewHDR = true;
 
                 if (File.Exists(tiffFile))
@@ -360,7 +378,8 @@ namespace Ironbug
             }
             else if (File.Exists(filePath))
             {
-                tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
+                tiffFile = folder + "\\" + fileName + "_LB" + fileExtension;
+                //tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
                 var isNewImg = true;
                 if (File.Exists(tiffFile))
                 {
@@ -391,13 +410,13 @@ namespace Ironbug
             if (scale > 10)
             {
                 scale = 10;
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum scale is 10x. I've set your input to this!");
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum valid scale is 10x. The scale is re-set to 10.");
 
             }
             else if (scale < 0.5)
             {
                 scale = 0.5;
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum scale is 0.5x. I've set your input to this!");
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum valid scale is 0.5x. The scale is re-set to 0.5.");
 
             }
 
@@ -427,8 +446,11 @@ namespace Ironbug
 
         private void OnExportGif(object sender, EventArgs e)
         {
-            var path = @"C:\Colibri\WithCrd\aa.gif";
-            this.Bitmaps.SaveAnimatedGifImage(path);
+            //var path = @"C:\Colibri\WithCrd\aa.gif";
+
+            var saveToGif = Path.GetDirectoryName(this.FilePaths[currentBitmapIndex]) + "\\Exported.gif";
+            this.Bitmaps.SaveAnimatedGifImage(saveToGif);
+            
         }
 
         private void ClearValues(object sender, EventArgs e)
@@ -465,7 +487,7 @@ namespace Ironbug
                 GHPoints.Add(new GH_Point(pt));
             }
             var thisParamAttr = this.Params.Input[2].Attributes;
-            var paramPt = new Grasshopper.Kernel.Parameters.Param_Point();
+            var paramPt = new GH.Kernel.Parameters.Param_Point();
             paramPt.CreateAttributes();
             paramPt.PersistentData.AppendRange(GHPoints);
             paramPt.Attributes.Pivot = new PointF(thisParamAttr.Bounds.Left - 80, thisParamAttr.Bounds.Y + 10);
@@ -473,7 +495,7 @@ namespace Ironbug
             paramPt.ExpireSolution(false);
 
             //create a group
-            var GhGroup = new Grasshopper.Kernel.Special.GH_Group();
+            var GhGroup = new GH_Group();
             GhGroup.CreateAttributes();
             GhGroup.Colour = Color.White;
             GhGroup.NickName = "Extracted Coordinates";
@@ -557,7 +579,7 @@ namespace Ironbug
         {
             Bitmap bmp = new Bitmap(this.Bitmap);
             var fileName = Path.GetFileName(filePath);
-            fileName = fileName.Insert(fileName.Length - 4, "crd");
+            //fileName = fileName.Insert(fileName.Length - 4, "crd");
             var saveFolder = Path.GetDirectoryName(filePath) + @"\WithCrd\";
 
             var saveToFile = saveFolder + fileName;

@@ -105,7 +105,6 @@ namespace Ironbug
         {
             base.PrepareForRender(canvas);
             
-            
             this.scale = this.ViewOwner.Scale;
             this.imgBitmap = this.ViewOwner.Bitmap;
             this.coordinates = this.ViewOwner.ExtrCoordinates;
@@ -136,7 +135,7 @@ namespace Ironbug
 
             //locate the inputs outputs
             RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 54f));
-            inputRect.X += 68;
+            inputRect.X += 70;
 
             RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 36f));
             outRect.X += Bounds.Width - 165;
