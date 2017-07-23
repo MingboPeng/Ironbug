@@ -119,13 +119,13 @@ namespace Ironbug
             }
             
         }
-        
 
         //happens befor solution
         private void OnScaleParam_ObjectChanged(IGH_DocumentObject sender, GH_ObjectChangedEventArgs e)
         {
             this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtrCoordinates);
         }
+        
         //happens after solution
         private void OnView_SolutionExpired(IGH_DocumentObject sender, GH_SolutionExpiredEventArgs e)
         {
@@ -189,15 +189,11 @@ namespace Ironbug
 
             this.ExtrColors = GetColors(this.ExtrCoordinates, this.Bitmap);
             DA.SetDataList(1, this.ExtrColors);
-
             
-
-            SaveImg(filePath, this.SaveImgWithCoords);
-
-            //if (File.Exists(outFilePath))
-            //{
-            //    DA.SetData(0, outFilePath);
-            //}
+            var savedFile = SaveImg(filePath, this.SaveImgWithCoords);
+            var imgs = new List<string>(this.FilePaths);
+            imgs[currentBitmapIndex] = savedFile;
+            DA.SetDataList(0, imgs);
 
 
         }
@@ -421,12 +417,19 @@ namespace Ironbug
             Menu_AppendItem(newMenu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
             Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
             Menu_AppendItem(newMenu, "Save this image with pixel coordinates", OnSaveImgWithCoords, true, this.SaveImgWithCoords);
+            Menu_AppendSeparator(newMenu);
+            Menu_AppendItem(newMenu, "Export GIF",OnExportGif);
 
             //var menuItemScale = Menu_AppendItem(menu, "Viewport scale (0.5-10)");
             //Menu_AppendTextItem(menuItemScale.DropDown, Scale.ToString(), OnKeydownEventHandler_Scale, OnTextChanged_Scale, true);
-            
+
         }
-        
+
+        private void OnExportGif(object sender, EventArgs e)
+        {
+            var path = @"C:\Colibri\WithCrd\aa.gif";
+            this.Bitmaps.SaveAnimatedGifImage(path);
+        }
 
         private void ClearValues(object sender, EventArgs e)
         {
