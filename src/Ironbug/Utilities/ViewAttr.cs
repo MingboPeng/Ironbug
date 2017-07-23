@@ -23,7 +23,9 @@ namespace Ironbug
     {
         //String myPath;
         const int rawSize = 320;
-        const int offsetTop = 60;
+        const int TopOffset = 60;
+        const int NavButtonSize = 20;
+        int BtmOffset = 0;
         //float XYRatio =1;
         private double scale;
 
@@ -32,13 +34,15 @@ namespace Ironbug
         //List<string> currentValues = new List<string>();
         Bitmap imgBitmap;
         Graphics MyGraphics;
-        
+        View ViewOwner;
+
         public ImageFromPathAttrib(View owner)
             : base(owner)
         {
-            this.imgBitmap = owner.DisplayImage;
+            this.imgBitmap = owner.Bitmap;
             this.scale = owner.Scale;
-            
+            this.ViewOwner = (View)this.Owner;
+
         }
 
         
@@ -54,25 +58,46 @@ namespace Ironbug
 
         }
         
-        private RectangleF getBounds(PointF location, SizeF imgSizeXY, int topOffset, double scale)
+        private RectangleF getBounds(PointF location, SizeF imgSizeXY, int topOffset, int btmOffset, double scale)
         {
 
             RectangleF rec = new RectangleF();
             rec.Location = location;
             rec.Width = imgSizeXY.Width*(float)scale;
-            rec.Height = imgSizeXY.Height * (float)scale + topOffset;
+            rec.Height = imgSizeXY.Height * (float)scale + topOffset + btmOffset;
             rec.Inflate(2f, 2f);
 
             return (RectangleF)GH_Convert.ToRectangle(rec);
         }
 
-        private RectangleF getImgBounds(RectangleF bounds, int topOffset)
+        private RectangleF getImgBounds(RectangleF bounds, int topOffset, int btmOffset )
         {
             RectangleF rec = bounds;
             rec.Y += topOffset;
-            rec.Height -= topOffset;
+            rec.Height = rec.Height - topOffset - btmOffset;
 
             rec.Inflate(-2f,-2f);
+            return rec;
+        }
+
+        private RectangleF getNavBounds(RectangleF imgBound, int btmOffset, int size, bool rightSide)
+        {
+            RectangleF rec = imgBound;
+
+            if (rightSide)
+            {
+                rec.X += (rec.Width - size - 10);
+            }
+            else
+            {
+                rec.X += 10;
+            }
+            
+
+            rec.Y += (rec.Height + (btmOffset - size)/2);
+            rec.Width = size;
+            rec.Height = size;
+
             return rec;
         }
 
@@ -80,14 +105,23 @@ namespace Ironbug
         {
             base.PrepareForRender(canvas);
             
-            var owner = (View)this.Owner;
-            this.scale = owner.Scale;
-            this.imgBitmap = owner.DisplayImage;
-            this.coordinates = owner.ExtrCoordinates;
+            
+            this.scale = this.ViewOwner.Scale;
+            this.imgBitmap = this.ViewOwner.Bitmap;
+            this.coordinates = this.ViewOwner.ExtrCoordinates;
+
+            if (this.ViewOwner.Bitmaps.Count > 1)
+            {
+                this.BtmOffset = 30;
+            }
+            else
+            {
+                this.BtmOffset = 0;
+            }
 
             if (this.imgBitmap == null)
             {
-                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - offsetTop), offsetTop, 1);
+                this.Bounds = getBounds(this.Pivot, new SizeF(rawSize, rawSize - TopOffset), TopOffset, BtmOffset, 1);
             }
             else
             {
@@ -97,7 +131,7 @@ namespace Ironbug
                 //Fixed size
                 //double XYRatio = this.imgBitmap.Width / this.imgBitmap.Height;
                 var size = new SizeF(rawSize, (float)((double)rawSize / (double)this.imgBitmap.Width * (double)this.imgBitmap.Height));
-                this.Bounds = getBounds(this.Pivot, size, offsetTop, scale);
+                this.Bounds = getBounds(this.Pivot, size, TopOffset, BtmOffset, scale);
             }
 
             //locate the inputs outputs
@@ -126,6 +160,7 @@ namespace Ironbug
                 if (this.imgBitmap != null)
                 {
                     displayImg(this.imgBitmap);
+                    displayNav();
                 }
                 else
                 {
@@ -134,14 +169,32 @@ namespace Ironbug
 
             }
 
+            
+
         }
 
+        private void displayNav()
+        {
+            if (this.BtmOffset == 0) return;
+            
+            RectangleF recImg = getImgBounds(this.Bounds, TopOffset, BtmOffset);
+            Pen pen = new Pen(new SolidBrush(Color.White));
+            //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
+            RectangleF recNavLeft = getNavBounds(recImg, BtmOffset, NavButtonSize,false);
+            RectangleF recNavRight = getNavBounds(recImg, BtmOffset, NavButtonSize, true);
+            
+            MyGraphics.DrawEllipse(pen, recNavLeft);
+            MyGraphics.DrawEllipse(pen, recNavRight);
 
+            MyGraphics.DrawString("◄", new Font("Arial", 10), new SolidBrush(Color.White), recNavLeft.X, recNavLeft.Y + 3);
+            MyGraphics.DrawString("►", new Font("Arial", 10), new SolidBrush(Color.White), recNavRight.X+3, recNavRight.Y + 3);
+
+        }
 
         private void displayImg(Bitmap inBitmap)
         {
             
-            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+            RectangleF rec = getImgBounds(this.Bounds, TopOffset, BtmOffset);
             
             MyGraphics.DrawImage(imgBitmap, rec);
 
@@ -156,7 +209,7 @@ namespace Ironbug
         private void displayCoordinates(List<Point> coordinates, Graphics graphics)
         {
             int dotSize = 4;
-            RectangleF rec = getImgBounds(this.Bounds, offsetTop);
+            RectangleF rec = getImgBounds(this.Bounds, TopOffset, BtmOffset);
 
             float img2ViewportRatio = (float)rec.Width / (float)this.imgBitmap.Width;
 
@@ -182,7 +235,7 @@ namespace Ironbug
             this.scale = 1;
             this.Owner.Message = null;
 
-            RectangleF rec = getImgBounds(Bounds, offsetTop);
+            RectangleF rec = getImgBounds(Bounds, TopOffset, BtmOffset);
             
             Pen pen = new Pen(Color.Gray, 3);
             SolidBrush myBrush = new SolidBrush(Color.Gray);
@@ -200,55 +253,96 @@ namespace Ironbug
 
         }
 
-        public delegate void Button_Handler(object sender, Point clickedPtOnOriginalBitmap);
+        public delegate void ImgClick_Handler(object sender, Point clickedPtOnOriginalBitmap);
 
-        private Button_Handler MouseDownEvent;
-        public event Button_Handler mouseDownEvent
+        private ImgClick_Handler MouseImgClickEvent;
+        public event ImgClick_Handler mouseImgClickEvent
         {
             add
             {
-                Button_Handler buttonHandler = MouseDownEvent;
-                Button_Handler comparand;
+                ImgClick_Handler buttonHandler = MouseImgClickEvent;
+                ImgClick_Handler comparand;
                 do
                 {
                     comparand = buttonHandler;
-                    buttonHandler = Interlocked.CompareExchange(ref this.MouseDownEvent, (Button_Handler)Delegate.Combine(comparand, value), comparand);
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseImgClickEvent, (ImgClick_Handler)Delegate.Combine(comparand, value), comparand);
                 }
                 while (buttonHandler != comparand);
             }
             remove
             {
-                Button_Handler buttonHandler = MouseDownEvent;
-                Button_Handler comparand;
+                ImgClick_Handler buttonHandler = MouseImgClickEvent;
+                ImgClick_Handler comparand;
                 do
                 {
                     comparand = buttonHandler;
-                    buttonHandler = Interlocked.CompareExchange(ref this.MouseDownEvent, (Button_Handler)Delegate.Remove(comparand, value), comparand);
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseImgClickEvent, (ImgClick_Handler)Delegate.Remove(comparand, value), comparand);
                 }
                 while (buttonHandler != comparand);
             }
         }
-        
+
+        public delegate void NavClick_Handler(object sender, bool clickedRightButton);
+        private NavClick_Handler MouseNavClickEvent;
+        public event NavClick_Handler mouseNavClickEvent
+        {
+            add
+            {
+                NavClick_Handler buttonHandler = MouseNavClickEvent;
+                NavClick_Handler comparand;
+                do
+                {
+                    comparand = buttonHandler;
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseNavClickEvent, (NavClick_Handler)Delegate.Combine(comparand, value), comparand);
+                }
+                while (buttonHandler != comparand);
+            }
+            remove
+            {
+                NavClick_Handler buttonHandler = MouseNavClickEvent;
+                NavClick_Handler comparand;
+                do
+                {
+                    comparand = buttonHandler;
+                    buttonHandler = Interlocked.CompareExchange(ref this.MouseNavClickEvent, (NavClick_Handler)Delegate.Remove(comparand, value), comparand);
+                }
+                while (buttonHandler != comparand);
+            }
+        }
+
 
         public override GH_ObjectResponse RespondToMouseDown(GH_Canvas sender, GH_CanvasMouseEvent e)
         {
             
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && imgBitmap != null)
             {
-                RectangleF rec = getImgBounds(this.Bounds, offsetTop);
-                var owner = (View)this.Owner;
-                if (rec.Contains(e.CanvasLocation) && imgBitmap !=null && !owner.DisableClickable)
+                
+                RectangleF recImg = getImgBounds(this.Bounds, TopOffset, BtmOffset);
+                RectangleF recNavLeft = getNavBounds(recImg, BtmOffset, NavButtonSize, false);
+                RectangleF recNavRight = getNavBounds(recImg, BtmOffset, NavButtonSize, true);
+
+                //Click inside the img
+                if (recImg.Contains(e.CanvasLocation)  && !ViewOwner.DisableClickable)
                 {
                     
-                    float img2ViewportRatio = (float)rec.Width / (float)this.imgBitmap.Width;
-
-                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(rec.X, rec.Y));
+                    float img2ViewportRatio = (float)recImg.Width / (float)this.imgBitmap.Width;
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(recImg.X, recImg.Y));
                     
                     //convert current pt location on grasshopper view back to original image size system
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2ViewportRatio, clickedPt.Y / img2ViewportRatio));
                     
-                    this.MouseDownEvent(this, PixelPtOnOriginalBitmap);
+                    this.MouseImgClickEvent(this, PixelPtOnOriginalBitmap);
                     return GH_ObjectResponse.Handled;
+                }
+                else if (recNavLeft.Contains(e.CanvasLocation))
+                {
+                    //Left Nav click
+                    this.MouseNavClickEvent(this, false);
+                }
+                else if (recNavRight.Contains(e.CanvasLocation))
+                {
+                    //Right Nav click
+                    this.MouseNavClickEvent(this, true);
                 }
                 else
                 {
@@ -257,6 +351,8 @@ namespace Ironbug
             }
             return base.RespondToMouseDown(sender, e);
         }
+
+        
 
         
 

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug", "src\Ironbug\Ironbug.csproj", "{92907A61-60EC-40B2-8071-F09FE8977B70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.UnitTest", "src\Ironbug.UnitTest\Ironbug.UnitTest.csproj", "{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,12 @@ Global
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Debug64|Any CPU.Build.0 = Debug64|Any CPU
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92907A61-60EC-40B2-8071-F09FE8977B70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Debug64|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Debug64|Any CPU.Build.0 = Debug|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FF41D69-3A26-46D8-B6CF-27EE1CE0D20A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

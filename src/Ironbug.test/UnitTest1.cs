@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using FreeImageAPI;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
