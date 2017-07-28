@@ -107,7 +107,7 @@ namespace Ironbug
             
             this.scale = this.ViewOwner.Scale;
             this.imgBitmap = this.ViewOwner.Bitmap;
-            this.coordinates = this.ViewOwner.ExtrCoordinates;
+            this.coordinates = this.ViewOwner.ExtractedCoordinates;
 
             if (this.ViewOwner.Bitmaps.Count > 1)
             {
@@ -137,7 +137,7 @@ namespace Ironbug
             RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 54f));
             inputRect.X += 70;
 
-            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 36f));
+            RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 54f));
             outRect.X += Bounds.Width - 165;
 
             LayoutInputParams(Owner, inputRect);

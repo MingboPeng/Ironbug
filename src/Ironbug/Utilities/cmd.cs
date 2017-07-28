@@ -41,5 +41,14 @@ namespace Ironbug
 
             
         }
+
+        //convert the hdr to tiff
+        public static void HDR2TIF(List<string> ra_tiffs)
+        {
+            var cmdStrings = new List<string>();
+            cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+            cmdStrings.AddRange(ra_tiffs);
+            CMD.Execute(cmdStrings);
+        }
     }
 }
