@@ -36,6 +36,7 @@ namespace Ironbug
         public bool DisableClickable = true;
         public bool ifSaveThis = false;
         public bool ifSaveAll = false;
+        public bool IsImgList = false;
 
         private bool isScaleChanged = false;
         private int GifFrameDuration = 100;
@@ -53,6 +54,7 @@ namespace Ironbug
               "Ladybug", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+            
         }
 
 
@@ -82,6 +84,7 @@ namespace Ironbug
             pManager.AddTextParameter("Animated GIF image", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
+            pManager[2].MutableNickName = false;
         }
         
 
@@ -141,7 +144,7 @@ namespace Ironbug
         {
             if (e.ParameterSide == GH_ParameterSide.Output) return;
 
-            if (e.ParameterIndex == 1)
+            if (e.ParameterIndex == 2)
             {
                 this.isScaleChanged = true;
                 this.TempExtrCoordinates = new List<Drawing.Point>(this.ExtractedCoordinates);
@@ -153,8 +156,6 @@ namespace Ironbug
 
             }
             
-
-
         }
 
         /// <summary>
@@ -184,8 +185,10 @@ namespace Ironbug
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid images");
                 return;
             }
-            
 
+            //this will disable the animate GIF
+            this.IsImgList = this.FilePaths.Count > 1;
+            
             //current img to be shown
             this.Bitmap = this.Bitmaps[this.currentBitmapIndex];
             //string filePath = this.FilePaths[this.currentBitmapIndex];
@@ -204,9 +207,6 @@ namespace Ironbug
                 }
                 
             }
-
-            
-            
             
 
             var imgs = new List<string>();
@@ -262,8 +262,135 @@ namespace Ironbug
             
             return bitmaps;
         }
+        
 
-       
+        private string CheckImg(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return null;
+            }
+
+            string tiffFile = string.Empty;
+
+
+            var folder = Path.GetDirectoryName(filePath);
+            var fileName = Path.GetFileNameWithoutExtension(filePath);
+            var fileExtension = Path.GetExtension(filePath);
+            var tempPath = Path.GetTempPath() + @"\Ladybug\ImageViewer";
+
+            Directory.CreateDirectory(tempPath);
+
+            var isHDR = fileExtension.ToUpper() == ".HDR";
+            var isPNG = fileExtension.ToUpper() == ".PNG";
+            var isJPG = fileExtension.ToUpper() == ".JPG";
+            var isGIF = fileExtension.ToUpper() == ".GIF";
+
+            //convert HDR
+            if (File.Exists(filePath) && isHDR)
+            {
+                tiffFile = tempPath + "\\" + fileName + ".TIF";
+                var isNewHDR = true;
+
+                if (File.Exists(tiffFile))
+                {
+                    var hdrTimeStamp = File.GetLastWriteTime(filePath);
+                    var tifTimeStamp = File.GetLastWriteTime(tiffFile);
+
+                    //if ==1: hdrTimeStamp is later than tifTimeStamp
+                    //isNewHDR = true, to convert to a new tiff
+                    isNewHDR = DateTime.Compare(hdrTimeStamp, tifTimeStamp) == 1;
+                }
+
+                if (isNewHDR)
+                {
+                    //convert the hdr to tiff
+                    string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
+                    var cmdStrings = new List<string>();
+                    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+                    cmdStrings.Add(cmdStr1);
+                    CMD.Execute(cmdStrings);
+                }
+
+            }
+            else if (File.Exists(filePath) && (isJPG || isPNG || isGIF))
+            {
+                tiffFile = tempPath + "\\" + fileName + fileExtension;
+                //tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
+                var isNewImg = true;
+                if (File.Exists(tiffFile))
+                {
+                    var hdrTimeStamp = File.GetLastWriteTime(filePath);
+                    var tifTimeStamp = File.GetLastWriteTime(tiffFile);
+                    isNewImg = DateTime.Compare(hdrTimeStamp, tifTimeStamp) == 1;
+                }
+
+                if (isNewImg)
+                {
+                    File.Delete(tiffFile);
+                    File.Copy(filePath, tiffFile, true);
+                }
+
+            }
+            else
+            {
+                return null;
+            }
+
+            return tiffFile;
+        }
+
+
+        //private void ConvertImgs(List<string> allImgs)
+        //{
+        //    var cmdStrings = new List<string>();
+        //    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+
+        //    foreach (var item in allImgs)
+        //    {
+        //        var fileExtension = Path.GetExtension(item);
+        //        var isHDR = fileExtension.ToUpper() == ".HDR";
+                
+        //        if (isHDR)
+        //        {
+        //            var tempPath = Path.GetTempPath() + @"\Ladybug\ImageViewer";
+        //            Directory.CreateDirectory(tempPath);
+
+        //            var fileName = Path.GetFileNameWithoutExtension(item);
+        //            var tiffFile = tempPath + "\\" + fileName + ".TIF";
+        //            string cmdStr1 = @"ra_tiff " + item + " " + tiffFile;
+        //            cmdStrings.Add(cmdStr1);
+        //        }
+                
+        //    }
+
+        //    if (cmdStrings.Count>1)
+        //    {
+        //        CMD.HDR2TIF(cmdStrings);
+        //    }
+            
+        //}
+
+        private double CheckScale(double scale)
+        {
+
+            if (scale > 10)
+            {
+                scale = 10;
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum valid scale is 10x. The scale is re-set to 10.");
+
+            }
+            else if (scale < 0.5)
+            {
+                scale = 0.5;
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum valid scale is 0.5x. The scale is re-set to 0.5.");
+
+            }
+
+            return scale;
+
+        }
+
 
         /// <summary>
         /// Provides an Icon for every component that will be visible in the User Interface.
@@ -299,102 +426,6 @@ namespace Ironbug
             
         }
 
-        
-        private string CheckImg(string filePath)
-        {
-            if (string.IsNullOrEmpty(filePath))
-            {
-                return null;
-            }
-
-            string tiffFile = string.Empty;
-
-            
-            var folder = Path.GetDirectoryName(filePath);
-            var fileName = Path.GetFileNameWithoutExtension(filePath);
-            var fileExtension = Path.GetExtension(filePath);
-            var tempPath = Path.GetTempPath()+@"\Ladybug";
-
-            Directory.CreateDirectory(tempPath);
-            
-            var isHDR = fileExtension.ToUpper() == ".HDR";
-            var isPNG = fileExtension.ToUpper() == ".PNG";
-            var isJPG = fileExtension.ToUpper() == ".JPG";
-            var isGIF = fileExtension.ToUpper() == ".GIF";
-            //convert HDR
-            if (File.Exists(filePath) && isHDR)
-            {
-                tiffFile = tempPath + "\\"+fileName + ".TIF";
-                var isNewHDR = true;
-
-                if (File.Exists(tiffFile))
-                {
-                    var hdrTimeStamp = File.GetLastWriteTime(filePath);
-                    var tifTimeStamp = File.GetLastWriteTime(tiffFile);
-
-                    //if ==1: hdrTimeStamp is later than tifTimeStamp
-                    //isNewHDR = true, to convert to a new tiff
-                    isNewHDR = DateTime.Compare(hdrTimeStamp, tifTimeStamp) == 1;
-                }
-
-                if (isNewHDR)
-                {
-                    //convert the hdr to tiff
-                    string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
-                    var cmdStrings = new List<string>();
-                    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
-                    cmdStrings.Add(cmdStr1);
-                    CMD.Execute(cmdStrings);
-                }
-
-            }
-            else if (File.Exists(filePath) && (isJPG||isPNG||isGIF) )
-            {
-                tiffFile = tempPath + "\\" + fileName + fileExtension;
-                //tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
-                var isNewImg = true;
-                if (File.Exists(tiffFile))
-                {
-                    var hdrTimeStamp = File.GetLastWriteTime(filePath);
-                    var tifTimeStamp = File.GetLastWriteTime(tiffFile);
-                    isNewImg = DateTime.Compare(hdrTimeStamp, tifTimeStamp) == 1;
-                }
-
-                if (isNewImg)
-                {
-                    File.Delete(tiffFile);
-                    File.Copy(filePath, tiffFile, true);
-                }
-                
-            }
-            else
-            {
-                return null;
-            }
-
-            return tiffFile;
-        }
-
-        private double CheckScale (double scale)
-        {
-            
-            if (scale > 10)
-            {
-                scale = 10;
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Maximum valid scale is 10x. The scale is re-set to 10.");
-
-            }
-            else if (scale < 0.5)
-            {
-                scale = 0.5;
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Minimum valid scale is 0.5x. The scale is re-set to 0.5.");
-
-            }
-
-            return scale;
-            
-        }
-        
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             //base.AppendAdditionalComponentMenuItems(menu);
@@ -408,9 +439,9 @@ namespace Ironbug
             Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
             Menu_AppendSeparator(newMenu);
             Menu_AppendItem(newMenu, "Save this image with marked coordinates", OnSaveThisWithCoords, true, this.ifSaveThis);
-            Menu_AppendItem(newMenu, "Save all images with marked coordinates", OnSaveAllImgsWithCoords, true, this.ifSaveAll);
+            Menu_AppendItem(newMenu, "Save all images with marked coordinates", OnSaveAllImgsWithCoords, this.IsImgList, this.ifSaveAll);
             Menu_AppendSeparator(newMenu);
-            Menu_AppendItem(newMenu, "Export animated GIF",OnExportGif);
+            Menu_AppendItem(newMenu, "Export animated GIF",OnExportGif,this.IsImgList);
 
             var menuItemScale = Menu_AppendItem(menu, "Animation frame duration (ms)");
             Menu_AppendTextItem(menuItemScale.DropDown, this.GifFrameDuration.ToString(), OnKeydownEventHandler_GifFrameDuration, OnTextChanged_Scale, true);
@@ -478,20 +509,22 @@ namespace Ironbug
             if (this.ifSaveThis)
             {
                 this.ifSaveAll = false;
-                
                 imgs.Add( SaveImg(this.FilePaths, this.currentBitmapIndex) );
                 
+
             }
             else //just show
             {
                 imgs.Add(this.FilePaths[this.currentBitmapIndex]);
             }
-
-
+            
 
             this.Params.Output[0].ExpireSolution(false);
             this.Params.Output[0].ClearData();
             this.Params.Output[0].AddVolatileDataList(new GH_Path(0, 0), imgs);
+
+            this.ExtractedColors = new List<List<Color>>() { GetColors(this.ExtractedCoordinates, this.Bitmap) };
+            this.UpdateColorParamValues();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
 
