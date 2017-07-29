@@ -65,9 +65,10 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("Image Path", "imagePath_", "one or a list of image file path.", GH_ParamAccess.list);
-            pManager.AddPointParameter("Pixel Coordinates", "coordinates_", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Viewport Scale", "_scale_", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            pManager.AddTextParameter("imagePath_", "imagePath_", "one or a list of image file path.", GH_ParamAccess.list);
+            pManager.AddPointParameter("coordinates_", "coordinates_", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
+            pManager.AddNumberParameter("_scale_", "_scale_", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            //pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
@@ -78,10 +79,10 @@ namespace Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("Path", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
+            pManager.AddTextParameter("imagePath", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
             //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
-            pManager.AddTextParameter("Color Values", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
-            pManager.AddTextParameter("Animated GIF image", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
+            pManager.AddTextParameter("colors", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
+            pManager.AddTextParameter("GIF", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
             pManager[0].MutableNickName = false;
             pManager[1].MutableNickName = false;
             pManager[2].MutableNickName = false;
@@ -232,8 +233,6 @@ namespace Ironbug
 
             DA.SetDataTree(1, formatColorDataTree(this.ExtractedColors));
             
-
-
         }
 
         private List<Bitmap> ProcessImgs(List<string> filePaths, ref List<string> newFilePaths)
@@ -276,15 +275,16 @@ namespace Ironbug
 
             var folder = Path.GetDirectoryName(filePath);
             var fileName = Path.GetFileNameWithoutExtension(filePath);
-            var fileExtension = Path.GetExtension(filePath);
+            var fileExtension = Path.GetExtension(filePath).ToUpper();
             var tempPath = Path.GetTempPath() + @"\Ladybug\ImageViewer";
 
             Directory.CreateDirectory(tempPath);
 
-            var isHDR = fileExtension.ToUpper() == ".HDR";
-            var isPNG = fileExtension.ToUpper() == ".PNG";
-            var isJPG = fileExtension.ToUpper() == ".JPG";
-            var isGIF = fileExtension.ToUpper() == ".GIF";
+            var isHDR = fileExtension == ".HDR";
+            var isPNG = fileExtension == ".PNG";
+            var isJPG = fileExtension == ".JPG";
+            var isGIF = fileExtension == ".GIF";
+            var isTIF = fileExtension == ".TIF" || fileExtension == ".TIFF";
 
             //convert HDR
             if (File.Exists(filePath) && isHDR)
@@ -313,7 +313,7 @@ namespace Ironbug
                 }
 
             }
-            else if (File.Exists(filePath) && (isJPG || isPNG || isGIF))
+            else if (File.Exists(filePath) && (isJPG || isPNG || isGIF || isTIF))
             {
                 tiffFile = tempPath + "\\" + fileName + fileExtension;
                 //tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
