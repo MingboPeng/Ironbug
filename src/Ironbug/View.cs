@@ -40,6 +40,7 @@ namespace Ironbug
 
         private bool isScaleChanged = false;
         private int GifFrameDuration = 100;
+        private string RADPath = @"C:\Radiance\bin";
         //public string newFilePath = string.Empty;
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -50,11 +51,10 @@ namespace Ironbug
         /// </summary>
         public View()
           : base("Ladybug_ImageViewer", "Viewer",
-              "Preview image files",
+              "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
               "Ladybug", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
-            
         }
 
 
@@ -80,7 +80,6 @@ namespace Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("imagePath", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
-            //pManager.AddTextParameter("Color Values", "Values", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("colors", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("GIF", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
             pManager[0].MutableNickName = false;
@@ -104,7 +103,13 @@ namespace Ironbug
             this.TempExtrCoordinates = new List<Drawing.Point>();
             
             this.ExtractedColors = new List<List<Color>>() { new List<Color>() };
-            
+
+            //Check the Radiance folder
+            var radPath = GetRADPath();
+            if (!string.IsNullOrWhiteSpace(radPath))
+            {
+                this.RADPath = radPath;
+            }
         }
 
         ////happens befor solution
@@ -304,10 +309,12 @@ namespace Ironbug
 
                 if (isNewHDR)
                 {
+                    
                     //convert the hdr to tiff
                     string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
                     var cmdStrings = new List<string>();
-                    cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
+                    var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", this.RADPath, this.RADPath.Replace("bin","lib"));
+                    cmdStrings.Add(setEnv);
                     cmdStrings.Add(cmdStr1);
                     CMD.Execute(cmdStrings);
                 }
@@ -341,6 +348,34 @@ namespace Ironbug
         }
 
 
+        public string GetRADPath()
+        {
+            string radPath = @"C:\Radiance\bin";
+            if (Directory.Exists(radPath))
+            {
+                return radPath;
+            }
+
+            //only for when "C:\Radiance\bin" doesn't exist
+            var pyRun = Rhino.Runtime.PythonScript.Create();
+            string pyScript = @"
+import scriptcontext as sc;
+RADPath = sc.sticky['honeybee_folders']['RADPath'];
+";
+            
+            try
+            {
+                pyRun.ExecuteScript(pyScript);
+                radPath = pyRun.GetVariable("RADPath") as string;
+            }
+            catch (Exception)
+            {
+                
+            }
+            
+            return radPath;
+        }
+
         //private void ConvertImgs(List<string> allImgs)
         //{
         //    var cmdStrings = new List<string>();
@@ -350,7 +385,7 @@ namespace Ironbug
         //    {
         //        var fileExtension = Path.GetExtension(item);
         //        var isHDR = fileExtension.ToUpper() == ".HDR";
-                
+
         //        if (isHDR)
         //        {
         //            var tempPath = Path.GetTempPath() + @"\Ladybug\ImageViewer";
@@ -361,14 +396,14 @@ namespace Ironbug
         //            string cmdStr1 = @"ra_tiff " + item + " " + tiffFile;
         //            cmdStrings.Add(cmdStr1);
         //        }
-                
+
         //    }
 
         //    if (cmdStrings.Count>1)
         //    {
         //        CMD.HDR2TIF(cmdStrings);
         //    }
-            
+
         //}
 
         private double CheckScale(double scale)
@@ -461,7 +496,6 @@ namespace Ironbug
                 
             }
             
-            //throw new NotImplementedException();
         }
 
         #region Events
@@ -582,8 +616,7 @@ namespace Ironbug
             GhGroup.ExpireSolution(false);
 
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
-
-
+            
         }
 
         private void OnDisableImgClickable(object sender, EventArgs e)
