@@ -34,14 +34,14 @@ namespace Ironbug
         //List<string> currentValues = new List<string>();
         Bitmap imgBitmap;
         Graphics MyGraphics;
-        View ViewOwner;
+        Ladybug_ImageViewer ViewOwner;
 
-        public ImageFromPathAttrib(View owner)
+        public ImageFromPathAttrib(Ladybug_ImageViewer owner)
             : base(owner)
         {
             this.imgBitmap = owner.Bitmap;
             this.scale = owner.Scale;
-            this.ViewOwner = (View)this.Owner;
+            this.ViewOwner = (Ladybug_ImageViewer)this.Owner;
 
         }
 

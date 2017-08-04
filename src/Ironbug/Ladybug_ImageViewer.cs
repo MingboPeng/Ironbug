@@ -17,7 +17,7 @@ using Grasshopper.Kernel.Special;
 
 namespace Ironbug
 {
-    public class View : GH_Component
+    public class Ladybug_ImageViewer : GH_Component
     {
         
         public List<string> FilePaths = new List<string>();
@@ -49,7 +49,7 @@ namespace Ironbug
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public View()
+        public Ladybug_ImageViewer()
           : base("Ladybug_ImageViewer", "Viewer",
               "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
               "Ladybug", "5 | Extra")
