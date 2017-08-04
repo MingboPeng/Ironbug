@@ -10,10 +10,10 @@ namespace Ironbug
 {
     public class Honeybee_ReadAnnualResultsIII : GH_Component
     {
-        static double min = 300;
-        static double max = 0;
-        static double oneHrToPercent = 1 / 36.50;
-        static List<int> hours = new List<int>();
+        static double Min = 300;
+        static double Max = 0;
+        static double OneHrPercent = 1 / 36.50;
+        static List<int> Hours = new List<int>();
 
         /// <summary>
         /// Initializes a new instance of the Honeybee_ReadAnnualResultsIII class.
@@ -57,13 +57,15 @@ namespace Ironbug
         {
             List<string> lines = new List<string>();
             List<string> illFiles = new List<string>();
+            List<double> hours = new List<double>();
 
             if (!DA.GetDataList(0, illFiles)) return;
             DA.GetDataList(1, hours);
-            DA.GetData(2,ref min);
-            DA.GetData(3, ref max);
-            
-            oneHrToPercent = 1 / (3.65 * hours.Count);
+            DA.GetData(2,ref Min);
+            DA.GetData(3, ref Max);
+
+            Hours = hours.Select(_ => (int)_).ToList();
+            OneHrPercent = 1 / (3.65 * hours.Count);
 
             var AllProcessedData = new List<List<List<double>>>();
 
@@ -74,7 +76,7 @@ namespace Ironbug
 
 
             double infinity = 1.0 / 0.0;
-            if (max == 0) max = infinity;
+            if (Max == 0) Max = infinity;
 
             var illResults = illFiles.AsParallel().AsOrdered().Select(file => readIllFile(file));
             foreach (var illResult in illResults)
@@ -140,7 +142,7 @@ namespace Ironbug
                 var hr = (int)Convert.ToDouble(items[2]);
 
                 //var hrs = new List<int>(){8,9,10};
-                int pos = hours.IndexOf(hr);
+                int pos = Hours.IndexOf(hr);
 
                 if (pos >= 0)
                 {
@@ -151,21 +153,21 @@ namespace Ironbug
                         int ptsIndex = l;
 
                         //underTPercent
-                        if (item < min)
+                        if (item < Min)
                         {
-                            underTPercent[ptsIndex] += oneHrToPercent;
-                            cda[ptsIndex] += oneHrToPercent * item / min;
+                            underTPercent[ptsIndex] += OneHrPercent;
+                            cda[ptsIndex] += OneHrPercent * item / Min;
                         }
                         //aboveTPercent
-                        else if (item > max)
+                        else if (item > Max)
                         {
-                            aboveTPercent[ptsIndex] += oneHrToPercent;
+                            aboveTPercent[ptsIndex] += OneHrPercent;
                         }
                         //withinTPercent
                         else
                         {
-                            withinTPercent[ptsIndex] += oneHrToPercent;
-                            cda[ptsIndex] += oneHrToPercent;
+                            withinTPercent[ptsIndex] += OneHrPercent;
+                            cda[ptsIndex] += OneHrPercent;
                         }
                     }
 
