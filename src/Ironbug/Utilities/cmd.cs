@@ -14,12 +14,20 @@ namespace Ironbug
         {
             var cmdString = string.Join("&", command);
 
-            Process cmd = new Process();
-            cmd.StartInfo.CreateNoWindow = true;
-            cmd.StartInfo.FileName = "cmd.exe";
-            cmd.StartInfo.RedirectStandardInput = true;
-            cmd.StartInfo.UseShellExecute = false;
+            Process cmd = new Process()
+            {
+                StartInfo = new ProcessStartInfo("cmd")
+                {
+                    CreateNoWindow = true,
+                    RedirectStandardInput = true,
+                    RedirectStandardOutput =true,
+                    UseShellExecute = false
+
+                }
+            };
+
             cmd.Start();
+
             using (StreamWriter sw = cmd.StandardInput)
             {
                 if (sw.BaseStream.CanWrite)
@@ -33,9 +41,11 @@ namespace Ironbug
 
             while (!cmd.HasExited)
             {
-                int milliseconds = 50;
+                int milliseconds = 10;
                 Thread.Sleep(milliseconds);
             }
+
+            cmd.Close();
             
             return true;
 
