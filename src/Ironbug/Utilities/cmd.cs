@@ -88,7 +88,20 @@ namespace Ironbug
         {
             if (HDRs.IsNullOrEmpty()) return HDRs;
 
+
             var cmdStrings = new List<string>();
+
+            var StartInfo = new ProcessStartInfo("cmd")
+            {
+                CreateNoWindow = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            StartInfo.EnvironmentVariables["RAYPATH"] = @".;C:\Radiance\lib";
+            StartInfo.EnvironmentVariables["PATH"] = @"C:\Radiance\bin;$PATH";
+
             var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", RADPath, RADPath.Replace("bin", "lib"));
             cmdStrings.Add(setEnv);
 
