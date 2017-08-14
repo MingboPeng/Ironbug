@@ -33,10 +33,11 @@ namespace Ironbug
                 if (sw.BaseStream.CanWrite)
                 {
                     sw.WriteLine(cmdString);
-                    
+                    //sw.WriteLine(@"EXIT");
+
                 }
             }
-            
+
             cmd.WaitForExit();
 
             while (!cmd.HasExited)
@@ -44,21 +45,101 @@ namespace Ironbug
                 int milliseconds = 10;
                 Thread.Sleep(milliseconds);
             }
+            
+
+
+            //cmd.Start();
+            //StreamWriter sw = cmd.StandardInput;
+            //if (sw.BaseStream.CanWrite)
+            //{
+            //    sw.WriteLine(cmdString);
+            //}
+
+            //cmd.WaitForExit(20);
+            
+
+            //var a = cmd.TotalProcessorTime;
+            //while (!(a.TotalMilliseconds>0))
+            //{
+            //    int milliseconds = 10;
+            //    Thread.Sleep(milliseconds);
+            //    System.Windows.Forms.MessageBox.Show(a.ToString());
+            //}
+            //int milliseconds = 1000;
+            //Thread.Sleep(milliseconds);
+
+            //Boolean breakFlag = true;
+            //while (breakFlag)
+            //{
+            //    cmd.Dispose();
+            //    breakFlag = !cmd.HasExited;
+            //    milliseconds = 1000;
+            //    Thread.Sleep(milliseconds);
+            //}
 
             cmd.Close();
-            
             return true;
 
             
         }
 
         //convert the hdr to tiff
-        public static void HDR2TIF(List<string> ra_tiffs)
+        public static List<string> HDR2TIF(List<string> HDRs, List<string> TargetTIF, string RADPath)
         {
+            if (HDRs.IsNullOrEmpty()) return HDRs;
+
+
             var cmdStrings = new List<string>();
-            cmdStrings.Add(@"SET RAYPATH=.;C:\Radiance\lib&PATH=C:\Radiance\bin;$PATH");
-            cmdStrings.AddRange(ra_tiffs);
-            CMD.Execute(cmdStrings);
+
+            var StartInfo = new ProcessStartInfo("cmd")
+            {
+                CreateNoWindow = true,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                UseShellExecute = false
+            };
+
+            StartInfo.EnvironmentVariables["RAYPATH"] = @".;C:\Radiance\lib";
+            StartInfo.EnvironmentVariables["PATH"] = @"C:\Radiance\bin;$PATH";
+
+            var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", RADPath, RADPath.Replace("bin", "lib"));
+            cmdStrings.Add(setEnv);
+
+
+            for (int i = 0; i < HDRs.Count; i++)
+            {
+                var filePath = HDRs[i];
+                var tiffFile = TargetTIF[i];
+                string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
+                cmdStrings.Add(setEnv);
+            }
+
+            try
+            {
+                CMD.Execute(cmdStrings);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return TargetTIF;
+
+            //foreach (var item in TargetTIF)
+            //{
+            //    if (File.Exists(item))
+            //    {
+
+            //    }
+                
+            //}
+
+            
+            //var cmdStrings = new List<string>();
+            
+            //cmdStrings.Add(setEnv);
+            //cmdStrings.Add(cmdStr1);
+            //CMD.Execute(cmdStrings);
         }
     }
 }
