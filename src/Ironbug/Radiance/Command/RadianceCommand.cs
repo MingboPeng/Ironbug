@@ -53,9 +53,9 @@ namespace Ironbug.Radiance.Command
 
             Process cmd = new Process()
             {
-                StartInfo = new ProcessStartInfo("cmd")
+                StartInfo = new ProcessStartInfo("cmd.exe")
                 {
-                    Arguments = this.ToRadString(),
+                    Arguments = "/C " + this.ToRadString(),
                     CreateNoWindow = true,
                     RedirectStandardInput = true,
                     RedirectStandardOutput =true,
@@ -84,11 +84,11 @@ namespace Ironbug.Radiance.Command
             
             cmd.WaitForExit();
 
-            while (!cmd.HasExited)
-            {
-                int milliseconds = 25;
-                Thread.Sleep(milliseconds);
-            }
+            //while (!cmd.HasExited)
+            //{
+            //    int milliseconds = 25;
+            //    Thread.Sleep(milliseconds);
+            //}
 
             cmd.Close();
             

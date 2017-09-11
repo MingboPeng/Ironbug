@@ -9,7 +9,7 @@ namespace Ironbug.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void RaTiffTest()
         {
             var inHdr = @"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\doc\testFile\AcceleRad_test_IMG_Perspective_CPU@fc.HDR";
             var outTiff = inHdr.Remove(inHdr.Length - 4)+".tiff";
@@ -17,6 +17,11 @@ namespace Ironbug.Test
             raTiff.Execute();
 
             bool successed = File.Exists(outTiff);
+            if (successed)
+            {
+                File.Delete(outTiff);
+            }
+
             Assert.AreEqual(successed, true);
 
         }
