@@ -9,11 +9,12 @@ using System.Threading;
 
 namespace Ironbug.Radiance.Command
 {
-    public abstract class RadianceCommand
+    public abstract class RadianceBaseCommand
     {
         private static string radlibPath;
 
-        public static string RadlibPath
+
+        protected static string RadlibPath
         {
             get { return radlibPath; }
             private set { radlibPath = value; }
@@ -21,7 +22,7 @@ namespace Ironbug.Radiance.Command
 
         private static string radbinPath;
 
-        public static string RadbinPath
+        protected static string RadbinPath
         {
             get { return radbinPath; }
             private set { radbinPath = value; }
@@ -29,7 +30,7 @@ namespace Ironbug.Radiance.Command
 
         private string exeName;
 
-        public RadianceCommand(string executableName)
+        protected RadianceBaseCommand(string executableName)
         {
             exeName = executableName;
             RadlibPath = Config.RadlibPath;
@@ -43,22 +44,20 @@ namespace Ironbug.Radiance.Command
         }
 
 
-        public abstract string ToRadString(bool relativePath = false);
+        protected abstract string ToRadString(bool relativePath = false);
 
         public bool Execute()
         {
-            //checkFiles();
-
-            //var cmdString = string.Join("&", command);
-
             Process cmd = new Process()
             {
-                StartInfo = new ProcessStartInfo("cmd.exe")
+                StartInfo = new ProcessStartInfo()
                 {
+                    FileName = "cmd.exe",
                     Arguments = "/C " + this.ToRadString(),
                     CreateNoWindow = true,
                     RedirectStandardInput = true,
                     RedirectStandardOutput =true,
+                    RedirectStandardError = true,
                     UseShellExecute = false
                 }
                 
@@ -71,17 +70,11 @@ namespace Ironbug.Radiance.Command
             }
 
             cmd.Start();
-            cmd.StandardOutput.ReadLine();
+            //cmd.BeginOutputReadLine();
+            string outputs = cmd.StandardOutput.ReadLine();
+            string err = cmd.StandardError.ReadToEnd();
+            Console.WriteLine(outputs);
 
-            //using (StreamWriter sw = cmd.StandardInput)
-            //{
-            //    if (sw.BaseStream.CanWrite)
-            //    {
-            //        sw.WriteLine(cmdString);
-                    
-            //    }
-            //}
-            
             cmd.WaitForExit();
 
             //while (!cmd.HasExited)
@@ -91,7 +84,8 @@ namespace Ironbug.Radiance.Command
             //}
 
             cmd.Close();
-            
+            Console.WriteLine("\n\nPress any key to exit.");
+            Console.ReadLine();
             return true;
 
             

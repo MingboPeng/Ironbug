@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -30,6 +31,34 @@ namespace Ironbug
             //private set { radbinPath = value; }
         }
 
-        
+        public static string GetRADPath()
+        {
+            string radPath = @"C:\Radiance\bin";
+            if (Directory.Exists(radPath))
+            {
+                return radPath;
+            }
+
+            //only for when "C:\Radiance\bin" doesn't exist
+            var pyRun = Rhino.Runtime.PythonScript.Create();
+            string pyScript = @"
+import scriptcontext as sc;
+RADPath = sc.sticky['honeybee_folders']['RADPath'];
+";
+
+            try
+            {
+                pyRun.ExecuteScript(pyScript);
+                radPath = pyRun.GetVariable("RADPath") as string;
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return radPath;
+        }
+
+
     }
 }

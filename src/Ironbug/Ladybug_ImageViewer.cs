@@ -40,7 +40,7 @@ namespace Ironbug
 
         private bool isScaleChanged = false;
         private int GifFrameDuration = 100;
-        private string RADPath = @"C:\Radiance\bin";
+        //private string RADPath = @"C:\Radiance\bin";
         //public string newFilePath = string.Empty;
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -52,7 +52,7 @@ namespace Ironbug
         public Ladybug_ImageViewer()
           : base("Ladybug_ImageViewer", "Viewer",
               "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
-              "Ladybug", "5 | Extra")
+              "Mingbo_Dev", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
@@ -104,12 +104,12 @@ namespace Ironbug
             
             this.ExtractedColors = new List<List<Color>>() { new List<Color>() };
 
-            //Check the Radiance folder
-            var radPath = GetRADPath();
-            if (!string.IsNullOrWhiteSpace(radPath))
-            {
-                this.RADPath = radPath;
-            }
+            ////Check the Radiance folder
+            //var radPath = GetRADPath();
+            //if (!string.IsNullOrWhiteSpace(radPath))
+            //{
+            //    this.RADPath = radPath;
+            //}
         }
 
         ////happens befor solution
@@ -309,6 +309,9 @@ namespace Ironbug
 
                 if (isNewHDR)
                 {
+                    var radTiff = new Radiance.Command.RaTiff(filePath, tiffFile);
+                    radTiff.Execute();
+
                     ////convert the hdr to tiff
                     //string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
                     //var cmdStrings = new List<string>();
@@ -349,33 +352,7 @@ namespace Ironbug
         }
 
 
-        public string GetRADPath()
-        {
-            string radPath = @"C:\Radiance\bin";
-            if (Directory.Exists(radPath))
-            {
-                return radPath;
-            }
 
-            //only for when "C:\Radiance\bin" doesn't exist
-            var pyRun = Rhino.Runtime.PythonScript.Create();
-            string pyScript = @"
-import scriptcontext as sc;
-RADPath = sc.sticky['honeybee_folders']['RADPath'];
-";
-            
-            try
-            {
-                pyRun.ExecuteScript(pyScript);
-                radPath = pyRun.GetVariable("RADPath") as string;
-            }
-            catch (Exception)
-            {
-                
-            }
-            
-            return radPath;
-        }
 
         //private void ConvertImgs(List<string> allImgs)
         //{
