@@ -309,14 +309,15 @@ namespace Ironbug
 
                 if (isNewHDR)
                 {
-                    
-                    //convert the hdr to tiff
-                    string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
-                    var cmdStrings = new List<string>();
-                    var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", this.RADPath, this.RADPath.Replace("bin","lib"));
-                    cmdStrings.Add(setEnv);
-                    cmdStrings.Add(cmdStr1);
-                    CMD.Execute(cmdStrings);
+                    ////convert the hdr to tiff
+                    //string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
+                    //var cmdStrings = new List<string>();
+                    //var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", this.RADPath, this.RADPath.Replace("bin","lib"));
+                    //cmdStrings.Add(setEnv);
+                    //cmdStrings.Add(cmdStr1);
+                    //CMD.Execute(cmdStrings);
+
+
                 }
 
             }

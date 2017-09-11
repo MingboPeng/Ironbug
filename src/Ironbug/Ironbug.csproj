@@ -55,13 +55,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\CMD.cs" />
+    <Compile Include="Radiance\Command\RadianceCommand.cs" />
+    <Compile Include="Radiance\Command\RaTiff.cs" />
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="Utilities\ViewAttr.cs" />
@@ -81,6 +83,7 @@
   <ItemGroup>
     <None Include="Resources\Ladybug_Viewer_24.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
