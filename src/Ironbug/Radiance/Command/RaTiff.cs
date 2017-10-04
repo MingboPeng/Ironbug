@@ -8,6 +8,7 @@ namespace Ironbug.Radiance.Command
 {
     //ef95a65  on Dec 1, 2016
     //https://github.com/ladybug-tools/honeybee/blob/master/honeybee/radiance/command/raTiff.py
+    //C:\Users\Mingbo\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts\honeybee\radiance\command
 
     public class RaTiff : RadianceBaseCommand
     {
@@ -33,15 +34,15 @@ namespace Ironbug.Radiance.Command
             this.OutputTiffFile = outputTiffFile;
             
         }
-
-
+        
         protected override string ToRadString(bool relativePath = false)
         {
-            string cmdName = normspace(Path.Combine(RadbinPath, "ra_tiff"));
+            string cmdName = normspace(Path.Combine(RadbinPath, "ra_tiff.exe"));
             //string cmdParams = this.raTiffParameters.toRadString();
             string inputFile = this.InputHdrFile;
             string outputFile = this.OutputTiffFile;
-            string radString = String.Format("{0} {1} {2}", cmdName,inputFile,outputFile);
+            string radString = String.Format("{0} {1} {2}", cmdName, inputFile, outputFile);
+            //string radString = String.Format("{1} {2}", cmdName, inputFile, outputFile);
 
             return radString;
         }

@@ -294,7 +294,7 @@ namespace Ironbug
             //convert HDR
             if (File.Exists(filePath) && isHDR)
             {
-                tiffFile = tempPath + "\\" + fileName + ".TIF";
+                tiffFile = tempPath + "\\" + fileName + "LB.TIF";
                 var isNewHDR = true;
 
                 if (File.Exists(tiffFile))
@@ -311,16 +311,6 @@ namespace Ironbug
                 {
                     var radTiff = new Radiance.Command.RaTiff(filePath, tiffFile);
                     radTiff.Execute();
-
-                    ////convert the hdr to tiff
-                    //string cmdStr1 = @"ra_tiff " + filePath + " " + tiffFile;
-                    //var cmdStrings = new List<string>();
-                    //var setEnv = string.Format("SET RAYPATH=.;{1}&PATH={0};$PATH", this.RADPath, this.RADPath.Replace("bin","lib"));
-                    //cmdStrings.Add(setEnv);
-                    //cmdStrings.Add(cmdStr1);
-                    //CMD.Execute(cmdStrings);
-
-
                 }
 
             }

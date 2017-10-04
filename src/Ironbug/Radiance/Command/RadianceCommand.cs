@@ -50,6 +50,7 @@ namespace Ironbug.Radiance.Command
         {
             Process cmd = new Process()
             {
+                
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = "cmd.exe",
@@ -74,6 +75,7 @@ namespace Ironbug.Radiance.Command
             string outputs = cmd.StandardOutput.ReadLine();
             string err = cmd.StandardError.ReadToEnd();
             Console.WriteLine(outputs);
+            Console.WriteLine(err);
 
             cmd.WaitForExit();
 
@@ -84,8 +86,7 @@ namespace Ironbug.Radiance.Command
             //}
 
             cmd.Close();
-            Console.WriteLine("\n\nPress any key to exit.");
-            Console.ReadLine();
+
             return true;
 
             
