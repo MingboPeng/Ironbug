@@ -1,5 +1,5 @@
 """Radiance base command."""
-import config
+from ... import config
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 import os

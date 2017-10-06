@@ -309,7 +309,7 @@ namespace Ironbug
 
                 if (isNewHDR)
                 {
-                    var radTiff = new Radiance.Command.RaTiff(filePath, tiffFile);
+                    var radTiff = new Honeybee.Radiance.Command.RaTiff(filePath, tiffFile);
                     radTiff.Execute();
                 }
 

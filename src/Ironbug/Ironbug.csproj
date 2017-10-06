@@ -82,14 +82,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="Honeybee\Radiance\Command\CommandBase.cs" />
+    <Compile Include="Honeybee\Radiance\Command\_RaTiff.cs" />
     <Compile Include="Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Radiance\Command\RadianceCommand.cs" />
-    <Compile Include="Radiance\Command\RaTiff.cs" />
+    <Compile Include="Honeybee\Radiance\Command\RadianceCommand.cs" />
+    <Compile Include="Honeybee\Radiance\Command\RaTiff.cs" />
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="Utilities\HoneybeePlusRun.cs" />

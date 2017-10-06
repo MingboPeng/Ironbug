@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.Radiance.Command
+namespace Ironbug.Honeybee.Radiance.Command
 {
     //ef95a65  on Dec 1, 2016
     //https://github.com/ladybug-tools/honeybee/blob/master/honeybee/radiance/command/raTiff.py
