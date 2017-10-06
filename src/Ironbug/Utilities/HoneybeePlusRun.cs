@@ -76,8 +76,78 @@ namespace Ironbug.Utilities
             string result = calc.add();
 
             return result;
-            
-            
         }
+
+        public static string IronPyImportRetivePath()
+        {
+
+            var HBPyClass = @"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\doc\testFile\ImportHBClasses.py";
+            ScriptEngine engine = Python.CreateEngine();
+            
+
+            var sourceLibs = engine.GetSearchPaths();
+            sourceLibs.Add(@"C:\Python27\Lib");
+            //sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\ladybug-tools\honeybee");
+            sourceLibs.Add(@"C:\Users\Mingbo\Test");
+            engine.SetSearchPaths(sourceLibs);
+
+           
+            ScriptSource source = engine.CreateScriptSourceFromFile(HBPyClass);
+
+            ScriptScope scope = engine.CreateScope();
+            //scope.ImportModule("os");
+
+            source.Execute(scope);
+            dynamic person = scope.GetVariable("samName");
+            string result = person;
+            return result;
+        }
+
+        public static string PyImportRetivePath()
+        {
+            ScriptEngine engine = Python.CreateEngine();
+            var sourceLibs = engine.GetSearchPaths();
+            sourceLibs.Add(@"C:\Python27\Lib");
+            sourceLibs.Add(@"C:\Users\Mingbo\Test");
+            engine.SetSearchPaths(sourceLibs);
+            ScriptSource source = engine.CreateScriptSourceFromString(@"
+from testClass import Person;
+");
+            ScriptScope scope = engine.CreateScope();
+            //scope.ImportModule("os");
+
+            source.Execute(scope);
+            dynamic Person = scope.GetVariable("Person");
+            dynamic people = Person("SamA");
+            string result = people.myName();
+
+
+            return result;
+        }
+
+        public static string PyImportHBPlus()
+        {
+            var inHdr = @"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\doc\testFile\AcceleRad_test_IMG_Perspective_CPU@fc.HDR";
+            var outTiff = @"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\doc\testFile\AcceleRad_test_IMG_Perspective_CPU@fc.tiff";
+
+            ScriptEngine engine = Python.CreateEngine();
+            var sourceLibs = engine.GetSearchPaths();
+            sourceLibs.Add(@"C:\Python27\Lib");
+            sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\src\Ironbug\Python");
+            engine.SetSearchPaths(sourceLibs);
+
+            //import HoneybeePlus module
+            ScriptSource source = engine.CreateScriptSourceFromString(@"from honeybee.radiance.command.raTiff import RaTiff;");
+            ScriptScope scope = engine.CreateScope();
+
+            source.Execute(scope);
+            dynamic RaTiff = scope.GetVariable("RaTiff");
+            dynamic outputs = RaTiff(inHdr, outTiff).execute();
+            string result = outTiff;
+
+
+            return result;
+        }
+
     }
 }

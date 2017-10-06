@@ -68,5 +68,36 @@ namespace Ironbug.Test
             Assert.AreEqual(true, successed);
 
         }
+
+
+        [TestMethod]
+        public void RunImportedIronPyClass()
+        {
+            var pyOutput = HoneybeePlusRun.IronPyImportRetivePath();
+            
+            Assert.AreEqual("SamA", pyOutput);
+
+        }
+
+        [TestMethod]
+        public void RunImportedPyClass()
+        {
+            var pyOutput = HoneybeePlusRun.PyImportRetivePath();
+
+            Assert.AreEqual("SamA", pyOutput);
+        }
+
+        [TestMethod]
+        public void RunImportHBPlus()
+        {
+            var pyOutput = HoneybeePlusRun.PyImportHBPlus();
+            bool successed = File.Exists(pyOutput);
+            if (successed)
+            {
+                File.Delete(pyOutput);
+            }
+
+            Assert.AreEqual(successed, true);
+        }
     }
 }
