@@ -82,7 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Honeybee\Radiance\Command\CommandBase.cs" />
+    <Compile Include="Honeybee\Radiance\Command\ICommandBase.cs" />
     <Compile Include="Honeybee\Radiance\Command\_RaTiff.cs" />
     <Compile Include="Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -95,6 +95,7 @@
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="Utilities\HoneybeePlusRun.cs" />
+    <Compile Include="Utilities\PythonEngine.cs" />
     <Compile Include="Utilities\PythonRun.cs" />
     <Compile Include="Utilities\RadianceRun.cs" />
     <Compile Include="Utilities\ViewAttr.cs" />

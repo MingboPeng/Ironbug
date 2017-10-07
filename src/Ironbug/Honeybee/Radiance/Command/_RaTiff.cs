@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ironbug.Utilities;
 
 namespace Ironbug.Honeybee.Radiance.Command
 {
@@ -13,22 +14,11 @@ namespace Ironbug.Honeybee.Radiance.Command
         public _RaTiff(string HdrFile, string TiffFile)
         {
             
+            PythonEngine engine = new PythonEngine();
+            this.RaTiff = engine.GetPyModule("RaTiff");
 
-            ScriptEngine engine = Python.CreateEngine();
-            var sourceLibs = engine.GetSearchPaths();
-            sourceLibs.Add(@"C:\Python27\Lib");
-            sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\HoneybeeCSharp\src\Ironbug\Python");
-            engine.SetSearchPaths(sourceLibs);
-
-            //import HoneybeePlus module
-            ScriptSource source = engine.CreateScriptSourceFromString(@"from honeybee.radiance.command.raTiff import RaTiff;");
-            ScriptScope scope = engine.CreateScope();
-
-            source.Execute(scope);
-            this.RaTiff = scope.GetVariable("RaTiff");
             if (this.RaTiff != null)
             {
-                //dynamic tiff = outObj(inHdr, outTiff).execute();
                 this.RaTiff = RaTiff(HdrFile, TiffFile);
             }
             
