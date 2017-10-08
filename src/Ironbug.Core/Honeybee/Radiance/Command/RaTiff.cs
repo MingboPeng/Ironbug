@@ -1,33 +1,25 @@
-﻿using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Ironbug.Utilities;
-
-namespace Ironbug.Core.Honeybee.Radiance.Command
+﻿namespace Ironbug.Core.Honeybee.Radiance.Command
 {
-    public class RaTiff : ICommandBase
+    public class RaTiff : CommandBase
     {
-        private dynamic raTiff = null;
+        public string RaTiffParameters
+        {
+            get { return this.RawObj.raTiffParameters; }
+            set { this.RawObj.raTiffParameters = value; }
+        }
+
         public RaTiff(string HdrFile, string TiffFile)
         {
-            
             PythonEngine engine = new PythonEngine();
-            this.raTiff = engine.GetPyModule("RaTiff");
-
-            if (this.raTiff != null)
+            dynamic pyModule = engine.ImportFrom(From: "honeybee.radiance.command.raTiff", Import:"RaTiff");
+            
+            if (pyModule != null)
             {
-                this.raTiff = raTiff(HdrFile, TiffFile);
+                this.RawObj = pyModule(HdrFile, TiffFile);
             }
             
         }
-
-
-        public string Execute()
-        {
-            return this.raTiff.execute();
-        }
+        
+        
     }
 }

@@ -62,7 +62,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Honeybee\Radiance\Command\ICommandBase.cs" />
+    <Compile Include="Honeybee\Radiance\Command\CommandBase.cs" />
     <Compile Include="Honeybee\Radiance\Command\RadianceCommand_.cs" />
     <Compile Include="Honeybee\Radiance\Command\RaTiff_.cs" />
     <Compile Include="Honeybee\Radiance\Command\RaTiff.cs" />

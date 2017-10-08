@@ -12,45 +12,73 @@ namespace Ironbug.Core
     {
         private ScriptEngine _engine;
         private MemoryStream _ms;
+        private MemoryStream _er;
         public PythonEngine()
         {
             //create Engine
             this._engine = Python.CreateEngine();
-            
+
             var sourceLibs = this._engine.GetSearchPaths();
-            sourceLibs.Add(@"C:\Python27\Lib");
+            //sourceLibs.Add(@"C:\Python27\Lib"); //local python installed 
+            sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Dynamo ???
+
             sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
             this._engine.SetSearchPaths(sourceLibs);
+            
+            ScriptScope ClrModule = _engine.GetClrModule();
+            string[] moduleNames = _engine.GetModuleFilenames();
+
 
             _ms = new MemoryStream();
-            _engine.Runtime.IO.SetOutput(_ms, new StreamWriter(_ms));
+            _er = new MemoryStream();
+            _engine.Runtime.IO.SetOutput(_ms, Encoding.UTF8);
+            _engine.Runtime.IO.SetErrorOutput(_er, Encoding.UTF8);
         }
 
-        public object GetPyModule(string HBClass)
+        private object GetPyModule(string ImportStrings, string ModuleName)
         {
-            string pyModuleName = HBClass;
-            
+            string importStrings = ImportStrings;
+            string pyModuleName = ModuleName;
             try
             {
                 //import HoneybeePlus module
-                var pyImportString = string.Format(@"from honeybee.radiance.command.raTiff import {0};", pyModuleName);
-                
-                ScriptSource source = this._engine.CreateScriptSourceFromString(pyImportString);
+                var pyImportString = "import sys;sys.platform = 'win32';";
+                pyImportString += importStrings;
+                //ScriptSource source = this._engine.CreateScriptSourceFromString(pyImportString);
                 ScriptScope scope = this._engine.CreateScope();
-                source.Execute(scope);
                 
+                this._engine.Execute(pyImportString, scope);
+
                 //var code = source.Compile();
 
                 string outputStrings = ReadStream(_ms);
+                string errorStrings = ReadStream(_er);
                 dynamic obj = scope.GetVariable(pyModuleName);
                 return obj;
             }
             catch (Exception ex)
             {
-                var outputStreamWriter = new StreamWriter(_ms);
-                outputStreamWriter.Write(ex.ToString());
+                //throw new Exception(ex.ToString());
+                //var outputStreamWriter = new StreamWriter(_ms);
+                //outputStreamWriter.Write(ex.ToString());
+                Console.WriteLine(ex.ToString());
                 return null;
             }
+        }
+
+        public object Import(string ClassName)
+        {
+            var pyImportString = string.Format(@"import {0};", ClassName);
+            object obj = GetPyModule(pyImportString, ClassName);
+            return obj;
+        }
+
+        public object ImportFrom(string From, string Import)
+        {
+            var pyImportString = string.Format(@"from {0} import {1};", From, Import);
+            object obj = GetPyModule(pyImportString, Import);
+            return obj;
         }
 
         private static string ReadStream(MemoryStream stream)
