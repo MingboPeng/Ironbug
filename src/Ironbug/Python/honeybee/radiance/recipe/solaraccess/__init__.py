@@ -1,1 +1,0 @@
-"""Point-in-time recipes."""

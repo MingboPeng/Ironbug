@@ -1,1 +1,0 @@
-"""Honeybee skies."""

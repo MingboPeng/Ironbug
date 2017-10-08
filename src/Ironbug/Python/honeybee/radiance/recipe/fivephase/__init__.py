@@ -1,1 +1,0 @@
-"""Radiance five-phase recipes."""

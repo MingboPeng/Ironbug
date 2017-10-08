@@ -1,1 +1,0 @@
-"""Daylight factor recipes."""

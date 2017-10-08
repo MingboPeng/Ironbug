@@ -73,16 +73,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Honeybee\RadianceTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ironbug\Ironbug.csproj">
-      <Project>{92907a61-60ec-40b2-8071-f09fe8977b70}</Project>
-      <Name>Ironbug</Name>
+    <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
+      <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
+      <Name>Ironbug.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
