@@ -1,4 +1,4 @@
-﻿namespace Ironbug.Core.Honeybee.Radiance.Command
+﻿namespace Ironbug.Honeybee.Radiance.Command
 {
     public class RaTiff : CommandBase
     {

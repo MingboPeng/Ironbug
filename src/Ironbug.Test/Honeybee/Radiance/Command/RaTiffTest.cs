@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using Ironbug.Core.Honeybee.Radiance.Command;
+using Ironbug.Honeybee.Radiance.Command;
 
 namespace Ironbug.Test
 {
@@ -12,7 +12,7 @@ namespace Ironbug.Test
         string inHdr;
         string outTiff;
 
-        public void initRaTiff()
+        public void init()
         {
             
             if (raTiff is null)
@@ -27,8 +27,8 @@ namespace Ironbug.Test
         [TestMethod]
         public void TestRaTiff_Execute()
         {
-            initRaTiff();
-            raTiff.Execute(RunFromPython: false);
+            init();
+            raTiff.Execute();
             bool successed = File.Exists(outTiff);
             if (successed)
             {
@@ -41,7 +41,7 @@ namespace Ironbug.Test
         [TestMethod]
         public void TestRaTiff_ToRadString()
         {
-            initRaTiff();
+            init();
 
             string radSting = raTiff.ToRadString();
             bool successed = radSting.Contains(this.inHdr);
@@ -52,14 +52,14 @@ namespace Ironbug.Test
 
 
         [TestMethod]
-        public void TestRaTiff_RadbinPath_Property()
+        public void TestRaTiff_InputFiles_Property()
         {
-            initRaTiff();
-            var radbinPath = raTiff.RadbinPath;
+            init();
+            string inputFiles = raTiff.InputFiles.ToString();
+            
+            bool successed = inputFiles.Contains(this.inHdr);
 
-            bool successed = radbinPath.Contains("radiance");
-
-            Console.WriteLine("radbinPath: " + radbinPath);
+            Console.WriteLine("inputFiles: " + inputFiles);
             Assert.AreEqual(successed, true);
         }
     }

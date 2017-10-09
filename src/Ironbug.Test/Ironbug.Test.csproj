@@ -64,6 +64,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Honeybee\Radiance\Command\FalsecolorTest.cs" />
     <Compile Include="Honeybee\Radiance\Command\RaTiffTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

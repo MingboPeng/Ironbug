@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.Core
+namespace Ironbug
 {
     public class PythonEngine
     {

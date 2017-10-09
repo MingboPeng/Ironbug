@@ -4,82 +4,41 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.Core.Honeybee.Radiance.Command
+namespace Ironbug.Honeybee.Radiance.Command
 {
-    public abstract class CommandBase
+    public abstract class CommandBase : CommandExecuteBase
     {
-        public dynamic RawObj;
+        protected dynamic RawObj { get; set; }
 
-        public string RadbinPath
-        {
-            get { return this.RawObj.radbinPath; }
-            set { this.RawObj.radbinPath = value; }
+        protected override string RadString {
+            get => this.ToRadString();
+            set => base.RadString = value;
         }
 
-        public string RadlibPath
+        protected override string RadBinPath
         {
-            get { return this.RawObj.radlibPath; }
-            set { this.RawObj.radlibPath = value; }
+            get => this.RawObj.radbinPath;
+            set => this.RawObj.radbinPath = value;
         }
 
-        //public virtual string Execute()
-        //{
-        //    this.RawObj.execute();
-        //    return "";
-        //}
-
-        public virtual string Execute(bool RunFromPython=true)
+        protected override string RadLibPath
         {
-            if (RunFromPython)
-            {
-                this.RawObj.execute();
-            }
-            else
-            {
-                string radString = this.ToRadString();
-                int sp = radString.IndexOf(' ');
-                var exeName = radString.Substring(0, sp).Trim();
-                var arguments = radString.Substring(sp).Trim(); 
-
-                Process cmd = new Process()
-                {
-
-                    StartInfo = new ProcessStartInfo()
-                    {
-                        FileName = exeName,
-                        Arguments = arguments,
-                        CreateNoWindow = true,
-                        RedirectStandardInput = true,
-                        RedirectStandardOutput = true,
-                        RedirectStandardError = true,
-                        UseShellExecute = false
-                    }
-
-                };
-
-                if (IsNTSystem())
-                {
-                    cmd.StartInfo.EnvironmentVariables["PATH"] += String.Format(";{0}", this.RawObj.normspace(this.RadbinPath));
-                    cmd.StartInfo.EnvironmentVariables["RAYPATH"] += String.Format(";{0}", this.RawObj.normspace(this.RadlibPath));
-                }
-
-                cmd.Start();
-
-                string outputs = cmd.StandardOutput.ReadLine();
-                string err = cmd.StandardError.ReadToEnd();
-                Console.WriteLine(outputs);
-                Console.WriteLine(err);
-
-                cmd.WaitForExit();
-                
-
-                cmd.Close();
-            }
-
-            Console.WriteLine(ToRadString());
-            return ToRadString();
+            get => this.RawObj.radlibPath;
+            set => this.RawObj.radlibPath = value;
         }
 
+        //TODO: this return type need to be changed to Tuple, or RadianceDataType
+        public object InputFiles
+        {
+            get => this.RawObj.inputFiles;
+        }
+        
+        public virtual string ExecuteFromPython()
+        {
+            this.RawObj.execute();
+            return "";
+        }
+        
         public virtual string ToRadString(bool relativePath = false)
         {
             return RawObj.toRadString(relativePath);
@@ -90,9 +49,6 @@ namespace Ironbug.Core.Honeybee.Radiance.Command
             return ToRadString();
         }
 
-        private static bool IsNTSystem()
-        {
-            return Environment.OSVersion.ToString().ToUpper().Contains("NT");
-        }
+        
     }
 }
