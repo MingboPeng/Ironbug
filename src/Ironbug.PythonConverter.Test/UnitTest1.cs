@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.PythonConverter;
+using System.Collections.Generic;
 
 namespace Ironbug.PythonConverter.Test
 {
@@ -10,9 +11,13 @@ namespace Ironbug.PythonConverter.Test
         [TestMethod()]
         public void ExtractClassInfoTest()
         {
-            var extractedInfo = PyProcessing.TranslatePy();
+
+            string PyFile = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB\honeybee\radiance\command\falsecolor.py";
+
+            var extractedInfo = PyProcessing.TranslatePy(PyFile);
+            var clsInfo = extractedInfo;
             
-            Assert.IsTrue(true);
+            Assert.AreEqual("Falsecolor", clsInfo.ClassName);
         }
     }
 }

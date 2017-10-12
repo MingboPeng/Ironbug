@@ -11,6 +11,7 @@ namespace Ironbug.PythonConverter
     public static class PyProcessing
     {
         
+
         public static List<string> GetAllPyFiles()
         {
             string HBCoreFolder = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB\honeybee";
@@ -19,9 +20,10 @@ namespace Ironbug.PythonConverter
             return pyFilelist;
         }
 
-        public static object TranslatePy()
+        public static PyClassInfo TranslatePy(string PyFile)
         {
-            string PyFile = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB\honeybee\radiance\command\falsecolor.py";
+            var PyClass = new PyClassInfo();
+            
             var lines = File.ReadAllLines(PyFile, Encoding.UTF8);
             var classNames = new List<string>();
             foreach (var line in lines)
@@ -29,43 +31,67 @@ namespace Ironbug.PythonConverter
                 var cleanLine = line.Trim();
                 if (cleanLine.StartsWith("class"))
                 {
-                    string className = ExtractClassInfo(cleanLine);
-                    classNames.Add(className);
+                    ExtractClassInfo(line, ref PyClass);
                 }
+
+                if (cleanLine.StartsWith("def"))
+                {
+                    ExtractMethodsInfo(line, ref PyClass);
+                }
+
             }
+            
 
-            var dic = new Dictionary<string, List<string>>();
-            dic.Add("ClassNames", classNames);
-
-            return dic;
+            return PyClass;
         }
-        public static string ExtractClassInfo(string PyCodeLine)
+        public static void ExtractClassInfo(string PyCodeLine, ref PyClassInfo pyClass)
         {
-            string inputString = PyCodeLine;
-            string className = string.Empty;
-            int st = inputString.IndexOf(" ");
-            int end = inputString.LastIndexOf(":");
 
-            className = inputString.Substring(st,end-st);
-
-            if (className.Contains("("))
+            var names = ExtractElementNames(PyCodeLine)
+                            .Where(_=>_!="class").ToArray();
+            if (names.Length > 0)
             {
-                end = inputString.LastIndexOf("(");
-                className = inputString.Substring(st, end-st);
+                pyClass.ClassName = names[0];
+            }
+
+            if (names.Length > 1)
+            {
+                pyClass.BaseClassName = names[1];
             }
             
-            return className.Trim();
         }
 
-        public static string ExtractBaseClassName(string inputString)
+        public static void ExtractMethodsInfo(string PyCodeLine, ref PyClassInfo pyClass)
         {
-            string input = "123ABCDE456FGHIJKL789MNOPQ012";
+
+            var names = ExtractElementNames(PyCodeLine)
+                            .Where(_ => (_ != "def")&&(_!="self")).ToArray();
+            var method = new PyMethodInfo();
+            if (names.Length > 0)
+            {
+                
+                method.Name = names[0];
+            }
+
+            if (names.Length > 1)
+            {
+                method.Inputs = new List<PyValueInfo>() { new PyValueInfo() { ValueType = ValueTypes.Object, Name = names[1] } };
+            }
+
+            method.ReturnTypes = ValueTypes.Void;
             
-            string pattern = @"\d\w";
-            Regex rgx = new Regex(pattern);
-            
-            string[] result = rgx.Split(input);
-            return "";
+
+        }
+
+        public static string[] ExtractElementNames(string inputString)
+        {
+            string input = inputString;
+
+            string regex = @"\W";
+            string[] results = Regex.Split(input, regex);
+        
+            results = results.Where(_ => _ != "").ToArray();
+            return results;
         }
         
     }
