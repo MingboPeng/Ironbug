@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -22,41 +23,32 @@ namespace Ironbug.PythonConverter
         {
             this.ClassName = ClassName;
             
-
         }
-
-    }
-
-    public class PyPropergyInfo
-    {
-        public string Name { get; set; }
-        public GetSet GetSet { get; set; }
-    }
-
-    public class PyConstuctorInfo
-    {
-        public string Names { get; set; }
-        public List<PyValueInfo> Inputs { get; set; }
-    }
-
-    public class PyMethodInfo
-    {
-        public string Name { get; set; }
-        public List<PyValueInfo> Inputs { get; set; }
-        public ValueTypes ReturnTypes { get; set; }
-        public PyMethodInfo()
+        public void ExportCSFile(string SaveTo)
         {
-            this.Inputs = new List<PyValueInfo>();
-            this.ReturnTypes = ValueTypes.Void;
+            //var usingStrings = new List<string>();
+            //string[] lines = { this.ClassName, this.BaseClassName, "Third line" };
+            File.WriteAllText(SaveTo, this.ToCsString());
         }
-    }
 
-    public class PyValueInfo
-    {
-        public string Name { get; set; }
-        public ValueTypes ValueType { get; set; }
-    }
+        public string ToCsString()
+        {
+            //var writeStrings = new List<string>();
+            //writeStrings.Add(string.Format("public class {0}:CommandBase\n{{0}}", this.ClassName));
+            //string constructorString = this.Constuctor.ToString();
 
+            string classString = string.Format("public class {0}:{1}\n{{ \n{2} \n}}", ClassName, BaseClassName, this.Constuctor);
+
+            return classString;
+        }
+
+        public override string ToString()
+        {
+            return ClassName + ":" + BaseClassName;
+        }
+
+    }
+    
     public enum ValueTypes
     {
         String,

@@ -48,7 +48,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PyClassInfo.cs" />
     <Compile Include="PyCodeBlock.cs" />
+    <Compile Include="PyConstructorInfo.cs" />
+    <Compile Include="PyMethodInfo.cs" />
     <Compile Include="PyProcessing.cs" />
+    <Compile Include="PyPropertyInfo.cs" />
+    <Compile Include="PyValueInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

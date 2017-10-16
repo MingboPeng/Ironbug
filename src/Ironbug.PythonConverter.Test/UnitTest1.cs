@@ -16,23 +16,33 @@ namespace Ironbug.PythonConverter.Test
 
             string PyFile = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB\honeybee\radiance\command\falsecolor.py";
 
-            var extractedInfo = PyProcessing.TranslatePy(PyFile);
-            var clsInfo = extractedInfo;
+            var extractedInfo = PyProcessing.ConvertToPyClassInfos(PyFile);
+            var clsInfo = extractedInfo[0];
             
             Assert.AreEqual("Falsecolor", clsInfo.ClassName);
         }
+        
 
         [TestMethod()]
-        public void PreCleanLinesTest()
+        public void PyClassInfo_ExportCSFileTest()
         {
 
             string PyFile = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB\honeybee\radiance\command\falsecolor.py";
 
-            var lines = File.ReadAllLines(PyFile, Encoding.UTF8);
-            var classBlocks = PyProcessing.PreCleanLines(lines);
-            var classBlock = classBlocks[0].ToPyClassInfo();
+            var extractedInfo = PyProcessing.ConvertToPyClassInfos(PyFile);
+            var clsInfo = extractedInfo[0];
 
-            Assert.AreEqual("Falsecolor", classBlock.ClassName);
+            var csFile = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\testFile\exported.cs";
+            clsInfo.ExportCSFile(csFile);
+            var success = File.Exists(csFile);
+            if (success)
+            {
+                
+            }
+
+            Assert.IsTrue(success);
         }
+
+
     }
 }
