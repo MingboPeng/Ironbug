@@ -43,6 +43,18 @@ namespace Ironbug.PythonConverter.Test
             Assert.IsTrue(success);
         }
 
+        [TestMethod()]
+        public void PyModuleDescriberTest()
+        {
+
+            string PyFile = @"..\..\..\Ironbug.PythonConverter\PyModuleDescriber.py";
+            PythonEngine engine = new PythonEngine();
+            var obj = engine.ExecuteFromFile(PyFile);
+            
+            var success = obj is null;
+            Assert.IsTrue(!success);
+        }
+        
 
     }
 }

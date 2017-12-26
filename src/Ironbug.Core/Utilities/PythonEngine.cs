@@ -20,10 +20,13 @@ namespace Ironbug
 
             var sourceLibs = this._engine.GetSearchPaths();
             //sourceLibs.Add(@"C:\Python27\Lib"); //local python installed 
-            sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); //from Rhino
             //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Dynamo ???
 
-            sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
+
+            //sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
+            sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts"); //LadybugPlus HoneybeePlus core libriary
             this._engine.SetSearchPaths(sourceLibs);
             
             ScriptScope ClrModule = _engine.GetClrModule();
@@ -79,6 +82,60 @@ namespace Ironbug
             var pyImportString = string.Format(@"from {0} import {1};", From, Import);
             object obj = GetPyModule(pyImportString, Import);
             return obj;
+        }
+
+        //for loading the pythonDescriber.py to extract the python module info in Json format
+        public object ExecuteFromFile(string PythonFilePath)
+        {
+            //string importStrings = "";
+            ////string pyModuleName = ModuleName;
+
+            ////import HoneybeePlus module
+            //var pyImportString = "import os, sys";
+            //pyImportString += importStrings;
+            ////ScriptSource source = this._engine.CreateScriptSourceFromString(pyImportString);
+            //ScriptScope scope = this._engine.CreateScope();
+
+
+            //ScriptSource source = this._engine.CreateScriptSourceFromFile(PythonFilePath);
+            ////object result = source.Execute(scope);
+
+            //this._engine.Execute(pyImportString, scope);
+
+            //string outputStrings = ReadStream(_ms);
+            //string errorStrings = ReadStream(_er);
+            //dynamic obj = scope.GetVariable("Calculator");
+            //Console.WriteLine(outputStrings);
+            //return outputStrings;
+
+
+            //var scope = _engine.CreateScope(); // Introduce Python namespace (scope)
+            //ScriptSource source = _engine.CreateScriptSourceFromFile(PythonFilePath); // Load the script
+            //object result = source.Execute(scope);
+            //var cal = scope.GetVariable("PyModuleDescriber"); // To get the finally set variable 'parameter' from the python script
+            ////var results = cal.add();
+            //Console.WriteLine(cal);
+            //return cal;
+
+
+            var scope = _engine.CreateScope();
+            //_engine.Execute("from honeybee.radiance.command.raTiff import RaTiff;", scope);
+
+            ScriptSource source = _engine.CreateScriptSourceFromFile(PythonFilePath);
+            var extraExeString = "from honeybee.radiance.command.raTiff import RaTiff;";
+            //extraExeString += "jsonobj = PyModuleDescriber.describe(RaTiff)";
+
+
+            source.Execute(scope);
+            //_engine.Execute("jsonobj = PyModuleDescriber.describe(RaTiff)", scope);
+
+            //_engine.Execute("jsonobj= 'dsfsdaf';print jsonobj", scope);
+
+            var cal = scope.GetVariable("jsonobj"); // To get the finally set variable 'parameter' from the python script
+            //var results = cal.add();
+            Console.WriteLine(cal);
+            return cal;
+
         }
 
         private static string ReadStream(MemoryStream stream)
