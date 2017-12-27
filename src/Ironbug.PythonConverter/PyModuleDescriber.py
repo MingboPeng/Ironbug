@@ -101,7 +101,7 @@ class PyModuleDescriber(object):
        
 			if inspect.isclass(obj):
 				count += 1; 
-				self.describe_klass(obj)
+				#self.describe_klass(obj)
 			elif (inspect.ismethod(obj)):
 				count +=1 ; 
 				isOverride = self.checkIfOverride(obj,baseClasses)
@@ -122,6 +122,7 @@ class PyModuleDescriber(object):
 		moduleDict = {"Bases": baseNames,"Properties":properties,"Methods":methods, "Name": module.__name__}
 		
 		return json.dumps(moduleDict)
+
 
 #module = RaTiff
 #jsonobj= PyModuleDescriber().describe(RaTiff)
