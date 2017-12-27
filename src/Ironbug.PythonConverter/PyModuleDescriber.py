@@ -15,7 +15,7 @@ import json
 class PyModuleDescriber(object):
 
 	def __init__(self):
-	    return "sfdsfasd"
+		return "sfdsfasd"
 
 	def checkIfOverride(self,obj,baseClasses):
 		for base in baseClasses:
@@ -67,6 +67,8 @@ class PyModuleDescriber(object):
 				al = len(args)
 				defargs = args[al-dl:al]
 				defaultArgs = zip(defargs, arginfo[3])
+			else:
+				defaultArgs = []
 
 		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
 		return funcDict

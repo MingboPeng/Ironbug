@@ -23,8 +23,7 @@ namespace Ironbug
             //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
             sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); //from Rhino
             //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Dynamo ???
-
-
+            
             //sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
             sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts"); //LadybugPlus HoneybeePlus core libriary
             this._engine.SetSearchPaths(sourceLibs);
@@ -84,38 +83,7 @@ namespace Ironbug
             return obj;
         }
 
-        //for loading the pythonDescriber.py to extract the python module info in Json format
-        public object DescribePyModule(string ImportString)
-        {
-            var pyImportString = string.Format(@"{0} as desModule;", ImportString);
-            pyImportString += "jsonobj= PyModuleDescriber().describe(desModule)";
-
-            var scope = _engine.CreateScope();
-
-            string DescriberPyFile = @"..\..\..\Ironbug.PythonConverter\PyModuleDescriber.py";
-            ScriptSource source = _engine.CreateScriptSourceFromFile(DescriberPyFile);
-            
-            source.Execute(scope);
-            _engine.Execute(pyImportString, scope);
-            
-            var cal = scope.GetVariable("jsonobj"); 
-            Console.WriteLine(cal);
-            return cal;
-
-        }
-
-        public string DescribePyModuleAndSaveAsJson(string ImportString, string SaveTo)
-        {
-            var jsonString = this.DescribePyModule(ImportString).ToString();
-            
-            string saveToFile = SaveTo+'\\'+ ImportString.Split(' ')[1].Trim().Replace('.', '\\')+".json";
-            string saveToFolder = Path.GetDirectoryName(saveToFile);
-            Directory.CreateDirectory(saveToFolder);
-            
-            File.WriteAllText(saveToFile, jsonString);
-            Console.WriteLine(saveToFile);
-            return saveToFile;
-        }
+        
 
         private static string ReadStream(MemoryStream stream)
         {

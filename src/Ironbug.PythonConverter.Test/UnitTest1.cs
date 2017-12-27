@@ -46,9 +46,8 @@ namespace Ironbug.PythonConverter.Test
         [TestMethod()]
         public void PyModuleDescriberTest()
         {
-            string importString = @"from honeybee.radiance.command.epw2wea import Epw2wea";
-            PythonEngine engine = new PythonEngine();
-            var obj = engine.DescribePyModule(importString);
+            var dec = new PythonConverter();
+            var obj = dec.DescribePyModule(From:"honeybee.radiance.command.epw2wea",Import: "Epw2wea");
             
             var success = obj is null;
             Assert.IsTrue(!success);
@@ -57,13 +56,22 @@ namespace Ironbug.PythonConverter.Test
         [TestMethod()]
         public void PyModuleDescriberAndSaveTest()
         {
-            string importString = @"from honeybee.radiance.command.epw2wea import Epw2wea";
-            string saveToMainFolder = @"..\..\..\Ironbug.PythonConverter\Outputs\Json";
+            string saveFolder = @"..\..\..\Ironbug.PythonConverter\Outputs\Json";
 
-            PythonEngine engine = new PythonEngine();
-            var savedFile = engine.DescribePyModuleAndSaveAsJson(importString, saveToMainFolder);
+            var dec = new PythonConverter();
+            var savedFile = dec.DescribePyModuleAndSaveAsJson(From: "honeybee.radiance.command.epw2wea", Import: "Epw2wea",SaveTo:saveFolder);
             
             var success = File.Exists(savedFile);
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod()]
+        public void DescribePyModulesInFolderTest()
+        {
+            var dec = new PythonConverter();
+            dec.DescribePyModulesInFolder();
+            
+            var success = true;
             Assert.IsTrue(success);
         }
 
