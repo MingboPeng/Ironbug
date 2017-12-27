@@ -46,15 +46,27 @@ namespace Ironbug.PythonConverter.Test
         [TestMethod()]
         public void PyModuleDescriberTest()
         {
-
-            string PyFile = @"..\..\..\Ironbug.PythonConverter\PyModuleDescriber.py";
+            string importString = @"from honeybee.radiance.command.epw2wea import Epw2wea";
             PythonEngine engine = new PythonEngine();
-            var obj = engine.ExecuteFromFile(PyFile);
+            var obj = engine.DescribePyModule(importString);
             
             var success = obj is null;
             Assert.IsTrue(!success);
         }
-        
+
+        [TestMethod()]
+        public void PyModuleDescriberAndSaveTest()
+        {
+            string importString = @"from honeybee.radiance.command.epw2wea import Epw2wea";
+            string saveToMainFolder = @"..\..\..\Ironbug.PythonConverter\Outputs\Json";
+
+            PythonEngine engine = new PythonEngine();
+            var savedFile = engine.DescribePyModuleAndSaveAsJson(importString, saveToMainFolder);
+            
+            var success = File.Exists(savedFile);
+            Assert.IsTrue(success);
+        }
+
 
     }
 }

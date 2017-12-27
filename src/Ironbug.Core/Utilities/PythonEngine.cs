@@ -85,57 +85,36 @@ namespace Ironbug
         }
 
         //for loading the pythonDescriber.py to extract the python module info in Json format
-        public object ExecuteFromFile(string PythonFilePath)
+        public object DescribePyModule(string ImportString)
         {
-            //string importStrings = "";
-            ////string pyModuleName = ModuleName;
-
-            ////import HoneybeePlus module
-            //var pyImportString = "import os, sys";
-            //pyImportString += importStrings;
-            ////ScriptSource source = this._engine.CreateScriptSourceFromString(pyImportString);
-            //ScriptScope scope = this._engine.CreateScope();
-
-
-            //ScriptSource source = this._engine.CreateScriptSourceFromFile(PythonFilePath);
-            ////object result = source.Execute(scope);
-
-            //this._engine.Execute(pyImportString, scope);
-
-            //string outputStrings = ReadStream(_ms);
-            //string errorStrings = ReadStream(_er);
-            //dynamic obj = scope.GetVariable("Calculator");
-            //Console.WriteLine(outputStrings);
-            //return outputStrings;
-
-
-            //var scope = _engine.CreateScope(); // Introduce Python namespace (scope)
-            //ScriptSource source = _engine.CreateScriptSourceFromFile(PythonFilePath); // Load the script
-            //object result = source.Execute(scope);
-            //var cal = scope.GetVariable("PyModuleDescriber"); // To get the finally set variable 'parameter' from the python script
-            ////var results = cal.add();
-            //Console.WriteLine(cal);
-            //return cal;
-
+            var pyImportString = string.Format(@"{0} as desModule;", ImportString);
+            pyImportString += "jsonobj= PyModuleDescriber().describe(desModule)";
 
             var scope = _engine.CreateScope();
-            //_engine.Execute("from honeybee.radiance.command.raTiff import RaTiff;", scope);
 
-            ScriptSource source = _engine.CreateScriptSourceFromFile(PythonFilePath);
-            var extraExeString = "from honeybee.radiance.command.raTiff import RaTiff;";
-            //extraExeString += "jsonobj = PyModuleDescriber.describe(RaTiff)";
-
-
+            string DescriberPyFile = @"..\..\..\Ironbug.PythonConverter\PyModuleDescriber.py";
+            ScriptSource source = _engine.CreateScriptSourceFromFile(DescriberPyFile);
+            
             source.Execute(scope);
-            //_engine.Execute("jsonobj = PyModuleDescriber.describe(RaTiff)", scope);
-
-            //_engine.Execute("jsonobj= 'dsfsdaf';print jsonobj", scope);
-
-            var cal = scope.GetVariable("jsonobj"); // To get the finally set variable 'parameter' from the python script
-            //var results = cal.add();
+            _engine.Execute(pyImportString, scope);
+            
+            var cal = scope.GetVariable("jsonobj"); 
             Console.WriteLine(cal);
             return cal;
 
+        }
+
+        public string DescribePyModuleAndSaveAsJson(string ImportString, string SaveTo)
+        {
+            var jsonString = this.DescribePyModule(ImportString).ToString();
+            
+            string saveToFile = SaveTo+'\\'+ ImportString.Split(' ')[1].Trim().Replace('.', '\\')+".json";
+            string saveToFolder = Path.GetDirectoryName(saveToFile);
+            Directory.CreateDirectory(saveToFolder);
+            
+            File.WriteAllText(saveToFile, jsonString);
+            Console.WriteLine(saveToFile);
+            return saveToFile;
         }
 
         private static string ReadStream(MemoryStream stream)

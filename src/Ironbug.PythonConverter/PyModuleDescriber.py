@@ -5,7 +5,7 @@ import json
 #sys.path.append("C:\\Program Files\\McNeel\\Rhinoceros 5.0\\Plug-ins\\IronPython\\Lib");
 #sys.path.append("C:\\Users\\mpeng\\AppData\\Roaming\\McNeel\\Rhinoceros\\5.0\\scripts")
 #from radiance.command import *
-from honeybee.radiance.command.raTiff import RaTiff 
+#from honeybee.radiance.command.raTiff import RaTiff 
 
 #from honeybee.room import Room
 
@@ -121,6 +121,5 @@ class PyModuleDescriber(object):
 		
 		return json.dumps(moduleDict)
 
-
 #module = RaTiff
-jsonobj= PyModuleDescriber().describe(RaTiff)
+#jsonobj= PyModuleDescriber().describe(RaTiff)
