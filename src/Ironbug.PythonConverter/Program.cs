@@ -7,9 +7,12 @@ namespace Ironbug.PythonConverter
 {
     public class PythonConverter
     {
+        string pyPackage = @"..\..\..\..\LBHB";
+        string pyLib = @"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib";
+
         public void DescribePyModulesInFolder()
         {
-            string pyPackageFolder = @"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts\";
+            string pyPackageFolder = pyPackage;
             string pyModuleFolder = @"honeybee\radiance\command";
 
             string saveToMainFolder = @"..\..\..\Ironbug.PythonConverter\Outputs\Json";
@@ -47,8 +50,8 @@ namespace Ironbug.PythonConverter
             {
                 var engine = Python.CreateEngine();
                 var sourceLibs = engine.GetSearchPaths();
-                sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); 
-                sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts");
+                sourceLibs.Add(this.pyLib); 
+                sourceLibs.Add(this.pyPackage);
                 engine.SetSearchPaths(sourceLibs);
 
                 var scope = engine.CreateScope();

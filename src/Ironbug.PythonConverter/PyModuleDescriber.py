@@ -2,6 +2,61 @@ import os, sys
 import inspect
 import json
 
+
+import importlib
+import pkgutil
+import pyclbr
+
+
+modules = {}
+modules['Errors'] = []
+#Modified based on:
+#https://stackoverflow.com/questions/3365740/how-to-import-all-submodules
+def import_submodules(package, recursive=True):
+    
+    """ Import all submodules of a module, recursively, including subpackages
+    :param package: package (name or actual module)
+    :type package: str | module
+    :rtype: dict[str, types.ModuleType]
+    """
+    if isinstance(package, str):
+        package = importlib.import_module(package)
+    results = {}
+    
+    for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
+        full_name = package.__name__ + '.' + name
+        
+        try:
+            results[full_name] = importlib.import_module(full_name)
+            #module_classList = pyclbr.readmodule(full_name).values()
+            module_info = pyclbr.readmodule(full_name)
+            
+            for name, data in sorted(module_info.items(), key=lambda x:x[1].lineno):
+                full_pre_name = package.__name__ + '.' +os.path.splitext(os.path.basename(data.file))[0]
+                
+                if not modules.has_key(full_pre_name):
+                    modules[full_pre_name] = []
+                    
+                if name not in modules[full_pre_name]:
+                    modules[full_pre_name].append(name)
+                    
+            if recursive and is_pkg:
+                results.update(import_submodules(full_name))
+                
+        except ImportError as e:
+            msg = full_name+ ': '+str(e);
+            modules['Errors'].append(msg)
+            print msg
+    return modules
+
+import honeybee
+obj = import_submodules(honeybee)
+print len(obj.keys())
+
+a =  json.dumps(obj)
+
+
+
 #sys.path.append("C:\\Program Files\\McNeel\\Rhinoceros 5.0\\Plug-ins\\IronPython\\Lib");
 #sys.path.append("C:\\Users\\mpeng\\AppData\\Roaming\\McNeel\\Rhinoceros\\5.0\\scripts")
 #from radiance.command import *
