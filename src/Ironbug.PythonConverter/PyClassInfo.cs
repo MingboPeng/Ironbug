@@ -36,8 +36,10 @@ namespace Ironbug.PythonConverter
             //var writeStrings = new List<string>();
             //writeStrings.Add(string.Format("public class {0}:CommandBase\n{{0}}", this.ClassName));
             //string constructorString = this.Constuctor.ToString();
+            var constructorString = this.Constuctor.ToCsString();
+            var methodsString = String.Join("\n", Methods.Select(_ => _.ToCsString()));
 
-            string classString = string.Format("public class {0}:{1}\n{{ \n{2} \n}}", ClassName, BaseClassName, this.Constuctor);
+            string classString = string.Format("public class {0}:{1}\n{{ \n{2}\n{3} \n}}", ClassName, BaseClassName, constructorString, methodsString);
 
             return classString;
         }

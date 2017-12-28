@@ -15,10 +15,12 @@ namespace Ironbug.PythonConverter
         }
 
         //TODO: finish Import string.
-        public override string ToString()
+        public string ToCsString()
         {
             var inputString = String.Join(",", Inputs);
-            var header = String.Format("\tpublic {0} ({1})", Name, inputString);
+            var inputStringWithTypes = String.Join(",", Inputs.Select(_ => _.ToString(WithType: true)));
+
+            var header = String.Format("\tpublic {0} ({1})", Name, inputStringWithTypes);
             var lines = new List<string>();
             lines.Add(header);
             lines.Add("{");
@@ -26,7 +28,7 @@ namespace Ironbug.PythonConverter
             lines.Add(String.Format("\tdynamic pyModule = engine.ImportFrom(From: \"honeybee.radiance.command.falsecolor\", Import: \"{0}\");", Name));
             lines.Add("\tif (pyModule != null)");
             lines.Add("\t{");
-            lines.Add("\t\tthis.RawObj = pyModule(HdrFile, TiffFile);");
+            lines.Add(String.Format("\t\tthis.RawObj = pyModule({0});",inputString));
             lines.Add("\t}");
             lines.Add("}");
 

@@ -11,8 +11,14 @@ namespace Ironbug.PythonConverter
         public ValueTypes ValueType { get; set; }
         public override string ToString()
         {
+            return Name;
+        }
+        public string ToString(bool WithType)
+        {
             return String.Format("{0} {1}", ValueType, Name);
         }
+
+
 
     }
 }
