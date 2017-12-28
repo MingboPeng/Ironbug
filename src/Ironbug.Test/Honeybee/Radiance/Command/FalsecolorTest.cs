@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Ironbug.Test
 {
-    [TestClass]
+   [TestClass]
    public  class FalsecolorTest
     {
         Falsecolor falsecolor;

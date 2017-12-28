@@ -20,10 +20,12 @@ namespace Ironbug
 
             var sourceLibs = this._engine.GetSearchPaths();
             //sourceLibs.Add(@"C:\Python27\Lib"); //local python installed 
-            sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); //from Rhino
             //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Dynamo ???
-
-            sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
+            
+            //sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
+            sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts"); //LadybugPlus HoneybeePlus core libriary
             this._engine.SetSearchPaths(sourceLibs);
             
             ScriptScope ClrModule = _engine.GetClrModule();
@@ -80,6 +82,8 @@ namespace Ironbug
             object obj = GetPyModule(pyImportString, Import);
             return obj;
         }
+
+        
 
         private static string ReadStream(MemoryStream stream)
         {
