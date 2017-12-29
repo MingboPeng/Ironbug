@@ -1,21 +1,31 @@
 import imp
-foo = imp.load_source('PyModuleDescriber', 'C:\\Users\\mpeng\\Documents\\GitHub\\Ironbug\\src\\Ironbug.PythonConverter\\PyModuleDescriber.py')
+import sys
+file = r"C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescriber.py";
+foo = imp.load_source('PyModuleDescriber', file)
 dec = foo.PyModuleDescriber()
 
 
-from honeybee.radiance.command.objview import Objview;
+#from honeybee.radiance.command.objview import Objview;
 import honeybee.radiance.command.epw2wea
-print dec.describe(Objview);
+import honeybee.radiance.recipe.parameters
+import honeybee.radiance.material.plastic
+
+modName = 'honeybee.radiance.command.epw2wea'
+#modName = 'honeybee.radiance.recipe.parameters'
+modName = 'honeybee.radiance.material.plastic'
+
+mod = sys.modules[modName]
+
+print dec.describe(mod);
 
 
+####################################
 
 import sys
 a = []
 for module in sys.modules.keys():
     if module.startswith( 'honeybee.radiance.command' ):
         a.append( module)
-
-
 
 
 
