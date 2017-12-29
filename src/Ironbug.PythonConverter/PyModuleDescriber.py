@@ -3,57 +3,6 @@ import inspect
 import json
 
 
-import importlib
-import pkgutil
-import pyclbr
-
-
-modules = {}
-modules['Errors'] = []
-#Modified based on:
-#https://stackoverflow.com/questions/3365740/how-to-import-all-submodules
-def import_submodules(package, recursive=True):
-    
-    """ Import all submodules of a module, recursively, including subpackages
-    :param package: package (name or actual module)
-    :type package: str | module
-    :rtype: dict[str, types.ModuleType]
-    """
-    if isinstance(package, str):
-        package = importlib.import_module(package)
-    results = {}
-    
-    for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
-        full_name = package.__name__ + '.' + name
-        
-        try:
-            results[full_name] = importlib.import_module(full_name)
-            #module_classList = pyclbr.readmodule(full_name).values()
-            module_info = pyclbr.readmodule(full_name)
-            
-            for name, data in sorted(module_info.items(), key=lambda x:x[1].lineno):
-                full_pre_name = package.__name__ + '.' +os.path.splitext(os.path.basename(data.file))[0]
-                
-                if not modules.has_key(full_pre_name):
-                    modules[full_pre_name] = []
-                    
-                if name not in modules[full_pre_name]:
-                    modules[full_pre_name].append(name)
-                    
-            if recursive and is_pkg:
-                results.update(import_submodules(full_name))
-                
-        except ImportError as e:
-            msg = full_name+ ': '+str(e);
-            modules['Errors'].append(msg)
-            print msg
-    return modules
-
-import honeybee
-obj = import_submodules(honeybee)
-print len(obj.keys())
-
-a =  json.dumps(obj)
 
 
 
@@ -86,13 +35,13 @@ class PyModuleDescriber(object):
 		else:
 			return False
 
-	def describe_func(self,obj, method=False, isOverrideMethod = False):
+	def describe_func(self,obj, isMethod=False, isOverrideMethod = False):
 		""" Describe the function object passed as argument.
 		If this is a method object, the second argument will
 		be passed as True """
 		type = "Method"
 		isOverride = False
-		if method:
+		if isMethod:
 			type = "Method"
 		else:
 			type = "Function"
@@ -128,53 +77,46 @@ class PyModuleDescriber(object):
 		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
 		return funcDict
 
-	def describe_klass(self,obj):
-	   """ Describe the class object passed as argument,
-	   including its methods """
-	   wi('+Class: %s' % obj.__name__)
-	   for name in obj.__dict__:
-		   item = getattr(obj, name)
-		   if inspect.ismethod(item):
-			   count += 1;describe_func(item, True)
-	   if count==0:
-		   wi('(No members)')
-	   print 
-
-	def describe(self,module):
-		""" Describe the module object passed as argument
-		including its classes and functions """
-		baseClasses = module.__bases__
+	def describe_class(self,classObj):
+		""" Describe the class object passed as argument,
+		including its methods """
 		baseNames = []
-		for i in baseClasses:
-			baseNames.append(i.__name__)
-		count = 0
 		methods = []
 		properties = []
-		for name in module.__dict__:
-			obj = getattr(module, name)
-       
-       
-			if inspect.isclass(obj):
-				count += 1; 
-				#self.describe_klass(obj)
-			elif (inspect.ismethod(obj)):
-				count +=1 ; 
+
+		baseClasses = classObj.__bases__
+			for i in baseClasses:
+				baseNames.append(i.__name__)
+
+		for name in classObj.__dict__:
+			obj = getattr(classObj, name)
+
+			if (inspect.ismethod(obj)):
 				isOverride = self.checkIfOverride(obj,baseClasses)
-				methods.append(self.describe_func(obj, True, isOverride))
+				methods.append(self.describe_func(obj, isMethod=True, isOverride))
           
 			elif inspect.isfunction(obj):
-				count +=1 ; 
 				isOverride = self.checkIfOverride(obj,baseClasses)
-				methods.append(self.describe_func(obj, False, isOverride))
-          
+				methods.append(self.describe_func(obj, isMethod=False, isOverride))
+			elif 
 			if isinstance(obj, property):
 				properties.append(name)
-           
-       
-		if count==0:
-			wi('(No members)')
-      
-		moduleDict = {"Bases": baseNames,"Properties":properties,"Methods":methods, "Name": module.__name__}
+
+		moduleDict = {"Bases": baseNames,"Properties":properties,"Methods":methods, "Name": classObj.__name__}
+
+	def describe(self,module):
+		""" Describe the module object 
+		including its classes and functions """
+		m_functions = []
+
+		for name in module.__dict__:
+			obj = getattr(module, name)
+			if inspect.isclass(obj):
+				self.describe_class(obj)
+			elif (inspect.isfunction(obj)):
+				m_functions.append(self.describe_func(obj, isMethod=False, isOverrideMethod = False))
+				
+
 		
 		return json.dumps(moduleDict)
 
