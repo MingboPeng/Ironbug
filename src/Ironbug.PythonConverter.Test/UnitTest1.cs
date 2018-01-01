@@ -75,6 +75,16 @@ namespace Ironbug.PythonConverter.Test
             Assert.IsTrue(success);
         }
 
+        [TestMethod()]
+        public void DescribeAllPyModulesTest()
+        {
+            var dec = new PythonConverter();
+            var obj = dec.DescribeAllPyModules("honeybee");
+
+            var success = obj is null;
+            Assert.IsTrue(!success);
+        }
+
 
     }
 }

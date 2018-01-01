@@ -1,6 +1,7 @@
 ﻿using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Ironbug.PythonConverter
@@ -40,17 +41,16 @@ namespace Ironbug.PythonConverter
            //return files;
         }
 
-        public object DescribePyModule(string From, string Import)
+        public object DescribePyModule(string ImportString)
         {
-            string importString = string.Format(@"from {0} import {1} as desModule;", From, Import);
-            importString += "jsonobj= PyModuleDescriber().describe(desModule)";
-            
+            string importString = ImportString;
+
             string DescriberPyFile = @"..\..\..\Ironbug.PythonConverter\PyModuleDescriber.py";
             try
             {
                 var engine = Python.CreateEngine();
                 var sourceLibs = engine.GetSearchPaths();
-                sourceLibs.Add(this.pyLib); 
+                sourceLibs.Add(this.pyLib);
                 sourceLibs.Add(this.pyPackage);
                 engine.SetSearchPaths(sourceLibs);
 
@@ -60,8 +60,8 @@ namespace Ironbug.PythonConverter
 
                 source.Execute(scope);
                 engine.Execute(importString, scope);
-                var cal = scope.GetVariable("jsonobj");
-                Console.WriteLine(cal);
+                var cal = scope.GetVariable("jsonobj") as IList<dynamic>;
+                Console.WriteLine(cal.Count + " modules described.");
                 return cal;
             }
             catch (Exception ex)
@@ -70,8 +70,26 @@ namespace Ironbug.PythonConverter
                 return "Error: " + ex.ToString();
                 //throw;
             }
+
+        }
+
+        public object DescribePyModule(string From, string Import)
+        {
+            string importString = string.Format(@"from {0} import {1} as desModule;", From, Import);
+            importString += "jsonobj= PyModuleDescriber().describe(desModule)";
+
+            return this.DescribePyModule(importString);
             
         }
+
+        public object DescribeAllPyModules(string Import)
+        {
+            string importString = string.Format(@"import {0} as desModule;", Import);
+            importString += "jsonobj= PyModuleDescriber().describeAll(desModule)";
+
+            return this.DescribePyModule(importString);
+        }
+
         
         
         public string DescribePyModuleAndSaveAsJson(string From, string Import, string SaveTo)

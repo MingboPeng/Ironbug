@@ -3,6 +3,10 @@ import os
 import inspect
 import json
 
+import importlib
+import pkgutil
+import pyclbr
+
 #sys.path.append("C:\\Program Files\\McNeel\\Rhinoceros 5.0\\Plug-ins\\IronPython\\Lib");
 #sys.path.append("C:\\Users\\mpeng\\AppData\\Roaming\\McNeel\\Rhinoceros\\5.0\\scripts")
 #from radiance.command import *
@@ -61,6 +65,7 @@ class PyModuleDescriber(object):
 
 		args = arginfo[0]
 		argsvar = arginfo[1]
+		defaultArgs = []
 
 		if args:
 			if arginfo[3]:
@@ -68,8 +73,8 @@ class PyModuleDescriber(object):
 				al = len(args)
 				defargs = args[al-dl:al]
 				defaultArgs = zip(defargs, arginfo[3])
-			else:
-				defaultArgs = []
+		else:
+			defaultArgs = []
 
 		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
 		return funcDict
@@ -104,6 +109,52 @@ class PyModuleDescriber(object):
 		
 		classDict = {"Bases": baseNames,"Properties":properties,"Methods":methods, "Name": classObj.__name__};
 		return classDict;
+
+
+
+	def import_submodules(self, package, recursive=True):
+		
+		""" Import all submodules of a module, recursively, including subpackages
+		:param package: package (name or actual module)
+		:type package: str | module
+		:rtype: dict[str, types.ModuleType] """
+
+		if isinstance(package, str):
+			package = importlib.import_module(package);
+
+		results = {}
+
+		for loader, name, is_pkg in pkgutil.walk_packages(package.__path__):
+			full_name = package.__name__ + '.' + name
+
+			try:
+				moduleObj = importlib.import_module(full_name)
+				results[full_name] = moduleObj
+				if recursive and is_pkg:
+					results.update(self.import_submodules(full_name))
+			except ImportError as e:
+				msg = full_name+ ': '+str(e);
+				results["ERROR: "+full_name] = msg
+				
+		return results
+
+	def describeAll(self, package):
+		mods = self.import_submodules(package)
+		modsDes = []
+		for i in mods:
+			if not i.startswith('honeybee.radiance.command.r'):
+				continue;
+
+			mod = mods[i];
+			
+
+			if i.startswith('ERROR'):
+				print (mod)
+			else:
+				#print i
+				modsDes.append(self.describe(mod))
+		return modsDes;
+
 
 	def describe(self,module):
 		""" Describe the module object 
@@ -143,8 +194,11 @@ class PyModuleDescriber(object):
 				mod_valuable = {"name":i, "value":obj}
 				mod_valuables.append(mod_valuable)
 				
-		moduleDict = {"classes":mod_classes, "functions":mod_functions, "valuables":mod_valuables};
-		return json.dumps(moduleDict)
+		moduleDict = {"Name":module.__name__ ,"Classes":mod_classes, "Functions":mod_functions, "Valuables":mod_valuables};
+		#print module
+		#return json.dumps(moduleDict);
+		return moduleDict;
+
 
 
 #module = RaTiff
