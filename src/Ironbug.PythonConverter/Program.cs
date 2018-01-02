@@ -9,7 +9,8 @@ namespace Ironbug.PythonConverter
     public class PythonConverter
     {
         string pyPackage = @"..\..\..\..\LBHB";
-        string pyLib = @"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib";
+        //string pyLib = @"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib";
+        string pyLib = @"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib";
 
         public void DescribePyModulesInFolder()
         {
@@ -41,7 +42,7 @@ namespace Ironbug.PythonConverter
            //return files;
         }
 
-        public object DescribePyModule(string ImportString)
+        public IList<dynamic> DescribePyModule(string ImportString)
         {
             string importString = ImportString;
 
@@ -66,14 +67,15 @@ namespace Ironbug.PythonConverter
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.ToString());
-                return "Error: " + ex.ToString();
+                return new List<dynamic>{"Error: " + ex.ToString() };
                 //throw;
             }
 
         }
 
-        public object DescribePyModule(string From, string Import)
+        public IList<dynamic> DescribePyModule(string From, string Import)
         {
             string importString = string.Format(@"from {0} import {1} as desModule;", From, Import);
             importString += "jsonobj= PyModuleDescriber().describe(desModule)";
@@ -82,12 +84,39 @@ namespace Ironbug.PythonConverter
             
         }
 
-        public object DescribeAllPyModules(string Import)
+        public IList<dynamic> DescribeAllPyModules(string Import)
         {
             string importString = string.Format(@"import {0} as desModule;", Import);
             importString += "jsonobj= PyModuleDescriber().describeAll(desModule)";
 
             return this.DescribePyModule(importString);
+        }
+
+        //convert python described json object to CSharp code
+        public string ConvertToCSharpCode(IList<dynamic> PyModuleDescription)
+        {
+            PyModuleDescription tt = new PyModuleDescription("test");
+            foreach (var item in PyModuleDescription)
+            {
+
+                string moduleName = item["Name"];
+                var moduleClasses = item["Classes"] as IList<dynamic>;
+                var moduleFunctions = item["Functions"] as IList<dynamic>;
+                var moduleValuables = item["Valuables"] as IList<dynamic>;
+
+
+                //for test purpose 
+                if (moduleName.StartsWith("honeybee.radiance.command.raBmp"))
+                {
+                    tt = new PyModuleDescription(moduleName);
+                    tt.Classes = moduleClasses;
+                    tt.Functions = moduleFunctions;
+                    tt.Valuables = moduleValuables;
+                }
+
+            }
+            
+            return tt.TransformText(); //return cs code
         }
 
         
@@ -111,7 +140,7 @@ namespace Ironbug.PythonConverter
 
         static void Main()
         {
-
+            
         }
     }
 }

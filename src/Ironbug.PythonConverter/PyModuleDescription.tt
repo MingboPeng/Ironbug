@@ -1,0 +1,26 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+namespace <#= Name #>
+{
+
+<# 
+	// Generate a class for each node type.  
+foreach (dynamic pyClass in Classes){
+	string className = pyClass["Name"];
+	var baseClassNames = pyClass["Bases"] as IList<dynamic>;
+	string oneBaseName = baseClassNames[0]["Name"];
+
+#>
+    public class <#= className #> : <#= oneBaseName #>
+    {
+        
+    }
+<# 
+}
+#>
+
+}
+

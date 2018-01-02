@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Ironbug.PythonConverter;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Ironbug.PythonConverter.Test
 {
@@ -79,10 +77,46 @@ namespace Ironbug.PythonConverter.Test
         public void DescribeAllPyModulesTest()
         {
             var dec = new PythonConverter();
-            var obj = dec.DescribeAllPyModules("honeybee");
+            var objs = dec.DescribeAllPyModules("honeybee");
+            int successCounts = 0;
 
-            var success = obj is null;
-            Assert.IsTrue(!success);
+            foreach (var item in objs)
+            {
+
+                string moduleName = item["Name"];
+                var moduleClasses = item["Classes"] as IList<dynamic>;
+
+                if (moduleName.StartsWith("honeybee.radiance.command.raBmp"))
+                {
+                    if (moduleClasses.Count == 1) //
+                    {
+                        successCounts++;
+                    }
+                }
+                else if (moduleName.StartsWith("honeybee.radiance.command.rmtxop"))
+                {
+                    if (moduleClasses.Count == 2) //
+                    {
+                        successCounts++;
+                    }
+                }
+
+            }
+            var success = successCounts == 2;
+            Assert.IsTrue(success);
+        }
+        [TestMethod]
+        public void genT4Test()
+        {
+            var dec = new PythonConverter();
+            var objs = dec.DescribeAllPyModules("honeybee");
+            string cSharpString = dec.ConvertToCSharpCode(objs);
+            string saveFilePath = @"..\..\..\Ironbug.PythonConverter\Outputs\CSharp\raBmp.cs";
+            File.WriteAllText(saveFilePath, cSharpString);
+
+            var success = File.Exists(saveFilePath);
+            Assert.IsTrue(success);
+            
         }
 
 

@@ -142,7 +142,7 @@ class PyModuleDescriber(object):
 		mods = self.import_submodules(package)
 		modsDes = []
 		for i in mods:
-			if not i.startswith('honeybee.radiance.command.r'):
+			if not i.startswith('honeybee.radiance.command.r'): #<<<<<<<<=============== only for test
 				continue;
 
 			mod = mods[i];

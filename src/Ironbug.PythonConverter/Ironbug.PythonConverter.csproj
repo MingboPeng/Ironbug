@@ -53,15 +53,29 @@
     <Compile Include="PyCodeBlock.cs" />
     <Compile Include="PyConstructorInfo.cs" />
     <Compile Include="PyMethodInfo.cs" />
+    <Compile Include="PyModuleDescription.cs" />
     <Compile Include="PyProcessing.cs" />
     <Compile Include="PyPropertyInfo.cs" />
     <Compile Include="PyValueInfo.cs" />
+    <Compile Include="PyModuleDescription1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PyModuleDescription.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="PyModuleDescriber.py" />
+    <Content Include="PyModuleDescription.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>PyModuleDescription1.cs</LastGenOutput>
+      <FormatOutput>True</FormatOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
