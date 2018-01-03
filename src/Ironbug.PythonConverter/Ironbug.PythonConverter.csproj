@@ -71,7 +71,7 @@
     <Content Include="PyModuleDescription.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>PyModuleDescription1.cs</LastGenOutput>
-      <FormatOutput>True</FormatOutput>
+      <FormatOutput>False</FormatOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

@@ -98,9 +98,9 @@ class PyModuleDescriber(object):
 					arguments.append(self.creatValuable(name, data))
 					
 				#defaultArgs = zip(defargs, arginfo[3])
-		print arguments
-
+		
 		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": arguments}
+
 		return funcDict
 		
 	def describe_class(self,classObj):

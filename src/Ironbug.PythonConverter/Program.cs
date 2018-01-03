@@ -9,8 +9,8 @@ namespace Ironbug.PythonConverter
     public class PythonConverter
     {
         string pyPackage = @"..\..\..\..\LBHB";
-        //string pyLib = @"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib";
-        string pyLib = @"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib";
+        string pyLib = @"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib";
+        //string pyLib = @"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib";
 
         public void DescribePyModulesInFolder()
         {
@@ -104,14 +104,19 @@ namespace Ironbug.PythonConverter
                 var moduleFunctions = item["Functions"] as IList<dynamic>;
                 var moduleValuables = item["Valuables"] as IList<dynamic>;
 
+                
 
                 //for test purpose 
-                if (moduleName.StartsWith("honeybee.radiance.command.raBmp"))
+                if (moduleName.StartsWith("honeybee.radiance.command.raTiff"))
                 {
                     tt = new PyModuleDescription(moduleName);
                     tt.Classes = moduleClasses;
                     tt.Functions = moduleFunctions;
                     tt.Valuables = moduleValuables;
+
+
+
+                    
                 }
 
             }
