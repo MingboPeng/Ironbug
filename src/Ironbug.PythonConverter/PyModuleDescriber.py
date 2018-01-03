@@ -76,7 +76,7 @@ class PyModuleDescriber(object):
 		else:
 			defaultArgs = []
 
-		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
+		funcDict = {"Type": type,"IfOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
 		return funcDict
 	
 
