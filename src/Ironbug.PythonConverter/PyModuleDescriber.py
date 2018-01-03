@@ -35,6 +35,27 @@ class PyModuleDescriber(object):
 			return True
 		else:
 			return False
+			
+	def checkValuableType(self,data):
+		typeName = type(data).__name__
+		#print typeName
+		if(typeName == "int"):return "int"
+		elif(typeName == "float"):return "float"
+		elif(typeName == "bool"):return "bool"
+		elif(typeName == "str"):return "string"
+		elif(typeName == "dict"):return "dictionary"
+		elif(typeName == "list"):return "list"
+		elif(typeName == "long"):return "long"
+		elif(typeName == "tuple"):return "tuple"
+		else:return "object"
+	
+	def creatValuable(self,name, data):
+		objType = self.checkValuableType(data)
+		if (objType == "tuple"):
+			data = list(data)
+			objType = "list"
+		valuableObj = {"Name":name,"Type":objType,"DefaultValue":data}
+		return valuableObj
 
 	def describe_func(self,obj, isMethod=False, isOverrideMethod = False):
 		""" Describe the function object passed as argument.
@@ -66,20 +87,22 @@ class PyModuleDescriber(object):
 		args = arginfo[0]
 		argsvar = arginfo[1]
 		defaultArgs = []
+		arguments = []
 
-		if args:
+		if args: #### this including "self" in methods
 			if arginfo[3]:
 				dl = len(arginfo[3])
 				al = len(args)
-				defargs = args[al-dl:al]
-				defaultArgs = zip(defargs, arginfo[3])
-		else:
-			defaultArgs = []
+				defargs = args[al-dl:al] #### this is clean arguments
+				for name, data in zip(defargs, arginfo[3]):
+					arguments.append(self.creatValuable(name, data))
+					
+				#defaultArgs = zip(defargs, arginfo[3])
+		print arguments
 
-		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": args, "DefaultArgs": defaultArgs}
+		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": arguments}
 		return funcDict
-	
-
+		
 	def describe_class(self,classObj):
 		""" Describe the class object passed as argument,
 		including its methods """
@@ -142,20 +165,16 @@ class PyModuleDescriber(object):
 		mods = self.import_submodules(package)
 		modsDes = []
 		for i in mods:
-			if not i.startswith('honeybee.radiance.command.r'): #<<<<<<<<=============== only for test
+			if not i.startswith('honeybee.radiance.recipe.parameters'): #<<<<<<<<=============== only for test
 				continue;
-
 			mod = mods[i];
-			
-
 			if i.startswith('ERROR'):
 				print (mod)
 			else:
 				#print i
 				modsDes.append(self.describe(mod))
 		return modsDes;
-
-
+		
 	def describe(self,module):
 		""" Describe the module object 
 		including its classes and functions """
@@ -191,15 +210,15 @@ class PyModuleDescriber(object):
 
 			#Local valuable in Module
 			else:
-				mod_valuable = {"name":i, "value":obj}
-				mod_valuables.append(mod_valuable)
+				mod_valuables.append(self.creatValuable(i, obj))
 				
 		moduleDict = {"Name":module.__name__ ,"Classes":mod_classes, "Functions":mod_functions, "Valuables":mod_valuables};
 		#print module
 		#return json.dumps(moduleDict);
 		return moduleDict;
 
-
-
+#import honeybee
+#from honeybee.radiance.command.raTiff import RaTiff 
 #module = RaTiff
-#jsonobj= PyModuleDescriber().describe(RaTiff)
+#obj = PyModuleDescriber().describeAll(honeybee)
+#a = obj
