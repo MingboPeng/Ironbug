@@ -31,119 +31,105 @@ namespace Ironbug.PythonConverter
             this.Write("namespace ");
             
             #line 6 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
+            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n\r\n\t");
+            this.Write("\r\n{\r\n\r\n");
             
             #line 9 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
- 
+
 	//START: Generate classes
-	foreach (dynamic pyClass in Classes){
-		string className = pyClass["Name"];
-		var baseClasses = pyClass["Bases"] as IList<dynamic>;
-		var properties = pyClass["Properties"] as IList<dynamic>;
-		var methods = pyClass["Methods"] as IList<dynamic>;
+	foreach (var pyClass in Classes){
 
-		var baseClassNames = from item in baseClasses select item["Name"];
-		string baseClassString = string.Join(",",baseClassNames);
-
-	
             
             #line default
             #line hidden
-            this.Write("// this is a class\r\npublic class ");
+            this.Write("\t// this is a class\r\n\tpublic class ");
             
-            #line 22 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(className)));
+            #line 14 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(CheckName(pyClass.Name)));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 22 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(baseClassString)));
+            #line 14 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(CheckName(pyClass.BaseClassNamesString)));
             
             #line default
             #line hidden
-            this.Write("\r\n    {\r\n\r\n\r\n\r\n\t\t");
+            this.Write("\r\n    {\r\n");
             
-            #line 27 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 16 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
 		//START: Generate properties.  
-		foreach (dynamic pyProperty in properties){
-		
+		foreach (dynamic pyProperty in pyClass.Properties){
+
             
             #line default
             #line hidden
-            this.Write("\r\n// this is a class Property\r\npublic object ");
+            this.Write("\t\t// this is a class Property\r\n\t\tpublic object ");
             
-            #line 33 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 21 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(pyProperty)));
             
             #line default
             #line hidden
             this.Write("\r\n\t\t{\r\n\t\t\tget { return this.RawObj.");
             
-            #line 35 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 23 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pyProperty));
             
             #line default
             #line hidden
             this.Write("; }\r\n\t\t\tset { this.RawObj.");
             
-            #line 36 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 24 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(pyProperty));
             
             #line default
             #line hidden
-            this.Write(" = value; }\r\n\t\t}\r\n\r\n\t\t");
+            this.Write(" = value; }\r\n\t\t}\r\n\r\n");
             
-            #line 39 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 27 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
 		}//END: Generate properties.  
-		
-            
-            #line default
-            #line hidden
-            this.Write("\r\n\r\n\r\n\t\t");
-            
-            #line 45 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
- 
+
 		//START: Generate methods.  
-		foreach (dynamic pyMethod in methods){
+		foreach (dynamic pyMethod in pyClass.Methods){
 			string methodName = pyMethod["Name"];
 			string methodType = pyMethod["Type"];
 			bool ifReturn = pyMethod["IfReturn"];
 			bool ifOverride = pyMethod["IfOverride"];
 			var arguments = pyMethod["Arguments"] as IList<dynamic>;
 
-
+			
 			string returnType = ReturnType(ifReturn);
 			string overrideMark = CheckOverride(ifOverride);
-			var argumentNames = from item in arguments where item !="self" select item; //use object for types for now. TODO: fix it later
-			var argumentNamesWithType = from item in arguments where item !="self" select "object "+item; //use object for types for now. TODO: fix it later
+			var argumentNames = from item in arguments select item["Name"]; 
+			var argumentNamesWithType = from item in arguments select ( item["Type"]+" "+item["Name"]); 
+			//var argumentNamesWithTypeAndDefault = arguments.Select(item => item["Type"]+" "+item["Name"] +"="); //TODO: add arguments with default values
 
 			string argumentString = string.Join(",",argumentNames);
 			string argumentStringWithType = string.Join(",",argumentNamesWithType);
 
             if (methodType == "Constructor")
             {
-		
+
             
             #line default
             #line hidden
-            this.Write("// this is a class constructor\r\n\t\tpublic ");
+            this.Write("\t\t// this is a class constructor\r\n\t\tpublic ");
             
-            #line 67 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(className)));
+            #line 52 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(CheckName(pyClass.Name)));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 67 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 52 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(argumentStringWithType));
             
             #line default
@@ -151,179 +137,142 @@ namespace Ironbug.PythonConverter
             this.Write(")\r\n\t\t{\r\n\t\t\tPythonEngine engine = new PythonEngine();\r\n\t\t\tdynamic pyModule = engin" +
                     "e.ImportFrom(From: \"");
             
-            #line 70 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 55 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("\", Import: \"");
             
-            #line 70 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(className)));
+            #line 55 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write("\");\r\n\r\n\t\t\tif (pyModule != null)\r\n\t\t\t{\r\n\t\t\t\tthis.RawObj = pyModule(");
             
-            #line 74 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 59 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(argumentString));
             
             #line default
             #line hidden
-            this.Write(");\r\n\t\t\t}\r\n\r\n\t\t}\r\n\t\t");
+            this.Write(");\r\n\t\t\t}\r\n\r\n\t\t}\r\n\r\n");
             
-            #line 78 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 64 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
             }else
             {
-	         
+
             
             #line default
             #line hidden
-            this.Write("// this is a class method\r\n\t\tpublic ");
+            this.Write("\t\t// this is a class method\r\n\t\tpublic ");
             
-            #line 83 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 69 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(overrideMark));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 83 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 69 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(returnType));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 83 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 69 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UpperInitial(methodName)));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 83 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 69 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(argumentStringWithType));
             
             #line default
             #line hidden
-            this.Write(")\r\n\t\t{\r\n\t\t\t");
+            this.Write(")\r\n\t\t{\r\n");
             
-            #line 85 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 71 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
 			if (ifOverride)
 			{
-				
+
             
             #line default
             #line hidden
-            this.Write("\t\t\t\treturn base.");
+            this.Write("\t\t\treturn base.");
             
-            #line 89 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 75 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(methodName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 89 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 75 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(argumentString));
             
             #line default
             #line hidden
-            this.Write(");\r\n\t\t\t\t");
+            this.Write(");\r\n");
             
-            #line 90 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 76 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
             }else
             {
-				
+
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tbase.");
+            this.Write("\t\t\tbase.");
             
-            #line 94 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 80 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(methodName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 94 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 80 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(argumentString));
             
             #line default
             #line hidden
-            this.Write(");\r\n\t\t\t\t");
+            this.Write(");\r\n");
             
-            #line 95 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 81 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
             }
-			
+
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n\t\t}\r\n\t\t\t");
+            this.Write("\t\t}\r\n");
             
-            #line 101 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 85 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
 
             }
 		}//END: Generate methods.  
-		
+
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n\r\n\r\n    }\r\n\t");
+            this.Write("\r\n\r\n\r\n\r\n    }\r\n");
             
-            #line 110 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
+            #line 94 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
  
 	}//END: Generate classes
-	
+
             
             #line default
             #line hidden
-            this.Write("\r\n\r\n\r\n} //namespace\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+            this.Write("\r\n\r\n\r\n} //namespace\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
-        
-        #line 123 "C:\Users\Mingbo\Documents\GitHub\Ironbug\src\Ironbug.PythonConverter\PyModuleDescription.tt"
-  
-   private static string UpperInitial(string name)  
-   {  
-      return name[0].ToString().ToUpperInvariant() + name.Substring(1);  
-   }  
-
-   private static string ReturnType(bool IfReturn)  
-   {  
-	  if (IfReturn)
-	  {
-		  return "object"; //use object for types for now. TODO: fix it later
-	  }
-	  else
-	  {
-		  return "void";
-	  }
-      
-   }  
-
-   private static string CheckOverride(bool IfOverride)  
-   {  
-	  if (IfOverride)
-	  {
-		  return "override"; 
-	  }
-	  else
-	  {
-		  return string.Empty;
-	  }
-      
-   }  
-
-        
-        #line default
-        #line hidden
     }
     
     #line default

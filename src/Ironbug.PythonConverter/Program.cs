@@ -93,35 +93,17 @@ namespace Ironbug.PythonConverter
         }
 
         //convert python described json object to CSharp code
-        public string ConvertToCSharpCode(IList<dynamic> PyModuleDescription)
+        public List<string> ConvertToCSharpCode(IList<dynamic> PyModuleObjects)
         {
-            PyModuleDescription tt = new PyModuleDescription("test");
-            foreach (var item in PyModuleDescription)
+            var CSCodes = new List<string>();
+            foreach (var pyModule in PyModuleObjects)
             {
-
-                string moduleName = item["Name"];
-                var moduleClasses = item["Classes"] as IList<dynamic>;
-                var moduleFunctions = item["Functions"] as IList<dynamic>;
-                var moduleValuables = item["Valuables"] as IList<dynamic>;
-
+                var tt = new PyModuleDescription(pyModule);
+                CSCodes.Add(tt.CSCode);
                 
-
-                //for test purpose 
-                if (moduleName.StartsWith("honeybee.radiance.command.raTiff"))
-                {
-                    tt = new PyModuleDescription(moduleName);
-                    tt.Classes = moduleClasses;
-                    tt.Functions = moduleFunctions;
-                    tt.Valuables = moduleValuables;
-
-
-
-                    
-                }
-
             }
             
-            return tt.TransformText(); //return cs code
+            return CSCodes; //return cs code
         }
 
         

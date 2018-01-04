@@ -44,7 +44,7 @@ class PyModuleDescriber(object):
 		elif(typeName == "bool"):return "bool"
 		elif(typeName == "str"):return "string"
 		elif(typeName == "dict"):return "dictionary"
-		elif(typeName == "list"):return "list"
+		elif(typeName == "list"):return "list<object>" # use object for now. TODO, fix it later
 		elif(typeName == "long"):return "long"
 		elif(typeName == "tuple"):return "tuple"
 		else:return "object"
@@ -53,7 +53,7 @@ class PyModuleDescriber(object):
 		objType = self.checkValuableType(data)
 		if (objType == "tuple"):
 			data = list(data)
-			objType = "list"
+			objType = "list<object>" # use object for now. TODO, fix it later
 		valuableObj = {"Name":name,"Type":objType,"DefaultValue":data}
 		return valuableObj
 
@@ -99,7 +99,7 @@ class PyModuleDescriber(object):
 					
 				#defaultArgs = zip(defargs, arginfo[3])
 		
-		funcDict = {"Type": type,"IsOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": arguments}
+		funcDict = {"Type": type,"IfOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": arguments}
 
 		return funcDict
 		
@@ -165,7 +165,7 @@ class PyModuleDescriber(object):
 		mods = self.import_submodules(package)
 		modsDes = []
 		for i in mods:
-			if not i.startswith('honeybee.radiance.recipe.parameters'): #<<<<<<<<=============== only for test
+			if not i.startswith('honeybee.radiance.command.raBmp'): #<<<<<<<<=============== only for test
 				continue;
 			mod = mods[i];
 			if i.startswith('ERROR'):

@@ -1,21 +1,16 @@
-namespace honeybee.radiance.command.raTiff
+namespace Honeybee.Radiance.Command
 {
 
 	// this is a class
-	public class RaTiff : RadianceCommand
+	public class RaBmp : RadianceCommand
     {
-
-
-
-				
 		// this is a class Property
-		public object RaTiffParameters
+		public object RaBmpParameters
 		{
-			get { return this.RawObj.raTiffParameters; }
-			set { this.RawObj.raTiffParameters = value; }
+			get { return this.RawObj.raBmpParameters; }
+			set { this.RawObj.raBmpParameters = value; }
 		}
 
-			
 		// this is a class Property
 		public object InputFiles
 		{
@@ -23,40 +18,31 @@ namespace honeybee.radiance.command.raTiff
 			set { this.RawObj.inputFiles = value; }
 		}
 
-			
-
-
 		// this is a class constructor
-		public RaTiff(object inputHdrFile,object outputTiffFile,object raTiffParameters)
+		public RaBmp(object inputHdrFile,object outputBmpFile,object raBmpParameters)
 		{
 			PythonEngine engine = new PythonEngine();
-			dynamic pyModule = engine.ImportFrom(From: "honeybee.radiance.command.raTiff", Import: "RaTiff");
+			dynamic pyModule = engine.ImportFrom(From: "honeybee.radiance.command.raBmp", Import: "honeybee.radiance.command.raBmp");
 
 			if (pyModule != null)
 			{
-				this.RawObj = pyModule(inputHdrFile,outputTiffFile,raTiffParameters);
+				this.RawObj = pyModule(inputHdrFile,outputBmpFile,raBmpParameters);
 			}
 
 		}
-		
+
 		// this is a class method
-		public override object ToRadString(object relativePath)
+		public override object ToRadString(bool relativePath)
 		{
 			return base.toRadString(relativePath);
-				
 		}
-			
+
 
 
 
     }
-	
+
 
 
 } //namespace
-
-
-
-
-
 

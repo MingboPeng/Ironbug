@@ -3,71 +3,56 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-namespace <#= Name #>
+namespace <#= Namespace #>
 {
 
-	<# 
+<#
 	//START: Generate classes
-	foreach (dynamic pyClass in Classes){
-		string className = pyClass["Name"];
-		var baseClasses = pyClass["Bases"] as IList<dynamic>;
-		var properties = pyClass["Properties"] as IList<dynamic>;
-		var methods = pyClass["Methods"] as IList<dynamic>;
-
-		var baseClassNames = from item in baseClasses select item["Name"];
-		string baseClassString = string.Join(",",baseClassNames);
-
-	#>
-// this is a class
-public class <#= UpperInitial(className) #> : <#= UpperInitial(baseClassString) #>
+	foreach (var pyClass in Classes){
+#>
+	// this is a class
+	public class <#= CheckName(pyClass.Name) #> : <#= CheckName(pyClass.BaseClassNamesString) #>
     {
-
-
-
-		<# 
+<# 
 		//START: Generate properties.  
-		foreach (dynamic pyProperty in properties){
-		#>
-
-// this is a class Property
-public object <#= UpperInitial(pyProperty) #>
+		foreach (dynamic pyProperty in pyClass.Properties){
+#>
+		// this is a class Property
+		public object <#= UpperInitial(pyProperty) #>
 		{
 			get { return this.RawObj.<#= pyProperty #>; }
 			set { this.RawObj.<#= pyProperty #> = value; }
 		}
 
-		<# 
+<# 
 		}//END: Generate properties.  
-		#>
 
-
-
-		<# 
 		//START: Generate methods.  
-		foreach (dynamic pyMethod in methods){
+		foreach (dynamic pyMethod in pyClass.Methods){
 			string methodName = pyMethod["Name"];
 			string methodType = pyMethod["Type"];
 			bool ifReturn = pyMethod["IfReturn"];
 			bool ifOverride = pyMethod["IfOverride"];
 			var arguments = pyMethod["Arguments"] as IList<dynamic>;
 
-
+			
 			string returnType = ReturnType(ifReturn);
 			string overrideMark = CheckOverride(ifOverride);
-			var argumentNames = from item in arguments where item !="self" select item; //use object for types for now. TODO: fix it later
-			var argumentNamesWithType = from item in arguments where item !="self" select "object "+item; //use object for types for now. TODO: fix it later
+			var argumentNames = from item in arguments select item["Name"]; 
+			var argumentNamesWithType = from item in arguments select ( item["Type"]+" "+item["Name"]); 
+			//var argumentNamesWithTypeAndDefault = arguments.Select(item => item["Type"]+" "+item["Name"] +"="); //TODO: add arguments with default values
 
 			string argumentString = string.Join(",",argumentNames);
 			string argumentStringWithType = string.Join(",",argumentNamesWithType);
 
             if (methodType == "Constructor")
             {
-		#>
-// this is a class constructor
-		public <#= UpperInitial(className) #>(<#=argumentStringWithType #>)
+#>
+		// this is a class constructor
+		public <#= CheckName(pyClass.Name) #>(<#=argumentStringWithType #>)
 		{
 			PythonEngine engine = new PythonEngine();
-			dynamic pyModule = engine.ImportFrom(From: "<#= Name #>", Import: "<#= UpperInitial(className)#>");
+			dynamic pyModule = engine.ImportFrom(From: "<#= Name #>", Import: "<#=Name#>");
 
 			if (pyModule != null)
 			{
@@ -75,80 +60,42 @@ public object <#= UpperInitial(pyProperty) #>
 			}
 
 		}
-		<# 
+
+<# 
             }else
             {
-	         #>
-// this is a class method
+#>
+		// this is a class method
 		public <#=overrideMark #> <#=returnType #> <#=UpperInitial(methodName) #>(<#=argumentStringWithType #>)
 		{
-			<# 
+<# 
 			if (ifOverride)
 			{
-				#>
-				return base.<#=methodName#>(<#=argumentString #>);
-				<# 
+#>
+			return base.<#=methodName#>(<#=argumentString #>);
+<# 
             }else
             {
-				#>
-				base.<#=methodName#>(<#=argumentString #>);
-				<# 
+#>
+			base.<#=methodName#>(<#=argumentString #>);
+<# 
             }
-			#>
-
-
+#>
 		}
-			<#
+<#
             }
 		}//END: Generate methods.  
-		#>
+#>
 
 
 
 
     }
-	<# 
+<# 
 	}//END: Generate classes
-	#>
+#>
 
 
 
 } //namespace
 
-
-
-
-
-
-<#+  
-   private static string UpperInitial(string name)  
-   {  
-      return name[0].ToString().ToUpperInvariant() + name.Substring(1);  
-   }  
-
-   private static string ReturnType(bool IfReturn)  
-   {  
-	  if (IfReturn)
-	  {
-		  return "object"; //use object for types for now. TODO: fix it later
-	  }
-	  else
-	  {
-		  return "void";
-	  }
-      
-   }  
-
-   private static string CheckOverride(bool IfOverride)  
-   {  
-	  if (IfOverride)
-	  {
-		  return "override"; 
-	  }
-	  else
-	  {
-		  return string.Empty;
-	  }
-      
-   }  
-#>

@@ -110,7 +110,7 @@ namespace Ironbug.PythonConverter.Test
         {
             var dec = new PythonConverter();
             var objs = dec.DescribeAllPyModules("honeybee");
-            string cSharpString = dec.ConvertToCSharpCode(objs);
+            string cSharpString = dec.ConvertToCSharpCode(objs).First();
             string saveFilePath = @"..\..\..\Ironbug.PythonConverter\Outputs\CSharp\raBmp.cs";
             File.WriteAllText(saveFilePath, cSharpString);
 
