@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace Ironbug.PythonConverter
 {
@@ -9,50 +9,62 @@ namespace Ironbug.PythonConverter
     partial class PyModuleDescription
     {
         //Module's full name: like "honeybee.radiance.command.raBmp"
-        public string Name;
-        
+        public string Name { get; set; }
+
         //Classes in this python module
-        public List<PyClassDescription> Classes;
+        public List<PyClassDescription> Classes { get; set; }
 
         //Functions in this python module
-        public IList<dynamic> Functions;
+        public List<PyMethodDescription> Functions { get; set; }
 
         //Valuables in this python module
-        public IList<dynamic> Valuables;
+        public List<PyValuableDescription> Valuables { get; set; }
 
 
 
         //namespace, all caped names
-        public string Namespace;
+        public string Namespace { get; set; }
         //caped module name for saving the file
-        public string ModuleName;
+        public string ModuleName { get; set; }
 
         //T4 generated code
-        public string CSCode;
+        public string CSCode { get; set; }
 
         public PyModuleDescription()
         {
-
+            this.Classes = new List<PyClassDescription>();
+            this.Functions = new List<PyMethodDescription>();
+            this.Valuables = new List<PyValuableDescription>();
         }
 
         public PyModuleDescription(dynamic PyModuleObject)
         {
             this.Name = PyModuleObject["Name"];
             var classes = PyModuleObject["Classes"] as IList<dynamic>;
-            this.Functions = PyModuleObject["Functions"] as IList<dynamic>;
-            this.Valuables = PyModuleObject["Valuables"] as IList<dynamic>;
+            var functions = PyModuleObject["Functions"] as IList<dynamic>;
+            var valuables = PyModuleObject["Valuables"] as IList<dynamic>;
 
-            var capName = CheckName(this.Name);
+            var capName = this.Name.CheckNamingForCS();
             this.Namespace = GetNamespace(capName);
             this.ModuleName = GetModuleName(capName);
+            
 
-            this.Classes = (from classObj in classes select new PyClassDescription(classObj)).ToList();
+            //foreach (var item in classes)
+            //{
+            //    var cls = new PyClassDescription(item);
+            //    this.Classes.Add(cls);
+            //}
 
+            this.Classes = classes.Select(item => new PyClassDescription(item)).ToList();
+            this.Functions = functions.Select(item => new PyMethodDescription(item)).ToList();
+            this.Valuables = valuables.Select(item => new PyValuableDescription(item)).ToList();
 
             this.CSCode = this.TransformText();
         }
 
-        private static string GetNamespace (string ModuleFullName)
+
+
+        private static string GetNamespace(string ModuleFullName)
         {
             var names = ModuleFullName.Split('.');
             return string.Join(".", names.Take(names.Length - 1));
@@ -63,84 +75,8 @@ namespace Ironbug.PythonConverter
             return ModuleFullName.Split('.').Last();
         }
 
-        private static string CheckName(string Name)
-        {
-            if (Name.Contains('.')) //check for namespaces
-            {
-                var names = Name.Split('.').Select(name => UpperInitial(name));
-                return string.Join(".",names);
-            }
-            else
-            {
-                return UpperInitial(Name);
-            }
-        }
 
-        // Static methods
-        private static string UpperInitial(string name)
-        {
-            return name[0].ToString().ToUpperInvariant() + name.Substring(1);
-        }
 
-        private static string ReturnType(bool IfReturn)
-        {
-            if (IfReturn)
-            {
-                return "object"; //use object for types for now. TODO: fix it later
-            }
-            else
-            {
-                return "void";
-            }
-
-        }
-        private static string CheckOverride(bool IfOverride)
-        {
-            if (IfOverride)
-            {
-                return "override";
-            }
-            else
-            {
-                return string.Empty;
-            }
-
-        }
 
     }
-
-    //classDict = {"Bases": baseNames,"Properties":properties,"Methods":methods, "Name": classObj.__name__};
-    public class PyClassDescription
-    {
-        public string Name;
-        public IList<dynamic> Properties;
-        public IList<dynamic> Methods;
-        //public List<string> Bases;
-
-        public string NameCS;
-        public string BaseClassNamesString;
-
-        public PyClassDescription()
-        {
-
-        }
-        public PyClassDescription(dynamic PyClassObj)
-        {
-
-            this.Name = PyClassObj["Name"];
-            var bases = PyClassObj["Bases"] as IList<dynamic>;
-            this.Properties = PyClassObj["Properties"] as IList<dynamic>;
-            this.Methods = PyClassObj["Methods"] as IList<dynamic>;
-
-
-            var baseNames = bases.Select(item => item["Name"]);
-            //this.Bases = baseNames.ConvertAll<string>();
-            this.BaseClassNamesString = string.Join(",", baseNames);
-
-        }
-    }
-
-
-
-
 }

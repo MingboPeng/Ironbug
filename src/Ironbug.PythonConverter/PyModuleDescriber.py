@@ -43,8 +43,8 @@ class PyModuleDescriber(object):
 		elif(typeName == "float"):return "float"
 		elif(typeName == "bool"):return "bool"
 		elif(typeName == "str"):return "string"
-		elif(typeName == "dict"):return "dictionary"
-		elif(typeName == "list"):return "list<object>" # use object for now. TODO, fix it later
+		elif(typeName == "dict"):return "Dictionary<string,object>"
+		elif(typeName == "list"):return "List<object>" # use object for now. TODO, fix it later
 		elif(typeName == "long"):return "long"
 		elif(typeName == "tuple"):return "tuple"
 		else:return "object"
