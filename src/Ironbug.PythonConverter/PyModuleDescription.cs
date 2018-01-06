@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Ironbug.PythonConverter
 {
+    
     //moduleDict = {"Name":module.__name__ ,"Classes":mod_classes, "Functions":mod_functions, "Valuables":mod_valuables};
     partial class PyModuleDescription
     {

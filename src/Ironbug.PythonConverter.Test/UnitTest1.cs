@@ -10,6 +10,47 @@ namespace Ironbug.PythonConverter.Test
     public class UnitTest1
     {
         [TestMethod()]
+        public void TEST_DescribePyModule()
+        {
+            var dec = new PythonConverter();
+            string module = "honeybee.radiance.command.epw2wea";
+            var obj = dec.DescribePyModule(Import: module);
+
+            var success = !(obj is null) && (obj[0]["Name"] == module);
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod()]
+        public void TEST_ConvertToCSharpCode()
+        {
+            string module = "honeybee.radiance.command.epw2wea";
+            module = "honeybee.radiance.recipe.parameters";
+            module = "honeybee.radiance.recipe.recipedcutil";
+            //module = "honeybee.radiance.view";
+
+            var dec = new PythonConverter();
+            var obj = dec.DescribePyModule(Import: module);
+            string cSharpString = dec.ConvertToCSharpCode(obj).First();
+
+            string saveFilePath = @"..\..\..\Ironbug.PythonConverter\Outputs\CSharp\" + module.Replace('.', '\\') + ".cs";
+            string saveToFolder = Path.GetDirectoryName(saveFilePath);
+            Directory.CreateDirectory(saveToFolder);
+            
+            File.WriteAllText(saveFilePath, cSharpString);
+
+            var success = File.Exists(saveFilePath);
+            Assert.IsTrue(success);
+
+            
+        }
+    
+
+
+        //####################################################################################################
+        // 
+        //####################################################################################################
+
+        [TestMethod()]
         public void ExtractClassInfoTest()
         {
 
@@ -42,15 +83,7 @@ namespace Ironbug.PythonConverter.Test
             Assert.IsTrue(success);
         }
 
-        [TestMethod()]
-        public void PyModuleDescriberTest()
-        {
-            var dec = new PythonConverter();
-            var obj = dec.DescribePyModule(From:"honeybee.radiance.command.epw2wea",Import: "Epw2wea");
-            
-            var success = obj is null;
-            Assert.IsTrue(!success);
-        }
+        
 
         [TestMethod()]
         public void PyModuleDescriberAndSaveTest()
@@ -58,7 +91,7 @@ namespace Ironbug.PythonConverter.Test
             string saveFolder = @"..\..\..\Ironbug.PythonConverter\Outputs\Json";
 
             var dec = new PythonConverter();
-            var savedFile = dec.DescribePyModuleAndSaveAsJson(From: "honeybee.radiance.command.epw2wea", Import: "Epw2wea",SaveTo:saveFolder);
+            var savedFile = dec.DescribePyModuleAndSaveAsJson(Import: "honeybee.radiance.command.epw2wea",SaveTo:saveFolder);
             
             var success = File.Exists(savedFile);
             Assert.IsTrue(success);
@@ -78,7 +111,7 @@ namespace Ironbug.PythonConverter.Test
         public void DescribeAllPyModulesTest()
         {
             var dec = new PythonConverter();
-            var objs = dec.DescribeAllPyModules("honeybee");
+            var objs = dec.DescribePackage("honeybee");
             int successCounts = 0;
 
             foreach (var item in objs)
@@ -105,11 +138,12 @@ namespace Ironbug.PythonConverter.Test
             var success = successCounts == 2;
             Assert.IsTrue(success);
         }
+
         [TestMethod]
         public void genT4Test()
         {
             var dec = new PythonConverter();
-            var objs = dec.DescribeAllPyModules("honeybee");
+            var objs = dec.DescribePackage("honeybee");
             string cSharpString = dec.ConvertToCSharpCode(objs).First();
             string saveFilePath = @"..\..\..\Ironbug.PythonConverter\Outputs\CSharp\raBmp.cs";
             File.WriteAllText(saveFilePath, cSharpString);

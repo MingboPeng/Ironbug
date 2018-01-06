@@ -27,6 +27,13 @@
 
             if (this.DefaultValue != null)
             {
+                if (this.Type == "string")
+                {
+                    if (string.IsNullOrWhiteSpace(this.DefaultValue))
+                    {
+                        this.DefaultValue = "\"\"";
+                    }
+                }
                 this.TypeNameValue = string.Format("{0} {1} = {2}", this.Type, this.NameCS, this.DefaultValue);
             }
             else

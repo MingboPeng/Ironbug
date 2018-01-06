@@ -35,14 +35,14 @@ namespace Ironbug.PythonConverter
                     string import = new string(a);
 
                     //Save JSON
-                    DescribePyModuleAndSaveAsJson(from, import, saveToMainFolder);
+                    DescribePyModuleAndSaveAsJson(import, saveToMainFolder);
                 }
             }
             
            //return files;
         }
 
-        public IList<dynamic> DescribePyModule(string ImportString)
+        public IList<dynamic> Describe(string ImportString)
         {
             string importString = ImportString;
 
@@ -62,7 +62,7 @@ namespace Ironbug.PythonConverter
                 source.Execute(scope);
                 engine.Execute(importString, scope);
                 var cal = scope.GetVariable("jsonobj") as IList<dynamic>;
-                Console.WriteLine(cal.Count + " modules described.");
+                Console.WriteLine(cal.Count + " modules have been described.");
                 return cal;
             }
             catch (Exception ex)
@@ -75,21 +75,21 @@ namespace Ironbug.PythonConverter
 
         }
 
-        public IList<dynamic> DescribePyModule(string From, string Import)
+        public IList<dynamic> DescribePyModule(string Import, bool DebugMode = false) // describe one module
         {
-            string importString = string.Format(@"from {0} import {1} as desModule;", From, Import);
-            importString += "jsonobj= PyModuleDescriber().describe(desModule)";
+            string importString = string.Format(@"import {0} as desModule;", Import);
+            importString += "jsonobj= [PyModuleDescriber().describeModule(desModule)]";
 
-            return this.DescribePyModule(importString);
+            return this.Describe(importString);
             
         }
 
-        public IList<dynamic> DescribeAllPyModules(string Import)
+        public IList<dynamic> DescribePackage(string Import)  // the package includes all modules
         {
             string importString = string.Format(@"import {0} as desModule;", Import);
-            importString += "jsonobj= PyModuleDescriber().describeAll(desModule)";
+            importString += "jsonobj= PyModuleDescriber().describePackage(desModule)";
 
-            return this.DescribePyModule(importString);
+            return this.Describe(importString);
         }
 
         //convert python described json object to CSharp code
@@ -106,13 +106,13 @@ namespace Ironbug.PythonConverter
             return CSCodes; //return cs code
         }
 
-        
-        
-        public string DescribePyModuleAndSaveAsJson(string From, string Import, string SaveTo)
-        {
-            var jsonString = DescribePyModule(From,Import).ToString();
 
-            string saveToFile = SaveTo + '\\' + From.Replace('.', '\\') + ".json";
+        //import honeybee.radiance.command.raTiff
+        public string DescribePyModuleAndSaveAsJson(string Import, string SaveTo)
+        {
+            var jsonString = DescribePyModule(Import).ToString();
+
+            string saveToFile = SaveTo + '\\' + Import.Replace('.', '\\') + ".json";
             string saveToFolder = Path.GetDirectoryName(saveToFile);
             Directory.CreateDirectory(saveToFolder);
 

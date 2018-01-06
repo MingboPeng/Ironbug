@@ -53,7 +53,7 @@ class PyModuleDescriber(object):
 		objType = self.checkValuableType(data)
 		if (objType == "tuple"):
 			data = list(data)
-			objType = "list<object>" # use object for now. TODO, fix it later
+			objType = "List<object>" # use object for now. TODO, fix it later
 		valuableObj = {"Name":name,"Type":objType,"DefaultValue":data}
 		return valuableObj
 
@@ -89,15 +89,18 @@ class PyModuleDescriber(object):
 		defaultArgs = []
 		arguments = []
 
-		if args: #### this including "self" in methods
-			if arginfo[3]:
+		if args: 
+			if arginfo[3]: #### this checks if defaults
 				dl = len(arginfo[3])
 				al = len(args)
 				defargs = args[al-dl:al] #### this is clean arguments
 				for name, data in zip(defargs, arginfo[3]):
 					arguments.append(self.creatValuable(name, data))
-					
-				#defaultArgs = zip(defargs, arginfo[3])
+			else: 
+				for name in args:
+					if name.startswith("self"):
+						continue
+					arguments.append(self.creatValuable(name, None))
 		
 		funcDict = {"Type": type,"IfOverride":isOverride,"IfReturn":ifReturn, "Name": objName, "Arguments": arguments}
 
@@ -161,7 +164,7 @@ class PyModuleDescriber(object):
 				
 		return results
 
-	def describeAll(self, package):
+	def describePackage(self, package):
 		mods = self.import_submodules(package)
 		modsDes = []
 		for i in mods:
@@ -172,16 +175,19 @@ class PyModuleDescriber(object):
 				print (mod)
 			else:
 				#print i
-				modsDes.append(self.describe(mod))
+				modsDes.append(self.describeModule(mod))
 		return modsDes;
 		
-	def describe(self,module):
+	def describeModule(self,module):
 		""" Describe the module object 
 		including its classes and functions """
 		mod_classes = []
 		mod_functions = []
 		mod_valuables = []
 
+		if not inspect.ismodule(module):
+			print ("This is not a python module!")
+			return
 
 		for i in dir(module):
 			if i.startswith('__'):

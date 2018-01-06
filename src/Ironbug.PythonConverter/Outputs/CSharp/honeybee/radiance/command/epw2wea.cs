@@ -3,13 +3,13 @@ namespace Honeybee.Radiance.Command
 {
 
 	// this is a class
-	public class RaBmp : RadianceCommand
+	public class Epw2wea : RadianceCommand
     {
 		// this is a class Property
-		public object RaBmpParameters
+		public object EpwFile
 		{
-			get { return this.RawObj.raBmpParameters; }
-			set { this.RawObj.raBmpParameters = value; }
+			get { return this.RawObj.epwFile; }
+			set { this.RawObj.epwFile = value; }
 		}
 
 		// this is a class Property
@@ -20,14 +20,14 @@ namespace Honeybee.Radiance.Command
 		}
 
 		// this is a class constructor
-		public RaBmp(object InputHdrFile , object OutputBmpFile , object RaBmpParameters)
+		public Epw2wea(object EpwFile, object OutputWeaFile)
 		{
 			PythonEngine engine = new PythonEngine();
-			dynamic pyModule = engine.ImportFrom(From: "Honeybee.Radiance.Command", Import: "RaBmp");
+			dynamic pyModule = engine.ImportFrom(From: "honeybee.radiance.command.epw2wea", Import: "Epw2wea");
 
 			if (pyModule != null)
 			{
-				this.RawObj = pyModule(InputHdrFile , OutputBmpFile , RaBmpParameters);
+				this.RawObj = pyModule(EpwFile, OutputWeaFile);
 			}
 
 		}
