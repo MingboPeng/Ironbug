@@ -20,12 +20,12 @@ namespace Ironbug
 
             var sourceLibs = this._engine.GetSearchPaths();
             //sourceLibs.Add(@"C:\Python27\Lib"); //local python installed 
-            //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
-            sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); //from Rhino
+            sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Rhino
+            //sourceLibs.Add(@"C:\Program Files\McNeel\Rhinoceros 5.0\Plug-ins\IronPython\Lib"); //from Rhino
             //sourceLibs.Add(@"C:\Program Files\Rhinoceros 5 (64-bit)\Plug-ins\IronPython\Lib"); //from Dynamo ???
             
-            //sourceLibs.Add(@"C:\Users\Mingbo\Documents\GitHub\Ironbug\LBHB"); //LadybugPlus HoneybeePlus core libriary
-            sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts"); //LadybugPlus HoneybeePlus core libriary
+            sourceLibs.Add(@"..\..\..\..\LBHB"); //LadybugPlus HoneybeePlus core libriary
+            //sourceLibs.Add(@"C:\Users\mpeng\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts"); //LadybugPlus HoneybeePlus core libriary
             this._engine.SetSearchPaths(sourceLibs);
             
             ScriptScope ClrModule = _engine.GetClrModule();
@@ -45,18 +45,20 @@ namespace Ironbug
             try
             {
                 //import HoneybeePlus module
-                var pyImportString = "import sys;sys.platform = 'win32';";
+                var pyImportString = @"import sys;sys.platform = 'win32';";
                 pyImportString += importStrings;
+                
+
                 //ScriptSource source = this._engine.CreateScriptSourceFromString(pyImportString);
                 ScriptScope scope = this._engine.CreateScope();
-                
-                this._engine.Execute(pyImportString, scope);
-
+                var script = _engine.CreateScriptSourceFromString(pyImportString);
+                //this._engine.Execute(pyImportString, scope);
+                script.Execute(scope);
                 //var code = source.Compile();
 
                 string outputStrings = ReadStream(_ms);
                 string errorStrings = ReadStream(_er);
-                dynamic obj = scope.GetVariable(pyModuleName);
+                dynamic obj = scope.GetVariable("pyObj");
                 return obj;
             }
             catch (Exception ex)
@@ -78,7 +80,7 @@ namespace Ironbug
 
         public object ImportFrom(string From, string Import)
         {
-            var pyImportString = string.Format(@"from {0} import {1};", From, Import);
+            var pyImportString = string.Format(@"from {0} import {1} as pyObj;", From, Import);
             object obj = GetPyModule(pyImportString, Import);
             return obj;
         }

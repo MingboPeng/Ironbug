@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,10 +24,13 @@ namespace Ironbug.PythonConverter.Test
         [TestMethod()]
         public void TEST_ConvertToCSharpCode()
         {
-            string module = "honeybee.radiance.command.epw2wea";
-            module = "honeybee.radiance.recipe.parameters";
-            module = "honeybee.radiance.recipe.recipedcutil";
+            string module = string.Empty;
+            //module = "honeybee.radiance.command.epw2wea";
+            //module = "honeybee.radiance.recipe.parameters";
+            //module = "honeybee.radiance.recipe.recipedcutil";
             //module = "honeybee.radiance.view";
+            module = "ladybug.wea";
+
 
             var dec = new PythonConverter();
             var obj = dec.DescribePyModule(Import: module);
@@ -43,8 +47,7 @@ namespace Ironbug.PythonConverter.Test
 
             
         }
-    
-
+        
 
         //####################################################################################################
         // 

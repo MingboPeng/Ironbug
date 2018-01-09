@@ -17,7 +17,7 @@ namespace Ironbug.Test
 
             if (falsecolor is null)
             {
-                this.inHdr = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\testFile\AcceleRad_test_IMG_Perspective_CPU.HDR";
+                this.inHdr = @"..\..\..\..\doc\testFile\AcceleRad_test_IMG_Perspective_CPU.HDR";
                 this.outHdr = inHdr.Remove(inHdr.Length - 4) + "_fc.HDR";
                 this.falsecolor = new Falsecolor(inHdr, outHdr);
             }

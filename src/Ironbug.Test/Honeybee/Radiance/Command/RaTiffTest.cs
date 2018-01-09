@@ -17,7 +17,7 @@ namespace Ironbug.Test
             
             if (raTiff is null)
             {
-                this.inHdr = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\testFile\AcceleRad_test_IMG_Perspective_CPU@fc.HDR";
+                this.inHdr = @"..\..\..\..\doc\testFile\AcceleRad_test_IMG_Perspective_CPU@fc.HDR";
                 this.outTiff = inHdr.Remove(inHdr.Length - 4) + ".tiff";
                 this.raTiff = new RaTiff(inHdr, outTiff);
             }
@@ -29,6 +29,20 @@ namespace Ironbug.Test
         {
             init();
             raTiff.Execute();
+            bool successed = File.Exists(outTiff);
+            if (successed)
+            {
+                File.Delete(outTiff);
+            }
+
+            Assert.AreEqual(successed, true);
+        }
+
+        [TestMethod]
+        public void TestRaTiff_ExecuteFromPython()
+        {
+            init();
+            raTiff.ExecuteFromPython();
             bool successed = File.Exists(outTiff);
             if (successed)
             {
