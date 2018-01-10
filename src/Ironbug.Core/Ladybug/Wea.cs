@@ -47,10 +47,10 @@ namespace Ironbug.Ladybug
         }
 
         // this is a class method
-        public dynamic From_EpwFile(object Epwfile)
+        public Wea From_EpwFile(object Epwfile)
         {
-            
-            return this.RawObj.from_epw_file(Epwfile);
+            this.RawObj = this.RawObj.from_epw_file(Epwfile);
+            return this;
             
         }
         

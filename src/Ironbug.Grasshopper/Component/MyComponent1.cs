@@ -23,6 +23,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddTextParameter("epw", "epw", "epw Weather file", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -39,11 +40,15 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            string epwFile = @"C:\ladybug\BEIJING_CHN\BEIJING_CHN.epw";
-            var aa = new Ironbug.Ladybug.Wea();
-            aa.From_EpwFile(epwFile);
-            var header = aa.Header;
-            DA.SetData(0,header);
+            string epwFile = string.Empty;
+
+            DA.GetData(0, ref epwFile);
+
+            var aa = new Ladybug.Wea();
+            var epw  = aa.From_EpwFile(epwFile);
+            //var header = epw.Header;
+
+            DA.SetData(0, aa);
 
         }
 
