@@ -40,6 +40,39 @@ namespace Ironbug.Ladybug
             }
         }
 
+        public Wea(dynamic Instance)
+        {
+            if (Instance is null) return;
+            if (Instance is Wea) return;
+            
+
+            Type t = Instance.GetType();
+            dynamic obj = null;
+            
+            bool objFromIronPython = t.GetProperty("Value") != null;
+
+            if (objFromIronPython)
+            {
+                obj = Instance.Value;
+            }
+            else
+            {
+                obj = Instance;
+            }
+            string pyClsType = obj.__module__;
+
+            if (pyClsType == "ladybug.wea")
+            {
+                this.RawObj = obj;
+            }
+            else
+            {
+                return;
+            }
+            
+            
+        }
+
         // this is a class constructor
         public Wea(object location, object directNormalRadiation, object diffuseHorizontalRadiation, int timestep= 1)
         {
@@ -51,7 +84,6 @@ namespace Ironbug.Ladybug
         {
             this.RawObj = this.RawObj.from_epw_file(Epwfile);
             return this;
-            
         }
         
         // this is a class method
@@ -60,7 +92,7 @@ namespace Ironbug.Ladybug
             return this.RawObj.ToString();
         }
 
-
+        
 
     }
 }

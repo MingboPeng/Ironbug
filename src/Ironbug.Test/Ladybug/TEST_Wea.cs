@@ -14,17 +14,27 @@ namespace Ironbug.Test.Ladybug
 
             string epwFile = @"C:\ladybug\BEIJING_CHN\BEIJING_CHN.epw";
             var wea = weaO.From_EpwFile(epwFile);
-            var header = wea.header;
+            var header = wea.Header.ToString();
 
-            bool successed = false;
-            if (wea != null)
-            {
-                successed = true;
-            }
+            var successed = header.StartsWith("place BEIJING");
             
-            
+            Assert.AreEqual(successed, true);
+        }
+
+        [TestMethod]
+        public void TEST_WEA_RawObjInstance()
+        {
+            var weaO = new Wea();
+
+            string epwFile = @"C:\ladybug\BEIJING_CHN\BEIJING_CHN.epw";
+            var wea = weaO.From_EpwFile(epwFile);
+            dynamic rawObj = wea.getRawObj();
+            var header = rawObj.header;
+
+            var successed = header.StartsWith("place BEIJING");
 
             Assert.AreEqual(successed, true);
         }
+
     }
 }

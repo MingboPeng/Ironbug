@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.Test", "src\Ironbug.Test\Ironbug.Test.csproj", "{76B9C73C-50C1-4767-8745-278B6F535F04}"
 EndProject
@@ -12,6 +12,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.PythonConverter", "src\Ironbug.PythonConverter\Ironbug.PythonConverter.csproj", "{7B098175-DC44-43AF-A5BF-7CC0861287A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.PythonConverter.Test", "src\Ironbug.PythonConverter.Test\Ironbug.PythonConverter.Test.csproj", "{CE72E629-F835-4E7C-AC70-90C0BD9BBC5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TEST", "TEST", "{AB225233-D5C3-4A9D-AE91-FF368DAF46B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{76B9C73C-50C1-4767-8745-278B6F535F04} = {AB225233-D5C3-4A9D-AE91-FF368DAF46B1}
+		{CE72E629-F835-4E7C-AC70-90C0BD9BBC5C} = {AB225233-D5C3-4A9D-AE91-FF368DAF46B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C16C37-CD51-4877-A21F-42F6419EC990}
