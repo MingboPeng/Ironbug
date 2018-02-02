@@ -25,6 +25,7 @@ namespace Ironbug.HVAC
 
                 switch (type)
                 {
+                    //copy outdoor air system
                     case "OS:AirLoopHVAC:OutdoorAirSystem":
                         var oa = item.to_AirLoopHVACOutdoorAirSystem().get().CloneTo(model);
                         oa.addToNode(node);
@@ -38,39 +39,83 @@ namespace Ironbug.HVAC
 
 
             }
-
-            //copy outdoor air system
-            //var outAirSys = fromLoop.airLoopHVACOutdoorAirSystem();
-            //if (!outAirSys.isNull())
-            //{
-            //    outAirSys.get().comp
-            //}
-
+            
             //copy sizingPlant settings
             //var sizing = fromPlant.sizingPlant().CloneTo(model, plantLoop);
 
             //copy setpoint Managers
+            //var nd = toLoop.supplyOutletNode();
+            //var sp = new OpenStudio.SetpointManagerOutdoorAirPretreat(model);
+            //var ok = sp.addToNode(nd);
             //var sps = fromLoop.SetPointManagers();
-            
+            var ok = fromLoop.CloneSetPointManagers(toLoop);
+
+
             //foreach (var item in sps)
             //{
             //    item.nod
             //}
         }
 
-        public static IEnumerable<SetpointManager> SetPointManagers(this AirLoopHVAC fromLoop)
+        public static Dictionary<string, SetpointManager> SetPointManagers(this AirLoopHVAC fromLoop)
         {
-            //var sps = fromLoop.model().getSetpointManagers()
-            //            .Where(_ =>
-            //                _.loop().get().handle().EqualEqual(fromLoop.handle())
-            //            );
+            var node_spm = new Dictionary<string, SetpointManager>();
 
             var sps = fromLoop.model().getSetpointManagers()
                         .Where(_ =>
                             _.loop().get().EqualEqual(fromLoop)
                          );
 
-            return sps;
+            foreach (var sp in sps)
+            {
+                Node nd = sp.setpointNode().get();
+                node_spm.Add(nd.nameString(), sp);
+            }
+
+            return node_spm;
+        }
+
+        public static bool CloneSetPointManagers(this AirLoopHVAC fromLoop, AirLoopHVAC toLoop)
+        {
+            var tModel = toLoop.model();
+            //var indexLp_spm = new Dictionary<int, SetpointManager>();
+            //var indexOa_spm = new Dictionary<int, SetpointManager>();
+            var sps = fromLoop.SetPointManagers();
+
+            //TODO: add checking entire loop. now only checks supply part.
+            var loopSplyComsNames = fromLoop.supplyComponents().Select(_ => _.nameString());
+            var loopOASys = fromLoop.airLoopHVACOutdoorAirSystem();
+            var loopOASysComsNames = !loopOASys.isNull()? loopOASys.get().components().Select(_ => _.nameString()):new List<string>();
+
+            //var loopNdWithSp = loopSplyComsNames.Select(_=>sps.ContainsKey(_)?)
+            foreach (var sp in sps)
+            {
+                if (loopSplyComsNames.Contains(sp.Key))
+                {
+                    int spAtIndex = loopSplyComsNames.ToList().IndexOf(sp.Key);
+
+                    //add setpoint to the targe loop at same index
+                    var nd = toLoop.supplyComponents()[spAtIndex].to_Node().get();
+                    var cloned = sp.Value.clone(tModel).to_SetpointManager().get().addToNode(nd);
+
+                    //indexLp_spm.Add(spAtIndex, sp.Value);
+                }
+                else if(loopOASysComsNames.Contains(sp.Key))
+                {
+                    int spAtIndex = loopOASysComsNames.ToList().IndexOf(sp.Key);
+                    //var tLoopOaSys = toLoop.airLoopHVACOutdoorAirSystem();
+                    var tLoopOaSysComs = toLoop.airLoopHVACOutdoorAirSystem().get().components();
+                    
+                    var nd = tLoopOaSysComs[spAtIndex].to_Node().get();
+                    var cloned = sp.Value.clone(tModel).to_SetpointManager().get().addToNode(nd);
+                    //indexOa_spm.Add(spAtIndex, sp.Value);
+                }
+            }
+
+            var allCopied = toLoop.SetPointManagers().Count == sps.Count;
+            return allCopied;
+
+            
         }
         
 

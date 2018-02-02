@@ -13,21 +13,25 @@ namespace Ironbug.HVAC
         {
             var oa = fromOASys.clone(model).to_AirLoopHVACOutdoorAirSystem().get();
             var reComs = fromOASys.reliefComponents();
-            reComs.Reverse();
             var oaComs = fromOASys.oaComponents();
+            oaComs.Reverse();
 
+            var setpointManagers = fromOASys.airLoop().get().SetPointManagers();
+            
             for (int i = 0; i < reComs.Count; i++)
             {
-                var currentCom = reComs[i];
-                if (!currentCom.IsNode())
+                var currentReCom = reComs[i];
+                var currentOaCom = oaComs[i];
+                var reNode = oa.outboardReliefNode().get();
+                var oaNode = oa.outboardOANode().get();
+
+
+                if (!currentReCom.IsNode() || !currentOaCom.IsNode())
                 {
-                    var sameCom = currentCom.EqualEqual(oaComs[i]);
-                    var reCom = currentCom.clone(model).to_HVACComponent().get();
-                    var oaCom = oaComs[i].clone(model).to_HVACComponent().get();
-
-                    var reNode = oa.outboardReliefNode().get();
-                    var inNode = oa.outboardOANode().get();
-
+                    var sameCom = currentReCom.EqualEqual(currentOaCom);
+                    var reCom = currentReCom.clone(model).to_HVACComponent().get();
+                    var oaCom = currentOaCom.clone(model).to_HVACComponent().get();
+                    
                     if (sameCom)
                     {
                         reCom.addToNode(reNode);
@@ -35,9 +39,39 @@ namespace Ironbug.HVAC
                     else
                     {
                         reCom.addToNode(reNode);
-                        oaCom.addToNode(inNode);
+                        oaCom.addToNode(oaNode);
                     }
                 }
+                //else 
+                //{
+                //    var reNd = currentReCom.to_Node();
+                //    var oaNd = currentOaCom.to_Node();
+
+                //    if (!reNd.isNull())
+                //    {
+                //        var reName = reNd.get().nameString();
+                //        if (setpointManagers.ContainsKey(reName))
+                //        {
+                //            var sp = setpointManagers[reName].clone(model).to_SetpointManager().get();
+                //            sp.addToNode(reNode);
+                //        }
+                        
+                //    }
+
+                //    if (!oaNd.isNull())
+                //    {
+                //        var oaName = oaNd.get().nameString();
+                //        if (setpointManagers.ContainsKey(oaName))
+                //        {
+                //            //var sp = setpointManagers[oaName].clone(model).to_SetpointManager().get();
+                //            var sp = new SetpointManagerFollowOutdoorAirTemperature(model);
+                //            var node = oa.oaComponents()
+                //            var name = oaNode.nameString();
+                //            oaNode.addSetpointManager(sp);
+                //            //var ok = sp.addToNode(oaNode);
+                //        }
+                //    }
+                //}
                 
 
             }
@@ -45,5 +79,24 @@ namespace Ironbug.HVAC
             return oa;
 
         }
+
+        //public static Dictionary<string, SetpointManager> SetPointManagers(this AirLoopHVACOutdoorAirSystem fromOASys)
+        //{
+        //    var sps = fromOASys.airLoop().get().SetPointManagers();
+        //    var nds = fromOASys.components().Where(_ => _.IsNode()).Select(_=>_.nameString());
+
+        //    var node_spm = new Dictionary<string, SetpointManager>();
+
+        //    foreach (var nd in nds)
+        //    {
+        //        if (sps.ContainsKey(nd))
+        //        {
+        //            node_spm.Add(nd, sps[nd]);
+        //        }
+        //    }
+            
+
+        //    return node_spm;
+        //}
     }
 }
