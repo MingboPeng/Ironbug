@@ -72,32 +72,8 @@ namespace Ironbug.HVAC
 
             return sps;
         }
+        
 
-        public static AirLoopHVACOutdoorAirSystem CloneTo(this AirLoopHVACOutdoorAirSystem fromOASys, Model model)
-        {
-            var oa = fromOASys.clone(model).to_AirLoopHVACOutdoorAirSystem().get();
-            var reliefComs= fromOASys.reliefComponents();
-            reliefComs.Reverse();
-            var inComs = fromOASys.oaComponents();
-
-            for (int i = 0; i < reliefComs.Count; i++)
-            {
-                var reCom = reliefComs[i].to_HVACComponent().get();
-                var inCom = inComs[i].to_HVACComponent().get();
-                var reNode = oa.outboardReliefNode().get();
-                var inNode = oa.outboardOANode().get();
-                reCom.addToNode(reNode);
-                inCom.addToNode(inNode);
-
-            }
-
-            return oa;
-            
-        }
-
-        public static string OSType(this ModelObject component)
-        {
-            return component.iddObjectType().valueDescription();
-        }
+        
     }
 }

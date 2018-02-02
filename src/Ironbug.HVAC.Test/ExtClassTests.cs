@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ironbug.HVAC.Test
+namespace Ironbug.HVAC.Tests
 {
     [TestClass()]
     public class ExtClassTests
     {
         [TestMethod()]
-        public void CopyToTest()
+        public void PlantLoops_CloneTo_Test()
         {
             string sFile = @"..\..\..\..\doc\osmFile\pkVAV_HW.osm";
             string tFile = @"..\..\..\..\doc\osmFile\empty.osm";
@@ -37,7 +37,7 @@ namespace Ironbug.HVAC.Test
         }
 
         [TestMethod()]
-        public void CopyAirLoopTest()
+        public void AirLoop_CloneTo_Test()
         {
             //string sFile = @"..\..\..\..\doc\osmFile\pkVAV_HW.osm";
             string sFile = @"..\..\..\..\doc\osmFile\Sys_7.osm";
