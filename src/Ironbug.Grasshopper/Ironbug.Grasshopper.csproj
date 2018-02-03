@@ -63,7 +63,7 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="OpenStudio">
+    <Reference Include="OpenStudio, Version=2.4.1.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
       <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -137,7 +137,7 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-</PostBuildEvent>
+Copy "$(SolutionDir)\lib\OpenStudio\forGH\openstudio_csharp.dll" "$(TargetDir)\openstudio_csharp.dll"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <FallbackCulture>en-US</FallbackCulture>
