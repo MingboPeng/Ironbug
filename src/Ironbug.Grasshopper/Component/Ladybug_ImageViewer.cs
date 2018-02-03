@@ -419,8 +419,9 @@ namespace Ironbug.Grasshopper
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("a5359d3f-336b-443b-98b7-7903b6cc0c47"); }
+            get { return new Guid("949F869E-E51E-4776-BF60-1C54760C453F"); }
         }
+
 
 
         public override void CreateAttributes()

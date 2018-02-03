@@ -63,6 +63,10 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
+    <Reference Include="OpenStudio">
+      <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RhinoCommon">
       <HintPath>..\..\..\..\..\..\..\Program Files\Rhinoceros 5 (64-bit)\System\RhinoCommon.dll</HintPath>
     </Reference>
@@ -83,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Honeybee_ReadAnnualResultsIII.cs" />
+    <Compile Include="Component\Ironbug_AirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -104,6 +110,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\Ladybug_Viewer_370.png" />
   </ItemGroup>
@@ -114,6 +121,10 @@
     <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
       <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
       <Name>Ironbug.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj">
+      <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
+      <Name>Ironbug.HVAC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -137,4 +148,11 @@
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
+  <Import Project="..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets'))" />
+  </Target>
 </Project>

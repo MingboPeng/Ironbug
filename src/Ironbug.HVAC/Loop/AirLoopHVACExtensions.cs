@@ -49,12 +49,7 @@ namespace Ironbug.HVAC
             //var ok = sp.addToNode(nd);
             //var sps = fromLoop.SetPointManagers();
             var ok = fromLoop.CloneSetPointManagers(toLoop);
-
-
-            //foreach (var item in sps)
-            //{
-            //    item.nod
-            //}
+            
         }
 
         public static Dictionary<string, SetpointManager> SetPointManagers(this AirLoopHVAC fromLoop)
@@ -78,8 +73,6 @@ namespace Ironbug.HVAC
         public static bool CloneSetPointManagers(this AirLoopHVAC fromLoop, AirLoopHVAC toLoop)
         {
             var tModel = toLoop.model();
-            //var indexLp_spm = new Dictionary<int, SetpointManager>();
-            //var indexOa_spm = new Dictionary<int, SetpointManager>();
             var sps = fromLoop.SetPointManagers();
 
             //TODO: add checking entire loop. now only checks supply part.
@@ -97,8 +90,7 @@ namespace Ironbug.HVAC
                     //add setpoint to the targe loop at same index
                     var nd = toLoop.supplyComponents()[spAtIndex].to_Node().get();
                     var cloned = sp.Value.clone(tModel).to_SetpointManager().get().addToNode(nd);
-
-                    //indexLp_spm.Add(spAtIndex, sp.Value);
+                    
                 }
                 else if(loopOASysComsNames.Contains(sp.Key))
                 {
@@ -108,7 +100,7 @@ namespace Ironbug.HVAC
                     
                     var nd = tLoopOaSysComs[spAtIndex].to_Node().get();
                     var cloned = sp.Value.clone(tModel).to_SetpointManager().get().addToNode(nd);
-                    //indexOa_spm.Add(spAtIndex, sp.Value);
+                    
                 }
             }
 
