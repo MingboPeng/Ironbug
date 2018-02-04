@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AirLoopHVAC()
           : base("Ironbug_AirLoopHVAC", "AirLoop",
               "Description",
-              "Ironbug", "HVAC")
+              "Ironbug", "02:Loops")
         {
         }
 
@@ -23,7 +23,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "spl", "heating or cooling supply", GH_ParamAccess.list);
+            pManager.AddGenericParameter("supply", "spl", "heating or cooling supply source", GH_ParamAccess.list);
             pManager[0].Optional = true;
         }
 
@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopHVAC", "airLoop", "airloop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirLoopHVAC", "airLoop", "connect to airloop's demand side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,13 +41,20 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var airLoop = new Ironbug.HVAC.IB_AirLoopHVAC();
+            List<HVAC.IIB_HVACComponent> supplyComs = new List<HVAC.IIB_HVACComponent>();
+            DA.GetDataList(0, supplyComs);
 
-            var coil = new HVAC.IB_CoilHeatingWater();
-            airLoop.AddToSupply(coil);
+            var airLoop = new HVAC.IB_AirLoopHVAC();
+
+            //TODO: need to check nulls
+            foreach (var item in supplyComs)
+            {
+                airLoop.AddToSupplyEnd(item);
+            }
+            
 
             //var model = new OpenStudio.Model();
-            DA.SetData(0, airLoop.model);
+            DA.SetData(0, airLoop);
 
         }
 

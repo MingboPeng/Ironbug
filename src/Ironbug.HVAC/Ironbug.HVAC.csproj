@@ -59,11 +59,15 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Loop\AirLoopHVAC.cs" />
-    <Compile Include="Loop\AirLoopHVACExtensions.cs" />
-    <Compile Include="Loop\AirLoopHVACOutdoorAirSystemExtensions.cs" />
-    <Compile Include="Loop\ModelObjectExtensions.cs" />
+    <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
+    <Compile Include="Loops\IB_AirLoopHVAC.cs" />
+    <Compile Include="Loops\IB_CoilHeatingWater.cs" />
+    <Compile Include="Loops\IB_HVACComponent.cs" />
+    <Compile Include="OSExtensions\AirLoopHVAC_Extensions.cs" />
+    <Compile Include="OSExtensions\AirLoopHVACOutdoorAirSystem_Extensions.cs" />
+    <Compile Include="OSExtensions\ModelObject_Extensions.cs" />
+    <Compile Include="OSExtensions\Model_Extensions.cs" />
+    <Compile Include="OSExtensions\SizingPlant_Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

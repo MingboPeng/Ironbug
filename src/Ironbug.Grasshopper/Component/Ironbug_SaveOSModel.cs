@@ -42,9 +42,15 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string filepath = string.Empty;
-            var model = new OpenStudio.Model();
+            var airLoop = new HVAC.IB_AirLoopHVAC();
+
+            //var model = new OpenStudio.Model();
+
             DA.GetData(0, ref filepath);
-            DA.GetData(1, ref model);
+            DA.GetData(1, ref airLoop);
+            //DA.GetData(1, ref model);
+
+            var model = airLoop.osAirLoopHVAC.model();
 
             var saved = model.save(new OpenStudio.Path(filepath), true);
             if (saved)
