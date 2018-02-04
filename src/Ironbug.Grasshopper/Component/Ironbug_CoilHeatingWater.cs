@@ -25,6 +25,10 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("supply", "spl", "hot water supply source", GH_ParamAccess.item);
             pManager[0].Optional = true;
+            pManager.AddNumberParameter("Inlet Water Temperature", "inWaterT[°C]", "Value in °C. [Default: 82.2 °C]", GH_ParamAccess.item, 82.2);
+            pManager[1].Optional = true;
+            pManager.AddNumberParameter("Outlet Water Temperature", "outWaterT[°C]", "Value in °C. [Default: 71.1 °C]", GH_ParamAccess.item, 71.1);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -42,6 +46,20 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var coil = new HVAC.IB_CoilHeatingWater();
+
+            double inWT = 0;
+            double outWT = 0;
+
+            DA.GetData(1, ref inWT);
+            DA.GetData(2, ref outWT);
+
+            coil.SetDataField("setRatedInletWaterTemperature", inWT);
+            coil.SetDataField("setRatedOutletWaterTemperature", inWT);
+            //coil.osCoilHeatingWater.setRatedInletWaterTemperature(inWT);
+            //coil.osCoilHeatingWater.setRatedOutletWaterTemperature(outWT);
+
+
+
             DA.SetData(0, coil);
         }
 

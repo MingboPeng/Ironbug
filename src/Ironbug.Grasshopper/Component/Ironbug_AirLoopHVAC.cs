@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("supply", "spl", "heating or cooling supply source", GH_ParamAccess.list);
-            pManager[0].Optional = true;
+            //pManager[0].Optional = true;
         }
 
         /// <summary>

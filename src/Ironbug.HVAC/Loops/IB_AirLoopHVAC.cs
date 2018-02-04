@@ -9,7 +9,14 @@ namespace Ironbug.HVAC
 {
     public class IB_AirLoopHVAC
     {
-        private Model osModel { get; set; }
+        private Model osModel;
+
+        //public Model OSModel
+        //{
+        //    get { return osModel; }
+        //    set { osModel = value; }
+        //}
+
         public AirLoopHVAC osAirLoopHVAC { get; set; }
 
         public IB_AirLoopHVAC()
@@ -21,12 +28,25 @@ namespace Ironbug.HVAC
 
         public void AddToSupplyEnd(IIB_HVACComponent Component)
         {
-            HVACComponent com = Component.GetHVACComponent();
+            
             var nd = this.osAirLoopHVAC.supplyOutletNode();
-            com.clone(this.osModel).to_HVACComponent().get().addToNode(nd);
+
+            //var coil = new OpenStudio.CoilHeatingWater(osModel);
+            //coil.addToNode(nd);
+
+            var com = Component as IB_CoilHeatingWater;
+            com.AddToNode(ref osModel, nd);
+
+
+            ////*********
+            ////THIS IS CAUSING MEMORY PROBLEM
+            //HVACComponent com = Component.GetHVACComponent();
+            //var tCom = com.clone(osModel);
+            //tCom.to_HVACComponent().get().addToNode(nd);
 
         }
 
+        //TODO
         public void AddToModel(Model Model)
         {
             //return Model;

@@ -9,6 +9,7 @@ namespace Ironbug.HVAC
     public interface IIB_HVACComponent
     {
         HVACComponent GetHVACComponent();
+        bool AddToNode(ref Model model, Node node);
     }
 
     //public interface IB_Viz
