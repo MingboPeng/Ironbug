@@ -52,9 +52,9 @@ namespace Ironbug.Grasshopper.Component
 
             DA.GetData(1, ref inWT);
             DA.GetData(2, ref outWT);
-
-            coil.SetDataField("setRatedInletWaterTemperature", inWT);
-            coil.SetDataField("setRatedOutletWaterTemperature", inWT);
+            
+            coil.SetAttribute(HVAC.IB_CoilHeatingWater.AttributeNames.RatedInletWaterTemperature, inWT);
+            coil.SetAttribute(HVAC.IB_CoilHeatingWater.AttributeNames.RatedOutletWaterTemperature, outWT);
             //coil.osCoilHeatingWater.setRatedInletWaterTemperature(inWT);
             //coil.osCoilHeatingWater.setRatedOutletWaterTemperature(outWT);
 

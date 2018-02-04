@@ -6,50 +6,54 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingWater: IIB_HVACComponent
+    public class IB_CoilHeatingWater: IB_HVACComponent
     {
-        public Dictionary<string, double> dataField = new Dictionary<string, double>();
-        //"s"
+        public enum AttributeNames
+        {
+            RatedInletWaterTemperature,
+            RatedOutletWaterTemperature
+        }
 
-        public CoilHeatingWater osCoilHeatingWater { get; set; }
+        //Real obj to be saved in OS model
+        private CoilHeatingWater osCoilHeatingWater { get; set; }
 
+        //Ghost obj for place holder
+        private CoilHeatingWater ghostCoilHeatingWater { get; set; }
 
+        //dealing with the ghost object
         public IB_CoilHeatingWater()
         {
-            //var model = new Model();
-            //this.osCoilHeatingWater = new CoilHeatingWater(model);
+            var model = new Model();
+            this.ghostCoilHeatingWater = new CoilHeatingWater(model);
+
+            this.CustomAttributes = new Dictionary<string, object>();
         }
 
-        public bool AddToNode(ref Model model, Node node)
+        //dealing with the real object, only when it is ready to be added to os model
+        public override bool AddToNode(ref Model model, Node node)
         {
             this.osCoilHeatingWater = new CoilHeatingWater(model);
-            this.ApplyDataField(this.osCoilHeatingWater);
+            this.osCoilHeatingWater.SetCustomAttributes(this.CustomAttributes);
             return this.osCoilHeatingWater.addToNode(node);
-
-        }
-
-        public void SetDataField(string methodName, double data)
-        {
-            this.dataField.Add(methodName, data);
-        }
-
-        public void ApplyDataField(CoilHeatingWater component)
-        {
-            foreach (var item in this.dataField)
-            {
-                string methodName = item.Key;
-                double data = item.Value;
-                object[] parm = new object[] { data };
-                var method = this.osCoilHeatingWater.GetType().GetMethod(methodName);
-                var invokeResult = method.Invoke(component, parm);
-            }
             
         }
-        
 
-        public HVACComponent GetHVACComponent()
+        //this method for internal use, needed to be protected. call SetAttribute() instead
+        protected override void AddCustomAttribute(string AttributeName, object AttributeValue)
         {
-            return this.osCoilHeatingWater;
+            //adding attributes for real object to use later
+            base.AddCustomAttribute(AttributeName, AttributeValue);
+            //dueling the ghost object
+            this.ghostCoilHeatingWater.SetCustomAttribute(AttributeName, AttributeValue);
         }
+
+        
+        public void SetAttribute(AttributeNames AttributeName, object AttributeValue)
+        {
+            this.AddCustomAttribute(AttributeName.ToString(), AttributeValue);
+        }
+
+        
     }
+
 }

@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<HVAC.IIB_HVACComponent> supplyComs = new List<HVAC.IIB_HVACComponent>();
+            List<HVAC.IB_HVACComponent> supplyComs = new List<HVAC.IB_HVACComponent>();
             DA.GetDataList(0, supplyComs);
 
             var airLoop = new HVAC.IB_AirLoopHVAC();

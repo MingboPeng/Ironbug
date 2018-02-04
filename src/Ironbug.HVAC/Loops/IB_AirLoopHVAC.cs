@@ -26,16 +26,14 @@ namespace Ironbug.HVAC
             this.osAirLoopHVAC = new AirLoopHVAC(osModel);
         }
 
-        public void AddToSupplyEnd(IIB_HVACComponent Component)
+        public void AddToSupplyEnd(IB_HVACComponent Component)
         {
             
             var nd = this.osAirLoopHVAC.supplyOutletNode();
 
-            //var coil = new OpenStudio.CoilHeatingWater(osModel);
-            //coil.addToNode(nd);
+            //var com = Component as IB_CoilHeatingWater;
 
-            var com = Component as IB_CoilHeatingWater;
-            com.AddToNode(ref osModel, nd);
+            Component.AddToNode(ref osModel, nd);
 
 
             ////*********
@@ -45,19 +43,7 @@ namespace Ironbug.HVAC
             //tCom.to_HVACComponent().get().addToNode(nd);
 
         }
-
-        //TODO
-        public void AddToModel(Model Model)
-        {
-            //return Model;
-        }
-
-        //public void AddToSupply(IB_CoilHeatingWater coil)
-        //{
-        //    this.AddToSupply(coil.osCoilHeatingWater);
-        //}
         
-
     }
 
 
