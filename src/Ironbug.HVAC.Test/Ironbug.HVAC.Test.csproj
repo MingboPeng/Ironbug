@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="ExtClassTests.cs" />
     <Compile Include="AirLoopHVACOutdoorAirSystemExtensionsTests.cs" />
+    <Compile Include="Loop\IB_CoilHeatingWater_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -90,9 +91,7 @@
       <Name>Ironbug.HVAC</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Loop\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

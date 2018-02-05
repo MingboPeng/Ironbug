@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Windows.Forms;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -16,6 +19,7 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "01:LoopComponents")
         {
+            
         }
 
         /// <summary>
@@ -23,12 +27,9 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "spl", "hot water supply source", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Hot water supply", "supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddNumberParameter("Inlet Water Temperature", "inWaterT[°C]", "Value in °C. [Default: 82.2 °C]", GH_ParamAccess.item, 82.2);
-            pManager[1].Optional = true;
-            pManager.AddNumberParameter("Outlet Water Temperature", "outWaterT[°C]", "Value in °C. [Default: 71.1 °C]", GH_ParamAccess.item, 71.1);
-            pManager[2].Optional = true;
+            AddParams();
         }
 
         /// <summary>
@@ -46,19 +47,8 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var coil = new HVAC.IB_CoilHeatingWater();
-
-            double inWT = 0;
-            double outWT = 0;
-
-            DA.GetData(1, ref inWT);
-            DA.GetData(2, ref outWT);
             
-            coil.SetAttribute(HVAC.IB_CoilHeatingWater.AttributeNames.RatedInletWaterTemperature, inWT);
-            coil.SetAttribute(HVAC.IB_CoilHeatingWater.AttributeNames.RatedOutletWaterTemperature, outWT);
-            //coil.osCoilHeatingWater.setRatedInletWaterTemperature(inWT);
-            //coil.osCoilHeatingWater.setRatedOutletWaterTemperature(outWT);
-
-
+            CollectSettingData(ref coil);
 
             DA.SetData(0, coil);
         }
@@ -83,5 +73,81 @@ namespace Ironbug.Grasshopper.Component
         {
             get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
         }
+        
+        public void AddParams()
+        {
+            var settingList = HVAC.IB_CoilHeatingWater_Attributes.GetList();
+            
+            foreach (var item in settingList)
+            {
+                IGH_Param newParam = new Param_GenericObject();
+                newParam.Name = item.FullName;
+                newParam.NickName = item.ShortName;
+                newParam.Access = GH_ParamAccess.item;
+                newParam.Optional = true;
+                Params.RegisterInputParam(newParam);
+                this.Params.OnParametersChanged();
+            }
+
+            //this.ExpireSolution(true);
+
+
+        }
+        
+
+        private void CollectSettingData(ref HVAC.IB_CoilHeatingWater Coil)
+        {
+
+            var FlyResults = new List<string>();
+            var allInputParams = this.Params.Input;
+            foreach (var item in allInputParams)
+            {
+                if (item.SourceCount <= 0)
+                {
+                    continue;
+                }
+
+                var values = new List<IGH_Goo>();
+                //this is for cases those "data not collected"
+                if (!item.VolatileData.IsEmpty)
+                {
+                    values = item.VolatileData.AllData(true).ToList();
+
+                    if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
+                    {
+                        var name = item.Name;
+                        var type = HVAC.IB_CoilHeatingWater_Attributes.GetAttributeByName(name).Type;
+                        object value = null;
+                        if (type == typeof(double))
+                        {
+                            value = ((GH_Number)values.First()).Value;
+                        }
+                        else
+                        {
+                            value = ((GH_String)values.First()).Value;
+                        }
+                        
+                        try
+                        {
+                            Coil.SetAttributeByName(name, value);
+                        }
+                        catch (Exception)
+                        {
+
+                            throw;
+                        }
+                        
+                    }
+                }
+
+
+
+
+            }
+                
+        }
+
+
+
     }
 }
