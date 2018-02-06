@@ -86,9 +86,9 @@ namespace Ironbug.Grasshopper.Component
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
                 Params.RegisterInputParam(newParam);
-                this.Params.OnParametersChanged();
+                
             }
-
+            this.Params.OnParametersChanged();
             //this.ExpireSolution(true);
 
 
@@ -102,15 +102,13 @@ namespace Ironbug.Grasshopper.Component
             var allInputParams = this.Params.Input;
             foreach (var item in allInputParams)
             {
-                if (item.SourceCount <= 0)
+                if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
                 {
                     continue;
                 }
-
-                var values = new List<IGH_Goo>();
-                //this is for cases those "data not collected"
-                if (!item.VolatileData.IsEmpty)
+                else
                 {
+                    var values = new List<IGH_Goo>();
                     values = item.VolatileData.AllData(true).ToList();
 
                     if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))

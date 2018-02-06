@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
-            pManager.AddGenericParameter("model", "model", "model", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACs", "ZoneHVACs", "Zone with HVAC system set", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,8 +49,9 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref filepath);
             DA.GetData(1, ref airLoop);
             //DA.GetData(1, ref model);
+            var model = new OpenStudio.Model();
 
-            var model = airLoop.osAirLoopHVAC.model();
+            airLoop.AddToModel(ref model);
 
             var saved = model.save(new OpenStudio.Path(filepath), true);
             if (saved)

@@ -23,8 +23,9 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "spl", "heating or cooling supply source", GH_ParamAccess.list);
-            //pManager[0].Optional = true;
+            pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
+            pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.list);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopHVAC", "airLoop", "connect to airloop's demand side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZonesWithAirLoopHVAC", "ZoneHVAC", "toSaveOSM", GH_ParamAccess.item);
         }
 
         /// <summary>
