@@ -59,6 +59,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Loops\IB_FanConstantVolume.cs" />
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />
     <Compile Include="Loops\IB_CoilHeatingWater.cs" />

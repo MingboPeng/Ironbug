@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
@@ -9,17 +8,16 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWater : GH_Component
+    public class Ironbug_FanConstantVolume : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
+        /// Initializes a new instance of the Ironbug_FanConstantVolume class.
         /// </summary>
-        public Ironbug_CoilHeatingWater()
-          : base("Ironbug_CoilHeatingWater", "Nickname",
+        public Ironbug_FanConstantVolume()
+          : base("Ironbug_FanConstantVolume", "Nickname",
               "Description",
               "Ironbug", "01:LoopComponents")
         {
-            
         }
 
         /// <summary>
@@ -27,8 +25,6 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Hot water supply", "supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
             AddParams();
         }
 
@@ -37,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWater", "CoilHW", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FanConstantVolume", "Fan", "connect to airloop's supply side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -46,11 +42,11 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var coil = new HVAC.IB_CoilHeatingWater();
-            
-            CollectSettingData(ref coil);
+            var obj = new HVAC.IB_FanConstantVolume();
 
-            DA.SetData(0, coil);
+            CollectSettingData(ref obj);
+
+            DA.SetData(0, obj);
         }
 
         /// <summary>
@@ -71,13 +67,14 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
+            get { return new Guid("f517230e-27e9-4fd0-bfbc-31f0596d35c4"); }
         }
-        
+
+
         public void AddParams()
         {
-            var settingList = HVAC.IB_CoilHeatingWater_Attributes.GetList();
-            
+            var settingList = HVAC.IB_FanConstantVolume_Attributes.GetList();
+
             foreach (var item in settingList)
             {
                 IGH_Param newParam = new Param_GenericObject();
@@ -86,16 +83,13 @@ namespace Ironbug.Grasshopper.Component
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
                 Params.RegisterInputParam(newParam);
-                
+
             }
 
-            //this.ExpireSolution(true);
-
-
         }
-        
 
-        private void CollectSettingData(ref HVAC.IB_CoilHeatingWater Coil)
+
+        private void CollectSettingData(ref HVAC.IB_FanConstantVolume Coil)
         {
 
             var FlyResults = new List<string>();
@@ -114,7 +108,7 @@ namespace Ironbug.Grasshopper.Component
                     if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
                     {
                         var name = item.Name;
-                        var type = HVAC.IB_CoilHeatingWater_Attributes.GetAttributeByName(name).Type;
+                        var type = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name).Type;
                         object value = null;
                         if (type == typeof(double))
                         {
@@ -124,7 +118,7 @@ namespace Ironbug.Grasshopper.Component
                         {
                             value = ((GH_String)values.First()).Value;
                         }
-                        
+
                         try
                         {
                             Coil.SetAttribute(name, value);
@@ -134,7 +128,7 @@ namespace Ironbug.Grasshopper.Component
 
                             throw;
                         }
-                        
+
                     }
                 }
 
@@ -142,10 +136,7 @@ namespace Ironbug.Grasshopper.Component
 
 
             }
-                
+
         }
-
-
-
     }
 }

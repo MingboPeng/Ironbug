@@ -9,40 +9,32 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingWater: IB_HVACComponent
     {
-        //public enum AttributeNames
-        //{
-        //    RatedInletWaterTemperature,
-        //    RatedOutletWaterTemperature
-        //}
-
         //Coil Heating Water 1, Name
-        //autosize, U-Factor Times Area Value[kg * m ^ 2 / s ^ 3 * K] (Default: autosize)
-        //Autosize, Maximum Water Flow Rate[m ^ 3 / s] (Default: Autosize)
-        //, Performance Input Method
-        //autosize, Rated Capacity[kg * m ^ 2 / s ^ 3] (Default: autosize)
-        //82.2, Rated Inlet Water Temperature[C] (Default: 82.2)
-        //16.6, Rated Inlet Air Temperature[C] (Default: 16.6)
-        //71.1, Rated Outlet Water Temperature[C] (Default: 71.1)
-        //32.2, Rated Outlet Air Temperature[C] (Default: 32.2)
-        //0.5, Rated Ratio for Air and Water Convection(Default: 0.5)
+        //autosize,             U-Factor Times Area Value[kg * m ^ 2 / s ^ 3 * K] (Default: autosize)
+        //Autosize,             Maximum Water Flow Rate[m ^ 3 / s] (Default: Autosize)
+        //,                     Performance Input Method
+        //autosize,             Rated Capacity[kg * m ^ 2 / s ^ 3] (Default: autosize)
+        //82.2,                 Rated Inlet Water Temperature[C] (Default: 82.2)
+        //16.6,                 Rated Inlet Air Temperature[C] (Default: 16.6)
+        //71.1,                 Rated Outlet Water Temperature[C] (Default: 71.1)
+        //32.2,                 Rated Outlet Air Temperature[C] (Default: 32.2)
+        //0.5,                  Rated Ratio for Air and Water Convection(Default: 0.5)
 
 
         //Real obj to be saved in OS model
         private CoilHeatingWater osCoilHeatingWater { get; set; }
 
         //Ghost obj for place holder
-        private CoilHeatingWater ghostCoilHeatingWater { get; set; }
-        protected override HVACComponent ghostHVACComponent { get { return ghostCoilHeatingWater; } }
+        //private CoilHeatingWater ghostHVACComponent { get; set; }
+        //protected override HVACComponent ghostHVACComponent { get { return ghostCoilHeatingWater; } }
 
         //dealing with the ghost object
         public IB_CoilHeatingWater()
         {
-            var model = new Model();
-            this.ghostCoilHeatingWater = new CoilHeatingWater(model);
-            this.CustomAttributes = new Dictionary<string, object>();
+            this.ghostHVACComponent = new CoilHeatingWater(new Model());
         }
 
-        //dealing with the real object, only when it is ready to be added to os model
+        //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(ref Model model, Node node)
         {
             this.osCoilHeatingWater = new CoilHeatingWater(model);
@@ -50,30 +42,22 @@ namespace Ironbug.HVAC
             return this.osCoilHeatingWater.addToNode(node);
         }
 
-        //this method for internal use, needed to be protected. call SetAttribute() instead
-        protected override void AddCustomAttribute(string AttributeName, object AttributeValue)
-        {
-            //adding attributes for real object to use later
-            base.AddCustomAttribute(AttributeName, AttributeValue);
-            //dueling the ghost object
-            this.ghostCoilHeatingWater.SetCustomAttribute(AttributeName, AttributeValue);
-        }
+        ////this method for internal use, needed to be protected. call SetAttribute() instead
+        //protected override void AddCustomAttribute(string AttributeName, object AttributeValue)
+        //{
+        //    //adding attributes for real object to use later
+        //    base.AddCustomAttribute(AttributeName, AttributeValue);
+        //    //dealing the ghost object
+        //    this.ghostHVACComponent.SetCustomAttribute(AttributeName, AttributeValue);
+        //}
 
         
-        public void SetAttribute(DataAttribute AttributeName, object AttributeValue)
-        {
-            this.AddCustomAttribute(AttributeName.FullName, AttributeValue);
-        }
-
-        public void SetAttributeByName(string AttributeName, object AttributeValue)
-        {
-            this.AddCustomAttribute(AttributeName, AttributeValue);
-        }
+        
 
 
     }
 
-    public static class IB_CoilHeatingWater_Attributes
+    public class IB_CoilHeatingWater_Attributes: IB_HVACComponent_Attributes
     {
         private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
         
@@ -100,7 +84,7 @@ namespace Ironbug.HVAC
 
         public static readonly DataAttribute RatedRatioForAirAndWaterConvection
             = new DataAttribute("RatedRatioForAirAndWaterConvection", "AirWaterRatio", refObj);
-        
+
 
         public static IEnumerable<DataAttribute> GetList()
         {
@@ -114,7 +98,7 @@ namespace Ironbug.HVAC
             return (DataAttribute)field.GetValue(null);
         }
 
-        
+
     }
 
     public class DataAttribute

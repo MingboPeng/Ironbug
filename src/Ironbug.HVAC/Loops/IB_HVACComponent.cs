@@ -9,13 +9,17 @@ namespace Ironbug.HVAC
     public abstract class IB_HVACComponent
     {
         protected Dictionary<string, object> CustomAttributes { get; set; }
-
-        //HVACComponent GetHVACComponent();
-        abstract protected HVACComponent ghostHVACComponent { get; }
+        
+        protected HVACComponent ghostHVACComponent { get; set; }
 
         //Must override in child class
         abstract public bool AddToNode(ref Model model, Node node);
-        
+
+        public IB_HVACComponent()
+        {
+
+            this.CustomAttributes = new Dictionary<string, object>();
+        }
 
         protected virtual void AddCustomAttribute(string AttributeName, object data)
         {
@@ -27,7 +31,10 @@ namespace Ironbug.HVAC
             {
                 this.CustomAttributes.Add(AttributeName, data);
             }
-            
+
+            //dealing the ghost object
+            this.ghostHVACComponent.SetCustomAttribute(AttributeName, data);
+
         }
 
 
@@ -55,39 +62,75 @@ namespace Ironbug.HVAC
                 var dataname = field.name();
                 
                 var unit = field.getUnits().isNull() ? string.Empty : field.getUnits().get().standardString();
-                var defaultStr = field.getUnits().isNull() ? string.Empty : field.properties().stringDefault.get();
+                var stringDefault = field.properties().stringDefault;
+                var defaultStr = stringDefault.isNull() ? string.Empty : stringDefault.get();
                 //strDefault has numDefault already
                 //var numDefault = field.getUnits().isNull() ? -9999 : field.properties().numericDefault.get();
 
                 var shownStr = string.IsNullOrWhiteSpace(customStr) ? defaultStr : customStr;
-                var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format("[{0}]", unit);
-                var shownDefault = string.IsNullOrWhiteSpace(defaultStr) ? string.Empty : string.Format("(Default: {0})", defaultStr);
-                var att = String.Format("{0}, {1} {2} {3}", shownStr, dataname, shownUnit, shownDefault);
-                //var att = new List<object>()
-                //{
-                //    dataname,
-                //    unit,
-                //    strDefault,
-                //    customStr,
-
-                //};
+                var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
+                var shownDefault = string.IsNullOrWhiteSpace(defaultStr) ? string.Empty : string.Format(" (Default: {0})", defaultStr);
+                var att = String.Format("{0,-20} !- {1} {2} {3}", shownStr, dataname, shownUnit, shownDefault);
+               
 
                 dataFields.Add(att);
             }
 
             return dataFields;
 
-        } 
+        }
+
+        public object GetAttributeValue(string AttributeName)
+        {
+            return this.ghostHVACComponent.GetAttributeValue(AttributeName);
+        }
+
+        public void SetAttribute(DataAttribute DataAttribute, object AttributeValue)
+        {
+            this.AddCustomAttribute(DataAttribute.FullName, AttributeValue);
+        }
+
+        public void SetAttribute(string AttributeName, object AttributeValue)
+        {
+            this.AddCustomAttribute(AttributeName, AttributeValue);
+        }
+
+
+    }
+
+    public abstract class IB_HVACComponent_Attributes
+    {
+
+        public static IEnumerable<DataAttribute> GetList(Type type)
+        {
+            return type.GetFields()
+                            .Select(_ => (DataAttribute)_.GetValue(null));
+        }
+
+        public static DataAttribute GetAttributeByName(Type type,string name)
+        {
+            var field = type.GetField(name);
+            return (DataAttribute)field.GetValue(null);
+        }
 
 
     }
 
     public static class HVACComponent_Extensions
     {
-        public static object SetCustomAttribute(this HVACComponent component, string AttritbuteName, object AttributeValue)
+        public static object GetAttributeValue(this HVACComponent component, string AttributeName)
+        {
+            string methodName = AttributeName;
+
+            var method = component.GetType().GetMethod(methodName);
+            var invokeResult = method.Invoke(component, null);
+
+            return invokeResult;
+        }
+        public static object SetCustomAttribute(this HVACComponent component, string AttributeName, object AttributeValue)
         {
             
-            string methodName = "set" + AttritbuteName;
+            string methodName = "set" + AttributeName;
             object[] parm = new object[] { AttributeValue };
 
             var method = component.GetType().GetMethod(methodName);

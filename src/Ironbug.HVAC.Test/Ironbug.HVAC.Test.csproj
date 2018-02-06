@@ -80,6 +80,7 @@
     <Compile Include="ExtClassTests.cs" />
     <Compile Include="AirLoopHVACOutdoorAirSystemExtensionsTests.cs" />
     <Compile Include="Loop\IB_CoilHeatingWater_Test.cs" />
+    <Compile Include="Loop\IB_FanConstantVolume_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
