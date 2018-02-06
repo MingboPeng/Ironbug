@@ -57,32 +57,32 @@ namespace Ironbug.HVAC
     //Void autosizeMaximumFlowRate()
     //OpenStudio.OptionalDouble autosizedMaximumFlowRate()
 
-    public class IB_FanConstantVolume_Attributes : IB_HVACComponent_Attributes
+    public class IB_FanConstantVolume_Attributes : IB_DataAttributeSet
     {
         private static readonly FanConstantVolume refObj = new FanConstantVolume(new Model());
 
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-1.7.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
-        public static readonly DataAttribute FanEfficiency
-            = new DataAttribute("FanEfficiency", "Efficiency", refObj);
+        public static readonly IB_DataAttribute FanEfficiency
+            = new IB_DataAttribute("FanEfficiency", "Efficiency", dbType);
 
-        public static readonly DataAttribute PressureRise
-            = new DataAttribute("PressureRise", "PressureRise", refObj);
+        public static readonly IB_DataAttribute PressureRise
+            = new IB_DataAttribute("PressureRise", "PressureRise", dbType);
 
-        public static readonly DataAttribute MotorEfficiency
-            = new DataAttribute("MotorEfficiency", "MotorEfficiency", refObj);
+        public static readonly IB_DataAttribute MotorEfficiency
+            = new IB_DataAttribute("MotorEfficiency", "MotorEfficiency", dbType);
 
 
-        public static IEnumerable<DataAttribute> GetList()
+        public static IEnumerable<IB_DataAttribute> GetList()
         {
             return typeof(IB_FanConstantVolume_Attributes).GetFields()
-                            .Select(_ => (DataAttribute)_.GetValue(null));
+                            .Select(_ => (IB_DataAttribute)_.GetValue(null));
         }
 
-        public static DataAttribute GetAttributeByName(string name)
+        public static IB_DataAttribute GetAttributeByName(string name)
         {
             var field = typeof(IB_FanConstantVolume_Attributes).GetField(name);
-            return (DataAttribute)field.GetValue(null);
+            return (IB_DataAttribute)field.GetValue(null);
         }
         
 

@@ -148,4 +148,13 @@ namespace Ironbug.Grasshopper.Component
 
 
     }
+
+
+    public static class GH_InputParamManager_Ext
+    {
+        public static void AddParamsByAttr(this GH_Component paramManager)
+        {
+
+        }
+    }
 }

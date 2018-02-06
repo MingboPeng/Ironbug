@@ -19,8 +19,7 @@ namespace Ironbug.HVAC
         //71.1,                 Rated Outlet Water Temperature[C] (Default: 71.1)
         //32.2,                 Rated Outlet Air Temperature[C] (Default: 32.2)
         //0.5,                  Rated Ratio for Air and Water Convection(Default: 0.5)
-
-
+        
         //Real obj to be saved in OS model
         private CoilHeatingWater osCoilHeatingWater { get; set; }
 
@@ -57,51 +56,53 @@ namespace Ironbug.HVAC
 
     }
 
-    public class IB_CoilHeatingWater_Attributes: IB_HVACComponent_Attributes
+    public class IB_CoilHeatingWater_Attributes: IB_DataAttributeSet
     {
-        private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
-        
+        //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
+
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_coil_heating_water.html
 
-        public static readonly DataAttribute RatedInletWaterTemperature 
-            = new DataAttribute("RatedInletWaterTemperature", "InWaterTemp", refObj);
+        
 
-        public static readonly DataAttribute RatedInletAirTemperature
-            = new DataAttribute("RatedInletAirTemperature", "InAirTemp", refObj);
+        public static readonly IB_DataAttribute RatedInletWaterTemperature 
+            = new IB_DataAttribute("RatedInletWaterTemperature", "InWaterTemp", dbType);
 
-        public static readonly DataAttribute RatedOutletWaterTemperature 
-            = new DataAttribute("RatedOutletWaterTemperature", "OutWaterTemp", refObj);
+        public static readonly IB_DataAttribute RatedInletAirTemperature
+            = new IB_DataAttribute("RatedInletAirTemperature", "InAirTemp", dbType);
 
-        public static readonly DataAttribute RatedOutletAirTemperature
-            = new DataAttribute("RatedOutletAirTemperature", "OutAirTemp", refObj);
+        public static readonly IB_DataAttribute RatedOutletWaterTemperature 
+            = new IB_DataAttribute("RatedOutletWaterTemperature", "OutWaterTemp", dbType);
 
-        public static readonly DataAttribute UFactorTimesAreaValue
-            = new DataAttribute("UFactorTimesAreaValue", "UFactor", refObj);
+        public static readonly IB_DataAttribute RatedOutletAirTemperature
+            = new IB_DataAttribute("RatedOutletAirTemperature", "OutAirTemp", dbType);
 
-        public static readonly DataAttribute MaximumWaterFlowRate
-            = new DataAttribute("MaximumWaterFlowRate", "MaxFlow", refObj);
+        public static readonly IB_DataAttribute UFactorTimesAreaValue
+            = new IB_DataAttribute("UFactorTimesAreaValue", "UFactor", dbType);
 
-        public static readonly DataAttribute RatedRatioForAirAndWaterConvection
-            = new DataAttribute("RatedRatioForAirAndWaterConvection", "AirWaterRatio", refObj);
+        public static readonly IB_DataAttribute MaximumWaterFlowRate
+            = new IB_DataAttribute("MaximumWaterFlowRate", "MaxFlow", dbType);
+
+        public static readonly IB_DataAttribute RatedRatioForAirAndWaterConvection
+            = new IB_DataAttribute("RatedRatioForAirAndWaterConvection", "AirWaterRatio", dbType);
 
 
-        public static IEnumerable<DataAttribute> GetList()
+        public static IEnumerable<IB_DataAttribute> GetList()
         {
-            return typeof(IB_CoilHeatingWater_Attributes).GetFields()
-                            .Select(_ => (DataAttribute)_.GetValue(null));
+            return GetList<IB_CoilHeatingWater_Attributes>();
         }
 
-        public static DataAttribute GetAttributeByName(string name)
+        public static IB_DataAttribute GetAttributeByName(string name)
         {
-            var field = typeof(IB_CoilHeatingWater_Attributes).GetField(name);
-            return (DataAttribute)field.GetValue(null);
+            return GetAttributeByName<IB_CoilHeatingWater_Attributes>(name);
         }
 
 
     }
 
-    public class DataAttribute
+    
+
+    public class IB_DataAttribute
     {
         public string FullName { get; set; }
         public string PerfectName { get; set; }
@@ -109,7 +110,7 @@ namespace Ironbug.HVAC
         public Type Type { get; set; }
         //public string Unit { get; set; }
 
-        public DataAttribute(string fullName, string shortName,  HVACComponent com)
+        public IB_DataAttribute(string fullName, string shortName, Type typeobj)
         {
             this.FullName = fullName; //RatedInletWaterTemperature
             this.ShortName = shortName; //InWaterTemp
@@ -117,7 +118,8 @@ namespace Ironbug.HVAC
             this.PerfectName = CheckName(this.FullName); ////Rated Inlet Water Temperature
             var methodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
 
-            this.Type = com.GetType().GetMethod(methodName).ReturnType;
+            //this.Type = com.GetType().GetMethod(methodName).ReturnType;
+            this.Type = typeobj;
             
         }
         

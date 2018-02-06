@@ -85,74 +85,40 @@ namespace Ironbug.HVAC
             return this.ghostHVACComponent.GetAttributeValue(AttributeName);
         }
 
-        public void SetAttribute(DataAttribute DataAttribute, object AttributeValue)
+        public void SetAttribute(IB_DataAttribute DataAttribute, object AttributeValue)
         {
             this.AddCustomAttribute(DataAttribute.FullName, AttributeValue);
+            
         }
 
         public void SetAttribute(string AttributeName, object AttributeValue)
         {
             this.AddCustomAttribute(AttributeName, AttributeValue);
-        }
-
-
-    }
-
-    public abstract class IB_HVACComponent_Attributes
-    {
-
-        public static IEnumerable<DataAttribute> GetList(Type type)
-        {
-            return type.GetFields()
-                            .Select(_ => (DataAttribute)_.GetValue(null));
-        }
-
-        public static DataAttribute GetAttributeByName(Type type,string name)
-        {
-            var field = type.GetField(name);
-            return (DataAttribute)field.GetValue(null);
-        }
-
-
-    }
-
-    public static class HVACComponent_Extensions
-    {
-        public static object GetAttributeValue(this HVACComponent component, string AttributeName)
-        {
-            string methodName = AttributeName;
-
-            var method = component.GetType().GetMethod(methodName);
-            var invokeResult = method.Invoke(component, null);
-
-            return invokeResult;
-        }
-        public static object SetCustomAttribute(this HVACComponent component, string AttributeName, object AttributeValue)
-        {
             
-            string methodName = "set" + AttributeName;
-            object[] parm = new object[] { AttributeValue };
-
-            var method = component.GetType().GetMethod(methodName);
-            var invokeResult = method.Invoke(component, parm);
-            
-            return invokeResult;
         }
 
-        public static List<string> SetCustomAttributes(this HVACComponent component, Dictionary<string, object> dataField)
-        {
-            var invokeResults = new List<string>();
-            foreach (var item in dataField)
-            {
-                var name = item.Key;
-                var invokeResult=  component.SetCustomAttribute(name, item.Value);
 
-                invokeResults.Add(name + " :: " + invokeResult);
-            }
-
-            return invokeResults;
-        }
     }
+
+    public abstract class IB_DataAttributeSet
+    {
+        protected static readonly Type dbType = typeof(double);
+
+        protected static IEnumerable<IB_DataAttribute> GetList<T>() where T : IB_DataAttributeSet
+        {
+            return typeof(T).GetFields()
+                            .Select(_ => (IB_DataAttribute)_.GetValue(null));
+        }
+
+        protected static IB_DataAttribute GetAttributeByName<T>(string name) where T : IB_DataAttributeSet
+        {
+            var field = typeof(T).GetField(name);
+            return (IB_DataAttribute)field.GetValue(null);
+        }
+
+
+    }
+
 
     //public interface IB_Viz
     //{
