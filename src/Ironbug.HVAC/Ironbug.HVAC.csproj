@@ -62,6 +62,7 @@
     <Compile Include="IB_DataField.cs" />
     <Compile Include="IB_DataFieldSet.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
+    <Compile Include="Loops\IB_PlantLoop.cs" />
     <Compile Include="OSExtensions\HVACComponent_Extensions.cs" />
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />

@@ -83,6 +83,7 @@ namespace Ironbug.Grasshopper.Component
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
+                newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
                 Params.RegisterInputParam(newParam);

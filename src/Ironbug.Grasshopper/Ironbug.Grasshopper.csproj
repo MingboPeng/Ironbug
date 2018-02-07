@@ -91,6 +91,7 @@
     <Compile Include="Component\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug_CoilHeatingWater.cs" />
     <Compile Include="Component\Ironbug_FanConstantVolume.cs" />
+    <Compile Include="Component\Ironbug_PlantLoop.cs" />
     <Compile Include="Component\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />

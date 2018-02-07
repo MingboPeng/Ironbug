@@ -13,7 +13,9 @@ namespace Ironbug.HVAC
         protected HVACComponent ghostHVACComponent { get; set; }
 
         //Must override in child class
-        abstract public bool AddToNode(ref Model model, Node node);
+        public abstract bool AddToNode(ref Model model, Node node);
+
+        public abstract HVACComponent plantDemand();
 
         public IB_HVACComponent()
         {

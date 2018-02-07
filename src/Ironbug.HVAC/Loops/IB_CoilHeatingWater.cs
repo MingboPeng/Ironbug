@@ -22,6 +22,7 @@ namespace Ironbug.HVAC
         
         //Real obj to be saved in OS model
         private CoilHeatingWater osCoilHeatingWater { get; set; }
+        private Model osModel { get; set; }
 
         //Ghost obj for place holder
         //private CoilHeatingWater ghostHVACComponent { get; set; }
@@ -36,9 +37,16 @@ namespace Ironbug.HVAC
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(ref Model model, Node node)
         {
-            this.osCoilHeatingWater = new CoilHeatingWater(model);
+            this.osModel = model;
+            this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(model);
             this.osCoilHeatingWater.SetCustomAttributes(this.CustomAttributes);
             return this.osCoilHeatingWater.addToNode(node);
+        }
+
+        public override HVACComponent plantDemand()
+        {
+            this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(osModel);
+            return osCoilHeatingWater;
         }
 
         ////this method for internal use, needed to be protected. call SetAttribute() instead
@@ -50,7 +58,7 @@ namespace Ironbug.HVAC
         //    this.ghostHVACComponent.SetCustomAttribute(AttributeName, AttributeValue);
         //}
 
-        
+
 
     }
 

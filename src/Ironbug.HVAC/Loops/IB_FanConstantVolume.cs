@@ -29,6 +29,11 @@ namespace Ironbug.HVAC
             this.osFanConstantVolume.SetCustomAttributes(this.CustomAttributes);
             return this.osFanConstantVolume.addToNode(node);
         }
+
+        public override HVACComponent plantDemand()
+        {
+            return null;
+        }
     }
 
     //A = fan.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);

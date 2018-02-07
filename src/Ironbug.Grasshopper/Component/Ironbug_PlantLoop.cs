@@ -6,15 +6,15 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : GH_Component
+    public class Ironbug_PlantLoop : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_SaveOSModel class.
+        /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
-        public Ironbug_SaveOSModel()
-          : base("Ironbug_SaveOSModel", "Nickname",
+        public Ironbug_PlantLoop()
+          : base("Ironbug_PlantLoop", "Nickname",
               "Description",
-              "Ironbug", "HVAC")
+              "Ironbug", "02:Loops")
         {
         }
 
@@ -23,13 +23,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
-            pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
-            pManager.AddGenericParameter("ZoneHVACs", "ZoneHVACs", "Zone with HVAC system set", GH_ParamAccess.item);
-
+            pManager.AddGenericParameter("demand", "demand", "HVAC components", GH_ParamAccess.list);
             pManager[0].Optional = true;
-            pManager[1].Optional = true;
-
         }
 
         /// <summary>
@@ -37,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
+            pManager.AddGenericParameter("PlantLoop", "PlantLoop", "PlantLoop", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -46,35 +41,17 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            string filepath = string.Empty;
-            //filepath = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
-            var airLoop = new HVAC.IB_AirLoopHVAC();
-            var plantLoops = new List<HVAC.IB_PlantLoop>();
+            List<HVAC.IB_HVACComponent> demandComs = new List<HVAC.IB_HVACComponent>();
+            DA.GetDataList(0, demandComs);
 
-            //var model = new OpenStudio.Model();
 
-            DA.GetData(0, ref filepath);
-            DA.GetDataList(1,  plantLoops);
-            DA.GetData(2, ref airLoop);
-           
-
-            //DA.GetData(1, ref model);
-            var model = new OpenStudio.Model();
-
-            airLoop.AddToModel(ref model);
-
-            foreach (var plant in plantLoops)
+            var plant = new HVAC.IB_PlantLoop();
+            foreach (var item in demandComs)
             {
-                plant.AddToModel(ref model);
+                plant.AddToDemandBranch(item);
             }
-            
 
-            var saved = model.save(new OpenStudio.Path(filepath), true);
-            if (saved)
-            {
-                DA.SetData(0, filepath);
-            }
-            
+            DA.SetData(0, plant);
         }
 
         /// <summary>
@@ -95,7 +72,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1"); }
+            get { return new Guid("63e4f976-4b63-48e4-b6f7-a2b5d7040252"); }
         }
     }
 }
