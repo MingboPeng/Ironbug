@@ -8,19 +8,19 @@ namespace Ironbug.HVAC
 {
     public static class HVACComponent_Extensions
     {
-        public static object GetAttributeValue(this HVACComponent component, string AttributeName)
+        public static object GetAttributeValue(this HVACComponent component, string getterMethodName)
         {
-            string methodName = AttributeName;
+            string methodName = getterMethodName;
 
             var method = component.GetType().GetMethod(methodName);
             var invokeResult = method.Invoke(component, null);
 
             return invokeResult;
         }
-        public static object SetCustomAttribute(this HVACComponent component, string AttributeName, object AttributeValue)
+        public static object SetCustomAttribute(this HVACComponent component, string setterMethodName, object AttributeValue)
         {
 
-            string methodName = "set" + AttributeName;
+            string methodName = setterMethodName;
             object[] parm = new object[] { AttributeValue };
 
             var method = component.GetType().GetMethod(methodName);

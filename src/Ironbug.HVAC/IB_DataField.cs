@@ -10,6 +10,8 @@ namespace Ironbug.HVAC
         public string FullName { get; set; }
         public string PerfectName { get; set; }
         public string ShortName { get; set; }
+        public string getterMethodName { get; set; }
+        public string setterMethodName { get; set; }
         public Type Type { get; set; }
         //public string Unit { get; set; }
 
@@ -19,7 +21,8 @@ namespace Ironbug.HVAC
             this.ShortName = shortName; //InWaterTemp
 
             this.PerfectName = CheckName(this.FullName); ////Rated Inlet Water Temperature
-            var methodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
+            this.getterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
+            this.setterMethodName = "set" + this.FullName;
 
             //this.Type = com.GetType().GetMethod(methodName).ReturnType;
             this.Type = typeobj;

@@ -108,9 +108,10 @@ namespace Ironbug.Grasshopper.Component
                     if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
                     {
                         var name = item.Name;
-                        var type = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name).Type;
+                        var dataField = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name);
+                        
                         object value = null;
-                        if (type == typeof(double))
+                        if (dataField.Type == typeof(double))
                         {
                             value = ((GH_Number)values.First()).Value;
                         }
@@ -121,7 +122,7 @@ namespace Ironbug.Grasshopper.Component
 
                         try
                         {
-                            Coil.SetAttribute(name, value);
+                            Coil.SetAttribute(dataField, value);
                         }
                         catch (Exception)
                         {

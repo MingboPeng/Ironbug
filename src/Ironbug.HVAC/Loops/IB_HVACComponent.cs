@@ -87,12 +87,13 @@ namespace Ironbug.HVAC
 
         public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
         {
-            this.AddCustomAttribute(DataAttribute.FullName, AttributeValue);
+            this.AddCustomAttribute(DataAttribute.setterMethodName, AttributeValue);
             
         }
 
-        public void SetAttribute(string AttributeName, object AttributeValue)
+        private void SetAttribute(string AttributeName, object AttributeValue)
         {
+
             this.AddCustomAttribute(AttributeName, AttributeValue);
             
         }

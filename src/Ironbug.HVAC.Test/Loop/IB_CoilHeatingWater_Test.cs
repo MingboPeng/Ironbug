@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenStudio;
 
 namespace Ironbug.HVACTests.Loop
 {
     [TestClass]
     public class IB_CoilHeatingWater_Test
     {
+        
         [TestMethod]
         public void IB_CoilHeatingWater_Initialize_Test()
         {
@@ -24,6 +28,52 @@ namespace Ironbug.HVACTests.Loop
             var att = (double)coil.GetAttributeValue("ratedInletWaterTemperature");
 
             Assert.IsTrue(att == testValue);
+        }
+
+        [TestMethod]
+        public void IB_FanConstantVolume_Fields_Test()
+        {
+
+            var fan = new HVAC.IB_CoilHeatingWater();
+            var membs = typeof(CoilHeatingWater).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var attrs = HVAC.IB_FanConstantVolume_Attributes.GetList();
+
+            var results = new List<string>();
+            foreach (var attr in attrs)
+            {
+                var n1 = attr.getterMethodName;
+                var t1 = attr.Type;
+
+                //getting method
+                var matched = membs.Where(_ => (_.Name == n1) && (_.ReturnType == t1));
+
+                //setting method
+                var n2 = attr.setterMethodName;
+                var matched2 = membs.Where(_ => _.Name == n2);
+
+
+                var result = string.Empty;
+                if (matched.Any() && matched2.Any())
+                {
+                    result = String.Format("{0} founded", n1);
+                }
+                else
+                {
+                    result = String.Format("___ {0} ___", n1);
+                }
+
+                Console.WriteLine(result);
+
+                results.Add(result);
+
+
+            }
+
+            Console.WriteLine(results);
+            var success = results.Count() == attrs.Count();
+
+
+            Assert.IsTrue(success);
         }
 
 

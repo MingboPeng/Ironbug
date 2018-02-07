@@ -20,8 +20,7 @@ namespace Ironbug.HVAC
         
         public IB_FanConstantVolume()
         {
-            //this.ghostHVACComponent = new FanConstantVolume(new Model());
-            
+            this.ghostHVACComponent = new FanConstantVolume(new Model());
         }
 
         public override bool AddToNode(ref Model model, Node node)
