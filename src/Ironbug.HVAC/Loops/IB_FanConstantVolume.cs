@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         
         public IB_FanConstantVolume()
         {
-            this.ghostHVACComponent = new FanConstantVolume(new Model());
+            //this.ghostHVACComponent = new FanConstantVolume(new Model());
             
         }
 
@@ -57,34 +57,32 @@ namespace Ironbug.HVAC
     //Void autosizeMaximumFlowRate()
     //OpenStudio.OptionalDouble autosizedMaximumFlowRate()
 
-    public class IB_FanConstantVolume_Attributes : IB_DataAttributeSet
+    public class IB_FanConstantVolume_Attributes : IB_DataFieldSet
     {
         private static readonly FanConstantVolume refObj = new FanConstantVolume(new Model());
 
 
-        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-1.7.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
-        public static readonly IB_DataAttribute FanEfficiency
-            = new IB_DataAttribute("FanEfficiency", "Efficiency", dbType);
+        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
+        public static readonly IB_DataField FanEfficiency
+            = new IB_DataField("FanEfficiency", "Efficiency", dbType);
 
-        public static readonly IB_DataAttribute PressureRise
-            = new IB_DataAttribute("PressureRise", "PressureRise", dbType);
+        public static readonly IB_DataField PressureRise
+            = new IB_DataField("PressureRise", "PressureRise", dbType);
 
-        public static readonly IB_DataAttribute MotorEfficiency
-            = new IB_DataAttribute("MotorEfficiency", "MotorEfficiency", dbType);
+        public static readonly IB_DataField MotorEfficiency
+            = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
 
 
-        public static IEnumerable<IB_DataAttribute> GetList()
+        public static IEnumerable<IB_DataField> GetList()
         {
-            return typeof(IB_FanConstantVolume_Attributes).GetFields()
-                            .Select(_ => (IB_DataAttribute)_.GetValue(null));
+            return GetList<IB_FanConstantVolume_Attributes>();
         }
 
-        public static IB_DataAttribute GetAttributeByName(string name)
+        public static IB_DataField GetAttributeByName(string name)
         {
-            var field = typeof(IB_FanConstantVolume_Attributes).GetField(name);
-            return (IB_DataAttribute)field.GetValue(null);
+            return GetAttributeByName<IB_FanConstantVolume_Attributes>(name);
         }
-        
+
 
     }
 }

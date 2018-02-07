@@ -85,7 +85,7 @@ namespace Ironbug.HVAC
             return this.ghostHVACComponent.GetAttributeValue(AttributeName);
         }
 
-        public void SetAttribute(IB_DataAttribute DataAttribute, object AttributeValue)
+        public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
         {
             this.AddCustomAttribute(DataAttribute.FullName, AttributeValue);
             
@@ -96,28 +96,10 @@ namespace Ironbug.HVAC
             this.AddCustomAttribute(AttributeName, AttributeValue);
             
         }
-
-
+        
     }
 
-    public abstract class IB_DataAttributeSet
-    {
-        protected static readonly Type dbType = typeof(double);
-
-        protected static IEnumerable<IB_DataAttribute> GetList<T>() where T : IB_DataAttributeSet
-        {
-            return typeof(T).GetFields()
-                            .Select(_ => (IB_DataAttribute)_.GetValue(null));
-        }
-
-        protected static IB_DataAttribute GetAttributeByName<T>(string name) where T : IB_DataAttributeSet
-        {
-            var field = typeof(T).GetField(name);
-            return (IB_DataAttribute)field.GetValue(null);
-        }
-
-
-    }
+    
 
 
     //public interface IB_Viz
