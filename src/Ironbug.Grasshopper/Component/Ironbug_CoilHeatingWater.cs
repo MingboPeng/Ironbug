@@ -19,7 +19,37 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "01:LoopComponents")
         {
+            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+        }
+
+        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != 1)
+            {
+                return;
+            }
+
             
+           
+            var source = e.Parameter.Sources;
+            var recipientNum = source.Count;
+            if (!source.Any())
+            {
+                return;
+            }
+
+            var firstsSource = source.First() as IGH_Param;
+            if (recipientNum == 1 && firstsSource != null)
+            {
+                ((Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject).AddParams(typeof(HVAC.IB_CoilHeatingWater_Attributes));
+                
+            }
+            else if (recipientNum == 0)
+            {
+                
+
+            }
+
         }
 
         /// <summary>
@@ -28,8 +58,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Hot water supply", "supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters for Coil:Heating:Water", "params", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            AddParams();
+            pManager[1].Optional = true;
+            //AddParams();
         }
 
         /// <summary>
@@ -48,7 +80,28 @@ namespace Ironbug.Grasshopper.Component
         {
             var coil = new HVAC.IB_CoilHeatingWater();
             
-            CollectSettingData(ref coil);
+            //CollectSettingData(ref coil);
+
+            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            DA.GetData(1, ref settingParams);
+
+            foreach (var item in settingParams)
+            {
+                var dataField = item.Key;
+
+                object value = item.Value;
+
+                try
+                {
+                    coil.SetAttribute(dataField, value);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+           
 
             DA.SetData(0, coil);
         }
@@ -73,90 +126,61 @@ namespace Ironbug.Grasshopper.Component
         {
             get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
         }
-        
-        public void AddParams()
-        {
-            var settingList = HVAC.IB_CoilHeatingWater_Attributes.GetList();
+
+
+
+        //private void CollectSettingData(ref HVAC.IB_CoilHeatingWater Coil)
+        //{
             
-            foreach (var item in settingList)
-            {
-                IGH_Param newParam = new Param_GenericObject();
-                newParam.Name = item.FullName;
-                newParam.NickName = item.ShortName;
-                newParam.MutableNickName = false;
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-                Params.RegisterInputParam(newParam);
-                
-            }
+        //    foreach (var item in allInputParams)
+        //    {
+        //        if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
+        //        {
+        //            continue;
+        //        }
+        //        else
+        //        {
+        //            var values = new List<IGH_Goo>();
+        //            values = item.VolatileData.AllData(true).ToList();
 
-            //this.ExpireSolution(true);
+        //            if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
+        //            {
+        //                var name = item.Name;
+        //                var dataField = HVAC.IB_CoilHeatingWater_Attributes.GetAttributeByName(name);
 
+        //                object value = null;
+        //                if (dataField.Type == typeof(double))
+        //                {
+        //                    value = ((GH_Number)values.First()).Value;
+        //                }
+        //                else
+        //                {
+        //                    value = ((GH_String)values.First()).Value;
+        //                }
 
-        }
-        
+        //                try
+        //                {
+        //                    Coil.SetAttribute(dataField, value);
+        //                }
+        //                catch (Exception)
+        //                {
 
-        private void CollectSettingData(ref HVAC.IB_CoilHeatingWater Coil)
-        {
+        //                    throw;
+        //                }
 
-            var FlyResults = new List<string>();
-            var allInputParams = this.Params.Input;
-            foreach (var item in allInputParams)
-            {
-                if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
-                {
-                    continue;
-                }
-                else
-                {
-                    var values = new List<IGH_Goo>();
-                    values = item.VolatileData.AllData(true).ToList();
-
-                    if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
-                    {
-                        var name = item.Name;
-                        var dataField = HVAC.IB_CoilHeatingWater_Attributes.GetAttributeByName(name);
-
-                        object value = null;
-                        if (dataField.Type == typeof(double))
-                        {
-                            value = ((GH_Number)values.First()).Value;
-                        }
-                        else
-                        {
-                            value = ((GH_String)values.First()).Value;
-                        }
-
-                        try
-                        {
-                            Coil.SetAttribute(dataField, value);
-                        }
-                        catch (Exception)
-                        {
-
-                            throw;
-                        }
-
-                    }
-                }
+        //            }
+        //        }
 
 
 
 
-            }
-                
-        }
+        //    }
+
+        //}
+
 
 
 
     }
-
-
-    public static class GH_InputParamManager_Ext
-    {
-        public static void AddParamsByAttr(this GH_Component paramManager)
-        {
-
-        }
-    }
+    
 }
