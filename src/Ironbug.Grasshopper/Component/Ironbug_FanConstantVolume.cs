@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_FanConstantVolume : GH_Component
     {
         private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_FanConstantVolume_DataField);
+        public readonly Type DataFieldType = typeof(HVAC.IB_FanConstantVolume_DataFields);
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_FanConstantVolume class.
@@ -64,7 +64,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
             //AddParams();
         }

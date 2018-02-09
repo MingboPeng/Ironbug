@@ -61,7 +61,7 @@ namespace Ironbug.HVAC
     //Void autosizeMaximumFlowRate()
     //OpenStudio.OptionalDouble autosizedMaximumFlowRate()
 
-    public class IB_FanConstantVolume_DataField : IB_DataFieldSet
+    public class IB_FanConstantVolume_DataFields : IB_DataFieldSet
     {
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
 
@@ -80,12 +80,12 @@ namespace Ironbug.HVAC
 
         public static IEnumerable<IB_DataField> GetList()
         {
-            return GetList<IB_FanConstantVolume_DataField>();
+            return GetList<IB_FanConstantVolume_DataFields>();
         }
 
         public static IB_DataField GetAttributeByName(string name)
         {
-            return GetAttributeByName<IB_FanConstantVolume_DataField>(name);
+            return GetAttributeByName<IB_FanConstantVolume_DataFields>(name);
         }
 
 

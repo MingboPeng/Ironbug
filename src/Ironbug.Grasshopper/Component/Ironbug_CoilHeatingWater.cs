@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CoilHeatingWater : GH_Component
     {
         private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_CoilHeatingWater_DataField);
+        public readonly Type DataFieldType = typeof(HVAC.IB_CoilHeatingWater_DataFields);
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
@@ -57,11 +57,6 @@ namespace Ironbug.Grasshopper.Component
                 
                 
             }
-            else if (recipientNum == 0)
-            {
-                
-
-            }
 
         }
 
@@ -70,8 +65,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Hot water supply", "supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Parameters for Coil:Heating:Water", "params", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Hot water supply", "_supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters for Coil:Heating:Water", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
             //AddParams();

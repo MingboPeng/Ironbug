@@ -45,7 +45,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HVACObjParams", "HVACObjParams", "HVACObjParams", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACObjParams", "ObjParams", "HVACObjParams", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -187,6 +187,13 @@ namespace Ironbug.Grasshopper.Component
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
                 newParam.MutableNickName = false;
+                newParam.Description = item.Description;
+                if (item.ValidData.Any())
+                {
+                    newParam.Description += "\n\nAcceptable values:" + string.Join(",", item.ValidData);
+                }
+                //newParam.InstanceDescription = "tttttt";
+
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
                 Params.RegisterInputParam(newParam);
@@ -287,6 +294,7 @@ namespace Ironbug.Grasshopper.Component
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
+                newParam.Description = item.Description + " \n"+string.Join(",",item.ValidData);
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;

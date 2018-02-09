@@ -65,7 +65,7 @@ namespace Ironbug.HVAC
 
     }
 
-    public class IB_CoilHeatingWater_DataField: IB_DataFieldSet
+    public class IB_CoilHeatingWater_DataFields: IB_DataFieldSet
     {
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
 
@@ -73,7 +73,13 @@ namespace Ironbug.HVAC
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_coil_heating_water.html
         
         public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, false);
+            = new IB_DataField("Name", "Name", strType, false)
+            {
+                Description = "this is description for this param",
+                ValidData = new List<object>() { "a string name is required"}
+                
+            };
+        
 
         public static readonly IB_DataField RatedInletWaterTemperature 
             = new IB_DataField("RatedInletWaterTemperature", "InWaterTemp", dbType, ProSetting:false);
@@ -99,12 +105,12 @@ namespace Ironbug.HVAC
 
         public static IEnumerable<IB_DataField> GetList()
         {
-            return GetList<IB_CoilHeatingWater_DataField>();
+            return GetList<IB_CoilHeatingWater_DataFields>();
         }
 
         public static IB_DataField GetAttributeByName(string name)
         {
-            return GetAttributeByName<IB_CoilHeatingWater_DataField>(name);
+            return GetAttributeByName<IB_CoilHeatingWater_DataFields>(name);
         }
 
         

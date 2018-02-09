@@ -14,14 +14,27 @@ namespace Ironbug.HVAC
         public string SetterMethodName { get; set; }
         public Type DataType { get; set; }
         public bool ProSetting { get; set; }
+
+        public List<object> ValidData { get; set; }
+        public string Description { get; set; }
         //public string Unit { get; set; }
 
         public IB_DataField(string FullName, string ShortName, Type DataType)
-            : this(FullName, ShortName, DataType, true)
+            : this(FullName, ShortName, DataType, true, new List<object>())
         {
         }
 
         public IB_DataField(string FullName, string ShortName, Type DataType, bool ProSetting)
+            : this(FullName, ShortName, DataType, ProSetting, new List<object>())
+        {
+        }
+
+        public IB_DataField(string FullName, string ShortName, Type DataType, List<object> ValidData)
+            : this(FullName, ShortName, DataType, true, ValidData)
+        {
+        }
+
+        public IB_DataField(string FullName, string ShortName, Type DataType, bool ProSetting, List<object> ValidData)
         {
             this.FullName = FullName; //RatedInletWaterTemperature
             this.ShortName = ShortName; //InWaterTemp
@@ -33,6 +46,12 @@ namespace Ironbug.HVAC
             //this.Type = com.GetType().GetMethod(methodName).ReturnType;
             this.DataType = DataType;
             this.ProSetting = ProSetting;
+            this.ValidData = ValidData;
+        }
+
+        public void AddDataFieldDescription(string Description)
+        {
+            this.Description = Description;
         }
 
         private static string CheckName(string LongName)
