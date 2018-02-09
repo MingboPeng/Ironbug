@@ -8,6 +8,7 @@ namespace Ironbug.HVAC
     public abstract class IB_DataFieldSet
     {
         protected static readonly Type dbType = typeof(double);
+        protected static readonly Type strType = typeof(string);
 
         protected static IEnumerable<IB_DataField> GetList<T>() where T : IB_DataFieldSet
         {

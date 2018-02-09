@@ -41,6 +41,9 @@ namespace Ironbug.HVAC
             this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(model);
             this.osCoilHeatingWater.SetCustomAttributes(this.CustomAttributes);
             return this.osCoilHeatingWater.addToNode(node);
+
+            
+            //this.osCoilHeatingWater.setn
         }
 
         public override HVACComponent plantDemand()
@@ -62,22 +65,24 @@ namespace Ironbug.HVAC
 
     }
 
-    public class IB_CoilHeatingWater_Attributes: IB_DataFieldSet
+    public class IB_CoilHeatingWater_DataField: IB_DataFieldSet
     {
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
 
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_coil_heating_water.html
-
         
+        public static readonly IB_DataField Name
+            = new IB_DataField("Name", "Name", strType, false);
+
         public static readonly IB_DataField RatedInletWaterTemperature 
-            = new IB_DataField("RatedInletWaterTemperature", "InWaterTemp", dbType);
+            = new IB_DataField("RatedInletWaterTemperature", "InWaterTemp", dbType, ProSetting:false);
 
         public static readonly IB_DataField RatedInletAirTemperature
             = new IB_DataField("RatedInletAirTemperature", "InAirTemp", dbType);
 
         public static readonly IB_DataField RatedOutletWaterTemperature 
-            = new IB_DataField("RatedOutletWaterTemperature", "OutWaterTemp", dbType);
+            = new IB_DataField("RatedOutletWaterTemperature", "OutWaterTemp", dbType, ProSetting: false);
 
         public static readonly IB_DataField RatedOutletAirTemperature
             = new IB_DataField("RatedOutletAirTemperature", "OutAirTemp", dbType);
@@ -94,12 +99,12 @@ namespace Ironbug.HVAC
 
         public static IEnumerable<IB_DataField> GetList()
         {
-            return GetList<IB_CoilHeatingWater_Attributes>();
+            return GetList<IB_CoilHeatingWater_DataField>();
         }
 
         public static IB_DataField GetAttributeByName(string name)
         {
-            return GetAttributeByName<IB_CoilHeatingWater_Attributes>(name);
+            return GetAttributeByName<IB_CoilHeatingWater_DataField>(name);
         }
 
         

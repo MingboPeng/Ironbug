@@ -11,6 +11,9 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_CoilHeatingWater : GH_Component
     {
+        private Ironbug_ObjParams SettingParams { get; set; }
+        public readonly Type DataFieldType = typeof(HVAC.IB_CoilHeatingWater_DataField);
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
@@ -28,20 +31,30 @@ namespace Ironbug.Grasshopper.Component
             {
                 return;
             }
-
             
-           
             var source = e.Parameter.Sources;
             var recipientNum = source.Count;
             if (!source.Any())
             {
+                if (this.SettingParams != null)
+                {
+                    this.SettingParams.CheckRecipients();
+                }
+
+                this.SettingParams = null;
+
                 return;
             }
 
             var firstsSource = source.First() as IGH_Param;
             if (recipientNum == 1 && firstsSource != null)
             {
-                ((Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject).AddParams(typeof(HVAC.IB_CoilHeatingWater_Attributes));
+                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                if (this.SettingParams!=null)
+                {
+                    this.SettingParams.CheckRecipients();
+                }
+                
                 
             }
             else if (recipientNum == 0)
@@ -78,7 +91,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var coil = new HVAC.IB_CoilHeatingWater();
+            var obj = new HVAC.IB_CoilHeatingWater();
             
             //CollectSettingData(ref coil);
 
@@ -87,13 +100,9 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var item in settingParams)
             {
-                var dataField = item.Key;
-
-                object value = item.Value;
-
                 try
                 {
-                    coil.SetAttribute(dataField, value);
+                    obj.SetAttribute(item.Key, item.Value);
                 }
                 catch (Exception)
                 {
@@ -101,9 +110,9 @@ namespace Ironbug.Grasshopper.Component
                     throw;
                 }
             }
-           
 
-            DA.SetData(0, coil);
+
+            DA.SetData(0, obj);
         }
 
         /// <summary>

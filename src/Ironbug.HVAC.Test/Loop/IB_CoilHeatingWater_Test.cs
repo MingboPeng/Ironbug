@@ -24,7 +24,7 @@ namespace Ironbug.HVACTests.Loop
         {
             var coil = new HVAC.IB_CoilHeatingWater();
             var testValue = 50.0;
-            coil.SetAttribute(HVAC.IB_CoilHeatingWater_Attributes.RatedInletWaterTemperature, testValue);
+            coil.SetAttribute(HVAC.IB_CoilHeatingWater_DataField.RatedInletWaterTemperature, testValue);
             var att = (double)coil.GetAttributeValue("ratedInletWaterTemperature");
 
             Assert.IsTrue(att == testValue);
@@ -36,19 +36,19 @@ namespace Ironbug.HVACTests.Loop
 
             var fan = new HVAC.IB_CoilHeatingWater();
             var membs = typeof(CoilHeatingWater).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            var attrs = HVAC.IB_FanConstantVolume_Attributes.GetList();
+            var attrs = HVAC.IB_FanConstantVolume_DataField.GetList();
 
             var results = new List<string>();
             foreach (var attr in attrs)
             {
-                var n1 = attr.getterMethodName;
-                var t1 = attr.Type;
+                var n1 = attr.GetterMethodName;
+                var t1 = attr.DataType;
 
                 //getting method
                 var matched = membs.Where(_ => (_.Name == n1) && (_.ReturnType == t1));
 
                 //setting method
-                var n2 = attr.setterMethodName;
+                var n2 = attr.SetterMethodName;
                 var matched2 = membs.Where(_ => _.Name == n2);
 
 

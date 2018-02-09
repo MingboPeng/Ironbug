@@ -10,6 +10,9 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_FanConstantVolume : GH_Component
     {
+        private Ironbug_ObjParams SettingParams { get; set; }
+        public readonly Type DataFieldType = typeof(HVAC.IB_FanConstantVolume_DataField);
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_FanConstantVolume class.
         /// </summary>
@@ -18,6 +21,42 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "01:LoopComponents")
         {
+            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+        }
+
+        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count-1)
+            {
+                return;
+            }
+
+            var source = e.Parameter.Sources;
+            var sourceNum = source.Count;
+            if (!source.Any())
+            {
+                if (this.SettingParams!= null)
+                {
+                    this.SettingParams.CheckRecipients();
+                }
+
+                this.SettingParams = null;
+                
+                return;
+            }
+
+            var firstsSource = source.First() as IGH_Param;
+            if (sourceNum == 1 && firstsSource != null)
+            {
+                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                if (this.SettingParams != null)
+                {
+                    //this.SettingParams.AddParams(DataFieldType);
+                    this.SettingParams.CheckRecipients();
+                }
+
+            }
+
         }
 
         /// <summary>
@@ -25,7 +64,9 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            AddParams();
+            pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager[0].Optional = true;
+            //AddParams();
         }
 
         /// <summary>
@@ -44,7 +85,21 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_FanConstantVolume();
 
-            CollectSettingData(ref obj);
+            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            DA.GetData(0, ref settingParams);
+
+            foreach (var item in settingParams)
+            {
+                try
+                {
+                    obj.SetAttribute(item.Key, item.Value);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
 
             DA.SetData(0, obj);
         }
@@ -71,73 +126,75 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        public void AddParams()
-        {
-            var settingList = HVAC.IB_FanConstantVolume_Attributes.GetList();
+        //public void AddParams()
+        //{
+        //    var settingList = HVAC.IB_FanConstantVolume_Attributes.GetList();
 
-            foreach (var item in settingList)
-            {
-                IGH_Param newParam = new Param_GenericObject();
-                newParam.Name = item.FullName;
-                newParam.NickName = item.ShortName;
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-                Params.RegisterInputParam(newParam);
+        //    foreach (var item in settingList)
+        //    {
+        //        IGH_Param newParam = new Param_GenericObject();
+        //        newParam.Name = item.FullName;
+        //        newParam.NickName = item.ShortName;
+        //        newParam.Access = GH_ParamAccess.item;
+        //        newParam.Optional = true;
+        //        Params.RegisterInputParam(newParam);
 
-            }
+        //    }
 
-        }
+        //}
 
 
-        private void CollectSettingData(ref HVAC.IB_FanConstantVolume Coil)
-        {
+        //private void CollectSettingData(ref HVAC.IB_FanConstantVolume Coil)
+        //{
 
-            var FlyResults = new List<string>();
-            var allInputParams = this.Params.Input;
-            foreach (var item in allInputParams)
-            {
-                if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
-                {
-                    continue;
-                }
-                else
-                {
-                    var values = new List<IGH_Goo>();
-                    values = item.VolatileData.AllData(true).ToList();
+        //    var FlyResults = new List<string>();
+        //    var allInputParams = this.Params.Input;
+        //    foreach (var item in allInputParams)
+        //    {
+        //        if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
+        //        {
+        //            continue;
+        //        }
+        //        else
+        //        {
+        //            var values = new List<IGH_Goo>();
+        //            values = item.VolatileData.AllData(true).ToList();
 
-                    if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
-                    {
-                        var name = item.Name;
-                        var dataField = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name);
+        //            if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
+        //            {
+        //                var name = item.Name;
+        //                var dataField = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name);
                         
-                        object value = null;
-                        if (dataField.Type == typeof(double))
-                        {
-                            value = ((GH_Number)values.First()).Value;
-                        }
-                        else
-                        {
-                            value = ((GH_String)values.First()).Value;
-                        }
+        //                object value = null;
+        //                if (dataField.DataType == typeof(double))
+        //                {
+        //                    value = ((GH_Number)values.First()).Value;
+        //                }
+        //                else
+        //                {
+        //                    value = ((GH_String)values.First()).Value;
+        //                }
 
-                        try
-                        {
-                            Coil.SetAttribute(dataField, value);
-                        }
-                        catch (Exception)
-                        {
+        //                try
+        //                {
+        //                    Coil.SetAttribute(dataField, value);
+        //                }
+        //                catch (Exception)
+        //                {
 
-                            throw;
-                        }
+        //                    throw;
+        //                }
 
-                    }
-                }
-
-
+        //            }
+        //        }
 
 
-            }
 
-        }
+
+        //    }
+
+        //}
     }
+
+   
 }

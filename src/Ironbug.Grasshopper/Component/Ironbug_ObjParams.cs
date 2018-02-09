@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
+using Ironbug.HVAC;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ObjParams : GH_Component
     {
-        public Type ObjParamsType { get; set; }
+        //public Type lastDataFieldType { get; set; }
+        private Type CurrentDataFieldType { get; set; }
+        public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
+
+        private bool IsProSetting { get; set; }
+        private IEnumerable<HVAC.IB_DataField> dataFieldList { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
         /// </summary>
@@ -19,6 +27,8 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "00:Ironbug")
         {
+            this.IsProSetting = false;
+            
             
         }
         
@@ -27,6 +37,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            
         }
 
         /// <summary>
@@ -34,7 +45,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HVACObj", "HVACObj", "HVACObj", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACObjParams", "HVACObjParams", "HVACObjParams", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -69,26 +80,108 @@ namespace Ironbug.Grasshopper.Component
             get { return new Guid("c01b9512-5d83-4f5c-9116-ce897b94b2f2"); }
         }
 
-
-        public void AddParams(Type type)
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            //HVAC.IB_DataFieldSet
-            if (this.ObjParamsType == type)
+            Menu_AppendItem(menu, "ProSetting", ProSetting, true, this.IsProSetting);
+            Menu_AppendSeparator(menu);
+        }
+
+        public void CheckRecipients()
+        {
+            var outputs = this.Params.Output;
+            if (!outputs.Any())
             {
                 return;
             }
-            this.ObjParamsType = type;
-            var method = type.GetMethod("GetList");
-            var dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Attributes, null));
-            
-            //remove all
-            var inputParams = this.Params.Input;
-            foreach (var item in inputParams)
+            var rec = outputs.Last().Recipients;
+            if (rec.Count > 0)
             {
-                this.Params.UnregisterInputParameter(item);
+                this.DataFieldTypes = new Dictionary<IGH_DocumentObject, Type>();
+                foreach (var item in rec)
+                {
+                    var targetHVACComponent = item.Attributes.GetTopLevel.DocObject;
+                    var dataFieldType = (Type)(targetHVACComponent.GetType().GetField("DataFieldType").GetValue(targetHVACComponent));
+                    this.DataFieldTypes.Add(targetHVACComponent, dataFieldType);
+                }
+
+                var typeTodeShown = this.DataFieldTypes.First().Value;
+                if (typeTodeShown != this.CurrentDataFieldType)
+                {
+                    this.CurrentDataFieldType = typeTodeShown;
+                    AddParams(this.CurrentDataFieldType);
+                }
+
+                //var targetHVACComponent = rec.First().Attributes.GetTopLevel.DocObject;
+                ////var dataFieldType = (Type)(targetHVACComponent.GetType().GetField("DataFieldType").GetValue(targetHVACComponent));
+
+                //if (this.DataFieldType != type)
+                //{
+                //    this.lastDataFieldType = this.DataFieldType;
+                //    this.DataFieldType = type;
+                //    AddParams(this.DataFieldType);
+                //}
+                ////this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+            }
+        }
+
+        //public void RemovalCheckRecipients(Type DataFieldTobeRemoved)
+        //{
+        //    var outputs = this.Params.Output;
+        //    if (!outputs.Any())
+        //    {
+        //        return;
+        //    }
+        //    var rec = outputs.Last().Recipients;
+        //    if (rec.Count > 0)
+        //    {
+        //        var targetHVACComponent = rec.First().Attributes.GetTopLevel.DocObject;
+        //        //var dataFieldType = (Type)(targetHVACComponent.GetType().GetField("DataFieldType").GetValue(targetHVACComponent));
+        //        if (this.DataFieldType != DataFieldTobeRemoved)
+        //        {
+        //            this.DataFieldType = DataFieldTobeRemoved;
+        //            AddParams(this.DataFieldType);
+        //        }
+        //        //this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+        //    }
+        //}
+
+        public void AddParams(Type type)
+        {
+            //if (this.DataFieldType == type)
+            //{
+            //    return;
+            //}
+
+            if (this.Params.Output.Last().Recipients.Count>1)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Different HVAC component has different setting parameters. You should use a new Ironbug_ObjParams for new HVAC component!");
+                return;
             }
 
-            foreach (var item in dataFieldList)
+
+
+            this.CurrentDataFieldType = type;
+
+            //remove all
+            var inputParams = this.Params.Input;
+            int paramCount = inputParams.Count;
+            for (int i = 0; i < paramCount; i++)
+            {
+                this.Params.UnregisterInputParameter(inputParams[0]);
+            }
+
+
+            var method = type.GetMethod("GetList");
+            this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Attributes, null));
+
+            //only show the basic setting first
+            var dataFieldTobeAdded = dataFieldList.Where(_ => _.ProSetting == false);
+            if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
+            {
+                dataFieldTobeAdded = dataFieldList;
+            }
+
+            foreach (var item in dataFieldTobeAdded)
             {
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
@@ -99,10 +192,10 @@ namespace Ironbug.Grasshopper.Component
                 Params.RegisterInputParam(newParam);
 
             }
-            this.ExpireSolution(false);
+            this.Params.OnParametersChanged();
+            this.ExpireSolution(true);
             //this.ExpireSolution(true);
-
-
+            
         }
 
         private Dictionary<HVAC.IB_DataField, object> CollectSettingData()
@@ -127,14 +220,14 @@ namespace Ironbug.Grasshopper.Component
                         var name = item.Name;
 
                         object[] arg = new object[] { name };
-                        var method = this.ObjParamsType.GetMethod("GetAttributeByName");
+                        var method = this.CurrentDataFieldType.GetMethod("GetAttributeByName");
 
-                        var dataField = method.Invoke(this.ObjParamsType, arg) as HVAC.IB_DataField;
+                        var dataField = method.Invoke(this.CurrentDataFieldType, arg) as HVAC.IB_DataField;
                         
                         //((HVAC.IB_DataFieldSet).GetAttributeByName();
 
                         object value = null;
-                        if (dataField.Type == typeof(double))
+                        if (dataField.DataType == typeof(double))
                         {
                             value = ((GH_Number)values.First()).Value;
                         }
@@ -165,6 +258,54 @@ namespace Ironbug.Grasshopper.Component
             return settingDatas;
 
         }
+        
+        private void ProSetting(object sender, EventArgs e)
+        {
+            this.IsProSetting = !this.IsProSetting;
 
+            if (this.IsProSetting)
+            {
+
+                this.AddProDataFields(this.dataFieldList.Where(_ => _.ProSetting == true));
+
+            }
+            else
+            {
+                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.ProSetting == true));
+            }
+            //VariableParameterMaintenance();
+            this.Params.OnParametersChanged();
+            this.ExpireSolution(true);
+
+        }
+
+
+        private void AddProDataFields(IEnumerable<HVAC.IB_DataField> DataFieldTobeAdded)
+        {
+            foreach (var item in DataFieldTobeAdded)
+            {
+                IGH_Param newParam = new Param_GenericObject();
+                newParam.Name = item.FullName;
+                newParam.NickName = item.ShortName;
+                newParam.MutableNickName = false;
+                newParam.Access = GH_ParamAccess.item;
+                newParam.Optional = true;
+                Params.RegisterInputParam(newParam);
+
+            }
+        }
+
+
+        private void RemoveProDataFields(IEnumerable<IB_DataField> DataFieldTobeAdded)
+        {
+            var inputParams = this.Params.Input;
+            int paramTobeRemovedCount = DataFieldTobeAdded.Count();
+            int operationIndex = inputParams.Count - paramTobeRemovedCount;
+            for (int i = 0; i < paramTobeRemovedCount; i++)
+            {
+                this.Params.UnregisterInputParameter(inputParams[operationIndex]);
+            }
+            
+        }
     }
 }

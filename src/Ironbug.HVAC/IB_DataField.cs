@@ -10,23 +10,29 @@ namespace Ironbug.HVAC
         public string FullName { get; set; }
         public string PerfectName { get; set; }
         public string ShortName { get; set; }
-        public string getterMethodName { get; set; }
-        public string setterMethodName { get; set; }
-        public Type Type { get; set; }
+        public string GetterMethodName { get; set; }
+        public string SetterMethodName { get; set; }
+        public Type DataType { get; set; }
+        public bool ProSetting { get; set; }
         //public string Unit { get; set; }
 
-        public IB_DataField(string fullName, string shortName, Type typeobj)
+        public IB_DataField(string FullName, string ShortName, Type DataType)
+            : this(FullName, ShortName, DataType, true)
         {
-            this.FullName = fullName; //RatedInletWaterTemperature
-            this.ShortName = shortName; //InWaterTemp
+        }
+
+        public IB_DataField(string FullName, string ShortName, Type DataType, bool ProSetting)
+        {
+            this.FullName = FullName; //RatedInletWaterTemperature
+            this.ShortName = ShortName; //InWaterTemp
 
             this.PerfectName = CheckName(this.FullName); ////Rated Inlet Water Temperature
-            this.getterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
-            this.setterMethodName = "set" + this.FullName;
+            this.GetterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
+            this.SetterMethodName = "set" + this.FullName;
 
             //this.Type = com.GetType().GetMethod(methodName).ReturnType;
-            this.Type = typeobj;
-
+            this.DataType = DataType;
+            this.ProSetting = ProSetting;
         }
 
         private static string CheckName(string LongName)
