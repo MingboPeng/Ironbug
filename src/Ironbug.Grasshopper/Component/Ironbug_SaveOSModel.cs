@@ -61,11 +61,11 @@ namespace Ironbug.Grasshopper.Component
             //DA.GetData(1, ref model);
             var model = new OpenStudio.Model();
 
-            airLoop.AddToModel(ref model);
+            airLoop.ToOS(ref model);
 
             foreach (var plant in plantLoops)
             {
-                plant.AddToModel(ref model);
+                plant.ToOS(ref model);
             }
             
 

@@ -11,6 +11,8 @@ namespace Ironbug.HVAC
     {
 
         private List<IB_HVACComponent> supplyComponents { get; set; }
+        //private List<IB_HVACComponent> demandComponents { get; set; }
+        private List<IB_ThermalZone> thermalZones { get; set; }
 
         //real osAirLoopHVAC
         private AirLoopHVAC osAirLoopHVAC { get; set; }
@@ -24,6 +26,7 @@ namespace Ironbug.HVAC
             //this.osModel = new Model();
             this.ghostAirLoopHVAC = new AirLoopHVAC(new Model());
             this.supplyComponents = new List<IB_HVACComponent>();
+            this.thermalZones = new List<IB_ThermalZone>();
         }
 
         public void AddToSupplyEnd(IB_HVACComponent HvacComponent)
@@ -33,17 +36,29 @@ namespace Ironbug.HVAC
             
         }
 
-        public void AddToModel(ref Model osModel)
+        public void AddToDemandBranch(IB_ThermalZone HvacComponent)
+        {
+            this.thermalZones.Add(HvacComponent);
+        }
+
+        public AirLoopHVAC ToOS(ref Model osModel)
         {
             this.osAirLoopHVAC = new AirLoopHVAC(osModel);
             var nd = this.osAirLoopHVAC.supplyOutletNode();
 
-            foreach (var item in supplyComponents)
+            foreach (var item in this.supplyComponents)
             {
                 item.AddToNode(ref osModel, nd);
             }
-            
 
+            foreach (var item in this.thermalZones)
+            {
+                var zone = item.ToOS(ref osModel);
+                var airTerminal = item.AirTerminal.ToOS(ref osModel);
+                this.osAirLoopHVAC.addBranchForZone(zone,airTerminal);
+            }
+
+            return this.osAirLoopHVAC;
             ////*********
             ////THIS IS CAUSING MEMORY PROBLEM
             //HVACComponent com = Component.GetHVACComponent();

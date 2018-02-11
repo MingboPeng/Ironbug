@@ -6,15 +6,15 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopHVAC : GH_Component
+    public class Ironbug_ThermalZone : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirLoopHVAC class.
+        /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
-        public Ironbug_AirLoopHVAC()
-          : base("Ironbug_AirLoopHVAC", "AirLoop",
+        public Ironbug_ThermalZone()
+          : base("Ironbug_ThermalZone", "Nickname",
               "Description",
-              "Ironbug", "02:Loops")
+              "Ironbug", "01:LoopComponents")
         {
         }
 
@@ -23,10 +23,6 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
-            pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.list);
-            pManager[0].Optional = true;
-            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -34,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZonesWithAirLoopHVAC", "ZoneHVAC", "toSaveOSM", GH_ParamAccess.item);
+            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZone", "connect to airloop's demand side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -43,29 +39,10 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var supplyComs = new List<HVAC.IB_HVACComponent>();
-            DA.GetDataList(0, supplyComs);
+            var zone = new HVAC.IB_ThermalZone();
+            zone.AirTerminal = new HVAC.IB_AirTerminal();
 
-            var demandComs = new List<HVAC.IB_ThermalZone>();
-            DA.GetDataList(1, demandComs);
-
-            var airLoop = new HVAC.IB_AirLoopHVAC();
-
-            //TODO: need to check nulls
-            foreach (var item in supplyComs)
-            {
-                airLoop.AddToSupplyEnd(item);
-            }
-
-            foreach (var item in demandComs)
-            {
-                airLoop.AddToDemandBranch(item);
-            }
-            
-
-            //var model = new OpenStudio.Model();
-            DA.SetData(0, airLoop);
-
+            DA.SetData(0, zone);
         }
 
         /// <summary>
@@ -86,7 +63,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("a416631f-bdda-4e11-8a2c-658c38681201"); }
+            get { return new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0"); }
         }
     }
 }

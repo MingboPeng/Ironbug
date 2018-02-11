@@ -14,10 +14,10 @@ namespace Ironbug.HVAC
 
         public abstract HVACComponent plantDemand();
 
-        public IB_HVACComponent()
-        {
+        //public IB_HVACComponent()
+        //{
             
-        }
+        //}
 
         
         
