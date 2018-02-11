@@ -104,62 +104,25 @@ namespace Ironbug.Grasshopper.Component
                     this.DataFieldTypes.Add(targetHVACComponent, dataFieldType);
                 }
 
+                if (this.DataFieldTypes.Count > 1)
+                {
+                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Different HVAC component has different setting parameters. You should use a new Ironbug_ObjParams for new HVAC component!");
+                }
+
                 var typeTodeShown = this.DataFieldTypes.First().Value;
                 if (typeTodeShown != this.CurrentDataFieldType)
                 {
-                    this.CurrentDataFieldType = typeTodeShown;
-                    AddParams(this.CurrentDataFieldType);
+                    AddParams(typeTodeShown);
                 }
-
-                //var targetHVACComponent = rec.First().Attributes.GetTopLevel.DocObject;
-                ////var dataFieldType = (Type)(targetHVACComponent.GetType().GetField("DataFieldType").GetValue(targetHVACComponent));
-
-                //if (this.DataFieldType != type)
-                //{
-                //    this.lastDataFieldType = this.DataFieldType;
-                //    this.DataFieldType = type;
-                //    AddParams(this.DataFieldType);
-                //}
-                ////this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                
             }
         }
 
-        //public void RemovalCheckRecipients(Type DataFieldTobeRemoved)
-        //{
-        //    var outputs = this.Params.Output;
-        //    if (!outputs.Any())
-        //    {
-        //        return;
-        //    }
-        //    var rec = outputs.Last().Recipients;
-        //    if (rec.Count > 0)
-        //    {
-        //        var targetHVACComponent = rec.First().Attributes.GetTopLevel.DocObject;
-        //        //var dataFieldType = (Type)(targetHVACComponent.GetType().GetField("DataFieldType").GetValue(targetHVACComponent));
-        //        if (this.DataFieldType != DataFieldTobeRemoved)
-        //        {
-        //            this.DataFieldType = DataFieldTobeRemoved;
-        //            AddParams(this.DataFieldType);
-        //        }
-        //        //this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-        //    }
-        //}
+
 
         public void AddParams(Type type)
         {
-            //if (this.DataFieldType == type)
-            //{
-            //    return;
-            //}
-
-            if (this.Params.Output.Last().Recipients.Count>1)
-            {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Different HVAC component has different setting parameters. You should use a new Ironbug_ObjParams for new HVAC component!");
-                return;
-            }
-
-
-
+           
             this.CurrentDataFieldType = type;
 
             //remove all
@@ -175,7 +138,7 @@ namespace Ironbug.Grasshopper.Component
             this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Attributes, null));
 
             //only show the basic setting first
-            var dataFieldTobeAdded = dataFieldList.Where(_ => _.ProSetting == false);
+            var dataFieldTobeAdded = dataFieldList.Where(_ => _.BasicSetting == true);
             if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
             {
                 dataFieldTobeAdded = dataFieldList;
@@ -192,8 +155,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     newParam.Description += "\n\nAcceptable values:" + string.Join(",", item.ValidData);
                 }
-                //newParam.InstanceDescription = "tttttt";
-
+                
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
                 Params.RegisterInputParam(newParam);
@@ -273,12 +235,12 @@ namespace Ironbug.Grasshopper.Component
             if (this.IsProSetting)
             {
 
-                this.AddProDataFields(this.dataFieldList.Where(_ => _.ProSetting == true));
+                this.AddProDataFields(this.dataFieldList.Where(_ => _.BasicSetting == false));
 
             }
             else
             {
-                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.ProSetting == true));
+                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.BasicSetting == false));
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();

@@ -27,6 +27,7 @@ namespace Ironbug.HVAC.Tests
 
             Assert.IsTrue(oaComs.Count > 1);
         }
+        
 
         [TestMethod()]
         public void OutdoorAirSystem_copySetpoints_Test()

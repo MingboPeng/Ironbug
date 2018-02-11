@@ -42,7 +42,7 @@ namespace Ironbug.HVACTests.Loop
         public void IB_FanConstantVolume_Fields_Test()
         {
             var fan = new HVAC.IB_FanConstantVolume();
-            var membs = typeof(FanConstantVolume).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var meths = typeof(FanConstantVolume).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             var attrs = HVAC.IB_FanConstantVolume_DataFields.GetList();
 
             var results = new List<string>();
@@ -52,11 +52,11 @@ namespace Ironbug.HVACTests.Loop
                 var t1 = attr.DataType;
 
                 //getting method
-                var matched = membs.Where(_ => (_.Name == n1) && (_.ReturnType == t1));
+                var matched = meths.Where(_ => (_.Name == n1) && (_.ReturnType == t1));
 
                 //setting method
                 var n2 = attr.SetterMethodName;
-                var matched2 = membs.Where(_ => _.Name == n2);
+                var matched2 = meths.Where(_ => _.Name == n2);
 
 
                 var result = string.Empty;

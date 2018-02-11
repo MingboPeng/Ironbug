@@ -13,5 +13,10 @@ namespace Ironbug.HVAC
             return model.save(new Path(filePath), true);
 
         }
+
+        public static void IDD(this IddObject idd)
+        {
+            
+        }
     }
 }

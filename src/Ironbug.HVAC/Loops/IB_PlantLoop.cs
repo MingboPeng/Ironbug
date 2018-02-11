@@ -27,9 +27,7 @@ namespace Ironbug.HVAC
             var boiler = new BoilerHotWater(model);
             plant.addSupplyBranchForComponent(boiler);
 
-
             
-
             foreach (var item in demandComponents)
             {
                 plant.addDemandBranchForComponent(item.plantDemand());

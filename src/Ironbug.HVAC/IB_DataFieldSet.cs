@@ -9,6 +9,9 @@ namespace Ironbug.HVAC
     {
         protected static readonly Type dbType = typeof(double);
         protected static readonly Type strType = typeof(string);
+        protected static readonly Type boType = typeof(bool);
+
+        protected abstract OpenStudio.IddObject RefIddObject { get; }
 
         protected static IEnumerable<IB_DataField> GetList<T>() where T : IB_DataFieldSet
         {

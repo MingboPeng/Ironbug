@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWater : GH_Component
+    public class Ironbug_OAController : GH_Component
     {
-        private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_CoilHeatingWater_DataFieldSet); //this is used as a reference in Ironbug_ObjParams.
+        private Ironbug_ObjParams ironbug_ObjParam { get; set; }
+        public readonly Type DataFieldType = typeof(HVAC.IB_ControllerOutdoorAir_DataFieldSet); //this is used as a reference in Ironbug_ObjParams.
 
         /// <summary>
-        /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
+        /// Initializes a new instance of the Ironbug_OAController class.
         /// </summary>
-        public Ironbug_CoilHeatingWater()
-          : base("Ironbug_CoilHeatingWater", "Nickname",
+        public Ironbug_OAController()
+          : base("Ironbug_OAController", "Nickname",
               "Description",
               "Ironbug", "01:LoopComponents")
         {
@@ -31,17 +28,17 @@ namespace Ironbug.Grasshopper.Component
             {
                 return;
             }
-            
+
             var source = e.Parameter.Sources;
             var recipientNum = source.Count;
             if (!source.Any())
             {
-                if (this.SettingParams != null)
+                if (this.ironbug_ObjParam != null)
                 {
-                    this.SettingParams.CheckRecipients();
+                    this.ironbug_ObjParam.CheckRecipients();
                 }
 
-                this.SettingParams = null;
+                this.ironbug_ObjParam = null;
 
                 return;
             }
@@ -49,12 +46,12 @@ namespace Ironbug.Grasshopper.Component
             var firstsSource = source.First() as IGH_Param;
             if (recipientNum == 1 && firstsSource != null)
             {
-                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.SettingParams!=null)
+                this.ironbug_ObjParam = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                if (this.ironbug_ObjParam != null)
                 {
-                    this.SettingParams.CheckRecipients();
+                    this.ironbug_ObjParam.CheckRecipients();
                 }
-                
+
             }
 
         }
@@ -64,11 +61,10 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Hot water supply", "_supply", "hot water supply source from hot water plant loop.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Parameters for Coil:Heating:Water", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("name", "name_", "name", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this object. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
-            //AddParams();
         }
 
         /// <summary>
@@ -76,7 +72,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWater", "CoilHW", "connect to airloop's supply side", GH_ParamAccess.item);
+            
+            pManager.AddGenericParameter("OutdoorAirSystemController", "OACtrl", "connect to OutdoorAirSystem", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -85,11 +82,13 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilHeatingWater();
-            
-            //CollectSettingData(ref coil);
+            var obj = new HVAC.IB_ControllerOutdoorAir();
+            var name = string.Empty;
 
+            
+            //collect settings
             var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            DA.GetData(0, ref name);
             DA.GetData(1, ref settingParams);
 
             foreach (var item in settingParams)
@@ -105,8 +104,13 @@ namespace Ironbug.Grasshopper.Component
                 }
             }
 
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                obj.SetAttribute("setName", name);
+            }
 
             DA.SetData(0, obj);
+
         }
 
         /// <summary>
@@ -127,9 +131,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
+            get { return new Guid("8c5f0941-421e-428b-9b26-0d17280448fe"); }
         }
-        
     }
-    
 }

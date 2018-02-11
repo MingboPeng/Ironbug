@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
         //dealing with the ghost object
         public IB_CoilHeatingWater()
         {
-            this.ghostHVACComponent = new CoilHeatingWater(new Model());
+            this.ghostModelObject = new CoilHeatingWater(new Model());
         }
 
         //dealing with the real object, use only when it is ready to be added to os model
@@ -41,7 +41,6 @@ namespace Ironbug.HVAC
             this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(model);
             this.osCoilHeatingWater.SetCustomAttributes(this.CustomAttributes);
             return this.osCoilHeatingWater.addToNode(node);
-
             
             //this.osCoilHeatingWater.setn
         }
@@ -51,44 +50,41 @@ namespace Ironbug.HVAC
             this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(osModel);
             return osCoilHeatingWater;
         }
-
-        ////this method for internal use, needed to be protected. call SetAttribute() instead
-        //protected override void AddCustomAttribute(string AttributeName, object AttributeValue)
-        //{
-        //    //adding attributes for real object to use later
-        //    base.AddCustomAttribute(AttributeName, AttributeValue);
-        //    //dealing the ghost object
-        //    this.ghostHVACComponent.SetCustomAttribute(AttributeName, AttributeValue);
-        //}
-
-
+        
 
     }
 
-    public class IB_CoilHeatingWater_DataFields: IB_DataFieldSet
+    public class IB_CoilHeatingWater_DataFieldSet: IB_DataFieldSet
     {
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
-
+        //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
+        protected override IddObject RefIddObject => new CoilHeatingWater(new Model()).iddObject();
+        
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_coil_heating_water.html
-        
+        //https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-042.html#coilheatingwater
+        //Following list items are fields that I want to have picked for GH user to edit
         public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, false)
+            = new IB_DataField("Name", "Name", strType, true)
             {
-                Description = "this is description for this param",
-                ValidData = new List<object>() { "a string name is required"}
-                
+                Description = "A unique identifying name for each coil."
             };
         
 
         public static readonly IB_DataField RatedInletWaterTemperature 
-            = new IB_DataField("RatedInletWaterTemperature", "InWaterTemp", dbType, ProSetting:false);
+            = new IB_DataField("RatedInletWaterTemperature", "InWaterTemp", dbType, BasicSetting:true)
+            {
+                Description = "The inlet water temperature (degrees C) corresponding to the rated heating capacity. " +
+                "The default is 82.2 degrees C (180 degrees F)."
+
+            };
 
         public static readonly IB_DataField RatedInletAirTemperature
             = new IB_DataField("RatedInletAirTemperature", "InAirTemp", dbType);
+            
 
         public static readonly IB_DataField RatedOutletWaterTemperature 
-            = new IB_DataField("RatedOutletWaterTemperature", "OutWaterTemp", dbType, ProSetting: false);
+            = new IB_DataField("RatedOutletWaterTemperature", "OutWaterTemp", dbType, BasicSetting: true);
 
         public static readonly IB_DataField RatedOutletAirTemperature
             = new IB_DataField("RatedOutletAirTemperature", "OutAirTemp", dbType);
@@ -97,20 +93,27 @@ namespace Ironbug.HVAC
             = new IB_DataField("UFactorTimesAreaValue", "UFactor", dbType);
 
         public static readonly IB_DataField MaximumWaterFlowRate
-            = new IB_DataField("MaximumWaterFlowRate", "MaxFlow", dbType);
+            = new IB_DataField("MaximumWaterFlowRate", "MaxFlow", dbType)
+            {
+                Description = "The maximum possible water flow rate (m3/sec) through the coil. " +
+                "This field is used when Coil Performance Input Method = UFactorTimesAreaAndDesignWaterFlowRate. " +
+                "This field is autosizable.",
+
+            };
 
         public static readonly IB_DataField RatedRatioForAirAndWaterConvection
             = new IB_DataField("RatedRatioForAirAndWaterConvection", "AirWaterRatio", dbType);
 
+        
 
         public static IEnumerable<IB_DataField> GetList()
         {
-            return GetList<IB_CoilHeatingWater_DataFields>();
+            return GetList<IB_CoilHeatingWater_DataFieldSet>();
         }
 
         public static IB_DataField GetAttributeByName(string name)
         {
-            return GetAttributeByName<IB_CoilHeatingWater_DataFields>(name);
+            return GetAttributeByName<IB_CoilHeatingWater_DataFieldSet>(name);
         }
 
         

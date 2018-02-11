@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         
         public IB_FanConstantVolume()
         {
-            this.ghostHVACComponent = new FanConstantVolume(new Model());
+            this.ghostModelObject = new FanConstantVolume(new Model());
         }
 
         public override bool AddToNode(ref Model model, Node node)
@@ -63,13 +63,14 @@ namespace Ironbug.HVAC
 
     public class IB_FanConstantVolume_DataFields : IB_DataFieldSet
     {
+        protected override IddObject RefIddObject => new FanConstantVolume(new Model()).iddObject();
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
 
         public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, false);
+            = new IB_DataField("Name", "Name", strType, true);
 
         public static readonly IB_DataField FanEfficiency
-            = new IB_DataField("FanEfficiency", "Efficiency", dbType, false);
+            = new IB_DataField("FanEfficiency", "Efficiency", dbType, true);
 
         public static readonly IB_DataField PressureRise
             = new IB_DataField("PressureRise", "PressureRise", dbType);
