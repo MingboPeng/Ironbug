@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Ironbug.HVAC;
 
 namespace Ironbug.HVACTests
 {
@@ -35,6 +36,33 @@ namespace Ironbug.HVACTests
 
             var success = lp2.is_initialized();
             
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void Workflow_Test()
+        {
+            var md1 = new OpenStudio.Model();
+
+            var airflow = new HVAC.IB_AirLoopHVAC();
+            var coil = new HVAC.IB_CoilHeatingWater();
+            var coilName = (string)coil.GetAttributeValue("nameString");
+
+            airflow.AddToSupplyEnd(coil);
+
+            airflow.ToOS(ref md1);
+
+            var md2 = new OpenStudio.Model();
+            airflow.ToOS(ref md2);
+
+            var success1 = coil.IsInModel(md1);
+            var success2 = coil.IsInModel(md2);
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            var success3  = md2.Save(saveFile);
+            
+            var success = success1 && success2 && success3;
+
             Assert.IsTrue(success);
         }
     }

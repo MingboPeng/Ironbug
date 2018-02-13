@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
     public abstract class IB_ModelObject
     {
         public Dictionary<string, object> CustomAttributes { get; private set; }
-        protected ModelObject ghostModelObject { get; set; }
+        protected ParentObject ghostModelObject { get; set; }
 
         public IB_ModelObject()
         {
@@ -53,6 +53,11 @@ namespace Ironbug.HVAC
 
             this.AddCustomAttribute(AttributeName, AttributeValue);
 
+        }
+
+        public bool IsInModel(Model model)
+        {
+            return !this.ghostModelObject.IsNotInModel(model);
         }
 
 

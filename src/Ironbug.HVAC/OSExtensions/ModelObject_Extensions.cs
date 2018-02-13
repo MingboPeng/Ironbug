@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
         {
             string methodName = getterMethodName;
 
-            var method = component.GetType().GetMethod(methodName);
+            var method = component.GetType().GetMethod(methodName, new Type[] { });
             var invokeResult = method.Invoke(component, null);
 
             return invokeResult;
