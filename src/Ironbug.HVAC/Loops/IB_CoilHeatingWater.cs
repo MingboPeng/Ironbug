@@ -32,6 +32,8 @@ namespace Ironbug.HVAC
         public IB_CoilHeatingWater()
         {
             this.ghostModelObject = new CoilHeatingWater(new Model());
+            //check name
+            this.SetAttribute(IB_CoilHeatingWater_DataFieldSet.Name, this.ghostModelObject.CheckName());
         }
 
         //dealing with the real object, use only when it is ready to be added to os model
@@ -43,13 +45,7 @@ namespace Ironbug.HVAC
             
             //this.osCoilHeatingWater.setn
         }
-
-
-        //public override HVACComponent plantDemand(ref Model model)
-        //{
-        //    this.osCoilHeatingWater = this.ToOS(ref model);
-        //    return osCoilHeatingWater;
-        //}
+        
 
         public override HVACComponent ToOS(ref Model model)
         {
@@ -59,13 +55,9 @@ namespace Ironbug.HVAC
             {
                 realObj = new CoilHeatingWater(model);
             }
-            else if (realObj.initialized())
+            else if (realObj.initialized() && realObj.IsNotInModel(model))
             {
-                if (model.getParentObjectByName(realObj.nameString()).isNull())
-                {
-                    realObj = new CoilHeatingWater(model);
-                }
-                
+                realObj = new CoilHeatingWater(model);
                 
             }
 

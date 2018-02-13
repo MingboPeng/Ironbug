@@ -18,6 +18,11 @@ namespace Ironbug.HVAC
 
         protected virtual void AddCustomAttribute(string AttributeName, object data)
         {
+            if (AttributeName=="setName")
+            {
+                data = this.ghostModelObject.CheckName(data.ToString());
+            }
+
             if (CustomAttributes.ContainsKey(AttributeName))
             {
                 this.CustomAttributes[AttributeName] = data;
@@ -29,6 +34,24 @@ namespace Ironbug.HVAC
 
             //dealing the ghost object
             this.ghostModelObject.SetCustomAttribute(AttributeName, data);
+
+        }
+
+        public object GetAttributeValue(string AttributeName)
+        {
+            return this.ghostModelObject.GetAttributeValue(AttributeName);
+        }
+
+        public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
+        {
+            this.AddCustomAttribute(DataAttribute.SetterMethodName, AttributeValue);
+
+        }
+
+        public void SetAttribute(string AttributeName, object AttributeValue)
+        {
+
+            this.AddCustomAttribute(AttributeName, AttributeValue);
 
         }
 
@@ -75,22 +98,8 @@ namespace Ironbug.HVAC
 
         }
 
-        public object GetAttributeValue(string AttributeName)
-        {
-            return this.ghostModelObject.GetAttributeValue(AttributeName);
-        }
+        
 
-        public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
-        {
-            this.AddCustomAttribute(DataAttribute.SetterMethodName, AttributeValue);
-
-        }
-
-        public void SetAttribute(string AttributeName, object AttributeValue)
-        {
-
-            this.AddCustomAttribute(AttributeName, AttributeValue);
-
-        }
+        
     }
 }

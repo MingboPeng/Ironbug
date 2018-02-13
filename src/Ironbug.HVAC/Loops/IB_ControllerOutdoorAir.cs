@@ -16,7 +16,8 @@ namespace Ironbug.HVAC
         {
             var model = new Model();
             this.ghostModelObject = new ControllerOutdoorAir(model);
-            
+            //check name
+            this.SetAttribute("setName", this.ghostModelObject.CheckName());
         }
         
     }

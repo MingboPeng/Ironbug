@@ -19,10 +19,9 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static bool IsInModel(this ModelObject component, Model model)
+        public static bool IsNotInModel(this ParentObject component, Model model)
         {
-            var isInModel = !model.getGenericModelObjectByName(component.nameString()).isNull();
-            return isInModel;
+            return model.getParentObjectByName(component.nameString()).isNull();
         }
 
         public static object GetAttributeValue(this ModelObject component, string getterMethodName)
@@ -58,6 +57,41 @@ namespace Ironbug.HVAC
             }
 
             return invokeResults;
+        }
+
+        public static string CheckName(this ModelObject component)
+        {
+            var name = component.nameString();
+            var NewName = CheckString(name);
+            if (name != NewName)
+            {
+                component.setName(NewName);
+            }
+
+            return NewName;
+        }
+        public static string CheckName(this ModelObject component, string NewName)
+        {
+            var name = CheckString(NewName);
+
+            if (name != NewName)
+            {
+                component.setName(name);
+            }
+
+
+            return name;
+        }
+        private static string CheckString(string name)
+        {
+            var idKey = "[#";
+            if (!name.Contains(idKey))
+            {
+                var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6)+"]";
+                name = name + idKey + uid;
+            }
+
+            return name;
         }
     }
 }
