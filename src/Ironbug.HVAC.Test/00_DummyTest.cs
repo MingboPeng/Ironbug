@@ -16,5 +16,26 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(true);
         }
+
+        [TestMethod]
+        public void DummyTest_Copy()
+        {
+            var md1 = new OpenStudio.Model();
+            var lp1 = new OpenStudio.AirLoopHVAC(md1);
+            var idd1 = lp1.iddObject();
+            var idf1 = lp1.idfObject();
+
+            var idd2 = new OpenStudio.IddObject(idd1);
+            var idf2 = new OpenStudio.IdfObject(idf1);
+
+            var lp2 = idf2.to_AirLoopHVAC();
+
+            //var md2 = new OpenStudio.Model();
+            //var obj = md2.addObject(idf2);
+
+            var success = lp2.is_initialized();
+            
+            Assert.IsTrue(success);
+        }
     }
 }

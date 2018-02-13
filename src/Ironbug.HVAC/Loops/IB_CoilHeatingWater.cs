@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         
         //Real obj to be saved in OS model
         private CoilHeatingWater osCoilHeatingWater { get; set; }
-        private Model osModel { get; set; }
+        //private Model osModel { get; set; }
 
         //Ghost obj for place holder
         //private CoilHeatingWater ghostHVACComponent { get; set; }
@@ -37,20 +37,44 @@ namespace Ironbug.HVAC
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(ref Model model, Node node)
         {
-            this.osModel = model;
-            this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(model);
-            this.osCoilHeatingWater.SetCustomAttributes(this.CustomAttributes);
-            return this.osCoilHeatingWater.addToNode(node);
+            //this.osModel = model;
+            //var obj = ;
+            return ToOS(ref model).addToNode(node);
             
             //this.osCoilHeatingWater.setn
         }
 
-        public override HVACComponent plantDemand()
+
+        //public override HVACComponent plantDemand(ref Model model)
+        //{
+        //    this.osCoilHeatingWater = this.ToOS(ref model);
+        //    return osCoilHeatingWater;
+        //}
+
+        public override HVACComponent ToOS(ref Model model)
         {
-            this.osCoilHeatingWater = this.osCoilHeatingWater ?? new CoilHeatingWater(osModel);
-            return osCoilHeatingWater;
+            var realObj = this.osCoilHeatingWater;
+
+            if (realObj == null)
+            {
+                realObj = new CoilHeatingWater(model);
+            }
+            else if (realObj.initialized())
+            {
+                if (model.getParentObjectByName(realObj.nameString()).isNull())
+                {
+                    realObj = new CoilHeatingWater(model);
+                }
+                
+                
+            }
+
+            realObj.SetCustomAttributes(this.CustomAttributes);
+            this.osCoilHeatingWater = realObj;
+
+            return realObj;
         }
-        
+
 
     }
 

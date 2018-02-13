@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
             
             foreach (var item in demandComponents)
             {
-                plant.addDemandBranchForComponent(item.plantDemand());
+                plant.addDemandBranchForComponent(item.ToOS(ref model));
             }
 
         }

@@ -19,6 +19,12 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
+        public static bool IsInModel(this ModelObject component, Model model)
+        {
+            var isInModel = !model.getGenericModelObjectByName(component.nameString()).isNull();
+            return isInModel;
+        }
+
         public static object GetAttributeValue(this ModelObject component, string getterMethodName)
         {
             string methodName = getterMethodName;

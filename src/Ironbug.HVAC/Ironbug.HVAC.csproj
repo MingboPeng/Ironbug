@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="IB_DataField.cs" />
     <Compile Include="IB_DataFieldSet.cs" />
+    <Compile Include="IVoid.cs" />
     <Compile Include="Loops\IB_AirTerminal.cs" />
     <Compile Include="Loops\IB_ControllerOutdoorAir.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Loops\IB_OutdoorAirSystem.cs" />
     <Compile Include="Loops\IB_PlantLoop.cs" />
     <Compile Include="Loops\IB_ThermalZone.cs" />
+    <Compile Include="Loops\VoidCoilHeatingWater.cs" />
     <Compile Include="OSExtensions\HVACComponent_Extensions.cs" />
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="OSExtensions\Model_Extensions.cs" />
     <Compile Include="OSExtensions\SizingPlant_Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Loops\VoidModelObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

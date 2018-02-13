@@ -34,7 +34,7 @@ namespace Ironbug.HVAC
             return this.osOutdoorAirSystem.addToNode(node);
         }
 
-        public override HVACComponent plantDemand()
+        public override HVACComponent ToOS(ref Model model)
         {
             return null;
         }

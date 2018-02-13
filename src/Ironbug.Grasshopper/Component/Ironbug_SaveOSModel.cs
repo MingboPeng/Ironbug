@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -60,6 +60,7 @@ namespace Ironbug.Grasshopper.Component
 
             //DA.GetData(1, ref model);
             var model = new OpenStudio.Model();
+            //var id = model.handles().Count;
 
             airLoop.ToOS(ref model);
 
@@ -67,13 +68,22 @@ namespace Ironbug.Grasshopper.Component
             {
                 plant.ToOS(ref model);
             }
+
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                var modelTobeSaved = model.clone();
+                var saved = modelTobeSaved.save(new OpenStudio.Path(filepath), true);
+                if (saved)
+                {
+                    model = null;
+                    DA.SetData(0, filepath);
+
+                }
+            }
             
 
-            var saved = model.save(new OpenStudio.Path(filepath), true);
-            if (saved)
-            {
-                DA.SetData(0, filepath);
-            }
+            
+           
             
         }
 

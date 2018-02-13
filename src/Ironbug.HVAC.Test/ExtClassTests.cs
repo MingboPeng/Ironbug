@@ -62,6 +62,34 @@ namespace Ironbug.HVAC.Tests
 
             Assert.AreEqual(success, true);
         }
+        [TestMethod()]
+        public void AirLoop_Component_Test()
+        {
+            //string sFile = @"..\..\..\..\doc\osmFile\pkVAV_HW.osm";
+            string sFile = @"..\..\..\..\doc\osmFile\Sys_7.osm";
+            string tFile = @"..\..\..\..\doc\osmFile\empty.osm";
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+
+            var sModel = OpenStudio.Model.load(new OpenStudio.Path(sFile)).get();
+            var tModel = OpenStudio.Model.load(new OpenStudio.Path(tFile)).get();
+
+            var loops = sModel.getAirLoopHVACs();
+            if (loops.Any())
+            {
+                foreach (var loop in loops)
+                {
+                    var com = loop.createComponent();
+                    tModel.insertComponent(com);
+                }
+            }
+
+
+            var success = tModel.Save(saveFile);
+
+            Assert.AreEqual(success, true);
+        }
+
 
         [TestMethod()]
         public void ThermalZone_CloneTo_Test()
