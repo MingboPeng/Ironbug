@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
     {
         
         //Must override in child class
-        public abstract bool AddToNode(ref Model model, Node node);
+        public abstract bool AddToNode(Model model, Node node);
 
 
         

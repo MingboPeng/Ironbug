@@ -20,10 +20,10 @@ namespace Ironbug.HVAC
             this.SetAttribute(IB_ControllerOutdoorAir_DataFieldSet.Name, this.ghostModelObject.CheckName());
         }
 
-        private static ControllerOutdoorAir InitMethod(ref Model model) => new ControllerOutdoorAir(model);
-        public override ParentObject ToOS(ref Model model)
+        private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
+        public override ParentObject ToOS(Model model)
         {
-            return (ControllerOutdoorAir)this.ToOS(InitMethod, ref model);
+            return (ControllerOutdoorAir)this.ToOS(InitMethod, model);
         }
     }
 

@@ -26,7 +26,7 @@ namespace Ironbug.HVACTests.Loop
 
             var model = new OpenStudio.Model();
             var lp = new OpenStudio.AirLoopHVAC(model);
-            var added1 = lp.addBranchForZone((OpenStudio.ThermalZone)obj.ToOS(ref model), (OpenStudio.HVACComponent)obj.AirTerminal.ToOS(ref model));
+            var added1 = lp.addBranchForZone((OpenStudio.ThermalZone)obj.ToOS(model), (OpenStudio.HVACComponent)obj.AirTerminal.ToOS(model));
 
             var added2 = model.Save(saveFile);
             var success = added1 && added2;

@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
             var sizing = new SizingZone(model, this.ghostModelObject.to_ThermalZone().get());
         }
         //public void 
-        public override ParentObject ToOS(ref Model model)
+        public override ParentObject ToOS(Model model)
         {
             this.osThermalZone = new ThermalZone(model);
             this.osSizingZone = new SizingZone(model, this.osThermalZone);

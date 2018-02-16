@@ -37,10 +37,10 @@ namespace Ironbug.HVAC
         //    return plant;
 
         //}
-        private static PlantLoop InitMethod(ref Model model) => new PlantLoop(model);
-        public override ParentObject ToOS(ref Model model)
+        private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
+        public override ParentObject ToOS(Model model)
         {
-            var plant = (PlantLoop)this.ToOS(InitMethod, ref model);
+            var plant = (PlantLoop)this.ToOS(InitMethod, model);
 
             var boiler = new BoilerHotWater(model);
             plant.addSupplyBranchForComponent(boiler);
@@ -48,7 +48,7 @@ namespace Ironbug.HVAC
 
             foreach (var item in demandComponents)
             {
-                plant.addDemandBranchForComponent((HVACComponent)item.ToOS(ref model));
+                plant.addDemandBranchForComponent((HVACComponent)item.ToOS(model));
             }
 
             return plant;

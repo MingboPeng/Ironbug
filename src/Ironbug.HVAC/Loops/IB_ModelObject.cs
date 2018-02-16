@@ -62,8 +62,8 @@ namespace Ironbug.HVAC
             return !this.ghostModelObject.IsNotInModel(model);
         }
 
-        protected delegate ParentObject DelegateDeclaration(ref Model model);
-        protected virtual ParentObject ToOS(DelegateDeclaration handler, ref Model model)
+        protected delegate ParentObject DelegateDeclaration(Model model);
+        protected virtual ParentObject ToOS(DelegateDeclaration handler, Model model)
         {
             if (handler == null)
             {
@@ -73,13 +73,13 @@ namespace Ironbug.HVAC
             var name = this.ghostModelObject.nameString();
             var objInModel = model.getParentObjectByName(name);
             
-            var realObj = objInModel.isNull() ? handler(ref model) : objInModel.get();
+            var realObj = objInModel.isNull() ? handler(model) : objInModel.get();
             realObj.SetCustomAttributes(this.CustomAttributes);
 
             return realObj;
         }
 
-        public abstract ParentObject ToOS(ref Model model);
+        public abstract ParentObject ToOS(Model model);
 
         public override string ToString()
         {

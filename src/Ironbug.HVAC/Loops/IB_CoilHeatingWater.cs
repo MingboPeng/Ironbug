@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         
         //Real obj to be saved in OS model
         //private HVACComponent osCoilHeatingWater { get; set; }
-        private static CoilHeatingWater InitMethod(ref Model model) => new CoilHeatingWater(model);
+        private static CoilHeatingWater InitMethod(Model model) => new CoilHeatingWater(model);
         
         //private Model osModel { get; set; }
 
@@ -40,10 +40,10 @@ namespace Ironbug.HVAC
         }
 
         //dealing with the real object, use only when it is ready to be added to os model
-        public override bool AddToNode(ref Model model, Node node)
+        public override bool AddToNode(Model model, Node node)
         {
             
-            return ((CoilHeatingWater)this.ToOS(ref model)).addToNode(node);
+            return ((CoilHeatingWater)this.ToOS(model)).addToNode(node);
             
             //this.osCoilHeatingWater.setn
         }
@@ -80,9 +80,9 @@ namespace Ironbug.HVAC
         //    return (CoilHeatingWater)ToOS(InitCoilMethod, ref model);
         //}
 
-        public override ParentObject ToOS(ref Model model)
+        public override ParentObject ToOS(Model model)
         {
-            return (CoilHeatingWater)this.ToOS(InitMethod, ref model);
+            return (CoilHeatingWater)this.ToOS(InitMethod, model);
         }
 
 

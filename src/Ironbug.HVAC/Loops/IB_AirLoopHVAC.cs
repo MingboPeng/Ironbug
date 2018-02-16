@@ -41,20 +41,20 @@ namespace Ironbug.HVAC
             this.thermalZones.Add(HvacComponent);
         }
 
-        public AirLoopHVAC ToOS(ref Model osModel)
+        public AirLoopHVAC ToOS( Model osModel)
         {
             this.osAirLoopHVAC = new AirLoopHVAC(osModel);
             var nd = this.osAirLoopHVAC.supplyOutletNode();
 
             foreach (var item in this.supplyComponents)
             {
-                item.AddToNode(ref osModel, nd);
+                item.AddToNode(osModel, nd);
             }
 
             foreach (var item in this.thermalZones)
             {
-                var zone = (ThermalZone)item.ToOS(ref osModel);
-                var airTerminal = (HVACComponent)item.AirTerminal.ToOS(ref osModel);
+                var zone = (ThermalZone)item.ToOS(osModel);
+                var airTerminal = (HVACComponent)item.AirTerminal.ToOS(osModel);
                 this.osAirLoopHVAC.addBranchForZone(zone,airTerminal);
             }
 

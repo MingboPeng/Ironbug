@@ -50,10 +50,10 @@ namespace Ironbug.HVACTests
 
             airflow.AddToSupplyEnd(coil);
 
-            airflow.ToOS(ref md1);
+            airflow.ToOS(md1);
 
             var md2 = new OpenStudio.Model();
-            airflow.ToOS(ref md2);
+            airflow.ToOS(md2);
 
             var success1 = coil.IsInModel(md1);
             var success2 = coil.IsInModel(md2);

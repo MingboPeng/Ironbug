@@ -24,17 +24,14 @@ namespace Ironbug.HVACTests.Loop
             var obj = new HVAC.IB_OutdoorAirSystem();
             var ctrl = new HVAC.IB_ControllerOutdoorAir();
 
-            var testValue = 0.1;
+            var testValue = 0.01;
             ctrl.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.MinimumOutdoorAirFlowRate, testValue);
-            obj.ControllerOutdoorAir = ctrl;
-
-            obj.AddToNode(ref model, loop.supplyOutletNode());
+            obj.AddController(ctrl);
+            obj.AddToNode(model, loop.supplyOutletNode());
 
             var inSysCtrl = model.getAirLoopHVACOutdoorAirSystems().First().getControllerOutdoorAir();
             var att = inSysCtrl.minimumOutdoorAirFlowRate();
 
-            //var att2 = (OpenStudio.OptionalDouble)ctrl.GetAttributeValue("minimumOutdoorAirFlowRate");
-            
             Assert.IsTrue(att.get() == testValue);
         }
     }

@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
             this.ghostModelObject = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
         }
 
-        public override ParentObject ToOS(ref Model model)
+        public override ParentObject ToOS(Model model)
         {
             this.osAirTerminal = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
             this.osAirTerminal.SetCustomAttributes(this.CustomAttributes);
