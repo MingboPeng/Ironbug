@@ -91,22 +91,12 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref name);
             DA.GetData(1, ref settingParams);
 
-            foreach (var item in settingParams)
-            {
-                try
-                {
-                    obj.SetAttribute(item.Key, item.Value);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
+            obj.SetAttributes(settingParams);
+            
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                obj.SetAttribute("setName", name);
+                obj.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Name, name);
             }
 
             DA.SetData(0, obj);

@@ -24,7 +24,7 @@ namespace Ironbug.HVAC
             return model.getParentObjectByName(component.nameString()).isNull();
         }
 
-        public static object GetAttributeValue(this ModelObject component, string getterMethodName)
+        public static object GetDataFieldValue(this ModelObject component, string getterMethodName)
         {
             string methodName = getterMethodName;
 

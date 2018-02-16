@@ -46,7 +46,7 @@ namespace Ironbug.HVACTests
 
             var airflow = new HVAC.IB_AirLoopHVAC();
             var coil = new HVAC.IB_CoilHeatingWater();
-            var coilName = (string)coil.GetAttributeValue("nameString");
+            var coilName = (string)coil.GetDataFieldValue("nameString");
 
             airflow.AddToSupplyEnd(coil);
 

@@ -138,7 +138,7 @@ namespace Ironbug.Grasshopper.Component
             this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Attributes, null));
 
             //only show the basic setting first
-            var dataFieldTobeAdded = dataFieldList.Where(_ => _.BasicSetting == true);
+            var dataFieldTobeAdded = dataFieldList.Where(_ => _.IsBasicSetting == true);
             if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
             {
                 dataFieldTobeAdded = dataFieldList;
@@ -235,12 +235,12 @@ namespace Ironbug.Grasshopper.Component
             if (this.IsProSetting)
             {
 
-                this.AddProDataFields(this.dataFieldList.Where(_ => _.BasicSetting == false));
+                this.AddProDataFields(this.dataFieldList.Where(_ => _.IsBasicSetting == false));
 
             }
             else
             {
-                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.BasicSetting == false));
+                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.IsBasicSetting == false));
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();

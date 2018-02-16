@@ -21,7 +21,9 @@ namespace Ironbug.HVAC
         //0.5,                  Rated Ratio for Air and Water Convection(Default: 0.5)
         
         //Real obj to be saved in OS model
-        private CoilHeatingWater osCoilHeatingWater { get; set; }
+        //private HVACComponent osCoilHeatingWater { get; set; }
+        private static CoilHeatingWater InitMethod(ref Model model) => new CoilHeatingWater(model);
+        
         //private Model osModel { get; set; }
 
         //Ghost obj for place holder
@@ -40,9 +42,8 @@ namespace Ironbug.HVAC
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(ref Model model, Node node)
         {
-            //this.osModel = model;
-            //var obj = ;
-            return ToOS(ref model).addToNode(node);
+            
+            return ((CoilHeatingWater)this.ToOS(ref model)).addToNode(node);
             
             //this.osCoilHeatingWater.setn
         }
@@ -54,25 +55,37 @@ namespace Ironbug.HVAC
         //    return osCoilHeatingWater;
         //}
 
-        public override HVACComponent ToOS(ref Model model)
+        //public override HVACComponent ToOS<CoilHeatingWater>(ref Model model)
+        //{
+        //    var realObj = this.osCoilHeatingWater;
+
+        //    if (realObj == null)
+        //    {
+        //        realObj = new OpenStudio.CoilHeatingWater(model);
+        //    }
+        //    else if (realObj.initialized() && realObj.IsNotInModel(model))
+        //    {
+        //        realObj = new OpenStudio.CoilHeatingWater(model);
+
+        //    }
+
+        //    realObj.SetCustomAttributes(this.CustomAttributes);
+        //    this.osCoilHeatingWater = realObj;
+
+        //    return realObj;
+        //}
+
+        //public override ModelObject ToOS(ref Model model)
+        //{
+        //    return (CoilHeatingWater)ToOS(InitCoilMethod, ref model);
+        //}
+
+        public override ParentObject ToOS(ref Model model)
         {
-            var realObj = this.osCoilHeatingWater;
-
-            if (realObj == null)
-            {
-                realObj = new CoilHeatingWater(model);
-            }
-            else if (realObj.initialized() && realObj.IsNotInModel(model))
-            {
-                realObj = new CoilHeatingWater(model);
-                
-            }
-
-            realObj.SetCustomAttributes(this.CustomAttributes);
-            this.osCoilHeatingWater = realObj;
-
-            return realObj;
+            return (CoilHeatingWater)this.ToOS(InitMethod, ref model);
         }
+
+
 
 
     }

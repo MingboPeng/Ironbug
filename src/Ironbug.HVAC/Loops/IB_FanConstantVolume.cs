@@ -16,8 +16,9 @@ namespace Ironbug.HVAC
         //1.0                  !- Motor In Airstream Fraction(Default: 1.0)
         //General              !- End-Use Subcategory(Default: General)
 
-        private FanConstantVolume osFanConstantVolume { get; set; }
-        
+        //private FanConstantVolume osFanConstantVolume { get; set; }
+        private static FanConstantVolume InitMethod(ref Model model) => new FanConstantVolume(model);
+
         public IB_FanConstantVolume()
         {
             this.ghostModelObject = new FanConstantVolume(new Model());
@@ -25,14 +26,14 @@ namespace Ironbug.HVAC
 
         public override bool AddToNode(ref Model model, Node node)
         {
-            this.osFanConstantVolume = new FanConstantVolume(model);
-            this.osFanConstantVolume.SetCustomAttributes(this.CustomAttributes);
-            return this.osFanConstantVolume.addToNode(node);
+            //this.osFanConstantVolume = new FanConstantVolume(model);
+            //this.osFanConstantVolume.SetCustomAttributes(this.CustomAttributes);
+            return ((FanConstantVolume)this.ToOS(ref model)).addToNode(node);
         }
 
-        public override HVACComponent ToOS(ref Model model)
+        public override ParentObject ToOS(ref Model model)
         {
-            return null;
+            return (FanConstantVolume)this.ToOS(InitMethod, ref model);
         }
     }
 

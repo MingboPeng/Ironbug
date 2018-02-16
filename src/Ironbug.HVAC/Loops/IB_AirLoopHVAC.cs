@@ -53,8 +53,8 @@ namespace Ironbug.HVAC
 
             foreach (var item in this.thermalZones)
             {
-                var zone = item.ToOS(ref osModel);
-                var airTerminal = item.AirTerminal.ToOS(ref osModel);
+                var zone = (ThermalZone)item.ToOS(ref osModel);
+                var airTerminal = (HVACComponent)item.AirTerminal.ToOS(ref osModel);
                 this.osAirLoopHVAC.addBranchForZone(zone,airTerminal);
             }
 

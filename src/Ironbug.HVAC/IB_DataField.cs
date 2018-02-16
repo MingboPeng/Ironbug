@@ -7,15 +7,16 @@ namespace Ironbug.HVAC
 {
     public class IB_DataField
     {
-        public string FullName { get; set; }
-        public string PerfectName { get; set; }
-        public string ShortName { get; set; }
-        public string GetterMethodName { get; set; }
-        public string SetterMethodName { get; set; }
-        public Type DataType { get; set; }
-        public bool BasicSetting { get; set; }
+        public string FullName { get; private set; }
+        public string PerfectName { get; private set; }
+        public string ShortName { get; private set; }
+        public string GetterMethodName { get; private set; }
+        public string SetterMethodName { get; private set; }
+        public Type DataType { get; private set; }
+        public bool IsBasicSetting { get; private set; }
+        public bool IsHidden { get; set; }
 
-        public List<object> ValidData { get; set; }
+        public List<object> ValidData { get; private set; }
         public string Description { get; set; }
         //public string Unit { get; set; }
 
@@ -45,7 +46,7 @@ namespace Ironbug.HVAC
 
             //this.Type = com.GetType().GetMethod(methodName).ReturnType;
             this.DataType = DataType;
-            this.BasicSetting = BasicSetting;
+            this.IsBasicSetting = BasicSetting;
             this.ValidData = ValidData;
         }
 

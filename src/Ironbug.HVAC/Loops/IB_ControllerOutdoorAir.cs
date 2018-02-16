@@ -17,9 +17,14 @@ namespace Ironbug.HVAC
             var model = new Model();
             this.ghostModelObject = new ControllerOutdoorAir(model);
             //check name
-            this.SetAttribute("setName", this.ghostModelObject.CheckName());
+            this.SetAttribute(IB_ControllerOutdoorAir_DataFieldSet.Name, this.ghostModelObject.CheckName());
         }
-        
+
+        private static ControllerOutdoorAir InitMethod(ref Model model) => new ControllerOutdoorAir(model);
+        public override ParentObject ToOS(ref Model model)
+        {
+            return (ControllerOutdoorAir)this.ToOS(InitMethod, ref model);
+        }
     }
 
     public class IB_ControllerOutdoorAir_DataFieldSet : IB_DataFieldSet
@@ -33,6 +38,8 @@ namespace Ironbug.HVAC
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_controller_outdoor_air.html
 
         //Following list items are fields that I want to have picked for GH user to edit
+        public static readonly IB_DataField Name = new IB_DataField("Name", "Name", strType, true);
+
         public static readonly IB_DataField MinimumOutdoorAirFlowRate
             = new IB_DataField("MinimumOutdoorAirFlowRate", "MinOAFlowRate", dbType, BasicSetting: true);
 

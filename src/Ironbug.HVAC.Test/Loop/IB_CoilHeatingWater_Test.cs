@@ -25,7 +25,7 @@ namespace Ironbug.HVACTests.Loop
             var coil = new HVAC.IB_CoilHeatingWater();
             var testValue = 50.0;
             coil.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.RatedInletWaterTemperature, testValue);
-            var att = (double)coil.GetAttributeValue("ratedInletWaterTemperature");
+            var att = (double)coil.GetDataFieldValue("ratedInletWaterTemperature");
 
             Assert.IsTrue(att == testValue);
         }

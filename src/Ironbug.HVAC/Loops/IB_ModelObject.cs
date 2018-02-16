@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ironbug.Core;
 
 namespace Ironbug.HVAC
 {
@@ -16,43 +17,44 @@ namespace Ironbug.HVAC
             this.CustomAttributes = new Dictionary<string, object>();
         }
 
-        protected virtual void AddCustomAttribute(string AttributeName, object data)
+        
+        public object GetDataFieldValue(string DataFieldName)
         {
-            if (AttributeName=="setName")
-            {
-                data = this.ghostModelObject.CheckName(data.ToString());
-            }
-
-            if (CustomAttributes.ContainsKey(AttributeName))
-            {
-                this.CustomAttributes[AttributeName] = data;
-            }
-            else
-            {
-                this.CustomAttributes.Add(AttributeName, data);
-            }
-
-            //dealing the ghost object
-            this.ghostModelObject.SetCustomAttribute(AttributeName, data);
-
-        }
-
-        public object GetAttributeValue(string AttributeName)
-        {
-            return this.ghostModelObject.GetAttributeValue(AttributeName);
+            return this.ghostModelObject.GetDataFieldValue(DataFieldName);
         }
 
         public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
         {
-            this.AddCustomAttribute(DataAttribute.SetterMethodName, AttributeValue);
+            var AttributeName = DataAttribute.SetterMethodName;
+            var data = AttributeValue;
 
+            if (AttributeName == "setName")
+            {
+                data = this.ghostModelObject.CheckName(data.ToString());
+            }
+
+            this.CustomAttributes.TryAdd(AttributeName, data);
+
+            //dealing the ghost object
+            this.ghostModelObject.SetCustomAttribute(AttributeName, data);
+            
         }
 
-        public void SetAttribute(string AttributeName, object AttributeValue)
+        public void SetAttributes(Dictionary<IB_DataField, object> DataFields)
         {
+            foreach (var item in DataFields)
+            {
+                try
+                {
+                    this.SetAttribute(item.Key, item.Value);
+                }
+                catch (Exception)
+                {
 
-            this.AddCustomAttribute(AttributeName, AttributeValue);
-
+                    throw;
+                }
+            }
+            
         }
 
         public bool IsInModel(Model model)
@@ -60,6 +62,24 @@ namespace Ironbug.HVAC
             return !this.ghostModelObject.IsNotInModel(model);
         }
 
+        protected delegate ParentObject DelegateDeclaration(ref Model model);
+        protected virtual ParentObject ToOS(DelegateDeclaration handler, ref Model model)
+        {
+            if (handler == null)
+            {
+                return null;
+            }
+
+            var name = this.ghostModelObject.nameString();
+            var objInModel = model.getParentObjectByName(name);
+            
+            var realObj = objInModel.isNull() ? handler(ref model) : objInModel.get();
+            realObj.SetCustomAttributes(this.CustomAttributes);
+
+            return realObj;
+        }
+
+        public abstract ParentObject ToOS(ref Model model);
 
         public override string ToString()
         {

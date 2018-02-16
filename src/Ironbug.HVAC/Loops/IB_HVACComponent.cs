@@ -12,8 +12,8 @@ namespace Ironbug.HVAC
         //Must override in child class
         public abstract bool AddToNode(ref Model model, Node node);
 
-        //public abstract T ToOS<T>(ref Model model) where T: OpenStudio.HVACComponent;
-        public abstract HVACComponent ToOS(ref Model model);
+
+        
         //public IB_HVACComponent()
         //{
 

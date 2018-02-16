@@ -21,20 +21,41 @@ namespace Ironbug.HVAC
             this.demandComponents.Add(HvacComponent);
         }
 
-        public void ToOS(ref Model model)
+        //public override ModelObject ToOS(ref Model model)
+        //{
+        //    var plant = new PlantLoop(model);
+
+        //    var boiler = new BoilerHotWater(model);
+        //    plant.addSupplyBranchForComponent(boiler);
+
+            
+        //    foreach (var item in demandComponents)
+        //    {
+        //        plant.addDemandBranchForComponent((HVACComponent)item.ToOS(ref model));
+        //    }
+
+        //    return plant;
+
+        //}
+        private static PlantLoop InitMethod(ref Model model) => new PlantLoop(model);
+        public override ParentObject ToOS(ref Model model)
         {
-            var plant = new PlantLoop(model);
+            var plant = (PlantLoop)this.ToOS(InitMethod, ref model);
 
             var boiler = new BoilerHotWater(model);
             plant.addSupplyBranchForComponent(boiler);
 
-            
+
             foreach (var item in demandComponents)
             {
-                plant.addDemandBranchForComponent(item.ToOS(ref model));
+                plant.addDemandBranchForComponent((HVACComponent)item.ToOS(ref model));
             }
 
+            return plant;
         }
-
+        //public override ModelObject ToOS(ref Model model)
+        //{
+        //    return null;
+        //}
     }
 }

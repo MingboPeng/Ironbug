@@ -16,12 +16,17 @@ namespace Ironbug.HVAC
             this.ghostModelObject = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
         }
 
-        public HVACComponent ToOS(ref Model model)
+        public override ParentObject ToOS(ref Model model)
         {
             this.osAirTerminal = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
             this.osAirTerminal.SetCustomAttributes(this.CustomAttributes);
             return this.osAirTerminal;
         }
-        
+
+        //private static ControllerOutdoorAir InitMethod(ref Model model) => new ControllerOutdoorAir(model);
+        //public override ParentObject ToOS(ref Model model)
+        //{
+        //    return (ControllerOutdoorAir)this.ToOS(InitMethod, ref model);
+        //}
     }
 }
