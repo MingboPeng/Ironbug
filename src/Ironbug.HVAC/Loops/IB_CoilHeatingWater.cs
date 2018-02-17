@@ -82,7 +82,7 @@ namespace Ironbug.HVAC
 
         public override ParentObject ToOS(Model model)
         {
-            return (CoilHeatingWater)this.ToOS(InitMethod, model);
+            return this.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }
 
 

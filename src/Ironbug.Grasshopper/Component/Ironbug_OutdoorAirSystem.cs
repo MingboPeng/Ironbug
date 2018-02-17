@@ -46,7 +46,7 @@ namespace Ironbug.Grasshopper.Component
             var controller = new HVAC.IB_ControllerOutdoorAir();
             DA.GetData(0, ref controller);
 
-            obj.ControllerOutdoorAir = controller;
+            obj.AddController(controller);
 
             DA.SetData(0, obj);
         }
