@@ -53,6 +53,11 @@ namespace Ironbug.HVAC
 
             return plant;
         }
+
+        public override IB_ModelObject Duplicate()
+        {
+            return this.Duplicate(() => new IB_PlantLoop());
+        }
         //public override ModelObject ToOS(ref Model model)
         //{
         //    return null;

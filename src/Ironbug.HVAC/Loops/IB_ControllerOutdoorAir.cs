@@ -21,6 +21,12 @@ namespace Ironbug.HVAC
         }
 
         private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
+
+        public override IB_ModelObject Duplicate()
+        {
+            return this.Duplicate(() => new IB_ControllerOutdoorAir());
+        }
+
         public override ParentObject ToOS(Model model)
         {
             return (ControllerOutdoorAir)this.ToOS(InitMethod, model);

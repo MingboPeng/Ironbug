@@ -46,5 +46,11 @@ namespace Ironbug.HVAC
             var del = new DelegateDeclaration(InitMethod);
             return (AirLoopHVACOutdoorAirSystem)this.ToOS(InitMethod, model);
         }
+
+        public override IB_ModelObject Duplicate()
+        {
+            //TODO: duplicate child obj
+            return this.Duplicate(() => new IB_OutdoorAirSystem());
+        }
     }
 }

@@ -35,6 +35,11 @@ namespace Ironbug.HVAC
         {
             return (FanConstantVolume)this.ToOS(InitMethod, model);
         }
+
+        public override IB_ModelObject Duplicate()
+        {
+            return this.Duplicate(() => new IB_FanConstantVolume());
+        }
     }
 
     //A = fan.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);

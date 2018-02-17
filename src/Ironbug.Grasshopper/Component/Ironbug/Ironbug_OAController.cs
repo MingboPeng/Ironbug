@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_OAController class.
         /// </summary>
         public Ironbug_OAController()
-          : base("Ironbug_OAController", "Nickname",
+          : base("Ironbug_OAController", "OAController",
               "Description",
               "Ironbug", "01:LoopComponents")
         {

@@ -35,9 +35,17 @@ namespace Ironbug.HVAC
         {
             this.ghostModelObject = new CoilHeatingWater(new Model());
             //check name
+            //TODO: there is a method incoke problem when call this method right after GH started
             this.SetAttribute(IB_CoilHeatingWater_DataFieldSet.Name, this.ghostModelObject.CheckName());
             
         }
+
+        public override IB_ModelObject Duplicate()
+        {
+            return this.Duplicate(() => new IB_CoilHeatingWater());
+        }
+
+        
 
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(Model model, Node node)
@@ -85,9 +93,7 @@ namespace Ironbug.HVAC
             return this.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }
 
-
-
-
+        
     }
 
     public class IB_CoilHeatingWater_DataFieldSet: IB_DataFieldSet

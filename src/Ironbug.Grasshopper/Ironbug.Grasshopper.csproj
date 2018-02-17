@@ -86,16 +86,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\Honeybee_ReadAnnualResultsIII.cs" />
-    <Compile Include="Component\Ironbug_AirLoopHVAC.cs" />
-    <Compile Include="Component\Ironbug_CoilHeatingWater.cs" />
-    <Compile Include="Component\Ironbug_OAController.cs" />
-    <Compile Include="Component\Ironbug_ObjParams.cs" />
-    <Compile Include="Component\Ironbug_FanConstantVolume.cs" />
-    <Compile Include="Component\Ironbug_OutdoorAirSystem.cs" />
-    <Compile Include="Component\Ironbug_PlantLoop.cs" />
-    <Compile Include="Component\Ironbug_SaveOSModel.cs" />
-    <Compile Include="Component\Ironbug_ThermalZone.cs" />
+    <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ObjParams.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantLoop.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
+    <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -106,7 +107,7 @@
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="ComponentAttribute\ViewAttr.cs" />
-    <Compile Include="Component\Ladybug_ImageViewer.cs" />
+    <Compile Include="Component\Ladybug\Ladybug_ImageViewer.cs" />
     <Compile Include="IronbugInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

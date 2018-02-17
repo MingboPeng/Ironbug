@@ -79,6 +79,32 @@ namespace Ironbug.HVAC
             return realObj;
         }
 
+        public abstract IB_ModelObject Duplicate();
+        //protected delegate IB_ModelObject DelegateDuplicate(Model model);
+        protected virtual IB_ModelObject Duplicate(Func<IB_ModelObject> func)
+        {
+            if (func == null)
+            {
+                return null;
+            }
+
+            var newObj = func.Invoke();
+
+            foreach (var item in this.CustomAttributes)
+            {
+                newObj.CustomAttributes.TryAdd(item.Key, item.Value);
+            }
+
+            newObj.UpdateOSModelObjectWithCustomAttr();
+           
+            return newObj;
+        }
+
+        protected void UpdateOSModelObjectWithCustomAttr()
+        {
+            this.ghostModelObject.SetCustomAttributes(this.CustomAttributes);
+        }
+
         public abstract ParentObject ToOS(Model model);
 
         public override string ToString()

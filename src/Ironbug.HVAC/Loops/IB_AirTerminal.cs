@@ -23,6 +23,11 @@ namespace Ironbug.HVAC
             return this.osAirTerminal;
         }
 
+        public override IB_ModelObject Duplicate()
+        {
+            return this.Duplicate(() => new IB_AirTerminal());
+        }
+
         //private static ControllerOutdoorAir InitMethod(ref Model model) => new ControllerOutdoorAir(model);
         //public override ParentObject ToOS(ref Model model)
         //{

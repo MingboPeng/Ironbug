@@ -31,9 +31,10 @@ namespace Ironbug.HVAC
             return this.osThermalZone;
         }
 
-
-
-
-
+        public override IB_ModelObject Duplicate()
+        {
+            //TODO: need to duplicate child objs as well
+            return this.Duplicate(() => new IB_ThermalZone());
+        }
     }
 }
