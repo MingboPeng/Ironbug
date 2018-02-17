@@ -40,7 +40,7 @@ namespace Ironbug.HVAC
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public override ParentObject ToOS(Model model)
         {
-            var plant = (PlantLoop)this.ToOS(InitMethod, model);
+            var plant = this.ToOS(InitMethod, model).to_PlantLoop().get();
 
             var boiler = new BoilerHotWater(model);
             plant.addSupplyBranchForComponent(boiler);
