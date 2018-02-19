@@ -68,6 +68,7 @@
     <Compile Include="Loops\IB_ModelObject.cs" />
     <Compile Include="Loops\IB_OutdoorAirSystem.cs" />
     <Compile Include="Loops\IB_PlantLoop.cs" />
+    <Compile Include="Loops\IB_SizingZone.cs" />
     <Compile Include="Loops\IB_ThermalZone.cs" />
     <Compile Include="Loops\VoidCoilHeatingWater.cs" />
     <Compile Include="OSExtensions\HVACComponent_Extensions.cs" />

@@ -114,7 +114,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.Asset_5;
+                return Resources.FanC;
             }
         }
 
@@ -126,75 +126,7 @@ namespace Ironbug.Grasshopper.Component
             get { return new Guid("f517230e-27e9-4fd0-bfbc-31f0596d35c4"); }
         }
 
-
-        //public void AddParams()
-        //{
-        //    var settingList = HVAC.IB_FanConstantVolume_Attributes.GetList();
-
-        //    foreach (var item in settingList)
-        //    {
-        //        IGH_Param newParam = new Param_GenericObject();
-        //        newParam.Name = item.FullName;
-        //        newParam.NickName = item.ShortName;
-        //        newParam.Access = GH_ParamAccess.item;
-        //        newParam.Optional = true;
-        //        Params.RegisterInputParam(newParam);
-
-        //    }
-
-        //}
-
-
-        //private void CollectSettingData(ref HVAC.IB_FanConstantVolume Coil)
-        //{
-
-        //    var FlyResults = new List<string>();
-        //    var allInputParams = this.Params.Input;
-        //    foreach (var item in allInputParams)
-        //    {
-        //        if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
-        //        {
-        //            continue;
-        //        }
-        //        else
-        //        {
-        //            var values = new List<IGH_Goo>();
-        //            values = item.VolatileData.AllData(true).ToList();
-
-        //            if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
-        //            {
-        //                var name = item.Name;
-        //                var dataField = HVAC.IB_FanConstantVolume_Attributes.GetAttributeByName(name);
-                        
-        //                object value = null;
-        //                if (dataField.DataType == typeof(double))
-        //                {
-        //                    value = ((GH_Number)values.First()).Value;
-        //                }
-        //                else
-        //                {
-        //                    value = ((GH_String)values.First()).Value;
-        //                }
-
-        //                try
-        //                {
-        //                    Coil.SetAttribute(dataField, value);
-        //                }
-        //                catch (Exception)
-        //                {
-
-        //                    throw;
-        //                }
-
-        //            }
-        //        }
-
-
-
-
-        //    }
-
-        //}
+        
     }
 
    

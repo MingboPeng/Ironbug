@@ -19,7 +19,7 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static bool IsNotInModel(this ParentObject component, Model model)
+        public static bool IsNotInModel(this ModelObject component, Model model)
         {
             return model.getParentObjectByName(component.nameString()).isNull();
         }

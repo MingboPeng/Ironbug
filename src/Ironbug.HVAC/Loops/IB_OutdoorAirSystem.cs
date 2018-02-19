@@ -40,7 +40,7 @@ namespace Ironbug.HVAC
             return ((AirLoopHVACOutdoorAirSystem)this.ToOS(model)).addToNode(node);
         }
         
-        public override ParentObject ToOS(Model model)
+        public override ModelObject ToOS(Model model)
         {
             return (AirLoopHVACOutdoorAirSystem)base.ToOS(InitMethodwithCtrl, model);
         }
@@ -49,7 +49,7 @@ namespace Ironbug.HVAC
         {
             var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.Duplicate();
             
-            return base.Duplicate(() => new IB_OutdoorAirSystem(newCtrl));
+            return base.DuplicateIB_ModelObject(() => new IB_OutdoorAirSystem(newCtrl));
         }
     }
 }

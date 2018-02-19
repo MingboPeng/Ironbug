@@ -31,14 +31,14 @@ namespace Ironbug.HVAC
             return ((FanConstantVolume)this.ToOS(model)).addToNode(node);
         }
 
-        public override ParentObject ToOS(Model model)
+        public override ModelObject ToOS(Model model)
         {
             return (FanConstantVolume)base.ToOS(InitMethod, model);
         }
 
         public override IB_ModelObject Duplicate()
         {
-            return base.Duplicate(() => new IB_FanConstantVolume());
+            return base.DuplicateIB_ModelObject(() => new IB_FanConstantVolume());
         }
     }
 

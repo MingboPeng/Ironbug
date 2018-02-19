@@ -10,9 +10,9 @@ namespace Ironbug.HVAC
     public abstract class IB_ModelObject
     {
         public Dictionary<string, object> CustomAttributes { get; private set; }
-        protected ParentObject GhostOSObject { get; private set; }
+        protected ModelObject GhostOSObject { get; private set; }
 
-        public IB_ModelObject(ParentObject GhostOSObject)
+        public IB_ModelObject(ModelObject GhostOSObject)
         {
             this.CustomAttributes = new Dictionary<string, object>();
             this.GhostOSObject = GhostOSObject;
@@ -77,10 +77,10 @@ namespace Ironbug.HVAC
             return !this.GhostOSObject.IsNotInModel(model);
         }
         //this is for override
-        public abstract ParentObject ToOS(Model model);
+        public abstract ModelObject ToOS(Model model);
 
-        protected delegate ParentObject InitMethodDelegate(Model model);
-        protected virtual ParentObject ToOS(InitMethodDelegate InitMethod, Model model)
+        protected delegate ModelObject InitMethodDelegate(Model model);
+        protected virtual ModelObject ToOS(InitMethodDelegate InitMethod, Model model)
         {
             if (InitMethod == null)
             {
@@ -96,8 +96,16 @@ namespace Ironbug.HVAC
             return realObj;
         }
 
+        //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
+        //{
+        //    var realObj = GetFromModelfunc.Invoke();
+        //    realObj.SetCustomAttributes(this.CustomAttributes);
+
+        //    return realObj;
+        //}
+
         public abstract IB_ModelObject Duplicate();
-        protected virtual IB_ModelObject Duplicate(Func<IB_ModelObject> func)
+        protected virtual IB_ModelObject DuplicateIB_ModelObject(Func<IB_ModelObject> func)
         {
             if (func == null)
             {

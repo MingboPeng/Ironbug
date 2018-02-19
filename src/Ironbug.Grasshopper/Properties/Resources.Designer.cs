@@ -63,9 +63,9 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Asset_5 {
+        internal static System.Drawing.Bitmap CoilHW {
             get {
-                object obj = ResourceManager.GetObject("Asset_5", resourceCulture);
+                object obj = ResourceManager.GetObject("CoilHW", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,19 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Asset_6 {
+        internal static System.Drawing.Bitmap FanC {
             get {
-                object obj = ResourceManager.GetObject("Asset_6", resourceCulture);
+                object obj = ResourceManager.GetObject("FanC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FanV {
+            get {
+                object obj = ResourceManager.GetObject("FanV", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -96,6 +106,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap Ladybug_Viewer_370 {
             get {
                 object obj = ResourceManager.GetObject("Ladybug_Viewer_370", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ThermalZone {
+            get {
+                object obj = ResourceManager.GetObject("ThermalZone", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

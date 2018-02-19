@@ -32,7 +32,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            return base.Duplicate(() => new IB_CoilHeatingWater());
+            return base.DuplicateIB_ModelObject(() => new IB_CoilHeatingWater());
         }
         
         //dealing with the real object, use only when it is ready to be added to os model
@@ -45,7 +45,7 @@ namespace Ironbug.HVAC
         }
 
 
-        public override ParentObject ToOS(Model model)
+        public override ModelObject ToOS(Model model)
         {
             return base.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }

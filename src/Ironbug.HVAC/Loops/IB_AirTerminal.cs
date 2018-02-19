@@ -15,14 +15,14 @@ namespace Ironbug.HVAC
             base.SetName("AirTerminal:SingleDuct:Uncontrolled");
         }
 
-        public override ParentObject ToOS(Model model)
+        public override ModelObject ToOS(Model model)
         {
             return base.ToOS(InitMethod, model).to_AirTerminalSingleDuctUncontrolled().get();
         }
 
         public override IB_ModelObject Duplicate()
         {
-            return base.Duplicate(() => new IB_AirTerminal());
+            return base.DuplicateIB_ModelObject(() => new IB_AirTerminal());
         }
         
     }
