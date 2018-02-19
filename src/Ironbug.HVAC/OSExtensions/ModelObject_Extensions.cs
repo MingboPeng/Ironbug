@@ -59,39 +59,24 @@ namespace Ironbug.HVAC
             return invokeResults;
         }
 
-        public static string CheckName(this ModelObject component)
-        {
-            var name = component.nameString();
-            var NewName = CheckString(name);
-            if (name != NewName)
-            {
-                component.setName(NewName);
-            }
+        //public static string CheckName(this ModelObject component)
+        //{
+        //    var name = component.nameString();
+        //    return component.CheckName(name);
+        //}
+        //public static string CheckName(this ModelObject component, string NewName)
+        //{
+        //    var name = CheckString(NewName);
 
-            return NewName;
-        }
-        public static string CheckName(this ModelObject component, string NewName)
-        {
-            var name = CheckString(NewName);
-
-            if (name != NewName)
-            {
-                component.setName(name);
-            }
+        //    if (name != NewName)
+        //    {
+                
+        //        component.setName(name);
+        //    }
 
 
-            return name;
-        }
-        private static string CheckString(string name)
-        {
-            var idKey = "[#";
-            if (!name.Contains(idKey))
-            {
-                var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6)+"]";
-                name = name + idKey + uid;
-            }
-
-            return name;
-        }
+        //    return name;
+        //}
+        
     }
 }

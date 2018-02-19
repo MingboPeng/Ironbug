@@ -19,9 +19,9 @@ namespace Ironbug.HVAC
         //private FanConstantVolume osFanConstantVolume { get; set; }
         private static FanConstantVolume InitMethod(Model model) => new FanConstantVolume(model);
 
-        public IB_FanConstantVolume()
+        public IB_FanConstantVolume():base(InitMethod(new Model()))
         {
-            this.ghostModelObject = new FanConstantVolume(new Model());
+            base.SetName("Fan:ConstantVolume");
         }
 
         public override bool AddToNode(Model model, Node node)
@@ -33,12 +33,12 @@ namespace Ironbug.HVAC
 
         public override ParentObject ToOS(Model model)
         {
-            return (FanConstantVolume)this.ToOS(InitMethod, model);
+            return (FanConstantVolume)base.ToOS(InitMethod, model);
         }
 
         public override IB_ModelObject Duplicate()
         {
-            return this.Duplicate(() => new IB_FanConstantVolume());
+            return base.Duplicate(() => new IB_FanConstantVolume());
         }
     }
 

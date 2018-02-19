@@ -8,20 +8,13 @@ namespace Ironbug.HVAC
 {
     public class IB_ControllerOutdoorAir : IB_ModelObject
     {
-        //Real obj to be saved in OS model
-        //private ControllerOutdoorAir osControllerOutdoorAir { get; set; }
-        //private Model osModel { get; set; }
-
-        public IB_ControllerOutdoorAir()
-        {
-            var model = new Model();
-            this.ghostModelObject = new ControllerOutdoorAir(model);
-            //check name
-            this.SetAttribute(IB_ControllerOutdoorAir_DataFieldSet.Name, this.ghostModelObject.CheckName());
-        }
-
         private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
-
+        public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
+        {
+            //override name, and append UID
+            this.SetName("Controller:OutdoorAir");
+        }
+        
         public override IB_ModelObject Duplicate()
         {
             return this.Duplicate(() => new IB_ControllerOutdoorAir());

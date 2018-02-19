@@ -20,33 +20,21 @@ namespace Ironbug.HVAC
         //32.2,                 Rated Outlet Air Temperature[C] (Default: 32.2)
         //0.5,                  Rated Ratio for Air and Water Convection(Default: 0.5)
         
-        //Real obj to be saved in OS model
-        //private HVACComponent osCoilHeatingWater { get; set; }
         private static CoilHeatingWater InitMethod(Model model) => new CoilHeatingWater(model);
         
-        //private Model osModel { get; set; }
-
-        //Ghost obj for place holder
-        //private CoilHeatingWater ghostHVACComponent { get; set; }
-        //protected override HVACComponent ghostHVACComponent { get { return ghostCoilHeatingWater; } }
-
         //dealing with the ghost object
-        public IB_CoilHeatingWater()
+        public IB_CoilHeatingWater() : base(InitMethod(new Model()))
         {
-            this.ghostModelObject = new CoilHeatingWater(new Model());
             //check name
             //TODO: there is a method incoke problem when call this method right after GH started
-            this.SetAttribute(IB_CoilHeatingWater_DataFieldSet.Name, this.ghostModelObject.CheckName());
-            
+            base.SetName("Coil:Heating:Water");
         }
 
         public override IB_ModelObject Duplicate()
         {
-            return this.Duplicate(() => new IB_CoilHeatingWater());
+            return base.Duplicate(() => new IB_CoilHeatingWater());
         }
-
         
-
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(Model model, Node node)
         {
@@ -57,40 +45,9 @@ namespace Ironbug.HVAC
         }
 
 
-        //public override HVACComponent plantDemand(ref Model model)
-        //{
-        //    this.osCoilHeatingWater = this.ToOS(ref model);
-        //    return osCoilHeatingWater;
-        //}
-
-        //public override HVACComponent ToOS<CoilHeatingWater>(ref Model model)
-        //{
-        //    var realObj = this.osCoilHeatingWater;
-
-        //    if (realObj == null)
-        //    {
-        //        realObj = new OpenStudio.CoilHeatingWater(model);
-        //    }
-        //    else if (realObj.initialized() && realObj.IsNotInModel(model))
-        //    {
-        //        realObj = new OpenStudio.CoilHeatingWater(model);
-
-        //    }
-
-        //    realObj.SetCustomAttributes(this.CustomAttributes);
-        //    this.osCoilHeatingWater = realObj;
-
-        //    return realObj;
-        //}
-
-        //public override ModelObject ToOS(ref Model model)
-        //{
-        //    return (CoilHeatingWater)ToOS(InitCoilMethod, ref model);
-        //}
-
         public override ParentObject ToOS(Model model)
         {
-            return this.ToOS(InitMethod, model).to_CoilHeatingWater().get();
+            return base.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }
 
         
@@ -118,7 +75,6 @@ namespace Ironbug.HVAC
             {
                 Description = "The inlet water temperature (degrees C) corresponding to the rated heating capacity. " +
                 "The default is 82.2 degrees C (180 degrees F)."
-
             };
 
         public static readonly IB_DataField RatedInletAirTemperature

@@ -10,17 +10,28 @@ namespace Ironbug.HVAC
     public abstract class IB_ModelObject
     {
         public Dictionary<string, object> CustomAttributes { get; private set; }
-        protected ParentObject ghostModelObject { get; set; }
+        protected ParentObject GhostOSObject { get; private set; }
 
-        public IB_ModelObject()
+        public IB_ModelObject(ParentObject GhostOSObject)
         {
             this.CustomAttributes = new Dictionary<string, object>();
+            this.GhostOSObject = GhostOSObject;
         }
 
         
+
         public object GetDataFieldValue(string DataFieldName)
         {
-            return this.ghostModelObject.GetDataFieldValue(DataFieldName);
+            return this.GhostOSObject.GetDataFieldValue(DataFieldName);
+        }
+
+        public void SetName(string NewName)
+        {
+            var attributeName = "setName";
+            var data = CheckStringForUID(NewName);
+
+            this.CustomAttributes.TryAdd(attributeName, data);
+            this.GhostOSObject.SetCustomAttribute(attributeName, data);
         }
 
         public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
@@ -30,14 +41,18 @@ namespace Ironbug.HVAC
 
             if (AttributeName == "setName")
             {
-                data = this.ghostModelObject.CheckName(data.ToString());
+                this.SetName(data.ToString());
+            }
+            else
+            {
+
+                this.CustomAttributes.TryAdd(AttributeName, data);
+
+                //dealing the ghost object
+                this.GhostOSObject.SetCustomAttribute(AttributeName, data);
             }
 
-            this.CustomAttributes.TryAdd(AttributeName, data);
 
-            //dealing the ghost object
-            this.ghostModelObject.SetCustomAttribute(AttributeName, data);
-            
         }
 
         public void SetAttributes(Dictionary<IB_DataField, object> DataFields)
@@ -59,28 +74,29 @@ namespace Ironbug.HVAC
 
         public bool IsInModel(Model model)
         {
-            return !this.ghostModelObject.IsNotInModel(model);
+            return !this.GhostOSObject.IsNotInModel(model);
         }
+        //this is for override
+        public abstract ParentObject ToOS(Model model);
 
-        protected delegate ParentObject DelegateDeclaration(Model model);
-        protected virtual ParentObject ToOS(DelegateDeclaration handler, Model model)
+        protected delegate ParentObject InitMethodDelegate(Model model);
+        protected virtual ParentObject ToOS(InitMethodDelegate InitMethod, Model model)
         {
-            if (handler == null)
+            if (InitMethod == null)
             {
                 return null;
             }
 
-            var name = this.ghostModelObject.nameString();
+            var name = this.GhostOSObject.nameString();
             var objInModel = model.getParentObjectByName(name);
             
-            var realObj = objInModel.isNull() ? handler(model) : objInModel.get();
+            var realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();
             realObj.SetCustomAttributes(this.CustomAttributes);
 
             return realObj;
         }
 
         public abstract IB_ModelObject Duplicate();
-        //protected delegate IB_ModelObject DelegateDuplicate(Model model);
         protected virtual IB_ModelObject Duplicate(Func<IB_ModelObject> func)
         {
             if (func == null)
@@ -102,10 +118,10 @@ namespace Ironbug.HVAC
 
         protected void UpdateOSModelObjectWithCustomAttr()
         {
-            this.ghostModelObject.SetCustomAttributes(this.CustomAttributes);
+            this.GhostOSObject.SetCustomAttributes(this.CustomAttributes);
         }
 
-        public abstract ParentObject ToOS(Model model);
+        
 
         public override string ToString()
         {
@@ -117,7 +133,7 @@ namespace Ironbug.HVAC
 
         public IEnumerable<string> GetDataFields()
         {
-            var com = this.ghostModelObject;
+            var com = this.GhostOSObject;
 
             var iddObject = com.iddObject();
             var dataFields = new List<string>();
@@ -149,8 +165,20 @@ namespace Ironbug.HVAC
 
         }
 
-        
+        private static string CheckStringForUID(string name)
+        {
+            var idKey = " [#";
+            if (!name.Contains(idKey))
+            {
+                var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6) + "]";
+                name = name + idKey + uid;
+            }
 
-        
+            return name;
+        }
+
+
+
+
     }
 }

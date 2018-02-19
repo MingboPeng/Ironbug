@@ -8,30 +8,22 @@ namespace Ironbug.HVAC
 {
     public class IB_AirTerminal: IB_ModelObject
     {
-        private HVACComponent osAirTerminal { get; set; }
+        private static AirTerminalSingleDuctUncontrolled InitMethod(Model model) => new AirTerminalSingleDuctUncontrolled(model,model.alwaysOnDiscreteSchedule());
 
-        public IB_AirTerminal()
+        public IB_AirTerminal():base(InitMethod(new Model()))
         {
-            var model = new Model();
-            this.ghostModelObject = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
+            base.SetName("AirTerminal:SingleDuct:Uncontrolled");
         }
 
         public override ParentObject ToOS(Model model)
         {
-            this.osAirTerminal = new AirTerminalSingleDuctUncontrolled(model, model.alwaysOnDiscreteSchedule());
-            this.osAirTerminal.SetCustomAttributes(this.CustomAttributes);
-            return this.osAirTerminal;
+            return base.ToOS(InitMethod, model).to_AirTerminalSingleDuctUncontrolled().get();
         }
 
         public override IB_ModelObject Duplicate()
         {
-            return this.Duplicate(() => new IB_AirTerminal());
+            return base.Duplicate(() => new IB_AirTerminal());
         }
-
-        //private static ControllerOutdoorAir InitMethod(ref Model model) => new ControllerOutdoorAir(model);
-        //public override ParentObject ToOS(ref Model model)
-        //{
-        //    return (ControllerOutdoorAir)this.ToOS(InitMethod, ref model);
-        //}
+        
     }
 }

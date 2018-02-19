@@ -8,49 +8,48 @@ namespace Ironbug.HVAC
 {
     public class IB_OutdoorAirSystem : IB_HVACComponent
     {
-        //Real obj to be saved in OS model
-        //private AirLoopHVACOutdoorAirSystem osOutdoorAirSystem { get; set; }
-        public IB_ControllerOutdoorAir ControllerOutdoorAir { get; private set; }
-        //private Model osModel { get; set; }
-        //private ControllerOutdoorAir osControllerOutdoorAir { get; set; }
-
         //include Controller inside the AirLoopHVACOutdoorAirSystem
-        public IB_OutdoorAirSystem()
+        public IB_ControllerOutdoorAir IB_ControllerOutdoorAir { get; private set; } = new IB_ControllerOutdoorAir();
+        
+        private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
+
+        private AirLoopHVACOutdoorAirSystem InitMethodwithCtrl(Model model)
         {
-            var model = new Model();
-            this.ghostModelObject = new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
-            this.ControllerOutdoorAir = new IB_ControllerOutdoorAir();
+            var ctrl = (ControllerOutdoorAir)this.IB_ControllerOutdoorAir.ToOS(model);
+            return new AirLoopHVACOutdoorAirSystem(model, ctrl);
+        }
+        
+        public IB_OutdoorAirSystem():base(InitMethod(new Model()))
+        {
+            base.SetName("AirLoopHVAC:OutdoorAirSystem");
+        }
+
+        public IB_OutdoorAirSystem(IB_ControllerOutdoorAir IB_Controller):this()
+        {
+            this.IB_ControllerOutdoorAir = IB_Controller;
         }
 
         public void AddController(IB_ControllerOutdoorAir ControllerOutdoorAir)
         {
-            this.ControllerOutdoorAir = ControllerOutdoorAir;
+            this.IB_ControllerOutdoorAir = ControllerOutdoorAir;
         }
 
         public override bool AddToNode(Model model, Node node)
         {
             
-            //var ctrl = (ControllerOutdoorAir)this.ControllerOutdoorAir.ToOS(ref model);
-
-            //this.osOutdoorAirSystem = this.osOutdoorAirSystem ?? new AirLoopHVACOutdoorAirSystem(model, ctrl);
-            //this.osOutdoorAirSystem.SetCustomAttributes(this.CustomAttributes);
             return ((AirLoopHVACOutdoorAirSystem)this.ToOS(model)).addToNode(node);
         }
-        private AirLoopHVACOutdoorAirSystem InitMethod(Model model)
-        {
-            var ctrl = (ControllerOutdoorAir)this.ControllerOutdoorAir.ToOS(model);
-            return new AirLoopHVACOutdoorAirSystem(model, ctrl);
-        }
+        
         public override ParentObject ToOS(Model model)
         {
-            var del = new DelegateDeclaration(InitMethod);
-            return (AirLoopHVACOutdoorAirSystem)this.ToOS(InitMethod, model);
+            return (AirLoopHVACOutdoorAirSystem)base.ToOS(InitMethodwithCtrl, model);
         }
-
+        
         public override IB_ModelObject Duplicate()
         {
-            //TODO: duplicate child obj
-            return this.Duplicate(() => new IB_OutdoorAirSystem());
+            var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.Duplicate();
+            
+            return base.Duplicate(() => new IB_OutdoorAirSystem(newCtrl));
         }
     }
 }
