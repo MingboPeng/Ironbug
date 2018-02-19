@@ -48,7 +48,7 @@ namespace Ironbug.HVAC
 
             foreach (var item in this.supplyComponents)
             {
-                item.AddToNode(osModel, nd);
+                item.AddToNode(nd);
             }
 
             foreach (var item in this.thermalZones)

@@ -89,6 +89,7 @@
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
@@ -134,12 +135,6 @@
       <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
       <Name>Ironbug.HVAC</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Asset 5.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Asset 6.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ThermalZone.png" />

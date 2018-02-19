@@ -87,13 +87,17 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var zone = new HVAC.IB_ThermalZone();
-            
 
-            var airTerminal = new HVAC.IB_AirTerminal();
+
+            HVAC.IB_AirTerminal airTerminal = null;
 
             if (DA.GetData(2, ref airTerminal))
             {
                 zone.SetAirTerminal(airTerminal);
+            }
+            else
+            {
+                zone.SetAirTerminal(new HVAC.IB_AirTerminal());
             }
 
             var sizing = new HVAC.IB_SizingZone();

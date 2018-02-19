@@ -2,32 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
 using Ironbug.Grasshopper.Properties;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component
+namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_FanConstantVolume : GH_Component
+    public class Ironbug_FanVariableVolume : GH_Component
     {
         private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_FanConstantVolume_DataFields);
+        public readonly Type DataFieldType = typeof(HVAC.IB_FanVariableVolume_DataFields);
 
         /// <summary>
-        /// Initializes a new instance of the Ironbug_FanConstantVolume class.
+        /// Initializes a new instance of the Ironbug_FanVariableVolume class.
         /// </summary>
-        public Ironbug_FanConstantVolume()
-          : base("Ironbug_FanConstantVolume", "FanConstant",
+        public Ironbug_FanVariableVolume()
+          : base("Ironbug_FanVariableVolume", "FanVariable",
               "Description",
               "Ironbug", "01:LoopComponents")
         {
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count-1)
+            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count - 1)
             {
                 return;
             }
@@ -36,13 +33,13 @@ namespace Ironbug.Grasshopper.Component
             var sourceNum = source.Count;
             if (!source.Any())
             {
-                if (this.SettingParams!= null)
+                if (this.SettingParams != null)
                 {
                     this.SettingParams.CheckRecipients();
                 }
 
                 this.SettingParams = null;
-                
+
                 return;
             }
 
@@ -59,15 +56,13 @@ namespace Ironbug.Grasshopper.Component
             }
 
         }
-
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters for Fan:VariableVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            //AddParams();
         }
 
         /// <summary>
@@ -75,7 +70,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("FanConstantVolume", "Fan", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FanVariableVolume", "Fan", "connect to airloop's supply side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -84,7 +79,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_FanConstantVolume();
+            var obj = new HVAC.IB_FanVariableVolume();
 
             var settingParams = new Dictionary<HVAC.IB_DataField, object>();
             DA.GetData(0, ref settingParams);
@@ -114,7 +109,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.FanC;
+                return Resources.FanV;
             }
         }
 
@@ -123,11 +118,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("f517230e-27e9-4fd0-bfbc-31f0596d35c4"); }
+            get { return new Guid("eebe83e8-f84d-492a-8394-0b81ab2002e0"); }
         }
-
-        
     }
-
-   
 }

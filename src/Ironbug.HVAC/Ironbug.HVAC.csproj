@@ -65,6 +65,7 @@
     <Compile Include="Loops\IB_AirTerminal.cs" />
     <Compile Include="Loops\IB_ControllerOutdoorAir.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
+    <Compile Include="Loops\IB_FanVariableVolume.cs" />
     <Compile Include="Loops\IB_ModelObject.cs" />
     <Compile Include="Loops\IB_OutdoorAirSystem.cs" />
     <Compile Include="Loops\IB_PlantLoop.cs" />
