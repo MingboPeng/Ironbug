@@ -23,6 +23,7 @@ namespace Ironbug.Grasshopper.Component
         {
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
+        
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
             if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count - 1)
@@ -70,6 +71,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
             pManager.AddGenericParameter("SettingParam", "Param_", "SettingParam", GH_ParamAccess.item);
+            pManager[4].Optional = true;
         }
 
         /// <summary>

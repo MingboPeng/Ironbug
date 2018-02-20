@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using Ironbug.Grasshopper.Properties;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -77,7 +78,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.AirLoop;
             }
         }
 

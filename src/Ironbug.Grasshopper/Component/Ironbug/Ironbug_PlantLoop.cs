@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
+using Ironbug.Grasshopper.Properties;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -23,8 +24,10 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("demand", "demand", "HVAC components", GH_ParamAccess.list);
+            pManager.AddGenericParameter("supply", "supply", "HVAC components", GH_ParamAccess.list);
             pManager[0].Optional = true;
+            pManager.AddGenericParameter("demand", "demand", "HVAC components", GH_ParamAccess.list);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -41,16 +44,25 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            List<HVAC.IB_HVACComponent> supplyComs = new List<HVAC.IB_HVACComponent>();
             List<HVAC.IB_HVACComponent> demandComs = new List<HVAC.IB_HVACComponent>();
-            DA.GetDataList(0, demandComs);
+            DA.GetDataList(0, supplyComs);
+            DA.GetDataList(1, demandComs);
+
 
 
             var plant = new HVAC.IB_PlantLoop();
+            foreach (var item in supplyComs)
+            {
+                var newItem = (HVAC.IB_HVACComponent)item.Duplicate();
+                plant.AddToSupplyBranch(newItem);
+            }
             foreach (var item in demandComs)
             {
-                plant.AddToDemandBranch(item);
+                var newItem = (HVAC.IB_HVACComponent)item.Duplicate();
+                plant.AddToDemandBranch(newItem);
             }
-
+            
             DA.SetData(0, plant);
         }
 
@@ -63,7 +75,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.PlantLoop;
             }
         }
 
