@@ -29,4 +29,38 @@ namespace Ironbug.HVAC
             return base.ToOS(InitMethod, model);
         }
     }
+
+    public class IB_BoilerHotWater_DataFields : IB_DataFieldSet
+    {
+        protected override IddObject RefIddObject => new BoilerHotWater(new Model()).iddObject();
+        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
+
+        public static readonly IB_DataField Name
+            = new IB_DataField("Name", "Name", strType, true);
+
+        public static readonly IB_DataField FuelType
+            = new IB_DataField("FuelType", "Fuel", strType, true);
+
+        public static readonly IB_DataField DesignWaterOutletTemperature
+            = new IB_DataField("DesignWaterOutletTemperature", "OutWaterT", dbType);
+
+        public static readonly IB_DataField NominalCapacity
+            = new IB_DataField("NominalCapacity", "Capacity", dbType);
+
+        public static readonly IB_DataField NominalThermalEfficiency
+            = new IB_DataField("NominalThermalEfficiency", "Efficiency", dbType);
+
+
+        public static IEnumerable<IB_DataField> GetList()
+        {
+            return GetList<IB_BoilerHotWater_DataFields>();
+        }
+
+        public static IB_DataField GetAttributeByName(string name)
+        {
+            return GetAttributeByName<IB_BoilerHotWater_DataFields>(name);
+        }
+
+
+    }
 }

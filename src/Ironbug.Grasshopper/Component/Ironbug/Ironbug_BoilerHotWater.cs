@@ -1,21 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
+using Ironbug.Grasshopper.Properties;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_BoilerHotWater : GH_Component
     {
+        private Ironbug_ObjParams SettingParams { get; set; }
+        public readonly Type DataFieldType = typeof(HVAC.IB_BoilerHotWater_DataFields);
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         /// </summary>
         public Ironbug_BoilerHotWater()
-          : base("Ironbug_BoilerHotWater", "Nickname",
+          : base("Ironbug_BoilerHotWater", "BoilerHW",
               "Description",
-              "Category", "Subcategory")
+              "Ironbug", "01:LoopComponents")
         {
+            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+        }
+        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count - 1)
+            {
+                return;
+            }
+
+            var source = e.Parameter.Sources;
+            var sourceNum = source.Count;
+            if (!source.Any())
+            {
+                if (this.SettingParams != null)
+                {
+                    this.SettingParams.CheckRecipients();
+                }
+
+                this.SettingParams = null;
+
+                return;
+            }
+
+            var firstsSource = source.First() as IGH_Param;
+            if (sourceNum == 1 && firstsSource != null)
+            {
+                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                if (this.SettingParams != null)
+                {
+                    //this.SettingParams.AddParams(DataFieldType);
+                    this.SettingParams.CheckRecipients();
+                }
+
+            }
+
         }
 
         /// <summary>
@@ -23,6 +62,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddGenericParameter("Parameters for BoilerHotWater", "params_", "Detail settings for this boiler. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager[0].Optional = true;
         }
 
         /// <summary>
@@ -41,21 +82,21 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             var obj = new HVAC.IB_BoilerHotWater();
 
-            //var settingParams = new Dictionary<HVAC.IB_DataField, object>();
-            //DA.GetData(0, ref settingParams);
+            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            DA.GetData(0, ref settingParams);
 
-            //foreach (var item in settingParams)
-            //{
-            //    try
-            //    {
-            //        obj.SetAttribute(item.Key, item.Value);
-            //    }
-            //    catch (Exception)
-            //    {
+            foreach (var item in settingParams)
+            {
+                try
+                {
+                    obj.SetAttribute(item.Key, item.Value);
+                }
+                catch (Exception)
+                {
 
-            //        throw;
-            //    }
-            //}
+                    throw;
+                }
+            }
 
             DA.SetData(0, obj);
         }
@@ -69,7 +110,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Resources.Boiler;
             }
         }
 
