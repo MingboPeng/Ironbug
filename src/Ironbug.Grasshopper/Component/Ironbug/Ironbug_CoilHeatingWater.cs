@@ -10,55 +10,19 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWater : GH_Component
+    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponent
     {
-        private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_CoilHeatingWater_DataFieldSet); //this is used as a reference in Ironbug_ObjParams.
-
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
         public Ironbug_CoilHeatingWater()
           : base("Ironbug_CoilHeatingWater", "Nickname",
               "Description",
-              "Ironbug", "01:LoopComponents")
+              "Ironbug", "01:LoopComponents",
+              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
         {
-            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-
-        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != 1)
-            {
-                return;
-            }
-            
-            var source = e.Parameter.Sources;
-            var recipientNum = source.Count;
-            if (!source.Any())
-            {
-                if (this.SettingParams != null)
-                {
-                    this.SettingParams.CheckRecipients();
-                }
-
-                this.SettingParams = null;
-
-                return;
-            }
-
-            var firstsSource = source.First() as IGH_Param;
-            if (recipientNum == 1 && firstsSource != null)
-            {
-                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.SettingParams!=null)
-                {
-                    this.SettingParams.CheckRecipients();
-                }
-                
-            }
-
-        }
+        
 
         /// <summary>
         /// Registers all the input parameters for this component.

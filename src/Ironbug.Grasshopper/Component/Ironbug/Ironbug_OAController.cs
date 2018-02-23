@@ -6,56 +6,19 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OAController : GH_Component
+    public class Ironbug_OAController : Ironbug_HVACComponent
     {
-        private Ironbug_ObjParams ironbug_ObjParam { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_ControllerOutdoorAir_DataFieldSet); //this is used as a reference in Ironbug_ObjParams.
-
         /// <summary>
         /// Initializes a new instance of the Ironbug_OAController class.
         /// </summary>
         public Ironbug_OAController()
           : base("Ironbug_OAController", "OAController",
               "Description",
-              "Ironbug", "01:LoopComponents")
+              "Ironbug", "01:LoopComponents",
+              typeof(HVAC.IB_ControllerOutdoorAir_DataFieldSet))
         {
-            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-
-        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != 1)
-            {
-                return;
-            }
-
-            var source = e.Parameter.Sources;
-            var recipientNum = source.Count;
-            if (!source.Any())
-            {
-                if (this.ironbug_ObjParam != null)
-                {
-                    this.ironbug_ObjParam.CheckRecipients();
-                }
-
-                this.ironbug_ObjParam = null;
-
-                return;
-            }
-
-            var firstsSource = source.First() as IGH_Param;
-            if (recipientNum == 1 && firstsSource != null)
-            {
-                this.ironbug_ObjParam = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.ironbug_ObjParam != null)
-                {
-                    this.ironbug_ObjParam.CheckRecipients();
-                }
-
-            }
-
-        }
-
+        
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

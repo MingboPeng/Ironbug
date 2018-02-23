@@ -7,11 +7,11 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ThermalZone : GH_Component
+    public class Ironbug_ThermalZone : Ironbug_HVACComponent
     {
-        private Ironbug_ObjParams SettingParams { get; set; }
-        //this is used as a reference in Ironbug_ObjParams.
-        public readonly Type DataFieldType = typeof(HVAC.IB_ThermalZone_DataFieldSet); 
+        //private Ironbug_ObjParams SettingParams { get; set; }
+        ////this is used as a reference in Ironbug_ObjParams.
+        //public readonly Type DataFieldType = typeof(HVAC.IB_ThermalZone_DataFieldSet); 
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
@@ -19,44 +19,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_ThermalZone()
           : base("Ironbug_ThermalZone", "ThermalZone",
               "Description",
-              "Ironbug", "01:LoopComponents")
+              "Ironbug", "01:LoopComponents",
+              typeof(HVAC.IB_ThermalZone_DataFieldSet))
         {
-            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
         
-        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count - 1)
-            {
-                return;
-            }
-
-            var source = e.Parameter.Sources;
-            var recipientNum = source.Count;
-            if (!source.Any())
-            {
-                if (this.SettingParams != null)
-                {
-                    this.SettingParams.CheckRecipients();
-                }
-
-                this.SettingParams = null;
-
-                return;
-            }
-
-            var firstsSource = source.First() as IGH_Param;
-            if (recipientNum == 1 && firstsSource != null)
-            {
-                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.SettingParams != null)
-                {
-                    this.SettingParams.CheckRecipients();
-                }
-
-            }
-
-        }
+        
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -93,7 +61,7 @@ namespace Ironbug.Grasshopper.Component
 
             HVAC.IB_ModelObject airTerminal = null;
 
-            if (DA.GetData(2, ref airTerminal))
+            if (DA.GetData(1, ref airTerminal))
             {
                 zone.SetAirTerminal(airTerminal);
             }

@@ -92,6 +92,7 @@
     <Compile Include="Component\Ironbug\Ironbug_BoilerHotWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HVACComponent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />

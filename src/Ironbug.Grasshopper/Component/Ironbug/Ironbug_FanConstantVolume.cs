@@ -9,57 +9,21 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanConstantVolume : GH_Component
+    public class Ironbug_FanConstantVolume : Ironbug_HVACComponent
     {
-        private Ironbug_ObjParams SettingParams { get; set; }
-        public readonly Type DataFieldType = typeof(HVAC.IB_FanConstantVolume_DataFields);
-
+        
         /// <summary>
         /// Initializes a new instance of the Ironbug_FanConstantVolume class.
         /// </summary>
         public Ironbug_FanConstantVolume()
           : base("Ironbug_FanConstantVolume", "FanConstant",
               "Description",
-              "Ironbug", "01:LoopComponents")
+              "Ironbug", "01:LoopComponents",
+              typeof(HVAC.IB_FanConstantVolume_DataFields))
         {
-            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+            
         }
-
-        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count-1)
-            {
-                return;
-            }
-
-            var source = e.Parameter.Sources;
-            var sourceNum = source.Count;
-            if (!source.Any())
-            {
-                if (this.SettingParams!= null)
-                {
-                    this.SettingParams.CheckRecipients();
-                }
-
-                this.SettingParams = null;
-                
-                return;
-            }
-
-            var firstsSource = source.First() as IGH_Param;
-            if (sourceNum == 1 && firstsSource != null)
-            {
-                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.SettingParams != null)
-                {
-                    //this.SettingParams.AddParams(DataFieldType);
-                    this.SettingParams.CheckRecipients();
-                }
-
-            }
-
-        }
-
+        
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -67,7 +31,6 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            //AddParams();
         }
 
         /// <summary>
