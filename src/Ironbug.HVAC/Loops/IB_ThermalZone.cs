@@ -8,7 +8,7 @@ namespace Ironbug.HVAC
 {
     public class IB_ThermalZone : IB_ModelObject
     {
-        public IB_AirTerminal AirTerminal { get; private set; }
+        public IB_ModelObject AirTerminal { get; private set; }
         public List<IB_HVACComponent> ZoneEquipments { get; set; }
         
         private IB_SizingZone IB_SizingZone { get;  set; }
@@ -37,7 +37,8 @@ namespace Ironbug.HVAC
             this.IB_SizingZone = NewSizingZone.DuplicateToZone(this);
         }
 
-        public void SetAirTerminal(IB_AirTerminal AirTerminal)
+        
+        public void SetAirTerminal(IB_ModelObject AirTerminal)
         {
             this.AirTerminal = AirTerminal;
         }
@@ -46,15 +47,18 @@ namespace Ironbug.HVAC
         {
             var zone = (ThermalZone)base.ToOS(InitMethod, model);
             var sizing = (SizingZone)this.IB_SizingZone.ToOS(model,zone);
-            
+
+            //TODO:AirTerminal, equipments
+            //zone.ter this.AirTerminal.ToOS(model);
             return zone;
         }
 
         public override IB_ModelObject Duplicate()
         {
             //TODO: need to duplicate child objs as well
+            //TODO: no need to make connections
             var newObj = (IB_ThermalZone)base.DuplicateIB_ModelObject(() => new IB_ThermalZone());
-            newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());
+            newObj.SetAirTerminal((IB_HVACComponent)this.AirTerminal.Duplicate());
             this.IB_SizingZone.DuplicateToZone(newObj);
 
 

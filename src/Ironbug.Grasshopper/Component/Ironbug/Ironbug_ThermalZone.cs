@@ -91,7 +91,7 @@ namespace Ironbug.Grasshopper.Component
             var zone = new HVAC.IB_ThermalZone();
 
 
-            HVAC.IB_AirTerminal airTerminal = null;
+            HVAC.IB_ModelObject airTerminal = null;
 
             if (DA.GetData(2, ref airTerminal))
             {
@@ -99,7 +99,7 @@ namespace Ironbug.Grasshopper.Component
             }
             else
             {
-                zone.SetAirTerminal(new HVAC.IB_AirTerminal());
+                zone.SetAirTerminal(new HVAC.IB_AirTerminalSingleDuctUncontrolled());
             }
 
             var sizing = new HVAC.IB_SizingZone();

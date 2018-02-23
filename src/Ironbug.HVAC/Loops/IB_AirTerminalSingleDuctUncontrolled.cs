@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirTerminal: IB_ModelObject
+    public class IB_AirTerminalSingleDuctUncontrolled: IB_ModelObject
     {
         private static AirTerminalSingleDuctUncontrolled InitMethod(Model model) => new AirTerminalSingleDuctUncontrolled(model,model.alwaysOnDiscreteSchedule());
 
-        public IB_AirTerminal():base(InitMethod(new Model()))
+        public IB_AirTerminalSingleDuctUncontrolled():base(InitMethod(new Model()))
         {
             base.SetName("AirTerminal:SingleDuct:Uncontrolled");
         }
@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_AirTerminal());
+            return base.DuplicateIB_ModelObject(() => new IB_AirTerminalSingleDuctUncontrolled());
         }
         
     }
