@@ -48,18 +48,6 @@ namespace Ironbug.HVAC
 
         public static readonly IB_DataField NominalThermalEfficiency
             = new IB_DataField("NominalThermalEfficiency", "Efficiency", dbType);
-
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_BoilerHotWater_DataFields>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_BoilerHotWater_DataFields>(name);
-        }
-
-
+        
     }
 }

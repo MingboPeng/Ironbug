@@ -54,6 +54,7 @@ namespace Ironbug.HVAC
             var method = component.GetType().GetMethod(methodName, new[] { AttributeValue.GetType() });
 
             //TODO: catch AccessViolationException
+            component.Dispose();
             object invokeResult = null;
             try
             {
@@ -61,8 +62,8 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-
-                invokeResult = e.ToString();
+                throw new Exception("Something went wrong!"+ e.InnerException);
+                //invokeResult = e.ToString();
             }
             
 

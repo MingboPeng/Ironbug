@@ -57,16 +57,7 @@ namespace Ironbug.HVAC
             = new IB_DataField("FanPowerCoefficient4", "Coefficient4", dbType);
         public static readonly IB_DataField FanPowerCoefficient5
             = new IB_DataField("FanPowerCoefficient5", "Coefficient5", dbType);
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_FanConstantVolume_DataFields>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_FanConstantVolume_DataFields>(name);
-        }
+        
 
 
     }

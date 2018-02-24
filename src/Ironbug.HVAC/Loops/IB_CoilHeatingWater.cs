@@ -46,6 +46,7 @@ namespace Ironbug.HVAC
 
         public override ModelObject ToOS(Model model)
         {
+            
             return base.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }
 
@@ -102,19 +103,6 @@ namespace Ironbug.HVAC
             = new IB_DataField("RatedRatioForAirAndWaterConvection", "AirWaterRatio", dbType);
 
         
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_CoilHeatingWater_DataFieldSet>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_CoilHeatingWater_DataFieldSet>(name);
-        }
-
-        
-
     }
     
     

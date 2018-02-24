@@ -82,17 +82,7 @@ namespace Ironbug.HVAC
         public static readonly IB_DataField MotorEfficiency
             = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
 
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_FanConstantVolume_DataFields>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_FanConstantVolume_DataFields>(name);
-        }
-
+        
 
     }
 }

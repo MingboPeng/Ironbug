@@ -131,17 +131,6 @@ namespace Ironbug.HVAC
             };
         
 
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_ThermalZone_DataFieldSet>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_ThermalZone_DataFieldSet>(name);
-        }
-
-
 
     }
 }

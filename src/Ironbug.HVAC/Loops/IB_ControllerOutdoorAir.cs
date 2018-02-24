@@ -50,20 +50,7 @@ namespace Ironbug.HVAC
         
 
         
-
-
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_ControllerOutdoorAir_DataFieldSet>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_ControllerOutdoorAir_DataFieldSet>(name);
-        }
-
-
+        
 
     }
 }

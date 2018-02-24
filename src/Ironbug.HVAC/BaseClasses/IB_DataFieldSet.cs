@@ -14,17 +14,20 @@ namespace Ironbug.HVAC
 
         protected abstract OpenStudio.IddObject RefIddObject { get; }
 
-        protected static IEnumerable<IB_DataField> GetList<T>() where T : IB_DataFieldSet
+        public IEnumerable<IB_DataField> GetList()
         {
-            return typeof(T).GetFields()
+
+            return this.GetType().GetFields()
                             .Select(_ => (IB_DataField)_.GetValue(null));
         }
 
-        protected static IB_DataField GetAttributeByName<T>(string name) where T : IB_DataFieldSet
+        public IB_DataField GetAttributeByName(string name)
         {
-            var field = typeof(T).GetField(name);
+            var field = this.GetType().GetField(name);
             return (IB_DataField)field.GetValue(null);
         }
         
+
+
     }
 }

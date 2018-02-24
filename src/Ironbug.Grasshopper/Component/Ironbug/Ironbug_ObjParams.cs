@@ -134,9 +134,9 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-
+            
             var method = type.GetMethod("GetList");
-            this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Attributes, null));
+            this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
 
             //only show the basic setting first
             var dataFieldTobeAdded = dataFieldList.Where(_ => _.IsBasicSetting == true);

@@ -48,7 +48,6 @@ namespace Ironbug.HVAC
             this.GhostOSObject.SetCustomAttribute(AttributeName, data);
             
 
-
         }
 
         public void SetAttributes(Dictionary<IB_DataField, object> DataFields)
@@ -135,10 +134,10 @@ namespace Ironbug.HVAC
         public override string ToString()
         {
             ////var attributes = this.CustomAttributes.Select(_ => String.Format("{0}({1})", _.Key, _.Value));
-            //var attributes = GetDataFields();
-            //var outputString = String.Join("\r\n", attributes);
-            //return outputString;
-            return this.GhostOSObject.__str__();
+            var attributes = GetDataFields();
+            var outputString = String.Join("\r\n", attributes);
+            return outputString;
+            //return this.GhostOSObject.__str__();
         }
 
         public IEnumerable<string> GetDataFields()

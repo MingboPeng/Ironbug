@@ -59,33 +59,31 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IB_DataField.cs" />
-    <Compile Include="IB_DataFieldSet.cs" />
+    <Compile Include="BaseClasses\IB_DataField.cs" />
+    <Compile Include="BaseClasses\IB_DataFieldSet.cs" />
     <Compile Include="IVoid.cs" />
-    <Compile Include="Loops\IB_AirTerminalSingleDuctUncontrolled.cs" />
-    <Compile Include="Loops\IB_AirTerminalSingleDuctVAVReheat.cs" />
+    <Compile Include="AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
+    <Compile Include="AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Loops\IB_BoilerHotWater.cs" />
     <Compile Include="Loops\IB_ControllerOutdoorAir.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
     <Compile Include="Loops\IB_FanVariableVolume.cs" />
-    <Compile Include="Loops\IB_ModelObject.cs" />
+    <Compile Include="BaseClasses\IB_ModelObject.cs" />
     <Compile Include="Loops\IB_OutdoorAirSystem.cs" />
     <Compile Include="Loops\IB_PlantLoop.cs" />
     <Compile Include="Loops\IB_SizingZone.cs" />
     <Compile Include="Loops\IB_ThermalZone.cs" />
-    <Compile Include="Loops\VoidCoilHeatingWater.cs" />
     <Compile Include="OSExtensions\HVACComponent_Extensions.cs" />
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />
     <Compile Include="Loops\IB_CoilHeatingWater.cs" />
-    <Compile Include="Loops\IB_HVACComponent.cs" />
+    <Compile Include="BaseClasses\IB_HVACComponent.cs" />
     <Compile Include="OSExtensions\AirLoopHVAC_Extensions.cs" />
     <Compile Include="OSExtensions\AirLoopHVACOutdoorAirSystem_Extensions.cs" />
     <Compile Include="OSExtensions\ModelObject_Extensions.cs" />
     <Compile Include="OSExtensions\Model_Extensions.cs" />
     <Compile Include="OSExtensions\SizingPlant_Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Loops\VoidModelObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -95,6 +93,9 @@
       <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
       <Name>Ironbug.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ZoneEquipments\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" />
