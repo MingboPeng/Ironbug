@@ -14,7 +14,6 @@ namespace Ironbug.HVAC
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop():base(InitMethod(new Model()))
         {
-            base.SetName("PlantLoop");
         }
 
         public void AddToSupplyBranch(IB_HVACComponent HvacComponent)

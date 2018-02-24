@@ -14,7 +14,6 @@ namespace Ironbug.HVAC
 
         public IB_AirTerminalSingleDuctVAVReheat():base(InitMethod(new Model()))
         {
-            base.SetName("AirTerminal:SingleDuct:VAV:Reheat");
         }
         
         public void SetReheatCoil(IB_HVACComponent ReheatCoil)

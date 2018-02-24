@@ -21,7 +21,6 @@ namespace Ironbug.HVAC
         
         public IB_OutdoorAirSystem():base(InitMethod(new Model()))
         {
-            base.SetName("AirLoopHVAC:OutdoorAirSystem");
         }
 
         public IB_OutdoorAirSystem(IB_ControllerOutdoorAir IB_Controller):this()

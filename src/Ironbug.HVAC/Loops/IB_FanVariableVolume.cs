@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static FanVariableVolume InitMethod(Model model) => new FanVariableVolume(model);
         public IB_FanVariableVolume() : base(InitMethod(new Model()))
         {
-            base.SetName("Fan:VariableVolume");
+            
         }   
         public override IB_ModelObject Duplicate()
         {

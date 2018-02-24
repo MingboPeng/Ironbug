@@ -11,8 +11,6 @@ namespace Ironbug.HVAC
         private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
         public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
         {
-            //override name, and append UID
-            this.SetName("Controller:OutdoorAir");
         }
         
         public override IB_ModelObject Duplicate()

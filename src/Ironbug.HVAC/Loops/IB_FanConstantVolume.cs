@@ -21,7 +21,6 @@ namespace Ironbug.HVAC
 
         public IB_FanConstantVolume():base(InitMethod(new Model()))
         {
-            base.SetName("Fan:ConstantVolume");
         }
 
         public override bool AddToNode(Node node)

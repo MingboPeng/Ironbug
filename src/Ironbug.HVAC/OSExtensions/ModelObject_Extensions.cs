@@ -19,9 +19,20 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static bool IsNotInModel(this ModelObject component, Model model)
+        public static bool IsInModel(this ModelObject component, Model model)
         {
-            return model.getParentObjectByName(component.nameString()).isNull();
+            var uid = component.comment();
+            var type = component.iddObject().type();
+            var objs = model.getObjectsByType(type);
+            var existed = false;
+            foreach (var item in objs)
+            {
+                if (item.comment().Equals("! "+ uid))
+                {
+                    existed = true;
+                }
+            }
+            return existed;
         }
 
         public static object GetDataFieldValue(this ModelObject component, string getterMethodName)
@@ -33,14 +44,27 @@ namespace Ironbug.HVAC
 
             return invokeResult;
         }
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
         public static object SetCustomAttribute(this ModelObject component, string setterMethodName, object AttributeValue)
         {
 
             string methodName = setterMethodName;
             object[] parm = new object[] { AttributeValue };
-
+            
             var method = component.GetType().GetMethod(methodName, new[] { AttributeValue.GetType() });
-            var invokeResult = method.Invoke(component, parm);
+
+            //TODO: catch AccessViolationException
+            object invokeResult = null;
+            try
+            {
+                invokeResult = method.Invoke(component, parm);
+            }
+            catch (Exception e)
+            {
+
+                invokeResult = e.ToString();
+            }
+            
 
             return invokeResult;
         }

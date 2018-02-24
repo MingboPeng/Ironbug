@@ -13,11 +13,9 @@ namespace Ironbug.HVAC
 
         public IB_SizingZone():base(InitMethod(new Model()))
         {
-            base.SetName("SizingZone");
         }
         public IB_SizingZone(IB_ThermalZone ThermalZone) : base(InitMethod((ThermalZone)ThermalZone.GetModelObject()))
         {
-            base.SetName("SizingZone");
         }
 
 

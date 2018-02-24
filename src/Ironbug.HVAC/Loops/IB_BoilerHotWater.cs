@@ -11,7 +11,6 @@ namespace Ironbug.HVAC
         private static BoilerHotWater InitMethod(Model model) => new BoilerHotWater(model);
         public IB_BoilerHotWater() : base(InitMethod(new Model()))
         {
-            base.SetName("Boiler:Hotwater");
         }
         public override bool AddToNode(Node node)
         {

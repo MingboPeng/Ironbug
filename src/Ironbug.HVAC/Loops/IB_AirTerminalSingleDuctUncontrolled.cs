@@ -12,7 +12,6 @@ namespace Ironbug.HVAC
 
         public IB_AirTerminalSingleDuctUncontrolled():base(InitMethod(new Model()))
         {
-            base.SetName("AirTerminal:SingleDuct:Uncontrolled");
         }
 
         public override ModelObject ToOS(Model model)

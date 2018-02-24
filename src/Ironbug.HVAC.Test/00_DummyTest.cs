@@ -65,5 +65,67 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(success);
         }
+
+
+        [TestMethod]
+        public void addObject_Test()
+        {
+            var md1 = new OpenStudio.Model();
+            var zone = new OpenStudio.ThermalZone(md1);
+            zone.setName("a zone name");
+            zone.setMultiplier(2);
+            zone.setUseIdealAirLoads(true);
+            var siz = new OpenStudio.SizingZone(md1, zone);
+            siz.setZoneHeatingDesignSupplyAirTemperature(20);
+            var comment = "comment as an ID";
+            siz.setComment(comment);
+            var id1 = zone.handle();
+            var zoneSt = zone.__str__();
+            var sizSt = siz.__str__();
+
+            
+
+           
+            var md2 = new OpenStudio.Model();
+            var zone2 = md2.addObject(zone).get().to_ThermalZone().get();
+            var sizing2 = md2.addObject(siz).get().to_SizingZone().get();
+
+            var isTrue = sizing2.EqualEqual(siz);
+
+            var zone2St = zone2.__str__();
+            var sizing2st = sizing2.to_SizingZone().get().__str__();
+
+            var tp = sizing2.iddObject().type();
+            var objs = md2.getObjectsByType(tp);
+
+            var success = false;
+            foreach (var item in objs)
+            {
+                if (item.comment().Equals("! comment as an ID"))
+                {
+                    success = true;
+                }
+            }
+
+            //var success = !zone2.isNull();
+            //if (success)
+            //{
+            //    var a = zone2.get().to_ThermalZone();
+            //    var b = a.isNull();
+            //    var c = a.get();
+            //    success = c.comment().Contains(comment);
+            //}
+            //else
+            //{
+            //    success = false;
+            //}
+
+            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            //var success3 = md2.Save(saveFile);
+
+            //var success = success1 && success3;
+
+            Assert.IsTrue(true);
+        }
     }
 }

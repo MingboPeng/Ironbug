@@ -16,6 +16,7 @@ namespace Ironbug.HVAC
         {
             this.CustomAttributes = new Dictionary<string, object>();
             this.GhostOSObject = GhostOSObject;
+            this.SetTrackingID();
         }
 
         
@@ -25,32 +26,27 @@ namespace Ironbug.HVAC
             return this.GhostOSObject.GetDataFieldValue(DataFieldName);
         }
 
-        public void SetName(string NewName)
+        public string SetTrackingID()
         {
-            var attributeName = "setName";
-            var data = CheckStringForUID(NewName);
+            var attributeName = "setComment";
+            var data = CreateUID();
 
             this.CustomAttributes.TryAdd(attributeName, data);
-            this.GhostOSObject.SetCustomAttribute(attributeName, data);
+            this.GhostOSObject.setComment(data);
+            return data;
+
         }
 
         public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
         {
             var AttributeName = DataAttribute.SetterMethodName;
             var data = AttributeValue;
+            
+            this.CustomAttributes.TryAdd(AttributeName, data);
 
-            if (AttributeName == "setName")
-            {
-                this.SetName(data.ToString());
-            }
-            else
-            {
-
-                this.CustomAttributes.TryAdd(AttributeName, data);
-
-                //dealing the ghost object
-                this.GhostOSObject.SetCustomAttribute(AttributeName, data);
-            }
+            //dealing the ghost object
+            this.GhostOSObject.SetCustomAttribute(AttributeName, data);
+            
 
 
         }
@@ -79,7 +75,7 @@ namespace Ironbug.HVAC
 
         public bool IsInModel(Model model)
         {
-            return !this.GhostOSObject.IsNotInModel(model);
+            return this.GhostOSObject.IsInModel(model);
         }
         //this is for override
         public abstract ModelObject ToOS(Model model);
@@ -138,10 +134,11 @@ namespace Ironbug.HVAC
 
         public override string ToString()
         {
-            //var attributes = this.CustomAttributes.Select(_ => String.Format("{0}({1})", _.Key, _.Value));
-            var attributes = GetDataFields();
-            var outputString = String.Join("\r\n", attributes);
-            return outputString;
+            ////var attributes = this.CustomAttributes.Select(_ => String.Format("{0}({1})", _.Key, _.Value));
+            //var attributes = GetDataFields();
+            //var outputString = String.Join("\r\n", attributes);
+            //return outputString;
+            return this.GhostOSObject.__str__();
         }
 
         public IEnumerable<string> GetDataFields()
@@ -178,16 +175,13 @@ namespace Ironbug.HVAC
 
         }
 
-        private static string CheckStringForUID(string name)
+        private static string CreateUID()
         {
-            var idKey = " [#";
-            if (!name.Contains(idKey))
-            {
-                var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6) + "]";
-                name = name + idKey + uid;
-            }
+            var idKey = "TrackingID:#[";
+            var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6);
+            var trackingID = String.Format("{0}{1}{2}", idKey, uid, "]");
 
-            return name;
+            return trackingID;
         }
 
 

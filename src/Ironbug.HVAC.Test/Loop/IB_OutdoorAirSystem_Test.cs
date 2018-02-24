@@ -27,7 +27,7 @@ namespace Ironbug.HVACTests.Loop
             var testValue = 0.01;
             ctrl.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.MinimumOutdoorAirFlowRate, testValue);
             obj.AddController(ctrl);
-            obj.AddToNode(model, loop.supplyOutletNode());
+            obj.AddToNode(loop.supplyOutletNode());
 
             var inSysCtrl = model.getAirLoopHVACOutdoorAirSystems().First().getControllerOutdoorAir();
             var att = inSysCtrl.minimumOutdoorAirFlowRate();

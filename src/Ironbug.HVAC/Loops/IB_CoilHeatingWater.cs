@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
         {
             //check name
             //TODO: there is a method incoke problem when call this method right after GH started
-            base.SetName("Coil:Heating:Water");
+            
         }
 
         public override IB_ModelObject Duplicate()

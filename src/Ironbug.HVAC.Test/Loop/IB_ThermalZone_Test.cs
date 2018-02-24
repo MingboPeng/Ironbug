@@ -22,7 +22,7 @@ namespace Ironbug.HVACTests.Loop
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm"; 
 
             var obj = new HVAC.IB_ThermalZone();
-            obj.AirTerminal = new HVAC.IB_AirTerminalSingleDuctUncontrolled();
+            obj.SetAirTerminal(new HVAC.IB_AirTerminalSingleDuctUncontrolled());
 
             var model = new OpenStudio.Model();
             var lp = new OpenStudio.AirLoopHVAC(model);
