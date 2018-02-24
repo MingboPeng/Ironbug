@@ -57,6 +57,11 @@ namespace Ironbug.HVAC
 
         public void SetAttributes(Dictionary<IB_DataField, object> DataFields)
         {
+            if (DataFields==null)
+            {
+                return;
+            }
+
             foreach (var item in DataFields)
             {
                 try

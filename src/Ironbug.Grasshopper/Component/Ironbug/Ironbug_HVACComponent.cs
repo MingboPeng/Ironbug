@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public abstract class Ironbug_HVACComponent : GH_Component
     {
-        private Ironbug_ObjParams SettingParams { get; set; }
+        private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
 
         //public void SetDataFieldType(Type DataFieldType)
@@ -18,32 +18,36 @@ namespace Ironbug.Grasshopper.Component
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            if (e.ParameterSide == GH_ParameterSide.Output || e.ParameterIndex != this.Params.Input.Count - 1)
+            if (e.ParameterSide == GH_ParameterSide.Output || 
+                e.Parameter.NickName != "params_")
             {
                 return;
             }
-
+            
             var source = e.Parameter.Sources;
             var sourceNum = source.Count;
+            //removal case
             if (!source.Any())
             {
-                if (this.SettingParams != null)
+                if (settingParams != null)
                 {
-                    this.SettingParams.CheckRecipients();
+                    //remove all inputParams
+                    settingParams.CheckRecipients();
                 }
 
-                this.SettingParams = null;
+                settingParams = null;
 
                 return;
             }
 
+            //adding case
             var firstsSource = source.First() as IGH_Param;
             if (sourceNum == 1 && firstsSource != null)
             {
-                this.SettingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (this.SettingParams != null)
+                settingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                if (settingParams != null)
                 {
-                    this.SettingParams.CheckRecipients();
+                    settingParams.CheckRecipients();
                 }
 
             }
@@ -58,5 +62,6 @@ namespace Ironbug.Grasshopper.Component
             this.DataFieldType = DataFieldType;
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
+        
     }
 }

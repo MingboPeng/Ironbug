@@ -80,19 +80,7 @@ namespace Ironbug.Grasshopper.Component
             //Collect setting params
             var settingParams = new Dictionary<HVAC.IB_DataField, object>();
             DA.GetData("SettingParam", ref settingParams);
-
-            foreach (var item in settingParams)
-            {
-                try
-                {
-                    zone.SetAttribute(item.Key, item.Value);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
+            zone.SetAttributes(settingParams);
 
             DA.SetData(0, zone);
         }
