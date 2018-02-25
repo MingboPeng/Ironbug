@@ -29,8 +29,6 @@ namespace Ironbug.HVAC
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
         //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
         protected override IddObject RefIddObject => new ControllerOutdoorAir(new Model()).iddObject();
-        private Type DataFieldSetType = typeof(IB_ControllerOutdoorAir_DataFieldSet);
-
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_controller_outdoor_air.html
 

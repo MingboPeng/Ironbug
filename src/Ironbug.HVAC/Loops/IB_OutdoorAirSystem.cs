@@ -13,20 +13,12 @@ namespace Ironbug.HVAC
         
         private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
 
-        private AirLoopHVACOutdoorAirSystem InitMethodwithCtrl(Model model)
-        {
-            var ctrl = (ControllerOutdoorAir)this.IB_ControllerOutdoorAir.ToOS(model);
-            return new AirLoopHVACOutdoorAirSystem(model, ctrl);
-        }
+        
         
         public IB_OutdoorAirSystem():base(InitMethod(new Model()))
         {
         }
-
-        public IB_OutdoorAirSystem(IB_ControllerOutdoorAir IB_Controller):this()
-        {
-            this.IB_ControllerOutdoorAir = IB_Controller;
-        }
+        
 
         public void AddController(IB_ControllerOutdoorAir ControllerOutdoorAir)
         {
@@ -38,17 +30,35 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((AirLoopHVACOutdoorAirSystem)this.ToOS(model)).addToNode(node);
         }
+
         
+
+
+        private AirLoopHVACOutdoorAirSystem InitObjWithChild(Model model)
+        {
+            //Take child member to target model first
+            var ctrl = (ControllerOutdoorAir)this.IB_ControllerOutdoorAir.ToOS(model);
+            //init self with child member in target model.
+            return new AirLoopHVACOutdoorAirSystem(model, ctrl);
+        }
         public override ModelObject ToOS(Model model)
         {
-            return (AirLoopHVACOutdoorAirSystem)base.ToOS(InitMethodwithCtrl, model);
+            return (AirLoopHVACOutdoorAirSystem)base.ToOS(InitObjWithChild, model);
         }
         
+
         public override IB_ModelObject Duplicate()
         {
+            //Duplicate self;
+            var newObj = (IB_OutdoorAirSystem)base.DuplicateIB_ModelObject(() => new IB_OutdoorAirSystem());
+
+            //Duplicate child member;
             var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.Duplicate();
-            
-            return base.DuplicateIB_ModelObject(() => new IB_OutdoorAirSystem(newCtrl));
+
+            //add new child member to new object;
+            newObj.AddController(newCtrl);
+
+            return newObj;
         }
     }
 }

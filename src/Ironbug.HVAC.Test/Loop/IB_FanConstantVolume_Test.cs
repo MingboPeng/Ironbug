@@ -43,7 +43,7 @@ namespace Ironbug.HVACTests.Loop
         {
             var fan = new HVAC.IB_FanConstantVolume();
             var meths = typeof(FanConstantVolume).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            var attrs = HVAC.IB_FanConstantVolume_DataFields.GetList();
+            var attrs = new HVAC.IB_FanConstantVolume_DataFields().GetList();
 
             var results = new List<string>();
             foreach (var attr in attrs)

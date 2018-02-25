@@ -83,6 +83,5 @@ namespace Ironbug.HVAC
             = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
 
         
-
     }
 }

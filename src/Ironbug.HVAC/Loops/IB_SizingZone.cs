@@ -9,22 +9,11 @@ namespace Ironbug.HVAC
     public class IB_SizingZone : IB_ModelObject
     {
         private static SizingZone InitMethod(Model model) => new SizingZone(model, new ThermalZone(model));
-        private static SizingZone InitMethod(ThermalZone thermalZone) => new SizingZone(thermalZone.model(), thermalZone);
-
+        
         public IB_SizingZone():base(InitMethod(new Model()))
         {
         }
-        public IB_SizingZone(IB_ThermalZone ThermalZone) : base(InitMethod((ThermalZone)ThermalZone.GetModelObject()))
-        {
-        }
-
-
-        //public IB_SizingZone(Func<SizingZone> func):base(func.Invoke())
-        //{
-
-        //}
-
-
+        
         /// <summary>
         /// This is the base Duplicate() for IB_SizingZone, you need to call SetSizingZone in IB_ThermalZone to link SizingZone to ThermalZone; 
         /// Or you can use DuplicateToZone(IB_ThermalZone ThermalZone) instead.
@@ -35,19 +24,23 @@ namespace Ironbug.HVAC
             return base.DuplicateIB_ModelObject(() => new IB_SizingZone());
         }
 
-        public IB_SizingZone DuplicateToZone(IB_ThermalZone ThermalZone)
-        {
-            return (IB_SizingZone)base.DuplicateIB_ModelObject(() => new IB_SizingZone(ThermalZone));
-        }
-        
+        /// <summary>
+        /// It makes no sense to call this when there is no ThermalZone!
+        /// Use ToOS(ThermalZone thermalZone) instead.
+        /// </summary>
+        /// <returns>IB_ModelObject</returns>
         public override ModelObject ToOS(Model model)
         {
-            return base.ToOS(InitMethod, model);
+            ////create non-zone-connected sizingZone.
+            //return base.ToOS(InitMethod, model);
+            return null;
         }
 
-        public ModelObject ToOS(Model model, ThermalZone thermalZone)
+        public ModelObject ToOS(ThermalZone thermalZone)
         {
-            return base.ToOS((Model m)=> new SizingZone(m, thermalZone), model);
+            //create a sizingZone to target thermalZone
+            var targetModel = thermalZone.model();
+            return base.ToOS((Model model)=> new SizingZone(model, thermalZone), targetModel);
         }
         
     }

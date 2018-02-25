@@ -9,24 +9,10 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingWater: IB_HVACComponent
     {
-        //Coil Heating Water 1, Name
-        //autosize,             U-Factor Times Area Value[kg * m ^ 2 / s ^ 3 * K] (Default: autosize)
-        //Autosize,             Maximum Water Flow Rate[m ^ 3 / s] (Default: Autosize)
-        //,                     Performance Input Method
-        //autosize,             Rated Capacity[kg * m ^ 2 / s ^ 3] (Default: autosize)
-        //82.2,                 Rated Inlet Water Temperature[C] (Default: 82.2)
-        //16.6,                 Rated Inlet Air Temperature[C] (Default: 16.6)
-        //71.1,                 Rated Outlet Water Temperature[C] (Default: 71.1)
-        //32.2,                 Rated Outlet Air Temperature[C] (Default: 32.2)
-        //0.5,                  Rated Ratio for Air and Water Convection(Default: 0.5)
-        
         private static CoilHeatingWater InitMethod(Model model) => new CoilHeatingWater(model);
         
-        //dealing with the ghost object
         public IB_CoilHeatingWater() : base(InitMethod(new Model()))
         {
-            //check name
-            //TODO: there is a method incoke problem when call this method right after GH started
             
         }
 

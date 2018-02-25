@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
             var existed = false;
             foreach (var item in objs)
             {
-                if (item.comment().Equals("! "+ uid))
+                if (item.comment().Equals(uid))
                 {
                     existed = true;
                 }
@@ -54,7 +54,6 @@ namespace Ironbug.HVAC
             var method = component.GetType().GetMethod(methodName, new[] { AttributeValue.GetType() });
 
             //TODO: catch AccessViolationException
-            component.Dispose();
             object invokeResult = null;
             try
             {

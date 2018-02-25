@@ -17,27 +17,7 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(true);
         }
-
-        [TestMethod]
-        public void DummyTest_Copy()
-        {
-            var md1 = new OpenStudio.Model();
-            var lp1 = new OpenStudio.AirLoopHVAC(md1);
-            var idd1 = lp1.iddObject();
-            var idf1 = lp1.idfObject();
-
-            var idd2 = new OpenStudio.IddObject(idd1);
-            var idf2 = new OpenStudio.IdfObject(idf1);
-
-            var lp2 = idf2.to_AirLoopHVAC();
-
-            //var md2 = new OpenStudio.Model();
-            //var obj = md2.addObject(idf2);
-
-            var success = lp2.is_initialized();
-            
-            Assert.IsTrue(success);
-        }
+        
 
         [TestMethod]
         public void Workflow_Test()
@@ -46,10 +26,11 @@ namespace Ironbug.HVACTests
 
             var airflow = new HVAC.IB_AirLoopHVAC();
             var coil = new HVAC.IB_CoilHeatingWater();
-            var coilName = (string)coil.GetDataFieldValue("nameString");
+            var fan = new IB_FanConstantVolume();
+
 
             airflow.AddToSupplyEnd(coil);
-
+            airflow.AddToSupplyEnd(fan);
             airflow.ToOS(md1);
 
             var md2 = new OpenStudio.Model();
@@ -57,11 +38,34 @@ namespace Ironbug.HVACTests
 
             var success1 = coil.IsInModel(md1);
             var success2 = coil.IsInModel(md2);
+            var success_fan = fan.IsInModel(md1);
 
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             var success3  = md2.Save(saveFile);
             
-            var success = success1 && success2 && success3;
+            var success = success1 && success2 && success3 & success_fan ;
+
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void ThermalZoneAndSizingZone_Test()
+        {
+            var md1 = new OpenStudio.Model();
+
+            var airflow = new OpenStudio.AirLoopHVAC(md1);
+
+
+            var zone = new OpenStudio.ThermalZone(md1);
+
+            airflow.addBranchForZone(zone);
+
+            
+
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            var success = md1.Save(saveFile);
+            
 
             Assert.IsTrue(success);
         }
@@ -127,5 +131,8 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(true);
         }
+
+
+        
     }
 }

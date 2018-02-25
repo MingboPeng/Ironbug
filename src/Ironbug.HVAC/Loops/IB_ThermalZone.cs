@@ -8,15 +8,15 @@ namespace Ironbug.HVAC
 {
     public class IB_ThermalZone : IB_ModelObject
     {
-        public IB_ModelObject AirTerminal { get; private set; }
-        public List<IB_HVACComponent> ZoneEquipments { get; set; }
+        public IB_ModelObject AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
+        public List<IB_HVACComponent> ZoneEquipments { get; set; } = new List<IB_HVACComponent>();
         
-        private IB_SizingZone IB_SizingZone { get;  set; }
+        private IB_SizingZone IB_SizingZone { get;  set; } 
         private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
         public IB_ThermalZone():base(InitMethod(new Model()))
         {
             //TODO: this should be the same as HBZone name
-            this.IB_SizingZone = new IB_SizingZone(this);
+            //this.IB_SizingZone = new IB_SizingZone(this);
             
         }
 
@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
         /// <param name="NewSizingZone"></param>
         public void SetSizingZone(IB_SizingZone NewSizingZone)
         {
-            this.IB_SizingZone = NewSizingZone.DuplicateToZone(this);
+            this.IB_SizingZone = NewSizingZone;
         }
 
         
@@ -44,26 +44,40 @@ namespace Ironbug.HVAC
         
         public override ModelObject ToOS(Model model)
         {
-            var zone = (ThermalZone)base.ToOS(InitMethod, model);
-            var sizing = (SizingZone)this.IB_SizingZone.ToOS(model,zone);
+            var newZone = (ThermalZone)base.ToOS(InitMethod, model);
+            
+            //add child to newZone
+            this.IB_SizingZone.ToOS(newZone);
 
-            //TODO:AirTerminal, equipments
-            //zone.ter this.AirTerminal.ToOS(model);
-            return zone;
+            foreach (var item in this.ZoneEquipments)
+            {
+                var eqp = item.ToOS(model);
+                newZone.addEquipment(eqp);
+            }
+
+            var newTerminal = this.AirTerminal.ToOS(model);
+            newZone.addEquipment(newTerminal);
+            
+            return newZone;
         }
 
         public override IB_ModelObject Duplicate()
         {
-            //TODO: need to duplicate child objs as well
-            //TODO: no need to make connections
+            
+            //Duplicate self;
             var newObj = (IB_ThermalZone)base.DuplicateIB_ModelObject(() => new IB_ThermalZone());
+
+            //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_HVACComponent)this.AirTerminal.Duplicate());
-            this.IB_SizingZone.DuplicateToZone(newObj);
+            newObj.SetSizingZone((IB_SizingZone)this.IB_SizingZone.Duplicate());
 
 
             foreach (var item in this.ZoneEquipments)
             {
+                //Duplicate child member; 
                 var newItem = (IB_HVACComponent)item.Duplicate();
+
+                //add new child member to new object;
                 newObj.ZoneEquipments.Add(newItem);
             }
 
@@ -74,11 +88,12 @@ namespace Ironbug.HVAC
 
     public class IB_ThermalZone_DataFieldSet : IB_DataFieldSet
     {
+        //TODO: need to find a better way to do get this iddobject
         protected override IddObject RefIddObject => new ThermalZone(new Model()).iddObject();
 
 
         //https://bigladdersoftware.com/epx/docs/8-8/input-output-reference/group-thermal-zone-description-geometry.html#field-zone-inside-convection-algorithm
-        //Following list items are fields that I want to have picked for GH user to edit
+        //Following list items are fields that I have picked for GH user to edit
         public static readonly IB_DataField Name
             = new IB_DataField("Name", "Name", strType, true)
             {
@@ -116,8 +131,9 @@ namespace Ironbug.HVAC
             = new IB_DataField("ZoneOutsideConvectionAlgorithm", "OutConvection", strType, BasicSetting: true)
             {
                 Description = "The Zone Outside Convection Algorithm field is optional. "+
-                "This field specifies the convection model to be used for the outside face of heat transfer surfaces associated with this zone. "+
-                "The choices are: 1) SimpleCombined, 2) TARP, 3) DOE-2, 4) MoWiTT, and 5) AdaptiveConvectionAlgorithm. "+
+                "This field specifies the convection model to be used for the outside face of heat transfer surfaces associated with this zone. \n"+
+                "The choices are: \n"+
+                "1) SimpleCombined, 2) TARP, 3) DOE-2, 4) MoWiTT, and 5) AdaptiveConvectionAlgorithm. \n"+
                 "The simple convection model applies heat transfer coefficients depending on the roughness and windspeed. "+
                 "This is a combined heat transfer coefficient that includes radiation to sky, ground, and air. "+
                 "The correlation is based on Figure, Page 25.1 (Thermal and Water Vapor Transmission Data), 2001 ASHRAE Handbook of Fundamentals."+
