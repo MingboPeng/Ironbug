@@ -61,8 +61,6 @@ namespace Ironbug.HVACTests
             airflow.addBranchForZone(zone);
 
             
-
-
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             var success = md1.Save(saveFile);
             
@@ -70,6 +68,17 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(success);
         }
 
+        [TestMethod]
+        public void RetrunIfInModel_Test()
+        {
+            var md1 = new OpenStudio.Model();
+
+            var airflow = new OpenStudio.AirLoopHVAC(md1);
+
+            var optional = airflow.GetIfInModel(md1);
+            
+            Assert.IsTrue(!optional.isNull());
+        }
 
         [TestMethod]
         public void addObject_Test()
@@ -110,25 +119,7 @@ namespace Ironbug.HVACTests
                     success = true;
                 }
             }
-
-            //var success = !zone2.isNull();
-            //if (success)
-            //{
-            //    var a = zone2.get().to_ThermalZone();
-            //    var b = a.isNull();
-            //    var c = a.get();
-            //    success = c.comment().Contains(comment);
-            //}
-            //else
-            //{
-            //    success = false;
-            //}
-
-            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
-            //var success3 = md2.Save(saveFile);
-
-            //var success = success1 && success3;
-
+            
             Assert.IsTrue(true);
         }
 

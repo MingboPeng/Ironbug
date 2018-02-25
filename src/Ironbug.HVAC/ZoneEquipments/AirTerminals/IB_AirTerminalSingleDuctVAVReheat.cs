@@ -8,7 +8,7 @@ namespace Ironbug.HVAC
 {
     public class IB_AirTerminalSingleDuctVAVReheat: IB_ModelObject
     {
-        public IB_HVACComponent ReheatCoil { get; private set; } 
+        public IB_HVACComponent ReheatCoil { get; private set; } = new IB_CoilHeatingWater();
         private static AirTerminalSingleDuctVAVReheat InitMethod(Model model) => 
             new AirTerminalSingleDuctVAVReheat(model, model.alwaysOnDiscreteSchedule(),new CoilHeatingWater(model));
 
@@ -37,9 +37,9 @@ namespace Ironbug.HVAC
 
         public override ModelObject ToOS(Model model)
         {
-            var newOSObj = base.ToOS(InitMethod, model);
+            var newOSObj = base.ToOS(InitMethod, model).to_AirTerminalSingleDuctVAVReheat().get();
             var newOSCoil = (HVACComponent)this.ReheatCoil.ToOS(model);
-            ((AirTerminalSingleDuctVAVReheat)newOSObj).setReheatCoil(newOSCoil);
+            newOSObj.setReheatCoil(newOSCoil);
 
             return newOSObj;
         }

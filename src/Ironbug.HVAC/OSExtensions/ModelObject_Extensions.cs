@@ -19,20 +19,21 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static bool IsInModel(this ModelObject component, Model model)
+        public static OptionalParentObject GetIfInModel(this ModelObject component, Model model)
         {
             var uid = component.comment();
             var type = component.iddObject().type();
             var objs = model.getObjectsByType(type);
-            var existed = false;
+            var optionObj = new OptionalParentObject();
             foreach (var item in objs)
             {
                 if (item.comment().Equals(uid))
                 {
-                    existed = true;
+                    
+                    optionObj.set(model.getParentObject(item.handle()).get());
                 }
             }
-            return existed;
+            return optionObj;
         }
 
         public static object GetDataFieldValue(this ModelObject component, string getterMethodName)

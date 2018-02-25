@@ -62,8 +62,8 @@
     <Compile Include="BaseClasses\IB_DataField.cs" />
     <Compile Include="BaseClasses\IB_DataFieldSet.cs" />
     <Compile Include="IVoid.cs" />
-    <Compile Include="AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
-    <Compile Include="AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Loops\IB_BoilerHotWater.cs" />
     <Compile Include="Loops\IB_ControllerOutdoorAir.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
@@ -94,9 +94,7 @@
       <Name>Ironbug.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ZoneEquipments\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

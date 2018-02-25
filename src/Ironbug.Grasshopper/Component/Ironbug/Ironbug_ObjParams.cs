@@ -134,9 +134,10 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-            
-            var method = type.GetMethod("GetList");
-            this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
+            var dataFieldSet = Activator.CreateInstance(type) as IB_DataFieldSet;
+            this.dataFieldList = dataFieldSet.GetList();
+            //var method = type.GetMethod("GetList");
+            //this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
 
             //only show the basic setting first
             var dataFieldTobeAdded = dataFieldList.Where(_ => _.IsBasicSetting == true);
@@ -170,7 +171,11 @@ namespace Ironbug.Grasshopper.Component
 
         private Dictionary<HVAC.IB_DataField, object> CollectSettingData()
         {
-
+            if (CurrentDataFieldType ==null)
+            {
+                return null;
+            }
+            var dataFieldSet = Activator.CreateInstance(CurrentDataFieldType) as IB_DataFieldSet;
             var settingDatas = new Dictionary<HVAC.IB_DataField,object>();
 
             var allInputParams = this.Params.Input;
@@ -187,12 +192,12 @@ namespace Ironbug.Grasshopper.Component
 
                     if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
                     {
-                        var name = item.Name;
+                        //var name = item.Name;
+                        
+                        //object[] arg = new object[] { name };
+                        //var method = this.CurrentDataFieldType.GetMethod("GetAttributeByName");
 
-                        object[] arg = new object[] { name };
-                        var method = this.CurrentDataFieldType.GetMethod("GetAttributeByName");
-
-                        var dataField = method.Invoke(this.CurrentDataFieldType, arg) as HVAC.IB_DataField;
+                        var dataField = dataFieldSet.GetAttributeByName(item.Name);
                         
                         //((HVAC.IB_DataFieldSet).GetAttributeByName();
 

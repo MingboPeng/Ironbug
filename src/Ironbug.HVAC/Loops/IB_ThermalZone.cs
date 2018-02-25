@@ -10,8 +10,7 @@ namespace Ironbug.HVAC
     {
         public IB_ModelObject AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
         public List<IB_HVACComponent> ZoneEquipments { get; set; } = new List<IB_HVACComponent>();
-        
-        private IB_SizingZone IB_SizingZone { get;  set; } 
+        private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
         private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
         public IB_ThermalZone():base(InitMethod(new Model()))
         {
@@ -33,13 +32,13 @@ namespace Ironbug.HVAC
         /// <param name="NewSizingZone"></param>
         public void SetSizingZone(IB_SizingZone NewSizingZone)
         {
-            this.IB_SizingZone = NewSizingZone;
+            this.IB_SizingZone = (IB_SizingZone)NewSizingZone.Duplicate();
         }
 
         
         public void SetAirTerminal(IB_ModelObject AirTerminal)
         {
-            this.AirTerminal = AirTerminal;
+            this.AirTerminal = AirTerminal.Duplicate();
         }
         
         public override ModelObject ToOS(Model model)

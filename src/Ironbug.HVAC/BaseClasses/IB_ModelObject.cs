@@ -74,7 +74,7 @@ namespace Ironbug.HVAC
 
         public bool IsInModel(Model model)
         {
-            return this.GhostOSObject.IsInModel(model);
+            return !this.GhostOSObject.GetIfInModel(model).isNull();
         }
         //this is for override
         public abstract ModelObject ToOS(Model model);
@@ -87,10 +87,19 @@ namespace Ironbug.HVAC
                 return null;
             }
 
-            var name = this.GhostOSObject.nameString();
-            var objInModel = model.getParentObjectByName(name);
+            ModelObject realObj = null;
+            if (this is IB_HVACComponent)
+            {
+                var objInModel = this.GhostOSObject.GetIfInModel(model);
+                realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();
+            }
+            else
+            {
+                realObj = InitMethod(model);
+            }
             
-            var realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();
+
+            
             realObj.SetCustomAttributes(this.CustomAttributes);
 
             return realObj;
