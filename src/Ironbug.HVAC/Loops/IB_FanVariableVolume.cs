@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_FanVariableVolume : IB_HVACComponent
+    public class IB_FanVariableVolume : IB_Fan
     {
         private static FanVariableVolume InitMethod(Model model) => new FanVariableVolume(model);
         public IB_FanVariableVolume() : base(InitMethod(new Model()))

@@ -6,28 +6,28 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_PlantLoop:IB_ModelObject
+    public class IB_PlantLoop:IB_ModelObject, IIB_ToOPSable
     {
-        private List<IB_HVACComponent> supplyComponents { get; set; } = new List<IB_HVACComponent>();
-        private List<IB_HVACComponent> demandComponents { get; set; } = new List<IB_HVACComponent>();
+        private IList<IIB_PlantLoopObjects> supplyComponents { get; set; } = new List<IIB_PlantLoopObjects>();
+        private IList<IIB_DualLoopObjects> demandComponents { get; set; } = new List<IIB_DualLoopObjects>();
 
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop():base(InitMethod(new Model()))
         {
         }
 
-        public void AddToSupplyBranch(IB_HVACComponent HvacComponent)
+        public void AddToSupplyBranch(IIB_PlantLoopObjects HvacComponent)
         {
             this.supplyComponents.Add(HvacComponent);
         }
 
-        public void AddToDemandBranch(IB_HVACComponent HvacComponent)
+        public void AddToDemandBranch(IIB_DualLoopObjects HvacComponent)
         {
             this.demandComponents.Add(HvacComponent);
         }
         
         
-        public override ModelObject ToOS(Model model)
+        public ModelObject ToOS(Model model)
         {
             var plant = base.ToOS(InitMethod, model).to_PlantLoop().get();
 

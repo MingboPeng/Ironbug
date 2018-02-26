@@ -6,13 +6,13 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_BoilerHotWater : IB_HVACComponent
+    public class IB_BoilerHotWater :IB_ModelObject, IIB_PlantLoopObjects
     {
         private static BoilerHotWater InitMethod(Model model) => new BoilerHotWater(model);
         public IB_BoilerHotWater() : base(InitMethod(new Model()))
         {
         }
-        public override bool AddToNode(Node node)
+        public bool AddToNode(Node node)
         {
             var model = node.model();
             return ((BoilerHotWater)this.ToOS(model)).addToNode(node);
@@ -23,7 +23,7 @@ namespace Ironbug.HVAC
             return base.DuplicateIB_ModelObject(() => new IB_BoilerHotWater());
         }
 
-        public override ModelObject ToOS(Model model)
+        public ModelObject ToOS(Model model)
         {
             return base.ToOS(InitMethod, model);
         }

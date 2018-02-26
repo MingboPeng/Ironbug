@@ -6,10 +6,10 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ThermalZone : IB_ModelObject
+    public class IB_ThermalZone : IB_ModelObject, IIB_AirLoopObject
     {
-        public IB_ModelObject AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
-        public List<IB_HVACComponent> ZoneEquipments { get; set; } = new List<IB_HVACComponent>();
+        public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
+        public List<IB_ZoneEquipment> ZoneEquipments { get; set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
         private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
         public IB_ThermalZone():base(InitMethod(new Model()))
@@ -36,12 +36,12 @@ namespace Ironbug.HVAC
         }
 
         
-        public void SetAirTerminal(IB_ModelObject AirTerminal)
+        public void SetAirTerminal(IB_AirTerminal AirTerminal)
         {
-            this.AirTerminal = AirTerminal.Duplicate();
+            this.AirTerminal = (IB_AirTerminal)AirTerminal.Duplicate();
         }
         
-        public override ModelObject ToOS(Model model)
+        public ModelObject ToOS(Model model)
         {
             var newZone = (ThermalZone)base.ToOS(InitMethod, model);
             
@@ -67,14 +67,14 @@ namespace Ironbug.HVAC
             var newObj = (IB_ThermalZone)base.DuplicateIB_ModelObject(() => new IB_ThermalZone());
 
             //Duplicate child member; //add new child member to new object;
-            newObj.SetAirTerminal((IB_HVACComponent)this.AirTerminal.Duplicate());
+            newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());
             newObj.SetSizingZone((IB_SizingZone)this.IB_SizingZone.Duplicate());
 
 
             foreach (var item in this.ZoneEquipments)
             {
                 //Duplicate child member; 
-                var newItem = (IB_HVACComponent)item.Duplicate();
+                var newItem = (IB_ZoneEquipment)item.Duplicate();
 
                 //add new child member to new object;
                 newObj.ZoneEquipments.Add(newItem);
@@ -82,6 +82,11 @@ namespace Ironbug.HVAC
 
             
             return newObj;
+        }
+
+        public bool AddToNode(Node node)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -24,17 +24,17 @@ namespace Ironbug.HVAC
             return base.DuplicateIB_ModelObject(() => new IB_SizingZone());
         }
 
-        /// <summary>
-        /// It makes no sense to call this when there is no ThermalZone!
-        /// Use ToOS(ThermalZone thermalZone) instead.
-        /// </summary>
-        /// <returns>IB_ModelObject</returns>
-        public override ModelObject ToOS(Model model)
-        {
-            ////create non-zone-connected sizingZone.
-            //return base.ToOS(InitMethod, model);
-            return null;
-        }
+        ///// <summary>
+        ///// It makes no sense to call this when there is no ThermalZone!
+        ///// Use ToOS(ThermalZone thermalZone) instead.
+        ///// </summary>
+        ///// <returns>IB_ModelObject</returns>
+        //public override ModelObject ToOS(Model model)
+        //{
+        //    ////create non-zone-connected sizingZone.
+        //    //return base.ToOS(InitMethod, model);
+        //    return null;
+        //}
 
         public ModelObject ToOS(ThermalZone thermalZone)
         {

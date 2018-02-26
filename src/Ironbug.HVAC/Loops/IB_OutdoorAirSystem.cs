@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_OutdoorAirSystem : IB_HVACComponent
+    public class IB_OutdoorAirSystem : IB_HVACComponent, IIB_AirLoopObject
     {
         //include Controller inside the AirLoopHVACOutdoorAirSystem
         public IB_ControllerOutdoorAir IB_ControllerOutdoorAir { get; private set; } = new IB_ControllerOutdoorAir();
@@ -32,7 +32,6 @@ namespace Ironbug.HVAC
         }
 
         
-
 
         private AirLoopHVACOutdoorAirSystem InitObjWithChild(Model model)
         {

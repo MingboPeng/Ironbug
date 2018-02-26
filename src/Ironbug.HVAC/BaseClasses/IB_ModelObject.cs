@@ -77,7 +77,7 @@ namespace Ironbug.HVAC
             return !this.GhostOSObject.GetIfInModel(model).isNull();
         }
         //this is for override
-        public abstract ModelObject ToOS(Model model);
+        //public abstract ModelObject ToOS(Model model);
 
         protected delegate ModelObject InitMethodDelegate(Model model);
         protected virtual ModelObject ToOS(InitMethodDelegate InitMethod, Model model)
@@ -88,7 +88,7 @@ namespace Ironbug.HVAC
             }
 
             ModelObject realObj = null;
-            if (this is IB_HVACComponent)
+            if (this is IIB_DualLoopObjects)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
                 realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();

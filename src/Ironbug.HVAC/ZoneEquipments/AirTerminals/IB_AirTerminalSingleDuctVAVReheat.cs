@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirTerminalSingleDuctVAVReheat: IB_ModelObject
+    public class IB_AirTerminalSingleDuctVAVReheat: IB_AirTerminal
     {
-        public IB_HVACComponent ReheatCoil { get; private set; } = new IB_CoilHeatingWater();
+        public IB_Coil ReheatCoil { get; private set; } = new IB_CoilHeatingWater();
         private static AirTerminalSingleDuctVAVReheat InitMethod(Model model) => 
             new AirTerminalSingleDuctVAVReheat(model, model.alwaysOnDiscreteSchedule(),new CoilHeatingWater(model));
 
@@ -16,20 +16,16 @@ namespace Ironbug.HVAC
         {
         }
         
-        public void SetReheatCoil(IB_HVACComponent ReheatCoil)
+        public void SetReheatCoil(IB_Coil ReheatCoil)
         {
             this.ReheatCoil = ReheatCoil;
-
-            //TODO: no need to make the connection
-            //var osModel = base.GhostOSObject.model();
-            //var osCoil = (HVACComponent)this.ReheatCoil.ToOS(osModel);
-            //((AirTerminalSingleDuctVAVReheat)base.GhostOSObject).setReheatCoil(osCoil);
+            
         }
 
         public override IB_ModelObject Duplicate()
         {
             var newObj = (IB_AirTerminalSingleDuctVAVReheat)base.DuplicateIB_ModelObject(() => new IB_AirTerminalSingleDuctVAVReheat());
-            var newCoil = (IB_HVACComponent)this.ReheatCoil.Duplicate();
+            var newCoil = (IB_Coil)this.ReheatCoil.Duplicate();
             newObj.SetReheatCoil(newCoil);
 
             return newObj;

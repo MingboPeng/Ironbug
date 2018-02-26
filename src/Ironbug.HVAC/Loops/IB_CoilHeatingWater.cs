@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingWater: IB_HVACComponent
+    public class IB_CoilHeatingWater: IB_Coil
     {
         private static CoilHeatingWater InitMethod(Model model) => new CoilHeatingWater(model);
         
@@ -28,15 +28,15 @@ namespace Ironbug.HVAC
             return ((CoilHeatingWater)this.ToOS(model)).addToNode(node);
             
         }
-
-
+        
+        
         public override ModelObject ToOS(Model model)
         {
-            
+
             return base.ToOS(InitMethod, model).to_CoilHeatingWater().get();
         }
 
-        
+
     }
 
     public class IB_CoilHeatingWater_DataFieldSet: IB_DataFieldSet

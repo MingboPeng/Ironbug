@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_FanConstantVolume : IB_HVACComponent
+    public class IB_FanConstantVolume : IB_Fan
     {
         //Fan Constant Volume 1 !- Name  
         //0.7                  !- Fan Efficiency(Default: 0.7)

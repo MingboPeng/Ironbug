@@ -45,12 +45,15 @@ namespace Ironbug.HVAC
         {
             this.osAirLoopHVAC = new AirLoopHVAC(osModel);
             var nd = this.osAirLoopHVAC.supplyOutletNode();
-
+            //TODO: find a way to add set point manager
+            //var stp = new SetpointManagerOutdoorAirReset(osModel);
+            //stp.addToNode(nd);
             foreach (var item in this.supplyComponents)
             {
                 item.AddToNode(nd);
             }
 
+           
             foreach (var item in this.thermalZones)
             {
                 var zone = (ThermalZone)item.ToOS(osModel);

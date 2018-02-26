@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirTerminalSingleDuctUncontrolled: IB_ModelObject
+    public class IB_AirTerminalSingleDuctUncontrolled: IB_AirTerminal
     {
         private static AirTerminalSingleDuctUncontrolled InitMethod(Model model) => new AirTerminalSingleDuctUncontrolled(model,model.alwaysOnDiscreteSchedule());
 

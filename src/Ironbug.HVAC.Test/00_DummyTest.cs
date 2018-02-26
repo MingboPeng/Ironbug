@@ -81,6 +81,24 @@ namespace Ironbug.HVACTests
         }
 
         [TestMethod]
+        public void SetPointManager_Test()
+        {
+            var md1 = new OpenStudio.Model();
+            var af = new IB_AirLoopHVAC();
+            var coil = new IB_CoilHeatingWater();
+            af.AddToSupplyEnd(coil);
+
+            af.ToOS(md1);
+
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            var success = md1.Save(saveFile);
+
+            
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
         public void addObject_Test()
         {
             var md1 = new OpenStudio.Model();
