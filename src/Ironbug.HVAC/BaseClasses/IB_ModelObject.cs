@@ -19,6 +19,11 @@ namespace Ironbug.HVAC
             this.SetTrackingID();
         }
 
+        public string GetTrackingID()
+        {
+            return this.GhostOSObject.comment();
+        }
+
         
 
         public object GetDataFieldValue(string DataFieldName)
@@ -88,7 +93,7 @@ namespace Ironbug.HVAC
             }
 
             ModelObject realObj = null;
-            if (this is IIB_DualLoopObjects)
+            if (this is IIB_DualLoopObject)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
                 realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();

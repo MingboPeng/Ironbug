@@ -2,6 +2,7 @@
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.HVAC;
+using System.Linq;
 
 namespace Ironbug.HVACTests
 {
@@ -29,8 +30,8 @@ namespace Ironbug.HVACTests
             var fan = new IB_FanConstantVolume();
 
 
-            airflow.AddToSupplyEnd(coil);
-            airflow.AddToSupplyEnd(fan);
+            airflow.AddToSupplySide(coil);
+            airflow.AddToSupplySide(fan);
             airflow.ToOS(md1);
 
             var md2 = new OpenStudio.Model();
@@ -86,14 +87,19 @@ namespace Ironbug.HVACTests
             var md1 = new OpenStudio.Model();
             var af = new IB_AirLoopHVAC();
             var coil = new IB_CoilHeatingWater();
-            af.AddToSupplyEnd(coil);
-
+            var setPt = new IB_SetpointManagerOutdoorAirReset();
+            af.AddToSupplySide(setPt);
+            af.AddToSupplySide(coil);
+            af.AddToSupplySide(new IB_FanConstantVolume());
+            
             af.ToOS(md1);
 
 
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
             var success = md1.Save(saveFile);
 
+            var addedSetPt = md1.getAirLoopHVACs()[0].SetPointManagers().First();
+            success &= addedSetPt.comment() == setPt.GetTrackingID();
             
             Assert.IsTrue(success);
         }

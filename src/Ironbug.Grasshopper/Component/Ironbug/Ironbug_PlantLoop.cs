@@ -44,8 +44,8 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<HVAC.IB_HVACComponent> supplyComs = new List<HVAC.IB_HVACComponent>();
-            List<HVAC.IB_HVACComponent> demandComs = new List<HVAC.IB_HVACComponent>();
+            List<HVAC.IB_HVACObject> supplyComs = new List<HVAC.IB_HVACObject>();
+            List<HVAC.IB_HVACObject> demandComs = new List<HVAC.IB_HVACObject>();
             DA.GetDataList(0, supplyComs);
             DA.GetDataList(1, demandComs);
 
@@ -54,12 +54,12 @@ namespace Ironbug.Grasshopper.Component
             var plant = new HVAC.IB_PlantLoop();
             foreach (var item in supplyComs)
             {
-                var newItem = (HVAC.IB_HVACComponent)item.Duplicate();
+                var newItem = (HVAC.IB_HVACObject)item.Duplicate();
                 plant.AddToSupplyBranch(newItem);
             }
             foreach (var item in demandComs)
             {
-                var newItem = (HVAC.IB_HVACComponent)item.Duplicate();
+                var newItem = (HVAC.IB_HVACObject)item.Duplicate();
                 plant.AddToDemandBranch(newItem);
             }
             

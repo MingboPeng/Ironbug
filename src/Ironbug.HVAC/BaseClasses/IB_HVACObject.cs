@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public abstract class IB_HVACComponent : IB_ModelObject, IIB_ToOPSable
+    public abstract class IB_HVACObject : IB_ModelObject, IIB_ToOPSable
     {
 
         //Must override in child class
@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
 
         public abstract ModelObject ToOS(Model model);
 
-        public IB_HVACComponent(HVACComponent GhostOSObject) : base(GhostOSObject)
+        public IB_HVACObject(HVACComponent GhostOSObject) : base(GhostOSObject)
         {
 
         }

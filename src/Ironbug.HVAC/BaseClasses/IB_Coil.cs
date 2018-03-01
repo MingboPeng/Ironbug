@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public abstract class IB_Coil : IB_HVACComponent, IIB_DualLoopObjects
+    public abstract class IB_Coil : IB_HVACObject, IIB_DualLoopObject
     {
 
         public IB_Coil(HVACComponent GhostOSObject) : base(GhostOSObject)
