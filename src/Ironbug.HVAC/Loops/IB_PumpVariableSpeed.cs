@@ -1,4 +1,5 @@
 ﻿using OpenStudio;
+using System;
 
 namespace Ironbug.HVAC
 {
@@ -30,6 +31,8 @@ namespace Ironbug.HVAC
     {
         protected override IddObject RefIddObject => new PumpVariableSpeed(new Model()).iddObject();
 
+        protected override Type ParentType => typeof(PumpVariableSpeed);
+
         public static readonly IB_DataField RatedPumpHead
             = new IB_DataField("RatedPumpHead", "PumpHead", dbType, true);
 
@@ -50,8 +53,7 @@ namespace Ironbug.HVAC
             = new IB_DataField("Coefficient3ofthePartLoadPerformanceCurve", "Coefficient3", dbType);
         public static readonly IB_DataField Coefficient4ofthePartLoadPerformanceCurve
             = new IB_DataField("Coefficient4ofthePartLoadPerformanceCurve", "Coefficient4", dbType);
-        public static readonly IB_DataField Coefficient5ofthePartLoadPerformanceCurve
-            = new IB_DataField("Coefficient5ofthePartLoadPerformanceCurve", "Coefficient5", dbType);
 
+        public IB_DataField Cst => base.AvailableSettingNames();
     }
 }

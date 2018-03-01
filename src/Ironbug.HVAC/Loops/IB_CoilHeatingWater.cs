@@ -44,7 +44,8 @@ namespace Ironbug.HVAC
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
         //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
         protected override IddObject RefIddObject => new CoilHeatingWater(new Model()).iddObject();
-        
+
+        protected override Type ParentType => typeof(CoilHeatingWater);
 
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_coil_heating_water.html
         //https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-042.html#coilheatingwater

@@ -95,6 +95,7 @@ namespace Ironbug.HVAC
         //TODO: need to find a better way to do get this iddobject
         protected override IddObject RefIddObject => new ThermalZone(new Model()).iddObject();
 
+        protected override Type ParentType => typeof(ThermalZone);
 
         //https://bigladdersoftware.com/epx/docs/8-8/input-output-reference/group-thermal-zone-description-geometry.html#field-zone-inside-convection-algorithm
         //Following list items are fields that I have picked for GH user to edit

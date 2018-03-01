@@ -147,7 +147,20 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(true);
         }
 
+        [TestMethod]
+        public void GetAllAvailableSettings_Test()
+        {
+            var datafields = new IB_PumpVariableSpeed_DataFields();
+            //var methodNames = datafields.GetAllAvailableSettings();
 
-        
+            var methods = datafields.Cst;
+
+            var success = true;
+
+            Assert.IsTrue(success);
+
+        }
+
+
     }
 }

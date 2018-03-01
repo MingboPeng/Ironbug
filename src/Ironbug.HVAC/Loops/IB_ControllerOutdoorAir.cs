@@ -30,6 +30,7 @@ namespace Ironbug.HVAC
         //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
         protected override IddObject RefIddObject => new ControllerOutdoorAir(new Model()).iddObject();
 
+        protected override Type ParentType => typeof(ControllerOutdoorAir);
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_controller_outdoor_air.html
 
         //Following list items are fields that I want to have picked for GH user to edit

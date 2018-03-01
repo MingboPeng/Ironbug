@@ -34,6 +34,8 @@ namespace Ironbug.HVAC
     {
         protected override IddObject RefIddObject => new PumpConstantSpeed(new Model()).iddObject();
 
+        protected override Type ParentType => typeof(PumpConstantSpeed);
+
         public static readonly IB_DataField RatedPumpHead
             = new IB_DataField("RatedPumpHead", "PumpHead", dbType, true);
 
@@ -46,7 +48,7 @@ namespace Ironbug.HVAC
         public static readonly IB_DataField PumpControlType
             = new IB_DataField("PumpControlType", "ControlType", dbType);
 
-
+       
 
     }
 }
