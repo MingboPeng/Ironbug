@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static PumpConstantSpeed InitMethod(Model model) => new PumpConstantSpeed(model);
         public IB_PumpConstantSpeed():base(InitMethod(new Model()))
         {
-
+            
         }
         public override bool AddToNode(Node node)
         {
