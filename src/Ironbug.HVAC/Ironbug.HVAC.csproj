@@ -64,6 +64,7 @@
     <Compile Include="BaseClasses\IB_DataFieldSet.cs" />
     <Compile Include="BaseClasses\IB_Fan.cs" />
     <Compile Include="BaseClasses\IB_LoopBranches.cs" />
+    <Compile Include="BaseClasses\IB_MasterDataField.cs" />
     <Compile Include="BaseClasses\IB_Pump.cs" />
     <Compile Include="BaseClasses\IB_SetpointManager.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />

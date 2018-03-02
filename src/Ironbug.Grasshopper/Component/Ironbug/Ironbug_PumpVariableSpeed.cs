@@ -70,7 +70,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("6c66ba6d-2e05-418b-9b13-8324a36c6388"); }
+            get { return new Guid("56FFE744-FEFB-42B0-97F0-D79411287DA7"); }
         }
     }
 }

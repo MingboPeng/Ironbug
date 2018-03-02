@@ -18,21 +18,28 @@ namespace Ironbug.HVAC
         protected abstract OpenStudio.IddObject RefIddObject { get; }
         protected abstract Type ParentType { get; }
 
+        public readonly IB_MasterDataField AllAvailableSettings;
+
+        public IB_DataFieldSet()
+        {
+            this.AllAvailableSettings = AllAvailableSettingNames();
+        }
+
         public IEnumerable<IB_DataField> GetList()
         {
             return this.GetType().GetFields()
-                            .Select(_ => (IB_DataField)_.GetValue(null));
+                            .Select(_ => (IB_DataField)_.GetValue(this));
         }
 
         public IB_DataField GetAttributeByName(string name)
         {
             var field = this.GetType().GetField(name);
-            return (IB_DataField)field.GetValue(null);
+            return (IB_DataField)field.GetValue(this);
         }
 
-        private IEnumerable<string> GetAllAvailableSettings()
+        private IEnumerable<IB_DataField> GetAllAvailableSettings()
         {
-            var methods = this.ParentType
+            var masterSettings = this.ParentType
                 .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Where(_ => (
                     _.Name.StartsWith("set") &&
@@ -42,18 +49,30 @@ namespace Ironbug.HVAC
                         _.GetParameters().First().ParameterType == typeof(double)
                     )
                     )
-                ).Select(_ => _.Name.Substring(3))
-                .OrderBy(_ => _);
+                ).Select(_ => new IB_DataField(_.Name.Substring(3),"NoShortName",_.GetParameters().First().ParameterType))
+                .OrderBy(_ => _.FullName);
 
-            return methods;
+            return masterSettings;
         }
 
-        public IB_DataField AvailableSettingNames()
+        public IB_MasterDataField AllAvailableSettingNames()
         {
-            var names = this.GetAllAvailableSettings();
-            var stringList = string.Join("\\n", names);
-            var df = new IB_DataField("All", "all", strType);
-            df.Description = stringList;
+
+            var masterSettings = this.GetAllAvailableSettings();
+            var description = "This gives you an option that if you are looking for a setting that is not listed above,"+
+                "please feel free to pick any setting from following items, "+
+                "but please double check the EnergyPlus Input References to ensure you know what you are doing.\r\n\r\n";
+            description += "TDDO: show an example to explain how to use this!\r\n\r\n";
+            description += string.Join("\r\n", masterSettings.Select(_=>_.FullName));
+
+            //TODO: there must be a better way to do this.
+            var masterDataFieldMap = new Dictionary<string, IB_DataField>();
+            foreach (var item in masterSettings)
+            {
+                masterDataFieldMap.Add(item.FullName.ToUpper(), item);
+            }
+
+            var df = new IB_MasterDataField(description, masterDataFieldMap);
             return df;
 
         }

@@ -54,6 +54,6 @@ namespace Ironbug.HVAC
         public static readonly IB_DataField Coefficient4ofthePartLoadPerformanceCurve
             = new IB_DataField("Coefficient4ofthePartLoadPerformanceCurve", "Coefficient4", dbType);
 
-        public IB_DataField Cst => base.AvailableSettingNames();
+        
     }
 }

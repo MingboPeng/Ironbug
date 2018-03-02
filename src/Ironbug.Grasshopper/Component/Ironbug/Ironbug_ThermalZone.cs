@@ -59,7 +59,7 @@ namespace Ironbug.Grasshopper.Component
             var zone = new HVAC.IB_ThermalZone();
 
 
-            HVAC.IB_ModelObject airTerminal = null;
+            HVAC.IB_AirTerminal airTerminal = null;
 
             if (DA.GetData(1, ref airTerminal))
             {

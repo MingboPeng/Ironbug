@@ -6,6 +6,7 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC;
+using Ironbug.Core;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -187,40 +188,40 @@ namespace Ironbug.Grasshopper.Component
                 }
                 else
                 {
-                    var values = new List<IGH_Goo>();
-                    values = item.VolatileData.AllData(true).ToList();
+                    var fristData = item.VolatileData.AllData(true).ToList().First();
 
-                    if (!((values.First() == null) || String.IsNullOrWhiteSpace(values.First().ToString())))
+                    if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
                     {
-                        //var name = item.Name;
                         
-                        //object[] arg = new object[] { name };
-                        //var method = this.CurrentDataFieldType.GetMethod("GetAttributeByName");
-
                         var dataField = dataFieldSet.GetAttributeByName(item.Name);
-                        
-                        //((HVAC.IB_DataFieldSet).GetAttributeByName();
 
-                        object value = null;
-                        if (dataField.DataType == typeof(double))
+                        if (dataField is IB_MasterDataField)
                         {
-                            value = ((GH_Number)values.First()).Value;
+                            var userInputs = item.VolatileData.AllData(true).Select(_ => ((GH_String)_).Value);
+                            var masterDic = ((IB_MasterDataField)dataField).CheckUserInputs(userInputs);
+
+                            foreach (var masterItem in masterDic)
+                            {
+                                settingDatas.TryAdd(masterItem.Key, masterItem.Value);
+                            }
+
                         }
                         else
                         {
-                            value = ((GH_String)values.First()).Value;
+                            object value = null;
+                            if (dataField.DataType == typeof(double))
+                            {
+                                value = ((GH_Number)fristData).Value;
+                            }
+                            else
+                            {
+                                value = ((GH_String)fristData).Value;
+                            }
+
+                            settingDatas.TryAdd(dataField, value);
                         }
-                        settingDatas.Add(dataField,value);
-                        //try
-                        //{
 
-                        //    Coil.SetAttribute(dataField, value);
-                        //}
-                        //catch (Exception)
-                        //{
-
-                        //    throw;
-                        //}
+                        
 
                     }
                 }

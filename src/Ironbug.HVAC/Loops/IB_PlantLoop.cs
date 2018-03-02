@@ -8,20 +8,20 @@ namespace Ironbug.HVAC
 {
     public class IB_PlantLoop:IB_ModelObject, IIB_ToOPSable
     {
-        private IList<IIB_PlantLoopObjects> supplyComponents { get; set; } = new List<IIB_PlantLoopObjects>();
-        private IList<IIB_DualLoopObject> demandComponents { get; set; } = new List<IIB_DualLoopObject>();
+        private IList<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
+        private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop():base(InitMethod(new Model()))
         {
         }
 
-        public void AddToSupplyBranch(IIB_PlantLoopObjects HvacComponent)
+        public void AddToSupplyBranch(IB_HVACObject HvacComponent)
         {
             this.supplyComponents.Add(HvacComponent);
         }
 
-        public void AddToDemandBranch(IIB_DualLoopObject HvacComponent)
+        public void AddToDemandBranch(IB_HVACObject HvacComponent)
         {
             this.demandComponents.Add(HvacComponent);
         }

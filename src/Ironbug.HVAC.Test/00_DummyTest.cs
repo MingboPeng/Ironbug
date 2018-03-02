@@ -152,8 +152,9 @@ namespace Ironbug.HVACTests
         {
             var datafields = new IB_PumpVariableSpeed_DataFields();
             //var methodNames = datafields.GetAllAvailableSettings();
+            var members = datafields.GetType().GetField("full").GetValue(datafields);
 
-            var methods = datafields.Cst;
+            var methods = datafields.GetList();
 
             var success = true;
 
