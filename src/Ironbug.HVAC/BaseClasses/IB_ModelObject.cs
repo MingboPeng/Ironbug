@@ -52,7 +52,6 @@ namespace Ironbug.HVAC
             //dealing the ghost object
             this.GhostOSObject.SetCustomAttribute(AttributeName, data);
             
-
         }
 
         public void SetAttributes(Dictionary<IB_DataField, object> DataFields)

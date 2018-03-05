@@ -41,10 +41,10 @@ namespace Ironbug.HVAC
 
         }
 
-        public void AddToDemandBranch(IB_ThermalZone HvacComponent)
-        {
-            this.thermalZones.Add(HvacComponent);
-        }
+        //public void AddToDemandBranch(IB_ThermalZone HvacComponent)
+        //{
+        //    this.thermalZones.Add(HvacComponent);
+        //}
 
         public AirLoopHVAC ToOS( Model osModel)
         {
@@ -103,7 +103,17 @@ namespace Ironbug.HVAC
 
         private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, List<IB_HVACObject> Components)
         {
-            
+
+            //var branchIndex = Components.Find(_ => _ is IB_LoopBranches);
+
+
+            foreach (var item in Components)
+            {
+                if (item is IB_LoopBranches)
+                {
+
+                }
+            }
             //var spnd = AirLoopHVAC.supplyOutletNode();
             //var comps = Components.Where(_ => !(_ is IB_SetpointManager));
             //comps.ToList()

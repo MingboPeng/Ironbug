@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
-            pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.list);
+            pManager.AddGenericParameter("demand", "demand", "zoneBranches or other HVAC components", GH_ParamAccess.list);
             pManager[0].Optional = true;
             pManager[1].Optional = true;
         }
@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             var supplyComs = new List<HVAC.IB_HVACObject>();
             DA.GetDataList(0, supplyComs);
 
-            var demandComs = new List<HVAC.IB_ThermalZone>();
+            var demandComs = new List<HVAC.IB_HVACObject>();
             DA.GetDataList(1, demandComs);
 
             var airLoop = new HVAC.IB_AirLoopHVAC();
@@ -60,7 +60,7 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var item in demandComs)
             {
-                airLoop.AddToDemandBranch(item);
+                airLoop.AddToDemandSide(item);
             }
             
 

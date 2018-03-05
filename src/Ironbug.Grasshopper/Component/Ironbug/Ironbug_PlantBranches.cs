@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
+
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Parameters;
-using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component
+namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponent
+    public class Ironbug_PlantBranches : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
+        /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Ironbug_CoilHeatingWater()
-          : base("Ironbug_CoilHeatingWater", "Nickname",
-              "Description",
-              "Ironbug", "01:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
+        public Ironbug_PlantBranches()
+          : base("PlantBranches", "Branches",
+               "Description",
+              "Ironbug", "02:Loops")
         {
         }
-        
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Coil:Heating:Water", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
-            //AddParams();
+            pManager.AddGenericParameter("Branch1", "B1", "heating or cooling supply source", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Branch2", "B2", "zoneBranches or other HVAC components", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -38,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWater", "CoilHW", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("PlantLoopBranches", "Branches", "use this in plantloop", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -47,17 +41,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilHeatingWater();
-            
-            //CollectSettingData(ref coil);
-
-            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-
-            obj.SetAttributes(settingParams);
+            var branch1 = new List<HVAC.IB_HVACObject>();
+            var branch2 = new List<HVAC.IB_HVACObject>();
 
 
-            DA.SetData(0, obj);
+            DA.GetDataList(0, branch1);
+            DA.GetDataList(1, branch2);
+
+            var branches = new HVAC.IB_PlantLoopBranches();
+            branches.Add(branch1);
+            branches.Add(branch2);
+
+            DA.SetData(0, branches);
+
+
+
         }
 
         /// <summary>
@@ -69,7 +67,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilHW;
+                return Properties.Resources.Branches;
             }
         }
 
@@ -78,9 +76,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
+            get { return new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c"); }
         }
-        
     }
-    
 }

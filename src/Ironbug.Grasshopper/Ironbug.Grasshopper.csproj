@@ -102,6 +102,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
@@ -145,9 +146,6 @@
     <None Include="Resources\ThermalZone.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoilHW.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\FanC.png" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +159,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Boiler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ObjParams.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Branches.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

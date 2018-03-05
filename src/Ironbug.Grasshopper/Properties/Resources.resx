@@ -124,6 +124,9 @@
   <data name="Boiler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Boiler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Branches" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Branches.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="CoilHW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CoilHW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -138,6 +141,9 @@
   </data>
   <data name="Ladybug_Viewer_370" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ladybug_Viewer_370.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ObjParams" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ObjParams.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="PlantLoop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PlantLoop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

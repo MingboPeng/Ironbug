@@ -55,12 +55,12 @@ namespace Ironbug.Grasshopper.Component
             foreach (var item in supplyComs)
             {
                 var newItem = (HVAC.IB_HVACObject)item.Duplicate();
-                plant.AddToSupplyBranch(newItem);
+                plant.AddToSupply(newItem);
             }
             foreach (var item in demandComs)
             {
                 var newItem = (HVAC.IB_HVACObject)item.Duplicate();
-                plant.AddToDemandBranch(newItem);
+                plant.AddToDemand(newItem);
             }
             
             DA.SetData(0, plant);

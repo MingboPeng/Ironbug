@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_DataField
+    public class IB_DataField : IEqualityComparer<IB_DataField>
     {
         public string FullName { get; private set; }
         public string PerfectName { get; private set; }
@@ -66,6 +66,15 @@ namespace Ironbug.HVAC
             return "ddd";
         }
 
+        public bool Equals(IB_DataField x, IB_DataField y)
+        {
+            return x.FullName == y.FullName && x.DataType == y.DataType;
+        }
+
+        public int GetHashCode(IB_DataField obj)
+        {
+            return obj.FullName.GetHashCode()*47 +  obj.DataType.GetHashCode()*47;
+        }
     }
     
 }

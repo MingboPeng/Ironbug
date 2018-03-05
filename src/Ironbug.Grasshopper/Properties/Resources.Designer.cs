@@ -83,6 +83,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Branches {
+            get {
+                object obj = ResourceManager.GetObject("Branches", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CoilHW {
             get {
                 object obj = ResourceManager.GetObject("CoilHW", resourceCulture);
@@ -126,6 +136,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap Ladybug_Viewer_370 {
             get {
                 object obj = ResourceManager.GetObject("Ladybug_Viewer_370", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ObjParams {
+            get {
+                object obj = ResourceManager.GetObject("ObjParams", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
