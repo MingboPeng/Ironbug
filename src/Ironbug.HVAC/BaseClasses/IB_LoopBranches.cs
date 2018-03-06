@@ -38,8 +38,23 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
+            //var newBranches = new List<List<IB_HVACObject>>();
+            var loopBranches = new IB_PlantLoopBranches();
+            foreach (var branch in this.Branches)
+            {
+                var newBranch = new List<IB_HVACObject>();
+                foreach (var item in branch)
+                {
+                    newBranch.Add((IB_HVACObject)item.Duplicate());
+                }
+                loopBranches.Add(newBranch);
+            }
+            
+            return loopBranches;
+
             //TODO: duplicate List<List< IB_HVACObject >> Branches
-            throw new NotImplementedException();
+            
+            //throw new NotImplementedException();
         }
 
         public override ModelObject ToOS(Model model)
