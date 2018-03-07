@@ -205,12 +205,14 @@ namespace Ironbug.HVACTests
 
             var boiler1 = new OpenStudio.BoilerHotWater(md1);
             var boiler2 = new OpenStudio.BoilerHotWater(md1);
+            var boiler3 = new OpenStudio.BoilerHotWater(md1);
             var pump1 = new OpenStudio.PumpConstantSpeed(md1);
             var pump2 = new OpenStudio.PumpVariableSpeed(md1);
 
 
             boiler1.setName("boiler1");
             boiler2.setName("boiler2");
+            boiler3.setName("boiler3");
 
 
             plantloop.addSupplyBranchForComponent(boiler1);
@@ -221,6 +223,7 @@ namespace Ironbug.HVACTests
             node = plantloop.supplyMixer().inletModelObjects().Last().to_Node().get();
             pump2.addToNode(node);
 
+            plantloop.addSupplyBranchForComponent(boiler3);
 
             //var components = plantloop.supplyComponents(boiler1.iddObject().type());
 
@@ -241,29 +244,38 @@ namespace Ironbug.HVACTests
 
             var plantloop = new IB_PlantLoop();
 
-            var boiler0 = new IB_BoilerHotWater();
-            boiler0.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler00");
-            plantloop.AddToSupply(boiler0);
+            //var boiler0 = new IB_BoilerHotWater();
+            //boiler0.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler00");
+            //plantloop.AddToSupply(boiler0);
 
             var branches = new IB_PlantLoopBranches();
             var branch = new List<IB_HVACObject>();
+
+
             var boiler1 = new IB_BoilerHotWater();
-            boiler1.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler10");
-
+            boiler1.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler1");
             branch.Add(boiler1);
-
             branch.Add(new IB_PumpConstantSpeed());
             
             branches.Add(branch);
-            plantloop.AddToSupply(branches);
+            //plantloop.AddToSupply(branches);
 
             //add the second branch
             
-            branch = new List<IB_HVACObject>();
-            branch.Add(new IB_BoilerHotWater());
-            branch.Add(new IB_PumpVariableSpeed());
+            var branch2 = new List<IB_HVACObject>();
+            var boiler2 = new IB_BoilerHotWater();
+            boiler2.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler2");
+            branch2.Add(boiler2);
+            branch2.Add(new IB_PumpVariableSpeed());
+            branches.Add(branch2);
 
-            branches.Add(branch);
+            var branch3 = new List<IB_HVACObject>();
+            branch3.Add(new IB_PumpVariableSpeed());
+            branches.Add(branch3);
+
+            var branch4 = new List<IB_HVACObject>();
+            branch4.Add(new IB_PumpConstantSpeed());
+            branches.Add(branch4);
 
             plantloop.AddToSupply(branches);
 

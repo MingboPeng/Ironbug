@@ -18,7 +18,8 @@ namespace Ironbug.HVAC
         
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
-            this.supplyComponents.Add(HvacComponent);
+            this.supplyComponents.Insert(0, HvacComponent);
+            //this.supplyComponents.Add(HvacComponent);
         }
 
         public void AddToDemand(IB_HVACObject HvacComponent)
@@ -66,7 +67,7 @@ namespace Ironbug.HVAC
                 
             }
             var branches = branchObj.Branches;
-            branches.Reverse();
+            //branches.Reverse();
             foreach (var branch in branches)
             {
                 plant.addSupplyBranchForComponent((HVACComponent)branch.First().ToOS(model));
