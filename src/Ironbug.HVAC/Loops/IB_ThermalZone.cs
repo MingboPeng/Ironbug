@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ThermalZone : IB_ModelObject, IIB_AirLoopObject
+    public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject
     {
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
         public List<IB_ZoneEquipment> ZoneEquipments { get; set; } = new List<IB_ZoneEquipment>();
@@ -41,7 +41,7 @@ namespace Ironbug.HVAC
             this.AirTerminal = (IB_AirTerminal)AirTerminal.Duplicate();
         }
         
-        public ModelObject ToOS(Model model)
+        public override ModelObject ToOS(Model model)
         {
             var newZone = (ThermalZone)base.ToOS(InitMethod, model);
             
@@ -84,7 +84,7 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        public bool AddToNode(Node node)
+        public override bool AddToNode(Node node)
         {
             throw new NotImplementedException();
         }

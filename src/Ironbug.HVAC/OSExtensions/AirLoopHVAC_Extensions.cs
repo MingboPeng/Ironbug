@@ -52,7 +52,7 @@ namespace Ironbug.HVAC
             
         //}
 
-        public static Dictionary<string, SetpointManager> SetPointManagersWithNodeName(this AirLoopHVAC fromLoop)
+        public static Dictionary<string, SetpointManager> SetPointManagersWithNodeName(this Loop fromLoop)
         {
             var node_spm = new Dictionary<string, SetpointManager>();
 
@@ -67,7 +67,7 @@ namespace Ironbug.HVAC
             return node_spm;
         }
 
-        public static IEnumerable<SetpointManager> SetPointManagers(this AirLoopHVAC fromLoop)
+        public static IEnumerable<SetpointManager> SetPointManagers(this Loop fromLoop)
         {
             var sps = fromLoop.model().getSetpointManagers()
                         .Where(_ =>

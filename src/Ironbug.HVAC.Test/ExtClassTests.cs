@@ -11,30 +11,30 @@ namespace Ironbug.HVAC.Tests
     [TestClass()]
     public class ExtClassTests
     {
-        [TestMethod()]
-        public void PlantLoops_CloneTo_Test()
-        {
-            string sFile = @"..\..\..\..\doc\osmFile\pkVAV_HW.osm";
-            string tFile = @"..\..\..\..\doc\osmFile\empty.osm";
+        //[TestMethod()]
+        //public void PlantLoops_CloneTo_Test()
+        //{
+        //    string sFile = @"..\..\..\..\doc\osmFile\pkVAV_HW.osm";
+        //    string tFile = @"..\..\..\..\doc\osmFile\empty.osm";
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_.osm";
+        //    string saveFile = @"..\..\..\..\doc\osmFile\empty_.osm";
 
-            var sModel = OpenStudio.Model.load(new OpenStudio.Path(sFile)).get();
-            var tModel = OpenStudio.Model.load(new OpenStudio.Path(tFile)).get();
+        //    var sModel = OpenStudio.Model.load(new OpenStudio.Path(sFile)).get();
+        //    var tModel = OpenStudio.Model.load(new OpenStudio.Path(tFile)).get();
 
-            var loops = sModel.getPlantLoops();
-            if (loops.Any())
-            {
-                foreach (var loop in loops)
-                {
-                    loop.CloneTo(tModel);
-                }
-            }
+        //    var loops = sModel.getPlantLoops();
+        //    if (loops.Any())
+        //    {
+        //        foreach (var loop in loops)
+        //        {
+        //            loop.CloneTo(tModel);
+        //        }
+        //    }
 
-            var success = tModel.Save(saveFile);
+        //    var success = tModel.Save(saveFile);
 
-            Assert.AreEqual(success, true);
-        }
+        //    Assert.AreEqual(success, true);
+        //}
 
         //[TestMethod()]
         //public void AirLoop_CloneTo_Test()

@@ -63,6 +63,7 @@
     <Compile Include="BaseClasses\IB_DataField.cs" />
     <Compile Include="BaseClasses\IB_DataFieldSet.cs" />
     <Compile Include="BaseClasses\IB_Fan.cs" />
+    <Compile Include="BaseClasses\IB_Loop.cs" />
     <Compile Include="BaseClasses\IB_LoopBranches.cs" />
     <Compile Include="BaseClasses\IB_MasterDataField.cs" />
     <Compile Include="BaseClasses\IB_Pump.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Interfaces\IIB_ToOPSable.cs" />
     <Compile Include="BaseClasses\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />
+    <Compile Include="Loops\IB_CoilCoolingWater.cs" />
     <Compile Include="Loops\IB_PumpConstantSpeed.cs" />
     <Compile Include="Loops\IB_PumpVariableSpeed.cs" />
     <Compile Include="Loops\IB_SetpointManagerOutdoorAirReset.cs" />

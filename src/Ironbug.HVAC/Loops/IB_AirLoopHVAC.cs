@@ -7,61 +7,71 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirLoopHVAC
+    public class IB_AirLoopHVAC : BaseClasses.IB_Loop
     {
 
         private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
         private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
-        private List<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
+        //private List<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
 
         //real osAirLoopHVAC
         //private AirLoopHVAC osAirLoopHVAC { get; set; }
 
+        
+        private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
         //ghost for preview 
-        private AirLoopHVAC ghostAirLoopHVAC { get; set; }
+        //private AirLoopHVAC ghostAirLoopHVAC { get; set; }
 
-        public IB_AirLoopHVAC()
+        public IB_AirLoopHVAC() : base(InitMethod(new Model()))
         {
             //this.basePoint = new Point3d();
             //this.osModel = new Model();
-            this.ghostAirLoopHVAC = new AirLoopHVAC(new Model());
+            //this.ghostAirLoopHVAC = new AirLoopHVAC(new Model());
         }
 
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
             //TODO: check befor add
-            this.supplyComponents.Add(HvacComponent);
-            
+            if (HvacComponent is IIB_AirLoopObject)
+            {
+                this.supplyComponents.Add(HvacComponent);
+            }
+            else
+            {
+                throw new Exception("Only airloop object is allowed to add to airloop!");
+            }
         }
 
         public void AddToDemandSide(IB_HVACObject HvacComponent)
         {
-            //TODO: check befor add
-            this.demandComponents.Add(HvacComponent);
+            
+            if (HvacComponent is IIB_AirLoopObject)
+            {
+                this.demandComponents.Add(HvacComponent);
+            }
+            else
+            {
+                throw new Exception("Only airloop object is allowed to add to airloop!");
+            }
+            
 
         }
 
-        //public void AddToDemandBranch(IB_ThermalZone HvacComponent)
-        //{
-        //    this.thermalZones.Add(HvacComponent);
-        //}
-
-        public AirLoopHVAC ToOS( Model osModel)
+        public override IB_ModelObject Duplicate()
         {
-            CheckSupplySide(this.supplyComponents);
+            //TODO: duplicate child objects
+            return this.DuplicateIB_ModelObject(() => new IB_AirLoopHVAC());
+        }
 
-            var airLoopHVAC = new AirLoopHVAC(osModel);
+        public override ModelObject ToOS( Model osModel)
+        {
+            this.CheckSupplySide(this.supplyComponents);
+
+            var airLoopHVAC = base.ToOS(InitMethod, osModel).to_AirLoopHVAC().get();
 
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);
-
-            foreach (var item in this.thermalZones)
-            {
-                var zone = (ThermalZone)item.ToOS(osModel);
-                var airTerminal = (HVACComponent)item.AirTerminal.ToOS(osModel);
-                airLoopHVAC.addBranchForZone(zone,airTerminal);
-            }
-
+            
             return airLoopHVAC;
         }
 
@@ -103,106 +113,40 @@ namespace Ironbug.HVAC
 
         private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, List<IB_HVACObject> Components)
         {
-
-            //var branchIndex = Components.Find(_ => _ is IB_LoopBranches);
-
-
-            foreach (var item in Components)
-            {
-                if (item is IB_LoopBranches)
-                {
-
-                }
-            }
-            //var spnd = AirLoopHVAC.supplyOutletNode();
-            //var comps = Components.Where(_ => !(_ is IB_SetpointManager));
-            //comps.ToList()
-            //    .ForEach(_ => _.AddToNode(spnd));
-
-            //var allcopied = AirLoopHVAC.supplyComponents()
-            //    .Where(_ => !_.IsNode())
-            //    .Count() == comps.Count();
-
-            //allcopied &= this.AddSetPoints(AirLoopHVAC, Components);
+            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
+            var branchObj = (IB_AirLoopBranches)Components.Find(_ => _ is IB_AirLoopBranches);
+            var objsAfterBranch = base.GetObjsAfterBranch(Components);
 
 
-            //if (!allcopied)
-            //{
-            //    throw new Exception("Failed to add airloop supply components!");
-            //}
+            var dmInNd = AirLoopHVAC.demandInletNode();
+            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_AirLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(dmInNd));
 
-            return true;
-        }
+            branchObj.ToOS_Demand(AirLoopHVAC);
 
-        private bool AddSetPoints(AirLoopHVAC AirLoopHVAC, List<IB_HVACObject> Components)
-        {
-            //var setPtAtIndex = new Dictionary<int, IB_SetpointManager>();
+            var dmOutNd = AirLoopHVAC.demandOutletNode();
+            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_AirLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(dmOutNd));
 
-            //var trackingIDAndComp = new Dictionary<string, ModelObject>();
+
+            var allcopied = AirLoopHVAC.demandComponents()
+                .Where(_ => !_.IsNode())
+                .Count() == comps.Count();
+
+            //TODO: might need to double check the setpoint order.
+            allcopied &= this.AddSetPoints(AirLoopHVAC, Components);
             
-            
-            var allTrackingIDs = AirLoopHVAC.components().Select(_ => _.comment()).ToList();
-            
-
-            var setPts = Components.Where(_ => _ is IB_SetpointManager);
-
-            //TODO: check if there is only one component and it is setpoint.
-
-
-            foreach (var item in setPts)
-            {
-                var setPt = (IB_SetpointManager)item;
-                var atIndex = Components.IndexOf(item);
-
-                OptionalNode nodeWithSetPt = null;
-
-                if (atIndex == 0 )
-                {
-                    //Find the component after setpoint
-                    var comaAfterSetPt = Components[atIndex + 1].GetTrackingID();
-                    var comaAfterSetPt_Index = allTrackingIDs.IndexOf(comaAfterSetPt);
-
-                    //Find the node for setPoint
-                    var node_Index = comaAfterSetPt_Index - 1;
-                    nodeWithSetPt = AirLoopHVAC.components().ElementAt(node_Index).to_Node();
-                }
-                else if(atIndex >0)
-                {
-                    //Find the component before setpoint
-                    var comBeforeSetPt = Components[atIndex - 1].GetTrackingID();
-                    var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt);
-
-                    //Find the node for setPoint
-                    var node_Index = combeforeSetPt_Index + 1;
-                    nodeWithSetPt = AirLoopHVAC.components().ElementAt(node_Index).to_Node();
-                }
-                
-                
-                //Add to the node
-                if (nodeWithSetPt.is_initialized())
-                {
-                    item.AddToNode(nodeWithSetPt.get());
-                }
-
-                
-                
-            }
-
-            var allcopied = AirLoopHVAC.SetPointManagers().Count() == setPts.Count();
-
             if (!allcopied)
             {
-                throw new Exception("Failed to add set point managers!");
+                throw new Exception("Failed to add airloop demand components!");
             }
 
             return allcopied;
-            
-            
-
         }
 
+        
 
-
+        
     }
     
 

@@ -13,7 +13,6 @@ namespace Ironbug.HVAC
         
         public IB_CoilHeatingWater() : base(InitMethod(new Model()))
         {
-            
         }
 
         public override IB_ModelObject Duplicate()
