@@ -127,11 +127,10 @@ namespace Ironbug.HVAC
             var dmOutNd = AirLoopHVAC.demandOutletNode();
             comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_AirLoopBranches));
             comps.ToList().ForEach(_ => _.AddToNode(dmOutNd));
+            
 
-
-            var allcopied = AirLoopHVAC.demandComponents()
-                .Where(_ => !_.IsNode())
-                .Count() == comps.Count();
+            var addedObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
+            var allcopied = addedObjs.Count() == Components.CountIncludesBranches()*2;// because added air terminal with each zone
 
             //TODO: might need to double check the setpoint order.
             allcopied &= this.AddSetPoints(AirLoopHVAC, Components);

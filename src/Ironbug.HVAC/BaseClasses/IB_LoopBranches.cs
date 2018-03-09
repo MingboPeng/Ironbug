@@ -7,7 +7,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public abstract class IB_LoopBranches : IB_HVACObject, IIB_DualLoopObject
+    public abstract class IB_LoopBranches : IB_HVACObject
     {
         public List<List<IB_HVACObject>> Branches { get; set; } = new List<List<IB_HVACObject>>();
         public IB_LoopBranches() : base(new Node(new Model()))
@@ -54,7 +54,7 @@ namespace Ironbug.HVAC
 
     }
 
-    public class IB_PlantLoopBranches : IB_LoopBranches
+    public class IB_PlantLoopBranches : IB_LoopBranches,IIB_PlantLoopObjects
     {
         public override bool AddToNode(Node node)
         {
@@ -109,7 +109,7 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_AirLoopBranches : IB_LoopBranches
+    public class IB_AirLoopBranches : IB_LoopBranches, IIB_AirLoopObject
     {
         public override bool AddToNode(Node node)
         {
