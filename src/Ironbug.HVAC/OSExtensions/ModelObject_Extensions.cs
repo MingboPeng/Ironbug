@@ -19,12 +19,24 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static bool IsNotInModel(this ParentObject component, Model model)
+        public static OptionalParentObject GetIfInModel(this ModelObject component, Model model)
         {
-            return model.getParentObjectByName(component.nameString()).isNull();
+            var uid = component.comment();
+            var type = component.iddObject().type();
+            var objs = model.getObjectsByType(type);
+            var optionObj = new OptionalParentObject();
+            foreach (var item in objs)
+            {
+                if (item.comment().Equals(uid))
+                {
+                    
+                    optionObj.set(model.getParentObject(item.handle()).get());
+                }
+            }
+            return optionObj;
         }
 
-        public static object GetAttributeValue(this ModelObject component, string getterMethodName)
+        public static object GetDataFieldValue(this ModelObject component, string getterMethodName)
         {
             string methodName = getterMethodName;
 
@@ -33,14 +45,27 @@ namespace Ironbug.HVAC
 
             return invokeResult;
         }
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
         public static object SetCustomAttribute(this ModelObject component, string setterMethodName, object AttributeValue)
         {
 
             string methodName = setterMethodName;
             object[] parm = new object[] { AttributeValue };
-
+            
             var method = component.GetType().GetMethod(methodName, new[] { AttributeValue.GetType() });
-            var invokeResult = method.Invoke(component, parm);
+
+            //TODO: catch AccessViolationException
+            object invokeResult = null;
+            try
+            {
+                invokeResult = method.Invoke(component, parm);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Something went wrong!"+ e.InnerException);
+                //invokeResult = e.ToString();
+            }
+            
 
             return invokeResult;
         }
@@ -59,39 +84,24 @@ namespace Ironbug.HVAC
             return invokeResults;
         }
 
-        public static string CheckName(this ModelObject component)
-        {
-            var name = component.nameString();
-            var NewName = CheckString(name);
-            if (name != NewName)
-            {
-                component.setName(NewName);
-            }
+        //public static string CheckName(this ModelObject component)
+        //{
+        //    var name = component.nameString();
+        //    return component.CheckName(name);
+        //}
+        //public static string CheckName(this ModelObject component, string NewName)
+        //{
+        //    var name = CheckString(NewName);
 
-            return NewName;
-        }
-        public static string CheckName(this ModelObject component, string NewName)
-        {
-            var name = CheckString(NewName);
-
-            if (name != NewName)
-            {
-                component.setName(name);
-            }
+        //    if (name != NewName)
+        //    {
+                
+        //        component.setName(name);
+        //    }
 
 
-            return name;
-        }
-        private static string CheckString(string name)
-        {
-            var idKey = "[#";
-            if (!name.Contains(idKey))
-            {
-                var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6)+"]";
-                name = name + idKey + uid;
-            }
-
-            return name;
-        }
+        //    return name;
+        //}
+        
     }
 }

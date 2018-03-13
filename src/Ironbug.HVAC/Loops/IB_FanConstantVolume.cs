@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_FanConstantVolume : IB_HVACComponent
+    public class IB_FanConstantVolume : IB_Fan
     {
         //Fan Constant Volume 1 !- Name  
         //0.7                  !- Fan Efficiency(Default: 0.7)
@@ -16,23 +16,27 @@ namespace Ironbug.HVAC
         //1.0                  !- Motor In Airstream Fraction(Default: 1.0)
         //General              !- End-Use Subcategory(Default: General)
 
-        private FanConstantVolume osFanConstantVolume { get; set; }
-        
-        public IB_FanConstantVolume()
+        //private FanConstantVolume osFanConstantVolume { get; set; }
+        private static FanConstantVolume InitMethod(Model model) => new FanConstantVolume(model);
+
+        public IB_FanConstantVolume():base(InitMethod(new Model()))
         {
-            this.ghostModelObject = new FanConstantVolume(new Model());
         }
 
-        public override bool AddToNode(ref Model model, Node node)
+        public override bool AddToNode(Node node)
         {
-            this.osFanConstantVolume = new FanConstantVolume(model);
-            this.osFanConstantVolume.SetCustomAttributes(this.CustomAttributes);
-            return this.osFanConstantVolume.addToNode(node);
+            var model = node.model();
+            return ((FanConstantVolume)this.ToOS(model)).addToNode(node);
         }
 
-        public override HVACComponent ToOS(ref Model model)
+        public override ModelObject ToOS(Model model)
         {
-            return null;
+            return (FanConstantVolume)base.ToOS(InitMethod, model);
+        }
+
+        public override IB_ModelObject Duplicate()
+        {
+            return base.DuplicateIB_ModelObject(() => new IB_FanConstantVolume());
         }
     }
 
@@ -66,6 +70,8 @@ namespace Ironbug.HVAC
         protected override IddObject RefIddObject => new FanConstantVolume(new Model()).iddObject();
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
 
+        protected override Type ParentType => typeof(FanConstantVolume);
+
         public static readonly IB_DataField Name
             = new IB_DataField("Name", "Name", strType, true);
 
@@ -78,17 +84,6 @@ namespace Ironbug.HVAC
         public static readonly IB_DataField MotorEfficiency
             = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
 
-
-        public static IEnumerable<IB_DataField> GetList()
-        {
-            return GetList<IB_FanConstantVolume_DataFields>();
-        }
-
-        public static IB_DataField GetAttributeByName(string name)
-        {
-            return GetAttributeByName<IB_FanConstantVolume_DataFields>(name);
-        }
-
-
+        
     }
 }

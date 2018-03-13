@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component
+namespace Ironbug.Grasshopper
 {
     public class readPyObj : GH_Component
     {
@@ -44,7 +44,6 @@ namespace Ironbug.Grasshopper.Component
             dynamic rawObj = null;
 
             DA.GetData(0, ref rawObj);
-
             
             DA.SetData(0, new Ironbug.Ladybug.Wea(rawObj).Header);
             DA.SetData(1, rawObj);

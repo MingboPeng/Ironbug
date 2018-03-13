@@ -44,6 +44,19 @@ namespace Ironbug.Core
             }
             return collection.Count < 1;
         }
+        
+
+        public static void TryAdd<T, U>(this Dictionary<T, U> dictionary, T key, U tvalue)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                dictionary[key] = tvalue;
+            }
+            else
+            {
+                dictionary.Add(key, tvalue);
+            }
+        }
 
     }
 }

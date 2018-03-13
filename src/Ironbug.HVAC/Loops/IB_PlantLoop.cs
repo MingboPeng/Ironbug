@@ -6,35 +6,114 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_PlantLoop:IB_ModelObject
+    public class IB_PlantLoop : BaseClasses.IB_Loop
     {
-        private List<IB_HVACComponent> demandComponents { get; set; }
+        private List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
+        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
-        public IB_PlantLoop()
+        private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
+        public IB_PlantLoop() : base(InitMethod(new Model()))
         {
-            this.demandComponents = new List<IB_HVACComponent>();
-            this.ghostModelObject = new PlantLoop(new Model());
         }
 
-        public void AddToDemandBranch(IB_HVACComponent HvacComponent)
+        public void AddToSupply(IB_HVACObject HvacComponent)
+        {
+            this.supplyComponents.Insert(0, HvacComponent);
+            //this.supplyComponents.Add(HvacComponent);
+        }
+
+        public void AddToDemand(IB_HVACObject HvacComponent)
         {
             this.demandComponents.Add(HvacComponent);
         }
 
-        public void ToOS(ref Model model)
+
+        public override ModelObject ToOS(Model model)
         {
-            var plant = new PlantLoop(model);
+            var plant = base.ToOS(InitMethod, model).to_PlantLoop().get();
 
-            var boiler = new BoilerHotWater(model);
-            plant.addSupplyBranchForComponent(boiler);
 
-            
+
+            this.AddSupplyObjects(plant, this.supplyComponents);
+
+            //TDDO: addDemandObjects
             foreach (var item in demandComponents)
             {
-                plant.addDemandBranchForComponent(item.ToOS(ref model));
+                plant.addDemandBranchForComponent((HVACComponent)item.ToOS(model));
             }
 
+
+            return plant;
         }
 
+        private bool AddSupplyObjects(PlantLoop plant, List<IB_HVACObject> Components)
+        {
+
+            //Find the branch object first, and mark it. 
+            //Reverce the objects order before the mark (supplyInletNode)
+            //keep the order (supplyOutletNode);
+
+            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
+            var supplyBranchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
+            var objsAfterBranch = base.GetObjsAfterBranch(Components);
+
+
+            //
+            var spInletNode = plant.supplyInletNode();
+            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(spInletNode));
+
+            supplyBranchObj.ToOS_Supply(plant);
+
+            var spOutLetNode = plant.supplyOutletNode();
+            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+
+            //TODO: add setpoint
+            var addedObjs = plant.supplyComponents().Where(_ => _.comment().Contains("TrackingID"));
+            var allcopied = addedObjs.Count() == Components.CountIncludesBranches();
+
+
+            //TODO: might need to double check the setpoint order.
+            allcopied &= this.AddSetPoints(plant, Components);
+
+            if (!allcopied)
+            {
+                throw new Exception("Failed to add airloop demand components!");
+            }
+
+            return allcopied;
+        }
+
+        public override IB_ModelObject Duplicate()
+        {
+            //TODO: duplicate child objects
+            return this.DuplicateIB_ModelObject(() => new IB_PlantLoop());
+        }
+
+
+
+    }
+
+    public static class Extensions
+    {
+        public static int CountIncludesBranches(this IEnumerable<IB_HVACObject> enumerable)
+        {
+            var count = 0;
+            foreach (var item in enumerable)
+            {
+                if (item is IB_LoopBranches)
+                {
+                    count += ((IB_LoopBranches)item).Count();
+                }
+                else
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
     }
 }
+

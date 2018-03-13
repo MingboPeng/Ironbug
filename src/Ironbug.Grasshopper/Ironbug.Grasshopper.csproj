@@ -67,9 +67,8 @@
       <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="RhinoCommon">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Rhinoceros 5 (64-bit)\System\RhinoCommon.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -87,16 +86,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\Honeybee_ReadAnnualResultsIII.cs" />
-    <Compile Include="Component\Ironbug_AirLoopHVAC.cs" />
-    <Compile Include="Component\Ironbug_CoilHeatingWater.cs" />
-    <Compile Include="Component\Ironbug_OAController.cs" />
-    <Compile Include="Component\Ironbug_ObjParams.cs" />
-    <Compile Include="Component\Ironbug_FanConstantVolume.cs" />
-    <Compile Include="Component\Ironbug_OutdoorAirSystem.cs" />
-    <Compile Include="Component\Ironbug_PlantLoop.cs" />
-    <Compile Include="Component\Ironbug_SaveOSModel.cs" />
-    <Compile Include="Component\Ironbug_ThermalZone.cs" />
+    <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_BoilerHotWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HVACComponent.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ObjParams.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantLoop.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PumpVariableSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
+    <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -107,7 +115,7 @@
     <Compile Include="Utilities\Extension.cs" />
     <Compile Include="Utilities\GifEncoder.cs" />
     <Compile Include="ComponentAttribute\ViewAttr.cs" />
-    <Compile Include="Component\Ladybug_ImageViewer.cs" />
+    <Compile Include="Component\Ladybug\Ladybug_ImageViewer.cs" />
     <Compile Include="IronbugInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -134,6 +142,45 @@
       <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
       <Name>Ironbug.HVAC</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThermalZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Boiler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ObjParams.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Branches.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PumpC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PumpV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutdoorAir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilCW.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -162,5 +209,7 @@ Copy "$(SolutionDir)\lib\OpenStudio\forGH\openstudio_csharp.dll" "$(TargetDir)\o
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets'))" />
+    <Error Condition="!Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets'))" />
   </Target>
+  <Import Project="..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets" Condition="Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" />
 </Project>
