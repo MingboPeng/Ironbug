@@ -9,13 +9,15 @@ using Ironbug.HVAC;
 using Ironbug.Core;
 using Rhino.Geometry;
 using Ironbug.HVAC.BaseClass;
+using GH_IO.Serialization;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ObjParams : GH_Component
+    public class Ironbug_ObjParams : GH_Component, IGH_VariableParameterComponent
     {
         //public Type lastDataFieldType { get; set; }
         private Type CurrentDataFieldType { get; set; }
+        private List<IGH_Param> paramSet { get; set; }
         public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; }
@@ -88,6 +90,27 @@ namespace Ironbug.Grasshopper.Component
             Menu_AppendSeparator(menu);
         }
 
+        public override bool Write(GH_IWriter writer)
+        {
+            if (this.CurrentDataFieldType != null)
+            {
+                writer.SetString("DataFieldSetType", this.CurrentDataFieldType.ToString());
+            }
+            
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("DataFieldSetType"))
+            {
+                var typeName = reader.GetString("DataFieldSetType");
+                this.CurrentDataFieldType = typeof(IB_DataFieldSet).Assembly.GetType(typeName);
+
+            }
+            return base.Read(reader);
+        }
+
         public void CheckRecipients()
         {
             var outputs = this.Params.Output;
@@ -112,10 +135,10 @@ namespace Ironbug.Grasshopper.Component
                     this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Different HVAC component has different setting parameters. You should use a new Ironbug_ObjParams for new HVAC component!");
                 }
 
-                var typeTodeShown = this.DataFieldTypes.First().Value;
-                if (typeTodeShown != this.CurrentDataFieldType)
+                var typeTobeShown = this.DataFieldTypes.First().Value;
+                if (typeTobeShown != this.CurrentDataFieldType)
                 {
-                    AddParams(typeTodeShown);
+                    AddParams(typeTobeShown);
                 }
                 
             }
@@ -148,6 +171,7 @@ namespace Ironbug.Grasshopper.Component
                 dataFieldTobeAdded = dataFieldList;
             }
 
+            var paramSet = new List<IGH_Param>();
             foreach (var item in dataFieldTobeAdded)
             {
                 IGH_Param newParam = new Param_GenericObject();
@@ -162,9 +186,14 @@ namespace Ironbug.Grasshopper.Component
                 
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
+
+                paramSet.Add(newParam);
                 Params.RegisterInputParam(newParam);
 
             }
+
+            this.paramSet = paramSet;
+
             this.Params.OnParametersChanged();
             this.ExpireSolution(true);
             //this.ExpireSolution(true);
@@ -284,6 +313,31 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[operationIndex]);
             }
             
+        }
+
+        public bool CanInsertParameter(GH_ParameterSide side, int index)
+        {
+            return false;
+        }
+
+        public bool CanRemoveParameter(GH_ParameterSide side, int index)
+        {
+            return false;
+        }
+
+        public IGH_Param CreateParameter(GH_ParameterSide side, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DestroyParameter(GH_ParameterSide side, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void VariableParameterMaintenance()
+        {
+            //throw new NotImplementedException();
         }
     }
 }

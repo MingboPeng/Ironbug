@@ -164,6 +164,19 @@ namespace Ironbug.HVACTests
 
         }
 
+        [TestMethod]
+        public void GetTypeByName_Test()
+        {
+
+            var types = typeof(IB_DataFieldSet).Assembly.GetTypes();
+            var FieldSetType = typeof(IB_DataFieldSet).Assembly.GetType("Ironbug.HVAC.IB_PumpConstantSpeed_DataFields");
+            
+            var success = FieldSetType != null;
+
+            Assert.IsTrue(success);
+
+        }
+
 
         [TestMethod]
         public void UnderstandBranches_Test()

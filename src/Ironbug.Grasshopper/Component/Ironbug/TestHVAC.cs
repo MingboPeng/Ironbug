@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Ironbug.HVAC;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using Grasshopper.Kernel.Parameters;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class TestHVAC : GH_Component
+    public class TestHVAC : GH_Component,IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -41,20 +42,45 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var supplyComs = new HVAC.IB_CoilHeatingWater();
-            DA.GetData(0, ref supplyComs);
+            //var supplyComs = new HVAC.IB_CoilHeatingWater();
+            //DA.GetData(0, ref supplyComs);
 
-            string name = "new name";
-            DA.GetData(1, ref name);
+            //string name = "new name";
+            //DA.GetData(1, ref name);
 
-            var supplyComs2 = supplyComs.Duplicate();
-            supplyComs2.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.Name, name);
+            //var supplyComs2 = supplyComs.Duplicate();
+            //supplyComs2.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.Name, name);
 
             
 
-            DA.SetData(0, supplyComs2);
+            //DA.SetData(0, supplyComs2);
 
 
+        }
+
+        public bool CanInsertParameter(GH_ParameterSide side, int index)
+        {
+            return true;
+        }
+
+        public bool CanRemoveParameter(GH_ParameterSide side, int index)
+        {
+            return true;
+        }
+
+        public IGH_Param CreateParameter(GH_ParameterSide side, int index)
+        {
+            return new Param_GenericObject();
+        }
+
+        public bool DestroyParameter(GH_ParameterSide side, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void VariableParameterMaintenance()
+        {
+            //throw new NotImplementedException();
         }
 
         /// <summary>
