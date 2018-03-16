@@ -8,6 +8,7 @@ using Grasshopper.Kernel.Types;
 using Ironbug.HVAC;
 using Ironbug.Core;
 using Rhino.Geometry;
+using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -18,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
         public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; }
-        private IEnumerable<HVAC.IB_DataField> dataFieldList { get; set; }
+        private IEnumerable<IB_DataField> dataFieldList { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
@@ -55,7 +56,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var settingDatas = new Dictionary<HVAC.IB_DataField, object>();
+            var settingDatas = new Dictionary<IB_DataField, object>();
             settingDatas = CollectSettingData();
             DA.SetData(0, settingDatas);
         }
@@ -170,14 +171,14 @@ namespace Ironbug.Grasshopper.Component
             
         }
 
-        private Dictionary<HVAC.IB_DataField, object> CollectSettingData()
+        private Dictionary<IB_DataField, object> CollectSettingData()
         {
             if (CurrentDataFieldType ==null)
             {
                 return null;
             }
             var dataFieldSet = Activator.CreateInstance(CurrentDataFieldType) as IB_DataFieldSet;
-            var settingDatas = new Dictionary<HVAC.IB_DataField,object>();
+            var settingDatas = new Dictionary<IB_DataField,object>();
 
             var allInputParams = this.Params.Input;
             foreach (var item in allInputParams)
@@ -256,7 +257,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        private void AddProDataFields(IEnumerable<HVAC.IB_DataField> DataFieldTobeAdded)
+        private void AddProDataFields(IEnumerable<IB_DataField> DataFieldTobeAdded)
         {
             foreach (var item in DataFieldTobeAdded)
             {

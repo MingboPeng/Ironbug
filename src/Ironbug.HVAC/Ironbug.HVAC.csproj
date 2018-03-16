@@ -59,22 +59,22 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClasses\IB_Coil.cs" />
-    <Compile Include="BaseClasses\IB_DataField.cs" />
-    <Compile Include="BaseClasses\IB_DataFieldSet.cs" />
-    <Compile Include="BaseClasses\IB_Fan.cs" />
-    <Compile Include="BaseClasses\IB_Loop.cs" />
-    <Compile Include="BaseClasses\IB_LoopBranches.cs" />
-    <Compile Include="BaseClasses\IB_MasterDataField.cs" />
-    <Compile Include="BaseClasses\IB_Pump.cs" />
-    <Compile Include="BaseClasses\IB_SetpointManager.cs" />
+    <Compile Include="BaseClass\IB_Coil.cs" />
+    <Compile Include="BaseClass\IB_DataField.cs" />
+    <Compile Include="BaseClass\IB_DataFieldSet.cs" />
+    <Compile Include="BaseClass\IB_Fan.cs" />
+    <Compile Include="BaseClass\IB_Loop.cs" />
+    <Compile Include="BaseClass\IB_LoopBranches.cs" />
+    <Compile Include="BaseClass\IB_MasterDataField.cs" />
+    <Compile Include="BaseClass\IB_Pump.cs" />
+    <Compile Include="BaseClass\IB_SetpointManager.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
-    <Compile Include="BaseClasses\IB_AirTerminal.cs" />
+    <Compile Include="BaseClass\IB_AirTerminal.cs" />
     <Compile Include="Interfaces\IIB_DualLoopObject.cs" />
     <Compile Include="Interfaces\IIB_LoopObject.cs" />
     <Compile Include="Interfaces\IIB_PlantLoopObject.cs" />
     <Compile Include="Interfaces\IIB_ToOPSable.cs" />
-    <Compile Include="BaseClasses\IB_ZoneEquipment.cs" />
+    <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />
     <Compile Include="Loops\IB_CoilCoolingWater.cs" />
     <Compile Include="Loops\IB_PumpConstantSpeed.cs" />
@@ -86,7 +86,7 @@
     <Compile Include="Loops\IB_ControllerOutdoorAir.cs" />
     <Compile Include="Loops\IB_FanConstantVolume.cs" />
     <Compile Include="Loops\IB_FanVariableVolume.cs" />
-    <Compile Include="BaseClasses\IB_ModelObject.cs" />
+    <Compile Include="BaseClass\IB_ModelObject.cs" />
     <Compile Include="Loops\IB_OutdoorAirSystem.cs" />
     <Compile Include="Loops\IB_PlantLoop.cs" />
     <Compile Include="Loops\IB_SizingZone.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />
     <Compile Include="Loops\IB_CoilHeatingWater.cs" />
-    <Compile Include="BaseClasses\IB_HVACObject.cs" />
+    <Compile Include="BaseClass\IB_HVACObject.cs" />
     <Compile Include="OSExtensions\AirLoopHVAC_Extensions.cs" />
     <Compile Include="OSExtensions\AirLoopHVACOutdoorAirSystem_Extensions.cs" />
     <Compile Include="OSExtensions\ModelObject_Extensions.cs" />

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -51,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
             
             //CollectSettingData(ref coil);
 
-            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData(0, ref settingParams);
 
             obj.SetAttributes(settingParams);

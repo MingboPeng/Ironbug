@@ -1,6 +1,6 @@
 ﻿using OpenStudio;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_Fan : IB_HVACObject, IIB_AirLoopObject
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -44,10 +45,10 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var supplyComs = new List<HVAC.IB_HVACObject>();
+            var supplyComs = new List<IB_HVACObject>();
             DA.GetDataList(0, supplyComs);
 
-            var demandComs = new List<HVAC.IB_HVACObject>();
+            var demandComs = new List<IB_HVACObject>();
             DA.GetDataList(1, demandComs);
 
             var airLoop = new HVAC.IB_AirLoopHVAC();

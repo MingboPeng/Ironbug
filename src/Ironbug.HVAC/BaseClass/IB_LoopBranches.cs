@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using OpenStudio;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {

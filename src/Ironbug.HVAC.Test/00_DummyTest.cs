@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.HVAC;
 using System.Linq;
 using System.Collections.Generic;
+using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.HVACTests
 {

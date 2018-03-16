@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenStudio;
 
-namespace Ironbug.HVAC.BaseClasses
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_Loop : IB_ModelObject, IIB_ToOPSable
     {

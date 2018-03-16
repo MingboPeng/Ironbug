@@ -1,4 +1,5 @@
-﻿using OpenStudio;
+﻿using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_PlantLoop : BaseClasses.IB_Loop
+    public class IB_PlantLoop : IB_Loop
     {
         private List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
         private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
