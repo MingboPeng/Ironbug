@@ -19,8 +19,8 @@ namespace Ironbug.HVAC
 
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
-            this.supplyComponents.Insert(0, HvacComponent);
-            //this.supplyComponents.Add(HvacComponent);
+            //this.supplyComponents.Insert(0, HvacComponent);
+            this.supplyComponents.Add(HvacComponent);
         }
 
         public void AddToDemand(IB_HVACObject HvacComponent)
@@ -38,10 +38,8 @@ namespace Ironbug.HVAC
             this.AddSupplyObjects(plant, this.supplyComponents);
 
             //TDDO: addDemandObjects
-            foreach (var item in demandComponents)
-            {
-                plant.addDemandBranchForComponent((HVACComponent)item.ToOS(model));
-            }
+            this.AddDemandObjects(plant, this.demandComponents);
+           
 
 
             return plant;
@@ -55,7 +53,7 @@ namespace Ironbug.HVAC
             //keep the order (supplyOutletNode);
 
             var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
-            var supplyBranchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
+            var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
             var objsAfterBranch = base.GetObjsAfterBranch(Components);
 
 
@@ -64,7 +62,11 @@ namespace Ironbug.HVAC
             var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
             comps.ToList().ForEach(_ => _.AddToNode(spInletNode));
 
-            supplyBranchObj.ToOS_Supply(plant);
+            if (branchObj != null)
+            {
+                branchObj.ToOS_Supply(plant);
+            }
+            
 
             var spOutLetNode = plant.supplyOutletNode();
             comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
@@ -80,7 +82,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add airloop demand components!");
+                throw new Exception("Failed to add plant loop's supply components!");
             }
 
             return allcopied;
@@ -92,6 +94,48 @@ namespace Ironbug.HVAC
             return this.DuplicateIB_ModelObject(() => new IB_PlantLoop());
         }
 
+
+        private bool AddDemandObjects(PlantLoop plant, List<IB_HVACObject> Components)
+        {
+
+            //Find the branch object first, and mark it. 
+            //Reverce the objects order before the mark (supplyInletNode)
+            //keep the order (supplyOutletNode);
+
+            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
+            var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
+            var objsAfterBranch = base.GetObjsAfterBranch(Components);
+
+
+            //
+            var spInletNode = plant.demandInletNode();
+            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(spInletNode));
+
+            if (branchObj != null)
+            {
+                branchObj.ToOS_Demand(plant);
+            }
+
+            var spOutLetNode = plant.demandOutletNode();
+            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
+            comps.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+
+            //TODO: add setpoint
+            var addedObjs = plant.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
+            var allcopied = addedObjs.Count() == Components.CountIncludesBranches();
+
+
+            //TODO: might need to double check the setpoint order.
+            allcopied &= this.AddSetPoints(plant, Components);
+
+            if (!allcopied)
+            {
+                throw new Exception("Failed to add plant loop's demand components!");
+            }
+
+            return allcopied;
+        }
 
 
     }

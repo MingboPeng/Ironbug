@@ -26,7 +26,7 @@ namespace Ironbug.HVAC.BaseClass
             //newList.AddRange(beforeBranch.Reverse());
             //newList.AddRange(SupplyOrDemandObjs.Skip(branchIndex));
 
-            return beforeBranch;
+            return beforeBranch.Reverse();
 
         }
 
