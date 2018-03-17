@@ -62,7 +62,7 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                throw new Exception("Something went wrong!"+ e.InnerException);
+                throw new Exception("Something went wrong!"+ e.InnerException?? e.Message);
                 //invokeResult = e.ToString();
             }
             

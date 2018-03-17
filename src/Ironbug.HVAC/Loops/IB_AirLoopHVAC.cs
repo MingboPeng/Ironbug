@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirLoopHVAC : BaseClasses.IB_Loop
+    public class IB_AirLoopHVAC : IB_Loop
     {
 
         private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
@@ -45,13 +46,13 @@ namespace Ironbug.HVAC
         public void AddToDemandSide(IB_HVACObject HvacComponent)
         {
             
-            if (HvacComponent is IIB_AirLoopObject)
+            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
             {
                 this.demandComponents.Add(HvacComponent);
             }
             else
             {
-                throw new Exception("Only airloop object is allowed to add to airloop!");
+                throw new Exception("Only airloop object or setpoint manager are allowed to add to airloop demand side!");
             }
             
 

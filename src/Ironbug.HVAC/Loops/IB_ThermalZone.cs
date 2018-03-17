@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
@@ -46,7 +47,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             var obj = new HVAC.IB_FanVariableVolume();
 
-            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData(0, ref settingParams);
 
             obj.SetAttributes(settingParams);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public class IB_AirTerminalSingleDuctUncontrolled: IB_AirTerminal
     {

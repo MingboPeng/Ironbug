@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using Ironbug.Core;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_ModelObject
     {

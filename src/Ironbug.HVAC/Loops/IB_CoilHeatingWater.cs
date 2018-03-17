@@ -1,4 +1,5 @@
-﻿using OpenStudio;
+﻿using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;

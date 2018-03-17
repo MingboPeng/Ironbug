@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.HVAC;
+using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.HVACTests.Loop
 {
@@ -11,7 +12,7 @@ namespace Ironbug.HVACTests.Loop
         [TestMethod]
         public void IB_ThermalZone_Initialize_Test()
         {
-            var obj = new HVAC.IB_ThermalZone();
+            var obj = new IB_ThermalZone();
             var dataFields = obj.GetDataFields();
             Assert.IsTrue(dataFields.Count() >0);
         }
@@ -21,8 +22,8 @@ namespace Ironbug.HVACTests.Loop
         {
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm"; 
 
-            var obj = new HVAC.IB_ThermalZone();
-            obj.SetAirTerminal(new HVAC.IB_AirTerminalSingleDuctUncontrolled());
+            var obj = new IB_ThermalZone();
+            obj.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled());
 
             var model = new OpenStudio.Model();
             var lp = new OpenStudio.AirLoopHVAC(model);

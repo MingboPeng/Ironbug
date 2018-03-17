@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -20,7 +21,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ThermalZone", "ThermalZone",
               "Description",
               "Ironbug", "01:LoopComponents",
-              typeof(HVAC.IB_ThermalZone_DataFieldSet))
+              typeof(IB_ThermalZone_DataFieldSet))
         {
         }
         
@@ -32,13 +33,13 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("HoneybeeZone", "HBZone", "HBZone", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("AriTerminal", "AriTerminal_", "AriTerminal", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirTerminal", "AriTerminal_", "AriTerminal", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.item);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
-            pManager.AddGenericParameter("SettingParam", "Param_", "SettingParam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SettingParam", "params_", "SettingParam", GH_ParamAccess.item);
             pManager[4].Optional = true;
         }
 
@@ -56,10 +57,10 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var zone = new HVAC.IB_ThermalZone();
+            var zone = new IB_ThermalZone();
 
 
-            HVAC.IB_AirTerminal airTerminal = null;
+            IB_AirTerminal airTerminal = null;
 
             if (DA.GetData(1, ref airTerminal))
             {
@@ -67,7 +68,8 @@ namespace Ironbug.Grasshopper.Component
             }
             else
             {
-                zone.SetAirTerminal(new HVAC.IB_AirTerminalSingleDuctUncontrolled());
+                
+                zone.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled());
             }
 
             var sizing = new HVAC.IB_SizingZone();
@@ -78,7 +80,7 @@ namespace Ironbug.Grasshopper.Component
             //TODO: add ZoneEquipments
 
             //Collect setting params
-            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData("SettingParam", ref settingParams);
             zone.SetAttributes(settingParams);
 

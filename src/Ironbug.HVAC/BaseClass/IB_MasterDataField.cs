@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public class IB_MasterDataField:IB_DataField
     {

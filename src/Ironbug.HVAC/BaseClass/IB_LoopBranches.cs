@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using OpenStudio;
 
-namespace Ironbug.HVAC
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
@@ -91,6 +91,7 @@ namespace Ironbug.HVAC
         public void ToOS_Demand(PlantLoop PlantLoop)
         {
             var branches = this.Branches;
+            //branches.Reverse();
             var plant = PlantLoop;
             var model = PlantLoop.model();
             foreach (var branch in branches)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
@@ -50,7 +51,7 @@ namespace Ironbug.Grasshopper.Component
 
             
             //collect settings
-            var settingParams = new Dictionary<HVAC.IB_DataField, object>();
+            var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData(0, ref name);
             DA.GetData(1, ref settingParams);
 

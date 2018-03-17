@@ -18,6 +18,8 @@ namespace Ironbug.Grasshopper.Component
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
+            if (this.RunCount < 1)  return;
+
             if (e.ParameterSide == GH_ParameterSide.Output || 
                 e.Parameter.NickName != "params_")
             {

@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.HVAC;
 using System.Linq;
 using System.Collections.Generic;
+using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.HVACTests
 {
@@ -158,6 +159,19 @@ namespace Ironbug.HVACTests
             var methods = datafields.GetList();
 
             var success = true;
+
+            Assert.IsTrue(success);
+
+        }
+
+        [TestMethod]
+        public void GetTypeByName_Test()
+        {
+
+            var types = typeof(IB_DataFieldSet).Assembly.GetTypes();
+            var FieldSetType = typeof(IB_DataFieldSet).Assembly.GetType("Ironbug.HVAC.IB_PumpConstantSpeed_DataFields");
+            
+            var success = FieldSetType != null;
 
             Assert.IsTrue(success);
 
