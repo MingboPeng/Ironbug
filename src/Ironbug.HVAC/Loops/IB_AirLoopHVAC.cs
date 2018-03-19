@@ -11,8 +11,8 @@ namespace Ironbug.HVAC
     public class IB_AirLoopHVAC : IB_Loop
     {
 
-        private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
-        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
+        private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
+        private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
         //private List<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
 
         //real osAirLoopHVAC
@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
             //TODO: check befor add
-            if (HvacComponent is IIB_AirLoopObject)
+            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
             {
                 this.supplyComponents.Add(HvacComponent);
             }
@@ -76,7 +76,7 @@ namespace Ironbug.HVAC
             return airLoopHVAC;
         }
 
-        private bool CheckSupplySide(List<IB_HVACObject> Components)
+        private bool CheckSupplySide(IEnumerable<IB_HVACObject> Components)
         {
             var fanCount = Components.Count(_ => _ is IB_Fan);
             if (fanCount == 0)
@@ -90,7 +90,7 @@ namespace Ironbug.HVAC
             
 
         }
-        private bool AddSupplyObjects(AirLoopHVAC AirLoopHVAC, List<IB_HVACObject> Components)
+        private bool AddSupplyObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var spnd = AirLoopHVAC.supplyOutletNode();
             var comps = Components.Where(_ => !(_ is IB_SetpointManager));
@@ -112,26 +112,27 @@ namespace Ironbug.HVAC
             return allcopied;
         }
 
-        private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, List<IB_HVACObject> Components)
+        private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
-            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
-            var branchObj = (IB_AirLoopBranches)Components.Find(_ => _ is IB_AirLoopBranches);
-            var objsAfterBranch = base.GetObjsAfterBranch(Components);
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
 
 
             var dmInNd = AirLoopHVAC.demandInletNode();
-            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_AirLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(dmInNd));
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(dmInNd));
 
-            branchObj.ToOS_Demand(AirLoopHVAC);
+
+            if (branchObj != null)
+            {
+                ((IB_AirLoopBranches)branchObj).ToOS_Demand(AirLoopHVAC);
+            }
 
             var dmOutNd = AirLoopHVAC.demandOutletNode();
-            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_AirLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(dmOutNd));
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(dmOutNd));
             
 
-            var addedObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
-            var allcopied = addedObjs.Count() == Components.CountIncludesBranches()*2;// because added air terminal with each zone
+            var addObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
+            var allcopied = addObjs.Count() == filteredObjs.CountWithBranches();
 
             //TODO: might need to double check the setpoint order.
             allcopied &= this.AddSetPoints(AirLoopHVAC, Components);

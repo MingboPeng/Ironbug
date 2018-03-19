@@ -14,31 +14,45 @@ namespace Ironbug.HVAC.BaseClass
 
         public abstract ModelObject ToOS(Model model);
 
-        protected IEnumerable<IB_HVACObject> GetObjsBeforeBranch(List<IB_HVACObject> SupplyOrDemandObjs)
+        protected (IEnumerable<IB_HVACObject> before, IB_LoopBranches branch, IEnumerable<IB_HVACObject> after) GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
         {
-            int branchIndex = SupplyOrDemandObjs.FindIndex(_ => _ is IB_LoopBranches);
+            int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
 
-            //TODO: check the branch index (<0, or 0)
+            branchIndex = branchIndex == -1 ? SupplyOrDemandObjs.Count() : branchIndex;
             var beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
-            ////SupplyOrDemandObjs.RemoveRange(0, branchIndex);
+            var afterBranch = SupplyOrDemandObjs.Skip(branchIndex);
 
-            //var newList = new List<IB_HVACObject>();
-            //newList.AddRange(beforeBranch.Reverse());
-            //newList.AddRange(SupplyOrDemandObjs.Skip(branchIndex));
+            IB_LoopBranches branch = SupplyOrDemandObjs.OfType<IB_LoopBranches>().FirstOrDefault();
 
-            return beforeBranch.Reverse();
+            return (beforeBranch, branch, afterBranch);
 
         }
 
-        protected IEnumerable<IB_HVACObject> GetObjsAfterBranch(List<IB_HVACObject> SupplyOrDemandObjs)
-        {
-            int branchIndex = SupplyOrDemandObjs.FindIndex(_ => _ is IB_LoopBranches);
+        //protected IEnumerable<IB_HVACObject> GetObjsBeforeBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
+        //{
+        //    int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
 
-            return SupplyOrDemandObjs.Skip(branchIndex);
+        //    //TODO: check the branch index (<0, or 0)
+        //    var beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
+        //    ////SupplyOrDemandObjs.RemoveRange(0, branchIndex);
 
-        }
+        //    //var newList = new List<IB_HVACObject>();
+        //    //newList.AddRange(beforeBranch.Reverse());
+        //    //newList.AddRange(SupplyOrDemandObjs.Skip(branchIndex));
 
-        protected bool AddSetPoints(Loop Loop, List<IB_HVACObject> Components)
+        //    return beforeBranch.Reverse();
+
+        //}
+
+        //protected IEnumerable<IB_HVACObject> GetObjsAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
+        //{
+        //    int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
+
+        //    return SupplyOrDemandObjs.Skip(branchIndex);
+
+        //}
+
+        protected bool AddSetPoints(Loop Loop, IEnumerable<IB_HVACObject> Components)
         {
             //var setPtAtIndex = new Dictionary<int, IB_SetpointManager>();
 
@@ -56,14 +70,14 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in setPts)
             {
                 var setPt = (IB_SetpointManager)item;
-                var atIndex = Components.IndexOf(item);
+                var atIndex = Components.ToList().IndexOf(item);
 
                 OptionalNode nodeWithSetPt = null;
 
                 if (atIndex == 0)
                 {
                     //Find the component after setpoint
-                    var comaAfterSetPt = Components[atIndex + 1].GetTrackingID();
+                    var comaAfterSetPt = Components.ElementAt(atIndex + 1).GetTrackingID();
                     var comaAfterSetPt_Index = allTrackingIDs.IndexOf(comaAfterSetPt);
 
                     //Find the node for setPoint
@@ -73,7 +87,7 @@ namespace Ironbug.HVAC.BaseClass
                 else if (atIndex > 0)
                 {
                     //Find the component before setpoint
-                    var comBeforeSetPt = Components[atIndex - 1].GetTrackingID();
+                    var comBeforeSetPt = Components.ElementAt(atIndex - 1).GetTrackingID();
                     var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt);
 
                     //Find the node for setPoint

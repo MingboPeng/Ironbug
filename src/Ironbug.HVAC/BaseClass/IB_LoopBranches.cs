@@ -41,8 +41,7 @@ namespace Ironbug.HVAC.BaseClass
 
             return loopBranches;
             
-
-            //throw new NotImplementedException();
+           
         }
 
         public int Count()
@@ -52,28 +51,35 @@ namespace Ironbug.HVAC.BaseClass
             return count;
         }
 
+        public override bool AddToNode(Node node)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ModelObject ToOS(Model model)
+        {
+            throw new NotImplementedException();
+        }
+        public virtual void ToOS_Supply(Loop Loop)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void ToOS_Demand(Loop Loop)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 
     public class IB_PlantLoopBranches : IB_LoopBranches,IIB_PlantLoopObjects
     {
-        public override bool AddToNode(Node node)
-        {
-            //TODO: add Branches to node.
-            //var model = node.model();
-            //return ((PumpVariableSpeed)this.ToOS(model)).addToNode(node);
-            throw new NotImplementedException();
-        }
-        
-        public override ModelObject ToOS(Model model)
-        {
-            //TODO: add branches objects to the target model.
-            throw new NotImplementedException();
-        }
 
-        public void ToOS_Supply(PlantLoop PlantLoop)
+        public override void ToOS_Supply(Loop PlantLoop)
         {
             var branches = this.Branches;
-            var plant = PlantLoop;
+            var plant = PlantLoop as PlantLoop;
             var model = PlantLoop.model();
             foreach (var branch in branches)
             {
@@ -88,11 +94,10 @@ namespace Ironbug.HVAC.BaseClass
                 }
             }
         }
-        public void ToOS_Demand(PlantLoop PlantLoop)
+        public override void ToOS_Demand(Loop PlantLoop)
         {
             var branches = this.Branches;
-            //branches.Reverse();
-            var plant = PlantLoop;
+            var plant = PlantLoop as PlantLoop;
             var model = PlantLoop.model();
             foreach (var branch in branches)
             {
@@ -112,20 +117,11 @@ namespace Ironbug.HVAC.BaseClass
 
     public class IB_AirLoopBranches : IB_LoopBranches, IIB_AirLoopObject
     {
-        public override bool AddToNode(Node node)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override ModelObject ToOS(Model model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ToOS_Demand(AirLoopHVAC AirLoop)
+        public override void ToOS_Demand(Loop AirLoop)
         {
             var branches = this.Branches;
-            var loop = AirLoop;
+            var loop = AirLoop as AirLoopHVAC;
             var model = AirLoop.model();
             foreach (var branch in branches)
             {
@@ -138,6 +134,8 @@ namespace Ironbug.HVAC.BaseClass
                 }
             }
         }
+
+        
     }
 
 

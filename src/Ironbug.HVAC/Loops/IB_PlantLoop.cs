@@ -19,13 +19,37 @@ namespace Ironbug.HVAC
 
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
-            //this.supplyComponents.Insert(0, HvacComponent);
-            this.supplyComponents.Add(HvacComponent);
+            if (CheckWithBranch(HvacComponent))
+            {
+                this.supplyComponents.Add(HvacComponent);
+            }
+            else
+            {
+                throw new Exception("Supply side can only have one branch group.");
+            }
+            
+            
+        }
+
+        private bool CheckWithBranch(IB_HVACObject HvacComponent)
+        {
+            var isThereBranchesObj = this.supplyComponents.OfType<IB_PlantLoopBranches>().Any();
+            var isBranchesObj = HvacComponent is IB_PlantLoopBranches;
+            
+            return !(isThereBranchesObj && isBranchesObj);
         }
 
         public void AddToDemand(IB_HVACObject HvacComponent)
         {
-            this.demandComponents.Add(HvacComponent);
+
+            if (CheckWithBranch(HvacComponent))
+            {
+                this.demandComponents.Add(HvacComponent);
+            }
+            else
+            {
+                throw new Exception("Demand side can only have one branch group.");
+            }
         }
 
 
@@ -51,30 +75,24 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverce the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-
-            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
-            var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
-            var objsAfterBranch = base.GetObjsAfterBranch(Components);
-
-
-            //
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
+            
             var spInletNode = plant.supplyInletNode();
-            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
 
             if (branchObj != null)
             {
-                branchObj.ToOS_Supply(plant);
+                ((IB_PlantLoopBranches)branchObj).ToOS_Supply(plant);
             }
             
 
             var spOutLetNode = plant.supplyOutletNode();
-            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
 
             //TODO: add setpoint
             var addedObjs = plant.supplyComponents().Where(_ => _.comment().Contains("TrackingID"));
-            var allcopied = addedObjs.Count() == Components.CountIncludesBranches();
+            var allcopied = addedObjs.Count() == Components.CountWithBranches();
 
 
             //TODO: might need to double check the setpoint order.
@@ -101,29 +119,26 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverce the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-
-            var objsBeforeBranch = base.GetObjsBeforeBranch(Components);
-            var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
-            var objsAfterBranch = base.GetObjsAfterBranch(Components);
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(Components);
+            //var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
 
 
             //
             var spInletNode = plant.demandInletNode();
-            var comps = objsBeforeBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
 
             if (branchObj != null)
             {
-                branchObj.ToOS_Demand(plant);
+                ((IB_PlantLoopBranches)branchObj).ToOS_Demand(plant);
             }
 
             var spOutLetNode = plant.demandOutletNode();
-            comps = objsAfterBranch.Where(_ => !(_ is IB_SetpointManager)).Where(_ => !(_ is IB_PlantLoopBranches));
-            comps.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
 
             //TODO: add setpoint
             var addedObjs = plant.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
-            var allcopied = addedObjs.Count() == Components.CountIncludesBranches();
+            var allcopied = addedObjs.Count() == Components.CountWithBranches();
 
 
             //TODO: might need to double check the setpoint order.
@@ -142,14 +157,18 @@ namespace Ironbug.HVAC
 
     public static class Extensions
     {
-        public static int CountIncludesBranches(this IEnumerable<IB_HVACObject> enumerable)
+        public static int CountWithBranches(this IEnumerable<IB_HVACObject> enumerable)
         {
             var count = 0;
             foreach (var item in enumerable)
             {
-                if (item is IB_LoopBranches)
+                if (item is IB_PlantLoopBranches)
                 {
-                    count += ((IB_LoopBranches)item).Count();
+                    count += ((IB_PlantLoopBranches)item).Count();
+                }
+                else if (item is IB_AirLoopBranches)
+                {
+                    count += ((IB_AirLoopBranches)item).Count()*2; // because added air terminal with each zone
                 }
                 else
                 {
