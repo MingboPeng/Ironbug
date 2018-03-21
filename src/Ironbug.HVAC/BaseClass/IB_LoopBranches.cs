@@ -130,7 +130,7 @@ namespace Ironbug.HVAC.BaseClass
                     var thermalZone = (IB_ThermalZone)item;
                     var zone = (ThermalZone)item.ToOS(model);
                     var airTerminal = (HVACComponent)thermalZone.AirTerminal.ToOS(model);
-                    loop.addBranchForZone(zone, airTerminal);
+                    loop.addBranchForZone(zone,airTerminal);
                 }
             }
         }

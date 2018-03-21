@@ -55,8 +55,9 @@ namespace Ironbug.HVAC.BaseClass
                 newZone.addEquipment(eqp);
             }
 
-            var newTerminal = this.AirTerminal.ToOS(model);
-            newZone.addEquipment(newTerminal);
+            //AirTerminal has been added with zone when the zone was added to the loop
+            //var newTerminal = this.AirTerminal.ToOS(model);
+            //newZone.addEquipment(newTerminal);
             
             return newZone;
         }

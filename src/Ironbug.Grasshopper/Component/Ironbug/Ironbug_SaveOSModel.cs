@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
@@ -25,7 +26,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
-            pManager.AddGenericParameter("ZoneHVACs", "ZoneHVACs", "Zone with HVAC system set", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -48,42 +49,90 @@ namespace Ironbug.Grasshopper.Component
         {
             string filepath = string.Empty;
             //filepath = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
-            var airLoop = new HVAC.IB_AirLoopHVAC();
+            var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
 
             //var model = new OpenStudio.Model();
 
             DA.GetData(0, ref filepath);
             DA.GetDataList(1,  plantLoops);
-            DA.GetData(2, ref airLoop);
-           
+            DA.GetDataList(2,  airLoops);
 
-            //DA.GetData(1, ref model);
+            if (string.IsNullOrEmpty(filepath)) return;
+            var osmPath = new OpenStudio.Path(filepath);
+
+            //get Model from file if exists
             var model = new OpenStudio.Model();
-            //var id = model.handles().Count;
+            if (File.Exists(filepath))
+            {
+                var optionalModel = OpenStudio.Model.load(osmPath);
+                model = optionalModel.is_initialized() ? optionalModel.get() : model;
+            }
 
-            airLoop.ToOS( model);
+            //remove current thermalzones
+            //TODO:need to duplicate thermalzone's schedules, etc.
+            var currThermalZones = model.getThermalZones();
+            foreach (var item in currThermalZones)
+            {
+                item.remove();
+            }
+
+            var currentAirloop = model.getAirLoopHVACs();
+            foreach (var item in currentAirloop)
+            {
+                item.remove();
+            }
+
+            var currentPlantloop = model.getPlantLoops();
+            foreach (var item in currentPlantloop)
+            {
+                item.remove();
+            }
+
+            //add loops
+            foreach (var airLoop in airLoops)
+            {
+                airLoop.ToOS(model);
+            }
+            
 
             foreach (var plant in plantLoops)
             {
                 plant.ToOS( model);
             }
 
-            if (!string.IsNullOrEmpty(filepath))
-            {
-                var modelTobeSaved = model.clone();
-                var saved = modelTobeSaved.save(new OpenStudio.Path(filepath), true);
-                if (saved)
-                {
-                    model = null;
-                    DA.SetData(0, filepath);
+            //link ThermalZone to Space(HBZone)
+            var thermalZones = model.getThermalZones();
+            var spaces = model.getSpaces();
 
-                }
+            if (thermalZones.Count != spaces.Count)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "it seems not all HBZones have HVAC set correctly!");
+                return;
+            }
+
+            foreach (var space in spaces)
+            {
+                //TODO: check what if couldn't find it by name??
+                var name = space.nameString().Replace("_space","");
+                var thermalZone = thermalZones.Where(_ => _.nameString() == name).First();
+                space.setThermalZone(thermalZone);
+            }
+
+
+            //save osm file
+            var modelTobeSaved = model.clone();
+            var saved = modelTobeSaved.save(osmPath, true);
+            if (saved)
+            {
+                model.Dispose();
+                modelTobeSaved.Dispose();
+
+                DA.SetData(0, filepath);
+
             }
             
-
             
-           
             
         }
 

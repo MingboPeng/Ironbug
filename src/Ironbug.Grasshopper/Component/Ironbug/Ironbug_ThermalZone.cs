@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
+using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
@@ -72,7 +73,7 @@ namespace Ironbug.Grasshopper.Component
                 zone.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled());
             }
 
-            var sizing = new HVAC.IB_SizingZone();
+            var sizing = new IB_SizingZone();
             if (DA.GetData(3, ref sizing))
             {
                 zone.SetSizingZone(sizing);

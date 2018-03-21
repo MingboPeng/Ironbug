@@ -20,7 +20,7 @@ namespace Ironbug.HVAC.BaseClass
 
             branchIndex = branchIndex == -1 ? SupplyOrDemandObjs.Count() : branchIndex;
             var beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
-            var afterBranch = SupplyOrDemandObjs.Skip(branchIndex);
+            var afterBranch = SupplyOrDemandObjs.Skip(branchIndex+1);
 
             IB_LoopBranches branch = SupplyOrDemandObjs.OfType<IB_LoopBranches>().FirstOrDefault();
 

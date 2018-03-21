@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
+using Ironbug.HVAC;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
@@ -48,7 +48,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(0, ref heatingSource);
             if (heatingSource != null)
             {
-                var newHS = (HVAC.IB_CoilHeatingWater)heatingSource.Duplicate();
+                var newHS = (IB_CoilHeatingWater)heatingSource.Duplicate();
                 obj.SetReheatCoil(newHS);
             }
 

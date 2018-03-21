@@ -83,6 +83,7 @@
     <Compile Include="Loops\IB_PumpConstantSpeed.cs" />
     <Compile Include="Loops\IB_PumpVariableSpeed.cs" />
     <Compile Include="Loops\IB_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Loops\IB_BoilerHotWater.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="OSExtensions\Model_Extensions.cs" />
     <Compile Include="OSExtensions\SizingPlant_Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Loops\IB_CoilHeatingElectric.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
