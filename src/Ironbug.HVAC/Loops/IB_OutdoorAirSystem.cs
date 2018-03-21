@@ -50,7 +50,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             //Duplicate self;
-            var newObj = (IB_OutdoorAirSystem)base.DuplicateIB_ModelObject(() => new IB_OutdoorAirSystem());
+            var newObj = (IB_OutdoorAirSystem)base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
 
             //Duplicate child member;
             var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.Duplicate();

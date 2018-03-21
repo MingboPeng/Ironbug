@@ -65,7 +65,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             
             //Duplicate self;
-            var newObj = (IB_ThermalZone)base.DuplicateIB_ModelObject(() => new IB_ThermalZone());
+            var newObj = (IB_ThermalZone)base.DuplicateIBObj(() => new IB_ThermalZone());
 
             //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());

@@ -118,7 +118,7 @@ namespace Ironbug.HVAC.BaseClass
         //}
 
         public abstract IB_ModelObject Duplicate();
-        protected virtual IB_ModelObject DuplicateIB_ModelObject(Func<IB_ModelObject> func)
+        protected virtual IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
         {
             if (func == null)
             {

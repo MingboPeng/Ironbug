@@ -109,7 +109,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             //TODO: duplicate child objects
-            return this.DuplicateIB_ModelObject(() => new IB_PlantLoop());
+            return this.DuplicateIBObj(() => new IB_PlantLoop());
         }
 
 

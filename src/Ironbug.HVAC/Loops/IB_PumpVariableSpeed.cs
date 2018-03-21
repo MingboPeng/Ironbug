@@ -19,7 +19,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_PumpVariableSpeed());
+            return base.DuplicateIBObj(() => new IB_PumpVariableSpeed());
         }
 
         public override ModelObject ToOS(Model model)

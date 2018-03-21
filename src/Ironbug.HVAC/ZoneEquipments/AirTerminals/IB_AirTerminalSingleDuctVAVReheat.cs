@@ -1,10 +1,11 @@
-﻿using OpenStudio;
+﻿using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.HVAC.BaseClass
+namespace Ironbug.HVAC
 {
     public class IB_AirTerminalSingleDuctVAVReheat: IB_AirTerminal
     {
@@ -24,7 +25,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public override IB_ModelObject Duplicate()
         {
-            var newObj = (IB_AirTerminalSingleDuctVAVReheat)base.DuplicateIB_ModelObject(() => new IB_AirTerminalSingleDuctVAVReheat());
+            var newObj = (IB_AirTerminalSingleDuctVAVReheat)base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctVAVReheat());
             var newCoil = (IB_Coil)this.ReheatCoil.Duplicate();
             newObj.SetReheatCoil(newCoil);
 

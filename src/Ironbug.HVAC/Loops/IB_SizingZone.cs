@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         /// <returns>IB_ModelObject</returns>
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_SizingZone());
+            return base.DuplicateIBObj(() => new IB_SizingZone());
         }
 
         ///// <summary>

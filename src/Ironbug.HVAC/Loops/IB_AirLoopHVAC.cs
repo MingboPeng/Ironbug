@@ -61,7 +61,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             //TODO: duplicate child objects
-            return this.DuplicateIB_ModelObject(() => new IB_AirLoopHVAC());
+            return this.DuplicateIBObj(() => new IB_AirLoopHVAC());
         }
 
         public override ModelObject ToOS( Model osModel)

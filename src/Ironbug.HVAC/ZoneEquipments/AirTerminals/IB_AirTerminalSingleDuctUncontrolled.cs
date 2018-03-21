@@ -1,10 +1,11 @@
-﻿using OpenStudio;
+﻿using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.HVAC.BaseClass
+namespace Ironbug.HVAC
 {
     public class IB_AirTerminalSingleDuctUncontrolled: IB_AirTerminal
     {
@@ -21,7 +22,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_AirTerminalSingleDuctUncontrolled());
+            return base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctUncontrolled());
         }
         
     }

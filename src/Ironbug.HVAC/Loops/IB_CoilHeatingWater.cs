@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_CoilHeatingWater());
+            return base.DuplicateIBObj(() => new IB_CoilHeatingWater());
         }
         
         //dealing with the real object, use only when it is ready to be added to os model

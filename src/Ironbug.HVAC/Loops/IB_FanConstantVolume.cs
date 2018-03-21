@@ -34,7 +34,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIB_ModelObject(() => new IB_FanConstantVolume());
+            return base.DuplicateIBObj(() => new IB_FanConstantVolume());
         }
     }
 
