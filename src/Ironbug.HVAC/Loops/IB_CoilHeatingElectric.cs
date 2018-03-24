@@ -1,5 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
+using System;
 
 namespace Ironbug.HVAC
 {
@@ -26,5 +27,15 @@ namespace Ironbug.HVAC
         {
             return base.ToOS(InitMethod, model).to_CoilHeatingElectric().get();
         }
+    }
+
+    public class IB_CoilHeatingElectric_DataFieldSet : IB_DataFieldSet
+    {
+        //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
+        //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
+        protected override IddObject RefIddObject => new CoilHeatingElectric(new Model()).iddObject();
+
+        protected override Type ParentType => typeof(CoilHeatingElectric);
+        
     }
 }

@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Ironbug.HVAC;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_AirTerminalSingleDuctVAVReheat : GH_Component
+    public class Ironbug_CoilHeatingElectric : Ironbug_HVACComponent
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
+        /// Initializes a new instance of the Ironbug_CoilHeatingElectric class.
         /// </summary>
-        public Ironbug_AirTerminalSingleDuctVAVReheat()
-          : base("Ironbug_AirTerminalSingleDuctVAVReheat", "VAVReheat",
+        public Ironbug_CoilHeatingElectric()
+          : base("Ironbug_CoilHeatingElectric", "CoilHE",
               "Description",
-              "Ironbug", "01:AirTerminals")
+              "Category", "Subcategory",
+              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
         {
         }
 
@@ -24,7 +25,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Heating Source", "source", "HVAC components", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters for Coil:Heating:Electric", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -33,7 +34,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctVAVReheat", "VAVReheat", "connect to Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHE", "connect to airloop's supply side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,19 +43,17 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new IB_AirTerminalSingleDuctVAVReheat();
-            HVAC.IB_CoilHeatingWater heatingSource = null;
+            var obj = new HVAC.IB_CoilHeatingElectric();
 
-            DA.GetData(0, ref heatingSource);
-            if (heatingSource != null)
-            {
-                var newHS = (IB_CoilHeatingWater)heatingSource.Duplicate();
-                obj.SetReheatCoil(newHS);
-            }
+            //CollectSettingData(ref coil);
+
+            var settingParams = new Dictionary<IB_DataField, object>();
+            DA.GetData(0, ref settingParams);
+
+            obj.SetAttributes(settingParams);
 
 
             DA.SetData(0, obj);
-
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("aaf86609-f508-4fb2-9ed4-a8323e9549bd"); }
+            get { return new Guid("dc8ed4d8-4435-4134-b1e8-06362bb6d411"); }
         }
     }
 }
