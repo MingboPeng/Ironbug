@@ -80,9 +80,11 @@
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />
     <Compile Include="Loops\IB_CoilCoolingWater.cs" />
+    <Compile Include="Loops\IB_CoilHeatingGas.cs" />
     <Compile Include="Loops\IB_PumpConstantSpeed.cs" />
     <Compile Include="Loops\IB_PumpVariableSpeed.cs" />
     <Compile Include="Loops\IB_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="Loops\IB_ZoneHVACUnitHeater.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
