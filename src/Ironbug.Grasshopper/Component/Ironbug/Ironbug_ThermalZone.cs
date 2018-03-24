@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
             pManager[1].Optional = true;
             pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.list);
             pManager[2].Optional = true;
-            pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.list);
+            pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
             pManager.AddGenericParameter("SettingParam", "params_", "SettingParam", GH_ParamAccess.item);
             pManager[4].Optional = true;
@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZone", "connect to airloop's demand side", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
 
         /// <summary>
