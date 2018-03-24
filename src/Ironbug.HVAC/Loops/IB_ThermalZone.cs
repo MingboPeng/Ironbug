@@ -19,6 +19,12 @@ namespace Ironbug.HVAC.BaseClass
             //this.IB_SizingZone = new IB_SizingZone(this);
             
         }
+        public IB_ThermalZone(string HBZoneName) : base(InitMethod(new Model()))
+        {
+            base.SetAttribute(IB_ThermalZone_DataFieldSet.Name, HBZoneName);
+
+        }
+
 
         public ModelObject GetModelObject()
         {

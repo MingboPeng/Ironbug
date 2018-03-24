@@ -105,11 +105,13 @@ namespace Ironbug.Grasshopper.Component
             var thermalZones = model.getThermalZones();
             var spaces = model.getSpaces();
 
-            if (thermalZones.Count != spaces.Count)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "it seems not all HBZones have HVAC set correctly!");
-                return;
-            }
+
+            //reomved for testing without HBZones
+            //if (thermalZones.Count != spaces.Count)
+            //{
+            //    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "it seems not all HBZones have HVAC set correctly!");
+            //    return;
+            //}
 
             foreach (var space in spaces)
             {

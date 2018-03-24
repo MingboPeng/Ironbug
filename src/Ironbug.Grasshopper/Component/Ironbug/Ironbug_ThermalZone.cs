@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
@@ -32,13 +33,13 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HoneybeeZone", "HBZone", "HBZone", GH_ParamAccess.item);
-            pManager[0].Optional = true;
-            pManager.AddGenericParameter("AirTerminal", "AriTerminal_", "AriTerminal", GH_ParamAccess.item);
+            pManager.AddBrepParameter("HoneybeeZone", "_HBZones", "HBZone", GH_ParamAccess.list);
+            //pManager[0].Optional = true;
+            pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal for all HBZones, or provide list of air terminals for each HBZone; Default:    ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.list);
             pManager[2].Optional = true;
-            pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.list);
             pManager[3].Optional = true;
             pManager.AddGenericParameter("SettingParam", "params_", "SettingParam", GH_ParamAccess.item);
             pManager[4].Optional = true;
@@ -49,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZone", "connect to airloop's demand side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZone", "connect to airloop's demand side", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -58,34 +59,63 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var zone = new IB_ThermalZone();
+            var HBZones = new List<GH_Brep>();
+            var OSZones = new List<IB_ThermalZone>();
 
+            var zoneNames = new List<string>();
 
-            IB_AirTerminal airTerminal = null;
-
-            if (DA.GetData(1, ref airTerminal))
+            if (DA.GetDataList(0, HBZones))
             {
-                zone.SetAirTerminal(airTerminal);
+                zoneNames = CallFromHBHive(HBZones).ToList();
+            }
+
+            foreach (var name in zoneNames)
+            {
+                OSZones.Add(new IB_ThermalZone(name));
+            }
+
+            //add airTerminal
+            var airTerminals = new List<IB_AirTerminal>();
+
+            if (DA.GetDataList(1, airTerminals))
+            {
+                if (airTerminals.Count == 1)
+                {
+                    OSZones.ForEach(_ => _.SetAirTerminal(airTerminals.First()));
+                }
+                else if (airTerminals.Count != OSZones.Count)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "One air terminal applies to all zones, or input the same amount of air terminals as zones");
+                    return;
+                }
+                else
+                {
+                    for (int i = 0; i < airTerminals.Count; i++)
+                    {
+                        OSZones[i].SetAirTerminal(airTerminals[i]);
+                    }
+                }
             }
             else
             {
-                
-                zone.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled());
+                //set the default one
+                OSZones.ForEach(_ => _.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled()));
             }
 
             var sizing = new IB_SizingZone();
             if (DA.GetData(3, ref sizing))
             {
-                zone.SetSizingZone(sizing);
+                OSZones.ForEach(_ => _.SetSizingZone(sizing));
             }
             //TODO: add ZoneEquipments
 
             //Collect setting params
             var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData("SettingParam", ref settingParams);
-            zone.SetAttributes(settingParams);
+            OSZones.ForEach(_ => _.SetAttributes(settingParams));
+            //zone.SetAttributes(settingParams);
 
-            DA.SetData(0, zone);
+            DA.SetDataList(0, OSZones);
         }
 
         /// <summary>
@@ -107,6 +137,46 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid
         {
             get { return new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0"); }
+        }
+
+        public static IEnumerable<string> CallFromHBHive(List<GH_Brep> inBreps)
+        {
+            var HBIDs = new List<string>();
+            foreach (var item in inBreps)
+            {
+                //todo: if null
+                //todo: check if HBID existed
+                var HBID = item.Value.UserDictionary["HBID"] as string;
+                //string formatedHBID = string.Format("['{0}']['{1}']", HBID[0], HBID[1]);
+                HBIDs.Add(HBID);
+            }
+
+            var HBZoneNames = GetHBObjects(HBIDs).Select(_ => _ as string);
+            
+            return HBZoneNames;
+
+        }
+
+
+
+        public static IList<dynamic> GetHBObjects(List<string> HBIDs)
+        {
+
+            var pyRun = Rhino.Runtime.PythonScript.Create();
+            pyRun.SetVariable("HBIDs", HBIDs.ToArray());
+            string pyScript = @"
+import scriptcontext as sc;
+PyHBObjects=[];
+for HBID in HBIDs:
+    baseKey, key = HBID.split('#')[0], '#'.join(HBID.split('#')[1:])
+    HBZone = sc.sticky['HBHive'][baseKey][key];
+    PyHBObjects.append(HBZone.name);
+";
+
+            pyRun.ExecuteScript(pyScript);
+            var PyHBObjects = pyRun.GetVariable("PyHBObjects") as IList<dynamic>;
+
+            return PyHBObjects;
         }
     }
 }
