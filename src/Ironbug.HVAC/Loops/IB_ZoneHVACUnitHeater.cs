@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
 
         public IB_ZoneHVACUnitHeater(): base(InitMethod(new Model()))
         {
-
+            
         }
 
         public void AddFan(IB_Fan Fan)
