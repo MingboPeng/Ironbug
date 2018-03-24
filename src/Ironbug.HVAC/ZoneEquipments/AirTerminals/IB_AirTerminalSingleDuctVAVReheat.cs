@@ -41,4 +41,15 @@ namespace Ironbug.HVAC
             return newOSObj;
         }
     }
+
+    public class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet : IB_DataFieldSet
+    {
+        private static AirTerminalSingleDuctVAVReheat InitMethod(Model model) =>
+            new AirTerminalSingleDuctVAVReheat(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWater(model));
+
+        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
+
+        protected override Type ParentType => typeof(AirTerminalSingleDuctVAVReheat);
+
+    }
 }

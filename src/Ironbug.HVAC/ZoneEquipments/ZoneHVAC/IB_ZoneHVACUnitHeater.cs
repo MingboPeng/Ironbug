@@ -12,8 +12,8 @@ namespace Ironbug.HVAC
         private static ZoneHVACUnitHeater InitMethod(Model model) 
             => new ZoneHVACUnitHeater(model,model.alwaysOnDiscreteSchedule(),new FanConstantVolume(model), new CoilHeatingElectric(model));
 
-        private IB_Fan Fan { get; set; }
-        private IB_Coil HeatingCoil { get; set; }
+        private IB_Fan Fan { get; set; } = new IB_FanConstantVolume();
+        private IB_Coil HeatingCoil { get; set; } = new IB_CoilHeatingElectric();
 
         public IB_ZoneHVACUnitHeater(): base(InitMethod(new Model()))
         {
