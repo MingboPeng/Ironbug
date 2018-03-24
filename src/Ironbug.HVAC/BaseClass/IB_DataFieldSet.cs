@@ -14,8 +14,10 @@ namespace Ironbug.HVAC.BaseClass
         protected static readonly Type boType = typeof(bool);
 
         
-
+        //IDD object for later unit converting
         protected abstract OpenStudio.IddObject RefIddObject { get; }
+
+        //parent type for getting all "set" methods 
         protected abstract Type ParentType { get; }
 
         public readonly IB_MasterDataField AllAvailableSettings;
