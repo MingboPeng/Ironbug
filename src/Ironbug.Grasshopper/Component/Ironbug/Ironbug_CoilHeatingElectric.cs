@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_CoilHeatingElectric()
           : base("Ironbug_CoilHeatingElectric", "CoilHE",
               "Description",
-              "Category", "Subcategory",
+              "Ironbug", "01:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
         {
         }

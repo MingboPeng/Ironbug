@@ -91,6 +91,8 @@
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_BoilerHotWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACComponent.cs" />
