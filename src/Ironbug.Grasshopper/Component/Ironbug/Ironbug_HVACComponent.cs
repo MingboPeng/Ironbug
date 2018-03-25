@@ -11,6 +11,7 @@ namespace Ironbug.Grasshopper.Component
         private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
 
+        
         //public void SetDataFieldType(Type DataFieldType)
         //{
         //    this.DataFieldType = DataFieldType;

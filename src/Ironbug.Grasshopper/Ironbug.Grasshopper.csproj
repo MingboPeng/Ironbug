@@ -89,8 +89,11 @@
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_BoilerHotWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingGas.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />
     <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
@@ -149,12 +153,6 @@
     <None Include="Resources\ThermalZone.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\FanC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FanV.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PlantLoop.png" />
   </ItemGroup>
   <ItemGroup>
@@ -173,16 +171,40 @@
     <None Include="Resources\Branches.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\OutdoorAir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilCW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHE.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanV.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\PumpC.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PumpV.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OutdoorAir.png" />
+    <None Include="Resources\SetPoint.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoilCW.png" />
+    <None Include="Resources\SFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PFPBox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

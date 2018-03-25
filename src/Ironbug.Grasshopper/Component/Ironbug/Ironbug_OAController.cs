@@ -51,12 +51,14 @@ namespace Ironbug.Grasshopper.Component
 
             
             //collect settings
-            var settingParams = new Dictionary<IB_DataField, object>();
             DA.GetData(0, ref name);
-            DA.GetData(1, ref settingParams);
 
-            obj.SetAttributes(settingParams);
-            
+            var settingParams = new Dictionary<IB_DataField, object>();
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
+
 
             if (!string.IsNullOrWhiteSpace(name))
             {

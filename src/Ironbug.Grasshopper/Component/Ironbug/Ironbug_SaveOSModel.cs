@@ -27,6 +27,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
+            pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -51,20 +52,27 @@ namespace Ironbug.Grasshopper.Component
             //filepath = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
+            bool write = false;
 
             //var model = new OpenStudio.Model();
 
             DA.GetData(0, ref filepath);
             DA.GetDataList(1,  plantLoops);
             DA.GetDataList(2,  airLoops);
+            DA.GetData(3, ref write);
 
+            if (!write) return;
+            
             if (string.IsNullOrEmpty(filepath)) return;
+
+
             var osmPath = new OpenStudio.Path(filepath);
 
             //get Model from file if exists
             var model = new OpenStudio.Model();
             if (File.Exists(filepath))
             {
+                model.Dispose();
                 var optionalModel = OpenStudio.Model.load(osmPath);
                 model = optionalModel.is_initialized() ? optionalModel.get() : model;
             }
@@ -74,7 +82,12 @@ namespace Ironbug.Grasshopper.Component
             var currThermalZones = model.getThermalZones();
             foreach (var item in currThermalZones)
             {
+                //TODO: memory protected if path connected before airloop
+                item.disconnect();
                 item.remove();
+                item.Dispose();
+                
+                
             }
 
             var currentAirloop = model.getAirLoopHVACs();

@@ -6,7 +6,7 @@ using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_FanVariableVolume : Ironbug_HVACComponent
     {

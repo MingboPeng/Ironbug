@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_AirLoopBranches : GH_Component
     {

@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
-            pManager.AddGenericParameter("SettingParam", "params_", "SettingParam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "SettingParam", GH_ParamAccess.item);
             pManager[4].Optional = true;
         }
 
@@ -111,8 +111,10 @@ namespace Ironbug.Grasshopper.Component
 
             //Collect setting params
             var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData("SettingParam", ref settingParams);
-            OSZones.ForEach(_ => _.SetAttributes(settingParams));
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                OSZones.ForEach(_ => _.SetAttributes(settingParams));
+            }
             //zone.SetAttributes(settingParams);
 
             DA.SetDataList(0, OSZones);

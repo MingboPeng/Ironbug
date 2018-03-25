@@ -3,11 +3,12 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
+using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVReheat : GH_Component
+    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
@@ -15,7 +16,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_AirTerminalSingleDuctVAVReheat()
           : base("Ironbug_AirTerminalSingleDuctVAVReheat", "VAVReheat",
               "Description",
-              "Ironbug", "01:AirTerminals")
+              "Ironbug", "01:AirTerminals",
+              typeof(IB_AirTerminalSingleDuctVAVReheat_DataFieldSet))
         {
         }
 
@@ -24,8 +26,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Heating Source", "source", "HVAC components", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "coil_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[0].Optional = true;
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -43,15 +47,19 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctVAVReheat();
-            HVAC.IB_CoilHeatingWater heatingSource = null;
-
-            DA.GetData(0, ref heatingSource);
-            if (heatingSource != null)
+            var coil = (IB_Coil)null;
+            
+            if (DA.GetData(0, ref coil))
             {
-                var newHS = (IB_CoilHeatingWater)heatingSource.Duplicate();
+                var newHS = (IB_Coil)coil.Duplicate();
                 obj.SetReheatCoil(newHS);
             }
 
+            var settingParams = new Dictionary<IB_DataField, object>();
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
 
             DA.SetData(0, obj);
 
@@ -66,7 +74,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.VAVBox;
             }
         }
 

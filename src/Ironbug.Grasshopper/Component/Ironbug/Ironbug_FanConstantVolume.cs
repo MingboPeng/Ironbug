@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Fan:ConstantVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -51,9 +51,10 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_FanConstantVolume();
 
             var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-
-            obj.SetAttributes(settingParams);
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
 
             DA.SetData(0, obj);
         }

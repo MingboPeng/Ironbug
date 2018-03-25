@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_CoilHeatingElectric : Ironbug_HVACComponent
     {
@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Coil:Heating:Electric", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -34,7 +34,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHE", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHE", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -45,12 +45,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             var obj = new HVAC.IB_CoilHeatingElectric();
 
-            //CollectSettingData(ref coil);
-
             var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-
-            obj.SetAttributes(settingParams);
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
 
 
             DA.SetData(0, obj);
@@ -65,7 +64,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.CoilHE;
             }
         }
 

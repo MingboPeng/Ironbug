@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_PumpVariableSpeed : Ironbug_HVACComponent
     {
@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for detail settings", "params_", "Detail settings for this pump. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this pump. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -46,9 +46,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             var obj = new HVAC.IB_PumpVariableSpeed();
 
             var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-
-            obj.SetAttributes(settingParams);
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
 
             DA.SetData(0, obj);
         }

@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_CoilCoolingWater : Ironbug_HVACComponent
     {
@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Coil:Cooling:Water", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
@@ -44,10 +44,12 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilCoolingWater();
-            
+
             var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-            obj.SetAttributes(settingParams);
+            if (DA.GetData("Parameters", ref settingParams))
+            {
+                obj.SetAttributes(settingParams);
+            }
 
 
             DA.SetData(0, obj);
@@ -62,7 +64,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.CoilCW;
             }
         }
 

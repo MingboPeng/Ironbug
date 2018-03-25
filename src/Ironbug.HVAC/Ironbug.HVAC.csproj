@@ -83,7 +83,7 @@
     <Compile Include="Loops\IB_CoilHeatingGas.cs" />
     <Compile Include="Loops\IB_PumpConstantSpeed.cs" />
     <Compile Include="Loops\IB_PumpVariableSpeed.cs" />
-    <Compile Include="Loops\IB_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitHeater.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator.cs" />

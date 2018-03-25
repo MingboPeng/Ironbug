@@ -20,12 +20,12 @@ namespace Ironbug.HVAC
             
         }
 
-        public void AddFan(IB_Fan Fan)
+        public void SetFan(IB_Fan Fan)
         {
             this.Fan = Fan;
         }
 
-        public void AddHeatingCoil(IB_Coil Coil)
+        public void SetHeatingCoil(IB_Coil Coil)
         {
             //TODO: check if heating coil
             this.HeatingCoil = Coil;
@@ -34,8 +34,8 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             var newObj = (IB_ZoneHVACUnitHeater)base.DuplicateIBObj(() => new IB_ZoneHVACUnitHeater());
-            newObj.AddFan((IB_Fan)this.Fan.Duplicate());
-            newObj.AddHeatingCoil((IB_Coil)this.HeatingCoil.Duplicate());
+            newObj.SetFan((IB_Fan)this.Fan.Duplicate());
+            newObj.SetHeatingCoil((IB_Coil)this.HeatingCoil.Duplicate());
             return newObj;
 
         }
