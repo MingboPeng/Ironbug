@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
 
     public class IB_PumpVariableSpeed_DataFields : IB_DataFieldSet
     {
-        protected override IddObject RefIddObject => new PumpVariableSpeed(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(PumpVariableSpeed.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(PumpVariableSpeed);
 

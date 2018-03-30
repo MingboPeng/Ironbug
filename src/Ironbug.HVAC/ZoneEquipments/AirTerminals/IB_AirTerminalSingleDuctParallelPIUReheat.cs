@@ -52,10 +52,8 @@ namespace Ironbug.HVAC
     }
     public class IB_AirTerminalSingleDuctParallelPIUReheat_DataFieldSet : IB_DataFieldSet
     {
-        private static AirTerminalSingleDuctParallelPIUReheat InitMethod(Model model) =>
-            new AirTerminalSingleDuctParallelPIUReheat(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilHeatingElectric(model));
-
-        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
+       
+        protected override IddObject RefIddObject => new IdfObject(AirTerminalSingleDuctParallelPIUReheat.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(AirTerminalSingleDuctParallelPIUReheat);
 

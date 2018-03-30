@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
     {
         //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
         //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
-        protected override IddObject RefIddObject => new CoilHeatingElectric(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(CoilHeatingElectric.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(CoilHeatingElectric);
         

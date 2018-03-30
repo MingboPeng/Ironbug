@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
 
     public class IB_ZoneHVACUnitVentilator_DataFieldSet : IB_DataFieldSet
     {
-        protected override IddObject RefIddObject => new ZoneHVACUnitVentilator(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitVentilator.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(ZoneHVACUnitVentilator);
 

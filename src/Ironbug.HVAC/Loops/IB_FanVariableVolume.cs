@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
 
     public class IB_FanVariableVolume_DataFields : IB_DataFieldSet
     {
-        protected override IddObject RefIddObject => new FanVariableVolume(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(FanVariableVolume.iddObjectType()).iddObject();
         //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
 
         protected override Type ParentType => typeof(FanVariableVolume);

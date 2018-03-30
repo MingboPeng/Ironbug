@@ -50,9 +50,7 @@ namespace Ironbug.HVAC
     }
     public class IB_ZoneHVACUnitHeater_DataFieldSet : IB_DataFieldSet
     {
-        private static ZoneHVACUnitHeater InitMethod(Model model)
-            => new ZoneHVACUnitHeater(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilHeatingElectric(model));
-        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitHeater.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(ZoneHVACUnitHeater);
 

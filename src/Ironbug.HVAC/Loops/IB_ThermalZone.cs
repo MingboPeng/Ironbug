@@ -101,7 +101,7 @@ namespace Ironbug.HVAC.BaseClass
     public class IB_ThermalZone_DataFieldSet : IB_DataFieldSet
     {
         //TODO: need to find a better way to do get this iddobject
-        protected override IddObject RefIddObject => new ThermalZone(new Model()).iddObject();
+        protected override IddObject RefIddObject => new IdfObject(ThermalZone.iddObjectType()).iddObject();
 
         protected override Type ParentType => typeof(ThermalZone);
 
