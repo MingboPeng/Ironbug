@@ -32,13 +32,26 @@ namespace Ironbug.HVAC
 
     public class IB_BoilerHotWater_DataFields : IB_DataFieldSet
     {
-        protected override IddObject RefIddObject => new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
-        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
+        //protected static IddObject RefIddObject => new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
+        private static IddObject refIddObject;
+
+        protected static IddObject RefIddObject
+        {
+            get
+            {
+                if (refIddObject is null)
+                {
+                    refIddObject = new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
+                }
+                return refIddObject;
+            }
+        }
 
         protected override Type ParentType => typeof(BoilerHotWater);
 
         public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, true);
+            = new IB_DataField("Name", "Name", RefIddObject.GetType(), true) {
+            };
 
         public static readonly IB_DataField FuelType
             = new IB_DataField("FuelType", "Fuel", strType, true);

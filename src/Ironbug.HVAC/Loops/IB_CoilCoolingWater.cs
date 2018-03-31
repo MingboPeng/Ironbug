@@ -33,7 +33,22 @@ namespace Ironbug.HVAC
     }
     public class IB_CoilCoolingWater_DataFieldSet : IB_DataFieldSet
     {
-        protected override IddObject RefIddObject => new IdfObject(CoilCoolingWater.iddObjectType()).iddObject();
+        //protected static IddObject RefIddObject => new IdfObject(CoilCoolingWater.iddObjectType()).iddObject();
+
+        private static IddObject refIddObject;
+
+        public static IddObject RefIddObject
+        {
+            get
+            {
+                if (refIddObject is null)
+                {
+                    refIddObject = new IdfObject(CoilCoolingWater.iddObjectType()).iddObject();
+                }
+                return refIddObject;
+            }
+        }
+
 
         protected override Type ParentType => typeof(CoilCoolingWater);
 
