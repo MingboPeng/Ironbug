@@ -29,13 +29,9 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_CoilHeatingElectric_DataFieldSet : IB_DataFieldSet
+    public class IB_CoilHeatingElectric_DataFieldSet 
+        : IB_DataFieldSet<IB_CoilHeatingElectric_DataFieldSet , CoilHeatingElectric>
     {
-        //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
-        //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
-        protected override IddObject RefIddObject => new IdfObject(CoilHeatingElectric.iddObjectType()).iddObject();
-
-        protected override Type ParentType => typeof(CoilHeatingElectric);
-        
+        private IB_CoilHeatingElectric_DataFieldSet() {}
     }
 }

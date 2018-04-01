@@ -8,11 +8,13 @@ namespace Ironbug.HVAC.BaseClass
 {
     public class IB_MasterDataField:IB_DataField
     {
-        private IDictionary<string, IB_DataField> settings;
-        public IB_MasterDataField(string Description, IDictionary<string, IB_DataField> Settings):base("AllAvailableSettings", "MasterSettings", typeof(string), false)
+        private IDictionary<string, IB_IDDDataField> settings;
+        public IB_MasterDataField(string Description, IDictionary<string, IB_IDDDataField> Settings)
+            :base("AllAvailableSettings", "MasterSettings")
         {
             base.Description = Description;
             this.settings = Settings;
+            //base.SetAcceptiableDataType(typeof(string));
         }
 
         public Dictionary<IB_DataField, object> CheckUserInputs(IEnumerable<string> UserInputs)

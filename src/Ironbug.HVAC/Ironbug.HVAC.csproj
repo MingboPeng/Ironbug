@@ -66,6 +66,7 @@
     <Compile Include="BaseClass\IB_DataField.cs" />
     <Compile Include="BaseClass\IB_DataFieldSet.cs" />
     <Compile Include="BaseClass\IB_Fan.cs" />
+    <Compile Include="BaseClass\IB_IDDDataField.cs" />
     <Compile Include="BaseClass\IB_Loop.cs" />
     <Compile Include="BaseClass\IB_LoopBranches.cs" />
     <Compile Include="BaseClass\IB_MasterDataField.cs" />

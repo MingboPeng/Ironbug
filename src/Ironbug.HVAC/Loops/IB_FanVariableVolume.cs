@@ -31,35 +31,34 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_FanVariableVolume_DataFields : IB_DataFieldSet
+    public class IB_FanVariableVolume_DataFields 
+        : IB_DataFieldSet<IB_FanVariableVolume_DataFields, FanVariableVolume>
     {
-        protected override IddObject RefIddObject => new IdfObject(FanVariableVolume.iddObjectType()).iddObject();
-        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
+        
+        private IB_FanVariableVolume_DataFields() {}
 
-        protected override Type ParentType => typeof(FanVariableVolume);
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name");
 
-        public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, true);
+        public IB_DataField FanEfficiency { get; }
+            = new IB_BasicDataField("FanEfficiency", "Efficiency");
 
-        public static readonly IB_DataField FanEfficiency
-            = new IB_DataField("FanEfficiency", "Efficiency", dbType, true);
+        public IB_DataField PressureRise { get; }
+            = new IB_BasicDataField("PressureRise", "PressureRise");
 
-        public static readonly IB_DataField PressureRise
-            = new IB_DataField("PressureRise", "PressureRise", dbType, true);
+        public IB_DataField MotorEfficiency { get; }
+            = new IB_ProDataField("MotorEfficiency", "MotorEfficiency");
 
-        public static readonly IB_DataField MotorEfficiency
-            = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
-
-        public static readonly IB_DataField FanPowerCoefficient1
-            = new IB_DataField("FanPowerCoefficient1", "Coefficient1", dbType);
-        public static readonly IB_DataField FanPowerCoefficient2
-            = new IB_DataField("FanPowerCoefficient2", "Coefficient2", dbType);
-        public static readonly IB_DataField FanPowerCoefficient3
-            = new IB_DataField("FanPowerCoefficient3", "Coefficient3", dbType);
-        public static readonly IB_DataField FanPowerCoefficient4
-            = new IB_DataField("FanPowerCoefficient4", "Coefficient4", dbType);
-        public static readonly IB_DataField FanPowerCoefficient5
-            = new IB_DataField("FanPowerCoefficient5", "Coefficient5", dbType);
+        public IB_DataField FanPowerCoefficient1 { get; }
+            = new IB_ProDataField("FanPowerCoefficient1", "Coefficient1");
+        public IB_DataField FanPowerCoefficient2 { get; }
+            = new IB_ProDataField("FanPowerCoefficient2", "Coefficient2");
+        public  IB_DataField FanPowerCoefficient3 { get; }
+            = new IB_ProDataField("FanPowerCoefficient3", "Coefficient3");
+        public IB_DataField FanPowerCoefficient4 { get; }
+            = new IB_ProDataField("FanPowerCoefficient4", "Coefficient4");
+        public IB_DataField FanPowerCoefficient5 { get; }
+            = new IB_ProDataField("FanPowerCoefficient5", "Coefficient5");
         
 
 

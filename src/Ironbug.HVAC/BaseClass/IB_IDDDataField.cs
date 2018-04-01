@@ -1,0 +1,139 @@
+﻿using OpenStudio;
+using System;
+using System.Collections.Generic;
+
+namespace Ironbug.HVAC.BaseClass
+{
+    public class IB_IDDDataField : IB_DataField
+    {
+        //public IB_IDDDataField(string FullName)
+        //    : base(FullName, FullName)
+        //{
+
+        //}
+
+        public IB_IDDDataField(IddField field)
+            : base(field.name(), "NoShortName")
+        {
+            //var name = iddField.name();
+            var prop = field.properties();
+            (var validDataItems, var validDataStr) = GetValidData(field);
+            
+
+            var description = prop.note;
+            description += GetDefault(prop);
+            description += GetUnits(field);
+            description += validDataStr;
+            
+            this.Description = description;
+            base.SetAcceptiableDataType(GetDataType(field));
+            base.SetValidData(validDataItems);
+        }
+
+        private static string GetDefault(IddFieldProperties properties)
+        {
+            var numDef = properties.numericDefault;
+            var strDef = properties.stringDefault;
+
+
+            var strTobeShown = 
+                strDef.isNull() ? 
+                numDef.isNull()? string.Empty: numDef.get().ToString() : 
+                strDef.get();
+
+            if (!string.IsNullOrWhiteSpace(strTobeShown))
+            {
+                return "\r\nDefault: " + strTobeShown;
+            }
+            else
+            {
+                return string.Empty;
+            }
+            
+        }
+        private static Type GetDataType(IddField field)
+        {
+            var dataType = field.properties().type.valueDescription();
+
+
+            //real, choice, alpha, integer ....
+            if (dataType == "real")
+            {
+                return typeof(double);
+            }
+            else if (dataType == "alpha")
+            {
+                return typeof(string);
+            }
+            else if (dataType == "integer")
+            {
+                return typeof(int);
+            }
+            else
+            {
+                return typeof(object);
+            }
+            
+        }
+
+        public void UpdateDataType(Type type)
+        {
+            this.SetAcceptiableDataType(type);
+        }
+
+        private static string GetUnits(IddField field)
+        {
+            var unit = field.getUnits();
+            
+            var strTobeShown = unit.isNull() ? string.Empty : unit.get().standardString();
+            var prettyStr = unit.isNull() ? string.Empty : unit.get().prettyString();
+            
+
+            if (!string.IsNullOrWhiteSpace(prettyStr))
+            {
+                return "\r\nUnit: " + prettyStr;
+            }
+            else
+            {
+                return strTobeShown;
+            }
+        }
+
+        private static (IEnumerable<string> Items, string JoinedString) GetValidData(IddField field)
+        {
+            var strTobeShown = string.Empty;
+            var items = new List<string>();
+            var keys = field.keys();
+            if (keys.Count ==0)
+            {
+                return (items, strTobeShown);
+            }
+
+            foreach (var item in keys)
+            {
+                //TODO: check letter cases, or item.__str__
+                var keyValue = item.name();
+                strTobeShown += "\r\n    -" + keyValue;
+                items.Add(keyValue);
+                
+            }
+
+            return (items, "\r\nValid Options:" + strTobeShown);
+
+            //if (!string.IsNullOrWhiteSpace(strTobeShown))
+            //{
+            //    return "\r\nValid Options:" + strTobeShown;
+            //}
+            //else
+            //{
+            //    return string.Empty;
+            //}
+            
+        }
+
+
+        
+    }
+
+
+}

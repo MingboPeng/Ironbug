@@ -32,7 +32,7 @@ namespace Ironbug.HVACTests.Loop
         {
             var coil = new HVAC.IB_FanConstantVolume();
             var testValue = 0.5;
-            coil.SetAttribute(HVAC.IB_FanConstantVolume_DataFields.FanEfficiency, testValue);
+            coil.SetAttribute(HVAC.IB_FanConstantVolume_DataFields.Value.FanEfficiency, testValue);
             var att = (double)coil.GetDataFieldValue("fanEfficiency");
 
             Assert.IsTrue(att == testValue);
@@ -43,7 +43,7 @@ namespace Ironbug.HVACTests.Loop
         {
             var fan = new HVAC.IB_FanConstantVolume();
             var meths = typeof(FanConstantVolume).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            var attrs = new HVAC.IB_FanConstantVolume_DataFields().GetList();
+            var attrs = HVAC.IB_FanConstantVolume_DataFields.Value.GetCustomizedDataFields();
 
             var results = new List<string>();
             foreach (var attr in attrs)

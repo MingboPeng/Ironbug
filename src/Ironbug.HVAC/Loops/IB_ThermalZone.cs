@@ -21,7 +21,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         public IB_ThermalZone(string HBZoneName) : base(InitMethod(new Model()))
         {
-            base.SetAttribute(IB_ThermalZone_DataFieldSet.Name, HBZoneName);
+            base.SetAttribute(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
 
         }
 
@@ -98,36 +98,33 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public class IB_ThermalZone_DataFieldSet : IB_DataFieldSet
+    public class IB_ThermalZone_DataFieldSet 
+        : IB_DataFieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
     {
-        //TODO: need to find a better way to do get this iddobject
-        protected override IddObject RefIddObject => new IdfObject(ThermalZone.iddObjectType()).iddObject();
+        
+        private IB_ThermalZone_DataFieldSet() {}
 
-        protected override Type ParentType => typeof(ThermalZone);
-
-        //https://bigladdersoftware.com/epx/docs/8-8/input-output-reference/group-thermal-zone-description-geometry.html#field-zone-inside-convection-algorithm
-        //Following list items are fields that I have picked for GH user to edit
-        public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, true)
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name")
             {
-                Description = "A unique identifying name for each coil."
+                DetailedDescription = "A unique identifying name for each coil."
             };
 
 
-        public static readonly IB_DataField Multiplier
-            = new IB_DataField("Multiplier", "Multiplier", intType, BasicSetting: true)
+        public IB_DataField Multiplier { get; }
+            = new IB_BasicDataField("Multiplier", "Multiplier")
             {
-                Description = "Zone Multiplier is designed as a “multiplier” for floor area, zone loads, and energy consumed by internal gains. "+
+                DetailedDescription = "Zone Multiplier is designed as a “multiplier” for floor area, zone loads, and energy consumed by internal gains. "+
                 "It takes the calculated load for the zone and multiplies it, sending the multiplied load to the attached HVAC system. "+
                 "The HVAC system size is specified to meet the entire multiplied zone load and will report the amount of the load met in the Zone Air System Sensible Heating or Cooling Energy/Rate output variable. "+
                 "Autosizing automatically accounts for multipliers. Metered energy consumption by internal gains objects such as Lights or Electric Equipment will be multiplied. "+
                 "The default is 1."
             };
 
-        public static readonly IB_DataField ZoneInsideConvectionAlgorithm
-            = new IB_DataField("ZoneInsideConvectionAlgorithm", "InConvection", strType, BasicSetting: true)
+        public IB_DataField ZoneInsideConvectionAlgorithm { get; }
+            = new IB_BasicDataField("ZoneInsideConvectionAlgorithm", "InConvection")
             {
-                Description = "The Zone Inside Convection Algorithm field is optional.\n"+
+                DetailedDescription = "The Zone Inside Convection Algorithm field is optional.\n"+
                 "This field specifies the convection model to be used for the inside face of heat transfer surfaces associated with this zone. \n\n"+
                 "The choices are: \n" +
                 "1) Simple (constant natural convection - ASHRAE) \n" +
@@ -140,10 +137,10 @@ namespace Ironbug.HVAC.BaseClass
             };
 
 
-        public static readonly IB_DataField ZoneOutsideConvectionAlgorithm
-            = new IB_DataField("ZoneOutsideConvectionAlgorithm", "OutConvection", strType, BasicSetting: true)
+        public IB_DataField ZoneOutsideConvectionAlgorithm { get; }
+            = new IB_BasicDataField("ZoneOutsideConvectionAlgorithm", "OutConvection")
             {
-                Description = "The Zone Outside Convection Algorithm field is optional. "+
+                DetailedDescription = "The Zone Outside Convection Algorithm field is optional. "+
                 "This field specifies the convection model to be used for the outside face of heat transfer surfaces associated with this zone. \n"+
                 "The choices are: \n"+
                 "1) SimpleCombined, 2) TARP, 3) DOE-2, 4) MoWiTT, and 5) AdaptiveConvectionAlgorithm. \n"+

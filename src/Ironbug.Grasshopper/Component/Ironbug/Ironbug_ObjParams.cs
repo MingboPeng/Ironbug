@@ -23,6 +23,8 @@ namespace Ironbug.Grasshopper.Component
         private bool IsProSetting { get; set; }
         private IEnumerable<IB_DataField> dataFieldList { get; set; }
 
+        private IB_DataFieldSet _DataFieldSet;
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
         /// </summary>
@@ -159,13 +161,13 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-            var dataFieldSet = Activator.CreateInstance(type) as IB_DataFieldSet;
-            this.dataFieldList = dataFieldSet.GetList();
+            this._DataFieldSet = Activator.CreateInstance(type) as IB_DataFieldSet;
+            this.dataFieldList = this._DataFieldSet.GetList();
             //var method = type.GetMethod("GetList");
             //this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
 
             //only show the basic setting first
-            var dataFieldTobeAdded = dataFieldList.Where(_ => _.IsBasicSetting == true);
+            var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicDataField);
             if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
             {
                 dataFieldTobeAdded = dataFieldList;
@@ -174,16 +176,20 @@ namespace Ironbug.Grasshopper.Component
             var paramSet = new List<IGH_Param>();
             foreach (var item in dataFieldTobeAdded)
             {
+                //TDDO: need to revisit this!!
+                var description = item.Description;
+                var iddObj = this._DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
+                if (iddObj != null)
+                {
+                    description += iddObj.Description;
+                }
+
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
                 newParam.MutableNickName = false;
-                newParam.Description = item.Description;
-                if (item.ValidData.Any())
-                {
-                    newParam.Description += "\n\nAcceptable values:" + string.Join(",", item.ValidData);
-                }
-                
+                newParam.Description = description;
+                    
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
 
@@ -223,7 +229,7 @@ namespace Ironbug.Grasshopper.Component
                     if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
                     {
                         
-                        var dataField = dataFieldSet.GetAttributeByName(item.Name);
+                        var dataField = dataFieldSet.GetDataFieldByName(item.Name);
 
                         if (dataField is IB_MasterDataField)
                         {
@@ -272,12 +278,12 @@ namespace Ironbug.Grasshopper.Component
             if (this.IsProSetting)
             {
 
-                this.AddProDataFields(this.dataFieldList.Where(_ => _.IsBasicSetting == false));
+                this.AddProDataFields(this.dataFieldList.Where(_ => !(_ is IB_BasicDataField)));
 
             }
             else
             {
-                this.RemoveProDataFields(this.dataFieldList.Where(_ => _.IsBasicSetting == false));
+                this.RemoveProDataFields(this.dataFieldList.Where(_ => !(_ is IB_BasicDataField)));
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
@@ -290,10 +296,19 @@ namespace Ironbug.Grasshopper.Component
         {
             foreach (var item in DataFieldTobeAdded)
             {
+                //TDDO: need to revisit this!!
+                var description = item.Description;
+                var iddObj = this._DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
+                if (iddObj != null)
+                {
+                    description += iddObj.Description;
+                }
+                
+                
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
-                newParam.Description = item.Description + " \n"+string.Join(",",item.ValidData);
+                newParam.Description = description + " \n"+string.Join(",",item.ValidData);
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;

@@ -52,12 +52,10 @@ namespace Ironbug.HVAC
             return newOSObj;
         }
     }
-    public class IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet : IB_DataFieldSet
+    public class IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet 
+        : IB_DataFieldSet<IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet, AirTerminalSingleDuctSeriesPIUReheat>
     {
-        
-        protected override IddObject RefIddObject => new IdfObject(AirTerminalSingleDuctSeriesPIUReheat.iddObjectType()).iddObject();
-
-        protected override Type ParentType => typeof(AirTerminalSingleDuctSeriesPIUReheat);
+        private IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet() {}
 
     }
 

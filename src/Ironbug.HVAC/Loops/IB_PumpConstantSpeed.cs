@@ -28,23 +28,23 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_PumpConstantSpeed_DataFields : IB_DataFieldSet
+    public class IB_PumpConstantSpeed_DataFields 
+        : IB_DataFieldSet<IB_PumpConstantSpeed_DataFields, PumpConstantSpeed>
     {
-        protected override IddObject RefIddObject => new IdfObject(PumpConstantSpeed.iddObjectType()).iddObject();
+        private IB_PumpConstantSpeed_DataFields() {}
 
-        protected override Type ParentType => typeof(PumpConstantSpeed);
 
-        public static readonly IB_DataField RatedPumpHead
-            = new IB_DataField("RatedPumpHead", "PumpHead", dbType, true);
+        public IB_DataField RatedPumpHead { get; }
+            = new IB_BasicDataField("RatedPumpHead", "PumpHead");
 
-        public static readonly IB_DataField MotorEfficiency
-            = new IB_DataField("MotorEfficiency", "Efficiency", dbType, true);
+        public IB_DataField MotorEfficiency { get; }
+            = new IB_BasicDataField("MotorEfficiency", "Efficiency");
 
-        public static readonly IB_DataField RatedFlowRate
-            = new IB_DataField("RatedFlowRate", "FlowRate", dbType);
+        public IB_DataField RatedFlowRate { get; }
+            = new IB_ProDataField("RatedFlowRate", "FlowRate");
 
-        public static readonly IB_DataField PumpControlType
-            = new IB_DataField("PumpControlType", "ControlType", dbType);
+        public IB_DataField PumpControlType { get; }
+            = new IB_ProDataField("PumpControlType", "ControlType");
 
        
 

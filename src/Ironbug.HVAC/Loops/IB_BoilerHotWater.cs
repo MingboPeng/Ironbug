@@ -30,40 +30,28 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_BoilerHotWater_DataFields : IB_DataFieldSet
+    public sealed class IB_BoilerHotWater_DataFields 
+        : IB_DataFieldSet<IB_BoilerHotWater_DataFields, BoilerHotWater>
     {
-        //protected static IddObject RefIddObject => new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
-        private static IddObject refIddObject;
 
-        protected static IddObject RefIddObject
-        {
-            get
-            {
-                if (refIddObject is null)
-                {
-                    refIddObject = new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
-                }
-                return refIddObject;
-            }
-        }
+        private IB_BoilerHotWater_DataFields() { }
 
-        protected override Type ParentType => typeof(BoilerHotWater);
-
-        public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", RefIddObject.GetType(), true) {
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name") {
             };
 
-        public static readonly IB_DataField FuelType
-            = new IB_DataField("FuelType", "Fuel", strType, true);
+        public IB_DataField FuelType { get; }
+            = new IB_BasicDataField("FuelType", "Fuel");
 
-        public static readonly IB_DataField DesignWaterOutletTemperature
-            = new IB_DataField("DesignWaterOutletTemperature", "OutWaterT", dbType);
+        public IB_DataField DesignWaterOutletTemperature { get; }
+            = new IB_ProDataField("DesignWaterOutletTemperature", "OutWaterT");
 
-        public static readonly IB_DataField NominalCapacity
-            = new IB_DataField("NominalCapacity", "Capacity", dbType);
+        public IB_DataField NominalCapacity { get; }
+            = new IB_ProDataField("NominalCapacity", "Capacity");
 
-        public static readonly IB_DataField NominalThermalEfficiency
-            = new IB_DataField("NominalThermalEfficiency", "Efficiency", dbType);
-        
+        public IB_DataField NominalThermalEfficiency { get; }
+            = new IB_ProDataField("NominalThermalEfficiency", "Efficiency");
+
+       
     }
 }

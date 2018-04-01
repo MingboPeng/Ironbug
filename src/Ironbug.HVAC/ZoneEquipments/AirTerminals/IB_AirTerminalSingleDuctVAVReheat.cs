@@ -42,12 +42,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet : IB_DataFieldSet
+    public class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet 
+        : IB_DataFieldSet<IB_AirTerminalSingleDuctVAVReheat_DataFieldSet, AirTerminalSingleDuctVAVReheat>
     {
-
-        protected override IddObject RefIddObject => new IdfObject(AirTerminalSingleDuctVAVReheat.iddObjectType()).iddObject();
-
-        protected override Type ParentType => typeof(AirTerminalSingleDuctVAVReheat);
+        private IB_AirTerminalSingleDuctVAVReheat_DataFieldSet() {}
 
     }
 }

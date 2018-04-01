@@ -31,27 +31,11 @@ namespace Ironbug.HVAC
             return base.ToOS(InitMethod, model).to_CoilCoolingWater().get();
         }
     }
-    public class IB_CoilCoolingWater_DataFieldSet : IB_DataFieldSet
+    public class IB_CoilCoolingWater_DataFieldSet 
+        : IB_DataFieldSet<IB_CoilCoolingWater_DataFieldSet, CoilCoolingWater>
     {
-        //protected static IddObject RefIddObject => new IdfObject(CoilCoolingWater.iddObjectType()).iddObject();
-
-        private static IddObject refIddObject;
-
-        public static IddObject RefIddObject
-        {
-            get
-            {
-                if (refIddObject is null)
-                {
-                    refIddObject = new IdfObject(CoilCoolingWater.iddObjectType()).iddObject();
-                }
-                return refIddObject;
-            }
-        }
-
-
-        protected override Type ParentType => typeof(CoilCoolingWater);
-
+        private IB_CoilCoolingWater_DataFieldSet() { }
+        
     }
 
 }

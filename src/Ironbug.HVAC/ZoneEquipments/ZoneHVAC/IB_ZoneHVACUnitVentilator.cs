@@ -26,11 +26,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_ZoneHVACUnitVentilator_DataFieldSet : IB_DataFieldSet
+    public class IB_ZoneHVACUnitVentilator_DataFieldSet 
+        : IB_DataFieldSet<IB_ZoneHVACUnitVentilator_DataFieldSet, ZoneHVACUnitVentilator>
     {
-        protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitVentilator.iddObjectType()).iddObject();
-
-        protected override Type ParentType => typeof(ZoneHVACUnitVentilator);
+        private IB_ZoneHVACUnitVentilator_DataFieldSet() {}
 
     }
 }

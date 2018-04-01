@@ -5,6 +5,7 @@ using Ironbug.HVAC;
 using System.Linq;
 using System.Collections.Generic;
 using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 
 namespace Ironbug.HVACTests
 {
@@ -146,36 +147,33 @@ namespace Ironbug.HVACTests
                 }
             }
             
-            Assert.IsTrue(true);
-        }
-
-        [TestMethod]
-        public void GetAllAvailableSettings_Test()
-        {
-            var datafields = new IB_PumpVariableSpeed_DataFields();
-            //var methodNames = datafields.GetAllAvailableSettings();
-            var members = datafields.GetType().GetField("full").GetValue(datafields);
-
-            var methods = datafields.GetList();
-
-            var success = true;
-
             Assert.IsTrue(success);
-
         }
 
         [TestMethod]
-        public void GetTypeByName_Test()
+        public void GetCustomizedDataFields_Test()
         {
-
-            var types = typeof(IB_DataFieldSet).Assembly.GetTypes();
-            var FieldSetType = typeof(IB_DataFieldSet).Assembly.GetType("Ironbug.HVAC.IB_PumpConstantSpeed_DataFields");
+            var datafields = IB_PumpVariableSpeed_DataFields.Value;
+            var customizedDataFields = datafields.GetCustomizedDataFields();
             
-            var success = FieldSetType != null;
+            var success = customizedDataFields.Count() == 8;
 
             Assert.IsTrue(success);
 
         }
+
+        //[TestMethod]
+        //public void GetTypeByName_Test()
+        //{
+
+        //    var types = typeof(IB_DataFieldSet).Assembly.GetTypes();
+        //    var FieldSetType = typeof(IB_DataFieldSet).Assembly.GetType("Ironbug.HVAC.IB_PumpConstantSpeed_DataFields");
+
+        //    var success = FieldSetType != null;
+
+        //    Assert.IsTrue(success);
+
+        //}
 
 
         [TestMethod]
@@ -267,7 +265,7 @@ namespace Ironbug.HVACTests
 
 
             var boiler1 = new IB_BoilerHotWater();
-            boiler1.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler1");
+            boiler1.SetAttribute(IB_BoilerHotWater_DataFields.Value.Name, "boiler1");
             branch.Add(boiler1);
             branch.Add(new IB_PumpConstantSpeed());
             
@@ -278,7 +276,7 @@ namespace Ironbug.HVACTests
             
             var branch2 = new List<IB_HVACObject>();
             var boiler2 = new IB_BoilerHotWater();
-            boiler2.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler2");
+            boiler2.SetAttribute(IB_BoilerHotWater_DataFields.Value.Name, "boiler2");
             branch2.Add(boiler2);
             branch2.Add(new IB_PumpVariableSpeed());
             branches.Add(branch2);
@@ -313,6 +311,34 @@ namespace Ironbug.HVACTests
 
 
             Assert.IsTrue(success);
+
+        }
+
+        [TestMethod]
+        public void IDDFields_Test()
+        {
+            var refIddObject = new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
+            var iddfield = refIddObject.getField("Design Water Outlet Temperature").get();
+
+            var prettystr = iddfield.getUnits().get().prettyString();
+            var standardStr = iddfield.getUnits().get().standardString();
+            var str = iddfield.getUnits(true).get().__str__();
+            
+
+            //real, choice, alpha,node 
+            var dataType = iddfield.properties().type.valueDescription();
+
+            Assert.IsTrue(true);
+
+        }
+
+        [TestMethod]
+        public void GetIDDFields_Test()
+        {
+            var dataFeildset = IB_BoilerHotWater_DataFields.Value;
+            
+
+            Assert.IsTrue(true);
 
         }
 
