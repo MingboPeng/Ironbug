@@ -8,7 +8,12 @@ using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_DataFieldSet<T, K> : ICollection<IB_IDDDataField>
+    /// <summary>
+    /// Handle the IB_DataFieldSet's children's singleton 
+    /// </summary>
+    /// <typeparam name="T">T is derived class</typeparam>
+    /// <typeparam name="K">K is ParentType from OpenStudio</typeparam>
+    public abstract class IB_DataFieldSet<T, K> : IB_DataFieldSet
         where T : IB_DataFieldSet<T, K>
         //where K : ModelObject
     {
@@ -26,6 +31,17 @@ namespace Ironbug.HVAC.BaseClass
         /// </summary>
         public static T Value { get { return instance.Value; } }
 
+        internal override Type ParentType => typeof(K);
+
+        protected IB_DataFieldSet():base()
+        {
+
+        }
+    }
+
+    public abstract class IB_DataFieldSet: ICollection<IB_IDDDataField>
+    {
+
         private ICollection<IB_IDDDataField> _items = new List<IB_IDDDataField>();
 
 
@@ -33,7 +49,7 @@ namespace Ironbug.HVAC.BaseClass
         private IddObject RefIddObject { get; }
 
         //parent type for getting all "set" methods 
-        protected Type ParentType { get; } = typeof(K);
+        internal abstract Type ParentType { get; }
 
 
 
@@ -89,7 +105,7 @@ namespace Ironbug.HVAC.BaseClass
             return (IB_DataField)field.GetValue(this);
         }
 
-        private static void MapOSSettings(Type OSType, IB_DataFieldSet<T, K> dataFieldSet)
+        private static void MapOSSettings(Type OSType, IB_DataFieldSet dataFieldSet)
         {
             //var masterSettings =
             OSType
@@ -193,11 +209,5 @@ namespace Ironbug.HVAC.BaseClass
         {
             return _items.GetEnumerator();
         }
-    }
-
-    public sealed class IB_DataFieldSet
-        : IB_DataFieldSet<IB_DataFieldSet, ModelObject>
-    {
-        private IB_DataFieldSet() { }
     }
 }

@@ -32,7 +32,7 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_CoilCoolingGas_DataFieldSet 
+    public sealed class IB_CoilCoolingGas_DataFieldSet 
         : IB_DataFieldSet<IB_CoilCoolingGas_DataFieldSet, CoilHeatingGas>
     {
         private IB_CoilCoolingGas_DataFieldSet() {}

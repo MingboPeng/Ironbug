@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
             return base.ToOS(InitMethod, model).to_CoilCoolingWater().get();
         }
     }
-    public class IB_CoilCoolingWater_DataFieldSet 
+    public sealed class IB_CoilCoolingWater_DataFieldSet 
         : IB_DataFieldSet<IB_CoilCoolingWater_DataFieldSet, CoilCoolingWater>
     {
         private IB_CoilCoolingWater_DataFieldSet() { }

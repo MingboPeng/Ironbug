@@ -162,6 +162,111 @@ namespace Ironbug.HVACTests
 
         }
 
+        [TestMethod]
+        public void DataFieldType_Test()
+        {
+            var datafields = IB_PumpVariableSpeed_DataFields.Value;
+
+            ////Old way
+            //var basetype = datafields.GetType().BaseType;
+            //var success = (basetype.IsGenericType? basetype.GetGenericTypeDefinition(): basetype.GetType()) == typeof(IB_DataFieldSet<,>);
+
+            //New way
+            var success = datafields is IB_DataFieldSet;
+
+            Assert.IsTrue(success);
+
+        }
+        [TestMethod]
+        public void AllDataFieldClass_ifSealed_Test()
+        {
+            var logs = new List<string>();
+
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_DataFieldSet)))
+                .ToList();
+
+            allDataFieldsClasses.ForEach(_ => {
+                if (!_.IsSealed)
+                    logs.Add(_.Name + " is not sealed!");
+            });
+
+            
+            var success = !logs.Any();
+
+            Assert.IsTrue(success);
+
+        }
+
+        //TODO get constructor is still not working 
+        [TestMethod]
+        public void AllDataFieldClass_hasPrivateConstructor_Test()
+        {
+            var logs = new List<string>();
+
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_DataFieldSet)))
+                .ToList();
+
+            allDataFieldsClasses.ForEach(_ => {
+                var constructor = _.GetConstructor(Type.EmptyTypes);
+                var ctors = _.GetConstructors();
+                if (constructor == null)
+                {
+                    logs.Add(_.Name + " has no private constructor. Use snippet 'ctorPrivate' to create!");
+                }else if (!constructor.IsPrivate)
+                {
+                    logs.Add(_.Name + "'s constructor must be private!");
+                }
+                    
+            });
+
+
+            var success = !logs.Any();
+
+            Assert.IsTrue(success);
+
+        }
+        [TestMethod]
+        public void AllDataFields_Test()
+        {
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+                .Where(_ => (!_.IsAbstract) && _.IsSealed && _.IsSubclassOf( typeof(IB_DataFieldSet)));
+
+            var logs = new List<List<string>>();
+
+            foreach (var dfClass in allDataFieldsClasses)
+            {
+                var instance = dfClass.BaseType.GetProperty("Value").GetValue(null) as IB_DataFieldSet;
+                
+                //check each customized data field if can be found in IddObject,
+                //mainly for checking the name's spelling or formatting.
+                var log = new List<string>();
+                instance.GetCustomizedDataFields().ToList()
+                    .ForEach(_=> {
+
+                        var found = instance.Contains(_.FullName);
+                        if (!found)
+                        {
+                            log.Add(_.FullName + " cannot be found in :" + instance.GetType());
+                        }
+                    });
+
+                if (log.Any())
+                {
+                    logs.Add(log);
+                }
+                
+
+            }
+
+
+            var success = !logs.Any();
+
+            Assert.IsTrue(success);
+
+        }
+
         //[TestMethod]
         //public void GetTypeByName_Test()
         //{

@@ -48,7 +48,7 @@ namespace Ironbug.HVAC
             return OsObj;
         }
     }
-    public class IB_ZoneHVACUnitHeater_DataFieldSet 
+    public sealed class IB_ZoneHVACUnitHeater_DataFieldSet 
         : IB_DataFieldSet<IB_ZoneHVACUnitHeater_DataFieldSet, ZoneHVACUnitHeater>
     {
         //protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitHeater.iddObjectType()).iddObject();

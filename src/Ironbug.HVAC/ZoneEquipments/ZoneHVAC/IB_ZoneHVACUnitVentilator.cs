@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_ZoneHVACUnitVentilator_DataFieldSet 
+    public sealed class IB_ZoneHVACUnitVentilator_DataFieldSet 
         : IB_DataFieldSet<IB_ZoneHVACUnitVentilator_DataFieldSet, ZoneHVACUnitVentilator>
     {
         private IB_ZoneHVACUnitVentilator_DataFieldSet() {}

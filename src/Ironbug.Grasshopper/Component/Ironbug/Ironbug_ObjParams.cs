@@ -162,7 +162,7 @@ namespace Ironbug.Grasshopper.Component
             }
 
             this._DataFieldSet = Activator.CreateInstance(type) as IB_DataFieldSet;
-            this.dataFieldList = this._DataFieldSet.GetList();
+            this.dataFieldList = this._DataFieldSet.GetCustomizedDataFields();
             //var method = type.GetMethod("GetList");
             //this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
 

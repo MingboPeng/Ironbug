@@ -72,6 +72,7 @@
     <Compile Include="BaseClass\IB_MasterDataField.cs" />
     <Compile Include="BaseClass\IB_Pump.cs" />
     <Compile Include="BaseClass\IB_SetpointManager.cs" />
+    <Compile Include="Interfaces\IIB_DataFieldSet.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
     <Compile Include="BaseClass\IB_AirTerminal.cs" />
     <Compile Include="Interfaces\IIB_DualLoopObject.cs" />

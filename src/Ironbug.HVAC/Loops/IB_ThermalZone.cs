@@ -98,7 +98,7 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public class IB_ThermalZone_DataFieldSet 
+    public sealed class IB_ThermalZone_DataFieldSet 
         : IB_DataFieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
     {
         
