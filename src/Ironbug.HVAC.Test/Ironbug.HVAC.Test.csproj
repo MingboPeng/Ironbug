@@ -85,6 +85,7 @@
     <Compile Include="Loop\IB_ThermalZone_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="00_DummyTest.cs" />
+    <Compile Include="DataFieldSetTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -21,9 +21,10 @@ namespace Ironbug.Grasshopper.Component
         public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; }
-        private IEnumerable<IB_DataField> dataFieldList { get; set; }
 
-        private IB_DataFieldSet _DataFieldSet;
+        private IEnumerable<IB_DataField> ProDataFieldList { get; set; }
+
+        private IB_DataFieldSet DataFieldSet { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
@@ -146,7 +147,12 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
+        private static IB_DataFieldSet GetDataFieldSet(Type type)
+        {
+            return Convert.ChangeType(Activator.CreateInstance(type, true), type) as IB_DataFieldSet;
+        }
 
+        
 
         public void AddParams(Type type)
         {
@@ -161,10 +167,10 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-            this._DataFieldSet = Activator.CreateInstance(type) as IB_DataFieldSet;
-            this.dataFieldList = this._DataFieldSet.GetCustomizedDataFields();
-            //var method = type.GetMethod("GetList");
-            //this.dataFieldList = (IEnumerable<HVAC.IB_DataField>)(method.Invoke(Activator.CreateInstance(type),null));
+            this.DataFieldSet = GetDataFieldSet(type);
+            var dataFieldList = this.DataFieldSet.GetCustomizedDataFields();
+            this.ProDataFieldList = dataFieldList.Where(_ => _ is IB_ProDataField);
+            
 
             //only show the basic setting first
             var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicDataField);
@@ -178,7 +184,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //TDDO: need to revisit this!!
                 var description = item.Description;
-                var iddObj = this._DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
+                var iddObj = this.DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
                 if (iddObj != null)
                 {
                     description += iddObj.Description;
@@ -212,7 +218,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 return null;
             }
-            var dataFieldSet = Activator.CreateInstance(CurrentDataFieldType) as IB_DataFieldSet;
+            var dataFieldSet = this.DataFieldSet;
             var settingDatas = new Dictionary<IB_DataField,object>();
 
             var allInputParams = this.Params.Input;
@@ -229,7 +235,7 @@ namespace Ironbug.Grasshopper.Component
                     if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
                     {
                         
-                        var dataField = dataFieldSet.GetDataFieldByName(item.Name);
+                        var dataField = dataFieldSet.First(_ => _.FullName == item.Name) as IB_DataField;
 
                         if (dataField is IB_MasterDataField)
                         {
@@ -242,9 +248,10 @@ namespace Ironbug.Grasshopper.Component
                             }
 
                         }
-                        else
+                        else //IB_BasicDataField or IB_ProDataField
                         {
                             object value = null;
+                            //TODO: type of int??
                             if (dataField.DataType == typeof(double))
                             {
                                 value = ((GH_Number)fristData).Value;
@@ -274,16 +281,17 @@ namespace Ironbug.Grasshopper.Component
         private void ProSetting(object sender, EventArgs e)
         {
             this.IsProSetting = !this.IsProSetting;
+            
 
             if (this.IsProSetting)
             {
 
-                this.AddProDataFields(this.dataFieldList.Where(_ => !(_ is IB_BasicDataField)));
+                this.AddProDataFields(this.ProDataFieldList);
 
             }
             else
             {
-                this.RemoveProDataFields(this.dataFieldList.Where(_ => !(_ is IB_BasicDataField)));
+                this.RemoveProDataFields(this.ProDataFieldList);
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
@@ -297,18 +305,18 @@ namespace Ironbug.Grasshopper.Component
             foreach (var item in DataFieldTobeAdded)
             {
                 //TDDO: need to revisit this!!
-                var description = item.Description;
-                var iddObj = this._DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
-                if (iddObj != null)
-                {
-                    description += iddObj.Description;
-                }
+                var description = item.DetailedDescription;
+                //var iddObj = this.DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
+                //if (iddObj != null)
+                //{
+                    description += item.Description;
+                //}
                 
                 
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
                 newParam.NickName = item.ShortName;
-                newParam.Description = description + " \n"+string.Join(",",item.ValidData);
+                newParam.Description = description;
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;

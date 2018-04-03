@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_DataField : IEqualityComparer<IB_DataField>
+    public class IB_DataField : IEqualityComparer<IB_DataField>
     {
+        public string FULLNAME => FullName.ToUpper();
         public string FullName { get; private set; }
         public string PerfectName { get; private set; }
         public string ShortName { get; private set; }
-        public string GetterMethodName { get; private set; }
-        public string SetterMethodName { get; private set; }
+        public string GetterMethodName { get; protected set; }
+        public string SetterMethodName { get; protected set; }
         public Type DataType { get; private set; }
         //public bool IsBasicSetting { get; private set; }
         public bool IsHidden { get; set; }
@@ -33,12 +35,14 @@ namespace Ironbug.HVAC.BaseClass
 
         public IB_DataField(string FullName, string ShortName)
         {
-            this.FullName = FullName.Replace(" ", String.Empty); //RatedInletWaterTemperature
+            
+            this.FullName = CheckInputFullName(FullName);//RatedInletWaterTemperature
             this.ShortName = ShortName; //InWaterTemp
-
+            
             this.PerfectName = MakePerfectName(this.FullName); ////Rated Inlet Water Temperature
-            this.GetterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
-            this.SetterMethodName = "set" + this.FullName;
+
+            //this.GetterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
+            //this.SetterMethodName = "set" + this.FullName;
 
             //this.Type = com.GetType().GetMethod(methodName).ReturnType;
             //this.DataType = DataType;
@@ -51,6 +55,14 @@ namespace Ironbug.HVAC.BaseClass
         //    this.Description = Description;
         //    return this;
         //}
+        private static string CheckInputFullName(string fullName)
+        {
+            var spacedName = MakePerfectName(fullName);
+            var cleanFullName = new CultureInfo("en-us", false).TextInfo.ToTitleCase(spacedName); //ToTitleCase
+            cleanFullName = new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9]").Replace(cleanFullName, string.Empty);
+
+            return cleanFullName;
+        }
 
         protected IB_DataField SetAcceptiableDataType(Type DataType)
         {

@@ -51,10 +51,10 @@ namespace Ironbug.HVAC.BaseClass
         //parent type for getting all "set" methods 
         internal abstract Type ParentType { get; }
 
-
-
+        
         public readonly IB_MasterDataField TheMasterDataField;
 
+        
         protected IB_DataFieldSet()
         {
 
@@ -112,11 +112,17 @@ namespace Ironbug.HVAC.BaseClass
             .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Where(_ =>
                 {
+                    //get all setting methods
                     if (!_.Name.StartsWith("set")) return false;
                     if (_.GetParameters().Count() != 1) return false;
 
                     var paramType = _.GetParameters().First().ParameterType;
-                    var isValidType = paramType == typeof(string) || paramType == typeof(double) || paramType == typeof(bool);
+                    var isValidType = 
+                    paramType == typeof(string) || 
+                    paramType == typeof(double) || 
+                    paramType == typeof(bool) ||
+                    paramType == typeof(int);
+
                     if (!isValidType) return false;
 
                     return true;
@@ -124,13 +130,13 @@ namespace Ironbug.HVAC.BaseClass
                 }
                 ).ToList().ForEach(_ =>
                 {
+                    //assign OpenStudio acceptable parameter type to matched data field.
                     var name = _.Name.Substring(3);
                     var type = _.GetParameters().First().ParameterType;
 
-                    if (dataFieldSet.Contains(name))
-                    {
-                        dataFieldSet.First(item => item.FullName == name).UpdateDataType(type);
-                    };
+                    dataFieldSet.FirstOrDefault(item => item.FULLNAME == name.ToUpper())?.UpdateFromOpenStudioMethod(name,type);
+                    
+                    //TODO: add setter method delegate as well.
                 });
 
 
@@ -179,14 +185,16 @@ namespace Ironbug.HVAC.BaseClass
 
         public bool Contains(IB_IDDDataField item)
         {
-            //TDDO: how to compare ???
-            return _items.Contains(item);
+            return _items.Any(_ => _.FULLNAME == item.FULLNAME);
         }
 
         public bool Contains(string fullName)
         {
-            //TDDO: how to compare ???
-            return _items.Any(_ => _.FullName == fullName);
+            var FULLNAME =  new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9]")
+                .Replace(fullName, string.Empty)
+                .ToUpper();
+
+            return _items.Any(_ => _.FULLNAME == FULLNAME);
         }
 
         public void CopyTo(IB_IDDDataField[] array, int arrayIndex)

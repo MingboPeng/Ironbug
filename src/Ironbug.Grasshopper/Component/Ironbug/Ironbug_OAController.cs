@@ -62,7 +62,7 @@ namespace Ironbug.Grasshopper.Component
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                obj.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Name, name);
+                obj.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Value.Name, name);
             }
 
             DA.SetData(0, obj);

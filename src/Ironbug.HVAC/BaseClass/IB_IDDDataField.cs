@@ -6,11 +6,7 @@ namespace Ironbug.HVAC.BaseClass
 {
     public class IB_IDDDataField : IB_DataField
     {
-        //public IB_IDDDataField(string FullName)
-        //    : base(FullName, FullName)
-        //{
-
-        //}
+        
 
         public IB_IDDDataField(IddField field)
             : base(field.name(), "NoShortName")
@@ -21,16 +17,16 @@ namespace Ironbug.HVAC.BaseClass
             
 
             var description = prop.note;
-            description += GetDefault(prop);
-            description += GetUnits(field);
+            description += GetDefaultFromIDD(prop);
+            description += GetUnitsFromIDD(field);
             description += validDataStr;
             
             this.Description = description;
-            base.SetAcceptiableDataType(GetDataType(field));
+            base.SetAcceptiableDataType(GetDataTypeFromIDD(field));
             base.SetValidData(validDataItems);
         }
 
-        private static string GetDefault(IddFieldProperties properties)
+        private static string GetDefaultFromIDD(IddFieldProperties properties)
         {
             var numDef = properties.numericDefault;
             var strDef = properties.stringDefault;
@@ -51,7 +47,7 @@ namespace Ironbug.HVAC.BaseClass
             }
             
         }
-        private static Type GetDataType(IddField field)
+        private static Type GetDataTypeFromIDD(IddField field)
         {
             var dataType = field.properties().type.valueDescription();
 
@@ -76,12 +72,14 @@ namespace Ironbug.HVAC.BaseClass
             
         }
 
-        public void UpdateDataType(Type type)
+        public void UpdateFromOpenStudioMethod(string getterName, Type type)
         {
+            base.GetterMethodName = getterName.ToLower()[0] + getterName.Substring(1);
+            base.SetterMethodName = "set"+getterName;
             this.SetAcceptiableDataType(type);
         }
 
-        private static string GetUnits(IddField field)
+        private static string GetUnitsFromIDD(IddField field)
         {
             var unit = field.getUnits();
             
