@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_IDDDataField : IB_DataField
+    public class IB_IddDataField : IB_DataField
     {
         
 
-        public IB_IDDDataField(IddField field)
+        public IB_IddDataField(IddField field)
             : base(field.name(), "NoShortName")
         {
             //var name = iddField.name();
@@ -72,11 +72,14 @@ namespace Ironbug.HVAC.BaseClass
             
         }
 
-        public void UpdateFromOpenStudioMethod(string getterName, Type type)
+        public IB_IddDataField UpdateFromOpenStudioMethod(string getterName, Type type)
         {
-            base.GetterMethodName = getterName.ToLower()[0] + getterName.Substring(1);
-            base.SetterMethodName = "set"+getterName;
+            this.GetterMethodName = getterName.ToLower()[0] + getterName.Substring(1);
+            this.SetterMethodName = "set" + getterName;
             this.SetAcceptiableDataType(type);
+            
+
+            return this;
         }
 
         private static string GetUnitsFromIDD(IddField field)

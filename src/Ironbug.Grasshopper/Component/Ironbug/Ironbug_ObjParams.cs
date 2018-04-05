@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
 
         private bool IsProSetting { get; set; }
 
-        private IEnumerable<IB_DataField> ProDataFieldList { get; set; }
+        private ICollection<IB_DataField> ProDataFieldList { get; set; }
 
         private IB_DataFieldSet DataFieldSet { get; set; }
 
@@ -169,8 +169,9 @@ namespace Ironbug.Grasshopper.Component
 
             this.DataFieldSet = GetDataFieldSet(type);
             var dataFieldList = this.DataFieldSet.GetCustomizedDataFields();
-            this.ProDataFieldList = dataFieldList.Where(_ => _ is IB_ProDataField);
-            
+            //including ProDataField and MasterDataField
+            this.ProDataFieldList = dataFieldList.Where(_ => !(_ is IB_BasicDataField)).ToList();
+            this.ProDataFieldList.Add(this.DataFieldSet.TheMasterDataField);
 
             //only show the basic setting first
             var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicDataField);
@@ -235,12 +236,12 @@ namespace Ironbug.Grasshopper.Component
                     if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
                     {
                         
-                        var dataField = dataFieldSet.First(_ => _.FullName == item.Name) as IB_DataField;
-
-                        if (dataField is IB_MasterDataField)
+                        var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
+                        
+                        if (dataField is IB_MasterDataField masterDataField)
                         {
                             var userInputs = item.VolatileData.AllData(true).Select(_ => ((GH_String)_).Value);
-                            var masterDic = ((IB_MasterDataField)dataField).CheckUserInputs(userInputs);
+                            var masterDic = masterDataField.CheckUserInputs(userInputs, dataFieldSet);
 
                             foreach (var masterItem in masterDic)
                             {

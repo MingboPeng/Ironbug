@@ -39,31 +39,42 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public abstract class IB_DataFieldSet: ICollection<IB_IDDDataField>
+    public abstract class IB_DataFieldSet: ICollection<IB_DataField>
     {
 
-        private ICollection<IB_IDDDataField> _items = new List<IB_IDDDataField>();
+        private ICollection<IB_DataField> _items = new List<IB_DataField>();
 
 
-        //IDD object for later unit converting
+        //IDD object for later unit converting, etc
         private IddObject RefIddObject { get; }
 
         //parent type for getting all "set" methods 
         internal abstract Type ParentType { get; }
 
         
-        public readonly IB_MasterDataField TheMasterDataField;
+        public IB_MasterDataField TheMasterDataField { get; }
 
-        
+
         protected IB_DataFieldSet()
         {
-
+            //Assign reference IddObject from OpenStudio
             this.RefIddObject = GetIddObject(this.ParentType);
 
-            this._items = GetIddDataFields(this.RefIddObject).ToList();
-            MapOSSettings(this.ParentType, this);
+            //Get IddDataFields and map OpenStudio field properties.
+            //var fields = GetIddDataFields(this.RefIddObject).MapOpsSettings(this.ParentType);
+            //_items = fields.MapOpsSettings(this.ParentType)
+            //  MapCustomizedDataFieldsSettings()
+            //    .ToList();
 
-            this.TheMasterDataField = GetTheMasterDataField();
+            this._items =
+                GetIddDataFields(this.RefIddObject)
+                .MapOpsSettings(this.ParentType)
+                .MapCustomizedDataFieldsSettings(this)
+                .ToList();
+
+            
+            this.TheMasterDataField = GetTheMasterDataField(this);
+            this._items.Add(TheMasterDataField);
 
         }
 
@@ -73,7 +84,7 @@ namespace Ironbug.HVAC.BaseClass
             return new IdfObject(iddType).iddObject();
         }
 
-        private static IEnumerable<IB_IDDDataField> GetIddDataFields(IddObject iddObject)
+        private static IEnumerable<IB_IddDataField> GetIddDataFields(IddObject iddObject)
         {
             var fromList = iddObject.nonextensibleFields();
             //var toList = new List<IB_IDDDataField>();
@@ -88,7 +99,7 @@ namespace Ironbug.HVAC.BaseClass
                     result &= dataType != "handle";
                     return result;
                 })
-                .Select(_ => new IB_IDDDataField(_));
+                .Select(_ => new IB_IddDataField(_));//Construct IddDataField as default first. 
 
 
         }
@@ -99,81 +110,45 @@ namespace Ironbug.HVAC.BaseClass
                             .Select(_ => (IB_DataField)_.GetValue(this, null));
         }
 
-        public IB_DataField GetDataFieldByName(string name)
-        {
-            var field = this.GetType().GetField(name);
-            return (IB_DataField)field.GetValue(this);
-        }
-
-        private static void MapOSSettings(Type OSType, IB_DataFieldSet dataFieldSet)
-        {
-            //var masterSettings =
-            OSType
-            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Where(_ =>
-                {
-                    //get all setting methods
-                    if (!_.Name.StartsWith("set")) return false;
-                    if (_.GetParameters().Count() != 1) return false;
-
-                    var paramType = _.GetParameters().First().ParameterType;
-                    var isValidType = 
-                    paramType == typeof(string) || 
-                    paramType == typeof(double) || 
-                    paramType == typeof(bool) ||
-                    paramType == typeof(int);
-
-                    if (!isValidType) return false;
-
-                    return true;
-
-                }
-                ).ToList().ForEach(_ =>
-                {
-                    //assign OpenStudio acceptable parameter type to matched data field.
-                    var name = _.Name.Substring(3);
-                    var type = _.GetParameters().First().ParameterType;
-
-                    dataFieldSet.FirstOrDefault(item => item.FULLNAME == name.ToUpper())?.UpdateFromOpenStudioMethod(name,type);
-                    
-                    //TODO: add setter method delegate as well.
-                });
+        //public IB_DataField GetDataFieldByName(string name)
+        //{
+        //    var field = this.GetType().GetField(name);
+        //    return (IB_DataField)field.GetValue(this);
+        //}
 
 
-            //return masterSettings;
-        }
 
-        private IB_MasterDataField GetTheMasterDataField()
+        private static IB_MasterDataField GetTheMasterDataField(IB_DataFieldSet dataFieldSet)
         {
 
-            var masterSettings = this.OrderBy(_ => _.FullName);
+            var masterSettings = dataFieldSet.OrderBy(_ => _.FullName);
             var description = "This gives you an option that if you are looking for a setting that is not listed above," +
                 "please feel free to pick any setting from following items, " +
                 "but please double check the EnergyPlus Input References to ensure you know what you are doing.\r\n\r\n";
             description += "TDDO: show an example to explain how to use this!\r\n\r\n";
             description += string.Join("\r\n", masterSettings.Select(_ => _.FullName));
 
-            //TODO: there must be a better way to do this.
-            var masterDataFieldMap = new Dictionary<string, IB_IDDDataField>();
-            foreach (var item in masterSettings)
-            {
-                masterDataFieldMap.Add(item.FullName.ToUpper(), item);
-            }
+            ////TODO: there must be a better way to do this.
+            //var masterDataFieldMap = new Dictionary<string, IB_DataField>();
+            //foreach (var item in masterSettings)
+            //{
+            //    masterDataFieldMap.Add(item.FullName.ToUpper(), item);
+            //}
 
-            var df = new IB_MasterDataField(description, masterDataFieldMap);
+            var df = new IB_MasterDataField(description);
             return df;
 
         }
 
 
-
+       
 
         public int Count => _items.Count;
 
         public bool IsReadOnly => _items.IsReadOnly;
 
 
-        public void Add(IB_IDDDataField item)
+        public void Add(IB_DataField item)
         {
             _items.Add(item);
         }
@@ -183,32 +158,31 @@ namespace Ironbug.HVAC.BaseClass
             _items.Clear();
         }
 
-        public bool Contains(IB_IDDDataField item)
+        public bool Contains(IB_DataField item)
         {
             return _items.Any(_ => _.FULLNAME == item.FULLNAME);
         }
 
+        
         public bool Contains(string fullName)
         {
-            var FULLNAME =  new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9]")
-                .Replace(fullName, string.Empty)
-                .ToUpper();
-
-            return _items.Any(_ => _.FULLNAME == FULLNAME);
+            return _items.Any(_ => _.FULLNAME == fullName.CleanFULLNAME());
         }
 
-        public void CopyTo(IB_IDDDataField[] array, int arrayIndex)
+        
+
+        public void CopyTo(IB_DataField[] array, int arrayIndex)
         {
             _items.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(IB_IDDDataField item)
+        public bool Remove(IB_DataField item)
         {
             //TDDO: how to compare ???
             return _items.Remove(item);
         }
 
-        public IEnumerator<IB_IDDDataField> GetEnumerator()
+        public IEnumerator<IB_DataField> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
@@ -217,5 +191,106 @@ namespace Ironbug.HVAC.BaseClass
         {
             return _items.GetEnumerator();
         }
+    }
+
+    public static class DataFieldSetExtension
+    {
+        /// <summary>
+        /// Note: this would return null if cannot find the dataField by name.
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns>IB_DataField or null</returns>
+        public static IB_DataField GetByName(this IEnumerable<IB_DataField>dataFields, string fullName)
+        {
+            return dataFields.FirstOrDefault(item => item.FULLNAME == fullName.CleanFULLNAME());
+        }
+
+        /// <summary>
+        /// Note: this would return null if cannot find the dataField by name.
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns>IB_DataField or null</returns>
+        public static IB_DataField GetByName(this IB_DataFieldSet dataFields, string fullName)
+        {
+            return dataFields.FirstOrDefault(item => item.FULLNAME == fullName.CleanFULLNAME());
+        }
+
+        public static string CleanFULLNAME(this string fullName)
+        {
+            return new System.Text.RegularExpressions.Regex("[^a-zA-Z0-9]")
+                .Replace(fullName, string.Empty)
+                .ToUpper();
+        }
+
+
+        public static IEnumerable<IB_IddDataField> MapOpsSettings(this IEnumerable<IB_IddDataField> dataFieldSet, Type OSType)
+        {
+            
+
+            var opsSettingMethods = OSType
+            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Where(_ =>
+                {
+                    //get all setting methods
+                    if (!_.Name.StartsWith("set")) return false;
+                    if (_.GetParameters().Count() != 1) return false;
+
+                    var paramType = _.GetParameters().First().ParameterType;
+                    var isValidType =
+                    paramType == typeof(string) ||
+                    paramType == typeof(double) ||
+                    paramType == typeof(bool) ||
+                    paramType == typeof(int);
+
+                    if (!isValidType) return false;
+
+                    return true;
+
+                }
+                );
+
+            var dfSet = dataFieldSet.ToList();
+            foreach (var _ in opsSettingMethods)
+            {
+                //assign OpenStudio acceptable parameter type to matched data field.
+                var name = _.Name.Substring(3);
+                var type = _.GetParameters().First().ParameterType;
+                
+                var found = dfSet.FirstOrDefault(item => item.FULLNAME == name.ToUpper());
+               
+                if (found is null) continue;
+                found.UpdateFromOpenStudioMethod(name, type);
+                //TODO: add setter method delegate as well.
+            }
+            
+
+            return dfSet;
+
+        }
+
+        /// <summary>
+        /// Map properties of the ProDataField or BasicDataField that defined in derived class, to DataFieldSet's IB_DataField collection.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<IB_DataField> MapCustomizedDataFieldsSettings(this IEnumerable<IB_IddDataField> dataFieldSet, IB_DataFieldSet derivedDataFieldSet)
+        {
+            var dfSet = dataFieldSet;
+            derivedDataFieldSet.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Select(_ => (IB_DataField)_.GetValue(derivedDataFieldSet, null))
+                .ToList().ForEach(_ =>
+                {
+                    //all customized DataFields will be tested before release, so there is no need to test it here for inclusion.
+                    var dataField = dfSet.GetByName(_.FULLNAME);
+
+
+                    dataField.ShortName = _.ShortName;
+                    dataField.DetailedDescription = _.DetailedDescription;
+
+                });
+
+            return dfSet;
+
+        }
+
     }
 }
