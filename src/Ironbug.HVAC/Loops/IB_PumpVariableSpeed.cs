@@ -28,32 +28,32 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_PumpVariableSpeed_DataFields : IB_DataFieldSet
+    public sealed class IB_PumpVariableSpeed_DataFields 
+        : IB_DataFieldSet<IB_PumpVariableSpeed_DataFields, PumpVariableSpeed>
     {
-        protected override IddObject RefIddObject => new PumpVariableSpeed(new Model()).iddObject();
+        
+        private IB_PumpVariableSpeed_DataFields(){ }
 
-        protected override Type ParentType => typeof(PumpVariableSpeed);
+        public IB_DataField RatedPumpHead { get; }
+            = new IB_BasicDataField("RatedPumpHead", "PumpHead");
+        
+        public IB_DataField MotorEfficiency { get; }
+            = new IB_BasicDataField("MotorEfficiency", "Efficiency");
 
-        public static readonly IB_DataField RatedPumpHead
-            = new IB_DataField("RatedPumpHead", "PumpHead", dbType, true);
+        public IB_DataField RatedFlowRate { get; }
+            = new IB_ProDataField("RatedFlowRate", "FlowRate");
 
-        public static readonly IB_DataField MotorEfficiency
-            = new IB_DataField("MotorEfficiency", "Efficiency", dbType, true);
+        public IB_DataField PumpControlType { get; }
+            = new IB_ProDataField("PumpControlType", "ControlType");
 
-        public static readonly IB_DataField RatedFlowRate
-            = new IB_DataField("RatedFlowRate", "FlowRate", dbType);
-
-        public static readonly IB_DataField PumpControlType
-            = new IB_DataField("PumpControlType", "ControlType", dbType);
-
-        public static readonly IB_DataField Coefficient1ofthePartLoadPerformanceCurve
-            = new IB_DataField("Coefficient1ofthePartLoadPerformanceCurve", "Coefficient1", dbType);
-        public static readonly IB_DataField Coefficient2ofthePartLoadPerformanceCurve
-            = new IB_DataField("Coefficient2ofthePartLoadPerformanceCurve", "Coefficient2", dbType);
-        public static readonly IB_DataField Coefficient3ofthePartLoadPerformanceCurve
-            = new IB_DataField("Coefficient3ofthePartLoadPerformanceCurve", "Coefficient3", dbType);
-        public static readonly IB_DataField Coefficient4ofthePartLoadPerformanceCurve
-            = new IB_DataField("Coefficient4ofthePartLoadPerformanceCurve", "Coefficient4", dbType);
+        public IB_DataField Coefficient1ofthePartLoadPerformanceCurve { get; }
+            = new IB_ProDataField("Coefficient1ofthePartLoadPerformanceCurve", "Coefficient1");
+        public IB_DataField Coefficient2ofthePartLoadPerformanceCurve { get; }
+            = new IB_ProDataField("Coefficient2ofthePartLoadPerformanceCurve", "Coefficient2");
+        public IB_DataField Coefficient3ofthePartLoadPerformanceCurve { get; }
+            = new IB_ProDataField("Coefficient3ofthePartLoadPerformanceCurve", "Coefficient3");
+        public IB_DataField Coefficient4ofthePartLoadPerformanceCurve { get; }
+            = new IB_ProDataField("Coefficient4ofthePartLoadPerformanceCurve", "Coefficient4");
 
         
     }

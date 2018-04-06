@@ -52,14 +52,10 @@ namespace Ironbug.HVAC
             return newOSObj;
         }
     }
-    public class IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet : IB_DataFieldSet
+    public sealed class IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet 
+        : IB_DataFieldSet<IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet, AirTerminalSingleDuctSeriesPIUReheat>
     {
-        private static AirTerminalSingleDuctSeriesPIUReheat InitMethod(Model model) =>
-            new AirTerminalSingleDuctSeriesPIUReheat(model, new FanConstantVolume(model), new CoilHeatingElectric(model));
-
-        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
-
-        protected override Type ParentType => typeof(AirTerminalSingleDuctSeriesPIUReheat);
+        private IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet() {}
 
     }
 

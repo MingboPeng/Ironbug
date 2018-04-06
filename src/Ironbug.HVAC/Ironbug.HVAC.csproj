@@ -66,11 +66,13 @@
     <Compile Include="BaseClass\IB_DataField.cs" />
     <Compile Include="BaseClass\IB_DataFieldSet.cs" />
     <Compile Include="BaseClass\IB_Fan.cs" />
+    <Compile Include="BaseClass\IB_IDDDataField.cs" />
     <Compile Include="BaseClass\IB_Loop.cs" />
     <Compile Include="BaseClass\IB_LoopBranches.cs" />
     <Compile Include="BaseClass\IB_MasterDataField.cs" />
     <Compile Include="BaseClass\IB_Pump.cs" />
     <Compile Include="BaseClass\IB_SetpointManager.cs" />
+    <Compile Include="Interfaces\IIB_DataFieldSet.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
     <Compile Include="BaseClass\IB_AirTerminal.cs" />
     <Compile Include="Interfaces\IIB_DualLoopObject.cs" />

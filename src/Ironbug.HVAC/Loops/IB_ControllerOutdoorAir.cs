@@ -25,32 +25,25 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_ControllerOutdoorAir_DataFieldSet : IB_DataFieldSet
+    public sealed class IB_ControllerOutdoorAir_DataFieldSet 
+        : IB_DataFieldSet<IB_ControllerOutdoorAir_DataFieldSet, ControllerOutdoorAir>
     {
-        //private static readonly CoilHeatingWater refObj = new CoilHeatingWater(new Model());
-        //public new IddObject IddObject = new CoilHeatingWater(new Model()).iddObject();
-        protected override IddObject RefIddObject => new ControllerOutdoorAir(new Model()).iddObject();
-
-        protected override Type ParentType => typeof(ControllerOutdoorAir);
-        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_controller_outdoor_air.html
-
-        //Following list items are fields that I want to have picked for GH user to edit
-        public static readonly IB_DataField Name = new IB_DataField("Name", "Name", strType, true);
-
-        public static readonly IB_DataField MinimumOutdoorAirFlowRate
-            = new IB_DataField("MinimumOutdoorAirFlowRate", "MinOAFlowRate", dbType, BasicSetting: true);
-
-        public static readonly IB_DataField EconomizerControlType
-            = new IB_DataField("EconomizerControlType", "Economizer", strType, BasicSetting: true);
-
-
-        public static readonly IB_DataField HighHumidityControl
-            = new IB_DataField("HighHumidityControl", "HiHumidityCtrl", boType);
-
+        private IB_ControllerOutdoorAir_DataFieldSet() {}
         
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name");
+
+        public IB_DataField MinimumOutdoorAirFlowRate { get; }
+            = new IB_BasicDataField("MinimumOutdoorAirFlowRate", "MinOAFlowRate");
+
+        public IB_DataField EconomizerControlType { get; }
+            = new IB_BasicDataField("EconomizerControlType", "Economizer");
+
+
+        public IB_DataField HighHumidityControl { get; }
+            = new IB_ProDataField("HighHumidityControl", "HiHumidityCtrl");
 
         
         
-
     }
 }

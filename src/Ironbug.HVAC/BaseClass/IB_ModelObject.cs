@@ -42,10 +42,10 @@ namespace Ironbug.HVAC.BaseClass
 
         }
 
-        public void SetAttribute(IB_DataField DataAttribute, object AttributeValue)
+        public void SetAttribute(IB_DataField dataField, object value)
         {
-            var AttributeName = DataAttribute.SetterMethodName;
-            var data = AttributeValue;
+            var AttributeName = dataField.SetterMethodName;
+            var data = value;
             
             this.CustomAttributes.TryAdd(AttributeName, data);
 

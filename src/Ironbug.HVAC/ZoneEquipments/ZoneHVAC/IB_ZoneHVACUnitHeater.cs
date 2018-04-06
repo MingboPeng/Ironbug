@@ -48,13 +48,11 @@ namespace Ironbug.HVAC
             return OsObj;
         }
     }
-    public class IB_ZoneHVACUnitHeater_DataFieldSet : IB_DataFieldSet
+    public sealed class IB_ZoneHVACUnitHeater_DataFieldSet 
+        : IB_DataFieldSet<IB_ZoneHVACUnitHeater_DataFieldSet, ZoneHVACUnitHeater>
     {
-        private static ZoneHVACUnitHeater InitMethod(Model model)
-            => new ZoneHVACUnitHeater(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilHeatingElectric(model));
-        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
-
-        protected override Type ParentType => typeof(ZoneHVACUnitHeater);
+        //protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitHeater.iddObjectType()).iddObject();
+        private IB_ZoneHVACUnitHeater_DataFieldSet() {}
 
     }
 

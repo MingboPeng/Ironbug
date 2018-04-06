@@ -38,49 +38,24 @@ namespace Ironbug.HVAC
         }
     }
 
-    //A = fan.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
-    //Void Dispose()
-    //OpenStudio.Schedule availabilitySchedule()
-    //Double fanEfficiency()
-    //Double pressureRise()
-    //Double motorEfficiency()
-    //Double motorInAirstreamFraction()
-    //System.String endUseSubcategory()
-    //Boolean setAvailabilitySchedule(OpenStudio.Schedule)
-    //Void setFanEfficiency(Double)
-    //Void setPressureRise(Double)
-    //Void setMotorEfficiency(Double)
-    //Void setMotorInAirstreamFraction(Double)
-    //Void setEndUseSubcategory(System.String)
-    //OpenStudio.OptionalDouble maximumFlowRate()
-    //OpenStudio.OSOptionalQuantity getMaximumFlowRate(Boolean)
-    //OpenStudio.OSOptionalQuantity getMaximumFlowRate()
-    //Boolean isMaximumFlowRateAutosized()
-    //Boolean setMaximumFlowRate(Double)
-    //Boolean setMaximumFlowRate(OpenStudio.Quantity)
-    //Void resetMaximumFlowRate()
-    //Void autosizeMaximumFlowRate()
-    //OpenStudio.OptionalDouble autosizedMaximumFlowRate()
 
-    public class IB_FanConstantVolume_DataFields : IB_DataFieldSet
+    public sealed class IB_FanConstantVolume_DataFields 
+        : IB_DataFieldSet<IB_FanConstantVolume_DataFields, FanConstantVolume>
     {
-        protected override IddObject RefIddObject => new FanConstantVolume(new Model()).iddObject();
-        //https://openstudio-sdk-documentation.s3.amazonaws.com/cpp/OpenStudio-2.4.0-doc/model/html/classopenstudio_1_1model_1_1_fan_constant_volume.html
+        private IB_FanConstantVolume_DataFields() {}
 
-        protected override Type ParentType => typeof(FanConstantVolume);
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name");
 
-        public static readonly IB_DataField Name
-            = new IB_DataField("Name", "Name", strType, true);
+        public IB_DataField FanEfficiency { get; }
+            = new IB_BasicDataField("FanEfficiency", "Efficiency");
 
-        public static readonly IB_DataField FanEfficiency
-            = new IB_DataField("FanEfficiency", "Efficiency", dbType, true);
+        public IB_DataField PressureRise { get; }
+            = new IB_ProDataField("PressureRise", "PressureRise");
 
-        public static readonly IB_DataField PressureRise
-            = new IB_DataField("PressureRise", "PressureRise", dbType);
-
-        public static readonly IB_DataField MotorEfficiency
-            = new IB_DataField("MotorEfficiency", "MotorEfficiency", dbType);
+        public IB_DataField MotorEfficiency { get; }
+            = new IB_ProDataField("MotorEfficiency", "MotorEfficiency");
 
         
     }

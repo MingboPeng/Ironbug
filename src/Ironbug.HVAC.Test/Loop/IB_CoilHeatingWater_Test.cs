@@ -24,7 +24,7 @@ namespace Ironbug.HVACTests.Loop
         {
             var coil = new HVAC.IB_CoilHeatingWater();
             var testValue = 50.0;
-            coil.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.RatedInletWaterTemperature, testValue);
+            coil.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.Value.RatedInletWaterTemperature, testValue);
             var att = (double)coil.GetDataFieldValue("ratedInletWaterTemperature");
 
             Assert.IsTrue(att == testValue);
@@ -36,7 +36,7 @@ namespace Ironbug.HVACTests.Loop
 
             var fan = new HVAC.IB_CoilHeatingWater();
             var membs = typeof(CoilHeatingWater).GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-            var attrs = new HVAC.IB_FanConstantVolume_DataFields().GetList();
+            var attrs = HVAC.IB_FanConstantVolume_DataFields.Value.GetCustomizedDataFields();
 
             var results = new List<string>();
             foreach (var attr in attrs)

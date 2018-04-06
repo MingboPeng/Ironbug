@@ -32,11 +32,9 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_CoilCoolingGas_DataFieldSet : IB_DataFieldSet
+    public sealed class IB_CoilCoolingGas_DataFieldSet 
+        : IB_DataFieldSet<IB_CoilCoolingGas_DataFieldSet, CoilHeatingGas>
     {
-        protected override IddObject RefIddObject => new CoilHeatingGas(new Model()).iddObject();
-
-        protected override Type ParentType => typeof(CoilHeatingGas);
-
+        private IB_CoilCoolingGas_DataFieldSet() {}
     }
 }

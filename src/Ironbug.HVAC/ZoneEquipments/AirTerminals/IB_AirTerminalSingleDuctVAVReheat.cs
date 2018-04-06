@@ -42,14 +42,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet : IB_DataFieldSet
+    public sealed class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet 
+        : IB_DataFieldSet<IB_AirTerminalSingleDuctVAVReheat_DataFieldSet, AirTerminalSingleDuctVAVReheat>
     {
-        private static AirTerminalSingleDuctVAVReheat InitMethod(Model model) =>
-            new AirTerminalSingleDuctVAVReheat(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWater(model));
-
-        protected override IddObject RefIddObject => InitMethod(new Model()).iddObject();
-
-        protected override Type ParentType => typeof(AirTerminalSingleDuctVAVReheat);
+        private IB_AirTerminalSingleDuctVAVReheat_DataFieldSet() {}
 
     }
 }
