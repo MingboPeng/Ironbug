@@ -109,6 +109,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_DataFieldSet).Assembly.GetType(typeName);
+                this.DataFieldSet = GetDataFieldSet(CurrentDataFieldType);
 
             }
             return base.Read(reader);
@@ -209,7 +210,6 @@ namespace Ironbug.Grasshopper.Component
 
             this.Params.OnParametersChanged();
             this.ExpireSolution(true);
-            //this.ExpireSolution(true);
             
         }
 
@@ -305,14 +305,8 @@ namespace Ironbug.Grasshopper.Component
         {
             foreach (var item in DataFieldTobeAdded)
             {
-                //TDDO: need to revisit this!!
                 var description = item.DetailedDescription;
-                //var iddObj = this.DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
-                //if (iddObj != null)
-                //{
-                    description += item.Description;
-                //}
-                
+                description += item.Description;
                 
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
