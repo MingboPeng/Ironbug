@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
 
 
         public IB_SetpointManagerOutdoorAirReset() : base(InitMethod(new Model()))
-        {
+        { 
         }
 
 

@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
 
         public override ModelObject ToOS(Model model)
         {
-            return base.ToOS(InitMethod, model);
+            return base.ToOS(InitMethod, model).to_BoilerHotWater().get();
         }
     }
 
