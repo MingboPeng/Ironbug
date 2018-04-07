@@ -13,15 +13,9 @@ namespace Ironbug.HVAC
 
         private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
         private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
-        //private List<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
-
-        //real osAirLoopHVAC
-        //private AirLoopHVAC osAirLoopHVAC { get; set; }
 
         
         private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
-        //ghost for preview 
-        //private AirLoopHVAC ghostAirLoopHVAC { get; set; }
 
         public IB_AirLoopHVAC() : base(InitMethod(new Model()))
         {
@@ -106,7 +100,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add airloop supply components!");
+                throw new Exception("Failed to add all airloop supply components!");
             }
 
             return allcopied;
@@ -139,7 +133,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add airloop demand components!");
+                throw new Exception("Failed to add all airloop demand components!");
             }
 
             return allcopied;

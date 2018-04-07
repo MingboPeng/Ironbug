@@ -54,16 +54,7 @@ namespace Ironbug.HVAC.BaseClass
 
         protected bool AddSetPoints(Loop Loop, IEnumerable<IB_HVACObject> Components)
         {
-            //var setPtAtIndex = new Dictionary<int, IB_SetpointManager>();
-
-            //var trackingIDAndComp = new Dictionary<string, ModelObject>();
-
-
             var allTrackingIDs = Loop.components().Select(_ => _.comment()).ToList();
-            foreach (var item in Components)
-            {
-                var aa = item is IB_SetpointManager;
-            }
 
             var setPts = Components.Where(_ => _ is IB_SetpointManager);
 
