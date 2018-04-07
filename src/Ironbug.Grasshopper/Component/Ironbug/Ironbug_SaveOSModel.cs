@@ -84,8 +84,8 @@ namespace Ironbug.Grasshopper.Component
             {
                 //TODO: memory protected if path connected before airloop
                 item.disconnect();
-                item.remove();
-                item.Dispose();
+                //item.remove();
+                //item.Dispose();
                 
                 
             }

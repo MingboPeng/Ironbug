@@ -15,7 +15,7 @@ namespace Ironbug.HVAC.BaseClass
     /// <typeparam name="K">K is ParentType from OpenStudio</typeparam>
     public abstract class IB_DataFieldSet<T, K> : IB_DataFieldSet
         where T : IB_DataFieldSet<T, K>
-        //where K : ModelObject
+        where K : ModelObject
     {
         /// <summary>
         /// Static instance. Needs to use lambda expression
@@ -27,7 +27,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
         /// <summary>
-        /// Value contains a sin
+        /// Value contains a single instance.
         /// </summary>
         public static T Value { get { return instance.Value; } }
 

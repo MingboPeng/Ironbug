@@ -60,20 +60,23 @@ namespace Ironbug.HVAC.BaseClass
 
 
             var allTrackingIDs = Loop.components().Select(_ => _.comment()).ToList();
-
+            foreach (var item in Components)
+            {
+                var aa = item is IB_SetpointManager;
+            }
 
             var setPts = Components.Where(_ => _ is IB_SetpointManager);
 
             //TODO: check if there is only one component and it is setpoint.
 
-
+            int added = 0;
             foreach (var item in setPts)
             {
                 var setPt = (IB_SetpointManager)item;
                 var atIndex = Components.ToList().IndexOf(item);
 
                 OptionalNode nodeWithSetPt = null;
-
+                
                 if (atIndex == 0)
                 {
                     //Find the component after setpoint
@@ -95,23 +98,21 @@ namespace Ironbug.HVAC.BaseClass
                     nodeWithSetPt = Loop.components().ElementAt(node_Index).to_Node();
                 }
 
-
+                
                 //Add to the node
                 if (nodeWithSetPt.is_initialized())
                 {
-                    item.AddToNode(nodeWithSetPt.get());
+                    added = item.AddToNode(nodeWithSetPt.get()) ? added + 1:added;
                 }
-
-
-
+                
             }
             
 
-            var allcopied = Loop.SetPointManagers().Count() == setPts.Count();
+            var allcopied = added == setPts.Count();
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add set point managers!");
+                throw new Exception("Failed to add all set point managers!");
             }
 
             return allcopied;

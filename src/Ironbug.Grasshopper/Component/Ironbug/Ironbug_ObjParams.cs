@@ -20,7 +20,7 @@ namespace Ironbug.Grasshopper.Component
         private List<IGH_Param> paramSet { get; set; }
         public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
-        private bool IsProSetting { get; set; }
+        private bool IsProSetting { get; set; } = false;
 
         private ICollection<IB_DataField> ProDataFieldList { get; set; }
 
@@ -34,8 +34,6 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "00:Ironbug")
         {
-            this.IsProSetting = false;
-            
             
         }
         
