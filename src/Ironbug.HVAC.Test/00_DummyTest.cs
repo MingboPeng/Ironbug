@@ -212,10 +212,10 @@ namespace Ironbug.HVACTests
         }
 
         [TestMethod]
-        public void GetIDDFields_Test()
+        public void GetIDDGroup_Test()
         {
-            var dataFeildset = IB_BoilerHotWater_DataFields.Value;
-            
+            var iddobj = new OpenStudio.IdfObject(OpenStudio.CoilHeatingWater.iddObjectType()).iddObject();
+            var gp = iddobj.group();
 
             Assert.IsTrue(true);
 

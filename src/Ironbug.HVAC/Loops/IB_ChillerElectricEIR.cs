@@ -8,6 +8,7 @@ namespace Ironbug.HVAC
         private static ChillerElectricEIR InitMethod(Model model) => new ChillerElectricEIR(model);
         public IB_ChillerElectricEIR() : base(InitMethod(new Model()))
         {
+            
         }
         public override bool AddToNode(Node node)
         {

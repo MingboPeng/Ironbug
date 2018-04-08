@@ -52,10 +52,10 @@ namespace Ironbug.HVACTests
             var customizedDataFields = datafields.GetCustomizedDataFields();
 
             var success = customizedDataFields.Count() == 8;
-
             Assert.IsTrue(success);
 
         }
+        
 
         [TestMethod]
         public void MapOpsSettings_Test()
@@ -190,7 +190,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [TestMethod]
+        //[TestMethod] //TODO:TheMasterDataField_Test
         public void TheMasterDataField_Test()
         {
             var logs = new List<string>();
