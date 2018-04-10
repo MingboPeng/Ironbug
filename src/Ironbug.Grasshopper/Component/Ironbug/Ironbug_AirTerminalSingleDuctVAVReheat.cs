@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
@@ -28,8 +28,6 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("HeatingCoil", "coil_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("Parameters", "params_", "Detail settings. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
-            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -55,12 +53,8 @@ namespace Ironbug.Grasshopper.Component
                 obj.SetReheatCoil(newHS);
             }
 
-            var settingParams = new Dictionary<IB_DataField, object>();
-            if (DA.GetData("Parameters", ref settingParams))
-            {
-                obj.SetAttributes(settingParams);
-            }
 
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
 
         }

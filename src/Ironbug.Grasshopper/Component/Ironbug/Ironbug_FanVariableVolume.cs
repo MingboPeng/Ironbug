@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanVariableVolume : Ironbug_HVACComponent
+    public class Ironbug_FanVariableVolume : Ironbug_HVACComponentBase
     {
 
         /// <summary>
@@ -27,8 +27,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters for Fan:VariableVolume", "params_", "Detail settings for this fan. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
+            
         }
 
         /// <summary>
@@ -47,11 +46,7 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_FanVariableVolume();
 
-            var settingParams = new Dictionary<IB_DataField, object>();
-            DA.GetData(0, ref settingParams);
-
-            obj.SetAttributes(settingParams);
-
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
 

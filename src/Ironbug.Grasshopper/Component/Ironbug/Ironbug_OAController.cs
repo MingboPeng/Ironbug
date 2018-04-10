@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OAController : Ironbug_HVACComponent
+    public class Ironbug_OAController : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_OAController class.
@@ -26,9 +26,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("name", "name_", "name", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this object. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -52,19 +50,13 @@ namespace Ironbug.Grasshopper.Component
             
             //collect settings
             DA.GetData(0, ref name);
-
-            var settingParams = new Dictionary<IB_DataField, object>();
-            if (DA.GetData("Parameters", ref settingParams))
-            {
-                obj.SetAttributes(settingParams);
-            }
-
-
+            
             if (!string.IsNullOrWhiteSpace(name))
             {
                 obj.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Value.Name, name);
             }
 
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
 
         }

@@ -126,7 +126,7 @@ namespace Ironbug.Grasshopper.Component
                 this.DataFieldTypes = new Dictionary<IGH_DocumentObject, Type>();
                 foreach (var item in rec)
                 {
-                    var targetHVACComponent = (Ironbug_HVACComponent)item.Attributes.GetTopLevel.DocObject;
+                    var targetHVACComponent = (Ironbug_HVACComponentBase)item.Attributes.GetTopLevel.DocObject;
                     
                     var dataFieldType = targetHVACComponent.DataFieldType;
                     this.DataFieldTypes.Add(targetHVACComponent, dataFieldType);

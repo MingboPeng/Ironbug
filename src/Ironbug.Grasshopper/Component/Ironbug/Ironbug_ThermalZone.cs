@@ -10,7 +10,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ThermalZone : Ironbug_HVACComponent
+    public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
         //private Ironbug_ObjParams SettingParams { get; set; }
         ////this is used as a reference in Ironbug_ObjParams.
@@ -41,8 +41,6 @@ namespace Ironbug.Grasshopper.Component
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
-            pManager.AddGenericParameter("Parameters", "params_", "SettingParam", GH_ParamAccess.item);
-            pManager[4].Optional = true;
         }
 
         /// <summary>
@@ -109,14 +107,7 @@ namespace Ironbug.Grasshopper.Component
             }
             //TODO: add ZoneEquipments
 
-            //Collect setting params
-            var settingParams = new Dictionary<IB_DataField, object>();
-            if (DA.GetData("Parameters", ref settingParams))
-            {
-                OSZones.ForEach(_ => _.SetAttributes(settingParams));
-            }
-            //zone.SetAttributes(settingParams);
-
+            this.SetObjParamsTo(obj);
             DA.SetDataList(0, OSZones);
         }
 

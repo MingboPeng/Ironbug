@@ -1,4 +1,6 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Parameters;
+using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +8,11 @@ using System.Text;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public abstract class Ironbug_HVACComponent : GH_Component
+    public abstract class Ironbug_HVACComponentBase : GH_Component
     {
         private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
-
         
-        //public void SetDataFieldType(Type DataFieldType)
-        //{
-        //    this.DataFieldType = DataFieldType;
-        //}
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
@@ -59,12 +56,42 @@ namespace Ironbug.Grasshopper.Component
 
 
 
-        public Ironbug_HVACComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
+        public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
             :base(name, nickname, description, category, subCategory)
         {
             this.DataFieldType = DataFieldType;
+            var paramInput = CreateParamInput();
+            Params.RegisterInputParam(paramInput);
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-        
+
+        private static IGH_Param CreateParamInput()
+        {
+            IGH_Param newParam = new Param_GenericObject();
+            newParam.Name = "Parameters";
+            newParam.NickName = "params_";
+            newParam.Description = "Detail settings for this object. Use Ironbug_ObjParams to set this.";
+            newParam.MutableNickName = false;
+            newParam.Access = GH_ParamAccess.item;
+            newParam.Optional = true;
+
+            return newParam;
+        }
+
+        protected void SetObjParamsTo(IB_ModelObject IB_obj)
+        {
+            var paramInput = this.Params.Input.Last();
+            var attrsDic = paramInput.VolatileData.AllData(true).ToList().FirstOrDefault();
+
+            var attris = (Dictionary<IB_DataField, object>) null;
+            attrsDic?.CastTo(out attris);
+
+            if (attris is null) return;
+            if (attris.Count == 0) return;
+
+            IB_obj.SetAttributes(attris);
+            
+        }
+
     }
 }

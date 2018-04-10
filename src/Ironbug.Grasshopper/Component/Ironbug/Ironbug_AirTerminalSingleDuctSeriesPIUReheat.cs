@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctSeriesPIUReheat : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctSeriesPIUReheat : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctSeriesPIUReheat class.
@@ -30,8 +30,6 @@ namespace Ironbug.Grasshopper.Component
             pManager[0].Optional = true;
             pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("Parameters", "params_", "Detail settings. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
-            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -63,13 +61,7 @@ namespace Ironbug.Grasshopper.Component
             }
 
 
-            var settingParams = new Dictionary<IB_DataField, object>();
-            if (DA.GetData("Parameters", ref settingParams))
-            {
-                obj.SetAttributes(settingParams);
-            }
-
-
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
 

@@ -22,9 +22,7 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(true);
         }
         
-
         
-
         [TestMethod]
         public void ThermalZoneAndSizingZone_Test()
         {
@@ -203,6 +201,27 @@ namespace Ironbug.HVACTests
             var standardStr = iddfield.getUnits().get().standardString();
             var str = iddfield.getUnits(true).get().__str__();
             
+
+            //real, choice, alpha,node 
+            var dataType = iddfield.properties().type.valueDescription();
+
+            Assert.IsTrue(true);
+
+        }
+
+        [TestMethod]
+        public void OSobjFromIDDObj_Test()
+        {
+            var refIddObject = new IdfObject(BoilerHotWater.iddObjectType()).iddObject();
+            var boiler = new StraightComponent(refIddObject.type(), new Model()).to_BoilerHotWater();
+
+
+            var iddfield = refIddObject.getField("Design Water Outlet Temperature").get();
+
+            var prettystr = iddfield.getUnits().get().prettyString();
+            var standardStr = iddfield.getUnits().get().standardString();
+            var str = iddfield.getUnits(true).get().__str__();
+
 
             //real, choice, alpha,node 
             var dataType = iddfield.properties().type.valueDescription();

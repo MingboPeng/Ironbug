@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
             => new ZoneHVACTerminalUnitVariableRefrigerantFlow(model);
 
         public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(InitMethod(new Model()))
-        {
+        { 
         }
 
         public override bool AddToNode(Node node)

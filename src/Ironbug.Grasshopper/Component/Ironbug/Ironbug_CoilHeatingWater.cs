@@ -10,7 +10,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
@@ -29,9 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Parameters", "params_", "Detail settings for this Coil. Use Ironbug_ObjParams to set this.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
-            //AddParams();
+           
         }
 
         /// <summary>
@@ -49,15 +47,8 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingWater();
-
-
-            var settingParams = new Dictionary<IB_DataField, object>();
-            if (DA.GetData("Parameters", ref settingParams))
-            {
-                obj.SetAttributes(settingParams);
-            }
-
-
+            
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
 

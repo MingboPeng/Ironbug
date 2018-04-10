@@ -15,7 +15,6 @@ namespace Ironbug.HVAC.BaseClass
         public string GetterMethodName { get; protected set; }
         public string SetterMethodName { get; protected set; } 
         public Type DataType { get; private set; }
-        //public bool IsBasicSetting { get; private set; }
         public bool IsHidden { get; set; }
 
         public IEnumerable<string> ValidData { get; private set; } = new List<string>();
