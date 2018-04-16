@@ -90,13 +90,12 @@ namespace Ironbug.HVAC
             var spOutLetNode = plant.supplyOutletNode();
             objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
 
-            //TODO: add setpoint
+            
             var addedObjs = plant.supplyComponents().Where(_ => _.comment().Contains("TrackingID"));
-            var allcopied = addedObjs.Count() == Components.CountWithBranches();
-
-
-            //TODO: might need to double check the setpoint order.
-            allcopied &= this.AddSetPoints(plant, Components);
+            var allcopied = addedObjs.Count() == filteredObjs.CountWithBranches();
+            
+            //TODO: might need to double check the set point order.
+            allcopied &= this.AddSetPoints(spInletNode, Components);
 
             if (!allcopied)
             {
@@ -125,24 +124,24 @@ namespace Ironbug.HVAC
 
 
             //
-            var spInletNode = plant.demandInletNode();
-            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            var deInletNode = plant.demandInletNode();
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(deInletNode));
 
             if (branchObj != null)
             {
                 ((IB_PlantLoopBranches)branchObj).ToOS_Demand(plant);
             }
 
-            var spOutLetNode = plant.demandOutletNode();
-            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            var deOutLetNode = plant.demandOutletNode();
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(deOutLetNode));
 
-            //TODO: add setpoint
+            
             var addedObjs = plant.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
             var allcopied = addedObjs.Count() == Components.CountWithBranches();
 
 
             //TODO: might need to double check the setpoint order.
-            allcopied &= this.AddSetPoints(plant, Components);
+            allcopied &= this.AddSetPoints(deInletNode, Components);
 
             if (!allcopied)
             {

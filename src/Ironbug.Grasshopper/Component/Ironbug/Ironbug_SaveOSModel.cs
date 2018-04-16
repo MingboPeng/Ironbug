@@ -31,6 +31,7 @@ namespace Ironbug.Grasshopper.Component
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
 
         }
 
@@ -49,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string filepath = string.Empty;
-            //filepath = @"C:\Users\Mingbo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
+            filepath = @"C:\Users\mingo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
             bool write = false;
@@ -65,42 +66,43 @@ namespace Ironbug.Grasshopper.Component
             
             if (string.IsNullOrEmpty(filepath)) return;
 
-
             var osmPath = new OpenStudio.Path(filepath);
+
 
             //get Model from file if exists
             var model = new OpenStudio.Model();
-            if (File.Exists(filepath))
-            {
-                model.Dispose();
-                var optionalModel = OpenStudio.Model.load(osmPath);
-                model = optionalModel.is_initialized() ? optionalModel.get() : model;
-            }
+            //if (File.Exists(filepath))
+            //{
+            //    model.Dispose();
+                
+            //    var optionalModel = OpenStudio.Model.load(osmPath);
+            //    model = optionalModel.is_initialized() ? optionalModel.get() : model;
+            //}
 
-            //remove current thermalzones
-            //TODO:need to duplicate thermalzone's schedules, etc.
-            var currThermalZones = model.getThermalZones();
-            foreach (var item in currThermalZones)
-            {
-                //TODO: memory protected if path connected before airloop
-                item.disconnect();
-                //item.remove();
-                //item.Dispose();
+            ////remove current thermalzones
+            ////TODO:need to duplicate thermalzone's schedules, etc.
+            //var currThermalZones = model.getThermalZones();
+            //foreach (var item in currThermalZones)
+            //{
+            //    //TODO: memory protected if path connected before airloop
+            //    item.disconnect();
+            //    //item.remove();
+            //    //item.Dispose();
                 
                 
-            }
+            //}
 
-            var currentAirloop = model.getAirLoopHVACs();
-            foreach (var item in currentAirloop)
-            {
-                item.remove();
-            }
+            //var currentAirloop = model.getAirLoopHVACs();
+            //foreach (var item in currentAirloop)
+            //{
+            //    item.remove();
+            //}
 
-            var currentPlantloop = model.getPlantLoops();
-            foreach (var item in currentPlantloop)
-            {
-                item.remove();
-            }
+            //var currentPlantloop = model.getPlantLoops();
+            //foreach (var item in currentPlantloop)
+            //{
+            //    item.remove();
+            //}
 
             //add loops
             foreach (var airLoop in airLoops)
@@ -114,25 +116,8 @@ namespace Ironbug.Grasshopper.Component
                 plant.ToOS( model);
             }
 
-            //link ThermalZone to Space(HBZone)
-            var thermalZones = model.getThermalZones();
-            var spaces = model.getSpaces();
 
-            
-            if (thermalZones.Count != spaces.Count)
-            {
-                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "It seems not all HBZones have HVAC set correctly!");
-                
-            }
-
-            foreach (var space in spaces)
-            {
-                //TODO: check what if couldn't find it by name??
-                var name = space.nameString().Replace("_space","");
-                var thermalZone = thermalZones.Where(_ => _.nameString() == name).First();
-                space.setThermalZone(thermalZone);
-            }
-
+            //this.SetThermalZones(model);
 
             //save osm file
             var modelTobeSaved = model.clone();
@@ -169,6 +154,28 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid
         {
             get { return new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1"); }
+        }
+
+        private void SetThermalZones(OpenStudio.Model model)
+        {
+            //link ThermalZone to Space(HBZone)
+            var thermalZones = model.getThermalZones();
+            var spaces = model.getSpaces();
+
+
+            if (thermalZones.Count != spaces.Count)
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "It seems not all HBZones have HVAC set correctly!");
+
+            }
+
+            foreach (var space in spaces)
+            {
+                //TODO: check what if couldn't find it by name??
+                var name = space.nameString().Replace("_space", "");
+                var thermalZone = thermalZones.Where(_ => _.nameString() == name).First();
+                space.setThermalZone(thermalZone);
+            }
         }
     }
 }

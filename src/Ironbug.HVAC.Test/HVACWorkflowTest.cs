@@ -10,29 +10,7 @@ namespace Ironbug.HVACTests
     [TestClass]
     public class HVACWorkflowTest
     {
-        [TestMethod]
-        public void SetPointManager_Test()
-        {
-            var md1 = new OpenStudio.Model();
-            var af = new IB_AirLoopHVAC();
-            var coil = new IB_CoilHeatingWater();
-            var setPt = new IB_SetpointManagerOutdoorAirReset();
-            af.AddToSupplySide(setPt);
-            af.AddToSupplySide(coil);
-            af.AddToSupplySide(new IB_FanConstantVolume());
-
-            af.ToOS(md1);
-
-
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
-            var success = md1.Save(saveFile);
-
-            var addedSetPt = md1.getAirLoopHVACs()[0].SetPointManagers().First();
-            success &= addedSetPt.comment() == setPt.GetTrackingID();
-
-            Assert.IsTrue(success);
-        }
-
+       
         [TestMethod]
         public void PlantBranches_Test()
         {

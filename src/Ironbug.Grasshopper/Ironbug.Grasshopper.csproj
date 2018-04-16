@@ -97,6 +97,8 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACComponentBase.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
@@ -108,6 +110,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />

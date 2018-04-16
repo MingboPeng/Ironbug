@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
 
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
-            //TODO: check befor add
+            //TODO: check before add
             if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
             {
                 this.supplyComponents.Add(HvacComponent);
@@ -95,12 +95,13 @@ namespace Ironbug.HVAC
                 .Where(_=>!_.IsNode())
                 .Count() == comps.Count();
 
-            allcopied &= this.AddSetPoints(AirLoopHVAC, Components);
+            allcopied &= this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components);
 
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add all airloop supply components!");
+                throw new Exception("Warning: Failed to add all airloop supply components!");
+                
             }
 
             return allcopied;
@@ -111,16 +112,17 @@ namespace Ironbug.HVAC
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
 
-
+            //add objs before branch
             var dmInNd = AirLoopHVAC.demandInletNode();
             objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(dmInNd));
 
-
+            //add branch
             if (branchObj != null)
             {
                 ((IB_AirLoopBranches)branchObj).ToOS_Demand(AirLoopHVAC);
             }
 
+            //add objs after branch
             var dmOutNd = AirLoopHVAC.demandOutletNode();
             objsAfterBranch.ToList().ForEach(_ => _.AddToNode(dmOutNd));
             
@@ -129,7 +131,7 @@ namespace Ironbug.HVAC
             var allcopied = addObjs.Count() == filteredObjs.CountWithBranches();
 
             //TODO: might need to double check the setpoint order.
-            allcopied &= this.AddSetPoints(AirLoopHVAC, Components);
+            allcopied &= this.AddSetPoints(dmInNd, Components);
 
             if (!allcopied)
             {

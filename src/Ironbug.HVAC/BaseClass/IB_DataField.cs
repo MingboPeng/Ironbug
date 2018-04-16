@@ -102,6 +102,21 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
+    /// <summary>
+    /// This class is for date field that is going to be hidden on genetic obj parameter setting,
+    /// and mandatory for setting the hvac object up at the first place.
+    /// 
+    /// </summary>
+    public class IB_MandatoryDataField : IB_DataField
+    {
+
+        public IB_MandatoryDataField(string FullName, string ShortName)
+            : base(FullName, ShortName)
+        {
+
+        }
+    }
+
     public class IB_BasicDataField : IB_DataField
     {
         

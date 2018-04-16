@@ -27,74 +27,93 @@ namespace Ironbug.HVAC.BaseClass
             return (beforeBranch, branch, afterBranch);
 
         }
+        
 
-        //protected IEnumerable<IB_HVACObject> GetObjsBeforeBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
-        //{
-        //    int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
-
-        //    //TODO: check the branch index (<0, or 0)
-        //    var beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
-        //    ////SupplyOrDemandObjs.RemoveRange(0, branchIndex);
-
-        //    //var newList = new List<IB_HVACObject>();
-        //    //newList.AddRange(beforeBranch.Reverse());
-        //    //newList.AddRange(SupplyOrDemandObjs.Skip(branchIndex));
-
-        //    return beforeBranch.Reverse();
-
-        //}
-
-        //protected IEnumerable<IB_HVACObject> GetObjsAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
-        //{
-        //    int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
-
-        //    return SupplyOrDemandObjs.Skip(branchIndex);
-
-        //}
-
-        protected bool AddSetPoints(Loop Loop, IEnumerable<IB_HVACObject> Components)
+        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components)
         {
-            var allTrackingIDs = Loop.components().Select(_ => _.comment()).ToList();
+            
 
-            var setPts = Components.Where(_ => _ is IB_SetpointManager);
+            var Loop = startingNode.loop().get();
+            var currentComps = Loop.components();
+            var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
-            //TODO: check if there is only one component and it is setpoint.
+            var setPts = components.Where(_ => _ is IB_SetpointManager);
+            
+
+            //check if there is set point
+            if (setPts.Count()==0)
+            {
+                return true;
+            }
 
             int added = 0;
-            foreach (var item in setPts)
+
+            //check if there is only one component and it is set point.
+            if (setPts.Count() == components.Count())
             {
-                var setPt = (IB_SetpointManager)item;
-                var atIndex = Components.ToList().IndexOf(item);
+                foreach (var item in setPts)
+                {
+                    added = item.AddToNode(startingNode) ? added + 1 : added;
+                }
+                return true;
+            }
+
+
+
+            //check if set point is at the first
+            IEnumerable<IB_HVACObject> remainingSetPts = null;
+            if (components.First() is IB_SetpointManager)
+            {
+                added = setPts.First().AddToNode(startingNode) ? added + 1 : added;
+                remainingSetPts = setPts.Skip(1);
+            }
+            else
+            {
+                remainingSetPts = setPts;
+            }
+            
+            
+            //until now, set point can only be at middle or the last
+            foreach (var item in remainingSetPts)
+            {
+                //var setPt = (IB_SetpointManager)item;
+                var atIndex = components.ToList().IndexOf(item);
 
                 OptionalNode nodeWithSetPt = null;
+
+
+                //Find the component before setpoint
+                var comBeforeSetPt = components.ElementAt(atIndex - 1);
+                var names = currentComps.Select(_ => _.nameString()).ToList();
+                var nodeName = startingNode.nameString();
+                var indexOfStartingNode = names.IndexOf(nodeName);
+                //TODO: check if there is loop branch
+                if (comBeforeSetPt is IB_LoopBranches)
+                {
+                    //search the first loop mixer after starting node
+                    var searchList = currentComps.Skip(indexOfStartingNode);
+                    var types = searchList.Select(_ => _.iddObjectType().valueName()).ToList();
+                    var mixer = searchList.First(_ => _.iddObjectType().valueName() == "OS_Connector_Mixer").to_Mixer().get();
+
+                    //get the first node after mixer
+                    //var realMixer = mixer as  ConnectorMixer;
+                    nodeWithSetPt = mixer.outletModelObject().get().to_Node();
+                    
+                }
+                else
+                {
+                    var comBeforeSetPt_ID = comBeforeSetPt.GetTrackingID();
+                    var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt_ID);
+
+                    //Find the node for setPoint
+                    var node_Index = indexOfStartingNode + combeforeSetPt_Index + 1;
+                    nodeWithSetPt = currentComps.ElementAt(node_Index).to_Node();
+                }
                 
-                if (atIndex == 0)
-                {
-                    //Find the component after setpoint
-                    var comaAfterSetPt = Components.ElementAt(atIndex + 1).GetTrackingID();
-                    var comaAfterSetPt_Index = allTrackingIDs.IndexOf(comaAfterSetPt);
-
-                    //Find the node for setPoint
-                    var node_Index = comaAfterSetPt_Index - 1;
-                    nodeWithSetPt = Loop.components().ElementAt(node_Index).to_Node();
-                }
-                else if (atIndex > 0)
-                {
-                    //Find the component before setpoint
-                    var comBeforeSetPt = Components.ElementAt(atIndex - 1).GetTrackingID();
-                    var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt);
-
-                    //Find the node for setPoint
-                    var node_Index = combeforeSetPt_Index + 1;
-                    nodeWithSetPt = Loop.components().ElementAt(node_Index).to_Node();
-                }
-
                 
                 //Add to the node
-                if (nodeWithSetPt.is_initialized())
-                {
-                    added = item.AddToNode(nodeWithSetPt.get()) ? added + 1:added;
-                }
+                added = item.AddToNode(nodeWithSetPt.get()) ? added + 1: added;
+                
                 
             }
             

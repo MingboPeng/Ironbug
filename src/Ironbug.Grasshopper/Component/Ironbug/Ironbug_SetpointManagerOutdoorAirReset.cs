@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
         /// </summary>
         public Ironbug_SetpointManagerOutdoorAirReset()
-          : base("Ironbug_SetpointManagerOutdoorAirReset", "Nickname",
+          : base("Ironbug_SetpointManagerOutdoorAirReset", "SpOAReset",
               "Description",
               "Ironbug", "01:SetpointManager")
         {
@@ -24,6 +24,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddNumberParameter("SetpointatOutdoorHighTemperature", "_SpOHTemp", "SetpointatOutdoorHighTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("OutdoorHighTemperature", "_OHTemp", "OutdoorHighTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("SetpointatOutdoorLowTemperature", "_SpOLTemp", "SetpointatOutdoorLowTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("OutdoorLowTemperature", "_OLTemp", "OutdoorLowTemperature", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,11 +46,24 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             var obj = new HVAC.IB_SetpointManagerOutdoorAirReset();
 
-            //var settingParams = new Dictionary<IB_DataField, object>();
-            //if (DA.GetData("Parameters", ref settingParams))
-            //{
-            //    obj.SetAttributes(settingParams);
-            //}
+            double lowT = 0;
+            double highT = 0;
+            double lowOT = 0;
+            double highOT = 0;
+            
+            DA.GetData(0, ref highT);
+            DA.GetData(1, ref highOT);
+            DA.GetData(2, ref lowT);
+            DA.GetData(3, ref lowOT);
+            
+
+
+            var fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_DataFieldSet.Value;
+
+            obj.SetAttribute(fieldSet.SetpointatOutdoorHighTemperature, highT);
+            obj.SetAttribute(fieldSet.OutdoorHighTemperature, highOT);
+            obj.SetAttribute(fieldSet.SetpointatOutdoorLowTemperature, lowT);
+            obj.SetAttribute(fieldSet.OutdoorLowTemperature, lowOT);
 
 
             DA.SetData(0, obj);

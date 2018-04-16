@@ -107,7 +107,11 @@ namespace Ironbug.Grasshopper.Component
             }
             //TODO: add ZoneEquipments
 
-            this.SetObjParamsTo(obj);
+            foreach (var zone in OSZones)
+            {
+                this.SetObjParamsTo(zone);
+            }
+            
             DA.SetDataList(0, OSZones);
         }
 

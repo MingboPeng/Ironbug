@@ -33,4 +33,24 @@ namespace Ironbug.HVAC
             return base.ToOS(InitMethod, model).to_SetpointManagerOutdoorAirReset().get();
         }
     }
+
+    public sealed class IB_SetpointManagerOutdoorAirReset_DataFieldSet
+        : IB_DataFieldSet<IB_SetpointManagerOutdoorAirReset_DataFieldSet, SetpointManagerOutdoorAirReset>
+    {
+        private IB_SetpointManagerOutdoorAirReset_DataFieldSet() { }
+
+        public IB_DataField SetpointatOutdoorHighTemperature { get; }
+            = new IB_MandatoryDataField("SetpointatOutdoorHighTemperature", "SpOHTemp");
+
+        public IB_DataField OutdoorHighTemperature { get; }
+            = new IB_MandatoryDataField("OutdoorHighTemperature", "OHTemp");
+
+        public IB_DataField SetpointatOutdoorLowTemperature { get; }
+           = new IB_MandatoryDataField("SetpointatOutdoorLowTemperature", "SpOLTemp");
+
+        public IB_DataField OutdoorLowTemperature { get; }
+            = new IB_MandatoryDataField("OutdoorLowTemperature", "OLTemp");
+
+
+    }
 }
