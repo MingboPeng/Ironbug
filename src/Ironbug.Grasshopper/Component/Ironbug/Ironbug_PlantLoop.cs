@@ -72,7 +72,9 @@ namespace Ironbug.Grasshopper.Component
             {
                 plant.SetSizingPlant(sizing);
             }
-            
+
+
+            this.SetObjParamsTo(plant);
             DA.SetData(0, plant);
         }
 

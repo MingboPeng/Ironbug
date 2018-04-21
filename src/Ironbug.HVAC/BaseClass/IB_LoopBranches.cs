@@ -17,6 +17,10 @@ namespace Ironbug.HVAC.BaseClass
 
         public void Add(List<IB_HVACObject> HVACObjects)
         {
+            if (!HVACObjects.Any())
+            {
+                return;
+            }
             this.Branches.Add(HVACObjects);
         }
 

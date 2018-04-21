@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_SizingPlant : Ironbug_HVACComponentBase
     {
@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
         public Ironbug_SizingPlant()
-          : base("Ironbug_SizingZone", "SizingZone",
+          : base("Ironbug_SizingPlant", "SzPlant",
               "Description",
               "Ironbug", "01:LoopComponents",
               typeof(HVAC.IB_SizingPlant_DataFieldSet))
@@ -32,9 +32,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SizingPlant", "SizingPlant", "SizingPlant", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SizingPlant", "SzPlant", "SizingPlant", GH_ParamAccess.item);
         }
-
+        
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
@@ -65,7 +65,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("555eb7a9-bef9-48c8-abe7-32490f2d9aab"); }
+            get { return new Guid("48A8B6F8-4AAF-44BD-8923-979370F36817"); }
         }
     }
 }

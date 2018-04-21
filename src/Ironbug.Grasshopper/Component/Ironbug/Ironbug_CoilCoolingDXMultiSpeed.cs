@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SizingZone : Ironbug_HVACComponentBase
+    public class Ironbug_CoilCoolingDXMultiSpeed : Ironbug_HVACComponentBase
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_SizingZone class.
+        /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         /// </summary>
-        public Ironbug_SizingZone()
-          : base("Ironbug_SizingZone", "SzZone",
+        public Ironbug_CoilCoolingDXMultiSpeed()
+          : base("Ironbug_CoilCoolingDXMultiSpeed", "CoilCDXMtp",
               "Description",
               "Ironbug", "01:LoopComponents",
-              typeof(HVAC.IB_SizingZone_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingDXMultiSpeed_DataFieldSet))
         {
         }
 
@@ -32,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SizingZone", "SzZone", "SizingZone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingDXMultiSpeed", "CoilCDXMtp", "CoilCoolingDXMultiSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,8 +38,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_SizingZone();
-
+            var obj = new HVAC.IB_CoilCoolingDXMultiSpeed();
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
@@ -65,7 +61,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("555eb7a9-bef9-48c8-abe7-32490f2d9aab"); }
+            get { return new Guid("E76307B8-27F4-4C86-AB23-0864160B725E"); }
         }
     }
 }

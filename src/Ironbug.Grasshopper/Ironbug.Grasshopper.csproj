@@ -93,6 +93,12 @@
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_BoilerHotWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDXSingleSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDXMultiSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXMultiSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXTwoSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXSingleSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingGas.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />

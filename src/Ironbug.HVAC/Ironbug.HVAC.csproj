@@ -81,6 +81,9 @@
     <Compile Include="Interfaces\IIB_ToOPSable.cs" />
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />
+    <Compile Include="Loops\IB_CoilCoolingDXMultiSpeed.cs" />
+    <Compile Include="Loops\IB_CoilHeatingDXMultiSpeed.cs" />
+    <Compile Include="Loops\IB_CoilHeatingDXSingleSpeed.cs" />
     <Compile Include="Loops\IB_CoilCoolingLowTempRadiantConstFlow.cs" />
     <Compile Include="Loops\IB_SizingPlant.cs" />
     <Compile Include="Loops\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
