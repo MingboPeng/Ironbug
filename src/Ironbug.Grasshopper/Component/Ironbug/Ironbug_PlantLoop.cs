@@ -8,15 +8,16 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop : GH_Component
+    public class Ironbug_PlantLoop : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop()
-          : base("Ironbug_PlantLoop", "Nickname",
+          : base("Ironbug_PlantLoop", "PlantLoop",
               "Description",
-              "Ironbug", "02:Loops")
+              "Ironbug", "02:Loops",
+              typeof(HVAC.IB_PlantLoop_DataFieldSet))
         {
         }
 
@@ -29,6 +30,8 @@ namespace Ironbug.Grasshopper.Component
             pManager[0].Optional = true;
             pManager.AddGenericParameter("demand", "demand", "HVAC components", GH_ParamAccess.list);
             pManager[1].Optional = true;
+            pManager.AddGenericParameter("sizingLoop", "sizing", "HVAC components", GH_ParamAccess.item);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -47,9 +50,10 @@ namespace Ironbug.Grasshopper.Component
         {
             List<IB_HVACObject> supplyComs = new List<IB_HVACObject>();
             List<IB_HVACObject> demandComs = new List<IB_HVACObject>();
+            HVAC.IB_SizingPlant sizing = null;
             DA.GetDataList(0, supplyComs);
             DA.GetDataList(1, demandComs);
-
+            DA.GetData(2, ref sizing);
 
 
             var plant = new HVAC.IB_PlantLoop();
@@ -62,6 +66,11 @@ namespace Ironbug.Grasshopper.Component
             {
                 var newItem = (IB_HVACObject)item.Duplicate();
                 plant.AddToDemand(newItem);
+            }
+
+            if (sizing != null)
+            {
+                plant.SetSizingPlant(sizing);
             }
             
             DA.SetData(0, plant);

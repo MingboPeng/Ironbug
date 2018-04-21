@@ -21,8 +21,26 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(true);
         }
-        
-        
+
+        [TestMethod]
+        public void CoolingPlantLoop_Test()
+        {
+            var lp = new IB_PlantLoop();
+            var sz = new IB_SizingPlant();
+            sz.SetAttribute(IB_SizingPlant_DataFieldSet.Value.LoopType, "Cooling");
+            lp.SetSizingPlant(sz);
+
+
+            var md1 = new Model();
+            lp.ToOS(md1);
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            var success = md1.Save(saveFile);
+
+            success &= md1.getPlantLoops().First().sizingPlant().loopType() == "Cooling";
+
+            Assert.IsTrue(true);
+        }
+
         [TestMethod]
         public void ThermalZoneAndSizingZone_Test()
         {

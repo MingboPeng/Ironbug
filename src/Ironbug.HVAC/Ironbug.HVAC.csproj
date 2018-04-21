@@ -82,6 +82,7 @@
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />
     <Compile Include="Loops\IB_CoilCoolingLowTempRadiantConstFlow.cs" />
+    <Compile Include="Loops\IB_SizingPlant.cs" />
     <Compile Include="Loops\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Loops\IB_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="Loops\IB_ChillerElectricEIR.cs" />

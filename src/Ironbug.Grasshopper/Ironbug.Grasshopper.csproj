@@ -111,6 +111,8 @@
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SizingPlant.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SizingZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />

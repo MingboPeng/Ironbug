@@ -46,33 +46,9 @@ namespace Ironbug.HVAC
         
     }
 
-    //public class IB_SizingZone_DataFieldSet : IB_DataFieldSet
-    //{
-    //    protected override IddObject RefIddObject => new ThermalZone(new Model()).sizingZone().iddObject();
-
-        
-    //    public static readonly IB_DataField Multiplier
-    //        = new IB_DataField("Multiplier", "Multiplier", dbType, BasicSetting: true);
-
-    //    public static readonly IB_DataField ZoneInsideConvectionAlgorithm
-    //        = new IB_DataField("ZoneInsideConvectionAlgorithm", "InConvection", dbType, true);
-
-
-    //    public static readonly IB_DataField ZoneOutsideConvectionAlgorithm
-    //        = new IB_DataField("ZoneOutsideConvectionAlgorithm", "OutConvection", dbType, BasicSetting: true);
-
-
-    //    public static IEnumerable<IB_DataField> GetList()
-    //    {
-    //        return GetList<IB_SizingZone_DataFieldSet>();
-    //    }
-
-    //    public static IB_DataField GetAttributeByName(string name)
-    //    {
-    //        return GetAttributeByName<IB_SizingZone_DataFieldSet>(name);
-    //    }
-
-
-
-    //}
+    public class IB_SizingZone_DataFieldSet 
+        : IB_DataFieldSet<IB_SizingZone_DataFieldSet, SizingZone>
+    {
+        private IB_SizingZone_DataFieldSet() { }
+    }
 }

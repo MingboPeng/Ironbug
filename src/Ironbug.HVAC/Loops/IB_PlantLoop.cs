@@ -12,44 +12,39 @@ namespace Ironbug.HVAC
         private List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
         private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
+        private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
+
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop() : base(InitMethod(new Model()))
         {
         }
+        public void SetSizingPlant(IB_SizingPlant sizing)
+        {
+            this.IB_SizingPlant = sizing;
+        }
 
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
-            if (CheckWithBranch(HvacComponent))
-            {
-                this.supplyComponents.Add(HvacComponent);
-            }
-            else
-            {
-                throw new Exception("Supply side can only have one branch group.");
-            }
-            
-            
-        }
 
-        private bool CheckWithBranch(IB_HVACObject HvacComponent)
-        {
-            var isThereBranchesObj = this.supplyComponents.OfType<IB_PlantLoopBranches>().Any();
-            var isBranchesObj = HvacComponent is IB_PlantLoopBranches;
             
-            return !(isThereBranchesObj && isBranchesObj);
+            if (HvacComponent is IB_PlantLoopBranches)
+            {
+                CheckWithBranch(this.supplyComponents);
+            }
+
+            this.supplyComponents.Add(HvacComponent);
         }
+        
 
         public void AddToDemand(IB_HVACObject HvacComponent)
         {
+            if (HvacComponent is IB_PlantLoopBranches)
+            {
+                CheckWithBranch(this.demandComponents);
+            }
 
-            if (CheckWithBranch(HvacComponent))
-            {
-                this.demandComponents.Add(HvacComponent);
-            }
-            else
-            {
-                throw new Exception("Demand side can only have one branch group.");
-            }
+            this.demandComponents.Add(HvacComponent);
+            
         }
 
 
@@ -57,17 +52,33 @@ namespace Ironbug.HVAC
         {
             var plant = base.ToOS(InitMethod, model).to_PlantLoop().get();
 
-
+            IB_SizingPlant.ToOS(plant);
 
             this.AddSupplyObjects(plant, this.supplyComponents);
-
-            //TDDO: addDemandObjects
+            
             this.AddDemandObjects(plant, this.demandComponents);
-           
-
-
+            
             return plant;
         }
+
+        public override IB_ModelObject Duplicate()
+        {
+
+            var newObj = (IB_PlantLoop)this.DuplicateIBObj(() => new IB_PlantLoop());
+
+            this.supplyComponents.ForEach(d =>
+                newObj.AddToSupply((IB_HVACObject)d.Duplicate())
+                );
+
+            this.demandComponents.ForEach(d =>
+                newObj.AddToDemand((IB_HVACObject)d.Duplicate())
+                );
+
+            newObj.SetSizingPlant((IB_SizingPlant)this.IB_SizingPlant.Duplicate());
+
+            return newObj;
+        }
+
 
         private bool AddSupplyObjects(PlantLoop plant, List<IB_HVACObject> Components)
         {
@@ -105,12 +116,7 @@ namespace Ironbug.HVAC
             return allcopied;
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            //TODO: duplicate child objects
-            return this.DuplicateIBObj(() => new IB_PlantLoop());
-        }
-
+        
 
         private bool AddDemandObjects(PlantLoop plant, List<IB_HVACObject> Components)
         {
@@ -151,8 +157,35 @@ namespace Ironbug.HVAC
             return allcopied;
         }
 
+        private bool CheckWithBranch(IEnumerable<IB_HVACObject> HvacComponents)
+        {
+            var nranchesObjCount = HvacComponents.OfType<IB_PlantLoopBranches>().Count();
+            var isThereAlreadyOne = nranchesObjCount >= 1;
+            if (isThereAlreadyOne)
+            {
+                throw new Exception("Each side of the loop can only have one branch group.");
+            }
+
+            return !isThereAlreadyOne;
+        }
+
 
     }
+
+
+    public sealed class IB_PlantLoop_DataFieldSet
+        : IB_DataFieldSet<IB_PlantLoop_DataFieldSet, PlantLoop>
+    {
+        private IB_PlantLoop_DataFieldSet() { }
+
+        public IB_DataField FluidType { get; }
+            = new IB_BasicDataField("FluidType", "Fluid")
+            {
+                DetailedDescription = "Water, Steam, etc. "
+            };
+
+    }
+
 
     public static class Extensions
     {
