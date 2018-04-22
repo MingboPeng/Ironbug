@@ -16,9 +16,10 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AirLoopHVAC()
           : base("Ironbug_AirLoopHVAC", "AirLoop",
               "Description",
-              "Ironbug", "02:Loops")
+              "Ironbug", "01:Loops")
         {
         }
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

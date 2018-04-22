@@ -15,10 +15,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_SizingPlant()
           : base("Ironbug_SizingPlant", "SzPlant",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_SizingPlant_DataFieldSet))
         {
         }
+
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -56,7 +58,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.SizingPlant;
             }
         }
 

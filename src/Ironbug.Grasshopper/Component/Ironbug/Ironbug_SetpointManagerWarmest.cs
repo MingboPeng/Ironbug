@@ -14,9 +14,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerWarmest()
           : base("Ironbug_SetpointManagerWarmest", "SpWarmest",
               "Description",
-              "Ironbug", "01:SetpointManager")
+              "Ironbug", "05:SetpointManager")
         {
         }
+        public override GH_Exposure Exposure => GH_Exposure.primary;
+
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -66,7 +68,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.SetPointWarmest;
             }
         }
 

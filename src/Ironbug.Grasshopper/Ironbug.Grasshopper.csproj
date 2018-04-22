@@ -162,34 +162,40 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ThermalZone.png" />
+    <None Include="Resources\Branches.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PlantLoop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AirLoop.png" />
+    <None Include="Resources\SetPoint.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Boiler.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CoilHW.png" />
+    <None Include="Resources\Branches_Air.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ObjParams.png" />
+    <None Include="Resources\Branches_Plant.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Branches.png" />
+    <None Include="Resources\Chiller.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OutdoorAir.png" />
+    <None Include="Resources\CoilCDX1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VAVBox.png" />
+    <None Include="Resources\CoilCDX2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilCDXM.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoilCW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHDX1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHDXM.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoilHE.png" />
@@ -198,10 +204,34 @@
     <None Include="Resources\CoilHG.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\CoilHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DistricCooling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DistricHeating.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\FanC.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\FanV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ObjParams.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutdoorAir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopCW.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PumpC.png" />
@@ -210,13 +240,34 @@
     <None Include="Resources\PumpV.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SetPoint.png" />
+    <None Include="Resources\SetpointOAReset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointWarmest.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SFPBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PFPBox.png" />
+    <None Include="Resources\SizingPlant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SizingSys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SizingZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThermalZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitHeater.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirLoop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

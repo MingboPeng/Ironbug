@@ -124,9 +124,6 @@
   <data name="Boiler" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Boiler.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Branches" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Branches.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="CoilCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\CoilCW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -166,9 +163,6 @@
   <data name="PumpV" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PumpV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SetPoint" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SetPoint.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="SFPBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SFPBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -180,5 +174,56 @@
   </data>
   <data name="PFPBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PFPBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Branches_Air" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Branches_Air.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Branches_Plant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Branches_Plant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chiller" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chiller.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilCDX1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilCDX1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilCDX2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilCDX2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilCDXM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilCDXM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHDX1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHDX1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHDXM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHDXM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DistricCooling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DistricCooling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DistricHeating" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DistricHeating.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PlantLoopCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PlantLoopCW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SetpointOAReset" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SetpointOAReset.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SetPointWarmest" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SetPointWarmest.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SizingPlant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SizingPlant.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SizingSys" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SizingSys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SizingZone" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SizingZone.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitHeater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitHeater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -16,11 +16,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_ZoneHVACUnitHeater()
           : base("Ironbug_ZoneHVACUnitHeater", "UnitHeater",
               "Description",
-              "Ironbug", "01:ZoneEquipments",
+              "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACUnitHeater_DataFieldSet))
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -74,7 +75,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.UnitHeater;
             }
         }
 

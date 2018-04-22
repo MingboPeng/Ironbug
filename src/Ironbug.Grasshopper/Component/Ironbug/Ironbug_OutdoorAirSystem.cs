@@ -14,10 +14,11 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_OutdoorAirSystem()
           : base("Ironbug_OutdoorAirSystem", "Nickname",
               "Description",
-              "Ironbug", "01:LoopComponents")
+              "Ironbug", "02:LoopComponents")
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

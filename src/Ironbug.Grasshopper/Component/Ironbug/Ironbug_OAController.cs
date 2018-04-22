@@ -15,11 +15,13 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_OAController()
           : base("Ironbug_OAController", "OAController",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_ControllerOutdoorAir_DataFieldSet))
         {
         }
-        
+
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
+
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

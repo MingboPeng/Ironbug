@@ -15,10 +15,11 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AirLoopBranches()
           : base("AirLoopBranches", "Branches",
               "Description",
-              "Ironbug", "02:Loops")
+              "Ironbug", "01:Loops")
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -67,7 +68,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.Branches;
+                return Properties.Resources.Branches_Air;
             }
         }
 

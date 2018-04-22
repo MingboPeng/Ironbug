@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_ThermalZone()
           : base("Ironbug_ThermalZone", "ThermalZone",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "00:Ironbug",
               typeof(IB_ThermalZone_DataFieldSet))
         {
         }

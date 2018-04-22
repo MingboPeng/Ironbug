@@ -19,12 +19,14 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_FanConstantVolume()
           : base("Ironbug_FanConstantVolume", "FanConstant",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_FanConstantVolume_DataFields))
         {
             
         }
-        
+
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

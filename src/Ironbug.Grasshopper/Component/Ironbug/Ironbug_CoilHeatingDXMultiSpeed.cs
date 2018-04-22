@@ -12,11 +12,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CoilHeatingDXMultiSpeed()
           : base("Ironbug_CoilHeatingDXMultiSpeed", "CoilHDXMtp",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingDXMultiSpeed_DataFieldSet))
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -52,7 +53,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.CoilHDXM;
             }
         }
 

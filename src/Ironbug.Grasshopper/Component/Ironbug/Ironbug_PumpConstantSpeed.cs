@@ -15,10 +15,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_PumpConstantSpeed()
           : base("Ironbug_PumpConstantSpeed", "PumpConstant",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PumpConstantSpeed_DataFields))
         {
         }
+
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

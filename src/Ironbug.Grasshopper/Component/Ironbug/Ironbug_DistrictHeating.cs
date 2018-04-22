@@ -14,11 +14,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_DistrictHeating()
           : base("Ironbug_DistrictHeating", "DistHeating",
               "Description",
-              "Ironbug", "01:LoopComponents",
+              "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_DistrictHeating_DataFieldSet))
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -55,7 +56,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.DistricHeating;
             }
         }
 

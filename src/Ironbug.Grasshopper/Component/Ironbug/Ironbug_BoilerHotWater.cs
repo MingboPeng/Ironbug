@@ -17,11 +17,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_BoilerHotWater()
           : base("Ironbug_BoilerHotWater", "BoilerHW",
               "Description",
-              "Ironbug", "01:LoopComponents", 
+              "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_BoilerHotWater_DataFields))
         {
         }
-        
+
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

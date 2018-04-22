@@ -16,10 +16,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_PlantLoop()
           : base("Ironbug_PlantLoop", "PlantLoop",
               "Description",
-              "Ironbug", "02:Loops",
+              "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_DataFieldSet))
         {
         }
+
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
