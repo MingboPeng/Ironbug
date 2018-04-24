@@ -85,6 +85,9 @@
     <Compile Include="Loops\IB_CoilHeatingDXMultiSpeed.cs" />
     <Compile Include="Loops\IB_CoilHeatingDXSingleSpeed.cs" />
     <Compile Include="Loops\IB_CoilCoolingLowTempRadiantConstFlow.cs" />
+    <Compile Include="Loops\IB_CoolingTowerVariableSpeed.cs" />
+    <Compile Include="Loops\IB_CoolingTowerTwoSpeed.cs" />
+    <Compile Include="Loops\IB_CoolingTowerSingleSpeed.cs" />
     <Compile Include="Loops\IB_SizingPlant.cs" />
     <Compile Include="Loops\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Loops\IB_AirConditionerVariableRefrigerantFlow.cs" />
