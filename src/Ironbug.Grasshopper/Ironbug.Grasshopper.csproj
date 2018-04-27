@@ -114,6 +114,8 @@
     <Compile Include="Component\Ironbug\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantLoop_CW.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantLoop_HW.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PumpVariableSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
@@ -231,9 +233,6 @@
     <None Include="Resources\PFPBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PlantLoop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PlantLoopCW.png" />
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +279,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoolingTowerV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
