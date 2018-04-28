@@ -178,6 +178,9 @@ namespace Ironbug.HVAC
     {
         private IB_PlantLoop_DataFieldSet() { }
 
+        public IB_DataField Name { get; }
+            = new IB_BasicDataField("Name", "Name");
+
         public IB_DataField FluidType { get; }
             = new IB_BasicDataField("FluidType", "Fluid")
             {

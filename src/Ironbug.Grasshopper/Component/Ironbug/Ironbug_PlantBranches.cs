@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
@@ -25,8 +27,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Branch1", "B1", "...", GH_ParamAccess.list);
-            pManager.AddGenericParameter("Branch2", "B2", "...", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
+            pManager.AddGenericParameter("Branch2", "B2", "...", GH_ParamAccess.tree);
             pManager[1].Optional = true;
         }
 
@@ -44,18 +46,25 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var branch1 = new List<IB_HVACObject>();
-            var branch2 = new List<IB_HVACObject>();
+            var tree1 = new GH_Structure<IGH_Goo>();
+            var tree2 = new GH_Structure<IGH_Goo>();
+
+            DA.GetDataTree(0, out tree1);
+            DA.GetDataTree(1, out tree2);
 
 
-            DA.GetDataList(0, branch1);
-            DA.GetDataList(1, branch2);
 
-            var branches = new IB_PlantLoopBranches();
-            branches.Add(branch1);
-            branches.Add(branch2);
+            var loopBranches = this.mapToLoopBranches(tree1);//just test the first tree for now.
+            //loopBranches.a
 
-            DA.SetData(0, branches);
+            //DA.GetDataList(0, branch1);
+            //DA.GetDataList(1, branch2);
+
+            
+            //branches.Add(branch1);
+            //branches.Add(branch2);
+
+            DA.SetData(0, loopBranches);
 
 
 
@@ -81,5 +90,38 @@ namespace Ironbug.Grasshopper.Component
         {
             get { return new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c"); }
         }
+
+
+        public IB_PlantLoopBranches mapToLoopBranches(GH_Structure<IGH_Goo> ghTrees)
+        {
+            var loopBranches = new IB_PlantLoopBranches();
+
+            var ghBranches = ghTrees.Branches;
+            
+            var converter = new Converter<IGH_Goo, IB_HVACObject>((_) => (IB_HVACObject)((GH_ObjectWrapper)_).Value);
+
+            if (ghBranches.Count > 0)
+            {
+                foreach (var ghBranch in ghBranches)
+                {
+                    //var loopBranch = new List<IB_HVACObject>();
+                    
+                    //var loopBranch = ghBranch.ConvertAll(converter);
+                    loopBranches.Add(ghBranch.ConvertAll(converter));
+                }
+
+                
+            }
+            else
+            {
+                
+                
+            }
+
+
+
+            return loopBranches;
+        }
+
     }
 }

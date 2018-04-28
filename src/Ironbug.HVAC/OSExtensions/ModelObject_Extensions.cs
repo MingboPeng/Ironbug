@@ -35,6 +35,7 @@ namespace Ironbug.HVAC
             }
             return optionObj;
         }
+        
 
         public static object GetDataFieldValue(this ModelObject component, string getterMethodName)
         {
@@ -62,7 +63,7 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                throw new Exception("Something went wrong!"+ e.InnerException?? e.Message);
+                throw new Exception("Something went wrong!\r\n"+ e.InnerException?? e.Message);
                 //invokeResult = e.ToString();
             }
             

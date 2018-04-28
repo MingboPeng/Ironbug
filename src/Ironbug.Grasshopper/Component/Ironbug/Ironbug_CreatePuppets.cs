@@ -2,33 +2,29 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component
+namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_AirLoopBranches : GH_Component
+    public class Ironbug_CreatePuppets : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirLoopBranches class.
+        /// Initializes a new instance of the Ironbug_CreatePuppets class.
         /// </summary>
-        public Ironbug_AirLoopBranches()
-          : base("AirLoopBranches", "Branches",
+        public Ironbug_CreatePuppets()
+          : base("Ironbug_CreatePuppets", "Puppets",
               "Description",
-              "Ironbug", "01:Loops")
+              "Ironbug", "00:Ironbug")
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Branch1", "B1", "A list of zones will be automatically converted to branches. One zone per branch", GH_ParamAccess.list);
-            //pManager[0].Optional = true;
-            pManager.AddGenericParameter("Branch2", "B2", "...", GH_ParamAccess.list);
-            pManager[1].Optional = true;
+            pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating puppets", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Amount", "n", "number of puppets to be created", GH_ParamAccess.item, 1.0 );
         }
 
         /// <summary>
@@ -36,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopBranches", "Branches", "use this in air loop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Puppets", "puppets", "Puppets", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -45,18 +41,30 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var branch1 = new List<IB_HVACObject>();
-            var branch2 = new List<IB_HVACObject>();
+            HVAC.BaseClass.IB_ModelObject obj = null;
+            double amount = 1;
+            DA.GetData(0, ref obj);
+            DA.GetData(1, ref amount);
+
+            if (obj !=null)
+            {
+
+                var puppets = new List<HVAC.BaseClass.IB_ModelObject>();
+                for (int i = 0; i < amount; i++)
+                {
+                    var puppet = obj.Duplicate();
+                    puppet.SetTrackingID();
+                    puppets.Add(puppet);
+
+                }
+
+                DA.SetDataList(0, puppets);
+                
+            }
 
 
-            DA.GetDataList(0, branch1);
-            DA.GetDataList(1, branch2);
 
-            var branches = new IB_AirLoopBranches();
-            branches.Add(branch1);
-            branches.Add(branch2);
 
-            DA.SetData(0, branches);
         }
 
         /// <summary>
@@ -68,7 +76,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.Branches_Air;
+                return null;
             }
         }
 
@@ -77,7 +85,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("cdfeb7d7-63cc-4e0a-b77b-553026f30803"); }
+            get { return new Guid("cb1cb9d6-e29e-4d26-9133-82b47c0e6d8d"); }
         }
     }
 }

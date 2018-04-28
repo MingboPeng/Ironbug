@@ -12,6 +12,39 @@ namespace Ironbug.HVACTests
     {
        
         [TestMethod]
+        public void IBChiller_Loop_Test()
+        {
+            var md1 = new OpenStudio.Model();
+            var cwlp = new IB_PlantLoop();
+            var cdlp = new IB_PlantLoop();
+            var chiller = new IB_ChillerElectricEIR();
+
+            var branches = new IB_PlantLoopBranches();
+            var branch = new List<IB_HVACObject>();
+            branch.Add(chiller);
+            branches.Add(branch);
+
+            var branches2 = new IB_PlantLoopBranches();
+            var branch2 = new List<IB_HVACObject>();
+            branch2.Add(chiller);
+            branches2.Add(branch2);
+
+
+            cwlp.AddToSupply(branches);
+            cdlp.AddToDemand(branches2);
+
+            cwlp.ToOS(md1);
+            cdlp.ToOS(md1);
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            md1.Save(saveFile);
+
+            var findChiller = md1.getChillerElectricEIRs().Count() == 1;
+            Assert.IsTrue(findChiller);
+
+        }
+
+        [TestMethod]
         public void PlantBranches_Test()
         {
             var md1 = new OpenStudio.Model();

@@ -3,7 +3,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_PlantLoopObjects
+    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_DualLoopObject
     {
         private static ChillerElectricEIR InitMethod(Model model) => new ChillerElectricEIR(model);
         public IB_ChillerElectricEIR() : base(InitMethod(new Model()))
@@ -13,6 +13,7 @@ namespace Ironbug.HVAC
         public override bool AddToNode(Node node)
         {
             var model = node.model();
+
             return ((ChillerElectricEIR)this.ToOS(model)).addToNode(node);
         }
 

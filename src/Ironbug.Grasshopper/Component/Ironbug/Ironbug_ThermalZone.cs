@@ -35,9 +35,9 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddBrepParameter("HoneybeeZone", "_HBZones", "HBZone", GH_ParamAccess.list);
             //pManager[0].Optional = true;
-            pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal for all HBZones, or provide list of air terminals for each HBZone; Default:    ", GH_ParamAccess.list);
+            pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal for per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.tree);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
@@ -77,13 +77,9 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetDataList(1, airTerminals))
             {
-                if (airTerminals.Count == 1)
+                if (airTerminals.Count != OSZones.Count)
                 {
-                    OSZones.ForEach(_ => _.SetAirTerminal(airTerminals.First()));
-                }
-                else if (airTerminals.Count != OSZones.Count)
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "One air terminal applies to all zones, or input the same amount of air terminals as zones");
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
                     return;
                 }
                 else

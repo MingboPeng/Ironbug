@@ -56,7 +56,7 @@ namespace Ironbug.Grasshopper.Component
 
             DA.GetDataList(0, supplyComs);
             DA.GetDataList(1, demandComs);
-            
+            DA.GetData(2, ref sizing);
 
 
             var plant = new HVAC.IB_PlantLoop();
@@ -70,13 +70,19 @@ namespace Ironbug.Grasshopper.Component
                 var newItem = (IB_HVACObject)item.Duplicate();
                 plant.AddToDemand(newItem);
             }
-
-
-            sizing.SetAttribute(HVAC.IB_SizingPlant_DataFieldSet.Value.LoopType, "Cooling");
-            plant.SetSizingPlant(sizing);
             
-            this.SetObjParamsTo(plant);
-            plant.SetAttribute(HVAC.IB_PlantLoop_DataFieldSet.Value.FluidType, "Water");
+            var sizingChecked = this.setSizingDefault(sizing);
+            plant.SetSizingPlant(sizingChecked);
+            
+            base.SetObjParamsTo(plant);
+
+
+            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
+            if (!plant.CustomAttributes.ContainsKey("setName"))
+            {
+                plant.SetAttribute(plantFields.Name, "Chilled Water Loop");
+            }
+            plant.SetAttribute(plantFields.FluidType, "Water");
             DA.SetData(0, plant);
         }
 
@@ -99,6 +105,30 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid
         {
             get { return new Guid("1A540675-358F-45EB-A73C-FB7C4BFC9541"); }
+        }
+
+
+        private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
+        {
+            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
+
+            var custAtt = sizing.CustomAttributes;
+
+            sizing.SetAttribute(szFields.LoopType, "Cooling");
+            
+            if (!custAtt.ContainsKey("DesignLoopExitTemperature"))
+            {
+                sizing.SetAttribute(szFields.DesignLoopExitTemperature, 7.22);
+            }
+
+            if (!custAtt.ContainsKey("LoopDesignTemperatureDifference"))
+            {
+                sizing.SetAttribute(szFields.LoopDesignTemperatureDifference, 6.67);
+            }
+            
+
+            return sizing;
         }
     }
 }

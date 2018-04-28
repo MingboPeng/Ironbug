@@ -56,7 +56,7 @@ namespace Ironbug.Grasshopper.Component
 
             DA.GetDataList(0, supplyComs);
             DA.GetDataList(1, demandComs);
-            
+            DA.GetData(2, ref sizing);
 
 
             var plant = new HVAC.IB_PlantLoop();
@@ -71,12 +71,18 @@ namespace Ironbug.Grasshopper.Component
                 plant.AddToDemand(newItem);
             }
 
-
-            sizing.SetAttribute(HVAC.IB_SizingPlant_DataFieldSet.Value.LoopType, "Heating");
-            plant.SetSizingPlant(sizing);
+            
+            var sizingChecked = this.setSizingDefault(sizing);
+            plant.SetSizingPlant(sizingChecked);
             
             this.SetObjParamsTo(plant);
-            plant.SetAttribute(HVAC.IB_PlantLoop_DataFieldSet.Value.FluidType, "Water");
+
+            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
+            if (!plant.CustomAttributes.ContainsKey("setName"))
+            {
+                plant.SetAttribute(plantFields.Name, "Hot Water Loop");
+            }
+            plant.SetAttribute(plantFields.FluidType, "Water");
             DA.SetData(0, plant);
         }
 
@@ -99,6 +105,19 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid
         {
             get { return new Guid("DD9899C2-04C6-4AFA-8046-4BA7DD8E4C38"); }
+        }
+
+
+        private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
+        {
+            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
+
+            var custAtt = sizing.CustomAttributes;
+
+            sizing.SetAttribute(szFields.LoopType, "Heating");
+            
+            return sizing;
         }
     }
 }

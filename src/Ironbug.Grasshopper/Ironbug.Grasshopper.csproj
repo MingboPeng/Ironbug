@@ -106,6 +106,7 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CreatePuppets.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
