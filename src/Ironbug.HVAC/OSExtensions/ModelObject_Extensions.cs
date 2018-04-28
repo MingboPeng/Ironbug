@@ -63,7 +63,7 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                throw new Exception("Something went wrong!\r\n"+ e.InnerException?? e.Message);
+                throw new Exception("Just prevented an irrecoverable crashing!\r\nPlease save the file immediately!\r\n\r\n" + e.InnerException?? e.Message);
                 //invokeResult = e.ToString();
             }
             

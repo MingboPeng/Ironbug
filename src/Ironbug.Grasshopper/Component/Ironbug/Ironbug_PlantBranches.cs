@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantBranches : GH_Component
+    public class Ironbug_PlantBranches : GH_Component, IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -19,6 +20,7 @@ namespace Ironbug.Grasshopper.Component
                "Description",
               "Ironbug", "01:Loops")
         {
+            Params.ParameterSourcesChanged += ParamSourcesChanged;
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -28,8 +30,8 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
-            pManager.AddGenericParameter("Branch2", "B2", "...", GH_ParamAccess.tree);
-            pManager[1].Optional = true;
+            
+            pManager[0].Optional = true;
         }
 
         /// <summary>
@@ -46,28 +48,52 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var tree1 = new GH_Structure<IGH_Goo>();
-            var tree2 = new GH_Structure<IGH_Goo>();
-
-            DA.GetDataTree(0, out tree1);
-            DA.GetDataTree(1, out tree2);
-
-
-
-            var loopBranches = this.mapToLoopBranches(tree1);//just test the first tree for now.
-            //loopBranches.a
-
-            //DA.GetDataList(0, branch1);
-            //DA.GetDataList(1, branch2);
-
             
-            //branches.Add(branch1);
-            //branches.Add(branch2);
+            var branches = this.CollectBranches();
+            this.Message = this.CountBranches(branches);
 
-            DA.SetData(0, loopBranches);
+            DA.SetData(0, branches);
 
 
 
+        }
+
+        public bool CanInsertParameter(GH_ParameterSide side, int index)
+        {
+            return side == GH_ParameterSide.Input;
+        }
+
+        public bool CanRemoveParameter(GH_ParameterSide side, int index)
+        {
+            return side == GH_ParameterSide.Input;
+        }
+
+        public IGH_Param CreateParameter(GH_ParameterSide side, int index)
+        {
+            var param = new Param_GenericObject();
+            param.NickName = String.Empty;
+            param.Name = "Branch";
+            param.Description = "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.";
+            param.Access = GH_ParamAccess.tree;
+            param.Optional = true;
+            return param;
+        }
+
+        public bool DestroyParameter(GH_ParameterSide side, int index)
+        {
+            return true;
+        }
+
+        public void VariableParameterMaintenance()
+        {
+            //basically just checking nick names 
+            int inputI = 0;
+            foreach (var param in Params.Input)
+            {
+                inputI++;
+                param.NickName = $"B{ inputI }";
+                
+            }
         }
 
         /// <summary>
@@ -92,9 +118,9 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        public IB_PlantLoopBranches mapToLoopBranches(GH_Structure<IGH_Goo> ghTrees)
+        public List<List<IB_HVACObject>> MapToLoopBranches(GH_Structure<IGH_Goo> ghTrees)
         {
-            var loopBranches = new IB_PlantLoopBranches();
+            var loopBranches = new List<List<IB_HVACObject>>();
 
             var ghBranches = ghTrees.Branches;
             
@@ -104,9 +130,6 @@ namespace Ironbug.Grasshopper.Component
             {
                 foreach (var ghBranch in ghBranches)
                 {
-                    //var loopBranch = new List<IB_HVACObject>();
-                    
-                    //var loopBranch = ghBranch.ConvertAll(converter);
                     loopBranches.Add(ghBranch.ConvertAll(converter));
                 }
 
@@ -121,6 +144,70 @@ namespace Ironbug.Grasshopper.Component
 
 
             return loopBranches;
+        }
+
+        private string CountBranches(IB_PlantLoopBranches branches)
+        {
+            string messages = string.Empty;
+            var b = branches.Branches.Count;
+
+            if (b > 0)
+            {
+                messages = $"{b} branches";
+            }
+
+            return messages;
+
+        }
+
+        private IB_PlantLoopBranches CollectBranches()
+        {
+
+            var branches = new IB_PlantLoopBranches();
+
+            var allParams = this.Params.Input;
+            foreach (var param in allParams)
+            {
+                if (param.SourceCount <= 0)
+                {
+                    continue;
+                }
+
+                var tree = new List<List<IB_HVACObject>>();
+                
+                if (!param.VolatileData.IsEmpty)
+                {
+                   
+                    tree = MapToLoopBranches((GH_Structure<IGH_Goo>)param.VolatileData);
+                    
+                }
+
+                foreach (var branch in tree)
+                {
+                    branches.Add(branch);
+                }
+                
+
+            }
+
+            return branches;
+        }
+
+        private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)
+        {
+
+            //check input side only
+            if (e.ParameterSide != GH_ParameterSide.Input) return;
+
+            if (Params.Input.Last().Sources.Any())
+            {
+                IGH_Param newParam = CreateParameter(GH_ParameterSide.Input, Params.Input.Count);
+                Params.RegisterInputParam(newParam, Params.Input.Count);
+                VariableParameterMaintenance();
+                Params.OnParametersChanged();
+            }
+
+
         }
 
     }

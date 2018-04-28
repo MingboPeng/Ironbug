@@ -25,13 +25,15 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
-            pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
+            pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
             pManager[2].Optional = true;
+            pManager[2].DataMapping = GH_DataMapping.Flatten;
 
         }
 
@@ -58,8 +60,9 @@ namespace Ironbug.Grasshopper.Component
             //var model = new OpenStudio.Model();
 
             DA.GetData(0, ref filepath);
-            DA.GetDataList(1,  plantLoops);
-            DA.GetDataList(2,  airLoops);
+            DA.GetDataList(1, airLoops);
+            DA.GetDataList(2,  plantLoops);
+            
             DA.GetData(3, ref write);
 
             if (!write) return;
