@@ -2,34 +2,31 @@
 using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Ironbug.Grasshopper.Properties;
-using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
-namespace Ironbug.Grasshopper.Component
+namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_AirLoopHVAC : GH_Component
+    public class Ironbug_SetpointManagerScheduled : GH_Component
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirLoopHVAC class.
+        /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
-        public Ironbug_AirLoopHVAC()
-          : base("Ironbug_AirLoopHVAC", "AirLoop",
+        public Ironbug_SetpointManagerScheduled()
+          : base("Ironbug_SetpointManagerScheduled", "SpScheduled",
               "Description",
-              "Ironbug", "01:Loops")
+              "Ironbug", "05:SetpointManager")
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
+
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
-            pManager.AddGenericParameter("demand", "demand", "zoneBranches or other HVAC components", GH_ParamAccess.list);
-            pManager[0].Optional = true;
-            pManager[1].Optional = true;
+            pManager.AddNumberParameter("Temperature", "T", "SetpointTemperature", GH_ParamAccess.item);
+            
         }
 
         /// <summary>
@@ -37,7 +34,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopHVAC", "AirLoop", "toSaveOSM", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerScheduled", "SpScheduled", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -46,29 +43,15 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var supplyComs = new List<IB_HVACObject>();
-            DA.GetDataList(0, supplyComs);
 
-            var demandComs = new List<IB_HVACObject>();
-            DA.GetDataList(1, demandComs);
+            double temperature = 12.7778;
 
-            var airLoop = new HVAC.IB_AirLoopHVAC();
+            DA.GetData(0, ref temperature);
 
-            //TODO: need to check nulls
-            foreach (var item in supplyComs)
-            {
-                airLoop.AddToSupplySide(item);
-            }
-
-            foreach (var item in demandComs)
-            {
-                airLoop.AddToDemandSide(item);
-            }
+            var obj = new HVAC.IB_SetpointManagerScheduled(temperature);
             
-
-            //var model = new OpenStudio.Model();
-            DA.SetData(0, airLoop);
-
+            
+            DA.SetData(0, obj);
         }
 
         /// <summary>
@@ -80,7 +63,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Resources.AirLoop;
+                return Properties.Resources.SetPointScheduled;
             }
         }
 
@@ -89,7 +72,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("a416631f-bdda-4e11-8a2c-658c38681201"); }
+            get { return new Guid("A2FE343D-A2BA-42C3-B54E-2CBEFDE7DDA1"); }
         }
     }
 }

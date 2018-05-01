@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ironbug.HVAC.SetpointManagers
+namespace Ironbug.HVAC
 {
     public class IB_SetpointManagerScheduled : IB_SetpointManager
     {

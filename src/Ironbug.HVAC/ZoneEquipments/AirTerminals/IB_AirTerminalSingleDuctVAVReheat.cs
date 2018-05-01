@@ -20,9 +20,8 @@ namespace Ironbug.HVAC
         public void SetReheatCoil(IB_Coil ReheatCoil)
         {
             this.ReheatCoil = ReheatCoil;
-            
         }
-
+        
         public override IB_ModelObject Duplicate()
         {
             var newObj = (IB_AirTerminalSingleDuctVAVReheat)base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctVAVReheat());

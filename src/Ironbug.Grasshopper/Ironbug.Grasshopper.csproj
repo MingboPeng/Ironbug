@@ -123,6 +123,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingPlant.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingZone.cs" />
@@ -290,6 +291,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PlantLoopDW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointScheduled.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
