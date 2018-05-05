@@ -10,11 +10,13 @@ namespace Ironbug.HVACTests
     [TestClass]
     public class HVACWorkflowTest
     {
-       
+        OpenStudio.Model md1 = new OpenStudio.Model();
+        string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+
         [TestMethod]
         public void IBChiller_Loop_Test()
         {
-            var md1 = new OpenStudio.Model();
+            //var md1 = new OpenStudio.Model();
             var cwlp = new IB_PlantLoop();
             var cdlp = new IB_PlantLoop();
             var chiller = new IB_ChillerElectricEIR();
@@ -36,7 +38,7 @@ namespace Ironbug.HVACTests
             cwlp.ToOS(md1);
             cdlp.ToOS(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             md1.Save(saveFile);
 
             var findChiller = md1.getChillerElectricEIRs().Count() == 1;
@@ -47,7 +49,7 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void PlantBranches_Test()
         {
-            var md1 = new OpenStudio.Model();
+            
 
             var plantloop = new IB_PlantLoop();
 
@@ -100,7 +102,7 @@ namespace Ironbug.HVACTests
 
             var success = findPumpv && findPumpC && findboilers;
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             success &= md1.Save(saveFile);
 
 
@@ -111,8 +113,7 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void AirloopWorkflow_Test()
         {
-            var md1 = new OpenStudio.Model();
-
+            //var md1 = new OpenStudio.Model();
             var airflow = new HVAC.IB_AirLoopHVAC();
             var coil = new HVAC.IB_CoilHeatingWater();
             var fan = new IB_FanConstantVolume();
@@ -129,11 +130,34 @@ namespace Ironbug.HVACTests
             var success2 = coil.IsInModel(md2);
             var success_fan = fan.IsInModel(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            
             var success3 = md2.Save(saveFile);
 
             var success = success1 && success2 && success3 & success_fan;
 
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void VRF_Test()
+        {
+            //var md1 = new OpenStudio.Model();
+            var vrf = new IB_AirConditionerVariableRefrigerantFlow();
+            var vrfTerm = new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
+            var zone = new IB_ThermalZone();
+
+            zone.AddZoneEquipment(vrfTerm);
+
+            vrf.AddTerminal(vrfTerm);
+
+
+            vrf.ToOS(md1);
+            zone.ToOS(md1);
+
+            var success = md1.getZoneHVACTerminalUnitVariableRefrigerantFlows().Any();
+
+            success &= md1.Save(saveFile);
+            
             Assert.IsTrue(success);
         }
     }

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenStudio;
+﻿using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_ZoneEquipment : IB_ModelObject, IIB_ToOPSable
+    public abstract class IB_ZoneEquipment : IB_ModelObject, IIB_ToOPSable, IIB_ZoneEquipment
     {
         public abstract ModelObject ToOS(Model model);
 

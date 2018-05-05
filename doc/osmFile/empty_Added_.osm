@@ -1,556 +1,595 @@
 
 OS:Version,
-  {8d0061fd-a897-4444-9926-330b5d47b705}, !- Handle
+  {6c21233a-cc6d-4eca-82c3-7d028e11b004}, !- Handle
   2.4.0;                                  !- Version Identifier
 
-! TrackingID:#[7NZGkJ]
-OS:PlantLoop,
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Handle
-  Plant Loop 1,                           !- Name
-  ,                                       !- Fluid Type
-  0,                                      !- Glycol Concentration
-  ,                                       !- User Defined Fluid Type
-  ,                                       !- Plant Equipment Operation Heating Load
-  ,                                       !- Plant Equipment Operation Cooling Load
-  ,                                       !- Primary Plant Equipment Operation Scheme
-  {c0e0ec21-6a85-44f6-bf8b-dd5488bf347a}, !- Loop Temperature Setpoint Node Name
-  ,                                       !- Maximum Loop Temperature {C}
-  ,                                       !- Minimum Loop Temperature {C}
-  ,                                       !- Maximum Loop Flow Rate {m3/s}
-  ,                                       !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  {fd485c7d-ff5a-4090-a022-713dca815a37}, !- Plant Side Inlet Node Name
-  {aa51d72d-8a94-47c1-b684-8c7dcb95ce49}, !- Plant Side Outlet Node Name
-  ,                                       !- Plant Side Branch List Name
-  {6bce1eaa-1172-41f6-a613-e711caed8518}, !- Demand Side Inlet Node Name
-  {de280efc-2862-441b-b60c-0661ead490a7}, !- Demand Side Outlet Node Name
-  ,                                       !- Demand Side Branch List Name
-  ,                                       !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  {2760b7da-5986-4e94-b2e7-2e166f297ffd}, !- Availability Manager List Name
-  ,                                       !- Plant Loop Demand Calculation Scheme
-  ,                                       !- Common Pipe Simulation
-  ,                                       !- Pressure Simulation Type
-  ,                                       !- Plant Equipment Operation Heating Load Schedule
-  ,                                       !- Plant Equipment Operation Cooling Load Schedule
-  ,                                       !- Primary Plant Equipment Operation Scheme Schedule
-  ,                                       !- Component Setpoint Operation Scheme Schedule
-  {51cb378e-ec46-46f0-a536-68a0183164a7}, !- Demand Mixer Name
-  {73c11a11-2b04-4fae-8be3-798cfc7eba2b}, !- Demand Splitter Name
-  {8cd1113c-757a-4043-abe0-0c690d95f021}, !- Supply Mixer Name
-  {1368ce98-dfc4-4bb9-92b1-c85473bc11ea}; !- Supply Splitter Name
-
-OS:Sizing:Plant,
-  {35c4580e-9f67-4910-9a79-5b73ab27f262}, !- Handle
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  82,                                     !- Design Loop Exit Temperature {C}
-  11,                                     !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-OS:Node,
-  {daa5e57f-c331-4000-9e61-96bf8ff5cc08}, !- Handle
-  Node 1,                                 !- Name
-  {fd485c7d-ff5a-4090-a022-713dca815a37}, !- Inlet Port
-  {37d7f6e1-0e6d-42b0-ac7a-c13fdf4bb68a}; !- Outlet Port
-
-OS:Node,
-  {c0e0ec21-6a85-44f6-bf8b-dd5488bf347a}, !- Handle
-  Node 2,                                 !- Name
-  {e626ff0d-849c-4178-ad38-c21be3c15ff9}, !- Inlet Port
-  {aa51d72d-8a94-47c1-b684-8c7dcb95ce49}; !- Outlet Port
-
-OS:Node,
-  {621dee1b-9d8c-476f-88a3-153adad757a5}, !- Handle
-  Node 3,                                 !- Name
-  {6dc0245e-5267-4df5-9a47-04f5c8536a06}, !- Inlet Port
-  {2845dba6-b96e-495d-bdbd-c4e90a6b7a2e}; !- Outlet Port
-
-OS:Connector:Mixer,
-  {8cd1113c-757a-4043-abe0-0c690d95f021}, !- Handle
-  Connector Mixer 1,                      !- Name
-  {e626ff0d-849c-4178-ad38-c21be3c15ff9}, !- Outlet Branch Name
-  {be8fcc0b-d85d-434f-8cdd-75f55d246b32}; !- Inlet Branch Name 1
-
-OS:Connector:Splitter,
-  {1368ce98-dfc4-4bb9-92b1-c85473bc11ea}, !- Handle
-  Connector Splitter 1,                   !- Name
-  {37d7f6e1-0e6d-42b0-ac7a-c13fdf4bb68a}, !- Inlet Branch Name
-  {6dc0245e-5267-4df5-9a47-04f5c8536a06}; !- Outlet Branch Name 1
-
-OS:Connection,
-  {fd485c7d-ff5a-4090-a022-713dca815a37}, !- Handle
-  {80baa90f-72b6-4d47-a9a6-e0352fca38cf}, !- Name
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Source Object
-  14,                                     !- Outlet Port
-  {daa5e57f-c331-4000-9e61-96bf8ff5cc08}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {37d7f6e1-0e6d-42b0-ac7a-c13fdf4bb68a}, !- Handle
-  {e3fa4fa5-7335-4081-9fb8-981945b29851}, !- Name
-  {daa5e57f-c331-4000-9e61-96bf8ff5cc08}, !- Source Object
-  3,                                      !- Outlet Port
-  {1368ce98-dfc4-4bb9-92b1-c85473bc11ea}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {6dc0245e-5267-4df5-9a47-04f5c8536a06}, !- Handle
-  {06b42c6f-c70e-4a56-b85f-45765c857e91}, !- Name
-  {1368ce98-dfc4-4bb9-92b1-c85473bc11ea}, !- Source Object
-  3,                                      !- Outlet Port
-  {621dee1b-9d8c-476f-88a3-153adad757a5}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {e626ff0d-849c-4178-ad38-c21be3c15ff9}, !- Handle
-  {b687eecc-8ee6-4d1b-86c1-f625f588c216}, !- Name
-  {8cd1113c-757a-4043-abe0-0c690d95f021}, !- Source Object
-  2,                                      !- Outlet Port
-  {c0e0ec21-6a85-44f6-bf8b-dd5488bf347a}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {aa51d72d-8a94-47c1-b684-8c7dcb95ce49}, !- Handle
-  {54602265-85e2-4b41-a352-a458659068c8}, !- Name
-  {c0e0ec21-6a85-44f6-bf8b-dd5488bf347a}, !- Source Object
-  3,                                      !- Outlet Port
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Target Object
-  15;                                     !- Inlet Port
-
-OS:Node,
-  {23477ab3-1410-4a7e-8f87-afb9a87b50e2}, !- Handle
-  Node 4,                                 !- Name
-  {6bce1eaa-1172-41f6-a613-e711caed8518}, !- Inlet Port
-  {639ff768-4937-4a23-acc2-22b19051ecc8}; !- Outlet Port
-
-OS:Node,
-  {faefafc1-5981-460d-b99d-1e936b47fad9}, !- Handle
-  Node 5,                                 !- Name
-  {20479611-692e-44ac-b4ad-94b2489c615e}, !- Inlet Port
-  {de280efc-2862-441b-b60c-0661ead490a7}; !- Outlet Port
-
-OS:Node,
-  {5f1596b2-690b-4938-b203-0c346df5a45d}, !- Handle
-  Node 6,                                 !- Name
-  {879098db-740c-4d21-875d-bd662c46cf6b}, !- Inlet Port
-  {fa09c9cb-c864-46d5-9075-7b14b0c49710}; !- Outlet Port
-
-OS:Connector:Mixer,
-  {51cb378e-ec46-46f0-a536-68a0183164a7}, !- Handle
-  Connector Mixer 2,                      !- Name
-  {20479611-692e-44ac-b4ad-94b2489c615e}, !- Outlet Branch Name
-  {fa09c9cb-c864-46d5-9075-7b14b0c49710}; !- Inlet Branch Name 1
-
-OS:Connector:Splitter,
-  {73c11a11-2b04-4fae-8be3-798cfc7eba2b}, !- Handle
-  Connector Splitter 2,                   !- Name
-  {639ff768-4937-4a23-acc2-22b19051ecc8}, !- Inlet Branch Name
-  {879098db-740c-4d21-875d-bd662c46cf6b}; !- Outlet Branch Name 1
-
-OS:Connection,
-  {6bce1eaa-1172-41f6-a613-e711caed8518}, !- Handle
-  {a33df4db-5afd-426a-a280-435e67731696}, !- Name
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Source Object
-  17,                                     !- Outlet Port
-  {23477ab3-1410-4a7e-8f87-afb9a87b50e2}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {639ff768-4937-4a23-acc2-22b19051ecc8}, !- Handle
-  {459466d2-9c90-43a2-9d31-739d77b3c9f6}, !- Name
-  {23477ab3-1410-4a7e-8f87-afb9a87b50e2}, !- Source Object
-  3,                                      !- Outlet Port
-  {73c11a11-2b04-4fae-8be3-798cfc7eba2b}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {879098db-740c-4d21-875d-bd662c46cf6b}, !- Handle
-  {8fcb175f-11c6-487f-af80-64af38e498ce}, !- Name
-  {73c11a11-2b04-4fae-8be3-798cfc7eba2b}, !- Source Object
-  3,                                      !- Outlet Port
-  {5f1596b2-690b-4938-b203-0c346df5a45d}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {fa09c9cb-c864-46d5-9075-7b14b0c49710}, !- Handle
-  {5cfd63b4-a18e-4ef0-a2e2-9707bbea4a64}, !- Name
-  {5f1596b2-690b-4938-b203-0c346df5a45d}, !- Source Object
-  3,                                      !- Outlet Port
-  {51cb378e-ec46-46f0-a536-68a0183164a7}, !- Target Object
-  3;                                      !- Inlet Port
-
-OS:Connection,
-  {20479611-692e-44ac-b4ad-94b2489c615e}, !- Handle
-  {a2b1fc55-47d9-4159-aff1-35bd8ee6bfa2}, !- Name
-  {51cb378e-ec46-46f0-a536-68a0183164a7}, !- Source Object
-  2,                                      !- Outlet Port
-  {faefafc1-5981-460d-b99d-1e936b47fad9}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {de280efc-2862-441b-b60c-0661ead490a7}, !- Handle
-  {10f49bde-bccc-4e4e-91d7-3bb895ac7218}, !- Name
-  {faefafc1-5981-460d-b99d-1e936b47fad9}, !- Source Object
-  3,                                      !- Outlet Port
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Target Object
-  18;                                     !- Inlet Port
-
-OS:AvailabilityManagerAssignmentList,
-  {2760b7da-5986-4e94-b2e7-2e166f297ffd}, !- Handle
-  Plant Loop 1 AvailabilityManagerAssignmentList; !- Name
-
-! TrackingID:#[VjCxfY]
-OS:Sizing:Plant,
-  {71fa3b3b-250c-4e37-b707-9662e2c066bd}, !- Handle
-  {4270925b-9c3d-4672-95e6-11d22ef5c3e4}, !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  82,                                     !- Design Loop Exit Temperature {C}
-  11,                                     !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-! TrackingID:#[m8BtgW]
-OS:Chiller:Electric:EIR,
-  {d102077f-c9d6-4180-9caa-7bab853da951}, !- Handle
-  Chiller Electric EIR 1,                 !- Name
-  Autosize,                               !- Reference Capacity {W}
-  5.5,                                    !- Reference COP {W/W}
-  ,                                       !- Reference Leaving Chilled Water Temperature {C}
-  ,                                       !- Reference Entering Condenser Fluid Temperature {C}
-  ,                                       !- Reference Chilled Water Flow Rate {m3/s}
-  ,                                       !- Reference Condenser Fluid Flow Rate {m3/s}
-  {03056242-f93d-4d47-b9ea-70a5262dd37a}, !- Cooling Capacity Function of Temperature Curve Name
-  {2870b90d-b74e-4376-afb7-71f7371041e0}, !- Electric Input to Cooling Output Ratio Function of Temperature Curve Name
-  {56309d2d-b925-4c80-b144-46b4bd372e36}, !- Electric Input to Cooling Output Ratio Function of Part Load Ratio Curve Name
-  ,                                       !- Minimum Part Load Ratio
-  ,                                       !- Maximum Part Load Ratio
-  ,                                       !- Optimum Part Load Ratio
-  ,                                       !- Minimum Unloading Ratio
-  {2845dba6-b96e-495d-bdbd-c4e90a6b7a2e}, !- Chilled Water Inlet Node Name
-  {2341b8ba-7d6e-46d2-b76c-702774427904}, !- Chilled Water Outlet Node Name
-  {eb7de366-b318-44c6-9f73-d934f9d4877d}, !- Condenser Inlet Node Name
-  {e604473d-86f3-4915-86f9-d69efb551806}, !- Condenser Outlet Node Name
-  WaterCooled,                            !- Condenser Type
-  ,                                       !- Condenser Fan Power Ratio {W/W}
-  ,                                       !- Compressor Motor Efficiency
-  ,                                       !- Leaving Chilled Water Lower Temperature Limit {C}
-  ,                                       !- Chiller Flow Mode
-  0,                                      !- Design Heat Recovery Water Flow Rate {m3/s}
-  ,                                       !- Heat Recovery Inlet Node Name
-  ,                                       !- Heat Recovery Outlet Node Name
-  1,                                      !- Sizing Factor
+! TrackingID:#[oshMvh]
+OS:AirConditioner:VariableRefrigerantFlow,
+  {ca325fda-965c-4b07-9f5a-4df2b3b7d91e}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1, !- Name
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Availability Schedule
+  autosize,                               !- Rated Total Cooling Capacity {W}
+  3.3,                                    !- Rated Cooling COP {W/W}
+  -5,                                     !- Minimum Outdoor Temperature in Cooling Mode {C}
+  43,                                     !- Maximum Outdoor Temperature in Cooling Mode {C}
+  {f2594a3f-d8b0-40b9-9f81-db1cc09490bf}, !- Cooling Capacity Ratio Modifier Function of Low Temperature Curve
+  {3384b57b-335b-4636-813c-163af603a54b}, !- Cooling Capacity Ratio Boundary Curve
+  {012ce078-868a-4eba-97b8-78c968438325}, !- Cooling Capacity Ratio Modifier Function of High Temperature Curve
+  {f723fd1b-b5ec-408b-8e9a-16d5d213f2b2}, !- Cooling Energy Input Ratio Modifier Function of Low Temperature Curve
+  {79ed83a5-75f6-46bb-a5d2-945cec08cc24}, !- Cooling Energy Input Ratio Boundary Curve
+  {d83d80b1-8b66-4c3d-9140-4d38cbbf822f}, !- Cooling Energy Input Ratio Modifier Function of High Temperature Curve
+  {2e82cdb5-88cd-4191-a099-146f39d0434a}, !- Cooling Energy Input Ratio Modifier Function of Low Part-Load Ratio Curve
+  {9ca83d58-60b5-419c-9a3b-ebec5f343ee8}, !- Cooling Energy Input Ratio Modifier Function of High Part-Load Ratio Curve
+  {793b13f4-1a29-4b50-889a-92d98bc41cba}, !- Cooling Combination Ratio Correction Factor Curve
+  {5bbbe79e-b759-4ce9-a091-7f5e2d1d9be7}, !- Cooling Part-Load Fraction Correlation Curve
+  autosize,                               !- Rated Total Heating Capacity {W}
+  1,                                      !- Rated Total Heating Capacity Sizing Ratio {W/W}
+  3.5,                                    !- Rated Heating COP {W/W}
+  -20,                                    !- Minimum Outdoor Temperature in Heating Mode {C}
+  30,                                     !- Maximum Outdoor Temperature in Heating Mode {C}
+  {db688869-f1c8-4ea4-9fb9-4bfc24efa535}, !- Heating Capacity Ratio Modifier Function of Low Temperature Curve
+  {bb213e04-a2d0-4a21-b75d-6cf91ac481d8}, !- Heating Capacity Ratio Boundary Curve
+  {1e24b620-b043-4ea6-9bf3-576359ab5486}, !- Heating Capacity Ratio Modifier Function of High Temperature Curve
+  {217a2e9c-8065-4247-acf8-f7fe39eabe29}, !- Heating Energy Input Ratio Modifier Function of Low Temperature Curve
+  {460671a5-e360-4cbf-928e-840b3de05cd7}, !- Heating Energy Input Ratio Boundary Curve
+  {e2186e57-0b3b-420f-b668-307218cfcb38}, !- Heating Energy Input Ratio Modifier Function of High Temperature Curve
+  WetBulbTemperature,                     !- Heating Performance Curve Outdoor Temperature Type
+  {bb3dac11-af87-42a4-9284-af3a9b9f21ef}, !- Heating Energy Input Ratio Modifier Function of Low Part-Load Ratio Curve
+  {4b04ac5b-d286-4852-a403-307eaf015f72}, !- Heating Energy Input Ratio Modifier Function of High Part-Load Ratio Curve
+  {da5b2423-c45a-4049-adbd-41d20400b94e}, !- Heating Combination Ratio Correction Factor Curve
+  {5bbbe79e-b759-4ce9-a091-7f5e2d1d9be7}, !- Heating Part-Load Fraction Correlation Curve
+  0.25,                                   !- Minimum Heat Pump Part-Load Ratio
+  ,                                       !- Zone Name for Master Thermostat Location
+  LoadPriority,                           !- Master Thermostat Priority Control Type
+  ,                                       !- Thermostat Priority Schedule
+  {974a9945-94be-46d3-a811-66f02f2f1252}, !- Zone Terminal Unit List
+  No,                                     !- Heat Pump Waste Heat Recovery
+  30,                                     !- Equivalent Piping Length used for Piping Correction Factor in Cooling Mode {m}
+  10,                                     !- Vertical Height used for Piping Correction Factor {m}
+  {96b15768-7fff-4edb-8966-09ef959dcffe}, !- Piping Correction Factor for Length in Cooling Mode Curve
+  -0.000386,                              !- Piping Correction Factor for Height in Cooling Mode Coefficient
+  30,                                     !- Equivalent Piping Length used for Piping Correction Factor in Heating Mode {m}
+  ,                                       !- Piping Correction Factor for Length in Heating Mode Curve
+  0,                                      !- Piping Correction Factor for Height in Heating Mode Coefficient
+  15,                                     !- Crankcase Heater Power per Compressor {W}
+  3,                                      !- Number of Compressors
+  0.33,                                   !- Ratio of Compressor Size to Total Compressor Capacity
+  7,                                      !- Maximum Outdoor Dry-bulb Temperature for Crankcase Heater {C}
+  Resistive,                              !- Defrost Strategy
+  Timed,                                  !- Defrost Control
+  ,                                       !- Defrost Energy Input Ratio Modifier Function of Temperature Curve
+  0.058333,                               !- Defrost Time Period Fraction
+  1e-007,                                 !- Resistive Defrost Heater Capacity {W}
+  7,                                      !- Maximum Outdoor Dry-bulb Temperature for Defrost Operation {C}
+  ,                                       !- Condenser Type
+  ,                                       !- Condenser Inlet Node
+  ,                                       !- Condenser Outlet Node
+  autosize,                               !- Water Condenser Volume Flow Rate {m3/s}
+  0.9,                                    !- Evaporative Condenser Effectiveness {dimensionless}
+  autosize,                               !- Evaporative Condenser Air Flow Rate {m3/s}
+  autosize,                               !- Evaporative Condenser Pump Rated Power Consumption {W}
+  ,                                       !- Supply Water Storage Tank
   0,                                      !- Basin Heater Capacity {W/K}
-  10,                                     !- Basin Heater Setpoint Temperature {C}
-  ;                                       !- Basin Heater Operating Schedule Name
+  2,                                      !- Basin Heater Setpoint Temperature {C}
+  ,                                       !- Basin Heater Operating Schedule
+  Electricity,                            !- Fuel Type
+  0,                                      !- Minimum Outdoor Temperature in Heat Recovery Mode {C}
+  20,                                     !- Maximum Outdoor Temperature in Heat Recovery Mode {C}
+  ,                                       !- Heat Recovery Cooling Capacity Modifier Curve
+  0.5,                                    !- Initial Heat Recovery Cooling Capacity Fraction
+  0.083,                                  !- Heat Recovery Cooling Capacity Time Constant {hr}
+  ,                                       !- Heat Recovery Cooling Energy Modifier Curve
+  1,                                      !- Initial Heat Recovery Cooling Energy Fraction
+  0,                                      !- Heat Recovery Cooling Energy Time Constant {hr}
+  ,                                       !- Heat Recovery Heating Capacity Modifier Curve
+  0.5,                                    !- Initial Heat Recovery Heating Capacity Fraction
+  0.083,                                  !- Heat Recovery Heating Capacity Time Constant {hr}
+  ,                                       !- Heat Recovery Heating Energy Modifier Curve
+  0.5,                                    !- Initial Heat Recovery Heating Energy Fraction
+  0;                                      !- Heat Recovery Heating Energy Time Constant {hr}
+
+OS:Schedule:Constant,
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Handle
+  Always On Discrete,                     !- Name
+  {b192aabc-e9ae-4b1f-8aac-792aaadc194d}, !- Schedule Type Limits Name
+  1;                                      !- Value
+
+OS:ScheduleTypeLimits,
+  {b192aabc-e9ae-4b1f-8aac-792aaadc194d}, !- Handle
+  OnOff,                                  !- Name
+  0,                                      !- Lower Limit Value
+  1,                                      !- Upper Limit Value
+  Discrete,                               !- Numeric Type
+  Availability;                           !- Unit Type
 
 OS:Curve:Biquadratic,
-  {03056242-f93d-4d47-b9ea-70a5262dd37a}, !- Handle
-  Curve Biquadratic 1,                    !- Name
-  1.0215158,                              !- Coefficient1 Constant
-  0.037035864,                            !- Coefficient2 x
-  0.0002332476,                           !- Coefficient3 x**2
-  -0.003894048,                           !- Coefficient4 y
-  -6.52536e-005,                          !- Coefficient5 y**2
-  -0.0002680452,                          !- Coefficient6 x*y
-  5,                                      !- Minimum Value of x
-  10,                                     !- Maximum Value of x
-  24,                                     !- Minimum Value of y
-  35;                                     !- Maximum Value of y
+  {f2594a3f-d8b0-40b9-9f81-db1cc09490bf}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolCapFT, !- Name
+  0.576882692,                            !- Coefficient1 Constant
+  0.017447952,                            !- Coefficient2 x
+  0.000583269,                            !- Coefficient3 x**2
+  -1.76324e-006,                          !- Coefficient4 y
+  -7.474e-009,                            !- Coefficient5 y**2
+  -1.30413e-007,                          !- Coefficient6 x*y
+  15,                                     !- Minimum Value of x
+  24,                                     !- Maximum Value of x
+  -5,                                     !- Minimum Value of y
+  23;                                     !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {3384b57b-335b-4636-813c-163af603a54b}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolCapFTBoundary, !- Name
+  25.73,                                  !- Coefficient1 Constant
+  -0.03150043,                            !- Coefficient2 x
+  -0.01416595,                            !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  11,                                     !- Minimum Value of x
+  30;                                     !- Maximum Value of x
 
 OS:Curve:Biquadratic,
-  {2870b90d-b74e-4376-afb7-71f7371041e0}, !- Handle
-  Curve Biquadratic 2,                    !- Name
-  0.70176857,                             !- Coefficient1 Constant
-  -0.00452016,                            !- Coefficient2 x
-  0.0005331096,                           !- Coefficient3 x**2
-  -0.005498208,                           !- Coefficient4 y
-  0.0005445792,                           !- Coefficient5 y**2
-  -0.0007290324,                          !- Coefficient6 x*y
-  5,                                      !- Minimum Value of x
-  10,                                     !- Maximum Value of x
-  24,                                     !- Minimum Value of y
-  35;                                     !- Maximum Value of y
+  {012ce078-868a-4eba-97b8-78c968438325}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolCapFTHi, !- Name
+  0.6867358,                              !- Coefficient1 Constant
+  0.0207631,                              !- Coefficient2 x
+  0.0005447,                              !- Coefficient3 x**2
+  -0.0016218,                             !- Coefficient4 y
+  -4.259e-007,                            !- Coefficient5 y**2
+  -0.0003392,                             !- Coefficient6 x*y
+  15,                                     !- Minimum Value of x
+  24,                                     !- Maximum Value of x
+  16,                                     !- Minimum Value of y
+  43;                                     !- Maximum Value of y
+
+OS:Curve:Biquadratic,
+  {f723fd1b-b5ec-408b-8e9a-16d5d213f2b2}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolEIRFT, !- Name
+  0.989010541,                            !- Coefficient1 Constant
+  -0.02347967,                            !- Coefficient2 x
+  0.000199711,                            !- Coefficient3 x**2
+  0.005968336,                            !- Coefficient4 y
+  -1.0289e-007,                           !- Coefficient5 y**2
+  -0.00015686,                            !- Coefficient6 x*y
+  15,                                     !- Minimum Value of x
+  24,                                     !- Maximum Value of x
+  -5,                                     !- Minimum Value of y
+  23;                                     !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {79ed83a5-75f6-46bb-a5d2-945cec08cc24}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolEIRFTBoundary, !- Name
+  25.73473775,                            !- Coefficient1 Constant
+  -0.03150043,                            !- Coefficient2 x
+  -0.01416595,                            !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  15,                                     !- Minimum Value of x
+  24;                                     !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {d83d80b1-8b66-4c3d-9140-4d38cbbf822f}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCoolEIRFTHi, !- Name
+  -1.4395110176,                          !- Coefficient1 Constant
+  0.1619850459,                           !- Coefficient2 x
+  -0.0034911781,                          !- Coefficient3 x**2
+  0.0269442645,                           !- Coefficient4 y
+  0.0001346163,                           !- Coefficient5 y**2
+  -0.0006714941,                          !- Coefficient6 x*y
+  15,                                     !- Minimum Value of x
+  23.9,                                   !- Maximum Value of x
+  16.8,                                   !- Minimum Value of y
+  43.3;                                   !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {2e82cdb5-88cd-4191-a099-146f39d0434a}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 CoolingEIRLowPLR, !- Name
+  0.4541226192,                           !- Coefficient1 Constant
+  -0.1729687081,                          !- Coefficient2 x
+  1.0828661347,                           !- Coefficient3 x**2
+  -0.3618480897,                          !- Coefficient4 x**3
+  0.5,                                    !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Cubic,
+  {9ca83d58-60b5-419c-9a3b-ebec5f343ee8}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 CoolingEIRHiPLR, !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  1,                                      !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Curve:Cubic,
+  {793b13f4-1a29-4b50-889a-92d98bc41cba}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 CoolingCombRatio, !- Name
+  0.576593263,                            !- Coefficient1 Constant
+  0.6349408697,                           !- Coefficient2 x
+  -0.3076093963,                          !- Coefficient3 x**2
+  0.0960752636,                           !- Coefficient4 x**3
+  1,                                      !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Curve:Cubic,
+  {5bbbe79e-b759-4ce9-a091-7f5e2d1d9be7}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFCPLFFPLR, !- Name
+  0.85,                                   !- Coefficient1 Constant
+  0.15,                                   !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  1,                                      !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {db688869-f1c8-4ea4-9fb9-4bfc24efa535}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatCapFT, !- Name
+  1.012090154,                            !- Coefficient1 Constant
+  -0.0012467553,                          !- Coefficient2 x
+  -0.0001271847,                          !- Coefficient3 x**2
+  0.0267564328,                           !- Coefficient4 y
+  -4.986e-007,                            !- Coefficient5 y**2
+  -0.0002635239,                          !- Coefficient6 x*y
+  21.1,                                   !- Minimum Value of x
+  27.2,                                   !- Maximum Value of x
+  -20,                                    !- Minimum Value of y
+  3.33;                                   !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {bb213e04-a2d0-4a21-b75d-6cf91ac481d8}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatCapFTBoundary, !- Name
+  58.577,                                 !- Coefficient1 Constant
+  -3.0255,                                !- Coefficient2 x
+  0.0193,                                 !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  15,                                     !- Minimum Value of x
+  23.9;                                   !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {1e24b620-b043-4ea6-9bf3-576359ab5486}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatCapFTHi, !- Name
+  2.5859872368,                           !- Coefficient1 Constant
+  -0.0953227101,                          !- Coefficient2 x
+  0.0009553288,                           !- Coefficient3 x**2
+  0,                                      !- Coefficient4 y
+  0,                                      !- Coefficient5 y**2
+  0,                                      !- Coefficient6 x*y
+  21.1,                                   !- Minimum Value of x
+  27.2,                                   !- Maximum Value of x
+  -9.44,                                  !- Minimum Value of y
+  15;                                     !- Maximum Value of y
+
+OS:Curve:Biquadratic,
+  {217a2e9c-8065-4247-acf8-f7fe39eabe29}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatEIRFT, !- Name
+  0.7224292683,                           !- Coefficient1 Constant
+  0.0034566628,                           !- Coefficient2 x
+  0.0006507028,                           !- Coefficient3 x**2
+  -0.0026435362,                          !- Coefficient4 y
+  0.0012464766,                           !- Coefficient5 y**2
+  -0.0001009161,                          !- Coefficient6 x*y
+  21.1,                                   !- Minimum Value of x
+  27.2,                                   !- Maximum Value of x
+  -20,                                    !- Minimum Value of y
+  3.33;                                   !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {460671a5-e360-4cbf-928e-840b3de05cd7}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatEIRFTBoundary, !- Name
+  58.577,                                 !- Coefficient1 Constant
+  -3.0255,                                !- Coefficient2 x
+  0.0193,                                 !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  15,                                     !- Minimum Value of x
+  23.9;                                   !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {e2186e57-0b3b-420f-b668-307218cfcb38}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 VRFHeatEIRFTHi, !- Name
+  1.3885703646,                           !- Coefficient1 Constant
+  -0.0229771462,                          !- Coefficient2 x
+  0.000537274,                            !- Coefficient3 x**2
+  -0.0273936962,                          !- Coefficient4 y
+  0.0004030426,                           !- Coefficient5 y**2
+  -5.9786e-005,                           !- Coefficient6 x*y
+  21.1,                                   !- Minimum Value of x
+  27.2,                                   !- Maximum Value of x
+  0,                                      !- Minimum Value of y
+  1;                                      !- Maximum Value of y
+
+OS:Curve:Cubic,
+  {bb3dac11-af87-42a4-9284-af3a9b9f21ef}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 HeatingEIRLowPLR, !- Name
+  0.3924742025,                           !- Coefficient1 Constant
+  0.076016374,                            !- Coefficient2 x
+  0.6983235783,                           !- Coefficient3 x**2
+  -0.1688407813,                          !- Coefficient4 x**3
+  0.5,                                    !- Minimum Value of x
+  1;                                      !- Maximum Value of x
+
+OS:Curve:Cubic,
+  {4b04ac5b-d286-4852-a403-307eaf015f72}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 HeatingEIRHiPLR, !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
+  1,                                      !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Curve:Cubic,
+  {da5b2423-c45a-4049-adbd-41d20400b94e}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 HeatingCombRatio, !- Name
+  0.7667196604,                           !- Coefficient1 Constant
+  0.2617302019,                           !- Coefficient2 x
+  -0.0159110245,                          !- Coefficient3 x**2
+  -0.0125388376,                          !- Coefficient4 x**3
+  1,                                      !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Curve:Biquadratic,
+  {96b15768-7fff-4edb-8966-09ef959dcffe}, !- Handle
+  Air Conditioner Variable Refrigerant Flow 1 CoolingLengthCorrectionFactor, !- Name
+  2.0388158625,                           !- Coefficient1 Constant
+  -0.0024260645,                          !- Coefficient2 x
+  3.5512e-006,                            !- Coefficient3 x**2
+  -1.6858129772,                          !- Coefficient4 y
+  0.668703358,                            !- Coefficient5 y**2
+  -4.5706e-005,                           !- Coefficient6 x*y
+  7.62,                                   !- Minimum Value of x
+  182.88,                                 !- Maximum Value of x
+  0.8,                                    !- Minimum Value of y
+  1.5;                                    !- Maximum Value of y
+
+OS:ModelObjectList,
+  {974a9945-94be-46d3-a811-66f02f2f1252}, !- Handle
+  {edb5e469-5552-49d0-9961-cc2b236eda85}, !- Name
+  {92e16c42-4a25-4cec-80c0-258f37fa95cb}; !- Model Object 1
+
+! TrackingID:#[fqfYyk]
+OS:ZoneHVAC:TerminalUnit:VariableRefrigerantFlow,
+  {92e16c42-4a25-4cec-80c0-258f37fa95cb}, !- Handle
+  Zone HVAC Terminal Unit Variable Refrigerant Flow 1, !- Name
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Terminal Unit Availability schedule
+  ,                                       !- Terminal Unit Air Inlet Node
+  ,                                       !- Terminal Unit Air Outlet Node
+  autosize,                               !- Supply Air Flow Rate During Cooling Operation {m3/s}
+  autosize,                               !- Supply Air Flow Rate When No Cooling is Needed {m3/s}
+  autosize,                               !- Supply Air Flow Rate During Heating Operation {m3/s}
+  autosize,                               !- Supply Air Flow Rate When No Heating is Needed {m3/s}
+  autosize,                               !- Outdoor Air Flow Rate During Cooling Operation {m3/s}
+  autosize,                               !- Outdoor Air Flow Rate During Heating Operation {m3/s}
+  autosize,                               !- Outdoor Air Flow Rate When No Cooling or Heating is Needed {m3/s}
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Supply Air Fan Operating Mode Schedule
+  ,                                       !- Supply Air Fan placement
+  {64e13fe3-751d-4c60-8db3-0bd0416a4f4d}, !- Supply Air Fan
+  ,                                       !- Outside Air Mixer
+  {e9eca564-d0e2-4b4d-8394-a9d8c15449de}, !- Cooling Coil
+  {1df23822-7d9c-4422-9c16-4156d17e1115}, !- Heating Coil
+  30,                                     !- Zone Terminal Unit On Parasitic Electric Energy Use {W}
+  20,                                     !- Zone Terminal Unit Off Parasitic Electric Energy Use {W}
+  1;                                      !- Rated Total Heating Capacity Sizing Ratio {W/W}
+
+OS:Coil:Cooling:DX:VariableRefrigerantFlow,
+  {e9eca564-d0e2-4b4d-8394-a9d8c15449de}, !- Handle
+  Zone HVAC Terminal Unit Variable Refrigerant Flow 1 Cooling Coil, !- Name
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Availability Schedule
+  autosize,                               !- Rated Total Cooling Capacity {W}
+  autosize,                               !- Rated Sensible Heat Ratio
+  autosize,                               !- Rated Air Flow Rate {m3/s}
+  {e22edb0d-6321-4346-bb7c-987125d827b9}, !- Cooling Capacity Ratio Modifier Function of Temperature Curve
+  {c937eac7-ee52-41e2-943f-124be5eef97c}; !- Cooling Capacity Modifier Curve Function of Flow Fraction
+
+OS:Curve:Biquadratic,
+  {e22edb0d-6321-4346-bb7c-987125d827b9}, !- Handle
+  VRFTUCoolCapFT,                         !- Name
+  0.0585884077803259,                     !- Coefficient1 Constant
+  0.0587396532718384,                     !- Coefficient2 x
+  -0.000210274979759697,                  !- Coefficient3 x**2
+  0.0109370473889647,                     !- Coefficient4 y
+  -0.0001219549,                          !- Coefficient5 y**2
+  -0.0005246615,                          !- Coefficient6 x*y
+  15,                                     !- Minimum Value of x
+  23.89,                                  !- Maximum Value of x
+  20,                                     !- Minimum Value of y
+  43.33,                                  !- Maximum Value of y
+  0.8083,                                 !- Minimum Curve Output
+  1.2583;                                 !- Maximum Curve Output
 
 OS:Curve:Quadratic,
-  {56309d2d-b925-4c80-b144-46b4bd372e36}, !- Handle
-  Curve Quadratic 1,                      !- Name
-  0.06369119,                             !- Coefficient1 Constant
-  0.58488832,                             !- Coefficient2 x
-  0.35280274,                             !- Coefficient3 x**2
+  {c937eac7-ee52-41e2-943f-124be5eef97c}, !- Handle
+  VRFACCoolCapFFF,                        !- Name
+  0.8,                                    !- Coefficient1 Constant
+  0.2,                                    !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0.5,                                    !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Coil:Heating:DX:VariableRefrigerantFlow,
+  {1df23822-7d9c-4422-9c16-4156d17e1115}, !- Handle
+  Zone HVAC Terminal Unit Variable Refrigerant Flow 1 Heating Coil, !- Name
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Availability Schedule
+  autosize,                               !- Rated Total Heating Capacity {W}
+  autosize,                               !- Rated Air Flow Rate {m3/s}
+  ,                                       !- Coil Air Inlet Node
+  ,                                       !- Coil Air Outlet Node
+  {af3cfd59-d057-47c0-9318-0c2f81943cc9}, !- Heating Capacity Ratio Modifier Function of Temperature Curve
+  {766a2be5-2740-4a77-9b40-f61f0034192b}; !- Heating Capacity Modifier Function of Flow Fraction Curve
+
+OS:Curve:Biquadratic,
+  {af3cfd59-d057-47c0-9318-0c2f81943cc9}, !- Handle
+  Coil Heating DX Variable Refrigerant Flow 1 VRFTUHeatCAPFT, !- Name
+  0.375443994956127,                      !- Coefficient1 Constant
+  0.0668190645147821,                     !- Coefficient2 x
+  -0.00194171026482001,                   !- Coefficient3 x**2
+  0.0442618420640187,                     !- Coefficient4 y
+  -0.0004009578,                          !- Coefficient5 y**2
+  -0.0014819801,                          !- Coefficient6 x*y
+  21.11,                                  !- Minimum Value of x
+  27.22,                                  !- Maximum Value of x
+  -15,                                    !- Minimum Value of y
+  18.33,                                  !- Maximum Value of y
+  0.6074,                                 !- Minimum Curve Output
+  1;                                      !- Maximum Curve Output
+
+OS:Curve:Quadratic,
+  {766a2be5-2740-4a77-9b40-f61f0034192b}, !- Handle
+  Coil Heating DX Variable Refrigerant Flow 1 VRFACCoolCapFFF, !- Name
+  0.8,                                    !- Coefficient1 Constant
+  0.2,                                    !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0.5,                                    !- Minimum Value of x
+  1.5;                                    !- Maximum Value of x
+
+OS:Fan:OnOff,
+  {64e13fe3-751d-4c60-8db3-0bd0416a4f4d}, !- Handle
+  Zone HVAC Terminal Unit Variable Refrigerant Flow 1 Fan, !- Name
+  {88583931-43fd-4ccd-b5e5-dd5930f3de7d}, !- Availability Schedule Name
+  0.6,                                    !- Fan Efficiency
+  300,                                    !- Pressure Rise {Pa}
+  autosize,                               !- Maximum Flow Rate {m3/s}
+  0.8,                                    !- Motor Efficiency
+  1,                                      !- Motor In Airstream Fraction
+  ,                                       !- Air Inlet Node Name
+  ,                                       !- Air Outlet Node Name
+  {22f015fb-218d-42ae-a96c-fa43e71b9acc}, !- Fan Power Ratio Function of Speed Ratio Curve Name
+  {631da990-5b9a-4c9c-916d-2d8d3b27ec91}, !- Fan Efficiency Ratio Function of Speed Ratio Curve Name
+  ;                                       !- End-Use Subcategory
+
+OS:Curve:Exponent,
+  {22f015fb-218d-42ae-a96c-fa43e71b9acc}, !- Handle
+  Fan On Off Power Curve,                 !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 Constant
+  0,                                      !- Coefficient3 Constant
+  0,                                      !- Minimum Value of x
+  1,                                      !- Maximum Value of x
+  ,                                       !- Minimum Curve Output
+  ,                                       !- Maximum Curve Output
+  ,                                       !- Input Unit Type for X
+  ;                                       !- Output Unit Type
+
+OS:Curve:Cubic,
+  {631da990-5b9a-4c9c-916d-2d8d3b27ec91}, !- Handle
+  Fan On Off Efficiency Curve,            !- Name
+  1,                                      !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 x**3
   0,                                      !- Minimum Value of x
   1;                                      !- Maximum Value of x
 
-OS:Node,
-  {ea0bdeba-7bae-4cd5-b4e4-41c02e0e32d5}, !- Handle
-  Node 7,                                 !- Name
-  {2341b8ba-7d6e-46d2-b76c-702774427904}, !- Inlet Port
-  {be8fcc0b-d85d-434f-8cdd-75f55d246b32}; !- Outlet Port
-
-OS:Connection,
-  {2845dba6-b96e-495d-bdbd-c4e90a6b7a2e}, !- Handle
-  {ae146cf9-cf97-41ce-bf31-0e3fb719d902}, !- Name
-  {621dee1b-9d8c-476f-88a3-153adad757a5}, !- Source Object
-  3,                                      !- Outlet Port
-  {d102077f-c9d6-4180-9caa-7bab853da951}, !- Target Object
-  15;                                     !- Inlet Port
-
-OS:Connection,
-  {2341b8ba-7d6e-46d2-b76c-702774427904}, !- Handle
-  {f7acc88c-3b6b-453f-ae48-91090ccf05b6}, !- Name
-  {d102077f-c9d6-4180-9caa-7bab853da951}, !- Source Object
-  16,                                     !- Outlet Port
-  {ea0bdeba-7bae-4cd5-b4e4-41c02e0e32d5}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {be8fcc0b-d85d-434f-8cdd-75f55d246b32}, !- Handle
-  {6fe14ca5-dee6-4912-a86a-719815a9a5a3}, !- Name
-  {ea0bdeba-7bae-4cd5-b4e4-41c02e0e32d5}, !- Source Object
-  3,                                      !- Outlet Port
-  {8cd1113c-757a-4043-abe0-0c690d95f021}, !- Target Object
-  3;                                      !- Inlet Port
-
-! TrackingID:#[UrSHN6]
-OS:PlantLoop,
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Handle
-  Plant Loop 2,                           !- Name
-  ,                                       !- Fluid Type
-  0,                                      !- Glycol Concentration
-  ,                                       !- User Defined Fluid Type
-  ,                                       !- Plant Equipment Operation Heating Load
-  ,                                       !- Plant Equipment Operation Cooling Load
-  ,                                       !- Primary Plant Equipment Operation Scheme
-  {befb71e4-e05a-461f-9c71-ff8e89827964}, !- Loop Temperature Setpoint Node Name
-  ,                                       !- Maximum Loop Temperature {C}
-  ,                                       !- Minimum Loop Temperature {C}
-  ,                                       !- Maximum Loop Flow Rate {m3/s}
-  ,                                       !- Minimum Loop Flow Rate {m3/s}
-  Autocalculate,                          !- Plant Loop Volume {m3}
-  {88d1c708-b4ec-4feb-b934-51ea83f575f9}, !- Plant Side Inlet Node Name
-  {1d72eb64-6a1d-482b-b30f-2981ae03dd75}, !- Plant Side Outlet Node Name
-  ,                                       !- Plant Side Branch List Name
-  {d78d692f-eb22-4775-b169-f2ab8cd916f6}, !- Demand Side Inlet Node Name
-  {f931a051-a843-406a-af43-a98f1fde97c8}, !- Demand Side Outlet Node Name
-  ,                                       !- Demand Side Branch List Name
-  ,                                       !- Demand Side Connector List Name
-  Optimal,                                !- Load Distribution Scheme
-  {b386deaf-81b6-44ea-b9ab-6b22ca3f6c6f}, !- Availability Manager List Name
-  ,                                       !- Plant Loop Demand Calculation Scheme
-  ,                                       !- Common Pipe Simulation
-  ,                                       !- Pressure Simulation Type
-  ,                                       !- Plant Equipment Operation Heating Load Schedule
-  ,                                       !- Plant Equipment Operation Cooling Load Schedule
-  ,                                       !- Primary Plant Equipment Operation Scheme Schedule
-  ,                                       !- Component Setpoint Operation Scheme Schedule
-  {f6d3e795-87df-4e0e-8f61-b606054b1615}, !- Demand Mixer Name
-  {fcf09fea-fff5-43c8-8a4e-e8195314ba21}, !- Demand Splitter Name
-  {99eacce7-a0f5-411e-8a30-663fe20824bf}, !- Supply Mixer Name
-  {6180a5a2-05db-4b4f-94c0-24b39e90dcb3}; !- Supply Splitter Name
-
-OS:Sizing:Plant,
-  {92dab6e9-55ae-4803-9ee1-c2cd58a8a8a6}, !- Handle
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  82,                                     !- Design Loop Exit Temperature {C}
-  11,                                     !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
+! TrackingID:#[XKqErd]
+OS:ThermalZone,
+  {fb7d0de9-56ca-490a-834c-b466536c3934}, !- Handle
+  Thermal Zone 1,                         !- Name
+  ,                                       !- Multiplier
+  ,                                       !- Ceiling Height {m}
+  ,                                       !- Volume {m3}
+  ,                                       !- Floor Area {m2}
+  ,                                       !- Zone Inside Convection Algorithm
+  ,                                       !- Zone Outside Convection Algorithm
+  ,                                       !- Zone Conditioning Equipment List Name
+  {929b1052-91f4-4f14-ae22-2702d857331c}, !- Zone Air Inlet Port List
+  {6d4f6366-d646-4ff9-99c5-8f7324b52201}, !- Zone Air Exhaust Port List
+  {40ce0af8-5847-4863-a7bd-5dda674479ac}, !- Zone Air Node Name
+  ,                                       !- Zone Return Air Node Name
+  ,                                       !- Primary Daylighting Control Name
+  ,                                       !- Fraction of Zone Controlled by Primary Daylighting Control
+  ,                                       !- Secondary Daylighting Control Name
+  ,                                       !- Fraction of Zone Controlled by Secondary Daylighting Control
+  ,                                       !- Illuminance Map Name
+  ,                                       !- Group Rendering Name
+  ,                                       !- Thermostat Name
+  No;                                     !- Use Ideal Air Loads
 
 OS:Node,
-  {32927af8-4b92-41b2-86b5-ee907ca1eb29}, !- Handle
-  Node 8,                                 !- Name
-  {88d1c708-b4ec-4feb-b934-51ea83f575f9}, !- Inlet Port
-  {8c3eb049-1414-4eba-b086-3833543fb4a6}; !- Outlet Port
-
-OS:Node,
-  {befb71e4-e05a-461f-9c71-ff8e89827964}, !- Handle
-  Node 9,                                 !- Name
-  {f78e67f9-4555-4b88-bdaa-37365708aa18}, !- Inlet Port
-  {1d72eb64-6a1d-482b-b30f-2981ae03dd75}; !- Outlet Port
-
-OS:Node,
-  {b00aa8f9-cdef-45c3-819d-5b0b6c8e6529}, !- Handle
-  Node 10,                                !- Name
-  {3070060e-4a1d-46a8-bc08-d5914c6b8c42}, !- Inlet Port
-  {1ca76520-af83-4564-bb8e-bbafcdffb8ec}; !- Outlet Port
-
-OS:Connector:Mixer,
-  {99eacce7-a0f5-411e-8a30-663fe20824bf}, !- Handle
-  Connector Mixer 3,                      !- Name
-  {f78e67f9-4555-4b88-bdaa-37365708aa18}, !- Outlet Branch Name
-  {1ca76520-af83-4564-bb8e-bbafcdffb8ec}; !- Inlet Branch Name 1
-
-OS:Connector:Splitter,
-  {6180a5a2-05db-4b4f-94c0-24b39e90dcb3}, !- Handle
-  Connector Splitter 3,                   !- Name
-  {8c3eb049-1414-4eba-b086-3833543fb4a6}, !- Inlet Branch Name
-  {3070060e-4a1d-46a8-bc08-d5914c6b8c42}; !- Outlet Branch Name 1
+  {3f03242b-5959-4813-aa7c-4bc8bcce3c59}, !- Handle
+  Node 1,                                 !- Name
+  {40ce0af8-5847-4863-a7bd-5dda674479ac}, !- Inlet Port
+  ;                                       !- Outlet Port
 
 OS:Connection,
-  {88d1c708-b4ec-4feb-b934-51ea83f575f9}, !- Handle
-  {081bb75b-064b-492a-96d8-d8c853e0e0c6}, !- Name
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Source Object
-  14,                                     !- Outlet Port
-  {32927af8-4b92-41b2-86b5-ee907ca1eb29}, !- Target Object
+  {40ce0af8-5847-4863-a7bd-5dda674479ac}, !- Handle
+  {c230fad2-f459-4ee8-ac6b-37c3ba43fdce}, !- Name
+  {fb7d0de9-56ca-490a-834c-b466536c3934}, !- Source Object
+  11,                                     !- Outlet Port
+  {3f03242b-5959-4813-aa7c-4bc8bcce3c59}, !- Target Object
   2;                                      !- Inlet Port
 
-OS:Connection,
-  {8c3eb049-1414-4eba-b086-3833543fb4a6}, !- Handle
-  {b7a3b2ee-a165-44ee-8bbe-a5e3cb3e2bcd}, !- Name
-  {32927af8-4b92-41b2-86b5-ee907ca1eb29}, !- Source Object
-  3,                                      !- Outlet Port
-  {6180a5a2-05db-4b4f-94c0-24b39e90dcb3}, !- Target Object
-  2;                                      !- Inlet Port
+OS:PortList,
+  {929b1052-91f4-4f14-ae22-2702d857331c}, !- Handle
+  {93c980a3-c6f1-409d-ad5c-4c1a47f87426}, !- Name
+  {fb7d0de9-56ca-490a-834c-b466536c3934}; !- HVAC Component
 
-OS:Connection,
-  {3070060e-4a1d-46a8-bc08-d5914c6b8c42}, !- Handle
-  {b14ed5d4-3218-4574-b1bd-1a5514acb99e}, !- Name
-  {6180a5a2-05db-4b4f-94c0-24b39e90dcb3}, !- Source Object
-  3,                                      !- Outlet Port
-  {b00aa8f9-cdef-45c3-819d-5b0b6c8e6529}, !- Target Object
-  2;                                      !- Inlet Port
+OS:PortList,
+  {6d4f6366-d646-4ff9-99c5-8f7324b52201}, !- Handle
+  {0cbd8676-e853-4c64-9af0-d802cc2dcb9c}, !- Name
+  {fb7d0de9-56ca-490a-834c-b466536c3934}; !- HVAC Component
 
-OS:Connection,
-  {1ca76520-af83-4564-bb8e-bbafcdffb8ec}, !- Handle
-  {94c8f007-ba4f-4d32-ab5b-b2b1ff08e98d}, !- Name
-  {b00aa8f9-cdef-45c3-819d-5b0b6c8e6529}, !- Source Object
-  3,                                      !- Outlet Port
-  {99eacce7-a0f5-411e-8a30-663fe20824bf}, !- Target Object
-  3;                                      !- Inlet Port
+OS:Sizing:Zone,
+  {0f030947-920f-41c2-8325-28d83f826ac8}, !- Handle
+  {fb7d0de9-56ca-490a-834c-b466536c3934}, !- Zone or ZoneList Name
+  SupplyAirTemperature,                   !- Zone Cooling Design Supply Air Temperature Input Method
+  14,                                     !- Zone Cooling Design Supply Air Temperature {C}
+  11.11,                                  !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
+  SupplyAirTemperature,                   !- Zone Heating Design Supply Air Temperature Input Method
+  40,                                     !- Zone Heating Design Supply Air Temperature {C}
+  11.11,                                  !- Zone Heating Design Supply Air Temperature Difference {deltaC}
+  0.0085,                                 !- Zone Cooling Design Supply Air Humidity Ratio {kg-H2O/kg-air}
+  0.008,                                  !- Zone Heating Design Supply Air Humidity Ratio {kg-H2O/kg-air}
+  ,                                       !- Zone Heating Sizing Factor
+  ,                                       !- Zone Cooling Sizing Factor
+  DesignDay,                              !- Cooling Design Air Flow Method
+  ,                                       !- Cooling Design Air Flow Rate {m3/s}
+  ,                                       !- Cooling Minimum Air Flow per Zone Floor Area {m3/s-m2}
+  ,                                       !- Cooling Minimum Air Flow {m3/s}
+  ,                                       !- Cooling Minimum Air Flow Fraction
+  DesignDay,                              !- Heating Design Air Flow Method
+  ,                                       !- Heating Design Air Flow Rate {m3/s}
+  ,                                       !- Heating Maximum Air Flow per Zone Floor Area {m3/s-m2}
+  ,                                       !- Heating Maximum Air Flow {m3/s}
+  ,                                       !- Heating Maximum Air Flow Fraction
+  ,                                       !- Design Zone Air Distribution Effectiveness in Cooling Mode
+  ,                                       !- Design Zone Air Distribution Effectiveness in Heating Mode
+  No,                                     !- Account for Dedicated Outdoor Air System
+  NeutralSupplyAir,                       !- Dedicated Outdoor Air System Control Strategy
+  autosize,                               !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
+  autosize;                               !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
 
-OS:Connection,
-  {f78e67f9-4555-4b88-bdaa-37365708aa18}, !- Handle
-  {d81c5209-349a-495e-98d5-e4b7031d0990}, !- Name
-  {99eacce7-a0f5-411e-8a30-663fe20824bf}, !- Source Object
-  2,                                      !- Outlet Port
-  {befb71e4-e05a-461f-9c71-ff8e89827964}, !- Target Object
-  2;                                      !- Inlet Port
+OS:ZoneHVAC:EquipmentList,
+  {e6d265d3-2330-46fb-9379-9fa14a2971a5}, !- Handle
+  Zone HVAC Equipment List 1,             !- Name
+  {fb7d0de9-56ca-490a-834c-b466536c3934}, !- Thermal Zone
+  {92e16c42-4a25-4cec-80c0-258f37fa95cb}, !- Zone Equipment 1
+  1,                                      !- Zone Equipment Cooling Sequence 1
+  1;                                      !- Zone Equipment Heating or No-Load Sequence 1
 
-OS:Connection,
-  {1d72eb64-6a1d-482b-b30f-2981ae03dd75}, !- Handle
-  {f981da32-6a63-4251-a4ea-3d213fe56d77}, !- Name
-  {befb71e4-e05a-461f-9c71-ff8e89827964}, !- Source Object
-  3,                                      !- Outlet Port
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Target Object
-  15;                                     !- Inlet Port
-
-OS:Node,
-  {90572ca0-5545-4563-bd99-b3bc7df900ab}, !- Handle
-  Node 11,                                !- Name
-  {d78d692f-eb22-4775-b169-f2ab8cd916f6}, !- Inlet Port
-  {424cbcd4-db83-4166-b609-0e2c9687d46c}; !- Outlet Port
-
-OS:Node,
-  {8626f10c-f441-4822-8a94-f0af5eb8a515}, !- Handle
-  Node 12,                                !- Name
-  {46b8fa55-5bfa-474e-a784-35680ebf5c42}, !- Inlet Port
-  {f931a051-a843-406a-af43-a98f1fde97c8}; !- Outlet Port
-
-OS:Node,
-  {d9a6e601-b00e-42fe-b245-a9f5b66aa5dd}, !- Handle
-  Node 13,                                !- Name
-  {a3f85626-55c6-4afc-9284-841a84df8f2c}, !- Inlet Port
-  {eb7de366-b318-44c6-9f73-d934f9d4877d}; !- Outlet Port
-
-OS:Connector:Mixer,
-  {f6d3e795-87df-4e0e-8f61-b606054b1615}, !- Handle
-  Connector Mixer 4,                      !- Name
-  {46b8fa55-5bfa-474e-a784-35680ebf5c42}, !- Outlet Branch Name
-  {9588836c-b9fa-4403-8f60-c9572aae5c66}; !- Inlet Branch Name 1
-
-OS:Connector:Splitter,
-  {fcf09fea-fff5-43c8-8a4e-e8195314ba21}, !- Handle
-  Connector Splitter 4,                   !- Name
-  {424cbcd4-db83-4166-b609-0e2c9687d46c}, !- Inlet Branch Name
-  {a3f85626-55c6-4afc-9284-841a84df8f2c}; !- Outlet Branch Name 1
-
-OS:Connection,
-  {d78d692f-eb22-4775-b169-f2ab8cd916f6}, !- Handle
-  {ad978d59-ed4e-4036-9a51-1a375932c177}, !- Name
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Source Object
-  17,                                     !- Outlet Port
-  {90572ca0-5545-4563-bd99-b3bc7df900ab}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {424cbcd4-db83-4166-b609-0e2c9687d46c}, !- Handle
-  {3e4c0825-e1ad-4d34-a36f-a8a5cbf39391}, !- Name
-  {90572ca0-5545-4563-bd99-b3bc7df900ab}, !- Source Object
-  3,                                      !- Outlet Port
-  {fcf09fea-fff5-43c8-8a4e-e8195314ba21}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {a3f85626-55c6-4afc-9284-841a84df8f2c}, !- Handle
-  {0bb011e1-c215-431d-a919-7d3dae2e1448}, !- Name
-  {fcf09fea-fff5-43c8-8a4e-e8195314ba21}, !- Source Object
-  3,                                      !- Outlet Port
-  {d9a6e601-b00e-42fe-b245-a9f5b66aa5dd}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {46b8fa55-5bfa-474e-a784-35680ebf5c42}, !- Handle
-  {67e2ceb3-581e-48c6-9815-9ecb2db6a96a}, !- Name
-  {f6d3e795-87df-4e0e-8f61-b606054b1615}, !- Source Object
-  2,                                      !- Outlet Port
-  {8626f10c-f441-4822-8a94-f0af5eb8a515}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {f931a051-a843-406a-af43-a98f1fde97c8}, !- Handle
-  {44e0f22e-1c5b-4232-b1ed-2390703df9ca}, !- Name
-  {8626f10c-f441-4822-8a94-f0af5eb8a515}, !- Source Object
-  3,                                      !- Outlet Port
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Target Object
-  18;                                     !- Inlet Port
-
-OS:AvailabilityManagerAssignmentList,
-  {b386deaf-81b6-44ea-b9ab-6b22ca3f6c6f}, !- Handle
-  Plant Loop 2 AvailabilityManagerAssignmentList; !- Name
-
-! TrackingID:#[K1q95X]
-OS:Sizing:Plant,
-  {76a5b778-a75e-46b8-9f20-48d06f7ddf55}, !- Handle
-  {4f448e2e-424f-46fd-a0f4-444e9bc3b46f}, !- Plant or Condenser Loop Name
-  Heating,                                !- Loop Type
-  82,                                     !- Design Loop Exit Temperature {C}
-  11,                                     !- Loop Design Temperature Difference {deltaC}
-  NonCoincident,                          !- Sizing Option
-  1,                                      !- Zone Timesteps in Averaging Window
-  None;                                   !- Coincident Sizing Factor Mode
-
-OS:Node,
-  {66026d0a-6213-4b2d-a4df-dffe94691a3b}, !- Handle
-  Node 14,                                !- Name
-  {e604473d-86f3-4915-86f9-d69efb551806}, !- Inlet Port
-  {9588836c-b9fa-4403-8f60-c9572aae5c66}; !- Outlet Port
-
-OS:Connection,
-  {eb7de366-b318-44c6-9f73-d934f9d4877d}, !- Handle
-  {79722e49-f0b9-4e1f-9848-f7f828d75492}, !- Name
-  {d9a6e601-b00e-42fe-b245-a9f5b66aa5dd}, !- Source Object
-  3,                                      !- Outlet Port
-  {d102077f-c9d6-4180-9caa-7bab853da951}, !- Target Object
-  17;                                     !- Inlet Port
-
-OS:Connection,
-  {e604473d-86f3-4915-86f9-d69efb551806}, !- Handle
-  {a012913e-5e66-46cb-999a-0c7557ab0a48}, !- Name
-  {d102077f-c9d6-4180-9caa-7bab853da951}, !- Source Object
-  18,                                     !- Outlet Port
-  {66026d0a-6213-4b2d-a4df-dffe94691a3b}, !- Target Object
-  2;                                      !- Inlet Port
-
-OS:Connection,
-  {9588836c-b9fa-4403-8f60-c9572aae5c66}, !- Handle
-  {2775a497-5019-49b1-a68c-7810a91c84ba}, !- Name
-  {66026d0a-6213-4b2d-a4df-dffe94691a3b}, !- Source Object
-  3,                                      !- Outlet Port
-  {f6d3e795-87df-4e0e-8f61-b606054b1615}, !- Target Object
-  3;                                      !- Inlet Port
+! TrackingID:#[h0ryZz]
+OS:Sizing:Zone,
+  {39196f8e-1604-4f6d-8ee3-a2416f7be93d}, !- Handle
+  {fb7d0de9-56ca-490a-834c-b466536c3934}, !- Zone or ZoneList Name
+  SupplyAirTemperature,                   !- Zone Cooling Design Supply Air Temperature Input Method
+  14,                                     !- Zone Cooling Design Supply Air Temperature {C}
+  11.11,                                  !- Zone Cooling Design Supply Air Temperature Difference {deltaC}
+  SupplyAirTemperature,                   !- Zone Heating Design Supply Air Temperature Input Method
+  40,                                     !- Zone Heating Design Supply Air Temperature {C}
+  11.11,                                  !- Zone Heating Design Supply Air Temperature Difference {deltaC}
+  0.0085,                                 !- Zone Cooling Design Supply Air Humidity Ratio {kg-H2O/kg-air}
+  0.008,                                  !- Zone Heating Design Supply Air Humidity Ratio {kg-H2O/kg-air}
+  ,                                       !- Zone Heating Sizing Factor
+  ,                                       !- Zone Cooling Sizing Factor
+  DesignDay,                              !- Cooling Design Air Flow Method
+  ,                                       !- Cooling Design Air Flow Rate {m3/s}
+  ,                                       !- Cooling Minimum Air Flow per Zone Floor Area {m3/s-m2}
+  ,                                       !- Cooling Minimum Air Flow {m3/s}
+  ,                                       !- Cooling Minimum Air Flow Fraction
+  DesignDay,                              !- Heating Design Air Flow Method
+  ,                                       !- Heating Design Air Flow Rate {m3/s}
+  ,                                       !- Heating Maximum Air Flow per Zone Floor Area {m3/s-m2}
+  ,                                       !- Heating Maximum Air Flow {m3/s}
+  ,                                       !- Heating Maximum Air Flow Fraction
+  ,                                       !- Design Zone Air Distribution Effectiveness in Cooling Mode
+  ,                                       !- Design Zone Air Distribution Effectiveness in Heating Mode
+  No,                                     !- Account for Dedicated Outdoor Air System
+  NeutralSupplyAir,                       !- Dedicated Outdoor Air System Control Strategy
+  autosize,                               !- Dedicated Outdoor Air Low Setpoint Temperature for Design {C}
+  autosize;                               !- Dedicated Outdoor Air High Setpoint Temperature for Design {C}
 

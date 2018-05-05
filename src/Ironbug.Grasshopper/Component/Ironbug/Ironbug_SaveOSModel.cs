@@ -27,6 +27,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
             pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
+            pManager.AddGenericParameter("VRFSystems", "VRFSystems", "VRFSystems", GH_ParamAccess.list);
             pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
             pManager[0].Optional = true;
@@ -34,6 +35,8 @@ namespace Ironbug.Grasshopper.Component
             pManager[1].DataMapping = GH_DataMapping.Flatten;
             pManager[2].Optional = true;
             pManager[2].DataMapping = GH_DataMapping.Flatten;
+            pManager[3].Optional = true;
+            pManager[3].DataMapping = GH_DataMapping.Flatten;
 
         }
 
@@ -55,6 +58,7 @@ namespace Ironbug.Grasshopper.Component
             filepath = @"C:\Users\mingo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
+            var vrfs = new List<HVAC.IB_AirConditionerVariableRefrigerantFlow>();
             bool write = false;
 
             //var model = new OpenStudio.Model();
@@ -62,8 +66,9 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref filepath);
             DA.GetDataList(1, airLoops);
             DA.GetDataList(2,  plantLoops);
-            
-            DA.GetData(3, ref write);
+            DA.GetDataList(3, vrfs);
+
+            DA.GetData(4, ref write);
 
             if (!write) return;
             
@@ -119,6 +124,10 @@ namespace Ironbug.Grasshopper.Component
                 plant.ToOS( model);
             }
 
+            foreach (var vrf in vrfs)
+            {
+                vrf.ToOS(model);
+            }
 
             //this.SetThermalZones(model);
 

@@ -37,7 +37,7 @@ namespace Ironbug.Grasshopper.Component
             //pManager[0].Optional = true;
             pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal for per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.tree);
+            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.list);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
@@ -96,12 +96,33 @@ namespace Ironbug.Grasshopper.Component
                 OSZones.ForEach(_ => _.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled()));
             }
 
+            //add ZoneEquipments
+            var zoneEquipments = new List<IIB_ZoneEquipment>();
+            if (DA.GetDataList(2, zoneEquipments))
+            {
+                if (zoneEquipments.Count != OSZones.Count)
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of ZoneEquipment as zones");
+                    return;
+                }
+                else
+                {
+                    for (int i = 0; i < zoneEquipments.Count; i++)
+                    {
+                        OSZones[i].AddZoneEquipment(zoneEquipments[i]); //fix this later, for when there are more than one equipments for one zone
+                    }
+                }
+            }
+
+            //add Sizing
             var sizing = new IB_SizingZone();
             if (DA.GetData(3, ref sizing))
             {
                 OSZones.ForEach(_ => _.SetSizingZone(sizing));
             }
-            //TODO: add ZoneEquipments
+
+           
+
 
             foreach (var zone in OSZones)
             {

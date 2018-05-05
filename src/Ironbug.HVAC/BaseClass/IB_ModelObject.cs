@@ -7,7 +7,7 @@ using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_ModelObject
+    public abstract class IB_ModelObject : IIB_ModelObject
     {
         public Dictionary<string, object> CustomAttributes { get; private set; }
         protected ModelObject GhostOSObject { get; private set; }
@@ -92,7 +92,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             ModelObject realObj = null;
-            if (this is IIB_DualLoopObject)
+            if (this is IIB_ShareableObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
                 realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();

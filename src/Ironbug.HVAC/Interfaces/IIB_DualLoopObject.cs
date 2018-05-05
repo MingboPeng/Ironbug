@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public interface IIB_DualLoopObject:IIB_ToOPSable, IIB_AirLoopObject, IIB_PlantLoopObjects
+    public interface IIB_DualLoopObject:IIB_ToOPSable, IIB_AirLoopObject, IIB_PlantLoopObjects, IIB_ShareableObj
     {
     }
 }

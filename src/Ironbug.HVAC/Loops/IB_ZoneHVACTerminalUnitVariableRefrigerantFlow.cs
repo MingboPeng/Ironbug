@@ -3,20 +3,20 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow : IB_HVACObject
+    public class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow : IB_ZoneEquipment, IIB_ShareableObj
     {
         private static ZoneHVACTerminalUnitVariableRefrigerantFlow InitMethod(Model model) 
             => new ZoneHVACTerminalUnitVariableRefrigerantFlow(model);
-
+        
         public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(InitMethod(new Model()))
         { 
         }
 
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((ZoneHVACTerminalUnitVariableRefrigerantFlow)this.ToOS(model)).addToNode(node);
-        }
+        //public override bool AddToNode(Node node)
+        //{
+        //    var model = node.model();
+        //    return ((ZoneHVACTerminalUnitVariableRefrigerantFlow)this.ToOS(model)).addToNode(node);
+        //}
 
         public override IB_ModelObject Duplicate()
         {
