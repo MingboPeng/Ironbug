@@ -6,11 +6,13 @@ namespace Ironbug.HVAC
 {
     public interface IIB_ModelObject
     {
+        IB_PuppetableState CurrentState { get; }
+        void ChangeState(IB_PuppetableState newState);
         Dictionary<string, object> CustomAttributes { get; }
 
         IB_ModelObject Duplicate();
+        IB_ModelObject DuplicateAsPuppet();
         IEnumerable<string> GetDataFields();
-        object GetDataFieldValue(string DataFieldName);
         string GetTrackingID();
         bool IsInModel(Model model);
         void SetAttribute(IB_DataField dataField, object value);

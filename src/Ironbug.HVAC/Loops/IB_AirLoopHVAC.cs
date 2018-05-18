@@ -10,11 +10,13 @@ namespace Ironbug.HVAC
 {
     public class IB_AirLoopHVAC : IB_Loop
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirLoopHVAC();
 
         private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
         private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
         
+
         private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
 
         public IB_AirLoopHVAC() : base(InitMethod(new Model()))
@@ -55,14 +57,15 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             //TODO: duplicate child objects
-            return this.DuplicateIBObj(() => new IB_AirLoopHVAC());
+            return this.DuplicateIBObj(IB_InitSelf);
         }
 
-        public override ModelObject ToOS( Model osModel)
+        protected override ModelObject InitOpsObj(Model model)
         {
             this.CheckSupplySide(this.supplyComponents);
 
-            var airLoopHVAC = base.ToOS(InitMethod, osModel).to_AirLoopHVAC().get();
+            Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
+            var airLoopHVAC = base.OnInitOpsObj(InitMethod, model, postProcess);
 
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);
@@ -100,7 +103,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Warning: Failed to add all airloop supply components!");
+                throw new Exception("Warning: Failed to add all air loop supply components!");
                 
             }
 
@@ -130,7 +133,7 @@ namespace Ironbug.HVAC
             var addObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
             var allcopied = addObjs.Count() == filteredObjs.CountWithBranches();
 
-            //TODO: might need to double check the setpoint order.
+            //TODO: might need to double check the set point order.
             allcopied &= this.AddSetPoints(dmInNd, Components);
 
             if (!allcopied)

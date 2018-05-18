@@ -62,10 +62,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClass\IB_PuppetableState.cs" />
+    <Compile Include="Delegates\IIB_Child1.cs" />
+    <Compile Include="Delegates\RelationWithChild.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Loops\IB_AirLoopBranches.cs" />
     <Compile Include="BaseClass\IB_Coil.cs" />
     <Compile Include="BaseClass\IB_DataField.cs" />
     <Compile Include="BaseClass\IB_DataFieldSet.cs" />
     <Compile Include="BaseClass\IB_Fan.cs" />
+    <Compile Include="Loops\IB_PlantLoopBranches.cs" />
+    <Compile Include="BaseClass\IB_PuppetableObj.cs" />
     <Compile Include="BaseClass\IB_VRF.cs" />
     <Compile Include="BaseClass\IB_IDDDataField.cs" />
     <Compile Include="BaseClass\IB_Loop.cs" />
@@ -74,6 +81,7 @@
     <Compile Include="BaseClass\IB_Pump.cs" />
     <Compile Include="BaseClass\IB_SetpointManager.cs" />
     <Compile Include="Interfaces\IIB_ModelObject.cs" />
+    <Compile Include="Interfaces\IIB_Puppetable.cs" />
     <Compile Include="Interfaces\IIB_ZoneEquipment.cs" />
     <Compile Include="Interfaces\IIB_DataFieldSet.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
@@ -108,6 +116,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduled.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerWarmest.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctParallelPIUReheat.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat - Copy.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitHeater.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />

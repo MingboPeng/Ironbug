@@ -35,9 +35,9 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddBrepParameter("HoneybeeZone", "_HBZones", "HBZone", GH_ParamAccess.list);
             //pManager[0].Optional = true;
-            pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal for per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
+            pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "ZoneEquipments", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "A list of zone equipments that will be added to each zones.", GH_ParamAccess.list);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
@@ -77,10 +77,18 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetDataList(1, airTerminals))
             {
-                if (airTerminals.Count != OSZones.Count)
+                if (airTerminals.Count != OSZones.Count && airTerminals.Count == 1)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
-                    return;
+                    //AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
+                    //return;
+                    var airTerminal = airTerminals.First().ToPuppetHost();
+                    foreach (var zone in OSZones)
+                    {
+                        var puppet = airTerminal.DuplicateAsPuppet() as IB_AirTerminal;
+                        zone.SetAirTerminal(puppet);
+                    }
+                    
+
                 }
                 else
                 {
@@ -97,20 +105,19 @@ namespace Ironbug.Grasshopper.Component
             }
 
             //add ZoneEquipments
-            var zoneEquipments = new List<IIB_ZoneEquipment>();
+            var zoneEquipments = new List<IB_ZoneEquipment>();
             if (DA.GetDataList(2, zoneEquipments))
             {
-                if (zoneEquipments.Count != OSZones.Count)
+                
+                foreach (var eqp in zoneEquipments)
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of ZoneEquipment as zones");
-                    return;
-                }
-                else
-                {
-                    for (int i = 0; i < zoneEquipments.Count; i++)
+                    foreach (var zone in OSZones)
                     {
-                        OSZones[i].AddZoneEquipment(zoneEquipments[i]); //fix this later, for when there are more than one equipments for one zone
+                        var eqpPuppet = eqp.DuplicateAsPuppet() as IB_ZoneEquipment;
+                        zone.AddZoneEquipment(eqpPuppet);
                     }
+                   
+                    
                 }
             }
 

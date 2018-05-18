@@ -4,6 +4,7 @@ using System.Linq;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
+using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
@@ -115,7 +116,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        private string CountBranches(IB_AirLoopBranches branches)
+        private string CountBranches(HVAC.IB_AirLoopBranches branches)
         {
             string messages = string.Empty;
             var b = branches.Branches.Count;

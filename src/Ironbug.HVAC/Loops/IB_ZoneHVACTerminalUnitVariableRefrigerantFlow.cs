@@ -1,32 +1,39 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using System;
+using System.Collections.Generic;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow : IB_ZoneEquipment, IIB_ShareableObj
+    public class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow 
+        : IB_ZoneEquipment, IIB_ShareableObj
+        
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
+
         private static ZoneHVACTerminalUnitVariableRefrigerantFlow InitMethod(Model model) 
             => new ZoneHVACTerminalUnitVariableRefrigerantFlow(model);
         
         public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(InitMethod(new Model()))
         { 
         }
-
-        //public override bool AddToNode(Node node)
+        
+        //TODO: maybe I need to duplicate the puppets as well, but maybe not.
+        //probably not, because puppets can only have one parent, and each replica have to create their own puppet again.
+        //public override IB_ModelObject Duplicate()
         //{
-        //    var model = node.model();
-        //    return ((ZoneHVACTerminalUnitVariableRefrigerantFlow)this.ToOS(model)).addToNode(node);
+        //    return base.DuplicateIBObj(() => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow());
         //}
 
-        public override IB_ModelObject Duplicate()
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.DuplicateIBObj(() => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow());
+            //TODO: double check this new way
+            return base.OnInitOpsObj(InitMethod, model,(_)=>_.to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get());
+            //return base.OnInitOpsObj(InitMethod, model).to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get();
         }
 
-        public override ModelObject ToOS(Model model)
-        {
-            return base.ToOS(InitMethod, model).to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get();
-        }
+
+
     }
 
     public sealed class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet

@@ -9,25 +9,31 @@ namespace Ironbug.HVAC
 {
     public class IB_SizingPlant: IB_ModelObject
     {
-        private static SizingPlant InitMethod(Model model) => new SizingPlant(model, new PlantLoop(model));
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SizingPlant();
 
+        private static SizingPlant InitMethod(Model model) => new SizingPlant(model, new PlantLoop(model));
+        
+
+        public IB_SizingPlant() : base(InitMethod(new Model()))
+        {
+        }
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIBObj(() => new IB_SizingPlant());
+            return base.DuplicateIBObj(IB_InitSelf);
         }
 
         public ModelObject ToOS(PlantLoop loop)
         {
             //create a new sizingPlant to target plant loop
             var targetModel = loop.model();
-            return base.ToOS((Model model) => new SizingPlant(model, loop), targetModel);
+            return base.OnInitOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
         }
-
-        public IB_SizingPlant() : base(InitMethod(new Model()))
+        //this is replaced by above method
+        protected override ModelObject InitOpsObj(Model model)
         {
+            throw new NotImplementedException();
         }
 
-        
     }
 
     public sealed class IB_SizingPlant_DataFieldSet

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -9,20 +6,29 @@ namespace Ironbug.HVAC
 {
     public class IB_ControllerOutdoorAir : IB_ModelObject
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerOutdoorAir();
+
         private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
         public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
         {
         }
-        
+
         public override IB_ModelObject Duplicate()
         {
             return this.DuplicateIBObj(() => new IB_ControllerOutdoorAir());
         }
 
+        protected override ModelObject InitOpsObj(Model model)
+        {
+            var newObj = (ControllerOutdoorAir)this.OnInitOpsObj(InitMethod, model); //TODO: would this work?
+            return newObj;
+        }
+
         public ModelObject ToOS(Model model)
         {
-            return (ControllerOutdoorAir)this.ToOS(InitMethod, model);
+            return this.InitOpsObj(model);
         }
+
     }
 
     public sealed class IB_ControllerOutdoorAir_DataFieldSet 

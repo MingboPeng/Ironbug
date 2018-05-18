@@ -59,88 +59,29 @@ namespace Ironbug.HVAC.BaseClass
         {
             throw new NotImplementedException();
         }
-
-        public override ModelObject ToOS(Model model)
-        {
-            throw new NotImplementedException();
-        }
-        public virtual void ToOS_Supply(Loop Loop)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void ToOS_Demand(Loop Loop)
-        {
-            throw new NotImplementedException();
-        }
-
-
-    }
-
-    public class IB_PlantLoopBranches : IB_LoopBranches,IIB_PlantLoopObjects
-    {
-
-        public override void ToOS_Supply(Loop PlantLoop)
-        {
-            var branches = this.Branches;
-            var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.model();
-            foreach (var branch in branches)
-            {
-                //add one branch
-                plant.addSupplyBranchForComponent((HVACComponent)branch.First().ToOS(model));
-                //add the rest child in this branch
-                var restChild = branch.Skip(1);
-                foreach (var item in restChild)
-                {
-                    var node = plant.supplyMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
-                }
-            }
-        }
-        public override void ToOS_Demand(Loop PlantLoop)
-        {
-            var branches = this.Branches;
-            var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.model();
-            foreach (var branch in branches)
-            {
-                //add one branch
-                plant.addDemandBranchForComponent((HVACComponent)branch.First().ToOS(model));
-                //add the rest child in this branch
-                var restChild = branch.Skip(1);
-                foreach (var item in restChild)
-                {
-                    //TDDO: double check the obj order here
-                    var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
-                }
-            }
-        }
-    }
-
-    public class IB_AirLoopBranches : IB_LoopBranches, IIB_AirLoopObject
-    {
-
-        public override void ToOS_Demand(Loop AirLoop)
-        {
-            var branches = this.Branches;
-            var loop = AirLoop as AirLoopHVAC;
-            var model = AirLoop.model();
-            foreach (var branch in branches)
-            {
-                foreach (var item in branch)
-                {
-                    var thermalZone = (IB_ThermalZone)item;
-                    var zone = (ThermalZone)item.ToOS(model);
-                    var airTerminal = (HVACComponent)thermalZone.AirTerminal.ToOS(model);
-                    loop.addBranchForZone(zone,airTerminal);
-                }
-            }
-        }
-
         
+
+        protected override ModelObject InitOpsObj(Model model) => null;
+
+
     }
+
+    //public class IB_LoopBranch: IB_HVACObject
+    //{
+    //    public IList<IB_HVACObject> BranchItems { get; set; } = new List<IB_HVACObject>();
+
+    //    protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_LoopBranch();
+
+    //    public override bool AddToNode(Node node)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+
+    //    protected override ModelObject InitOpsObj(Model model)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 
 
 }

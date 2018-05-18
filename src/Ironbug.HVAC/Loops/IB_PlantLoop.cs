@@ -9,10 +9,14 @@ namespace Ironbug.HVAC
 {
     public class IB_PlantLoop : IB_Loop
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantLoop();
+
         private List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
         private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
         private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
+
+        
 
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop() : base(InitMethod(new Model()))
@@ -48,9 +52,9 @@ namespace Ironbug.HVAC
         }
 
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            var plant = base.ToOS(InitMethod, model).to_PlantLoop().get();
+            var plant = base.OnInitOpsObj(InitMethod, model).to_PlantLoop().get();
 
             IB_SizingPlant.ToOS(plant);
 
@@ -64,7 +68,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
 
-            var newObj = (IB_PlantLoop)this.DuplicateIBObj(() => new IB_PlantLoop());
+            var newObj = (IB_PlantLoop)this.DuplicateIBObj(IB_InitSelf);
 
             this.supplyComponents.ForEach(d =>
                 newObj.AddToSupply((IB_HVACObject)d.Duplicate())
@@ -143,11 +147,12 @@ namespace Ironbug.HVAC
 
             
             var addedObjs = plant.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
-            var allcopied = addedObjs.Count() == Components.CountWithBranches();
+
+            //var allcopied = addedObjs.Count() == Components.CountWithBranches();
 
 
             //TODO: might need to double check the setpoint order.
-            allcopied &= this.AddSetPoints(deInletNode, Components);
+            var allcopied = this.AddSetPoints(deInletNode, Components);
 
             if (!allcopied)
             {
@@ -190,29 +195,6 @@ namespace Ironbug.HVAC
     }
 
 
-    public static class Extensions
-    {
-        public static int CountWithBranches(this IEnumerable<IB_HVACObject> enumerable)
-        {
-            var count = 0;
-            foreach (var item in enumerable)
-            {
-                if (item is IB_PlantLoopBranches)
-                {
-                    count += ((IB_PlantLoopBranches)item).Count();
-                }
-                else if (item is IB_AirLoopBranches)
-                {
-                    count += ((IB_AirLoopBranches)item).Count()*2; // because added air terminal with each zone
-                }
-                else
-                {
-                    count++;
-                }
-            }
 
-            return count;
-        }
-    }
 }
 

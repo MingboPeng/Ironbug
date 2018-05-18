@@ -9,10 +9,16 @@ namespace Ironbug.HVAC.BaseClass
 {
     public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ThermalZone();
+        private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
+
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
         public List<IIB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IIB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
-        private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
+
+        
+
+        
         public IB_ThermalZone():base(InitMethod(new Model()))
         {
             
@@ -37,21 +43,21 @@ namespace Ironbug.HVAC.BaseClass
         /// <param name="NewSizingZone"></param>
         public void SetSizingZone(IB_SizingZone NewSizingZone)
         {
-            this.IB_SizingZone = (IB_SizingZone)NewSizingZone.Duplicate();
+            this.IB_SizingZone = NewSizingZone;
         }
 
         
         public void SetAirTerminal(IB_AirTerminal AirTerminal)
         {
-            this.AirTerminal = (IB_AirTerminal)AirTerminal.Duplicate();
+            this.AirTerminal = AirTerminal;
         }
 
-        public void AddZoneEquipment(IIB_ZoneEquipment Equipment)
+        public void AddZoneEquipment(IB_ZoneEquipment Equipment)
         {
             this.ZoneEquipments.Add(Equipment);
         }
-        
-        public override ModelObject ToOS(Model model)
+
+        protected override ModelObject InitOpsObj(Model model)
         {
             //check the model if there's a same named thermal zone
             //if yes, then return it
@@ -78,7 +84,7 @@ namespace Ironbug.HVAC.BaseClass
             }
             else
             {
-                newZone = (ThermalZone)base.ToOS(InitMethod, model);
+                newZone = (ThermalZone)base.OnInitOpsObj(InitMethod, model);
             }
             
             
@@ -102,7 +108,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             
             //Duplicate self;
-            var newObj = (IB_ThermalZone)base.DuplicateIBObj(() => new IB_ThermalZone());
+            var newObj = base.DuplicateIBObj(() => new IB_ThermalZone());
 
             //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());
@@ -121,11 +127,13 @@ namespace Ironbug.HVAC.BaseClass
             
             return newObj;
         }
+        
 
         public override bool AddToNode(Node node)
         {
             throw new NotImplementedException();
         }
+        
     }
 
     public sealed class IB_ThermalZone_DataFieldSet 
@@ -152,39 +160,11 @@ namespace Ironbug.HVAC.BaseClass
             };
 
         public IB_DataField ZoneInsideConvectionAlgorithm { get; }
-            = new IB_BasicDataField("ZoneInsideConvectionAlgorithm", "InConvection")
-            {
-                DetailedDescription = "The Zone Inside Convection Algorithm field is optional.\n"+
-                "This field specifies the convection model to be used for the inside face of heat transfer surfaces associated with this zone. \n\n"+
-                "The choices are: \n" +
-                "1) Simple (constant natural convection - ASHRAE) \n" +
-                "2) TARP (combines natural and wind-driven convection correlations from laboratory measurements on flat plates)\n" +
-                "3) CeilingDiffuser (ACH based forced and mixed convection correlations for ceiling diffuser configuration with simple natural convection limit), \n"+
-                "4) AdaptiveConvectionAlgorithm (complex arrangement of various models that adapt to various zone conditions and can be customized)\n"+
-                "5) TrombeWall (variable natural convection in an enclosed rectangular cavity).\n"+
-                "See the Inside Convection Algorithm object for further descriptions of the available models."+
-                "If omitted or blank, the algorithm specified in the SurfaceConvectionAlgorithm:Inside object is the default."
-            };
+            = new IB_BasicDataField("ZoneInsideConvectionAlgorithm", "InConvection");
 
 
         public IB_DataField ZoneOutsideConvectionAlgorithm { get; }
-            = new IB_BasicDataField("ZoneOutsideConvectionAlgorithm", "OutConvection")
-            {
-                DetailedDescription = "The Zone Outside Convection Algorithm field is optional. "+
-                "This field specifies the convection model to be used for the outside face of heat transfer surfaces associated with this zone. \n"+
-                "The choices are: \n"+
-                "1) SimpleCombined, 2) TARP, 3) DOE-2, 4) MoWiTT, and 5) AdaptiveConvectionAlgorithm. \n"+
-                "The simple convection model applies heat transfer coefficients depending on the roughness and windspeed. "+
-                "This is a combined heat transfer coefficient that includes radiation to sky, ground, and air. "+
-                "The correlation is based on Figure, Page 25.1 (Thermal and Water Vapor Transmission Data), 2001 ASHRAE Handbook of Fundamentals."+
-                "\n\nThe other convection models apply heat transfer coefficients depending on the roughness, windspeed,and terrain of the building’s location." +
-                "These are convection only heat transfer coefficients; radiation heat transfer coefficients are calculated automatically by the program."+
-                "The TARP algorithm was developed for the TARP software and combines natural and wind-driven convection correlations from laboratory measurements on flat plates."+
-                "The DOE-2 and MoWiTT were derived from field measurements.The AdaptiveConvectionAlgorithm model is an dynamic algorithm that organizes a large number of different convection models and automatically selects the one that best applies. "+
-                "The adaptive convection algorithm can also be customized using the SurfaceConvectionAlgorithm:Outside:AdaptiveModelSelections input object."+
-                "All algorithms are described more fully in the Engineering Reference."+
-                "If omitted or blank, the algorithm specified in the SurfaceConvectionAlgorithm:Outside object is the default."
-            };
+            = new IB_BasicDataField("ZoneOutsideConvectionAlgorithm", "OutConvection");
         
 
 

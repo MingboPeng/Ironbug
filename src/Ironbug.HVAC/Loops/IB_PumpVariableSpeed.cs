@@ -6,6 +6,8 @@ namespace Ironbug.HVAC
 {
     public class IB_PumpVariableSpeed: IB_Pump
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PumpVariableSpeed();
+
         private static PumpVariableSpeed InitMethod(Model model) => new PumpVariableSpeed(model);
         public IB_PumpVariableSpeed() : base(InitMethod(new Model()))
         {
@@ -17,14 +19,14 @@ namespace Ironbug.HVAC
             return ((PumpVariableSpeed)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_PumpVariableSpeed());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_PumpVariableSpeed());
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model);
+            return base.OnInitOpsObj(InitMethod, model);
         }
     }
 

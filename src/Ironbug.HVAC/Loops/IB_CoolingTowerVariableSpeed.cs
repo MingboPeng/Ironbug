@@ -1,10 +1,13 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using System;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
 namespace Ironbug.HVAC
 {
     public class IB_CoolingTowerVariableSpeed : IB_HVACObject, IIB_PlantLoopObjects
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoolingTowerVariableSpeed();
+
         private static CoolingTowerVariableSpeed InitMethod(Model model) => new CoolingTowerVariableSpeed(model);
         public IB_CoolingTowerVariableSpeed() : base(InitMethod(new Model()))
         {
@@ -16,14 +19,14 @@ namespace Ironbug.HVAC
             return ((CoolingTowerVariableSpeed)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_CoolingTowerVariableSpeed());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_CoolingTowerVariableSpeed());
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_CoolingTowerVariableSpeed().get();
+            return base.OnInitOpsObj(InitMethod, model).to_CoolingTowerVariableSpeed().get();
         }
     }
 

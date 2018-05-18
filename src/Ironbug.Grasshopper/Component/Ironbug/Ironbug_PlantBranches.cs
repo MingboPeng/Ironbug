@@ -146,7 +146,22 @@ namespace Ironbug.Grasshopper.Component
             return loopBranches;
         }
 
-        private string CountBranches(IB_PlantLoopBranches branches)
+        //public List<List<IB_HVACObject>> CheckPuppets(List<List<IB_HVACObject>> Branches)
+        //{
+        //    var loopBranches = new List<List<IB_HVACObject>>();
+        //    foreach (var branch in Branches)
+        //    {
+        //        if (branch.)
+        //        {
+
+        //        }
+        //    }
+
+
+        //    return loopBranches;
+        //}
+
+        private string CountBranches(HVAC.IB_PlantLoopBranches branches)
         {
             string messages = string.Empty;
             var b = branches.Branches.Count;
@@ -160,10 +175,10 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        private IB_PlantLoopBranches CollectBranches()
+        private HVAC.IB_PlantLoopBranches CollectBranches()
         {
 
-            var branches = new IB_PlantLoopBranches();
+            var branches = new HVAC.IB_PlantLoopBranches();
 
             var allParams = this.Params.Input;
             foreach (var param in allParams)
@@ -177,9 +192,7 @@ namespace Ironbug.Grasshopper.Component
                 
                 if (!param.VolatileData.IsEmpty)
                 {
-                   
                     tree = MapToLoopBranches((GH_Structure<IGH_Goo>)param.VolatileData);
-                    
                 }
 
                 foreach (var branch in tree)
@@ -190,7 +203,9 @@ namespace Ironbug.Grasshopper.Component
 
             }
 
-            return branches;
+            var checkedBranch = branches.CheckPuppetsInBranches(branches);
+
+            return checkedBranch;
         }
 
         private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)

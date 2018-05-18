@@ -9,6 +9,8 @@ namespace Ironbug.HVAC
 {
     public class IB_SetpointManagerOutdoorAirReset : IB_SetpointManager
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerOutdoorAirReset();
+
         private static SetpointManagerOutdoorAirReset InitMethod(Model model) => new SetpointManagerOutdoorAirReset(model);
 
 
@@ -17,10 +19,10 @@ namespace Ironbug.HVAC
         }
 
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_SetpointManagerOutdoorAirReset());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_SetpointManagerOutdoorAirReset());
+        //}
 
         public override bool AddToNode(Node node)
         {
@@ -28,9 +30,9 @@ namespace Ironbug.HVAC
             return ((SetpointManagerOutdoorAirReset)this.ToOS(model)).addToNode(node);
         }
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_SetpointManagerOutdoorAirReset().get();
+            return base.OnInitOpsObj(InitMethod, model).to_SetpointManagerOutdoorAirReset().get();
         }
     }
 

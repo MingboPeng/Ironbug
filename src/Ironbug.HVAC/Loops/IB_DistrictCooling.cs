@@ -9,6 +9,8 @@ namespace Ironbug.HVAC
 {
     public class IB_DistrictCooling: IB_HVACObject, IIB_PlantLoopObjects
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_DistrictCooling();
+
         private static DistrictCooling InitMethod(Model model) => new DistrictCooling(model);
         public IB_DistrictCooling() : base(InitMethod(new Model()))
         {
@@ -19,14 +21,14 @@ namespace Ironbug.HVAC
             return ((DistrictCooling)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_DistrictCooling());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_DistrictCooling());
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_DistrictCooling().get();
+            return base.OnInitOpsObj(InitMethod, model).to_DistrictCooling().get();
         }
     }
     public sealed class IB_DistrictCooling_DataFieldSet

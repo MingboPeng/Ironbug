@@ -6,6 +6,8 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingElectric : IB_Coil
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingElectric();
+
         private static CoilHeatingElectric InitMethod(Model model) => new CoilHeatingElectric(model);
 
         public IB_CoilHeatingElectric() : base(InitMethod(new Model()))
@@ -18,14 +20,14 @@ namespace Ironbug.HVAC
             return ((CoilHeatingElectric)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_CoilHeatingElectric());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj();
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_CoilHeatingElectric().get();
+            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingElectric().get();
         }
     }
 

@@ -10,6 +10,9 @@ namespace Ironbug.HVAC
     public class IB_SetpointManagerScheduled : IB_SetpointManager
     {
         private double temperature = 12.7778; //55F
+
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this.temperature);
+
         private  SetpointManagerScheduled InitMethod(Model model) 
             => new SetpointManagerScheduled(model, new ScheduleCompact(model, this.temperature));
         private static SetpointManagerScheduled InitMethod(Model model, double temp) 
@@ -26,14 +29,14 @@ namespace Ironbug.HVAC
             return ((SetpointManagerScheduled)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_SetpointManagerScheduled(this.temperature));
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_SetpointManagerScheduled(this.temperature));
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_SetpointManagerScheduled().get();
+            return base.OnInitOpsObj(InitMethod, model).to_SetpointManagerScheduled().get();
         }
     }
 }

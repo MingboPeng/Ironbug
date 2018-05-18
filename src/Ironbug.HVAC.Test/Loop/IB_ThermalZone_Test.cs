@@ -9,14 +9,7 @@ namespace Ironbug.HVACTests.Loop
     [TestClass]
     public class IB_ThermalZone_Test
     {
-        [TestMethod]
-        public void IB_ThermalZone_Initialize_Test()
-        {
-            var obj = new IB_ThermalZone();
-            var dataFields = obj.GetDataFields();
-            Assert.IsTrue(dataFields.Count() >0);
-        }
-
+        
         [TestMethod]
         public void IB_ThermalZone_Sizing_Test()
         {

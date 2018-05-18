@@ -11,8 +11,7 @@ namespace Ironbug.HVAC.BaseClass
         public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
         {
         }
-
-        public abstract ModelObject ToOS(Model model);
+        
 
         protected (IEnumerable<IB_HVACObject> before, IB_LoopBranches branch, IEnumerable<IB_HVACObject> after) GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
         {
@@ -27,7 +26,10 @@ namespace Ironbug.HVAC.BaseClass
             return (beforeBranch, branch, afterBranch);
 
         }
-        
+        public virtual ModelObject ToOS(Model model)
+        {
+            return this.InitOpsObj(model);
+        }
 
         protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components)
         {

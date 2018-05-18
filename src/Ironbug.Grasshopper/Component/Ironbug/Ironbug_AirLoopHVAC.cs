@@ -65,8 +65,7 @@ namespace Ironbug.Grasshopper.Component
                 airLoop.AddToDemandSide(item);
             }
             
-
-            //var model = new OpenStudio.Model();
+            
             DA.SetData(0, airLoop);
 
         }

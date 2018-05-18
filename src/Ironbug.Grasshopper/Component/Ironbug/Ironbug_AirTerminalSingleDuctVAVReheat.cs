@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
             
             if (DA.GetData(0, ref coil))
             {
-                var newHS = (IB_Coil)coil.Duplicate();
+                var newHS = (IB_Coil)coil;
                 obj.SetReheatCoil(newHS);
             }
 

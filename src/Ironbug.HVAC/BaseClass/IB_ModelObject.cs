@@ -9,14 +9,168 @@ namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_ModelObject : IIB_ModelObject
     {
+        protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
+        public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
+        //protected abstract RelationWithChild<IIB_ModelObject> RelationshipsWithChild { get; }
+
+        public IB_PuppetableState CurrentState { get; private set; }
         public Dictionary<string, object> CustomAttributes { get; private set; }
         protected ModelObject GhostOSObject { get; private set; }
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
+            this.CurrentState = new IB_PuppetableState_None(this);
             this.CustomAttributes = new Dictionary<string, object>();
             this.GhostOSObject = GhostOSObject;
             this.SetTrackingID();
+        }
+
+        public void ChangeState(IB_PuppetableState newState)
+        {
+            this.CurrentState = newState;
+        }
+
+        //public bool IsPuppet()
+        //{
+        //    return this.CurrentState is IB_PuppetableState_Puppet;
+        //}
+
+        public bool IsPuppetHost()
+        {
+            return this.CurrentState is IB_PuppetableState_Host;
+        }
+
+        ///// <summary>
+        ///// Duplicate self as a "Puppet", including its sub-relationship connections
+        ///// </summary>
+        ///// <returns></returns>
+        //public IB_ModelObject DuplicateAsPuppet()
+        //{
+        //    var puppet = this.Duplicate();
+        //    puppet.SetAllTrackingIDs();
+
+        //    if (this.CurrentState is IB_PuppetableState_None state)
+        //    {
+        //        state.ToParentState().AddPuppet(puppet);
+
+        //    }
+        //    else if (this.CurrentState is IB_PuppetableState_Parent stateParent)
+        //    {
+        //        stateParent.AddPuppet(puppet);
+        //    }
+        //    else
+        //    {
+        //        //currently only two available
+        //    }
+
+        //    return puppet;
+
+        //}
+        public IB_ModelObject ToPuppetHost()
+        {
+            this.CurrentState.ToPuppetHost();
+            foreach (var child in this.Children)
+            {
+                child.Get().ToPuppetHost();
+            }
+
+            return this;
+        }
+
+        //protected IB_ModelObject ToPuppet()
+        //{
+        //    if (this.CurrentState is IB_PuppetableState_None state)
+        //    {
+        //        state.ToPuppet();
+        //    }
+
+        //    return this;
+        //}
+
+
+        public virtual IB_ModelObject DuplicateAsPuppet()
+        {
+
+            var puppet = this.DuplicateAsPuppet(IB_InitSelf);
+
+            puppet.Children.Clear();
+            foreach (var child in this.Children)
+            {
+                var childPuppet = child.DuplicateAsPuppet();
+                puppet.Children.Add(childPuppet);
+            }
+
+            return puppet;
+        }
+
+        //public void SetRelationships<T>(Action<T> doAction, T withObj) where T : IB_ModelObject 
+        //{
+        //    doAction(withObj);
+        //}
+
+        
+        protected T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T: IB_ModelObject
+        {
+            T puppet = null;
+            if (this.CurrentState is IB_PuppetableState_Host stateParent)
+            {
+                puppet = this.DuplicateIBObj(DupMethodHandler);
+                //puppet.ToPuppet();
+                puppet.SetTrackingID();
+                stateParent.AddPuppet(puppet);
+            }
+            else
+            {
+                throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
+                //currently only two available
+            }
+
+            return puppet;
+
+            //if (this.CurrentState is IB_PuppetableState_None state)
+            //{
+            //    state.ToPuppetHost().AddPuppet(puppet);
+
+            //}
+            //else if (this.CurrentState is IB_PuppetableState_Host stateParent)
+            //{
+            //    stateParent.AddPuppet(puppet);
+            //}
+            //else
+            //{
+            //    //currently only two available
+            //}
+
+
+
+        }
+        
+
+        public IList<IIB_ModelObject> GetPuppetsOrSelf()
+        {
+
+            //TODO: move this part to IB_PuppetableState later
+            var puppetsOrSelf = this.GetPuppets();
+            if (!puppetsOrSelf.Any())
+            {
+                puppetsOrSelf.Add(this);
+            }
+
+            return puppetsOrSelf;
+        }
+
+        public IList<IIB_ModelObject> GetPuppets()
+        {
+
+            //TODO: move this part to IB_PuppetableState later
+            var puppets = new List<IIB_ModelObject>();
+            if (this.CurrentState is IB_PuppetableState_Host state)
+            {
+                puppets.AddRange(state.Puppets);
+                //state.ExpireState();
+            }
+
+            return puppets;
         }
 
         public string GetTrackingID()
@@ -25,11 +179,10 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         
-
-        public object GetDataFieldValue(string DataFieldName)
-        {
-            return this.GhostOSObject.GetDataFieldValue(DataFieldName);
-        }
+        //public object GetFieldValue(string fieldName)
+        //{
+        //    return this.GhostOSObject.GetDataFieldValue(fieldName);
+        //}
 
         public string SetTrackingID()
         {
@@ -40,6 +193,16 @@ namespace Ironbug.HVAC.BaseClass
             this.GhostOSObject.setComment(data);
             return data;
 
+        }
+        /// <summary>
+        /// this is for inherited classes to override all their associated child IB objects
+        /// SetTrackingID only updates self object, but SetAllTrackingIDs will update self object and its child.
+        /// Use this after called DuplicateAsPuppet method.
+        /// </summary>
+        public virtual void SetAllTrackingIDs()
+        {
+            //this is default. 
+            this.SetTrackingID();
         }
 
         public void SetAttribute(IB_DataField dataField, object value)
@@ -82,11 +245,13 @@ namespace Ironbug.HVAC.BaseClass
         }
         //this is for override
         //public abstract ModelObject ToOS(Model model);
+        protected abstract ModelObject InitOpsObj(Model model);
+        //protected abstract T InitOpsObj<T>(Model model);
+        //protected delegate ModelObject InitMethodDelegate(Model model);
 
-        protected delegate ModelObject InitMethodDelegate(Model model);
-        protected virtual ModelObject ToOS(InitMethodDelegate InitMethod, Model model)
+        protected ModelObject OnInitOpsObj(Func<Model, ModelObject> InitMethodHandler, Model model)
         {
-            if (InitMethod == null)
+            if (InitMethodHandler == null)
             {
                 return null;
             }
@@ -95,18 +260,50 @@ namespace Ironbug.HVAC.BaseClass
             if (this is IIB_ShareableObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
-                realObj = objInModel.isNull() ? InitMethod(model) : objInModel.get();
+                realObj = objInModel.isNull()? InitAndSetAttributes(): objInModel.get();
+                
             }
             else
             {
-                realObj = InitMethod(model);
+                realObj = InitAndSetAttributes();
             }
             
-
+            ModelObject InitAndSetAttributes()
+            {
+                var obj = InitMethodHandler(model);
+                obj.SetCustomAttributes(this.CustomAttributes);
+                return obj;
+            }
             
-            realObj.SetCustomAttributes(this.CustomAttributes);
-
+            
             return realObj;
+        }
+
+        
+
+        //TODO: need double check, this might not working
+        protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
+        {
+            if (initMethod == null)
+            {
+                return null;
+            }
+
+            ModelObject realObj = null;
+            if (this is IIB_ShareableObj)
+            {
+                var objInModel = this.GhostOSObject.GetIfInModel(model);
+                realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
+            }
+            else
+            {
+                realObj = initMethod(model);
+            }
+
+            realObj.SetCustomAttributes(this.CustomAttributes);
+            
+            
+            return postProcess(realObj);
         }
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
@@ -117,7 +314,19 @@ namespace Ironbug.HVAC.BaseClass
         //    return realObj;
         //}
 
-        public abstract IB_ModelObject Duplicate();
+        public virtual IB_ModelObject Duplicate()
+        {
+            var newObj = this.DuplicateIBObj(IB_InitSelf);
+
+            foreach (var child in this.Children)
+            {
+                newObj.Children.Add(child.Duplicate());
+            }
+
+            return newObj;
+        }
+
+        
         protected virtual IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
         {
             if (func == null)
@@ -134,6 +343,25 @@ namespace Ironbug.HVAC.BaseClass
 
             newObj.UpdateOSModelObjectWithCustomAttr();
            
+            return newObj;
+        }
+
+        protected virtual T DuplicateIBObj<T>(Func<T> func) where T : IB_ModelObject
+        {
+            if (func == null)
+            {
+                return null;
+            }
+
+            var newObj = func.Invoke();
+
+            foreach (var item in this.CustomAttributes)
+            {
+                newObj.CustomAttributes.TryAdd(item.Key, item.Value);
+            }
+
+            newObj.UpdateOSModelObjectWithCustomAttr();
+
             return newObj;
         }
 

@@ -9,6 +9,8 @@ namespace Ironbug.HVAC
 {
     public class IB_SizingZone : IB_ModelObject
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SizingZone();
+
         private static SizingZone InitMethod(Model model) => new SizingZone(model, new ThermalZone(model));
         
         public IB_SizingZone():base(InitMethod(new Model()))
@@ -22,26 +24,21 @@ namespace Ironbug.HVAC
         /// <returns>IB_ModelObject</returns>
         public override IB_ModelObject Duplicate()
         {
-            return base.DuplicateIBObj(() => new IB_SizingZone());
+            return base.DuplicateIBObj(IB_InitSelf);
         }
-
-        ///// <summary>
-        ///// It makes no sense to call this when there is no ThermalZone!
-        ///// Use ToOS(ThermalZone thermalZone) instead.
-        ///// </summary>
-        ///// <returns>IB_ModelObject</returns>
-        //public override ModelObject ToOS(Model model)
-        //{
-        //    ////create non-zone-connected sizingZone.
-        //    //return base.ToOS(InitMethod, model);
-        //    return null;
-        //}
+        
 
         public ModelObject ToOS(ThermalZone thermalZone)
         {
             //create a sizingZone to target thermalZone
             var targetModel = thermalZone.model();
-            return base.ToOS((Model model)=> new SizingZone(model, thermalZone), targetModel);
+            return base.OnInitOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
+        }
+
+        //this is replaced by above method
+        protected override ModelObject InitOpsObj(Model model)
+        {
+            throw new NotImplementedException();
         }
         
     }

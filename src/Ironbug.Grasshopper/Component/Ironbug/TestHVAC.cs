@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.item);
-            pManager.AddTextParameter("name", "name", "name", GH_ParamAccess.item);
+            //pManager.AddTextParameter("name", "name", "name", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,6 +42,10 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            IIB_ModelObject ib_obj =null;
+            DA.GetData(0, ref ib_obj);
+
+
             //var supplyComs = new HVAC.IB_CoilHeatingWater();
             //DA.GetData(0, ref supplyComs);
 
@@ -51,9 +55,10 @@ namespace Ironbug.Grasshopper.Component
             //var supplyComs2 = supplyComs.Duplicate();
             //supplyComs2.SetAttribute(HVAC.IB_CoilHeatingWater_DataFieldSet.Name, name);
 
+            var state = ib_obj.CurrentState;
             
 
-            //DA.SetData(0, supplyComs2);
+            DA.SetData(0, state);
 
 
         }

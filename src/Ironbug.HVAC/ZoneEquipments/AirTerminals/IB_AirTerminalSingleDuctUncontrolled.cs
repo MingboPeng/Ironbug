@@ -9,21 +9,23 @@ namespace Ironbug.HVAC
 {
     public class IB_AirTerminalSingleDuctUncontrolled: IB_AirTerminal
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctUncontrolled();
+
         private static AirTerminalSingleDuctUncontrolled InitMethod(Model model) => new AirTerminalSingleDuctUncontrolled(model,model.alwaysOnDiscreteSchedule());
 
         public IB_AirTerminalSingleDuctUncontrolled():base(InitMethod(new Model()))
         {
         }
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_AirTerminalSingleDuctUncontrolled().get();
+            return base.OnInitOpsObj(InitMethod, model).to_AirTerminalSingleDuctUncontrolled().get();
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctUncontrolled());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctUncontrolled());
+        //}
         
     }
 

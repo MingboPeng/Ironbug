@@ -9,6 +9,8 @@ namespace Ironbug.HVAC
 {
     public class IB_SetpointManagerWarmest : IB_SetpointManager
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerWarmest();
+
         private static SetpointManagerWarmest InitMethod(Model model) => new SetpointManagerWarmest(model);
         public IB_SetpointManagerWarmest() : base(InitMethod(new Model()))
         {
@@ -20,14 +22,14 @@ namespace Ironbug.HVAC
             return ((SetpointManagerWarmest)this.ToOS(model)).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_SetpointManagerWarmest());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_SetpointManagerWarmest());
+        //}
 
-        public override ModelObject ToOS(Model model)
+        protected override ModelObject InitOpsObj(Model model)
         {
-            return base.ToOS(InitMethod, model).to_SetpointManagerWarmest().get();
+            return base.OnInitOpsObj(InitMethod, model).to_SetpointManagerWarmest().get();
         }
     }
 

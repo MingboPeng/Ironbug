@@ -7,14 +7,7 @@ namespace Ironbug.HVACTests.Loop
     [TestClass]
     public class IB_OutdoorAirSystem_Test
     {
-        [TestMethod]
-        public void IB_OutdoorAirSystem_Initialize_Test()
-        {
-            var obj = new HVAC.IB_OutdoorAirSystem();
-            var dataFields = obj.GetDataFields();
-            Assert.IsTrue(dataFields.Count() == 1);
-        }
-
+        
         [TestMethod]
         public void IB_OutdoorAirSystem_SetController_Test()
         {
@@ -26,7 +19,7 @@ namespace Ironbug.HVACTests.Loop
 
             var testValue = 0.01;
             ctrl.SetAttribute(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Value.MinimumOutdoorAirFlowRate, testValue);
-            obj.AddController(ctrl);
+            obj.SetController(ctrl);
             obj.AddToNode(loop.supplyOutletNode());
 
             var inSysCtrl = model.getAirLoopHVACOutdoorAirSystems().First().getControllerOutdoorAir();

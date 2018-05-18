@@ -10,30 +10,31 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingWater: IB_Coil
     {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingWater();
+
         private static CoilHeatingWater InitMethod(Model model) => new CoilHeatingWater(model);
         
         public IB_CoilHeatingWater() : base(InitMethod(new Model()))
         {
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(() => new IB_CoilHeatingWater());
-        }
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    return base.DuplicateIBObj(() => new IB_CoilHeatingWater());
+        //}
         
         //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(Node node)
         {
             var model = node.model();
-            return ((CoilHeatingWater)this.ToOS(model)).addToNode(node);
+            return ((CoilHeatingWater)this.InitOpsObj(model)).addToNode(node);
             
         }
-        
-        
-        public override ModelObject ToOS(Model model)
-        {
 
-            return base.ToOS(InitMethod, model).to_CoilHeatingWater().get();
+
+        protected override ModelObject InitOpsObj(Model model)
+        {
+            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingWater().get();
         }
 
 

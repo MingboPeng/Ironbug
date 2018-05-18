@@ -7,9 +7,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ironbug.HVACTests
 {
+    
+
     [TestClass]
     public class HVACWorkflowTest
     {
+        public TestContext TestContext { get; set; }
+
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
 
@@ -158,6 +162,67 @@ namespace Ironbug.HVACTests
 
             success &= md1.Save(saveFile);
             
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void VAVReheat_Puppet_Test()
+        {
+            //var md1 = new OpenStudio.Model();
+            var airLp = new IB_AirLoopHVAC();
+            var hwLp = new IB_PlantLoop();
+            var zone1 = new IB_ThermalZone();
+            var zone2 = new IB_ThermalZone();
+
+            var reHeat = new IB_AirTerminalSingleDuctVAVReheat();
+            var coil = new IB_CoilHeatingWater();
+            reHeat.SetReheatCoil(coil);
+
+            reHeat.ToPuppetHost();
+            var reHeatPuppet1 = (IB_AirTerminal)reHeat.DuplicateAsPuppet();
+            zone1.SetAirTerminal(reHeatPuppet1);
+            var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
+            TestContext.WriteLine($"ReheatCoil 1: {firstCoilID}");
+
+            var reHeatPuppet2 = (IB_AirTerminal)reHeat.DuplicateAsPuppet();
+            zone2.SetAirTerminal(reHeatPuppet2);
+            var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
+            TestContext.WriteLine($"ReheatCoil 2: {secondCoilID}");
+
+            var airBranches = new IB_AirLoopBranches();
+            airBranches.Add(new List<IB_HVACObject>() { zone1, zone2 });
+
+            var branches = new IB_PlantLoopBranches();
+            branches.Add(new List<IB_HVACObject>() { coil });
+            hwLp.AddToDemand(branches);
+            var puppetsInLoop = coil.GetPuppets();
+            TestContext.WriteLine($"ReheatCoil in Plantloop IsPuppetHost : {coil.IsPuppetHost()} \r\nPuppetCount: {puppetsInLoop.Count}");
+            foreach (var puppet in puppetsInLoop)
+            {
+                TestContext.WriteLine($"ReheatCoil in loop: {puppet.GetTrackingID()}");
+            }
+
+
+            var fan = new IB_FanConstantVolume();
+            airLp.AddToSupplySide(fan);
+            airLp.AddToDemandSide(airBranches);
+            
+            airLp.ToOS(md1);
+            hwLp.ToOS(md1);
+
+
+            var reheatTerminals
+                = md1
+                .getAirTerminalSingleDuctVAVReheats();
+
+            var success 
+                = reheatTerminals
+                .Select(_ => _.reheatCoil().plantLoop().is_initialized())
+                .Where(_ => _ == true).Count()==2;
+
+            success &= reheatTerminals.First().nameString().EndsWith("1") && reheatTerminals.First().reheatCoil().nameString().EndsWith("1");
+            success &= md1.Save(saveFile);
+
             Assert.IsTrue(success);
         }
     }
