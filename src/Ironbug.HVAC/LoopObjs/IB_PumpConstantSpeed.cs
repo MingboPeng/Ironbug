@@ -18,11 +18,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((PumpConstantSpeed)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_PumpConstantSpeed());
-        //}
+        
 
         protected override ModelObject InitOpsObj(Model model)
         {

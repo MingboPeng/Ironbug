@@ -21,11 +21,7 @@ namespace Ironbug.HVAC
         {
             return base.OnInitOpsObj(InitMethod, model).to_AirTerminalSingleDuctUncontrolled().get();
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_AirTerminalSingleDuctUncontrolled());
-        //}
+        
         
     }
 

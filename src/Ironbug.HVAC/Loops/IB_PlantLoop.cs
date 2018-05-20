@@ -15,9 +15,7 @@ namespace Ironbug.HVAC
         private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
         private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
-
         
-
         private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
         public IB_PlantLoop() : base(InitMethod(new Model()))
         {

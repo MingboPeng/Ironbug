@@ -176,6 +176,7 @@ namespace Ironbug.HVACTests
 
             var reHeat = new IB_AirTerminalSingleDuctVAVReheat();
             var coil = new IB_CoilHeatingWater();
+            coil.SetAttribute(IB_CoilHeatingWater_DataFieldSet.Value.RatedInletAirTemperature, 15.6);
             reHeat.SetReheatCoil(coil);
 
             reHeat.ToPuppetHost();

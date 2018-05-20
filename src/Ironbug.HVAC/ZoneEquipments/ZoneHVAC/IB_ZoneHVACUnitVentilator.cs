@@ -16,12 +16,7 @@ namespace Ironbug.HVAC
         public IB_ZoneHVACUnitVentilator() : base(InitMethod(new Model()))
         {
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_ZoneHVACUnitVentilator());
-        //}
-
+        
         protected override ModelObject InitOpsObj(Model model)
         {
             return base.OnInitOpsObj(InitMethod, model).to_ZoneHVACUnitVentilator().get();

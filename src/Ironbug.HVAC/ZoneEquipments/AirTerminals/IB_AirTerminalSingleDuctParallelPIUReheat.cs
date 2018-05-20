@@ -15,9 +15,6 @@ namespace Ironbug.HVAC
 
         private IB_Child ReheatCoil => this.Children.GetChild<IB_Coil>();
         private IB_Child Fan => this.Children.GetChild<IB_Fan>();
-
-        //private IB_Coil ReheatCoil { get; set; } = new IB_CoilHeatingElectric();
-        //private IB_Fan Fan { get; set; } = new IB_FanConstantVolume();
         
         
         public IB_AirTerminalSingleDuctParallelPIUReheat() : base(InitMethod(new Model()))
@@ -36,26 +33,20 @@ namespace Ironbug.HVAC
         {
             this.Fan.Set(Fan);
         }
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    var newObj = (IB_AirTerminalSingleDuctParallelPIUReheat)base.Duplicate();
-        //    var newCoil = (IB_Coil)this.ReheatCoil.Duplicate();
-        //    var newFan = (IB_Fan)this.Fan.Duplicate();
-        //    newObj.SetReheatCoil(newCoil);
-        //    newObj.SetFan(newFan);
-
-        //    return newObj;
-        //}
 
         protected override ModelObject InitOpsObj(Model model)
         {
-            var newOSObj = base.OnInitOpsObj(InitMethod, model).to_AirTerminalSingleDuctParallelPIUReheat().get();
-            var newOSCoil = (HVACComponent)this.ReheatCoil.Get<IB_Coil>().ToOS(model);
-            var newOSFan = (HVACComponent)this.Fan.Get<IB_Fan>().ToOS(model);
-            newOSObj.setReheatCoil(newOSCoil);
-            newOSObj.setFan(newOSFan);
+            return base.OnInitOpsObj(InitMethodWithChildren, model).to_AirTerminalSingleDuctParallelPIUReheat().get();
+            //var newOSCoil = (HVACComponent)this.ReheatCoil.To<IB_Coil>().ToOS(model);
+            //var newOSFan = (HVACComponent)this.Fan.To<IB_Fan>().ToOS(model);
+            //newOSObj.setReheatCoil(newOSCoil);
+            //newOSObj.setFan(newOSFan);
 
-            return newOSObj;
+
+            //Local Method
+            AirTerminalSingleDuctParallelPIUReheat InitMethodWithChildren(Model md) =>
+                new AirTerminalSingleDuctParallelPIUReheat(md, model.alwaysOnDiscreteSchedule(), (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md), (HVACComponent)this.ReheatCoil.To<IB_Coil>().ToOS(md));
+
         }
     }
     public sealed class IB_AirTerminalSingleDuctParallelPIUReheat_DataFieldSet 

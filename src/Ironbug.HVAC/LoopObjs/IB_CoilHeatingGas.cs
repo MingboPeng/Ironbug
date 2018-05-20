@@ -22,11 +22,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((CoilHeatingGas)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_CoilHeatingGas());
-        //}
+        
 
         protected override ModelObject InitOpsObj(Model model)
         {

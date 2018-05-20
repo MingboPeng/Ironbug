@@ -37,7 +37,7 @@ namespace Ironbug.HVAC
         protected override ModelObject InitOpsObj(Model model)
         {
             var newObj = (AirLoopHVACOutdoorAirSystem)base.OnInitOpsObj(InitMethod, model);
-            newObj.setControllerOutdoorAir((ControllerOutdoorAir)this.IB_ControllerOutdoorAir.Get<IB_ControllerOutdoorAir>().ToOS(model));
+            newObj.setControllerOutdoorAir((ControllerOutdoorAir)this.IB_ControllerOutdoorAir.To<IB_ControllerOutdoorAir>().ToOS(model));
             return newObj;
         }
         

@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -21,11 +18,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((SetpointManagerWarmest)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_SetpointManagerWarmest());
-        //}
+        
 
         protected override ModelObject InitOpsObj(Model model)
         {

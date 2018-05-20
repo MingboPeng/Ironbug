@@ -62,7 +62,7 @@ namespace Ironbug.HVAC
             return this.IB_Obj.Duplicate();
         }
 
-        public T Get<T>() where T: IB_ModelObject
+        public T To<T>() where T: IB_ModelObject
         {
             return (IB_Obj as T);
         }

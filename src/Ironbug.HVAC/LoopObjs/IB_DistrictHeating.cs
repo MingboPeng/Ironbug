@@ -20,11 +20,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((DistrictHeating)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_DistrictHeating());
-        //}
+        
 
         protected override ModelObject InitOpsObj(Model model)
         {

@@ -15,10 +15,6 @@ namespace Ironbug.HVAC
 
         private IB_Child HeatingCoil => this.Children.GetChild<IB_Coil>();
         private IB_Child Fan => this.Children.GetChild<IB_Fan>();
-
-        //private IB_Fan Fan { get; set; } = new IB_FanConstantVolume();
-        //private IB_Coil HeatingCoil { get; set; } = new IB_CoilHeatingElectric();
-
         
 
         public IB_ZoneHVACUnitHeater(): base(InitMethod(new Model()))
@@ -40,27 +36,19 @@ namespace Ironbug.HVAC
             this.HeatingCoil.Set(Coil);
         }
 
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    var newObj = (IB_ZoneHVACUnitHeater)base.DuplicateIBObj(() => new IB_ZoneHVACUnitHeater());
-        //    newObj.SetFan((IB_Fan)this.Fan.Duplicate());
-        //    newObj.SetHeatingCoil((IB_Coil)this.HeatingCoil.Duplicate());
-        //    return newObj;
-
-        //}
-
+        
         protected override ModelObject InitOpsObj(Model model)
         {
-            var OsObj = base.OnInitOpsObj(InitMethod, model).to_ZoneHVACUnitHeater().get();
-            OsObj.setSupplyAirFan((HVACComponent)this.Fan.Get<IB_Fan>().ToOS(model));
-            OsObj.setHeatingCoil((HVACComponent)this.HeatingCoil.Get<IB_Coil>().ToOS(model));
-            return OsObj;
+            return base.OnInitOpsObj(InitMethodWithChildren, model).to_ZoneHVACUnitHeater().get();
+
+            //Local Method
+            ZoneHVACUnitHeater InitMethodWithChildren(Model md) => 
+                new ZoneHVACUnitHeater(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md), (HVACComponent)this.HeatingCoil.To<IB_Coil>().ToOS(md));
         }
     }
     public sealed class IB_ZoneHVACUnitHeater_DataFieldSet 
         : IB_DataFieldSet<IB_ZoneHVACUnitHeater_DataFieldSet, ZoneHVACUnitHeater>
     {
-        //protected override IddObject RefIddObject => new IdfObject(ZoneHVACUnitHeater.iddObjectType()).iddObject();
         private IB_ZoneHVACUnitHeater_DataFieldSet() {}
 
     }

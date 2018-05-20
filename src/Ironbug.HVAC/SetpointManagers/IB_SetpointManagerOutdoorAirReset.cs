@@ -17,12 +17,7 @@ namespace Ironbug.HVAC
         public IB_SetpointManagerOutdoorAirReset() : base(InitMethod(new Model()))
         { 
         }
-
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_SetpointManagerOutdoorAirReset());
-        //}
+        
 
         public override bool AddToNode(Node node)
         {

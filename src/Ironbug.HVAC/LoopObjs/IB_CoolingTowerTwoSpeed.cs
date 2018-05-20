@@ -18,12 +18,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((CoolingTowerTwoSpeed)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_CoolingTowerTwoSpeed());
-        //}
-
+        
         protected override ModelObject InitOpsObj(Model model)
         {
             return base.OnInitOpsObj(InitMethod, model).to_CoolingTowerTwoSpeed().get();

@@ -17,13 +17,7 @@ namespace Ironbug.HVAC
         public IB_CoilHeatingWater() : base(InitMethod(new Model()))
         {
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_CoilHeatingWater());
-        //}
         
-        //dealing with the real object, use only when it is ready to be added to os model
         public override bool AddToNode(Node node)
         {
             var model = node.model();

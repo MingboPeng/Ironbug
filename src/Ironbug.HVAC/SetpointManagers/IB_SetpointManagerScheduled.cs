@@ -28,12 +28,7 @@ namespace Ironbug.HVAC
 
             return ((SetpointManagerScheduled)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_SetpointManagerScheduled(this.temperature));
-        //}
-
+        
         protected override ModelObject InitOpsObj(Model model)
         {
             return base.OnInitOpsObj(InitMethod, model).to_SetpointManagerScheduled().get();

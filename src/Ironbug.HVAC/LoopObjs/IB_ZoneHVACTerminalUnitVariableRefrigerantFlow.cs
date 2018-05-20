@@ -18,13 +18,6 @@ namespace Ironbug.HVAC
         { 
         }
         
-        //TODO: maybe I need to duplicate the puppets as well, but maybe not.
-        //probably not, because puppets can only have one parent, and each replica have to create their own puppet again.
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow());
-        //}
-
         protected override ModelObject InitOpsObj(Model model)
         {
             //TODO: double check this new way
