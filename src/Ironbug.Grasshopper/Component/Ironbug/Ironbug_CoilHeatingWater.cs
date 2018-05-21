@@ -48,9 +48,14 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingWater();
-            
+            obj.PuppetEventHandler += Obj_PuppetEventHandler;
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+        }
+
+        private void Obj_PuppetEventHandler(object sender, PuppetEventArg e)
+        {
+            this.Message = e.State.ToString();
         }
 
         /// <summary>

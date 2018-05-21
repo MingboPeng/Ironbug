@@ -66,6 +66,7 @@
     <Compile Include="Delegates\IIB_Child1.cs" />
     <Compile Include="Delegates\RelationWithChild.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="Loops\IB_AirLoopBranches.cs" />
     <Compile Include="BaseClass\IB_Coil.cs" />
     <Compile Include="BaseClass\IB_DataField.cs" />
@@ -101,8 +102,8 @@
     <Compile Include="LoopObjs\IB_CoolingTowerTwoSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoolingTowerSingleSpeed.cs" />
     <Compile Include="LoopObjs\IB_SizingPlant.cs" />
-    <Compile Include="LoopObjs\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
-    <Compile Include="LoopObjs\IB_AirConditionerVariableRefrigerantFlow.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
+    <Compile Include="Loops\IB_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_ChillerElectricEIR.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXTwoSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXSingleSpeed.cs" />

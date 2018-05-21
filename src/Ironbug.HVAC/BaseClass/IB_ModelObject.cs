@@ -7,11 +7,20 @@ using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
 {
+    public class PuppetEventArg : EventArgs
+    {
+        public IB_PuppetableState State { get; private set; }
+        public PuppetEventArg(IB_PuppetableState state)
+        {
+            this.State = state;
+        }
+
+    }
     public abstract class IB_ModelObject : IIB_ModelObject
     {
+        public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
         public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
-        //protected abstract RelationWithChild<IIB_ModelObject> RelationshipsWithChild { get; }
 
         public IB_PuppetableState CurrentState { get; private set; }
         public Dictionary<string, object> CustomAttributes { get; private set; }
@@ -28,6 +37,8 @@ namespace Ironbug.HVAC.BaseClass
         public void ChangeState(IB_PuppetableState newState)
         {
             this.CurrentState = newState;
+            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(newState));
+
         }
 
         //public bool IsPuppet()
