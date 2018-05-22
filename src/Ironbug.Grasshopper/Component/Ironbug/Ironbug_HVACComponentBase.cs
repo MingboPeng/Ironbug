@@ -29,6 +29,7 @@ namespace Ironbug.Grasshopper.Component
             //removal case
             if (!source.Any())
             {
+                //settingParams?.CheckRecipients(); //This is a clean version
                 if (settingParams != null)
                 {
                     //remove all inputParams
@@ -44,6 +45,7 @@ namespace Ironbug.Grasshopper.Component
             var firstsSource = source.First() as IGH_Param;
             if (sourceNum == 1 && firstsSource != null)
             {
+                //link to a new ObjParams
                 settingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
                 if (settingParams != null)
                 {
