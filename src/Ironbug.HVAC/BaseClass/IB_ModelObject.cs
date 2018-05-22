@@ -37,7 +37,7 @@ namespace Ironbug.HVAC.BaseClass
         public void ChangeState(IB_PuppetableState newState)
         {
             this.CurrentState = newState;
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(newState));
+            
 
         }
 
@@ -87,23 +87,13 @@ namespace Ironbug.HVAC.BaseClass
 
             return this;
         }
-
-        //protected IB_ModelObject ToPuppet()
-        //{
-        //    if (this.CurrentState is IB_PuppetableState_None state)
-        //    {
-        //        state.ToPuppet();
-        //    }
-
-        //    return this;
-        //}
-
+        
 
         public virtual IB_ModelObject DuplicateAsPuppet()
         {
 
             var puppet = this.DuplicateAsPuppet(IB_InitSelf);
-
+            
             puppet.Children.Clear();
             foreach (var child in this.Children)
             {
@@ -111,14 +101,10 @@ namespace Ironbug.HVAC.BaseClass
                 puppet.Children.Add(childPuppet);
             }
 
+            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return puppet;
         }
-
-        //public void SetRelationships<T>(Action<T> doAction, T withObj) where T : IB_ModelObject 
-        //{
-        //    doAction(withObj);
-        //}
-
+        
         
         protected T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T: IB_ModelObject
         {
@@ -292,7 +278,7 @@ namespace Ironbug.HVAC.BaseClass
 
         
 
-        //TODO: need double check, this might not working
+        //TODO: need double check, this might not be working
         protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
         {
             if (initMethod == null)

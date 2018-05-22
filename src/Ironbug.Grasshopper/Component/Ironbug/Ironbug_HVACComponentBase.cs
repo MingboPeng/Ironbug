@@ -54,7 +54,14 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-
+        protected void PuppetEventHandler(object sender, PuppetEventArg e)
+        {
+            if (e.State is IB_PuppetableState_Host state)
+            {
+                this.Message = state.ToString();
+            }
+            
+        }
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
             :base(name, nickname, description, category, subCategory)

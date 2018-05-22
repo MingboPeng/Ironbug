@@ -55,17 +55,15 @@ namespace Ironbug.HVAC.BaseClass
             this._refModelObject.ChangeState(state);
             return state;
         }
-
-        //public IB_PuppetableState_Puppet ExpireState()
-        //{
-        //    var newState = new IB_PuppetableState_Puppet(this);
-        //    this._refModelObject.ChangeState(newState);
-        //    return newState;
-        //}
         
         public void AddPuppet(IIB_ModelObject puppet)
         {
             this.Puppets.Add(puppet);
+        }
+
+        public override string ToString()
+        {
+            return $"Hosts [{this.Puppets.Count}] puppet";
         }
     }
 
