@@ -30,7 +30,7 @@ namespace Ironbug.HVAC.BaseClass
             this._refModelObject.ChangeState(state);
             return state;
         }
-
+        
         //public IB_PuppetableState_Puppet ToPuppet()
         //{
         //    var state = new IB_PuppetableState_Puppet(this);
@@ -63,7 +63,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public override string ToString()
         {
-            return $"Hosts [{this.Puppets.Count}] puppet";
+            return $"Hosts {this.Puppets.Count} puppets";
         }
     }
 

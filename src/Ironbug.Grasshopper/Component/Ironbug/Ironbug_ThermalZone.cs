@@ -12,10 +12,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
-        //private Ironbug_ObjParams SettingParams { get; set; }
-        ////this is used as a reference in Ironbug_ObjParams.
-        //public readonly Type DataFieldType = typeof(HVAC.IB_ThermalZone_DataFieldSet); 
-
+        
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -77,10 +74,12 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetDataList(1, airTerminals))
             {
+                //reset all puppetable state first, as it might came from previous solution.
+                airTerminals.ForEach(_ => _.ResetPuppetState());
+                
                 if (airTerminals.Count != OSZones.Count && airTerminals.Count == 1)
                 {
-                    //AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
-                    //return;
+                    //change state
                     var airTerminal = airTerminals.First().ToPuppetHost();
                     foreach (var zone in OSZones)
                     {
@@ -90,12 +89,17 @@ namespace Ironbug.Grasshopper.Component
                     
 
                 }
-                else
+                else if(airTerminals.Count == OSZones.Count)
                 {
                     for (int i = 0; i < airTerminals.Count; i++)
                     {
                         OSZones[i].SetAirTerminal(airTerminals[i]);
                     }
+                }
+                else
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
+                    return;
                 }
             }
             else

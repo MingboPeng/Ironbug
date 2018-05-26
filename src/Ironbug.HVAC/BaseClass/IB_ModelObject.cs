@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
@@ -37,15 +36,8 @@ namespace Ironbug.HVAC.BaseClass
         public void ChangeState(IB_PuppetableState newState)
         {
             this.CurrentState = newState;
-            
-
         }
-
-        //public bool IsPuppet()
-        //{
-        //    return this.CurrentState is IB_PuppetableState_Puppet;
-        //}
-
+        
         public bool IsPuppetHost()
         {
             return this.CurrentState is IB_PuppetableState_Host;
@@ -86,6 +78,16 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             return this;
+        }
+
+        public void ResetPuppetState()
+        {
+            this.CurrentState = new IB_PuppetableState_None(this);
+            foreach (var child in this.Children)
+            {
+                child.Get().ResetPuppetState();
+            }
+            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
         }
         
 

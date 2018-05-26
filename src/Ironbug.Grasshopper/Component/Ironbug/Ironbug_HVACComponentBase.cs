@@ -56,13 +56,20 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        protected void PuppetEventHandler(object sender, PuppetEventArg e)
+        public string PuppetableStateMsg { get; set; } 
+        protected void PuppetStateChanged(object sender, PuppetEventArg e)
         {
             if (e.State is IB_PuppetableState_Host state)
             {
-                this.Message = state.ToString();
+                this.PuppetableStateMsg = state.ToString();
+            }
+            else
+            {
+                this.PuppetableStateMsg = string.Empty;
             }
             
+            this.Attributes.ExpireLayout();
+            this.Attributes.PerformLayout();
         }
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
@@ -99,6 +106,14 @@ namespace Ironbug.Grasshopper.Component
             if (attris.Count == 0) return;
 
             IB_obj.SetAttributes(attris);
+            
+        }
+        
+        
+        public override void CreateAttributes()
+        {
+            var newAttri = new IB_ComponentAttributes(this);
+            m_attributes = newAttri;
             
         }
 
