@@ -18,6 +18,21 @@ namespace Ironbug.HVAC
             this.VariableRefrigerantFlows = vrfs;
         }
 
+        /// <summary>
+        /// Save the model to a default temp file in temp folder
+        /// </summary>
+        /// <returns>A full osm model file path</returns>
+        public string Save()
+        {
+            var tempPath = System.IO.Path.GetTempPath() + @"\Ladybug\HVAC";
+            System.IO.Directory.CreateDirectory(tempPath);
+
+            tempPath = $"{tempPath}\\temp.osm";
+
+            return this.Save(tempPath) ? tempPath : string.Empty;
+            
+        }
+
         public bool Save(string filepath)
         {
             var airLoops = this.AirLoops;

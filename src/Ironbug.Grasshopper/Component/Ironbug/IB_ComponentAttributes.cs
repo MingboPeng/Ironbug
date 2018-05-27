@@ -9,7 +9,6 @@ namespace Ironbug.Grasshopper.Component
     {
         public IB_ComponentAttributes(Ironbug_HVACComponentBase component):base(component)
         {
-
         }
 
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
