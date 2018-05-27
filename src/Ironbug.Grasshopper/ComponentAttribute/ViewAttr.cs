@@ -130,10 +130,10 @@ namespace Ironbug.Grasshopper
 
             //locate the inputs outputs
             RectangleF inputRect = new RectangleF(Pivot, new SizeF(100f, 54f));
-            inputRect.X += 70;
+            inputRect.X += Owner.Params.InputWidth;
 
             RectangleF outRect = new RectangleF(Pivot, new SizeF(100f, 54f));
-            outRect.X += Bounds.Width - 165;
+            outRect.X += Bounds.Width - Owner.Params.OutputWidth;
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
