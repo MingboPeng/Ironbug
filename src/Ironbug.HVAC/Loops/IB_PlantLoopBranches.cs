@@ -35,7 +35,6 @@ namespace Ironbug.HVAC
             var model = PlantLoop.model();
             foreach (var branch in branches)
             {
-
                 //flatten the puppet structure 
 
                 var items = branch.SelectMany(_ => _.GetPuppetsOrSelf()).Select(_ => _ as IB_HVACObject);

@@ -153,7 +153,7 @@ namespace Ironbug.Grasshopper.Component
 
         
 
-        public void AddParams(Type type)
+        private void AddParams(Type type)
         {
            
             this.CurrentDataFieldType = type;
@@ -207,8 +207,8 @@ namespace Ironbug.Grasshopper.Component
             this.paramSet = paramSet;
 
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
-            
+            this.OnAttributesChanged();
+
         }
 
         private Dictionary<IB_DataField, object> CollectSettingData()
