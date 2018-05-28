@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Grasshopper.Kernel;
 
-namespace Ironbug.Grasshopper.Component.Ironbug
+namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_AirConditionerVariableRefrigerantFlow : Ironbug_HVACComponentBase
     {

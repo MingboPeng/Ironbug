@@ -67,9 +67,46 @@ namespace Ironbug.Grasshopper.Component
             {
                 this.PuppetableStateMsg = string.Empty;
             }
-            
+            this.TellPuppetReceivers();
             this.Attributes.ExpireLayout();
             this.Attributes.PerformLayout();
+        }
+
+        //loop branches and vrf system are puppet receivers
+        private void TellPuppetReceivers()
+        {
+            var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
+            foreach (var reciever in puppetReceivers)
+            {
+                reciever.ExpireSolution(true);
+            }
+
+            //local function
+            bool CheckIfReceiver(IGH_Param gh_Param)
+            {
+                var owner = gh_Param.Attributes.GetTopLevel.DocObject;
+                
+                if (owner is Ironbug_AirLoopBranches || owner is Ironbug_PlantBranches || owner is Ironbug_AirConditionerVariableRefrigerantFlow)
+                {
+                    return true;
+                }
+                //in case of user uses any gh_param, instated of connect to puppet receiver directly.
+                else if (owner is IGH_Param)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        protected override void BeforeSolveInstance()
+        {
+            this.PuppetableStateMsg = string.Empty;
+            base.BeforeSolveInstance();
         }
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 

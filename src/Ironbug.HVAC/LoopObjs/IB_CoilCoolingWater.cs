@@ -7,7 +7,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingWater : IB_Coil
+    public class IB_CoilCoolingWater : IB_Coil, IIB_ShareableObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingWater();
 

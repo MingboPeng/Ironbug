@@ -47,17 +47,19 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_AirTerminalSingleDuctSeriesPIUReheat();
+            obj.PuppetEventHandler += PuppetStateChanged;
+
             var fan = (IB_Fan)null;
             var coil = (IB_Coil)null;
 
             if (DA.GetData(0, ref coil))
             {
-                obj.SetReheatCoil((IB_Coil)coil.Duplicate());
+                obj.SetReheatCoil((IB_Coil)coil);
             }
 
             if (DA.GetData(1, ref fan))
             {
-                obj.SetFan((IB_Fan)fan.Duplicate());
+                obj.SetFan((IB_Fan)fan);
             }
 
 

@@ -4,7 +4,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_DualLoopObject
+    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_ShareableObj
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ChillerElectricEIR();
 
@@ -19,12 +19,7 @@ namespace Ironbug.HVAC
 
             return ((ChillerElectricEIR)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_ChillerElectricEIR());
-        //}
-
+        
         protected override ModelObject InitOpsObj(Model model)
         {
             ChillerElectricEIR postProcess(ModelObject _) => _.to_ChillerElectricEIR().get();

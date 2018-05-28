@@ -6,8 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    //TODO: not all coils are dual loop objects, such as CoilCoolingDXSingleSpeed
-    public abstract class IB_Coil : IB_HVACObject, IIB_DualLoopObject
+    public abstract class IB_Coil : IB_HVACObject, IIB_AirLoopObject
     {
 
         public IB_Coil(HVACComponent GhostOSObject) : base(GhostOSObject)

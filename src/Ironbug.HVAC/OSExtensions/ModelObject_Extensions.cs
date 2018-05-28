@@ -63,7 +63,21 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                throw new Exception("Just prevented an irrecoverable crashing!\r\nPlease save the file immediately!\r\n\r\n" + e.InnerException?? e.Message);
+                //the second try 
+                if (e.InnerException.Message.StartsWith("Attempted to read or write protected memory"))
+                {
+                    try
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        invokeResult = method.Invoke(component, parm);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Just prevented an irrecoverable crashing!\r\nPlease save the file immediately!\r\n\r\n" + ex.InnerException);
+
+                    }
+                }
+                throw new Exception("Something went wrong! \r\n\r\n" + e.InnerException?? e.Message);
                 //invokeResult = e.ToString();
             }
             

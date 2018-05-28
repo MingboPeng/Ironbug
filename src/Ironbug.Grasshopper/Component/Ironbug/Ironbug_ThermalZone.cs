@@ -87,7 +87,6 @@ namespace Ironbug.Grasshopper.Component
                         zone.SetAirTerminal(puppet);
                     }
                     
-
                 }
                 else if(airTerminals.Count == OSZones.Count)
                 {
@@ -112,17 +111,31 @@ namespace Ironbug.Grasshopper.Component
             var zoneEquipments = new List<IB_ZoneEquipment>();
             if (DA.GetDataList(2, zoneEquipments))
             {
-                
-                foreach (var eqp in zoneEquipments)
+                zoneEquipments.ForEach(_ => _.ResetPuppetState());
+                if (OSZones.Count == 1)
                 {
-                    foreach (var zone in OSZones)
+                    //only one zone
+                    foreach (var eqp in zoneEquipments)
                     {
-                        var eqpPuppet = eqp.DuplicateAsPuppet() as IB_ZoneEquipment;
-                        zone.AddZoneEquipment(eqpPuppet);
+                        OSZones.First().AddZoneEquipment(eqp);
                     }
-                   
-                    
                 }
+                else
+                {
+                    //more than one zone
+                    foreach (var eqp in zoneEquipments)
+                    {
+                        //change state
+                        var eqpHost = eqp.ToPuppetHost();
+                        foreach (var zone in OSZones)
+                        {
+                            var eqpPuppet = eqpHost.DuplicateAsPuppet() as IB_ZoneEquipment;
+                            zone.AddZoneEquipment(eqpPuppet);
+                        }
+                    }
+                }
+
+                
             }
 
             //add Sizing
@@ -133,8 +146,6 @@ namespace Ironbug.Grasshopper.Component
             }
 
            
-
-
             foreach (var zone in OSZones)
             {
                 this.SetObjParamsTo(zone);

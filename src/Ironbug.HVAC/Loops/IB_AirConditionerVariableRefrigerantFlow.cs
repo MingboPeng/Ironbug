@@ -42,23 +42,7 @@ namespace Ironbug.HVAC
         protected override ModelObject InitOpsObj(Model model)
         {
             var newObj = base.OnInitOpsObj(InitMethod, model).to_AirConditionerVariableRefrigerantFlow().get();
-
-            //TODO: how do I remind myself terminal is puppetable object
-
-            //var termsTobeAdded = new List<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow>();
-            //foreach (var item in this.Terminals)
-            //{
-            //    if (item.Puppets.Count>0) //TODO: find a better way to do this. don't check puppets in downstream.
-            //    {
-            //        var puppets = item.Puppets.Select(_ => (IB_ZoneHVACTerminalUnitVariableRefrigerantFlow)_);
-            //        termsTobeAdded.AddRange(puppets);
-            //    }
-            //    else
-            //    {
-            //        termsTobeAdded.Add(item);
-            //    }
-
-            //}
+            
             var allTerms = this.Terminals.SelectMany(_ => _.GetPuppetsOrSelf());
             foreach (var terminal in allTerms)
             {
