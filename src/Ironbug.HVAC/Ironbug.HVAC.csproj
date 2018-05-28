@@ -62,11 +62,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClass\IB_CoilBasic.cs" />
+    <Compile Include="BaseClass\IB_CoilDX.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="Delegates\IIB_Child1.cs" />
     <Compile Include="Delegates\RelationWithChild.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboardRadiant.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboard.cs" />
+    <Compile Include="LoopObjs\IB_FanOnOff.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardConvectiveWater.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Loops\IB_AirLoopBranches.cs" />
     <Compile Include="BaseClass\IB_Coil.cs" />
     <Compile Include="BaseClass\IB_DataField.cs" />
@@ -119,7 +128,9 @@
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitHeater.cs" />
-    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_HeatingOnly.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingHeating.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingOnly.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="LoopObjs\IB_BoilerHotWater.cs" />

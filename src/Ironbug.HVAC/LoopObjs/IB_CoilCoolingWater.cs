@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingWater : IB_Coil, IIB_ShareableObj, IIB_PlantLoopObjects
+    public class IB_CoilCoolingWater : IB_CoilBasic, IIB_ShareableObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingWater();
 

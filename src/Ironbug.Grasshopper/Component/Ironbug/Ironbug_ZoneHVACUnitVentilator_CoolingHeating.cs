@@ -5,16 +5,16 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACUnitHeater : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACUnitVentilator_CoolingHeating : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.
         /// </summary>
-        public Ironbug_ZoneHVACUnitHeater()
-          : base("Ironbug_ZoneHVACUnitHeater", "UnitHeater",
+        public Ironbug_ZoneHVACUnitVentilator_CoolingHeating()
+          : base("Ironbug_ZoneHVACUnitVentilator_CoolingHeating", "UnitVentCH",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACUnitHeater_DataFieldSet))
+              typeof(IB_ZoneHVACUnitVentilator_DataFieldSet))
         {
         }
 
@@ -24,10 +24,12 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coil_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[1].Optional = true;
+            pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACUnitHeater", "UnitHeater", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACUnitVentilator_CoolingHeating", "UnitVentCH", "Connect to zone's equipment", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,18 +46,24 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_ZoneHVACUnitHeater();
+            var obj = new HVAC.IB_ZoneHVACUnitVentilator_CoolingHeating();
             obj.PuppetEventHandler += PuppetStateChanged;
 
             var fan = (IB_Fan)null;
-            var coil = (IB_CoilBasic)null;
+            var coilH = (IB_CoilBasic)null;
+            var coilC = (IB_CoilBasic)null;
 
-            if (DA.GetData(0, ref coil))
+            if (DA.GetData(0, ref coilH))
             {
-                obj.SetHeatingCoil(coil);
+                obj.SetHeatingCoil(coilH);
             }
 
-            if (DA.GetData(1, ref fan))
+            if (DA.GetData(1, ref coilC))
+            {
+                obj.SetCoolingCoil(coilC);
+            }
+
+            if (DA.GetData(2, ref fan))
             {
                 obj.SetFan(fan);
             }
@@ -74,7 +82,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.UnitHeater;
+                return null;
             }
         }
 
@@ -83,7 +91,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("89682f80-546f-40c0-8b27-c0a8fea7b351"); }
+            get { return new Guid("25BF6732-9096-4D90-8587-3C0F61257349"); }
         }
     }
 }

@@ -13,13 +13,13 @@ namespace Ironbug.HVAC
         private static ZoneHVACUnitHeater InitMethod(Model model) 
             => new ZoneHVACUnitHeater(model,model.alwaysOnDiscreteSchedule(),new FanConstantVolume(model), new CoilHeatingElectric(model));
 
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_Coil>();
+        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilBasic>();
         private IB_Child Fan => this.Children.GetChild<IB_Fan>();
         
 
         public IB_ZoneHVACUnitHeater(): base(InitMethod(new Model()))
         {
-            var reheatCoil = new IB_Child(new IB_CoilHeatingElectric(), (obj) => this.SetHeatingCoil(obj as IB_Coil));
+            var reheatCoil = new IB_Child(new IB_CoilHeatingElectric(), (obj) => this.SetHeatingCoil(obj as IB_CoilBasic));
             var fan = new IB_Child(new IB_FanConstantVolume(), (obj) => this.SetFan(obj as IB_Fan));
             this.Children.Add(reheatCoil);
             this.Children.Add(fan);
@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
             this.Fan.Set(Fan);
         }
 
-        public void SetHeatingCoil(IB_Coil Coil)
+        public void SetHeatingCoil(IB_CoilBasic Coil)
         {
             //TODO: check if heating coil
             this.HeatingCoil.Set(Coil);
@@ -43,7 +43,7 @@ namespace Ironbug.HVAC
 
             //Local Method
             ZoneHVACUnitHeater InitMethodWithChildren(Model md) => 
-                new ZoneHVACUnitHeater(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md), (HVACComponent)this.HeatingCoil.To<IB_Coil>().ToOS(md));
+                new ZoneHVACUnitHeater(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md), (HVACComponent)this.HeatingCoil.To<IB_CoilBasic>().ToOS(md));
         }
     }
     public sealed class IB_ZoneHVACUnitHeater_DataFieldSet 

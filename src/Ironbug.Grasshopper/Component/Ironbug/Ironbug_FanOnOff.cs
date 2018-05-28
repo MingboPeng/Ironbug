@@ -1,33 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
-using Ironbug.HVAC;
+using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
+using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponentBase
+    public class Ironbug_FanOnOff : Ironbug_HVACComponentBase
     {
+        
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
+        /// Initializes a new instance of the Ironbug_FanConstantVolume class.
         /// </summary>
-        public Ironbug_AirTerminalSingleDuctVAVReheat()
-          : base("Ironbug_AirTerminalSingleDuctVAVReheat", "VAVReheat",
+        public Ironbug_FanOnOff()
+          : base("Ironbug_FanOnOff", "FanOnOff",
               "Description",
-              "Ironbug", "01:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctVAVReheat_DataFieldSet))
+              "Ironbug", "02:LoopComponents",
+              typeof(HVAC.IB_FanOnOff_DataFields))
         {
+            
         }
+
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coil_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
         }
 
         /// <summary>
@@ -35,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctVAVReheat", "VAVReheat", "connect to Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FanOnOff", "Fan", "Todo..", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,20 +48,11 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new IB_AirTerminalSingleDuctVAVReheat();
+            var obj = new HVAC.IB_FanOnOff();
             obj.PuppetEventHandler += PuppetStateChanged;
-
-            var coil = (IB_CoilBasic)null;
-            
-            if (DA.GetData(0, ref coil))
-            {
-                obj.SetReheatCoil(coil);
-            }
-
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
-
         }
 
         /// <summary>
@@ -69,7 +64,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.VAVBox;
+                return Resources.FanC;
             }
         }
 
@@ -78,7 +73,11 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("aaf86609-f508-4fb2-9ed4-a8323e9549bd"); }
+            get { return new Guid("028DE04F-F0C3-4DEB-8232-EFFD72BA8AAE"); }
         }
+
+        
     }
+
+   
 }

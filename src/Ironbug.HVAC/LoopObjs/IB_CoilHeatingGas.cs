@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingGas : IB_Coil
+    public class IB_CoilHeatingGas : IB_CoilBasic
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingGas();
 

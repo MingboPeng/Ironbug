@@ -4,7 +4,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingDXTwoSpeed : IB_Coil
+    public class IB_CoilCoolingDXTwoSpeed : IB_CoilDX
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingDXTwoSpeed();
 

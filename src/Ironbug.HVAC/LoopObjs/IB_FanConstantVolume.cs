@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
 
         protected override ModelObject InitOpsObj(Model model)
         {
-            return (FanConstantVolume)base.OnInitOpsObj(InitMethod, model);
+            return base.OnInitOpsObj(InitMethod, model).to_FanConstantVolume().get();
         }
         
     }

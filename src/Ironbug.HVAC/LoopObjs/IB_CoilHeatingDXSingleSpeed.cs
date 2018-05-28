@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingDXSingleSpeed: IB_Coil
+    public class IB_CoilHeatingDXSingleSpeed: IB_CoilDX
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDXSingleSpeed();
         private static CoilHeatingDXSingleSpeed InitMethod(Model model) => new CoilHeatingDXSingleSpeed(model);

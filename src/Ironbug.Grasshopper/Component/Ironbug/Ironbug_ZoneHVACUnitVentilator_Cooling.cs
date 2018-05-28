@@ -1,32 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctSeriesPIUReheat : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACUnitVentilator_Cooling : Ironbug_HVACComponentBase
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctSeriesPIUReheat class.
+        /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.
         /// </summary>
-        public Ironbug_AirTerminalSingleDuctSeriesPIUReheat()
-          : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SFP",
+        public Ironbug_ZoneHVACUnitVentilator_Cooling()
+          : base("Ironbug_ZoneHVACUnitVentilator_Cooling", "UnitVentC",
               "Description",
-              "Ironbug", "01:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet))
+              "Ironbug", "04:ZoneEquipments",
+              typeof(IB_ZoneHVACUnitVentilator_DataFieldSet))
         {
         }
 
+        public override GH_Exposure Exposure => GH_Exposure.primary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
-        protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
+        protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coil_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[0].Optional = true;
             pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
             pManager[1].Optional = true;
@@ -35,9 +33,9 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Registers all the output parameters for this component.
         /// </summary>
-        protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
+        protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctSeriesPIUReheat", "SFP", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACUnitVentilator_Cooling", "UnitVentC", "Connect to zone's equipment", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -46,20 +44,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_AirTerminalSingleDuctSeriesPIUReheat();
+            var obj = new HVAC.IB_ZoneHVACUnitVentilator_CoolingOnly();
             obj.PuppetEventHandler += PuppetStateChanged;
 
             var fan = (IB_Fan)null;
-            var coil = (IB_CoilBasic)null;
+            var coilC = (IB_CoilBasic)null;
+            
 
-            if (DA.GetData(0, ref coil))
+            if (DA.GetData(0, ref coilC))
             {
-                obj.SetReheatCoil(coil);
+                obj.SetCoolingCoil(coilC);
             }
 
             if (DA.GetData(1, ref fan))
             {
-                obj.SetFan((IB_Fan)fan);
+                obj.SetFan(fan);
             }
 
 
@@ -76,7 +75,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.SFPBox;
+                return null;
             }
         }
 
@@ -85,7 +84,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("95ec31ae-9cd0-4c5d-abc8-d13e1b9bec83"); }
+            get { return new Guid("F9A4E1F5-4C8D-4E17-8025-DBA7F329D479"); }
         }
     }
 }

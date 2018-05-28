@@ -110,6 +110,7 @@
     <Compile Include="Component\Ironbug\Ironbug_CreatePuppets.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACComponentBase.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
@@ -131,7 +132,14 @@
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Heating.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />
     <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />

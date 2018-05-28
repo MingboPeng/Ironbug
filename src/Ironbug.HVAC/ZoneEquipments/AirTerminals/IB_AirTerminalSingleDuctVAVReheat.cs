@@ -17,16 +17,16 @@ namespace Ironbug.HVAC
         
         //Associated child object 
         //optional if there is no child 
-        private IB_Child ReheatCoil => this.Children.GetChild<IB_Coil>();
+        private IB_Child ReheatCoil => this.Children.GetChild<IB_CoilBasic>();
         //optional if there is no child 
-        public void SetReheatCoil(IB_Coil ReheatCoil) => this.ReheatCoil.Set(ReheatCoil);
+        public void SetReheatCoil(IB_CoilBasic ReheatCoil) => this.ReheatCoil.Set(ReheatCoil);
         
 
         public IB_AirTerminalSingleDuctVAVReheat() : base(InitMethod(new Model()))
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation
-            var reheatCoil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetReheatCoil(obj as IB_Coil));
+            var reheatCoil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetReheatCoil(obj as IB_CoilBasic));
             this.Children.Add(reheatCoil);
 
         }
@@ -39,7 +39,7 @@ namespace Ironbug.HVAC
             
             //Local Method
             AirTerminalSingleDuctVAVReheat InitMethodWithCoil(Model md) =>
-                new AirTerminalSingleDuctVAVReheat(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.ReheatCoil.To<IB_Coil>().ToOS(md));
+                new AirTerminalSingleDuctVAVReheat(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.ReheatCoil.To<IB_CoilBasic>().ToOS(md));
         }
         
 
