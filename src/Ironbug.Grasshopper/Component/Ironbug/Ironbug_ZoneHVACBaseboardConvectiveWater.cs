@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -65,7 +65,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.BaseboardWC;
             }
         }
 
@@ -74,7 +74,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("2BE94C92-C741-4B0D-8DC3-220224B7D077"); }
+            get { return new Guid("0849B166-9E6A-4BD2-A743-6BAF790F931F"); }
         }
     }
 }

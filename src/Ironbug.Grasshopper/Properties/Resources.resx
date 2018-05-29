@@ -244,4 +244,43 @@
   <data name="SetPointScheduled" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\SetPointScheduled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AirTerminalUncontrolled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AirTerminalUncontrolled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BaseboardEC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseboardEC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BaseboardERC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseboardERC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BaseboardWC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseboardWC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BaseboardWRC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BaseboardWRC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHWBaseboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHWBaseboard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHWBR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHWBR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FanOnOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FanOnOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitVentC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitVentC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitVentH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitVentH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitVentHC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitVentHC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VRF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VRF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VRFUnit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VRFUnit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

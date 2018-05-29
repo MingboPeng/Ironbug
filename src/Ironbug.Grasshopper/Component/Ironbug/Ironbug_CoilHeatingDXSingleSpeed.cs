@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component

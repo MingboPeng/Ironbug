@@ -3,20 +3,21 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingElectric : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingWaterBaseboardRadiant : Ironbug_HVACComponentBase
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_CoilHeatingElectric class.
+        /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
-        public Ironbug_CoilHeatingElectric()
-          : base("Ironbug_CoilHeatingElectric", "CoilHE",
+        public Ironbug_CoilHeatingWaterBaseboardRadiant()
+          : base("Ironbug_CoilHeatingWaterBaseboardRadiant", "CoilHW_BR",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -29,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHE", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingWaterBaseboardRadiant", "CoilHW_BR", "connect to baseboard", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -38,12 +39,14 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilHeatingElectric();
+            var obj = new HVAC.IB_CoilHeatingWaterBaseboardRadiant();
             obj.PuppetEventHandler += PuppetStateChanged;
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
+
+        
 
         /// <summary>
         /// Provides an Icon for the component.
@@ -54,7 +57,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilHE;
+                return Properties.Resources.CoilHWBR;
             }
         }
 
@@ -63,7 +66,9 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("dc8ed4d8-4435-4134-b1e8-06362bb6d411"); }
+            get { return new Guid("BAD43458-A637-43D1-A779-EC406A61128F"); }
         }
+        
     }
+    
 }

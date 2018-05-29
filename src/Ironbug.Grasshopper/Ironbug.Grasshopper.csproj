@@ -53,6 +53,12 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GH_IO, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Grasshopper.0.9.76\lib\net35\GH_IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Grasshopper, Version=1.0.0.20, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Grasshopper.0.9.76\lib\net35\Grasshopper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Dynamic, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Dynamic.dll</HintPath>
@@ -74,16 +80,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="Grasshopper">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\AppData\Roaming\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\Grasshopper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="GH_IO">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\AppData\Roaming\McNeel\Rhinoceros\5.0\Plug-ins\Grasshopper (b45a29b1-4343-4035-989e-044e8580d9cf)\0.9.76.0\GH_IO.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
@@ -93,6 +89,8 @@
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboardRadiant.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboard.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerVariableSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerTwoSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerSingleSpeed.cs" />
@@ -306,6 +304,45 @@
   <ItemGroup>
     <None Include="Resources\SetPointScheduled.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanOnOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VRF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalUncontrolled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWBaseboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWBR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentHC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VRFUnit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardEC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardERC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardWC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardWRC.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -334,6 +371,8 @@ Copy "$(SolutionDir)\lib\OpenStudio\forGH\openstudio_csharp.dll" "$(TargetDir)\o
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets'))" />
     <Error Condition="!Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets'))" />
   </Target>
   <Import Project="..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets" Condition="Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" />
+  <Import Project="..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets" Condition="Exists('..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets')" />
 </Project>

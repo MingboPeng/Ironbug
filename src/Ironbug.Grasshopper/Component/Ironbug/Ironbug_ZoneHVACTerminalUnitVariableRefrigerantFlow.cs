@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFTerminal", "connect to Zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit", "Connect to Zone's equipment", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.VRFUnit;
             }
         }
 
