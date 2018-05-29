@@ -153,9 +153,29 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ChilledBeam {
+            get {
+                object obj = ResourceManager.GetObject("ChilledBeam", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Chiller {
             get {
                 object obj = ResourceManager.GetObject("Chiller", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Coil_CB {
+            get {
+                object obj = ResourceManager.GetObject("Coil_CB", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

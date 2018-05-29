@@ -69,9 +69,11 @@
     <Compile Include="Delegates\RelationWithChild.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
+    <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboardRadiant.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboard.cs" />
     <Compile Include="LoopObjs\IB_FanOnOff.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeCooledBeam.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardConvectiveWater.cs" />

@@ -16,9 +16,9 @@ namespace Ironbug.HVAC
         
         public override bool AddToNode(Node node)
         {
-            //this is only used in IB_ZoneHVACBaseboardRadiantConvectiveWater
-            return true;
-            
+            var model = node.model();
+            return ((CoilHeatingWaterBaseboardRadiant)this.InitOpsObj(model)).addToNode(node);
+
         }
 
 

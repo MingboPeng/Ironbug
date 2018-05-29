@@ -88,7 +88,10 @@
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeCooledBeam.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboardRadiant.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboard.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerVariableSpeed.cs" />
@@ -342,6 +345,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BaseboardWRC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChilledBeam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_CB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
