@@ -130,5 +130,10 @@ namespace Ironbug.Grasshopper.Component
 
             return sizing;
         }
+        public override void CreateAttributes()
+        {
+            var newAttri = new IB_LoopComponentAttributes(this);
+            m_attributes = newAttri;
+        }
     }
 }

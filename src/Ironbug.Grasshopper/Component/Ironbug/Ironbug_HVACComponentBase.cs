@@ -1,4 +1,6 @@
-﻿using Grasshopper.Kernel;
+﻿using Grasshopper.GUI.Canvas;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Attributes;
 using Grasshopper.Kernel.Parameters;
 using Ironbug.HVAC.BaseClass;
 using System;
@@ -18,41 +20,46 @@ namespace Ironbug.Grasshopper.Component
         {
             if (this.RunCount < 1)  return;
 
-            if (e.ParameterSide == GH_ParameterSide.Output || 
-                e.Parameter.NickName != "params_")
+            //e.ParameterSide == GH_ParameterSide.Output // would this will ever happen??
+            if (e.ParameterSide == GH_ParameterSide.Input && 
+                e.Parameter.NickName == "params_")
             {
-                return;
+                ParamSettingChanged();
+            }
+
+            void ParamSettingChanged()
+            {
+                var source = e.Parameter.Sources;
+                var sourceNum = source.Count;
+                //removal case
+                if (!source.Any())
+                {
+                    //settingParams?.CheckRecipients(); //This is a clean version
+                    if (settingParams != null)
+                    {
+                        //remove all inputParams
+                        settingParams.CheckRecipients();
+                    }
+
+                    settingParams = null;
+
+                    return;
+                }
+
+                //adding case
+                var firstsSource = source.First() as IGH_Param;
+                if (sourceNum == 1 && firstsSource != null)
+                {
+                    //link to a new ObjParams
+                    settingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
+                    if (settingParams != null)
+                    {
+                        settingParams.CheckRecipients();
+                    }
+
+                }
             }
             
-            var source = e.Parameter.Sources;
-            var sourceNum = source.Count;
-            //removal case
-            if (!source.Any())
-            {
-                //settingParams?.CheckRecipients(); //This is a clean version
-                if (settingParams != null)
-                {
-                    //remove all inputParams
-                    settingParams.CheckRecipients();
-                }
-
-                settingParams = null;
-
-                return;
-            }
-
-            //adding case
-            var firstsSource = source.First() as IGH_Param;
-            if (sourceNum == 1 && firstsSource != null)
-            {
-                //link to a new ObjParams
-                settingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                if (settingParams != null)
-                {
-                    settingParams.CheckRecipients();
-                }
-
-            }
 
         }
 
@@ -117,7 +124,7 @@ namespace Ironbug.Grasshopper.Component
             Params.RegisterInputParam(paramInput);
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-
+        
         private static IGH_Param CreateParamInput()
         {
             IGH_Param newParam = new Param_GenericObject();
@@ -155,4 +162,5 @@ namespace Ironbug.Grasshopper.Component
         }
 
     }
+    
 }

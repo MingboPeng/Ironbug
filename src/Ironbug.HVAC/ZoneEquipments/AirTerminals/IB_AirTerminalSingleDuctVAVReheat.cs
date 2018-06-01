@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
             //optional if there is no child 
             //Added child with action to Children list, for later automation
             var reheatCoil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetReheatCoil(obj as IB_CoilBasic));
-
+            this.Children.Add(reheatCoil);
         }
 
         

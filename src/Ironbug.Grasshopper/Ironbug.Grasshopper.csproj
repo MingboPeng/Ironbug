@@ -84,6 +84,7 @@
   <ItemGroup>
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="Component\Ironbug\IB_ComponentAttributes.cs" />
+    <Compile Include="Component\Ironbug\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />

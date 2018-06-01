@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
-        
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -22,9 +22,12 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "00:Ironbug",
               typeof(IB_ThermalZone_DataFieldSet))
         {
+            //this.Params.ParameterChanged += Params_ParameterChanged;
+            this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
-        
-        
+
+       
+
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -32,6 +35,8 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddBrepParameter("HoneybeeZone", "_HBZones", "HBZone", GH_ParamAccess.list);
             //pManager[0].Optional = true;
+
+            //don't forget to change the names in WatchPuppetStates, when change the name here.
             pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
             pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "A list of zone equipments that will be added to each zones.", GH_ParamAccess.list);
@@ -76,7 +81,9 @@ namespace Ironbug.Grasshopper.Component
             {
                 //reset all puppetable state first, as it might came from previous solution.
                 airTerminals.ForEach(_ => _.ResetPuppetState());
-                
+                //tracking all previously connected objs
+                //airTerminals.ForEach(_ => this.WatchPuppetStates(_));
+
                 if (airTerminals.Count != OSZones.Count && airTerminals.Count == 1)
                 {
                     //change state
@@ -86,9 +93,9 @@ namespace Ironbug.Grasshopper.Component
                         var puppet = airTerminal.DuplicateAsPuppet() as IB_AirTerminal;
                         zone.SetAirTerminal(puppet);
                     }
-                    
+
                 }
-                else if(airTerminals.Count == OSZones.Count)
+                else if (airTerminals.Count == OSZones.Count)
                 {
                     for (int i = 0; i < airTerminals.Count; i++)
                     {
@@ -111,6 +118,8 @@ namespace Ironbug.Grasshopper.Component
             var zoneEquipments = new List<IB_ZoneEquipment>();
             if (DA.GetDataList(2, zoneEquipments))
             {
+                
+                //zoneEquipments.ForEach(_ => this.WatchPuppetStates(_));
                 zoneEquipments.ForEach(_ => _.ResetPuppetState());
                 if (OSZones.Count == 1)
                 {
@@ -135,7 +144,7 @@ namespace Ironbug.Grasshopper.Component
                     }
                 }
 
-                
+
             }
 
             //add Sizing
@@ -145,12 +154,12 @@ namespace Ironbug.Grasshopper.Component
                 OSZones.ForEach(_ => _.SetSizingZone(sizing));
             }
 
-           
+
             foreach (var zone in OSZones)
             {
                 this.SetObjParamsTo(zone);
             }
-            
+
             DA.SetDataList(0, OSZones);
         }
 
@@ -188,7 +197,7 @@ namespace Ironbug.Grasshopper.Component
             }
 
             var HBZoneNames = GetHBObjects(HBIDs).Select(_ => _ as string);
-            
+
             return HBZoneNames;
 
         }
@@ -213,6 +222,50 @@ for HBID in HBIDs:
             var PyHBObjects = pyRun.GetVariable("PyHBObjects") as IList<dynamic>;
 
             return PyHBObjects;
+        }
+
+        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
+        {
+            var isAirTerminalOrZoneEquipment = e.ParameterIndex == 1 || e.ParameterIndex == 2;
+            if (e.ParameterSide == GH_ParameterSide.Output || !isAirTerminalOrZoneEquipment) return;
+
+            //only AirTerminal or ZoneEquipment remains
+            this.WatchPuppetStates();
+
+        }
+
+        //private void Params_ParameterChanged(object sender, GH_ParamServerEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        
+        IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
+
+        //This is really only for trying to cleanup the mass after any input prameter's disconnection
+        private void WatchPuppetStates()
+        {
+            var ATorZE = this.Params.Input.Where(input => input.Name == "AirTerminal" || input.Name == "ZoneEquipments");
+            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_=>_.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponentBase);
+            var ibobjs = sources.Select(
+                _ => {
+                    IB_ZoneEquipment eqp = null;
+                    _.VolatileData.AllData(true).First().CastTo(out eqp);
+                    return eqp;
+                }).Where(obj => obj != null);
+            
+            var currentConnectedObjs = ibobjs.ToDictionary(_ => _.GetTrackingID());
+
+            //try to get which one in hvacComps is not in currentConnectedObjs
+            var itemNotConnectedAnyMore = hvacComps.Except(currentConnectedObjs);
+            foreach (var item in itemNotConnectedAnyMore)
+            {
+                item.Value.ResetPuppetState();
+            }
+
+            //replace hvacComps with currentConnectedObjs
+            hvacComps = currentConnectedObjs;
+
         }
     }
 }

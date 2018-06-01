@@ -93,8 +93,9 @@ namespace Ironbug.HVAC.BaseClass
 
             foreach (var item in this.ZoneEquipments)
             {
-                var eqp = item.ToOS(model);
-                newZone.addEquipment(eqp);
+                var eqp = (ZoneHVACComponent)item.ToOS(model);
+                eqp.addToThermalZone(newZone);
+                //newZone.addEquipment(eqp);
             }
 
             //AirTerminal has been added with zone when the zone was added to the loop

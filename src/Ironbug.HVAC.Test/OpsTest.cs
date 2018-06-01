@@ -13,6 +13,26 @@ namespace Ironbug.HVACTests
     public class OpsTest
     {
         [TestMethod]
+        public void OS_Fields_Test()
+        {
+
+            var f = new OS_HeatExchanger_AirToAir_SensibleAndLatentFields();
+            var fValues = OS_HeatExchanger_AirToAir_SensibleAndLatentFields.getValues().asVector();
+            var v = f.value();
+
+            var f2 = new HeatExchanger_AirToAir_SensibleAndLatentFields();
+            var v2 = f2.value();
+            var obj = new HeatExchangerAirToAirSensibleAndLatent(new Model());
+            var objList = obj.iddObject().objectLists().asVector();
+            var objmemo = obj.iddObject().properties().memo;
+            var values = HeatExchanger_AirToAir_SensibleAndLatentFields.getValues().asVector();
+            var aa = new HeatExchanger_AirToAir_SensibleAndLatentFields().valueName();
+            
+            var a = new baseUnitConversionFactor(); 
+            
+        }
+
+        [TestMethod]
         public void UnderstandBranches2_Test()
         {
             var md1 = new OpenStudio.Model();

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -12,14 +9,12 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_OutdoorAirSystem();
         private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
         private IB_Child IB_ControllerOutdoorAir => this.Children.GetChild<IB_ControllerOutdoorAir>();
-
-        //public IB_ControllerOutdoorAir IB_ControllerOutdoorAir { get; private set; } = new IB_ControllerOutdoorAir();
-        
         
         public IB_OutdoorAirSystem():base(InitMethod(new Model()))
         {
             var controller = new IB_Child(new IB_ControllerOutdoorAir(), (obj) => this.SetController(obj as IB_ControllerOutdoorAir));
             this.Children.Add(controller);
+            
         }
         
 

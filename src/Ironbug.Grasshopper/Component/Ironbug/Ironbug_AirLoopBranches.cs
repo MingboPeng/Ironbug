@@ -154,7 +154,15 @@ namespace Ironbug.Grasshopper.Component
                     
                     foreach (var item in branch)
                     {
-                        branches.Add(new List<IB_HVACObject>() { item });
+                        if (item is IB_ThermalZone zone)
+                        {
+                            branches.Add(new List<IB_HVACObject>() { zone });
+                        }
+                        else
+                        {
+                            throw new Exception("Currently AirloopBranch only accepts Zone objects. If you want to add AirTerminals, please add it directly to zones!");
+                        }
+                        
                     }
 
 

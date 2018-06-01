@@ -90,5 +90,11 @@ namespace Ironbug.Grasshopper.Component
         {
             get { return new Guid("a416631f-bdda-4e11-8a2c-658c38681201"); }
         }
+
+        public override void CreateAttributes()
+        {
+            var newAttri = new IB_LoopComponentAttributes(this);
+            m_attributes = newAttri;
+        }
     }
 }
