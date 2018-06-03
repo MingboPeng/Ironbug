@@ -70,6 +70,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboardRadiant.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboard.cs" />

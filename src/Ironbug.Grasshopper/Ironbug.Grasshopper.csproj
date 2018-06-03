@@ -140,6 +140,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Heating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />
