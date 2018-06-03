@@ -12,6 +12,25 @@ namespace Ironbug.HVACTests
     [TestClass]
     public class OpsTest
     {
+
+        [TestMethod]
+        public void OS_Curve_Test()
+        {
+            var model = new Model();
+
+            var c = new CurveBicubic(model);
+            c.setCoefficient1Constant(22.22);
+            var model2 = new Model();
+            var boiler = new BoilerHotWater(model2);
+            boiler.setNormalizedBoilerEfficiencyCurve(c.clone(model2).to_Curve().get());
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            var success = model2.Save(saveFile);
+            
+            Assert.IsTrue(success);
+
+        }
+
         [TestMethod]
         public void OS_Fields_Test()
         {

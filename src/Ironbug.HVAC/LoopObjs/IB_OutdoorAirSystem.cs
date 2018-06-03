@@ -9,7 +9,8 @@ namespace Ironbug.HVAC
     public class IB_OutdoorAirSystem : IB_HVACObject, IIB_AirLoopObject
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_OutdoorAirSystem();
-        private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
+        private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) 
+            => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
         private IB_Child IB_ControllerOutdoorAir => this.Children.GetChild<IB_ControllerOutdoorAir>();
 
         //TODO: finish this later
@@ -45,7 +46,6 @@ namespace Ironbug.HVAC
             {
                 ((HVACComponent)item.ToOS(model)).addToNode(oaNode);
             };
-
             return true;
         }
         

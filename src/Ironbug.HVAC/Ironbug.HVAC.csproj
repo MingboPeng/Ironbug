@@ -65,6 +65,10 @@
     <Compile Include="BaseClass\IB_CoilBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
+    <Compile Include="BaseClass\IB_Curve.cs" />
+    <Compile Include="Curves\IB_CurveCubic.cs" />
+    <Compile Include="Curves\IB_CurveBiquadratic.cs" />
+    <Compile Include="Curves\IB_CurveBicubic.cs" />
     <Compile Include="Delegates\IIB_Child1.cs" />
     <Compile Include="Delegates\RelationWithChild.cs" />
     <Compile Include="Extensions\Extensions.cs" />
