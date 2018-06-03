@@ -32,20 +32,20 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_SetpointManagerOutdoorAirReset_DataFieldSet
-        : IB_DataFieldSet<IB_SetpointManagerOutdoorAirReset_DataFieldSet, SetpointManagerOutdoorAirReset>
+        : IB_FieldSet<IB_SetpointManagerOutdoorAirReset_DataFieldSet, SetpointManagerOutdoorAirReset>
     {
         private IB_SetpointManagerOutdoorAirReset_DataFieldSet() { }
 
-        public IB_DataField SetpointatOutdoorHighTemperature { get; }
+        public IB_Field SetpointatOutdoorHighTemperature { get; }
             = new IB_MandatoryDataField("SetpointatOutdoorHighTemperature", "SpOHTemp");
 
-        public IB_DataField OutdoorHighTemperature { get; }
+        public IB_Field OutdoorHighTemperature { get; }
             = new IB_MandatoryDataField("OutdoorHighTemperature", "OHTemp");
 
-        public IB_DataField SetpointatOutdoorLowTemperature { get; }
+        public IB_Field SetpointatOutdoorLowTemperature { get; }
            = new IB_MandatoryDataField("SetpointatOutdoorLowTemperature", "SpOLTemp");
 
-        public IB_DataField OutdoorLowTemperature { get; }
+        public IB_Field OutdoorLowTemperature { get; }
             = new IB_MandatoryDataField("OutdoorLowTemperature", "OLTemp");
 
 

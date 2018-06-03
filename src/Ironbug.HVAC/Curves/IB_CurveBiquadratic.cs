@@ -20,7 +20,7 @@ namespace Ironbug.HVAC.Curves
     }
 
     public sealed class IB_CurveBiquadratic_DataFieldSet
-        : IB_DataFieldSet<IB_CurveBiquadratic_DataFieldSet, CurveBiquadratic>
+        : IB_FieldSet<IB_CurveBiquadratic_DataFieldSet, CurveBiquadratic>
     {
         private IB_CurveBiquadratic_DataFieldSet() { }
     }

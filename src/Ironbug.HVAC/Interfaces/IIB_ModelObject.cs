@@ -15,8 +15,8 @@ namespace Ironbug.HVAC
         IEnumerable<string> GetDataFields();
         string GetTrackingID();
         bool IsInModel(Model model);
-        void SetAttribute(IB_DataField dataField, object value);
-        void SetAttributes(Dictionary<IB_DataField, object> DataFields);
+        void SetFieldValue(IB_Field dataField, object value);
+        void SetFieldValues(Dictionary<IB_Field, object> DataFields);
         string SetTrackingID();
         string ToString();
     }

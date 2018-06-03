@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_DataField : IEqualityComparer<IB_DataField>
+    public class IB_Field : IEqualityComparer<IB_Field>
     {
         public string FULLNAME => FullName.ToUpper();
         public string FullName { get; private set; }
@@ -32,7 +32,7 @@ namespace Ironbug.HVAC.BaseClass
         //{
         //}
 
-        public IB_DataField(string FullName, string ShortName)
+        public IB_Field(string FullName, string ShortName)
         {
             
             this.FullName = CheckInputFullName(FullName);//RatedInletWaterTemperature
@@ -63,13 +63,13 @@ namespace Ironbug.HVAC.BaseClass
             return cleanFullName;
         }
 
-        protected IB_DataField SetAcceptiableDataType(Type DataType)
+        protected IB_Field SetAcceptiableDataType(Type DataType)
         {
             this.DataType = DataType;
             return this;
         }
 
-        protected IB_DataField SetValidData(IEnumerable<string> ValidData)
+        protected IB_Field SetValidData(IEnumerable<string> ValidData)
         {
             this.ValidData = ValidData;
             return this;
@@ -86,12 +86,12 @@ namespace Ironbug.HVAC.BaseClass
         //    return "ddd";
         //}
 
-        public bool Equals(IB_DataField x, IB_DataField y)
+        public bool Equals(IB_Field x, IB_Field y)
         {
             return x.FullName == y.FullName && x.DataType == y.DataType;
         }
 
-        public int GetHashCode(IB_DataField obj)
+        public int GetHashCode(IB_Field obj)
         {
             return obj.FullName.GetHashCode()*47 +  obj.DataType.GetHashCode()*47;
         }
@@ -107,7 +107,7 @@ namespace Ironbug.HVAC.BaseClass
     /// and mandatory for setting the hvac object up at the first place.
     /// 
     /// </summary>
-    public class IB_MandatoryDataField : IB_DataField
+    public class IB_MandatoryDataField : IB_Field
     {
 
         public IB_MandatoryDataField(string FullName, string ShortName)
@@ -117,7 +117,7 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public class IB_BasicDataField : IB_DataField
+    public class IB_BasicDataField : IB_Field
     {
         
         public IB_BasicDataField(string FullName, string ShortName) 
@@ -127,7 +127,7 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public class IB_ProDataField : IB_DataField
+    public class IB_ProDataField : IB_Field
     {
         public IB_ProDataField(string FullName, string ShortName)
             : base(FullName, ShortName)

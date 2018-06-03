@@ -80,9 +80,9 @@ namespace Ironbug.Grasshopper.Component
             var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
             if (!plant.CustomAttributes.ContainsKey("setName"))
             {
-                plant.SetAttribute(plantFields.Name, "Chilled Water Loop");
+                plant.SetFieldValue(plantFields.Name, "Chilled Water Loop");
             }
-            plant.SetAttribute(plantFields.FluidType, "Water");
+            plant.SetFieldValue(plantFields.FluidType, "Water");
             DA.SetData(0, plant);
         }
 
@@ -115,16 +115,16 @@ namespace Ironbug.Grasshopper.Component
 
             var custAtt = sizing.CustomAttributes;
 
-            sizing.SetAttribute(szFields.LoopType, "Cooling");
+            sizing.SetFieldValue(szFields.LoopType, "Cooling");
             
             if (!custAtt.ContainsKey("DesignLoopExitTemperature"))
             {
-                sizing.SetAttribute(szFields.DesignLoopExitTemperature, 7.22);
+                sizing.SetFieldValue(szFields.DesignLoopExitTemperature, 7.22);
             }
 
             if (!custAtt.ContainsKey("LoopDesignTemperatureDifference"))
             {
-                sizing.SetAttribute(szFields.LoopDesignTemperatureDifference, 6.67);
+                sizing.SetFieldValue(szFields.LoopDesignTemperatureDifference, 6.67);
             }
             
 

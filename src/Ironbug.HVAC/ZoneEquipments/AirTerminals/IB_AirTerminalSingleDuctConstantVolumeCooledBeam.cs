@@ -46,7 +46,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_AirTerminalSingleDuctConstantVolumeCooledBeam_DataFieldSet
-        : IB_DataFieldSet<IB_AirTerminalSingleDuctConstantVolumeCooledBeam_DataFieldSet, AirTerminalSingleDuctConstantVolumeCooledBeam>
+        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeCooledBeam_DataFieldSet, AirTerminalSingleDuctConstantVolumeCooledBeam>
     {
         private IB_AirTerminalSingleDuctConstantVolumeCooledBeam_DataFieldSet() { }
 

@@ -25,7 +25,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         public IB_ThermalZone(string HBZoneName) : base(InitMethod(new Model()))
         {
-            base.SetAttribute(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
+            base.SetFieldValue(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
 
         }
 
@@ -138,19 +138,19 @@ namespace Ironbug.HVAC.BaseClass
     }
 
     public sealed class IB_ThermalZone_DataFieldSet 
-        : IB_DataFieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
+        : IB_FieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
     {
         
         private IB_ThermalZone_DataFieldSet() {}
 
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name")
             {
                 DetailedDescription = "A unique identifying name for each coil."
             };
 
 
-        public IB_DataField Multiplier { get; }
+        public IB_Field Multiplier { get; }
             = new IB_BasicDataField("Multiplier", "Multiplier")
             {
                 DetailedDescription = "Zone Multiplier is designed as a “multiplier” for floor area, zone loads, and energy consumed by internal gains. "+
@@ -160,11 +160,11 @@ namespace Ironbug.HVAC.BaseClass
                 "The default is 1."
             };
 
-        public IB_DataField ZoneInsideConvectionAlgorithm { get; }
+        public IB_Field ZoneInsideConvectionAlgorithm { get; }
             = new IB_BasicDataField("ZoneInsideConvectionAlgorithm", "InConvection");
 
 
-        public IB_DataField ZoneOutsideConvectionAlgorithm { get; }
+        public IB_Field ZoneOutsideConvectionAlgorithm { get; }
             = new IB_BasicDataField("ZoneOutsideConvectionAlgorithm", "OutConvection");
         
 

@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet
-        : IB_DataFieldSet<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet, ZoneHVACTerminalUnitVariableRefrigerantFlow>
+        : IB_FieldSet<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet, ZoneHVACTerminalUnitVariableRefrigerantFlow>
     {
         private IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet() { }
         

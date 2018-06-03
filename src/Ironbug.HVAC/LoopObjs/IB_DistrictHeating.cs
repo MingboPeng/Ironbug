@@ -29,13 +29,13 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_DistrictHeating_DataFieldSet
-        : IB_DataFieldSet<IB_DistrictHeating_DataFieldSet, DistrictHeating>
+        : IB_FieldSet<IB_DistrictHeating_DataFieldSet, DistrictHeating>
     {
         private IB_DistrictHeating_DataFieldSet() { }
         
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name");
-        public IB_DataField NominalCapacity { get; }
+        public IB_Field NominalCapacity { get; }
             = new IB_BasicDataField("NominalCapacity", "Capacity");
 
     }

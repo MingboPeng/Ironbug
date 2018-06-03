@@ -45,7 +45,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_AirTerminalSingleDuctVAVReheat_DataFieldSet
-        : IB_DataFieldSet<IB_AirTerminalSingleDuctVAVReheat_DataFieldSet, AirTerminalSingleDuctVAVReheat>
+        : IB_FieldSet<IB_AirTerminalSingleDuctVAVReheat_DataFieldSet, AirTerminalSingleDuctVAVReheat>
     {
         private IB_AirTerminalSingleDuctVAVReheat_DataFieldSet() { }
 

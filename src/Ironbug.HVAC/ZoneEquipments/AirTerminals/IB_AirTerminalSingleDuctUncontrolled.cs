@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_AirTerminalSingleDuctUncontrolled_DataFieldSet
-        : IB_DataFieldSet<IB_AirTerminalSingleDuctUncontrolled_DataFieldSet, AirTerminalSingleDuctUncontrolled>
+        : IB_FieldSet<IB_AirTerminalSingleDuctUncontrolled_DataFieldSet, AirTerminalSingleDuctUncontrolled>
     {
         private IB_AirTerminalSingleDuctUncontrolled_DataFieldSet() { }
 

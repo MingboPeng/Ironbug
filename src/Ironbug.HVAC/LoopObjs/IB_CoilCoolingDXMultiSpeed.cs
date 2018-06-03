@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoilCoolingDXMultiSpeed_DataFieldSet
-        : IB_DataFieldSet<IB_CoilCoolingDXMultiSpeed_DataFieldSet, CoilCoolingDXMultiSpeed>
+        : IB_FieldSet<IB_CoilCoolingDXMultiSpeed_DataFieldSet, CoilCoolingDXMultiSpeed>
     {
         private IB_CoilCoolingDXMultiSpeed_DataFieldSet() { }
 

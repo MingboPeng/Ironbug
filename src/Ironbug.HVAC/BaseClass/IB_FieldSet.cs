@@ -13,8 +13,8 @@ namespace Ironbug.HVAC.BaseClass
     /// </summary>
     /// <typeparam name="T">T is derived class</typeparam>
     /// <typeparam name="K">K is ParentType from OpenStudio</typeparam>
-    public abstract class IB_DataFieldSet<T, K> : IB_DataFieldSet
-        where T : IB_DataFieldSet<T, K>
+    public abstract class IB_FieldSet<T, K> : IB_FieldSet
+        where T : IB_FieldSet<T, K>
         where K : ModelObject
     {
         /// <summary>
@@ -33,16 +33,16 @@ namespace Ironbug.HVAC.BaseClass
 
         internal override Type ParentType => typeof(K);
 
-        protected IB_DataFieldSet():base()
+        protected IB_FieldSet():base()
         {
 
         }
     }
 
-    public abstract class IB_DataFieldSet: ICollection<IB_DataField>
+    public abstract class IB_FieldSet: ICollection<IB_Field>
     {
 
-        private ICollection<IB_DataField> _items = new List<IB_DataField>();
+        private ICollection<IB_Field> _items = new List<IB_Field>();
 
 
         //IDD object for later unit converting, etc
@@ -52,10 +52,10 @@ namespace Ironbug.HVAC.BaseClass
         internal abstract Type ParentType { get; }
 
         
-        public IB_MasterDataField TheMasterDataField { get; }
+        public IB_MasterField TheMasterDataField { get; }
 
 
-        protected IB_DataFieldSet()
+        protected IB_FieldSet()
         {
             //Assign reference IddObject from OpenStudio
             this.RefIddObject = GetIddObject(this.ParentType);
@@ -84,7 +84,7 @@ namespace Ironbug.HVAC.BaseClass
             return new IdfObject(iddType).iddObject();
         }
 
-        private static IEnumerable<IB_IddDataField> GetIddDataFields(IddObject iddObject)
+        private static IEnumerable<IB_IddField> GetIddDataFields(IddObject iddObject)
         {
             var fromList = iddObject.nonextensibleFields();
             //var toList = new List<IB_IDDDataField>();
@@ -99,15 +99,17 @@ namespace Ironbug.HVAC.BaseClass
                     result &= dataType != "handle";
                     return result;
                 })
-                .Select(_ => new IB_IddDataField(_));//Construct IddDataField as default first. 
-
-
+                .Select(_ => new IB_IddField(_));//Construct IddDataField as default first. 
+            
         }
-
-        public IEnumerable<IB_DataField> GetCustomizedDataFields()
+        /// <summary>
+        /// Call this method to get all fields that inside of this fieldset.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<IB_Field> GetCustomizedDataFields()
         {
             return this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                            .Select(_ => (IB_DataField)_.GetValue(this, null));
+                            .Select(_ => (IB_Field)_.GetValue(this, null));
         }
 
         //public IB_DataField GetDataFieldByName(string name)
@@ -118,7 +120,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
 
-        private static IB_MasterDataField GetTheMasterDataField(IB_DataFieldSet dataFieldSet)
+        private static IB_MasterField GetTheMasterDataField(IB_FieldSet dataFieldSet)
         {
 
             var masterSettings = dataFieldSet.OrderBy(_ => _.FullName);
@@ -135,7 +137,7 @@ namespace Ironbug.HVAC.BaseClass
             //    masterDataFieldMap.Add(item.FullName.ToUpper(), item);
             //}
 
-            var df = new IB_MasterDataField(description);
+            var df = new IB_MasterField(description);
             return df;
 
         }
@@ -148,7 +150,7 @@ namespace Ironbug.HVAC.BaseClass
         public bool IsReadOnly => _items.IsReadOnly;
 
 
-        public void Add(IB_DataField item)
+        public void Add(IB_Field item)
         {
             _items.Add(item);
         }
@@ -158,7 +160,7 @@ namespace Ironbug.HVAC.BaseClass
             _items.Clear();
         }
 
-        public bool Contains(IB_DataField item)
+        public bool Contains(IB_Field item)
         {
             return _items.Any(_ => _.FULLNAME == item.FULLNAME);
         }
@@ -171,18 +173,18 @@ namespace Ironbug.HVAC.BaseClass
 
         
 
-        public void CopyTo(IB_DataField[] array, int arrayIndex)
+        public void CopyTo(IB_Field[] array, int arrayIndex)
         {
             _items.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(IB_DataField item)
+        public bool Remove(IB_Field item)
         {
             //TDDO: how to compare ???
             return _items.Remove(item);
         }
 
-        public IEnumerator<IB_DataField> GetEnumerator()
+        public IEnumerator<IB_Field> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
@@ -193,14 +195,14 @@ namespace Ironbug.HVAC.BaseClass
         }
     }
 
-    public static class DataFieldSetExtension
+    public static class FieldSetExtension
     {
         /// <summary>
         /// Note: this would return null if cannot find the dataField by name.
         /// </summary>
         /// <param name="fullName"></param>
         /// <returns>IB_DataField or null</returns>
-        public static IB_DataField GetByName(this IEnumerable<IB_DataField>dataFields, string fullName)
+        public static IB_Field GetByName(this IEnumerable<IB_Field>dataFields, string fullName)
         {
             return dataFields.FirstOrDefault(item => item.FULLNAME == fullName.CleanFULLNAME());
         }
@@ -210,7 +212,7 @@ namespace Ironbug.HVAC.BaseClass
         /// </summary>
         /// <param name="fullName"></param>
         /// <returns>IB_DataField or null</returns>
-        public static IB_DataField GetByName(this IB_DataFieldSet dataFields, string fullName)
+        public static IB_Field GetByName(this IB_FieldSet dataFields, string fullName)
         {
             return dataFields.FirstOrDefault(item => item.FULLNAME == fullName.CleanFULLNAME());
         }
@@ -223,7 +225,7 @@ namespace Ironbug.HVAC.BaseClass
         }
 
 
-        public static IEnumerable<IB_IddDataField> MapOpsSettings(this IEnumerable<IB_IddDataField> dataFieldSet, Type OSType)
+        public static IEnumerable<IB_IddField> MapOpsSettings(this IEnumerable<IB_IddField> dataFieldSet, Type OSType)
         {
             
 
@@ -272,11 +274,11 @@ namespace Ironbug.HVAC.BaseClass
         /// Map properties of the ProDataField or BasicDataField that defined in derived class, to DataFieldSet's IB_DataField collection.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<IB_DataField> MapCustomizedDataFieldsSettings(this IEnumerable<IB_IddDataField> dataFieldSet, IB_DataFieldSet derivedDataFieldSet)
+        public static IEnumerable<IB_Field> MapCustomizedDataFieldsSettings(this IEnumerable<IB_IddField> dataFieldSet, IB_FieldSet derivedDataFieldSet)
         {
             var dfSet = dataFieldSet;
             derivedDataFieldSet.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Select(_ => (IB_DataField)_.GetValue(derivedDataFieldSet, null))
+                .Select(_ => (IB_Field)_.GetValue(derivedDataFieldSet, null))
                 .ToList().ForEach(_ =>
                 {
                     //all customized DataFields will be tested before release, so there is no need to test it here for inclusion.

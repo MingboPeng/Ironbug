@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_MasterDataField:IB_DataField
+    public class IB_MasterField:IB_Field
     {
         //private IB_DataFieldSet _dataFieldSet;
-        public IB_MasterDataField(string Description)
+        public IB_MasterField(string Description)
             :base("AllAvailableSettings", "MasterSettings")
         {
             base.Description = Description;
@@ -17,9 +17,9 @@ namespace Ironbug.HVAC.BaseClass
             //base.SetAcceptiableDataType(typeof(string));
         }
         
-        public Dictionary<IB_DataField, object> CheckUserInputs(IEnumerable<string> userInputs, IB_DataFieldSet dataFieldSet)
+        public Dictionary<IB_Field, object> CheckUserInputs(IEnumerable<string> userInputs, IB_FieldSet dataFieldSet)
         {
-            var dic = new Dictionary<IB_DataField, object>();
+            var dic = new Dictionary<IB_Field, object>();
 
             foreach (var item in userInputs)
             {

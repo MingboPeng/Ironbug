@@ -66,7 +66,7 @@ namespace Ironbug.HVACTests
 
 
             var boiler1 = new IB_BoilerHotWater();
-            boiler1.SetAttribute(IB_BoilerHotWater_DataFields.Value.Name, "boiler1");
+            boiler1.SetFieldValue(IB_BoilerHotWater_DataFields.Value.Name, "boiler1");
             branch.Add(boiler1);
             branch.Add(new IB_PumpConstantSpeed());
 
@@ -77,7 +77,7 @@ namespace Ironbug.HVACTests
 
             var branch2 = new List<IB_HVACObject>();
             var boiler2 = new IB_BoilerHotWater();
-            boiler2.SetAttribute(IB_BoilerHotWater_DataFields.Value.Name, "boiler2");
+            boiler2.SetFieldValue(IB_BoilerHotWater_DataFields.Value.Name, "boiler2");
             branch2.Add(boiler2);
             branch2.Add(new IB_PumpVariableSpeed());
             branches.Add(branch2);
@@ -176,7 +176,7 @@ namespace Ironbug.HVACTests
 
             var reHeat = new IB_AirTerminalSingleDuctVAVReheat();
             var coil = new IB_CoilHeatingWater();
-            coil.SetAttribute(IB_CoilHeatingWater_DataFieldSet.Value.RatedInletAirTemperature, 15.6);
+            coil.SetFieldValue(IB_CoilHeatingWater_DataFieldSet.Value.RatedInletAirTemperature, 15.6);
             reHeat.SetReheatCoil(coil);
 
             reHeat.ToPuppetHost();

@@ -27,18 +27,18 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoolingTowerVariableSpeed_DataFields
-        : IB_DataFieldSet<IB_CoolingTowerVariableSpeed_DataFields, CoolingTowerVariableSpeed>
+        : IB_FieldSet<IB_CoolingTowerVariableSpeed_DataFields, CoolingTowerVariableSpeed>
     {
 
         private IB_CoolingTowerVariableSpeed_DataFields() { }
 
-        public IB_DataField DesignWaterFlowRate { get; }
+        public IB_Field DesignWaterFlowRate { get; }
             = new IB_BasicDataField("DesignWaterFlowRate", "WaterFlowRate");
 
-        public IB_DataField DesignAirFlowRate { get; }
+        public IB_Field DesignAirFlowRate { get; }
             = new IB_BasicDataField("DesignAirFlowRate", "AirFlowRate");
 
-        public IB_DataField DesignFanPower { get; }
+        public IB_Field DesignFanPower { get; }
             = new IB_BasicDataField("DesignFanPower", "FanPower");
 
 

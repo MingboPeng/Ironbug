@@ -30,32 +30,32 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_FanVariableVolume_DataFields 
-        : IB_DataFieldSet<IB_FanVariableVolume_DataFields, FanVariableVolume>
+        : IB_FieldSet<IB_FanVariableVolume_DataFields, FanVariableVolume>
     {
         
         private IB_FanVariableVolume_DataFields() {}
 
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name");
 
-        public IB_DataField FanEfficiency { get; }
+        public IB_Field FanEfficiency { get; }
             = new IB_BasicDataField("FanEfficiency", "Efficiency");
 
-        public IB_DataField PressureRise { get; }
+        public IB_Field PressureRise { get; }
             = new IB_BasicDataField("PressureRise", "PressureRise");
 
-        public IB_DataField MotorEfficiency { get; }
+        public IB_Field MotorEfficiency { get; }
             = new IB_ProDataField("MotorEfficiency", "MotorEfficiency");
 
-        public IB_DataField FanPowerCoefficient1 { get; }
+        public IB_Field FanPowerCoefficient1 { get; }
             = new IB_ProDataField("FanPowerCoefficient1", "Coefficient1");
-        public IB_DataField FanPowerCoefficient2 { get; }
+        public IB_Field FanPowerCoefficient2 { get; }
             = new IB_ProDataField("FanPowerCoefficient2", "Coefficient2");
-        public  IB_DataField FanPowerCoefficient3 { get; }
+        public  IB_Field FanPowerCoefficient3 { get; }
             = new IB_ProDataField("FanPowerCoefficient3", "Coefficient3");
-        public IB_DataField FanPowerCoefficient4 { get; }
+        public IB_Field FanPowerCoefficient4 { get; }
             = new IB_ProDataField("FanPowerCoefficient4", "Coefficient4");
-        public IB_DataField FanPowerCoefficient5 { get; }
+        public IB_Field FanPowerCoefficient5 { get; }
             = new IB_ProDataField("FanPowerCoefficient5", "Coefficient5");
         
 

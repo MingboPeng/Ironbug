@@ -27,30 +27,30 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_PumpVariableSpeed_DataFields 
-        : IB_DataFieldSet<IB_PumpVariableSpeed_DataFields, PumpVariableSpeed>
+        : IB_FieldSet<IB_PumpVariableSpeed_DataFields, PumpVariableSpeed>
     {
         
         private IB_PumpVariableSpeed_DataFields(){ }
 
-        public IB_DataField RatedPumpHead { get; }
+        public IB_Field RatedPumpHead { get; }
             = new IB_BasicDataField("RatedPumpHead", "PumpHead");
         
-        public IB_DataField MotorEfficiency { get; }
+        public IB_Field MotorEfficiency { get; }
             = new IB_BasicDataField("MotorEfficiency", "Efficiency");
 
-        public IB_DataField RatedFlowRate { get; }
+        public IB_Field RatedFlowRate { get; }
             = new IB_ProDataField("RatedFlowRate", "FlowRate");
 
-        public IB_DataField PumpControlType { get; }
+        public IB_Field PumpControlType { get; }
             = new IB_ProDataField("PumpControlType", "ControlType");
 
-        public IB_DataField Coefficient1ofthePartLoadPerformanceCurve { get; }
+        public IB_Field Coefficient1ofthePartLoadPerformanceCurve { get; }
             = new IB_ProDataField("Coefficient1ofthePartLoadPerformanceCurve", "Coefficient1");
-        public IB_DataField Coefficient2ofthePartLoadPerformanceCurve { get; }
+        public IB_Field Coefficient2ofthePartLoadPerformanceCurve { get; }
             = new IB_ProDataField("Coefficient2ofthePartLoadPerformanceCurve", "Coefficient2");
-        public IB_DataField Coefficient3ofthePartLoadPerformanceCurve { get; }
+        public IB_Field Coefficient3ofthePartLoadPerformanceCurve { get; }
             = new IB_ProDataField("Coefficient3ofthePartLoadPerformanceCurve", "Coefficient3");
-        public IB_DataField Coefficient4ofthePartLoadPerformanceCurve { get; }
+        public IB_Field Coefficient4ofthePartLoadPerformanceCurve { get; }
             = new IB_ProDataField("Coefficient4ofthePartLoadPerformanceCurve", "Coefficient4");
 
         

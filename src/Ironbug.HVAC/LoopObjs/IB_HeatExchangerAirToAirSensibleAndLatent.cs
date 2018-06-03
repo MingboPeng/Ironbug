@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet
-        : IB_DataFieldSet<IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet, HeatExchangerAirToAirSensibleAndLatent>
+        : IB_FieldSet<IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet, HeatExchangerAirToAirSensibleAndLatent>
     {
         private IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet() {}
     }

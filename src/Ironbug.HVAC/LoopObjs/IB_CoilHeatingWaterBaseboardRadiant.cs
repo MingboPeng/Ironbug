@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet
-        : IB_DataFieldSet<IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet, CoilHeatingWaterBaseboardRadiant>
+        : IB_FieldSet<IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet, CoilHeatingWaterBaseboardRadiant>
     {
         private IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet() {}
         

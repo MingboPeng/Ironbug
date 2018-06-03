@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
 
 
     public sealed class IB_FanOnOff_DataFields
-        : IB_DataFieldSet<IB_FanOnOff_DataFields, FanOnOff>
+        : IB_FieldSet<IB_FanOnOff_DataFields, FanOnOff>
     {
         private IB_FanOnOff_DataFields() {}
         

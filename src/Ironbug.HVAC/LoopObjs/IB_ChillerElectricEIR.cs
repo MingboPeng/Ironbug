@@ -28,19 +28,19 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_ChillerElectricEIR_DataFieldSet
-        : IB_DataFieldSet<IB_ChillerElectricEIR_DataFieldSet, ChillerElectricEIR>
+        : IB_FieldSet<IB_ChillerElectricEIR_DataFieldSet, ChillerElectricEIR>
     {
         private IB_ChillerElectricEIR_DataFieldSet() { }
 
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name");
-        public IB_DataField ReferenceCapacity { get; }
+        public IB_Field ReferenceCapacity { get; }
             = new IB_BasicDataField("ReferenceCapacity", "Capacity");
         
-        public IB_DataField ReferenceCOP { get; }
+        public IB_Field ReferenceCOP { get; }
             = new IB_BasicDataField("ReferenceCOP", "COP");
         
-        public IB_DataField ReferenceLeavingChilledWaterTemperature { get; }
+        public IB_Field ReferenceLeavingChilledWaterTemperature { get; }
             = new IB_BasicDataField("ReferenceLeavingChilledWaterTemperature", "LeavingT");
     }
 }

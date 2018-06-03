@@ -37,18 +37,18 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_SizingPlant_DataFieldSet
-        : IB_DataFieldSet<IB_SizingPlant_DataFieldSet, SizingPlant>
+        : IB_FieldSet<IB_SizingPlant_DataFieldSet, SizingPlant>
     {
 
         private IB_SizingPlant_DataFieldSet() { }
         
-        public IB_DataField LoopType { get; }
+        public IB_Field LoopType { get; }
             = new IB_BasicDataField("LoopType", "type");
 
-        public IB_DataField DesignLoopExitTemperature { get; }
+        public IB_Field DesignLoopExitTemperature { get; }
             = new IB_BasicDataField("DesignLoopExitTemperature", "exitT");
 
-        public IB_DataField LoopDesignTemperatureDifference { get; }
+        public IB_Field LoopDesignTemperatureDifference { get; }
             = new IB_BasicDataField("LoopDesignTemperatureDifference", "deltaT");
 
 

@@ -86,8 +86,8 @@
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Loops\IB_AirLoopBranches.cs" />
     <Compile Include="BaseClass\IB_Coil.cs" />
-    <Compile Include="BaseClass\IB_DataField.cs" />
-    <Compile Include="BaseClass\IB_DataFieldSet.cs" />
+    <Compile Include="BaseClass\IB_Field.cs" />
+    <Compile Include="BaseClass\IB_FieldSet.cs" />
     <Compile Include="BaseClass\IB_Fan.cs" />
     <Compile Include="Loops\IB_PlantLoopBranches.cs" />
     <Compile Include="BaseClass\IB_PuppetableObj.cs" />

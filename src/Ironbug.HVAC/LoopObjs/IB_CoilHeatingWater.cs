@@ -35,40 +35,40 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoilHeatingWater_DataFieldSet
-        : IB_DataFieldSet<IB_CoilHeatingWater_DataFieldSet, CoilHeatingWater>
+        : IB_FieldSet<IB_CoilHeatingWater_DataFieldSet, CoilHeatingWater>
     {
         private IB_CoilHeatingWater_DataFieldSet() {}
 
 
         //https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-042.html#coilheatingwater
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name")
             {
                 DetailedDescription = "A unique identifying name for each coil."
             };
         
 
-        public IB_DataField RatedInletWaterTemperature { get; }
+        public IB_Field RatedInletWaterTemperature { get; }
             = new IB_BasicDataField("RatedInletWaterTemperature", "InWaterTemp")
             {
                 DetailedDescription = "The inlet water temperature (degrees C) corresponding to the rated heating capacity. " +
                 "The default is 82.2 degrees C (180 degrees F)."
             };
 
-        public IB_DataField RatedInletAirTemperature { get; }
+        public IB_Field RatedInletAirTemperature { get; }
             = new IB_ProDataField("RatedInletAirTemperature", "InAirTemp");
             
 
-        public IB_DataField RatedOutletWaterTemperature { get; }
+        public IB_Field RatedOutletWaterTemperature { get; }
             = new IB_BasicDataField("RatedOutletWaterTemperature", "OutWaterTemp");
 
-        public IB_DataField RatedOutletAirTemperature { get; }
+        public IB_Field RatedOutletAirTemperature { get; }
             = new IB_ProDataField("RatedOutletAirTemperature", "OutAirTemp");
 
-        public IB_DataField UFactorTimesAreaValue { get; }
+        public IB_Field UFactorTimesAreaValue { get; }
             = new IB_ProDataField("UFactorTimesAreaValue", "UFactor");
 
-        public IB_DataField MaximumWaterFlowRate { get; }
+        public IB_Field MaximumWaterFlowRate { get; }
             = new IB_ProDataField("MaximumWaterFlowRate", "MaxFlow")
             {
                 DetailedDescription = "The maximum possible water flow rate (m3/sec) through the coil. " +
@@ -77,7 +77,7 @@ namespace Ironbug.HVAC
 
             };
 
-        public IB_DataField RatedRatioForAirAndWaterConvection { get; }
+        public IB_Field RatedRatioForAirAndWaterConvection { get; }
             = new IB_ProDataField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");
         
     }

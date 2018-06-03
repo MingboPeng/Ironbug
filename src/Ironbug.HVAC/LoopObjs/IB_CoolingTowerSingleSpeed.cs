@@ -27,12 +27,12 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoolingTowerSingleSpeed_DataFields
-        : IB_DataFieldSet<IB_CoolingTowerSingleSpeed_DataFields, CoolingTowerSingleSpeed>
+        : IB_FieldSet<IB_CoolingTowerSingleSpeed_DataFields, CoolingTowerSingleSpeed>
     {
 
         private IB_CoolingTowerSingleSpeed_DataFields() { }
 
-        public IB_DataField NominalCapacity { get; }
+        public IB_Field NominalCapacity { get; }
             = new IB_BasicDataField("NominalCapacity", "Capacity");
 
 

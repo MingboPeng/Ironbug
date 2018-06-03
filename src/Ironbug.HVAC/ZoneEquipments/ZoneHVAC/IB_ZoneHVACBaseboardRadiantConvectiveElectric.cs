@@ -23,7 +23,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_ZoneHVACBaseboardRadiantConvectiveElectric_DataFieldSet
-        : IB_DataFieldSet<IB_ZoneHVACBaseboardRadiantConvectiveElectric_DataFieldSet, ZoneHVACBaseboardRadiantConvectiveElectric>
+        : IB_FieldSet<IB_ZoneHVACBaseboardRadiantConvectiveElectric_DataFieldSet, ZoneHVACBaseboardRadiantConvectiveElectric>
     {
         private IB_ZoneHVACBaseboardRadiantConvectiveElectric_DataFieldSet() { }
 

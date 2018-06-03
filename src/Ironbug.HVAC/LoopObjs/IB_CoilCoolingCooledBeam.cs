@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
         }
     }
     public sealed class IB_CoilCoolingCooledBeam_DataFieldSet
-        : IB_DataFieldSet<IB_CoilCoolingCooledBeam_DataFieldSet, CoilCoolingCooledBeam>
+        : IB_FieldSet<IB_CoilCoolingCooledBeam_DataFieldSet, CoilCoolingCooledBeam>
     {
         private IB_CoilCoolingCooledBeam_DataFieldSet() { }
         

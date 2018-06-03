@@ -33,25 +33,25 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_BoilerHotWater_DataFields 
-        : IB_DataFieldSet<IB_BoilerHotWater_DataFields, BoilerHotWater>
+        : IB_FieldSet<IB_BoilerHotWater_DataFields, BoilerHotWater>
     {
 
         private IB_BoilerHotWater_DataFields() { }
 
-        public IB_DataField Name { get; }
+        public IB_Field Name { get; }
             = new IB_BasicDataField("Name", "Name") {
             };
 
-        public IB_DataField FuelType { get; }
+        public IB_Field FuelType { get; }
             = new IB_BasicDataField("FuelType", "Fuel");
 
-        public IB_DataField DesignWaterOutletTemperature { get; }
+        public IB_Field DesignWaterOutletTemperature { get; }
             = new IB_ProDataField("DesignWaterOutletTemperature", "OutWaterT");
 
-        public IB_DataField NominalCapacity { get; }
+        public IB_Field NominalCapacity { get; }
             = new IB_ProDataField("NominalCapacity", "Capacity");
 
-        public IB_DataField NominalThermalEfficiency { get; }
+        public IB_Field NominalThermalEfficiency { get; }
             = new IB_ProDataField("NominalThermalEfficiency", "Efficiency");
 
        

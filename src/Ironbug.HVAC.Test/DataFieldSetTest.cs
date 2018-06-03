@@ -32,7 +32,7 @@ namespace Ironbug.HVACTests
 
             foreach (var name in testNames)
             {
-                var datafields = new IB_DataField(name, name);
+                var datafields = new IB_Field(name, name);
                 var testedName = datafields.FULLNAME;
                 if (testedName != expected)
                 {
@@ -65,9 +65,9 @@ namespace Ironbug.HVACTests
             var field = pump.iddObject().getField("Coefficient 1 of the Part Load Performance Curve").get();
 
 
-            var idds = new List<IB_IddDataField>()
+            var idds = new List<IB_IddField>()
             {
-                new IB_IddDataField(field)
+                new IB_IddField(field)
             };
 
 
@@ -84,7 +84,7 @@ namespace Ironbug.HVACTests
         {
 
             var instance = IB_PumpVariableSpeed_DataFields.Value;
-            var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddDataField;
+            var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddField;
             field.UpdateFromOpenStudioMethod("Coefficient1ofthePartLoadPerformanceCurve", typeof(double));
             var success = field.SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
             
@@ -131,15 +131,15 @@ namespace Ironbug.HVACTests
             var datafields = IB_PumpVariableSpeed_DataFields.Value;
 
             var type = typeof(IB_PumpVariableSpeed_DataFields);
-            IB_DataFieldSet datafields2 = Convert.ChangeType( Activator.CreateInstance(type,true),type) as IB_DataFieldSet;
+            IB_FieldSet datafields2 = Convert.ChangeType( Activator.CreateInstance(type,true),type) as IB_FieldSet;
 
             ////Old way
             //var basetype = datafields.GetType().BaseType;
             //var success = (basetype.IsGenericType? basetype.GetGenericTypeDefinition(): basetype.GetType()) == typeof(IB_DataFieldSet<,>);
 
             //New way
-            var success = datafields is IB_DataFieldSet;
-            success &= datafields2 is IB_DataFieldSet;
+            var success = datafields is IB_FieldSet;
+            success &= datafields2 is IB_FieldSet;
 
             Assert.IsTrue(success);
 
@@ -150,7 +150,7 @@ namespace Ironbug.HVACTests
             var logs = new List<string>();
 
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
-                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_DataFieldSet)))
+                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
             allDataFieldsClasses.ForEach(_ => {
@@ -171,7 +171,7 @@ namespace Ironbug.HVACTests
             var logs = new List<string>();
 
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
-                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_DataFieldSet)))
+                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
             allDataFieldsClasses.ForEach(_ => {
@@ -196,7 +196,7 @@ namespace Ironbug.HVACTests
             var logs = new List<string>();
 
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
-                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_DataFieldSet)))
+                .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
             allDataFieldsClasses.ForEach(_ => {
@@ -219,13 +219,13 @@ namespace Ironbug.HVACTests
         public void AllCustomizedDataFields_Test()
         {
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
-                .Where(_ => (!_.IsAbstract) && _.IsSealed && _.IsSubclassOf(typeof(IB_DataFieldSet)));
+                .Where(_ => (!_.IsAbstract) && _.IsSealed && _.IsSubclassOf(typeof(IB_FieldSet)));
 
             var logs = new List<List<string>>();
 
             foreach (var dfClass in allDataFieldsClasses)
             {
-                var instance = dfClass.BaseType.GetProperty("Value").GetValue(null) as IB_DataFieldSet;
+                var instance = dfClass.BaseType.GetProperty("Value").GetValue(null) as IB_FieldSet;
 
                 //check each customized data field if can be found in IddObject,
                 //mainly for checking the name's spelling or formatting.

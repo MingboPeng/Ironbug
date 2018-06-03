@@ -34,7 +34,7 @@ namespace Ironbug.HVACTests
         {
             var lp = new IB_PlantLoop();
             var sz = new IB_SizingPlant();
-            sz.SetAttribute(IB_SizingPlant_DataFieldSet.Value.LoopType, "Cooling");
+            sz.SetFieldValue(IB_SizingPlant_DataFieldSet.Value.LoopType, "Cooling");
             lp.SetSizingPlant(sz);
 
 

@@ -143,13 +143,13 @@ namespace Ironbug.Grasshopper.Component
             var paramInput = this.Params.Input.Last();
             var attrsDic = paramInput.VolatileData.AllData(true).ToList().FirstOrDefault();
 
-            var attris = (Dictionary<IB_DataField, object>) null;
+            var attris = (Dictionary<IB_Field, object>) null;
             attrsDic?.CastTo(out attris);
 
             if (attris is null) return;
             if (attris.Count == 0) return;
 
-            IB_obj.SetAttributes(attris);
+            IB_obj.SetFieldValues(attris);
             
         }
         

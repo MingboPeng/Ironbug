@@ -26,15 +26,15 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_CoolingTowerTwoSpeed_DataFields
-        : IB_DataFieldSet<IB_CoolingTowerTwoSpeed_DataFields, CoolingTowerTwoSpeed>
+        : IB_FieldSet<IB_CoolingTowerTwoSpeed_DataFields, CoolingTowerTwoSpeed>
     {
 
         private IB_CoolingTowerTwoSpeed_DataFields() { }
 
-        public IB_DataField HighSpeedNominalCapacity { get; }
+        public IB_Field HighSpeedNominalCapacity { get; }
             = new IB_BasicDataField("HighSpeedNominalCapacity", "HCapacity");
 
-        public IB_DataField LowSpeedNominalCapacity { get; }
+        public IB_Field LowSpeedNominalCapacity { get; }
             = new IB_BasicDataField("LowSpeedNominalCapacity", "LCapacity");
 
 

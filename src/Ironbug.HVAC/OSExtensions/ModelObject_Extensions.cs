@@ -37,7 +37,7 @@ namespace Ironbug.HVAC
         }
         
 
-        public static object GetDataFieldValue(this ModelObject component, string getterMethodName)
+        public static object GetFieldValue(this ModelObject component, string getterMethodName)
         {
             string methodName = getterMethodName;
 
@@ -47,13 +47,13 @@ namespace Ironbug.HVAC
             return invokeResult;
         }
         [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
-        public static object SetCustomAttribute(this ModelObject component, string setterMethodName, object AttributeValue)
+        public static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
         {
 
             string methodName = setterMethodName;
-            object[] parm = new object[] { AttributeValue };
+            object[] parm = new object[] { value };
             
-            var method = component.GetType().GetMethod(methodName, new[] { AttributeValue.GetType() });
+            var method = component.GetType().GetMethod(methodName, new[] { value.GetType() });
 
             //TODO: catch AccessViolationException
             object invokeResult = null;
@@ -91,7 +91,7 @@ namespace Ironbug.HVAC
             foreach (var item in dataField)
             {
                 var name = item.Key;
-                var invokeResult = component.SetCustomAttribute(name, item.Value);
+                var invokeResult = component.SetFieldValue(name, item.Value);
 
                 invokeResults.Add(name + " :: " + invokeResult);
             }

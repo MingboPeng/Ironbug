@@ -22,9 +22,9 @@ namespace Ironbug.Grasshopper.Component
 
         private bool IsProSetting { get; set; } = false;
 
-        private ICollection<IB_DataField> ProDataFieldList { get; set; }
+        private ICollection<IB_Field> ProDataFieldList { get; set; }
 
-        private IB_DataFieldSet DataFieldSet { get; set; }
+        private IB_FieldSet DataFieldSet { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
@@ -59,7 +59,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var settingDatas = new Dictionary<IB_DataField, object>();
+            var settingDatas = new Dictionary<IB_Field, object>();
             settingDatas = CollectSettingData();
             DA.SetData(0, settingDatas);
         }
@@ -106,7 +106,7 @@ namespace Ironbug.Grasshopper.Component
             if (reader.ItemExists("DataFieldSetType"))
             {
                 var typeName = reader.GetString("DataFieldSetType");
-                this.CurrentDataFieldType = typeof(IB_DataFieldSet).Assembly.GetType(typeName);
+                this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
                 this.DataFieldSet = GetDataFieldSet(CurrentDataFieldType);
 
             }
@@ -146,9 +146,9 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        private static IB_DataFieldSet GetDataFieldSet(Type type)
+        private static IB_FieldSet GetDataFieldSet(Type type)
         {
-            return Convert.ChangeType(Activator.CreateInstance(type, true), type) as IB_DataFieldSet;
+            return Convert.ChangeType(Activator.CreateInstance(type, true), type) as IB_FieldSet;
         }
 
         
@@ -211,14 +211,14 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        private Dictionary<IB_DataField, object> CollectSettingData()
+        private Dictionary<IB_Field, object> CollectSettingData()
         {
             if (CurrentDataFieldType ==null)
             {
                 return null;
             }
             var dataFieldSet = this.DataFieldSet;
-            var settingDatas = new Dictionary<IB_DataField,object>();
+            var settingDatas = new Dictionary<IB_Field,object>();
 
             var allInputParams = this.Params.Input;
             foreach (var item in allInputParams)
@@ -236,7 +236,7 @@ namespace Ironbug.Grasshopper.Component
                         
                         var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
                         
-                        if (dataField is IB_MasterDataField masterDataField)
+                        if (dataField is IB_MasterField masterDataField)
                         {
                             var userInputs = item.VolatileData.AllData(true).Select(_ => ((GH_String)_).Value);
                             var masterDic = masterDataField.CheckUserInputs(userInputs, dataFieldSet);
@@ -299,7 +299,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        private void AddProDataFields(IEnumerable<IB_DataField> DataFieldTobeAdded)
+        private void AddProDataFields(IEnumerable<IB_Field> DataFieldTobeAdded)
         {
             foreach (var item in DataFieldTobeAdded)
             {
@@ -319,7 +319,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        private void RemoveProDataFields(IEnumerable<IB_DataField> DataFieldTobeAdded)
+        private void RemoveProDataFields(IEnumerable<IB_Field> DataFieldTobeAdded)
         {
             var inputParams = this.Params.Input;
             int paramTobeRemovedCount = DataFieldTobeAdded.Count();

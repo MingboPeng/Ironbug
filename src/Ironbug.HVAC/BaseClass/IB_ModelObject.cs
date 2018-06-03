@@ -204,19 +204,19 @@ namespace Ironbug.HVAC.BaseClass
             this.SetTrackingID();
         }
 
-        public void SetAttribute(IB_DataField dataField, object value)
+        public void SetFieldValue(IB_Field field, object value)
         {
-            var AttributeName = dataField.SetterMethodName;
+            var mdName = field.SetterMethodName;
             var data = value;
             
-            this.CustomAttributes.TryAdd(AttributeName, data);
+            this.CustomAttributes.TryAdd(mdName, data);
 
             //dealing the ghost object
-            this.GhostOSObject.SetCustomAttribute(AttributeName, data);
+            this.GhostOSObject.SetFieldValue(mdName, data);
             
         }
 
-        public void SetAttributes(Dictionary<IB_DataField, object> DataFields)
+        public void SetFieldValues(Dictionary<IB_Field, object> DataFields)
         {
             if (DataFields==null)
             {
@@ -227,7 +227,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 try
                 {
-                    this.SetAttribute(item.Key, item.Value);
+                    this.SetFieldValue(item.Key, item.Value);
                 }
                 catch (Exception)
                 {
