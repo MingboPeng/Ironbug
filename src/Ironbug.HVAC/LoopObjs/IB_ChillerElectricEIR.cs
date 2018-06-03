@@ -4,7 +4,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_ShareableObj
+    public class IB_ChillerElectricEIR : IB_HVACObject, IIB_ShareableObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ChillerElectricEIR();
 

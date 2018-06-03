@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -9,6 +11,11 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_OutdoorAirSystem();
         private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
         private IB_Child IB_ControllerOutdoorAir => this.Children.GetChild<IB_ControllerOutdoorAir>();
+
+        //TODO: finish this later
+        private IList<IIB_AirLoopObject> OAStreamObjs = new List<IIB_AirLoopObject>();
+        private IList<IIB_AirLoopObject> ReliefStreamObjs = new List<IIB_AirLoopObject>();
+
         
         public IB_OutdoorAirSystem():base(InitMethod(new Model()))
         {
@@ -17,6 +24,10 @@ namespace Ironbug.HVAC
             
         }
         
+        public void SetHeatExchanger(IB_HeatExchangerAirToAirSensibleAndLatent heatExchanger)
+        {
+            this.OAStreamObjs.Add(heatExchanger);
+        }
 
         public void SetController(IB_ControllerOutdoorAir ControllerOutdoorAir)
         {
@@ -26,13 +37,23 @@ namespace Ironbug.HVAC
         public override bool AddToNode(Node node)
         {
             var model = node.model();
-            return ((AirLoopHVACOutdoorAirSystem)this.ToOS(model)).addToNode(node);
+            var oa = ((AirLoopHVACOutdoorAirSystem)this.ToOS(model));
+            oa.addToNode(node);
+            var oaNode = oa.outboardOANode().get();
+            var oaObjs = this.OAStreamObjs.Reverse();
+            foreach (var item in oaObjs)
+            {
+                ((HVACComponent)item.ToOS(model)).addToNode(oaNode);
+            };
+
+            return true;
         }
         
         protected override ModelObject InitOpsObj(Model model)
         {
-            var newObj = (AirLoopHVACOutdoorAirSystem)base.OnInitOpsObj(InitMethod, model);
+            var newObj = base.OnInitOpsObj(InitMethod, model).to_AirLoopHVACOutdoorAirSystem().get();
             newObj.setControllerOutdoorAir((ControllerOutdoorAir)this.IB_ControllerOutdoorAir.To<IB_ControllerOutdoorAir>().ToOS(model));
+
             return newObj;
         }
         

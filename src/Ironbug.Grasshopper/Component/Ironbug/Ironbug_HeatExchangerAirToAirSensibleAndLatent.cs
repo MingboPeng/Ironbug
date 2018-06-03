@@ -6,15 +6,13 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OutdoorAirSystem : GH_Component
+    public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_HVACComponentBase
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_OutdoorAirSystem class.
-        /// </summary>
-        public Ironbug_OutdoorAirSystem()
-          : base("Ironbug_OutdoorAirSystem", "OASystem",
+        public Ironbug_HeatExchangerAirToAirSensibleAndLatent()
+          : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExg_Air",
               "Description",
-              "Ironbug", "02:LoopComponents")
+              "Ironbug", "02:LoopComponents",
+              typeof(HVAC.IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet))
         {
         }
 
@@ -24,10 +22,6 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatRecovery", "HeatRecovery_", "HeatRecovery", GH_ParamAccess.item);
-            pManager[0].Optional = true;
-            pManager.AddGenericParameter("Controller", "Controller_", "Controller for OutdoorAirSystem", GH_ParamAccess.item);
-            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -35,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OutdoorAirSystem", "OASystem", "OutdoorAirSystem", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatExchangerAirToAirSensibleAndLatent", "HeatExg_Air", "to OutdoorAirSystem", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,22 +38,9 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_OutdoorAirSystem();
+            var obj = new HVAC.IB_HeatExchangerAirToAirSensibleAndLatent();
 
-            var hx = new HVAC.IB_HeatExchangerAirToAirSensibleAndLatent();
-            if (DA.GetData(0, ref hx))
-            {
-                obj.SetHeatExchanger(hx);
-            }
-
-            var controller = new HVAC.IB_ControllerOutdoorAir();
-            if (DA.GetData(1, ref controller))
-            {
-                obj.SetController(controller);
-            }
-
-            
-
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
 
@@ -71,8 +52,8 @@ namespace Ironbug.Grasshopper.Component
             get
             {
                 //You can add image files to your project resources and access them like this:
-                return Properties.Resources.OutdoorAir;
-                //return null;
+                //return Properties.Resources.OutdoorAir;
+                return null;
             }
         }
 
@@ -81,7 +62,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("648436b4-3ce6-4db2-a1a5-91d9a2999e9f"); }
+            get { return new Guid("7E61D04D-038A-4ED3-BA95-CC2AA6DC5AC2"); }
         }
     }
 }
