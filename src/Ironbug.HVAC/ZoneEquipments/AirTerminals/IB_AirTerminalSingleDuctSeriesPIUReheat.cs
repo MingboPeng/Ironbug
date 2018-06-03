@@ -25,13 +25,17 @@ namespace Ironbug.HVAC
             this.Children.Add(fan);
         }
 
-        public void SetReheatCoil(IB_CoilBasic ReheatCoil)
+        public void SetReheatCoil(IB_CoilBasic heatingCoil)
         {
-            this.ReheatCoil.Set(ReheatCoil);
+            this.ReheatCoil.Set(heatingCoil);
         }
-        public void SetFan(IB_Fan Fan)
+        public void SetFan(IB_Fan fan)
         {
-            this.Fan.Set(Fan);
+            if (!(fan is IB_FanConstantVolume))
+            {
+                throw new Exception("I think SeriesPIUReheat box only accepts the FanConstantVolume. Please let me know if I was wrong!");
+            }
+            this.Fan.Set(fan);
         }
         
 
