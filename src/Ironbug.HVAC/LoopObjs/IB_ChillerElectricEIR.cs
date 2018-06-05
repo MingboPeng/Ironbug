@@ -33,14 +33,14 @@ namespace Ironbug.HVAC
         private IB_ChillerElectricEIR_DataFieldSet() { }
 
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name");
+            = new IB_BasicField("Name", "Name");
         public IB_Field ReferenceCapacity { get; }
-            = new IB_BasicDataField("ReferenceCapacity", "Capacity");
+            = new IB_BasicField("ReferenceCapacity", "Capacity");
         
         public IB_Field ReferenceCOP { get; }
-            = new IB_BasicDataField("ReferenceCOP", "COP");
+            = new IB_BasicField("ReferenceCOP", "COP");
         
         public IB_Field ReferenceLeavingChilledWaterTemperature { get; }
-            = new IB_BasicDataField("ReferenceLeavingChilledWaterTemperature", "LeavingT");
+            = new IB_BasicField("ReferenceLeavingChilledWaterTemperature", "LeavingT");
     }
 }

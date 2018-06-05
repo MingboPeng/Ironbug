@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
+using System.Reflection;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -17,18 +18,18 @@ namespace Ironbug.HVAC.BaseClass
     }
     public abstract class IB_ModelObject : IIB_ModelObject
     {
+        public static bool IPUnit { get; set; } = true;
         public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
         public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
 
         public IB_PuppetableState CurrentState { get; private set; }
-        public Dictionary<string, object> CustomAttributes { get; private set; }
+        public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
         protected ModelObject GhostOSObject { get; private set; }
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
             this.CurrentState = new IB_PuppetableState_None(this);
-            this.CustomAttributes = new Dictionary<string, object>();
             this.GhostOSObject = GhostOSObject;
             this.SetTrackingID();
         }
@@ -185,11 +186,14 @@ namespace Ironbug.HVAC.BaseClass
 
         public string SetTrackingID()
         {
-            var attributeName = "setComment";
+            //var attributeName = "setComment";
+            var ib_field = IB_Field_Comment.Instance;
+            
             var data = CreateUID();
 
-            this.CustomAttributes.TryAdd(attributeName, data);
-            this.GhostOSObject.setComment(data);
+            this.SetFieldValue(ib_field, data);
+            //this.CustomAttributes.TryAdd(ib_field, data);
+            //this.GhostOSObject.setComment(data);
             return data;
 
         }
@@ -206,14 +210,40 @@ namespace Ironbug.HVAC.BaseClass
 
         public void SetFieldValue(IB_Field field, object value)
         {
-            var mdName = field.SetterMethodName;
-            var data = value;
-            
-            this.CustomAttributes.TryAdd(mdName, data);
+            var realValue = value;
+            //check types
+            if (value is IB_Curve c)
+            {
+                realValue = c.ToOS();
+            }
 
-            //dealing the ghost object
-            this.GhostOSObject.SetFieldValue(mdName, data);
+            this.CustomAttributes.TryAdd(field, realValue);
             
+            //apply the value to the ghost ops obj.
+            //remember this ghost is only for preview purpose
+            //meaning it will not be saved in real OpenStudio.Model, 
+            //but it should have all the same field values as the real one, except handles.
+            this.GhostOSObject.SetFieldValue(field, realValue);
+
+            
+            //var type = field.DataType;
+
+            //if (type == typeof(string) || type == typeof(int) || type == typeof(double) || type == typeof(bool))
+            //{
+            //    //execute directly 
+            //    //dealing the ghost object
+            //    this.GhostOSObject.SetFieldValue(field, value);
+            //}
+            //else if(type == typeof(Curve))
+            //{
+            //    //TODO: add supports of Schedule later
+            //    //dealing the ghost object
+            //    var c = ((Curve)value).clone(this.GhostOSObject.model()).to_Curve().get();
+
+            //    this.GhostOSObject.SetFieldValue(field, c);
+            //}
+
+
         }
 
         public void SetFieldValues(Dictionary<IB_Field, object> DataFields)
@@ -229,10 +259,10 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     this.SetFieldValue(item.Key, item.Value);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
-                    throw;
+                    throw e;
                 }
             }
             
@@ -266,16 +296,20 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realObj = InitAndSetAttributes();
             }
-            
+
+            return realObj;
+
+
             ModelObject InitAndSetAttributes()
             {
+                
                 var obj = InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
             
             
-            return realObj;
+            
         }
 
         
@@ -368,63 +402,28 @@ namespace Ironbug.HVAC.BaseClass
         {
             this.GhostOSObject.SetCustomAttributes(this.CustomAttributes);
         }
-
         
-
         public override string ToString()
         {
             ////var attributes = this.CustomAttributes.Select(_ => String.Format("{0}({1})", _.Key, _.Value));
-            var attributes = GetDataFields();
+            var attributes = this.GhostOSObject.GetUserFriendlyFieldInfo(IPUnit);
             var outputString = String.Join("\r\n", attributes);
             return outputString;
             //return this.GhostOSObject.__str__();
         }
 
-        public IEnumerable<string> GetDataFields()
-        {
-            var com = this.GhostOSObject;
-
-            var iddObject = com.iddObject();
-            var dataFields = new List<string>();
-            foreach (var item in com.dataFields())
-            {
-
-                var customStr = com.getString(item).get();
-                //var customDouble = com.getDouble(item).is_initialized()? com.getDouble(item).get(): -9999;
-
-                var field = iddObject.getField(item).get();
-                var dataname = field.name();
-
-                var unit = field.getUnits().isNull() ? string.Empty : field.getUnits().get().standardString();
-                var stringDefault = field.properties().stringDefault;
-                var defaultStr = stringDefault.isNull() ? string.Empty : stringDefault.get();
-                //strDefault has numDefault already
-                //var numDefault = field.getUnits().isNull() ? -9999 : field.properties().numericDefault.get();
-
-                var shownStr = string.IsNullOrWhiteSpace(customStr) ? defaultStr : customStr;
-                var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
-                var shownDefault = string.IsNullOrWhiteSpace(defaultStr) ? string.Empty : string.Format(" (Default: {0})", defaultStr);
-                var att = String.Format("{0,-20} !- {1} {2} {3}", shownStr, dataname, shownUnit, shownDefault);
-
-
-                dataFields.Add(att);
-            }
-
-            return dataFields;
-
-        }
+        
 
         private static string CreateUID()
         {
             var idKey = "TrackingID:#[";
-            var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 6);
+            var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 8);
             var trackingID = String.Format("{0}{1}{2}", idKey, uid, "]");
 
             return trackingID;
         }
 
-
-
+        
 
     }
 }

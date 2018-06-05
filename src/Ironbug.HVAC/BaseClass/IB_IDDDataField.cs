@@ -7,9 +7,8 @@ namespace Ironbug.HVAC.BaseClass
     public class IB_IddField : IB_Field
     {
         
-
-        public IB_IddField(IddField field)
-            : base(field.name(), "NoShortName")
+        public IB_IddField(IB_Field IBField, IddField field)
+            : base(IBField)
         {
             //var name = iddField.name();
             var prop = field.properties();
@@ -22,10 +21,11 @@ namespace Ironbug.HVAC.BaseClass
             description += validDataStr;
             
             this.Description = description;
-            base.SetAcceptiableDataType(GetDataTypeFromIDD(field));
+            //base.SetAcceptiableDataType(GetDataTypeFromIDD(field));
             base.SetValidData(validDataItems);
         }
 
+        
         private static string GetDefaultFromIDD(IddFieldProperties properties)
         {
             var numDef = properties.numericDefault;
@@ -47,40 +47,40 @@ namespace Ironbug.HVAC.BaseClass
             }
             
         }
-        private static Type GetDataTypeFromIDD(IddField field)
-        {
-            var dataType = field.properties().type.valueDescription();
+        //private static Type GetDataTypeFromIDD(IddField field)
+        //{
+        //    var dataType = field.properties().type.valueDescription();
 
 
-            //real, choice, alpha, integer ....
-            if (dataType == "real")
-            {
-                return typeof(double);
-            }
-            else if (dataType == "alpha")
-            {
-                return typeof(string);
-            }
-            else if (dataType == "integer")
-            {
-                return typeof(int);
-            }
-            else
-            {
-                return typeof(object);
-            }
+        //    //real, choice, alpha, integer ....
+        //    if (dataType == "real")
+        //    {
+        //        return typeof(double);
+        //    }
+        //    else if (dataType == "alpha")
+        //    {
+        //        return typeof(string);
+        //    }
+        //    else if (dataType == "integer")
+        //    {
+        //        return typeof(int);
+        //    }
+        //    else
+        //    {
+        //        return typeof(object);
+        //    }
             
-        }
+        //}
 
-        public IB_IddField UpdateFromOpenStudioMethod(string getterName, Type type)
-        {
-            this.GetterMethodName = getterName.ToLower()[0] + getterName.Substring(1);
-            this.SetterMethodName = "set" + getterName;
-            this.SetAcceptiableDataType(type);
+        //public IB_IddField UpdateFromOpenStudioMethod(string getterName, Type type)
+        //{
+        //    this.GetterMethodName = getterName.ToLower()[0] + getterName.Substring(1);
+        //    this.SetterMethodName = "set" + getterName;
+        //    this.SetAcceptiableDataType(type);
             
 
-            return this;
-        }
+        //    return this;
+        //}
 
         private static string GetUnitsFromIDD(IddField field)
         {
@@ -121,14 +121,6 @@ namespace Ironbug.HVAC.BaseClass
 
             return (items, "\r\nValid Options:" + strTobeShown);
 
-            //if (!string.IsNullOrWhiteSpace(strTobeShown))
-            //{
-            //    return "\r\nValid Options:" + strTobeShown;
-            //}
-            //else
-            //{
-            //    return string.Empty;
-            //}
             
         }
 

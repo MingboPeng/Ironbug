@@ -1,9 +1,7 @@
 ﻿using OpenStudio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Ironbug.HVAC
 {
@@ -46,19 +44,39 @@ namespace Ironbug.HVAC
 
             return invokeResult;
         }
-        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
-        public static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
+        
+        public static object SetFieldValue(this ModelObject component, BaseClass.IB_Field iB_Field, object value)
         {
-
-            string methodName = setterMethodName;
-            object[] parm = new object[] { value };
+            if (iB_Field.SetterMethod is null)
+            {
+                return SetFieldValue(component, $"set{iB_Field.FullName}" , value);
+            }
+            else
+            {
+                return InvokeMethod(component, iB_Field.SetterMethod, value);
+            }
             
-            var method = component.GetType().GetMethod(methodName, new[] { value.GetType() });
+        }
 
+        private static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
+        {
+            var methodInfo = component.GetType().GetMethod(setterMethodName, new[] { value.GetType() });
+            return InvokeMethod(component, methodInfo, value);
+            
+        }
+
+
+
+        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
+        private static object InvokeMethod(ModelObject component, MethodInfo methodInfo, object value)
+        {
+            object[] parm = new object[] { };
+            var method = methodInfo;
             //TODO: catch AccessViolationException
             object invokeResult = null;
             try
             {
+                parm = new object[] { CheckBelonging(component, value) };
                 invokeResult = method.Invoke(component, parm);
             }
             catch (Exception e)
@@ -77,46 +95,100 @@ namespace Ironbug.HVAC
 
                     }
                 }
-                throw new Exception("Something went wrong! \r\n\r\n" + e.InnerException?? e.Message);
+                throw new Exception("Something went wrong! \r\n\r\n" + e.InnerException ?? e.Message);
                 //invokeResult = e.ToString();
             }
-            
 
             return invokeResult;
+
+            //belonging check
+            object CheckBelonging(ModelObject c, object v)
+            {
+                object obj = v;
+                if (v.GetType() == typeof(Curve))
+                {
+                    //TODO: add supports of Schedule later
+                    //dealing the ghost object
+
+                    obj = ((Curve)value).clone(c.model()).to_Curve().get();
+                    
+                }
+
+                return obj;
+            }
         }
 
-        public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<string, object> dataField)
+        public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<BaseClass.IB_Field, object> dataField)
         {
             var invokeResults = new List<string>();
             foreach (var item in dataField)
             {
-                var name = item.Key;
-                var invokeResult = component.SetFieldValue(name, item.Value);
+                var field = item.Key;
 
-                invokeResults.Add(name + " :: " + invokeResult);
+                var invokeResult = component.SetFieldValue(field, item.Value);
+
+                invokeResults.Add(field.FullName + " :: " + invokeResult);
             }
 
             return invokeResults;
         }
 
-        //public static string CheckName(this ModelObject component)
-        //{
-        //    var name = component.nameString();
-        //    return component.CheckName(name);
-        //}
-        //public static string CheckName(this ModelObject component, string NewName)
-        //{
-        //    var name = CheckString(NewName);
+        public static IEnumerable<string> GetUserFriendlyFieldInfo(this ModelObject component, bool ifIPUnits = false)
+        {
+            var com = component.clone();
+            IddObject iddObject = com.iddObject();
+            
+            var valueWithInfo = new List<string>();
+            var fieldCount = com.numFields();
 
-        //    if (name != NewName)
-        //    {
+            for (int i = 0; i < fieldCount; i++)
+            {
+                var ifIPUnit = ifIPUnits;
+
+                uint index = (uint)i;
+                var field = iddObject.getField(index).get();
                 
-        //        component.setName(name);
-        //    }
+                if (!field.IsWorkableField()) continue;
+
+                OSOptionalQuantity oQuantity = null;
+                if (field.IsRealType() && ifIPUnit)
+                {
+                    //try to convert the unit and value
+                    oQuantity = com.getQuantity(index, true, ifIPUnit);
+                    //true means it is unit-convertible
+                    ifIPUnit = oQuantity.isSet();
+                }
+                else
+                {
+                    //set to false for all other non-real type value
+                    ifIPUnit = false;
+                }
+
+                var customStr = ifIPUnit? oQuantity.get().value().ToString(): com.getString(index).get();
+
+                var dataname = field.name();
+
+                var optionalUnit = field.getUnits(ifIPUnit);
+                var unit = optionalUnit.isNull() ? string.Empty : optionalUnit.get().standardString();
+                var stringDefault = field.properties().stringDefault;
+                var defaultStr = stringDefault.isNull() ? string.Empty : stringDefault.get();
+                //strDefault has numDefault already
+                //var numDefault = field.getUnits().isNull() ? -9999 : field.properties().numericDefault.get();
+
+                var shownStr = string.IsNullOrWhiteSpace(customStr) ? defaultStr : customStr;
+                var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
+                var shownDefault = string.IsNullOrWhiteSpace(defaultStr) ? string.Empty : string.Format(" (Default: {0})", defaultStr);
+
+                var att = String.Format("{0,-23} !- {1}{2}{3}", shownStr, dataname, shownUnit, shownDefault);
+
+                valueWithInfo.Add(att);
+
+            }
 
 
-        //    return name;
-        //}
-        
+            return valueWithInfo;
+
+        }
+
     }
 }

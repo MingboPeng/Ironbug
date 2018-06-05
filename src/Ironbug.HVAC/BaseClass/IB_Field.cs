@@ -1,7 +1,9 @@
-﻿using System;
+﻿using OpenStudio;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
@@ -11,11 +13,12 @@ namespace Ironbug.HVAC.BaseClass
         public string FULLNAME => FullName.ToUpper();
         public string FullName { get; private set; }
         public string PerfectName { get; private set; }
-        public string ShortName { get; set; }
+        public string NickName { get; set; }
         public string GetterMethodName { get; protected set; }
-        public string SetterMethodName { get; protected set; } 
-        public Type DataType { get; private set; }
-        public bool IsHidden { get; set; }
+        //public string SetterMethodName { get; protected set; }
+        public MethodInfo SetterMethod { get; protected set; } = null;
+        public Type DataType { get; private set; } = typeof(string);
+        //public bool IsHidden { get; set; }
 
         public IEnumerable<string> ValidData { get; private set; } = new List<string>();
 
@@ -26,34 +29,119 @@ namespace Ironbug.HVAC.BaseClass
         public string DetailedDescription { get; set; }
 
         //public string Unit { get; set; }
+        
 
-        //public IB_DataField(string FullName, string ShortName, Type DataType)
-        //    : this(FullName, ShortName, DataType, new List<object>())
-        //{
-        //}
-
-        public IB_Field(string FullName, string ShortName)
+        internal IB_Field(MethodInfo opsSetterMethod)
+            : this(opsSetterMethod.Name.Substring(3), string.Empty)
         {
-            
-            this.FullName = CheckInputFullName(FullName);//RatedInletWaterTemperature
-            this.ShortName = ShortName; //InWaterTemp
-            
-            this.PerfectName = MakePerfectName(this.FullName); ////Rated Inlet Water Temperature
+            //TODO: check Curve type
+            this.DataType = opsSetterMethod.GetParameters().First().ParameterType;
+            this.SetterMethod = opsSetterMethod;
 
-            //this.GetterMethodName = Char.ToLowerInvariant(this.FullName[0]) + this.FullName.Substring(1); //ratedInletWaterTemperature
-            this.SetterMethodName = "set" + this.FullName;
-
-            //this.Type = com.GetType().GetMethod(methodName).ReturnType;
-            //this.DataType = DataType;
-            //this.IsBasicSetting = BasicSetting;
-            //this.ValidData = ValidData;
         }
 
-        //protected IB_DataField SetDescription(string Description)
-        //{
-        //    this.Description = Description;
-        //    return this;
-        //}
+        protected IB_Field(IB_Field otherField)
+            : this(otherField.FullName, otherField.NickName)
+        {
+
+            this.DataType = otherField.DataType;
+            this.SetterMethod = otherField.SetterMethod;
+            this.Description = otherField.Description;
+            
+        }
+
+        public IB_Field UpdateFromIddField(IddField field)
+        {
+            var prop = field.properties();
+            (var validDataItems, var validDataStr) = GetValidData(field);
+
+
+            var description = prop.note;
+            description += GetDefaultFromIDD(prop);
+            description += GetUnitsFromIDD(field);
+            description += validDataStr;
+
+            this.Description = description;
+
+            this.SetValidData(validDataItems);
+
+            return this;
+
+            (IEnumerable<string> Items, string JoinedString) GetValidData(IddField f)
+            {
+                var strTobeShown = string.Empty;
+                var items = new List<string>();
+                var keys = f.keys();
+                if (keys.Count == 0)
+                {
+                    return (items, strTobeShown);
+                }
+
+                foreach (var item in keys)
+                {
+                    //TODO: check letter cases, or item.__str__
+                    var keyValue = item.name();
+                    strTobeShown += "\r\n    -" + keyValue;
+                    items.Add(keyValue);
+
+                }
+
+                return (items, "\r\nValid Options:" + strTobeShown);
+
+
+            }
+
+            string GetDefaultFromIDD(IddFieldProperties properties)
+            {
+                var numDef = properties.numericDefault;
+                var strDef = properties.stringDefault;
+
+
+                var strTobeShown =
+                    strDef.isNull() ?
+                    numDef.isNull() ? string.Empty : numDef.get().ToString() :
+                    strDef.get();
+
+                if (!string.IsNullOrWhiteSpace(strTobeShown))
+                {
+                    return "\r\nDefault: " + strTobeShown;
+                }
+                else
+                {
+                    return string.Empty;
+                }
+
+            }
+
+            string GetUnitsFromIDD(IddField f)
+            {
+                var unit = f.getUnits();
+
+                var strTobeShown = unit.isNull() ? string.Empty : unit.get().standardString();
+                var prettyStr = unit.isNull() ? string.Empty : unit.get().prettyString();
+
+
+                if (!string.IsNullOrWhiteSpace(prettyStr))
+                {
+                    return "\r\nUnit: " + prettyStr;
+                }
+                else
+                {
+                    return strTobeShown;
+                }
+            }
+        }
+
+
+        public IB_Field(string fullName, string nickName)
+        {
+            
+            this.FullName = CheckInputFullName(fullName);//RatedInletWaterTemperature
+            this.NickName = string.IsNullOrEmpty(nickName) ? FullName : nickName; //InWaterTemp
+            this.PerfectName = MakePerfectName(this.FullName); ////Rated Inlet Water Temperature
+            
+        }
+        
         private static string CheckInputFullName(string fullName)
         {
             var spacedName = MakePerfectName(fullName);
@@ -63,11 +151,11 @@ namespace Ironbug.HVAC.BaseClass
             return cleanFullName;
         }
 
-        protected IB_Field SetAcceptiableDataType(Type DataType)
-        {
-            this.DataType = DataType;
-            return this;
-        }
+        //protected IB_Field SetAcceptiableDataType(Type DataType)
+        //{
+        //    this.DataType = DataType;
+        //    return this;
+        //}
 
         protected IB_Field SetValidData(IEnumerable<string> ValidData)
         {
@@ -100,41 +188,52 @@ namespace Ironbug.HVAC.BaseClass
         {
             return this.PerfectName;
         }
+
+
     }
 
     /// <summary>
     /// This class is for date field that is going to be hidden on genetic obj parameter setting,
-    /// and mandatory for setting the hvac object up at the first place.
+    /// and optional for setting the hvac object up at the first place.
     /// 
     /// </summary>
-    public class IB_MandatoryDataField : IB_Field
+    public class IB_TopField : IB_Field
     {
-
-        public IB_MandatoryDataField(string FullName, string ShortName)
+        public IB_TopField(string FullName, string ShortName)
             : base(FullName, ShortName)
         {
 
         }
     }
 
-    public class IB_BasicDataField : IB_Field
+    public class IB_BasicField : IB_Field
     {
         
-        public IB_BasicDataField(string FullName, string ShortName) 
+        public IB_BasicField(string FullName, string ShortName) 
             :base(FullName, ShortName)
         {
             
         }
     }
 
-    public class IB_ProDataField : IB_Field
+    public class IB_ProField : IB_Field
     {
-        public IB_ProDataField(string FullName, string ShortName)
+        public IB_ProField(string FullName, string ShortName)
             : base(FullName, ShortName)
         {
 
         }
     }
+    public sealed class IB_Field_Comment
+    {
+        private static readonly Lazy<IB_Field> lazy =
+            new Lazy<IB_Field>(() => new IB_Field("Comment", "Comment"));
 
+        public static IB_Field Instance { get { return lazy.Value; } }
+
+        private IB_Field_Comment()
+        {
+        }
+    }
 
 }

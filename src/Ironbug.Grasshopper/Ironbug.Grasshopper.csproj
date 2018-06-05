@@ -130,6 +130,7 @@
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveBicubic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingPlant.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />

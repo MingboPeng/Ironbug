@@ -64,6 +64,8 @@
   <ItemGroup>
     <Compile Include="BaseClass\IB_CoilBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
+    <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
+    <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveCubic.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
+    <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboardRadiant.cs" />

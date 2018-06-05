@@ -55,7 +55,7 @@ namespace Ironbug.HVAC
     {
         private IB_ZoneHVACFourPipeFanCoil_DataFieldSet() {}
         public IB_Field CapacityControlMethod { get; }
-            = new IB_BasicDataField("CapacityControlMethod", "CapacityCtrl");
+            = new IB_BasicField("CapacityControlMethod", "CapacityCtrl");
         
     }
 }

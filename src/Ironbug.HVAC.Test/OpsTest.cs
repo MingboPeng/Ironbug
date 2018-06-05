@@ -30,23 +30,51 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(success);
 
         }
-
         [TestMethod]
         public void OS_Fields_Test()
         {
 
-            var f = new OS_HeatExchanger_AirToAir_SensibleAndLatentFields();
-            var fValues = OS_HeatExchanger_AirToAir_SensibleAndLatentFields.getValues().asVector();
-            var v = f.value();
+            //var f = new OS_HeatExchanger_AirToAir_SensibleAndLatentFields(1);
+            //var v = f.valueName();
+            //var fValues = OS_HeatExchanger_AirToAir_SensibleAndLatentFields.getValues().asVector();
+            //var fieldNames = fValues.Select(_ => new OS_HeatExchanger_AirToAir_SensibleAndLatentFields(_).valueName());
 
+            //var objs = new OpenStudio.IddFileAndFactoryWrapper().objects().Select(_=>_.name());
+            var hxIDD = new IddFileAndFactoryWrapper().getObject("OS:Boiler:HotWater").get();
+
+            var fields = hxIDD.nonextensibleFields()
+                .Where(_ =>
+                {
+                    var dataType = _.properties().type.valueDescription();
+                    var result = dataType.ToLower() != "object-list" ? true: !_.name().ToLower().Contains("node");
+                    result &= dataType.ToLower() != "node";
+                    result &= dataType.ToLower() != "handle";
+
+                    return result;
+                })
+            .Select(_ => $"N:{_.name()} - T:{_.properties().type.valueName()}");
+            //new OpenStudio.IddFieldType().
+            //new OpenStudio.IddObjectTypeSet().asVector().
+            ////var a = 1;
+            
+        }
+
+
+        [TestMethod]
+        public void EP_Fields_Test()
+        {
+            
             var f2 = new HeatExchanger_AirToAir_SensibleAndLatentFields();
             var v2 = f2.value();
             var obj = new HeatExchangerAirToAirSensibleAndLatent(new Model());
-            var objList = obj.iddObject().objectLists().asVector();
-            var objmemo = obj.iddObject().properties().memo;
+            
+            var iddObj = obj.iddObject();
+            var objList = iddObj.objectLists().asVector();
+            var objmemo = iddObj.properties().memo;
             var values = HeatExchanger_AirToAir_SensibleAndLatentFields.getValues().asVector();
             var aa = new HeatExchanger_AirToAir_SensibleAndLatentFields().valueName();
-            
+
+            var names = OpenStudio.OpenStudioUtilitiesIdd.getIddKeyNames(iddObj, 1);
             var a = new baseUnitConversionFactor(); 
             
         }

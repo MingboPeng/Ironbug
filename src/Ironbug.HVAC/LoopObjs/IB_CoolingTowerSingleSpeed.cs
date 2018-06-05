@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
         private IB_CoolingTowerSingleSpeed_DataFields() { }
 
         public IB_Field NominalCapacity { get; }
-            = new IB_BasicDataField("NominalCapacity", "Capacity");
+            = new IB_BasicField("NominalCapacity", "Capacity");
 
 
     }

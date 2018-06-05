@@ -8,5 +8,10 @@ namespace Ironbug.HVAC.BaseClass
         public IB_Curve(ModelObject ghostOSObject) : base(ghostOSObject)
         {
         }
+
+        public Curve ToOS()
+        {
+            return this.InitOpsObj(new Model()).to_Curve().get();
+        }
     }
 }

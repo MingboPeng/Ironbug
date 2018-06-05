@@ -63,7 +63,7 @@ namespace Ironbug.HVAC.BaseClass
             //if yes, then return it
             //if no, then create a new one
             
-            var optionalNames = this.CustomAttributes.Where(_ => _.Key == "setName");
+            var optionalNames = this.CustomAttributes.Where(_ => _.Key.FULLNAME == "NAME");
             var optionalZone = new OptionalThermalZone();
 
             if (optionalNames.Any())
@@ -144,14 +144,14 @@ namespace Ironbug.HVAC.BaseClass
         private IB_ThermalZone_DataFieldSet() {}
 
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name")
+            = new IB_BasicField("Name", "Name")
             {
                 DetailedDescription = "A unique identifying name for each coil."
             };
 
 
         public IB_Field Multiplier { get; }
-            = new IB_BasicDataField("Multiplier", "Multiplier")
+            = new IB_BasicField("Multiplier", "Multiplier")
             {
                 DetailedDescription = "Zone Multiplier is designed as a “multiplier” for floor area, zone loads, and energy consumed by internal gains. "+
                 "It takes the calculated load for the zone and multiplies it, sending the multiplied load to the attached HVAC system. "+
@@ -161,11 +161,11 @@ namespace Ironbug.HVAC.BaseClass
             };
 
         public IB_Field ZoneInsideConvectionAlgorithm { get; }
-            = new IB_BasicDataField("ZoneInsideConvectionAlgorithm", "InConvection");
+            = new IB_BasicField("ZoneInsideConvectionAlgorithm", "InConvection");
 
 
         public IB_Field ZoneOutsideConvectionAlgorithm { get; }
-            = new IB_BasicDataField("ZoneOutsideConvectionAlgorithm", "OutConvection");
+            = new IB_BasicField("ZoneOutsideConvectionAlgorithm", "OutConvection");
         
 
 

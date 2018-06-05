@@ -34,9 +34,9 @@ namespace Ironbug.HVAC
         private IB_DistrictHeating_DataFieldSet() { }
         
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name");
+            = new IB_BasicField("Name", "Name");
         public IB_Field NominalCapacity { get; }
-            = new IB_BasicDataField("NominalCapacity", "Capacity");
+            = new IB_BasicField("NominalCapacity", "Capacity");
 
     }
 }

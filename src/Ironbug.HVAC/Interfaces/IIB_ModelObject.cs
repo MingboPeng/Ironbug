@@ -8,11 +8,11 @@ namespace Ironbug.HVAC
     {
         IB_PuppetableState CurrentState { get; }
         void ChangeState(IB_PuppetableState newState);
-        Dictionary<string, object> CustomAttributes { get; }
+        Dictionary<IB_Field, object> CustomAttributes { get; }
 
         IB_ModelObject Duplicate();
         IB_ModelObject DuplicateAsPuppet();
-        IEnumerable<string> GetDataFields();
+        //IEnumerable<string> GetDataFields();
         string GetTrackingID();
         bool IsInModel(Model model);
         void SetFieldValue(IB_Field dataField, object value);

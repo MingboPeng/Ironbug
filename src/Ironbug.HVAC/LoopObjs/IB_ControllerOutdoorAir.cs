@@ -37,17 +37,17 @@ namespace Ironbug.HVAC
         private IB_ControllerOutdoorAir_DataFieldSet() {}
         
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name");
+            = new IB_BasicField("Name", "Name");
 
         public IB_Field MinimumOutdoorAirFlowRate { get; }
-            = new IB_BasicDataField("MinimumOutdoorAirFlowRate", "MinOAFlowRate");
+            = new IB_BasicField("MinimumOutdoorAirFlowRate", "MinOAFlowRate");
 
         public IB_Field EconomizerControlType { get; }
-            = new IB_BasicDataField("EconomizerControlType", "Economizer");
+            = new IB_BasicField("EconomizerControlType", "Economizer");
 
 
         public IB_Field HighHumidityControl { get; }
-            = new IB_ProDataField("HighHumidityControl", "HiHumidityCtrl");
+            = new IB_ProField("HighHumidityControl", "HiHumidityCtrl");
 
         
         

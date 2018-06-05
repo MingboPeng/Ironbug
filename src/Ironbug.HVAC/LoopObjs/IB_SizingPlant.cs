@@ -43,13 +43,13 @@ namespace Ironbug.HVAC
         private IB_SizingPlant_DataFieldSet() { }
         
         public IB_Field LoopType { get; }
-            = new IB_BasicDataField("LoopType", "type");
+            = new IB_BasicField("LoopType", "type");
 
         public IB_Field DesignLoopExitTemperature { get; }
-            = new IB_BasicDataField("DesignLoopExitTemperature", "exitT");
+            = new IB_BasicField("DesignLoopExitTemperature", "exitT");
 
         public IB_Field LoopDesignTemperatureDifference { get; }
-            = new IB_BasicDataField("LoopDesignTemperatureDifference", "deltaT");
+            = new IB_BasicField("LoopDesignTemperatureDifference", "deltaT");
 
 
     }

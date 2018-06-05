@@ -35,16 +35,16 @@ namespace Ironbug.HVAC
         private IB_FanConstantVolume_DataFields() {}
 
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name");
+            = new IB_BasicField("Name", "Name");
 
         public IB_Field FanEfficiency { get; }
-            = new IB_BasicDataField("FanEfficiency", "Efficiency");
+            = new IB_BasicField("FanEfficiency", "Efficiency");
 
         public IB_Field PressureRise { get; }
-            = new IB_ProDataField("PressureRise", "PressureRise");
+            = new IB_ProField("PressureRise", "PressureRise");
 
         public IB_Field MotorEfficiency { get; }
-            = new IB_ProDataField("MotorEfficiency", "MotorEfficiency");
+            = new IB_ProField("MotorEfficiency", "MotorEfficiency");
 
         
     }

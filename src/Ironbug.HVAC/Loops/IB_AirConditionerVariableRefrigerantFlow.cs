@@ -64,10 +64,10 @@ namespace Ironbug.HVAC
         private IB_AirConditionerVariableRefrigerantFlow_DataFieldSet() { }
         
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name");
+            = new IB_BasicField("Name", "Name");
         public IB_Field RatedCoolingCOP { get; }
-            = new IB_BasicDataField("RatedCoolingCOP", "CoCOP");
+            = new IB_BasicField("RatedCoolingCOP", "CoCOP");
         public IB_Field RatedHeatingCOP { get; }
-            = new IB_BasicDataField("RatedHeatingCOP", "HeCOP");
+            = new IB_BasicField("RatedHeatingCOP", "HeCOP");
     }
 }

@@ -8,49 +8,18 @@ using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    /// <summary>
-    /// Handle the IB_DataFieldSet's children's singleton 
-    /// </summary>
-    /// <typeparam name="T">T is derived class</typeparam>
-    /// <typeparam name="K">K is ParentType from OpenStudio</typeparam>
-    public abstract class IB_FieldSet<T, K> : IB_FieldSet
-        where T : IB_FieldSet<T, K>
-        where K : ModelObject
-    {
-        /// <summary>
-        /// Static instance. Needs to use lambda expression
-        /// to construct an instance (since constructor is private).
-        /// https://www.codeproject.com/Articles/572263/A-Reusable-Base-Class-for-the-Singleton-Pattern-in
-        /// https://stackoverflow.com/questions/16745629/how-to-abstract-a-singleton-class
-        /// </summary>
-        private static readonly Lazy<T> instance = new Lazy<T>(() => Activator.CreateInstance(typeof(T), true) as T);
-
-
-        /// <summary>
-        /// Value contains a single instance.
-        /// </summary>
-        public static T Value { get { return instance.Value; } }
-
-        internal override Type ParentType => typeof(K);
-
-        protected IB_FieldSet():base()
-        {
-
-        }
-    }
-
+    
     public abstract class IB_FieldSet: ICollection<IB_Field>
     {
 
-        private ICollection<IB_Field> _items = new List<IB_Field>();
+        private ICollection<IB_Field> _items { get; set; } = new List<IB_Field>();
 
 
         //IDD object for later unit converting, etc
-        private IddObject RefIddObject { get; }
+        //private IddObject RefIddObject { get; }
 
         //parent type for getting all "set" methods 
-        internal abstract Type ParentType { get; }
-
+        internal abstract Type RefOpsType { get; }
         
         public IB_MasterField TheMasterDataField { get; }
 
@@ -58,50 +27,21 @@ namespace Ironbug.HVAC.BaseClass
         protected IB_FieldSet()
         {
             //Assign reference IddObject from OpenStudio
-            this.RefIddObject = GetIddObject(this.ParentType);
+            //this.RefIddObject = IB_OpsTypeOperator.GetIddObject(this.RefOpsType);
+            var iddFields = IB_OpsTypeOperator.GetIddObject(this.RefOpsType).GetIddFields();
 
-            //Get IddDataFields and map OpenStudio field properties.
-            //var fields = GetIddDataFields(this.RefIddObject).MapOpsSettings(this.ParentType);
-            //_items = fields.MapOpsSettings(this.ParentType)
-            //  MapCustomizedDataFieldsSettings()
-            //    .ToList();
-
-            this._items =
-                GetIddDataFields(this.RefIddObject)
-                .MapOpsSettings(this.ParentType)
-                .MapCustomizedDataFieldsSettings(this)
+            this._items = IB_OpsTypeOperator.GetOSSetters(this.RefOpsType)
+                .Select(_ => new IB_Field(_)) // convert to IB_Field
+                .UpdateFromIddFields(iddFields)
+                .UpdateFromSelfPreperties(this)
                 .ToList();
-
             
             this.TheMasterDataField = GetTheMasterDataField(this);
             this._items.Add(TheMasterDataField);
-
-        }
-
-        private static IddObject GetIddObject(Type parentType)
-        {
-            var iddType = parentType.GetMethod("iddObjectType", BindingFlags.Public | BindingFlags.Static).Invoke(null, null) as IddObjectType;
-            return new IdfObject(iddType).iddObject();
-        }
-
-        private static IEnumerable<IB_IddField> GetIddDataFields(IddObject iddObject)
-        {
-            var fromList = iddObject.nonextensibleFields();
-            //var toList = new List<IB_IDDDataField>();
-
-            return
-                fromList
-                .Where(_ =>
-                {
-                    var dataType = _.properties().type.valueDescription();
-                    var result = dataType != "object-list";
-                    result &= dataType != "node";
-                    result &= dataType != "handle";
-                    return result;
-                })
-                .Select(_ => new IB_IddField(_));//Construct IddDataField as default first. 
             
         }
+        
+
         /// <summary>
         /// Call this method to get all fields that inside of this fieldset.
         /// </summary>
@@ -225,72 +165,49 @@ namespace Ironbug.HVAC.BaseClass
         }
 
 
-        public static IEnumerable<IB_IddField> MapOpsSettings(this IEnumerable<IB_IddField> dataFieldSet, Type OSType)
+        public static IEnumerable<IB_Field> UpdateFromIddFields(this IEnumerable<IB_Field> iB_fields, IEnumerable<IddField> iddFields)
         {
-            
 
-            var opsSettingMethods = OSType
-            .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Where(_ =>
-                {
-                    //get all setting methods
-                    if (!_.Name.StartsWith("set")) return false;
-                    if (_.GetParameters().Count() != 1) return false;
+            var dfSet = iB_fields.ToList();
 
-                    var paramType = _.GetParameters().First().ParameterType;
-                    var isValidType =
-                    paramType == typeof(string) ||
-                    paramType == typeof(double) ||
-                    paramType == typeof(bool) ||
-                    paramType == typeof(int);
+            dfSet.Add(new IB_Field("Name", "Name"));
+            //dfSet.Add(new IB_Field("Comment", "Comment"));
 
-                    if (!isValidType) return false;
-
-                    return true;
-
-                }
-                );
-
-            var dfSet = dataFieldSet.ToList();
-            foreach (var _ in opsSettingMethods)
+            foreach (var item in dfSet)
             {
-                //assign OpenStudio acceptable parameter type to matched data field.
-                var name = _.Name.Substring(3);
-                var type = _.GetParameters().First().ParameterType;
-                
-                var found = dfSet.FirstOrDefault(item => item.FULLNAME == name.ToUpper());
-               
+                var found = iddFields.FirstOrDefault(_ => CleanFULLNAME(_.name()) == item.FULLNAME);
+
                 if (found is null) continue;
-                found.UpdateFromOpenStudioMethod(name, type);
-                //TODO: add setter method delegate as well.
+                item.UpdateFromIddField(found);
             }
-            
 
             return dfSet;
 
         }
 
+        
+
         /// <summary>
         /// Map properties of the ProDataField or BasicDataField that defined in derived class, to DataFieldSet's IB_DataField collection.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<IB_Field> MapCustomizedDataFieldsSettings(this IEnumerable<IB_IddField> dataFieldSet, IB_FieldSet derivedDataFieldSet)
+        public static IEnumerable<IB_Field> UpdateFromSelfPreperties(this IEnumerable<IB_Field> ib_dataFields, IB_FieldSet derivedDataFieldSet)
         {
-            var dfSet = dataFieldSet;
+            
             derivedDataFieldSet.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                 .Select(_ => (IB_Field)_.GetValue(derivedDataFieldSet, null))
                 .ToList().ForEach(_ =>
                 {
-                    //all customized DataFields will be tested before release, so there is no need to test it here for inclusion.
-                    var dataField = dfSet.GetByName(_.FULLNAME);
-
-
-                    dataField.ShortName = _.ShortName;
+                    //all customized DataFields will be tested before release, 
+                    //so there is no need to test it here for inclusion.
+                    var dataField = ib_dataFields.GetByName(_.FULLNAME);
+                    
+                    dataField.NickName = _.NickName;
                     dataField.DetailedDescription = _.DetailedDescription;
 
                 });
 
-            return dfSet;
+            return ib_dataFields;
 
         }
 

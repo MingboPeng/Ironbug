@@ -20,11 +20,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             return ((BoilerHotWater)this.ToOS(model)).addToNode(node);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(IB_InitSelf);
-        //}
+        
 
         protected override ModelObject InitOpsObj(Model model)
         {
@@ -39,21 +35,23 @@ namespace Ironbug.HVAC
         private IB_BoilerHotWater_DataFields() { }
 
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name") {
+            = new IB_BasicField("Name", "Name") {
             };
 
         public IB_Field FuelType { get; }
-            = new IB_BasicDataField("FuelType", "Fuel");
+            = new IB_BasicField("FuelType", "Fuel");
 
         public IB_Field DesignWaterOutletTemperature { get; }
-            = new IB_ProDataField("DesignWaterOutletTemperature", "OutWaterT");
+            = new IB_ProField("DesignWaterOutletTemperature", "OutWaterT");
 
         public IB_Field NominalCapacity { get; }
-            = new IB_ProDataField("NominalCapacity", "Capacity");
+            = new IB_ProField("NominalCapacity", "Capacity");
 
         public IB_Field NominalThermalEfficiency { get; }
-            = new IB_ProDataField("NominalThermalEfficiency", "Efficiency");
+            = new IB_ProField("NominalThermalEfficiency", "Efficiency");
 
-       
+        public IB_Field NormalizedBoilerEfficiencyCurve { get; }
+           = new IB_ProField("NormalizedBoilerEfficiencyCurve", "EffCurve");
+        
     }
 }

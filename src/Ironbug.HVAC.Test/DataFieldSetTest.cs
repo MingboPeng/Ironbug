@@ -57,73 +57,73 @@ namespace Ironbug.HVACTests
         }
         
 
-        [TestMethod]
-        public void MapOpsSettings_Test()
-        {
-            var model = new OpenStudio.Model();
-            var pump = new OpenStudio.PumpVariableSpeed(model);
-            var field = pump.iddObject().getField("Coefficient 1 of the Part Load Performance Curve").get();
+        //[TestMethod]
+        //public void MapOpsSettings_Test()
+        //{
+        //    var model = new OpenStudio.Model();
+        //    var pump = new OpenStudio.PumpVariableSpeed(model);
+        //    var field = pump.iddObject().getField("Coefficient 1 of the Part Load Performance Curve").get();
 
 
-            var idds = new List<IB_IddField>()
-            {
-                new IB_IddField(field)
-            };
+        //    var idds = new List<IB_IddField>()
+        //    {
+        //        new IB_IddField(field)
+        //    };
 
 
-            var newidds = idds.MapOpsSettings(typeof(OpenStudio.PumpVariableSpeed));
+        //    var newidds = idds.UpdateFromIddFields(typeof(OpenStudio.PumpVariableSpeed));
 
-            var success = newidds.First().SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
+        //    var success = newidds.First().SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
 
-            Assert.IsTrue(success);
+        //    Assert.IsTrue(success);
 
-        }
+        //}
 
-        [TestMethod]
-        public void UpdateFromOpenStudioMethod_Test()
-        {
+        //[TestMethod]
+        //public void UpdateFromOpenStudioMethod_Test()
+        //{
 
-            var instance = IB_PumpVariableSpeed_DataFields.Value;
-            var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddField;
-            field.UpdateFromOpenStudioMethod("Coefficient1ofthePartLoadPerformanceCurve", typeof(double));
-            var success = field.SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
+        //    var instance = IB_PumpVariableSpeed_DataFields.Value;
+        //    var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddField;
+        //    field.UpdateFromOpenStudioMethod("Coefficient1ofthePartLoadPerformanceCurve", typeof(double));
+        //    var success = field.SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
             
-            Assert.IsTrue(success);
+        //    Assert.IsTrue(success);
 
-        }
+        //}
 
-        [TestMethod]
-        public void MapOpsSettings3_Test()
-        {
+        //[TestMethod]
+        //public void MapOpsSettings3_Test()
+        //{
             
-            var instance = IB_PumpVariableSpeed_DataFields.Value;
-            //var instance = IB_FanVariableVolume_DataFields.Value;
-            //check each customized data field if can be found in IddObject,
-            //mainly for checking the name's spelling or formatting.
-            //and check the customized data field fullname if matches OpenStudion setter's name.
-            var log = new List<string>();
-            var props = instance.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+        //    var instance = IB_PumpVariableSpeed_DataFields.Value;
+        //    //var instance = IB_FanVariableVolume_DataFields.Value;
+        //    //check each customized data field if can be found in IddObject,
+        //    //mainly for checking the name's spelling or formatting.
+        //    //and check the customized data field fullname if matches OpenStudion setter's name.
+        //    var log = new List<string>();
+        //    var props = instance.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
-            props.ToList()
-                .ForEach(_ =>
-                {
-                    var curPropName = _.Name;
-                    var found = instance.FirstOrDefault(item => (item.FULLNAME == curPropName.ToUpper()));
-                    if (found is null)
-                    {
-                        log.Add(curPropName + "\r\n\tcannot be found in :\r\n\t\t" + instance.GetType());
-                    }
-                    else if (curPropName != found.SetterMethodName?.Substring(3))
-                    {
+        //    props.ToList()
+        //        .ForEach(_ =>
+        //        {
+        //            var curPropName = _.Name;
+        //            var found = instance.FirstOrDefault(item => (item.FULLNAME == curPropName.ToUpper()));
+        //            if (found is null)
+        //            {
+        //                log.Add(curPropName + "\r\n\tcannot be found in :\r\n\t\t" + instance.GetType());
+        //            }
+        //            else if (curPropName != found.SetterMethod.Name?.Substring(3))
+        //            {
 
-                        log.Add(curPropName + "\r\n\tshould be [" + found.SetterMethodName?.Substring(3) + "] in :\r\n\t\t" + instance.GetType());
-                    }
-                });
+        //                log.Add(curPropName + "\r\n\tshould be [" + found.SetterMethod.Name?.Substring(3) + "] in :\r\n\t\t" + instance.GetType());
+        //            }
+        //        });
 
-            var success = !log.Any();
-            Assert.IsTrue(success);
+        //    var success = !log.Any();
+        //    Assert.IsTrue(success);
 
-        }
+        //}
 
         [TestMethod]
         public void DataFieldType_Test()
@@ -241,10 +241,17 @@ namespace Ironbug.HVACTests
                         {
                             log.Add(curPropName + "\r\n\tcannot be found in :\r\n\t\t" + instance.GetType());
                         }
-                        else if (curPropName != found.SetterMethodName?.Substring(3))
+                        else if (found.SetterMethod is null)
                         {
-                           
-                            log.Add(curPropName + "\r\n\tshould be ["+ found.SetterMethodName?.Substring(3) + "] in :\r\n\t\t" + instance.GetType());
+                            if (curPropName != "Name")
+                            {
+                                log.Add($"Missing method {curPropName}\r\n\t in :\r\n\t\t { instance.GetType()}");
+                            }
+                            
+                        }
+                        else if (curPropName != found.SetterMethod.Name.Substring(3))
+                        {
+                            log.Add(curPropName + "\r\n\tshould be [" + found.SetterMethod.Name?.Substring(3) + "] in :\r\n\t\t" + instance.GetType());
                         }
                     });
 

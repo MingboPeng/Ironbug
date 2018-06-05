@@ -169,11 +169,11 @@ namespace Ironbug.Grasshopper.Component
             this.DataFieldSet = GetDataFieldSet(type);
             var dataFieldList = this.DataFieldSet.GetCustomizedDataFields();
             //including ProDataField and MasterDataField
-            this.ProDataFieldList = dataFieldList.Where(_ => !(_ is IB_BasicDataField)).ToList();
+            this.ProDataFieldList = dataFieldList.Where(_ => !(_ is IB_BasicField)).ToList();
             this.ProDataFieldList.Add(this.DataFieldSet.TheMasterDataField);
 
             //only show the basic setting first
-            var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicDataField);
+            var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicField);
             if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
             {
                 dataFieldTobeAdded = dataFieldList;
@@ -192,7 +192,7 @@ namespace Ironbug.Grasshopper.Component
 
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
-                newParam.NickName = item.ShortName;
+                newParam.NickName = item.NickName;
                 newParam.MutableNickName = false;
                 newParam.Description = description;
                     
@@ -250,15 +250,27 @@ namespace Ironbug.Grasshopper.Component
                         else //IB_BasicDataField or IB_ProDataField
                         {
                             object value = null;
-                            //TODO: type of int??
-                            if (dataField.DataType == typeof(double))
-                            {
-                                value = ((GH_Number)fristData).Value;
-                            }
-                            else
-                            {
-                                value = ((GH_String)fristData).Value;
-                            }
+                            fristData.CastTo(out value);
+
+                            ////TODO: type of int??
+                            //if (dataField.DataType == typeof(double))
+                            //{
+                            //    value = ((GH_Number)fristData).Value;
+                            //}
+                            //else if(dataField.DataType == typeof(double))
+                            //{
+                            //    fristData.CastTo(out value);
+                            //}
+                            ////else if(dataField.DataType.ToString() == "OpenStudio.Curve")
+                            ////{
+                            ////    IB_Curve c = null;
+                            ////    fristData.CastTo(out c);
+                            ////    value = c.ToOS();
+                            ////}
+                            //else
+                            //{
+                            //    value = ((GH_String)fristData).Value;
+                            //}
 
                             settingDatas.TryAdd(dataField, value);
                         }
@@ -279,6 +291,8 @@ namespace Ironbug.Grasshopper.Component
         
         private void ProSetting(object sender, EventArgs e)
         {
+            if (this.ProDataFieldList == null) return;
+
             this.IsProSetting = !this.IsProSetting;
             
 
@@ -308,7 +322,7 @@ namespace Ironbug.Grasshopper.Component
                 
                 IGH_Param newParam = new Param_GenericObject();
                 newParam.Name = item.FullName;
-                newParam.NickName = item.ShortName;
+                newParam.NickName = item.NickName;
                 newParam.Description = description;
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;

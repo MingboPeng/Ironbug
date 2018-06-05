@@ -33,13 +33,13 @@ namespace Ironbug.HVAC
         private IB_CoolingTowerVariableSpeed_DataFields() { }
 
         public IB_Field DesignWaterFlowRate { get; }
-            = new IB_BasicDataField("DesignWaterFlowRate", "WaterFlowRate");
+            = new IB_BasicField("DesignWaterFlowRate", "WaterFlowRate");
 
         public IB_Field DesignAirFlowRate { get; }
-            = new IB_BasicDataField("DesignAirFlowRate", "AirFlowRate");
+            = new IB_BasicField("DesignAirFlowRate", "AirFlowRate");
 
         public IB_Field DesignFanPower { get; }
-            = new IB_BasicDataField("DesignFanPower", "FanPower");
+            = new IB_BasicField("DesignFanPower", "FanPower");
 
 
     }

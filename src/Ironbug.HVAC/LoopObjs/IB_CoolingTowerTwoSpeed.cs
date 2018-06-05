@@ -32,10 +32,10 @@ namespace Ironbug.HVAC
         private IB_CoolingTowerTwoSpeed_DataFields() { }
 
         public IB_Field HighSpeedNominalCapacity { get; }
-            = new IB_BasicDataField("HighSpeedNominalCapacity", "HCapacity");
+            = new IB_BasicField("HighSpeedNominalCapacity", "HCapacity");
 
         public IB_Field LowSpeedNominalCapacity { get; }
-            = new IB_BasicDataField("LowSpeedNominalCapacity", "LCapacity");
+            = new IB_BasicField("LowSpeedNominalCapacity", "LCapacity");
 
 
     }

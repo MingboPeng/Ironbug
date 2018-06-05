@@ -33,16 +33,16 @@ namespace Ironbug.HVAC
 
 
         public IB_Field RatedPumpHead { get; }
-            = new IB_BasicDataField("RatedPumpHead", "PumpHead");
+            = new IB_BasicField("RatedPumpHead", "PumpHead");
 
         public IB_Field MotorEfficiency { get; }
-            = new IB_BasicDataField("MotorEfficiency", "Efficiency");
+            = new IB_BasicField("MotorEfficiency", "Efficiency");
 
         public IB_Field RatedFlowRate { get; }
-            = new IB_ProDataField("RatedFlowRate", "FlowRate");
+            = new IB_ProField("RatedFlowRate", "FlowRate");
 
         public IB_Field PumpControlType { get; }
-            = new IB_ProDataField("PumpControlType", "ControlType");
+            = new IB_ProField("PumpControlType", "ControlType");
 
        
 

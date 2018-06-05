@@ -81,8 +81,6 @@
     <Compile Include="AirLoopHVACOutdoorAirSystemExtensionsTests.cs" />
     <Compile Include="OpsTest.cs" />
     <Compile Include="SetpointWorkflowTest.cs" />
-    <Compile Include="Loop\IB_CoilHeatingWater_Test.cs" />
-    <Compile Include="Loop\IB_FanConstantVolume_Test.cs" />
     <Compile Include="Loop\IB_OutdoorAirSystem_Test.cs" />
     <Compile Include="Loop\IB_ThermalZone_Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

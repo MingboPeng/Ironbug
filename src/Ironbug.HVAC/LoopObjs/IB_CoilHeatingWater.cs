@@ -42,34 +42,34 @@ namespace Ironbug.HVAC
 
         //https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-042.html#coilheatingwater
         public IB_Field Name { get; }
-            = new IB_BasicDataField("Name", "Name")
+            = new IB_BasicField("Name", "Name")
             {
                 DetailedDescription = "A unique identifying name for each coil."
             };
         
 
         public IB_Field RatedInletWaterTemperature { get; }
-            = new IB_BasicDataField("RatedInletWaterTemperature", "InWaterTemp")
+            = new IB_BasicField("RatedInletWaterTemperature", "InWaterTemp")
             {
                 DetailedDescription = "The inlet water temperature (degrees C) corresponding to the rated heating capacity. " +
                 "The default is 82.2 degrees C (180 degrees F)."
             };
 
         public IB_Field RatedInletAirTemperature { get; }
-            = new IB_ProDataField("RatedInletAirTemperature", "InAirTemp");
+            = new IB_ProField("RatedInletAirTemperature", "InAirTemp");
             
 
         public IB_Field RatedOutletWaterTemperature { get; }
-            = new IB_BasicDataField("RatedOutletWaterTemperature", "OutWaterTemp");
+            = new IB_BasicField("RatedOutletWaterTemperature", "OutWaterTemp");
 
         public IB_Field RatedOutletAirTemperature { get; }
-            = new IB_ProDataField("RatedOutletAirTemperature", "OutAirTemp");
+            = new IB_ProField("RatedOutletAirTemperature", "OutAirTemp");
 
         public IB_Field UFactorTimesAreaValue { get; }
-            = new IB_ProDataField("UFactorTimesAreaValue", "UFactor");
+            = new IB_ProField("UFactorTimesAreaValue", "UFactor");
 
         public IB_Field MaximumWaterFlowRate { get; }
-            = new IB_ProDataField("MaximumWaterFlowRate", "MaxFlow")
+            = new IB_ProField("MaximumWaterFlowRate", "MaxFlow")
             {
                 DetailedDescription = "The maximum possible water flow rate (m3/sec) through the coil. " +
                 "This field is used when Coil Performance Input Method = UFactorTimesAreaAndDesignWaterFlowRate. " +
@@ -78,7 +78,7 @@ namespace Ironbug.HVAC
             };
 
         public IB_Field RatedRatioForAirAndWaterConvection { get; }
-            = new IB_ProDataField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");
+            = new IB_ProField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");
         
     }
     
