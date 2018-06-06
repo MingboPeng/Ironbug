@@ -18,7 +18,7 @@ namespace Ironbug.HVAC.BaseClass
     }
     public abstract class IB_ModelObject : IIB_ModelObject
     {
-        public static bool IPUnit { get; set; } = true;
+        public static bool IPUnit { get; set; } = false;
         public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
         public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();

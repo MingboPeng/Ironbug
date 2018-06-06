@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Ironbug.HVAC
 {
@@ -27,8 +28,10 @@ namespace Ironbug.HVAC
             {
                 if (item.comment().Equals(uid))
                 {
+                    var h = item.handle();
+                    optionObj = model.getParentObject(h);
                     
-                    optionObj.set(model.getParentObject(item.handle()).get());
+                    //optionObj.set(model.getParentObject(h).get());
                 }
             }
             return optionObj;
@@ -135,7 +138,7 @@ namespace Ironbug.HVAC
 
         public static IEnumerable<string> GetUserFriendlyFieldInfo(this ModelObject component, bool ifIPUnits = false)
         {
-            var com = component.clone();
+            var com = component.idfObject();
             IddObject iddObject = com.iddObject();
             
             var valueWithInfo = new List<string>();
@@ -149,37 +152,34 @@ namespace Ironbug.HVAC
                 var field = iddObject.getField(index).get();
                 
                 if (!field.IsWorkableField()) continue;
+                var fieldProp = field.properties();
+                var valueStr = com.getString(index).get();
 
                 OSOptionalQuantity oQuantity = null;
-                if (field.IsRealType() && ifIPUnit)
+                var customStr = String.Empty;
+                if (field.IsRealType())
                 {
                     //try to convert the unit and value
                     oQuantity = com.getQuantity(index, true, ifIPUnit);
-                    //true means it is unit-convertible
-                    ifIPUnit = oQuantity.isSet();
+                    customStr = oQuantity.isSet() ? oQuantity.get().value().ToString() : valueStr;
                 }
                 else
                 {
-                    //set to false for all other non-real type value
-                    ifIPUnit = false;
+                    customStr = valueStr;
                 }
 
-                var customStr = ifIPUnit? oQuantity.get().value().ToString(): com.getString(index).get();
 
                 var dataname = field.name();
+                var defaultValue = GetDefaultValue(field);
+                var unit = GetUnit(field, ifIPUnit);
 
-                var optionalUnit = field.getUnits(ifIPUnit);
-                var unit = optionalUnit.isNull() ? string.Empty : optionalUnit.get().standardString();
-                var stringDefault = field.properties().stringDefault;
-                var defaultStr = stringDefault.isNull() ? string.Empty : stringDefault.get();
-                //strDefault has numDefault already
-                //var numDefault = field.getUnits().isNull() ? -9999 : field.properties().numericDefault.get();
 
-                var shownStr = string.IsNullOrWhiteSpace(customStr) ? defaultStr : customStr;
+                var shownValue = string.IsNullOrWhiteSpace(customStr) ? defaultValue : customStr;
+                shownValue = ReplaceGUIDString(shownValue);
                 var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
-                var shownDefault = string.IsNullOrWhiteSpace(defaultStr) ? string.Empty : string.Format(" (Default: {0})", defaultStr);
+                var shownDefault = string.IsNullOrWhiteSpace(defaultValue) ? string.Empty : string.Format(" (Default: {0})", defaultValue);
 
-                var att = String.Format("{0,-23} !- {1}{2}{3}", shownStr, dataname, shownUnit, shownDefault);
+                var att = String.Format("{0,-23} !- {1}{2}{3}", shownValue, dataname, shownUnit, shownDefault);
 
                 valueWithInfo.Add(att);
 
@@ -188,6 +188,70 @@ namespace Ironbug.HVAC
 
             return valueWithInfo;
 
+            string ReplaceGUIDString(string s)
+            {
+                var match = System.Text.RegularExpressions.Regex.Match(s, @"\{[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}",
+       RegexOptions.IgnoreCase);
+
+                return match.Success ? "#[GUID]" : s;
+            }
+
+            string GetUnit(IddField field, bool ifIPUnit)
+            {
+                var optionalUnit = field.getUnits(ifIPUnit);
+                var unit = string.Empty;
+                if (optionalUnit.is_initialized())
+                {
+
+                    var unit2 = optionalUnit.get();
+                    var prettyString = unit2.prettyString();
+                    var standardString = unit2.standardString();
+
+                    unit = string.IsNullOrWhiteSpace(prettyString) ? standardString : prettyString;
+
+                }
+                else
+                {
+                    unit = string.Empty;
+                }
+
+                return unit;
+            }
+
+            string GetDefaultValue(IddField field)
+            {
+                var sd = field.properties().stringDefault;
+                var defaultStrStr = sd.isNull() ? string.Empty : sd.get();
+                var defaultNumStr = GetDefaultNumStr(field);
+
+                return string.IsNullOrWhiteSpace(defaultNumStr) ? defaultStrStr : defaultNumStr;
+            }
+            string GetDefaultNumStr(IddField field)
+            {
+                var numStr = String.Empty;
+                var fieldProp = field.properties();
+                if (fieldProp.numericDefault.is_initialized())
+                {
+                    var num = fieldProp.numericDefault.get();
+                    //autosized
+                    if (num == -9999) return numStr;
+
+                    var si = fieldProp.units;
+                    if (si.isNull()) return numStr;
+                    var siStr = si.get();
+
+                    var ipStr = GetUnit(field, true);
+                    if (string.IsNullOrWhiteSpace(ipStr)) return numStr;
+
+
+                    var uconvert = OpenStudioUtilitiesUnits.convert(num, siStr, ipStr);
+
+                    numStr = uconvert.is_initialized() ? uconvert.get().ToString() : "#SI" + num.ToString();
+
+
+                }
+                return numStr;
+            }
         }
 
     }

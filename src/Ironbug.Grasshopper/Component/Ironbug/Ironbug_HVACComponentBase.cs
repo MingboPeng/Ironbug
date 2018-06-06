@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -150,10 +151,9 @@ namespace Ironbug.Grasshopper.Component
             if (attris.Count == 0) return;
 
             IB_obj.SetFieldValues(attris);
-            
         }
-        
-        
+
+
         public override void CreateAttributes()
         {
             var newAttri = new IB_ComponentAttributes(this);
@@ -161,6 +161,23 @@ namespace Ironbug.Grasshopper.Component
             
         }
 
+        
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            
+            Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
+                .ToolTipText = "This will set all HVAC components with IP unit system";
+            Menu_AppendSeparator(menu);
+        }
+
+        private void ChangeUnit(object sender, EventArgs e)
+        {
+            IB_ModelObject.IPUnit = !IB_ModelObject.IPUnit;
+            //TODO: maybe need recompute all??
+            //Only Panel
+            //But is it necessary, the unit is only for representation
+            this.ExpireSolution(true);
+        }
     }
     
 }

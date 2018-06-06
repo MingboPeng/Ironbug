@@ -143,6 +143,35 @@ namespace Ironbug.HVACTests
         }
 
         [TestMethod]
+        public void HWloopWorkflow_Test()
+        {
+            var plant = new HVAC.IB_PlantLoop();
+
+            HVAC.IB_SizingPlant sizingPlant = new HVAC.IB_SizingPlant();
+            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
+            
+            sizing.SetFieldValue(szFields.LoopType, "Heating");
+
+            plant.SetSizingPlant((IB_SizingPlant)sizing);
+
+            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
+            if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
+            {
+                plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
+            }
+            plant.SetFieldValue(plantFields.FluidType, "Water");
+
+
+            plant.ToOS(md1);
+            
+            var success1 = plant.IsInModel(md1);
+            var success3 = md1.Save(saveFile);
+            var success = success1 && success3;
+
+            Assert.IsTrue(success);
+        }
+        [TestMethod]
         public void VRF_Test()
         {
             //var md1 = new OpenStudio.Model();
