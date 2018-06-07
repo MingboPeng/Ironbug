@@ -68,6 +68,11 @@
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="BaseClass\IB_Curve.cs" />
+    <Compile Include="Curves\IB_CurveTriquadratic.cs" />
+    <Compile Include="Curves\IB_CurveSigmoid.cs" />
+    <Compile Include="Curves\IB_CurveQuartic.cs" />
+    <Compile Include="Curves\IB_CurveQuadratic.cs" />
+    <Compile Include="Curves\IB_CurveLinear.cs" />
     <Compile Include="Curves\IB_CurveCubic.cs" />
     <Compile Include="Curves\IB_CurveBiquadratic.cs" />
     <Compile Include="Curves\IB_CurveBicubic.cs" />

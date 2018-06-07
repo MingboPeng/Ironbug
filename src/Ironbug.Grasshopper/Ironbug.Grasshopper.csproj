@@ -110,6 +110,13 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CreatePuppets.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveBiquadratic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveCubic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveLinear.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveQuadratic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveSigmoid.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveQuartic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveTriquadratic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
@@ -355,6 +362,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Coil_CB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_qt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_tq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_l.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -84,15 +84,15 @@ namespace Ironbug.HVAC
             {
                 Monitor.Enter(tempComp,ref lockWasTaken);
                 {
-                    parm = new object[] { CheckBelonging(component, value) };
-                    invokeResult = method.Invoke(component, parm);
+                    parm = new object[] { CheckBelonging(tempComp, value) };
+                    invokeResult = method.Invoke(tempComp, parm);
                 }
                 
             }
             catch (Exception e)
             {
                
-                throw new Exception("Something went wrong! \r\n\r\n" + e.InnerException ?? e.Message);
+                throw new Exception($"Something went wrong! \r\n\r\n" + e.InnerException ?? e.Message+ "\r\n\r\nUsually rerun this component would fix it. But you should save the file first!");
                 //invokeResult = e.ToString();
             }
             finally

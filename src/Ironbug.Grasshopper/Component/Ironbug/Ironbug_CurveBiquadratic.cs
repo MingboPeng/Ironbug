@@ -3,16 +3,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveBicubic : Ironbug_HVACComponentBase
+    public class Ironbug_CurveBiquadratic : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
-        public Ironbug_CurveBicubic()
-          : base("Ironbug_CurveBicubic", "CvBicubic",
+        public Ironbug_CurveBiquadratic()
+          : base("Ironbug_CurveBiquadratic", "CvBiquadratic",
               "Description",
               "Ironbug", "07:Curve",
-              typeof(HVAC.Curves.IB_CurveBicubic_DataFieldSet))
+              typeof(HVAC.Curves.IB_CurveBiquadratic_DataFieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveBicubic", "CvBicubic", "CurveBicubic", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveBiquadratic", "CvBiquadratic", "CurveBiquadratic", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.Curves.IB_CurveBicubic();
+            var obj = new HVAC.Curves.IB_CurveBiquadratic();
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
@@ -54,7 +54,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.curve_bc;
+                return Properties.Resources.curve_bq;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("1D429D0B-AC3A-408B-8074-87EDCB655981"); }
+            get { return new Guid("D9DEAEF5-F36E-4724-A489-58E4C11869DA"); }
         }
     }
 }

@@ -289,4 +289,28 @@
   <data name="Coil_CB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Coil_CB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="curve_bc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_bc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_bq" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_bq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_c" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_c.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_l" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_l.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_q" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_q.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_qt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_qt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_s" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="curve_tq" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\curve_tq.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
