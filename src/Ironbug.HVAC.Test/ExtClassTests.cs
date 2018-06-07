@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Ironbug.HVAC.Tests
 {
-    [TestClass()]
+    //[TestClass()]
     public class ExtClassTests
     {
         //[TestMethod()]

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Ironbug.HVAC
 {
@@ -76,30 +77,30 @@ namespace Ironbug.HVAC
             object[] parm = new object[] { };
             var method = methodInfo;
             //TODO: catch AccessViolationException
+            bool lockWasTaken = false;
+            var tempComp = component;
             object invokeResult = null;
             try
             {
-                parm = new object[] { CheckBelonging(component, value) };
-                invokeResult = method.Invoke(component, parm);
+                Monitor.Enter(tempComp,ref lockWasTaken);
+                {
+                    parm = new object[] { CheckBelonging(component, value) };
+                    invokeResult = method.Invoke(component, parm);
+                }
+                
             }
             catch (Exception e)
             {
-                //the second try 
-                if (e.InnerException.Message.StartsWith("Attempted to read or write protected memory"))
-                {
-                    try
-                    {
-                        System.Threading.Thread.Sleep(100);
-                        invokeResult = method.Invoke(component, parm);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new Exception("Just prevented an irrecoverable crashing!\r\nPlease save the file immediately!\r\n\r\n" + ex.InnerException);
-
-                    }
-                }
+               
                 throw new Exception("Something went wrong! \r\n\r\n" + e.InnerException ?? e.Message);
                 //invokeResult = e.ToString();
+            }
+            finally
+            {
+                if (lockWasTaken)
+                {
+                    Monitor.Exit(tempComp);
+                } 
             }
 
             return invokeResult;
