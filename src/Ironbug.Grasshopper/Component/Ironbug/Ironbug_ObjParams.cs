@@ -17,12 +17,15 @@ namespace Ironbug.Grasshopper.Component
     {
         //public Type lastDataFieldType { get; set; }
         private Type CurrentDataFieldType { get; set; }
-        private List<IGH_Param> paramSet { get; set; }
+        //private List<IGH_Param> paramSet { get; set; }
         public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; } = false;
+        private bool IsMasterSetting { get; set; } = false;
 
-        private ICollection<IB_Field> ProDataFieldList { get; set; }
+        private ICollection<IB_Field> profieldList { get; set; }
+
+        private ICollection<IB_Field> masterFieldList { get; set; }
 
         private IB_FieldSet FieldSet { get; set; }
 
@@ -85,11 +88,16 @@ namespace Ironbug.Grasshopper.Component
             get { return new Guid("c01b9512-5d83-4f5c-9116-ce897b94b2f2"); }
         }
 
+        
+
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendItem(menu, "ProSetting", ProSetting, true, this.IsProSetting);
+            Menu_AppendItem(menu, "MasterSetting", MasterSetting, true, this.IsMasterSetting);
             Menu_AppendSeparator(menu);
         }
+
+        
 
         public override bool Write(GH_IWriter writer)
         {
@@ -140,6 +148,8 @@ namespace Ironbug.Grasshopper.Component
                 var typeTobeShown = this.DataFieldTypes.First().Value;
                 if (typeTobeShown != this.CurrentDataFieldType)
                 {
+                    this.IsProSetting = false;
+                    this.IsMasterSetting = false;
                     AddParams(typeTobeShown);
                 }
                 
@@ -171,44 +181,25 @@ namespace Ironbug.Grasshopper.Component
             var fieldList = this.FieldSet;
             //including ProField and MasterField
             //MasterField is ProField
-            this.ProDataFieldList = fieldList.Where(_ => (_ is IB_ProField)).ToList();
+            this.profieldList = fieldList.Where(_ => (_ is IB_ProField)).ToList();
 
+            this.masterFieldList = fieldList.Where(_ => !((_ is IB_ProField)||(_ is IB_BasicField) || (_ is IB_TopField))).ToList();
 
             //this.ProDataFieldList.Add(this.FieldSet.TheMasterDataField);
 
             //only show the basic setting first
-            var dataFieldTobeAdded = fieldList.Where(_ => _ is IB_BasicField);
-            if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
+            var fieldTobeAdded = fieldList.Where(_ => _ is IB_BasicField);
+            if (!fieldTobeAdded.Any())
             {
-                dataFieldTobeAdded = fieldList;
+                fieldTobeAdded = profieldList;
+            }
+            if (!fieldTobeAdded.Any())
+            {
+                fieldTobeAdded = masterFieldList;
             }
 
-            var paramSet = new List<IGH_Param>();
-            foreach (var item in dataFieldTobeAdded)
-            {
-                //TDDO: need to revisit this!!
-                var description = item.Description;
-                var iddObj = this.FieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
-                if (iddObj != null)
-                {
-                    description += iddObj.Description;
-                }
 
-                IGH_Param newParam = new Param_GenericObject();
-                newParam.Name = item.FullName;
-                newParam.NickName = item.NickName;
-                newParam.MutableNickName = false;
-                newParam.Description = description;
-                    
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-
-                paramSet.Add(newParam);
-                Params.RegisterInputParam(newParam);
-
-            }
-
-            this.paramSet = paramSet;
+            this.AddFieldsToParams(fieldTobeAdded);
 
             this.Params.OnParametersChanged();
             this.OnAttributesChanged();
@@ -276,7 +267,7 @@ namespace Ironbug.Grasshopper.Component
         
         private void ProSetting(object sender, EventArgs e)
         {
-            if (this.ProDataFieldList == null) return;
+            if (this.profieldList == null) return;
 
             this.IsProSetting = !this.IsProSetting;
             
@@ -284,12 +275,12 @@ namespace Ironbug.Grasshopper.Component
             if (this.IsProSetting)
             {
 
-                this.AddProDataFields(this.ProDataFieldList);
+                this.AddFieldsToParams(this.profieldList);
 
             }
             else
             {
-                this.RemoveProDataFields(this.ProDataFieldList);
+                this.RemoveFields(this.profieldList);
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
@@ -297,35 +288,59 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-
-        private void AddProDataFields(IEnumerable<IB_Field> DataFieldTobeAdded)
+        private void MasterSetting(object sender, EventArgs e)
         {
-            foreach (var item in DataFieldTobeAdded)
+            if (this.masterFieldList == null) return;
+
+            this.IsMasterSetting = !this.IsMasterSetting;
+            
+            if (this.IsMasterSetting)
             {
-                var description = item.DetailedDescription;
-                description += item.Description;
-                
+                this.AddFieldsToParams(this.masterFieldList);
+            }
+            else
+            {
+                this.RemoveFields(this.masterFieldList);
+            }
+            //VariableParameterMaintenance();
+            this.Params.OnParametersChanged();
+            this.ExpireSolution(true);
+        }
+
+        private List<IGH_Param> AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
+        {
+            var paramList = new List<IGH_Param>();
+            foreach (var field in fieldTobeAdded)
+            {
                 IGH_Param newParam = new Param_GenericObject();
-                newParam.Name = item.FullName;
-                newParam.NickName = item.NickName;
-                newParam.Description = description;
+                if (field.DataType == typeof(string)) newParam = new Param_String();
+                if (field.DataType == typeof(double)) newParam = new Param_Number();
+
+                newParam.Name = field.FullName;
+                newParam.NickName = field.NickName;
+                newParam.Description = $"{field.DetailedDescription}\r\n{field.Description}" ;
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
-                Params.RegisterInputParam(newParam);
 
+                paramList.Add(newParam);
+                Params.RegisterInputParam(newParam);
             }
+            return paramList;
+            
         }
 
 
-        private void RemoveProDataFields(IEnumerable<IB_Field> DataFieldTobeAdded)
+        private void RemoveFields(IEnumerable<IB_Field> fieldsTobeRemoved)
         {
             var inputParams = this.Params.Input;
-            int paramTobeRemovedCount = DataFieldTobeAdded.Count();
-            int operationIndex = inputParams.Count - paramTobeRemovedCount;
-            for (int i = 0; i < paramTobeRemovedCount; i++)
+            var tobeRemoved = fieldsTobeRemoved;
+            foreach (var item in tobeRemoved)
             {
-                this.Params.UnregisterInputParameter(inputParams[operationIndex]);
+                var paramTobeRemoved = inputParams.FirstOrDefault(_ => _.Name.ToUpper() == item.FULLNAME);
+                if (paramTobeRemoved == null) continue;
+
+                this.Params.UnregisterInputParameter(paramTobeRemoved);
             }
             
         }
@@ -337,6 +352,10 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
         {
+            if (this.IsMasterSetting && side == GH_ParameterSide.Input)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -347,7 +366,7 @@ namespace Ironbug.Grasshopper.Component
 
         public bool DestroyParameter(GH_ParameterSide side, int index)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void VariableParameterMaintenance()

@@ -31,15 +31,15 @@ namespace Ironbug.HVAC.BaseClass
             this._items = this.GetSelfPreperties().ToList();
 
             var osSetters = IB_OpsTypeOperator.GetOSSetters(this.RefOpsType).Select(_ => new IB_Field(_)); // convert to IB_Field
-            this._items.UpdateFromOSMethods(osSetters);
+            this._items = _items.MergeFromOSMethods(osSetters).ToList();
 
             //Assign reference IddObject from OpenStudio
             //this.RefIddObject = IB_OpsTypeOperator.GetIddObject(this.RefOpsType);
             var iddFields = IB_OpsTypeOperator.GetIddObject(this.RefOpsType).GetIddFields();
             this._items.UpdateFromIddFields(iddFields);
             
-            this.TheMasterDataField = GetTheMasterDataField(this);
-            this._items.Add(TheMasterDataField);
+            //this.TheMasterDataField = GetTheMasterDataField(this);
+            //this._items.Add(TheMasterDataField);
             
         }
         
@@ -62,30 +62,29 @@ namespace Ironbug.HVAC.BaseClass
 
 
 
-        private static IB_MasterField GetTheMasterDataField(IB_FieldSet dataFieldSet)
-        {
+        //private static IB_MasterField GetTheMasterDataField(IB_FieldSet dataFieldSet)
+        //{
 
-            var masterSettings = dataFieldSet.OrderBy(_ => _.FullName);
-            var description = "This gives you an option that if you are looking for a setting that is not listed above," +
-                "please feel free to pick any setting from following items, " +
-                "but please double check the EnergyPlus Input References to ensure you know what you are doing.\r\n\r\n";
-            description += "TDDO: show an example to explain how to use this!\r\n\r\n";
-            description += string.Join("\r\n", masterSettings.Select(_ => _.FullName));
+        //    var masterSettings = dataFieldSet.OrderBy(_ => _.FullName);
+        //    var description = "This gives you an option that if you are looking for a setting that is not listed above," +
+        //        "please feel free to pick any setting from following items, " +
+        //        "but please double check the EnergyPlus Input References to ensure you know what you are doing.\r\n\r\n";
+        //    description += "TDDO: show an example to explain how to use this!\r\n\r\n";
+        //    description += string.Join("\r\n", masterSettings.Select(_ => _.FullName));
 
-            ////TODO: there must be a better way to do this.
-            //var masterDataFieldMap = new Dictionary<string, IB_DataField>();
-            //foreach (var item in masterSettings)
-            //{
-            //    masterDataFieldMap.Add(item.FullName.ToUpper(), item);
-            //}
+        //    ////TODO: there must be a better way to do this.
+        //    //var masterDataFieldMap = new Dictionary<string, IB_DataField>();
+        //    //foreach (var item in masterSettings)
+        //    //{
+        //    //    masterDataFieldMap.Add(item.FullName.ToUpper(), item);
+        //    //}
 
-            var df = new IB_MasterField(description);
-            return df;
+        //    var df = new IB_MasterField(description);
+        //    return df;
 
-        }
+        //}
 
-
-       
+            
 
         public int Count => _items.Count;
 
@@ -204,7 +203,7 @@ namespace Ironbug.HVAC.BaseClass
         /// Map properties of the ProDataField or BasicDataField that defined in derived class, to DataFieldSet's IB_DataField collection.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<IB_Field> UpdateFromOSMethods(this IEnumerable<IB_Field> fieldItemCollection, IEnumerable<IB_Field> openStudioSetters)
+        public static IEnumerable<IB_Field> MergeFromOSMethods(this IEnumerable<IB_Field> fieldItemCollection, IEnumerable<IB_Field> openStudioSetters)
         {
             var mergedFields = fieldItemCollection.ToList();
             openStudioSetters.ToList().ForEach(_ =>
@@ -224,8 +223,7 @@ namespace Ironbug.HVAC.BaseClass
                 }
 
             });
-
-            fieldItemCollection = mergedFields;
+            
             return mergedFields;
 
         }
