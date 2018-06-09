@@ -23,5 +23,23 @@ namespace Ironbug.HVAC.Curves
         : IB_FieldSet<IB_CurveBiquadratic_DataFieldSet, CurveBiquadratic>
     {
         private IB_CurveBiquadratic_DataFieldSet() { }
+
+        public IB_Field Coefficient1Constant { get; }
+            = new IB_TopField("Coefficient1Constant", "Const");
+
+        public IB_Field Coefficient2x { get; }
+            = new IB_TopField("Coefficient2x", "x");
+
+        public IB_Field Coefficient3xPOW2 { get; }
+            = new IB_TopField("Coefficient3xPOW2", "xPOW2");
+
+        public IB_Field Coefficient4y { get; }
+            = new IB_TopField("Coefficient4y", "y");
+
+        public IB_Field Coefficient5yPOW2 { get; }
+            = new IB_TopField("Coefficient5yPOW2", "yPOW2");
+
+        public IB_Field Coefficient6xTIMESY { get; }
+            = new IB_TopField("Coefficient6xTIMESY", "xTIMESY");
     }
 }

@@ -64,7 +64,10 @@ namespace Ironbug.HVAC
 
         private static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
         {
-            var methodInfo = component.GetType().GetMethod(setterMethodName, new[] { value.GetType() });
+            var tp = value.GetType();
+            var iscubic = component is CurveCubic;
+            var methodInfo = component.GetType().GetMethod(setterMethodName, new[] {tp });
+            if (methodInfo is null) throw new Exception($"{setterMethodName} is not available in {component}!");
             return InvokeMethod(component, methodInfo, value);
             
         }
@@ -92,7 +95,7 @@ namespace Ironbug.HVAC
             catch (Exception e)
             {
                
-                throw new Exception($"Something went wrong! \r\n\r\n" + e.InnerException ?? e.Message+ "\r\n\r\nUsually rerun this component would fix it. But you should save the file first!");
+                throw new Exception($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException ?? e.Message);
                 //invokeResult = e.ToString();
             }
             finally
@@ -100,7 +103,8 @@ namespace Ironbug.HVAC
                 if (lockWasTaken)
                 {
                     Monitor.Exit(tempComp);
-                } 
+                }
+                //component = tempComp;
             }
 
             return invokeResult;

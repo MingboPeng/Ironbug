@@ -78,6 +78,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ExtClassTests.cs" />
+    <Compile Include="HVACComponentsTest.cs" />
     <Compile Include="OpsTest.cs" />
     <Compile Include="SetpointWorkflowTest.cs" />
     <Compile Include="Loop\IB_OutdoorAirSystem_Test.cs" />

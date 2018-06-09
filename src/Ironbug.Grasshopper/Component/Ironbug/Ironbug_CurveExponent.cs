@@ -4,16 +4,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveSigmoid : Ironbug_HVACComponentBase
+    public class Ironbug_CurveExponent : Ironbug_HVACComponentBase
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
-        public Ironbug_CurveSigmoid()
-          : base("Ironbug_CurveSigmoid", "CvSigmoid",
+        public Ironbug_CurveExponent()
+          : base("Ironbug_CurveExponent", "CvExponent",
               "Description",
               "Ironbug", "07:Curve",
-              typeof(HVAC.Curves.IB_CurveSigmoid_DataFieldSet))
+              typeof(HVAC.Curves.IB_CurveLinear_DataFieldSet))
         {
         }
 
@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Coefficients", "_coeffs", "A list of coefficients for a sigmoid curve from C1 to C5.", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Coefficients", "_coeffs", "A list of coefficients for an exponent curve from C1 to C3.", GH_ParamAccess.list);
 
         }
 
@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveSigmoid", "CvSigmoid", "CurveSigmoid", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveExponent", "CvExponent", "CurveExponent", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -42,23 +42,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.Curves.IB_CurveSigmoid();
+            var obj = new HVAC.Curves.IB_CurveExponent();
             var coeffs = new List<double>();
 
             if (DA.GetDataList(0, coeffs))
             {
-                if (coeffs.Count != 5)
+                if (coeffs.Count != 3)
                 {
-                    throw new Exception("5 coefficient values is needed!");
+                    throw new Exception("3 coefficient values is needed!");
                 }
-                var fSet = HVAC.Curves.IB_CurveSigmoid_DataFieldSet.Value;
+                var fSet = HVAC.Curves.IB_CurveExponent_DataFieldSet.Value;
                 var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
-                fDic.Add(fSet.Coefficient1C1, coeffs[0]);
-                fDic.Add(fSet.Coefficient2C2, coeffs[1]);
-                fDic.Add(fSet.Coefficient3C3, coeffs[2]);
-                fDic.Add(fSet.Coefficient4C4, coeffs[3]);
-                fDic.Add(fSet.Coefficient5C5, coeffs[4]);
+                fDic.Add(fSet.Coefficient1Constant, coeffs[0]);
+                fDic.Add(fSet.Coefficient2Constant, coeffs[1]);
+                fDic.Add(fSet.Coefficient3Constant, coeffs[2]);
 
                 obj.SetFieldValues(fDic);
             }
@@ -75,7 +73,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return Properties.Resources.curve_s;
+                return Properties.Resources.curve_l;
             }
         }
 
@@ -84,7 +82,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("8408DC03-B1B5-4C95-83E2-B9A41112597B"); }
+            get { return new Guid("707A05C7-CA9B-40C3-989C-20EEE7289457"); }
         }
     }
 }

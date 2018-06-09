@@ -111,7 +111,9 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CreatePuppets.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveBiquadratic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveFanPressureRise.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveCubic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CurveExponent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveLinear.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveQuadratic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveSigmoid.cs" />

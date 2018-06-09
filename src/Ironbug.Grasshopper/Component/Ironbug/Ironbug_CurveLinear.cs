@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
@@ -23,6 +24,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddNumberParameter("Coefficients", "_coeffs", "A list of coefficients for a linear curve from C1 to C2.", GH_ParamAccess.list);
+
         }
 
         /// <summary>
@@ -40,7 +43,22 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.Curves.IB_CurveLinear();
+            var coeffs = new List<double>();
 
+            if (DA.GetDataList(0, coeffs))
+            {
+                if (coeffs.Count != 2)
+                {
+                    throw new Exception("2 coefficient values is needed!");
+                }
+                var fSet = HVAC.Curves.IB_CurveLinear_DataFieldSet.Value;
+                var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
+
+                fDic.Add(fSet.Coefficient1Constant, coeffs[0]);
+                fDic.Add(fSet.Coefficient2x, coeffs[1]);
+
+                obj.SetFieldValues(fDic);
+            }
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }

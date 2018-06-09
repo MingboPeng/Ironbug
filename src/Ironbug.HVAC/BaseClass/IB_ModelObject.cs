@@ -218,7 +218,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             this.CustomAttributes.TryAdd(field, realValue);
-            
+
             //apply the value to the ghost ops obj.
             //remember this ghost is only for preview purpose
             //meaning it will not be saved in real OpenStudio.Model, 

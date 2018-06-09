@@ -21,8 +21,9 @@ namespace Ironbug.HVAC.Curves
     }
 
     public sealed class IB_CurveTriquadratic_DataFieldSet
-        : IB_FieldSet<IB_CurveTriquadratic_DataFieldSet, CurveSigmoid>
+        : IB_FieldSet<IB_CurveTriquadratic_DataFieldSet, CurveTriquadratic>
     {
         private IB_CurveTriquadratic_DataFieldSet() { }
+        
     }
 }
