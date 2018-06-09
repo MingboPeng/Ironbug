@@ -65,7 +65,6 @@ namespace Ironbug.HVAC
         private static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
         {
             var tp = value.GetType();
-            var iscubic = component is CurveCubic;
             var methodInfo = component.GetType().GetMethod(setterMethodName, new[] {tp });
             if (methodInfo is null) throw new Exception($"{setterMethodName} is not available in {component}!");
             return InvokeMethod(component, methodInfo, value);
@@ -79,7 +78,7 @@ namespace Ironbug.HVAC
         {
             object[] parm = new object[] { };
             var method = methodInfo;
-            //TODO: catch AccessViolationException
+            
             bool lockWasTaken = false;
             var tempComp = component;
             object invokeResult = null;
@@ -113,12 +112,16 @@ namespace Ironbug.HVAC
             object CheckBelonging(ModelObject c, object v)
             {
                 object obj = v;
-                if (v.GetType() == typeof(Curve))
+                //TODO: v is Curve
+                if (v is Curve curve)
                 {
                     //TODO: add supports of Schedule later
                     //dealing the ghost object
+                    var idf = curve.toIdfObject().clone(true);
+                    obj = c.model().addObject(idf).get().to_Curve().get();
 
-                    obj = ((Curve)value).clone(c.model()).to_Curve().get();
+                    
+                    //obj = ((Curve)v).clone(c.model()).to_Curve().get();
                     
                 }
 

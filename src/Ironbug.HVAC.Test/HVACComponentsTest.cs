@@ -26,10 +26,12 @@ namespace Ironbug.HVACTests
             var methodInfo = c.GetType().GetMethod("setCoefficient2x", new[] { value.GetType() });
             Assert.IsTrue(methodInfo !=null);
         }
+
         [TestMethod]
         public void IB_Curve_Test()
         {
-           
+
+            var model = new OpenStudio.Model();
 
             var obj = new HVAC.Curves.IB_CurveCubic();
             var coeffs = new List<double>()
@@ -52,12 +54,13 @@ namespace Ironbug.HVACTests
 
             obj.SetFieldValues(fDic);
 
-
+            var boiler = new IB_BoilerHotWater();
             var cv = obj.ToOS();
-            var md = cv.model();
-            md.Save(saveFile);
+            boiler.SetFieldValue(IB_BoilerHotWater_DataFields.Value.NormalizedBoilerEfficiencyCurve, cv);
 
-            var findChiller = md.getCurveCubics().First().to_CurveCubic().get().coefficient1Constant() == 0.5;
+            boiler.ToOS(model);
+            
+            var findChiller = model.getCurveCubics().First().to_CurveCubic().get().coefficient1Constant() == 0.5;
             Assert.IsTrue(findChiller);
 
         }

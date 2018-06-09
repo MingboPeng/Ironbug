@@ -1,16 +1,43 @@
 
 OS:Version,
-  {13647217-2723-4088-85a4-9426744973d8}, !- Handle
+  {a691a423-a67f-4294-9ed3-16d3ae504082}, !- Handle
   2.4.0;                                  !- Version Identifier
 
-! TrackingID:#[F6v5lyF7]
-OS:Curve:Cubic,
-  {cb7f1fd2-c80b-47a1-978c-08ee073cd131}, !- Handle
-  Curve Cubic 1,                          !- Name
-  0.5,                                    !- Coefficient1 Constant
-  0.6,                                    !- Coefficient2 x
-  0.7,                                    !- Coefficient3 x**2
-  0.8,                                    !- Coefficient4 x**3
+OS:Boiler:HotWater,
+  {e6622bb3-a6ae-4b57-894f-9a3feca301aa}, !- Handle
+  Boiler Hot Water 1,                     !- Name
+  ,                                       !- Fuel Type
+  ,                                       !- Nominal Capacity {W}
+  ,                                       !- Nominal Thermal Efficiency
+  ,                                       !- Efficiency Curve Temperature Evaluation Variable
+  {9db708c6-7753-429b-8d2f-393261e70ba7}, !- Normalized Boiler Efficiency Curve Name
+  ,                                       !- Design Water Outlet Temperature {C}
+  ,                                       !- Design Water Flow Rate {m3/s}
+  ,                                       !- Minimum Part Load Ratio
+  ,                                       !- Maximum Part Load Ratio
+  ,                                       !- Optimum Part Load Ratio
+  ,                                       !- Boiler Water Inlet Node Name
+  ,                                       !- Boiler Water Outlet Node Name
+  99,                                     !- Water Outlet Upper Temperature Limit {C}
+  ConstantFlow,                           !- Boiler Flow Mode
+  0,                                      !- Parasitic Electric Load {W}
+  1;                                      !- Sizing Factor
+
+OS:Curve:Bicubic,
+  {9db708c6-7753-429b-8d2f-393261e70ba7}, !- Handle
+  Curve Bicubic 1,                        !- Name
+  22.22,                                  !- Coefficient1 Constant
+  0,                                      !- Coefficient2 x
+  0,                                      !- Coefficient3 x**2
+  0,                                      !- Coefficient4 y
+  0,                                      !- Coefficient5 y**2
+  0,                                      !- Coefficient6 x*y
+  0,                                      !- Coefficient7 x**3
+  0,                                      !- Coefficient8 y**3
+  0,                                      !- Coefficient9 x**2*y
+  0,                                      !- Coefficient10 x*y**2
   0,                                      !- Minimum Value of x
-  1;                                      !- Maximum Value of x
+  1,                                      !- Maximum Value of x
+  0,                                      !- Minimum Value of y
+  1;                                      !- Maximum Value of y
 

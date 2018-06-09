@@ -14,19 +14,49 @@ namespace Ironbug.HVACTests
     {
 
         [TestMethod]
-        public void OS_Curve_Test()
+        public void OS_Curve_Clone_Test()
         {
             var model = new Model();
-
             var c = new CurveBicubic(model);
             c.setCoefficient1Constant(22.22);
+
+            var h1 = c.handle().__str__();
+
             var model2 = new Model();
-            var boiler = new BoilerHotWater(model2);
-            boiler.setNormalizedBoilerEfficiencyCurve(c.clone(model2).to_Curve().get());
+            var c2 = c.clone(true);
+            model2.addObject(c2);
+
+            var h2 = c2.handle().__str__();
 
             string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             var success = model2.Save(saveFile);
-            
+            success &= model2.getCurveBicubics().Any();
+
+            Assert.IsTrue(success);
+
+        }
+
+        [TestMethod]
+        public void OS_Curve_Test()
+        {
+            var model = new Model();
+            var c = new CurveBicubic(model);
+            c.setCoefficient1Constant(22.22);
+
+
+            var model2 = new Model();
+            var boiler = new BoilerHotWater(model2);
+            var cv = ((Curve)c).toIdfObject().clone(true);
+            var str = cv.__str__();
+
+            //var newCrv = cv.to_Curve().get();
+            var newCrv = model2.addObject(cv).get();
+            boiler.setNormalizedBoilerEfficiencyCurve(newCrv.to_Curve().get());
+
+            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            var success = model2.Save(saveFile);
+            success &= model2.getCurveBicubics().Any();
+
             Assert.IsTrue(success);
 
         }
