@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_MasterField:IB_Field
+    public class IB_MasterField:IB_ProField
     {
         //private IB_DataFieldSet _dataFieldSet;
         public IB_MasterField(string Description)

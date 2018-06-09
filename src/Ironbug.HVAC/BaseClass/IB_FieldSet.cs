@@ -21,7 +21,7 @@ namespace Ironbug.HVAC.BaseClass
         //parent type for getting all "set" methods 
         internal abstract Type RefOpsType { get; }
         
-        public IB_MasterField TheMasterDataField { get; }
+        private IB_MasterField TheMasterDataField { get; }
 
 
         protected IB_FieldSet()

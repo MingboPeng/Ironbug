@@ -112,7 +112,6 @@ namespace Ironbug.HVAC
             object CheckBelonging(ModelObject c, object v)
             {
                 object obj = v;
-                //TODO: v is Curve
                 if (v is Curve curve)
                 {
                     //TODO: add supports of Schedule later

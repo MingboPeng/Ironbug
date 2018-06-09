@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
 
         private ICollection<IB_Field> ProDataFieldList { get; set; }
 
-        private IB_FieldSet DataFieldSet { get; set; }
+        private IB_FieldSet FieldSet { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the Ironbug_DataFields class.
@@ -107,7 +107,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
-                this.DataFieldSet = GetDataFieldSet(CurrentDataFieldType);
+                this.FieldSet = GetFieldSetInstance(CurrentDataFieldType);
 
             }
             return base.Read(reader);
@@ -146,7 +146,7 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        private static IB_FieldSet GetDataFieldSet(Type type)
+        private static IB_FieldSet GetFieldSetInstance(Type type)
         {
             return Convert.ChangeType(Activator.CreateInstance(type, true), type) as IB_FieldSet;
         }
@@ -166,17 +166,21 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-            this.DataFieldSet = GetDataFieldSet(type);
-            var dataFieldList = this.DataFieldSet.GetSelfPreperties();
-            //including ProDataField and MasterDataField
-            this.ProDataFieldList = dataFieldList.Where(_ => !(_ is IB_BasicField)).ToList();
-            this.ProDataFieldList.Add(this.DataFieldSet.TheMasterDataField);
+            this.FieldSet = GetFieldSetInstance(type);
+            //var fieldList = this.FieldSet.GetSelfPreperties();
+            var fieldList = this.FieldSet;
+            //including ProField and MasterField
+            //MasterField is ProField
+            this.ProDataFieldList = fieldList.Where(_ => (_ is IB_ProField)).ToList();
+
+
+            //this.ProDataFieldList.Add(this.FieldSet.TheMasterDataField);
 
             //only show the basic setting first
-            var dataFieldTobeAdded = dataFieldList.Where(_ => _ is IB_BasicField);
+            var dataFieldTobeAdded = fieldList.Where(_ => _ is IB_BasicField);
             if (!dataFieldTobeAdded.Any() || this.IsProSetting ==true)
             {
-                dataFieldTobeAdded = dataFieldList;
+                dataFieldTobeAdded = fieldList;
             }
 
             var paramSet = new List<IGH_Param>();
@@ -184,7 +188,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //TDDO: need to revisit this!!
                 var description = item.Description;
-                var iddObj = this.DataFieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
+                var iddObj = this.FieldSet.FirstOrDefault(_ => _.PerfectName == item.PerfectName);
                 if (iddObj != null)
                 {
                     description += iddObj.Description;
@@ -217,7 +221,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 return null;
             }
-            var dataFieldSet = this.DataFieldSet;
+            var dataFieldSet = this.FieldSet;
             var settingDatas = new Dictionary<IB_Field,object>();
 
             var allInputParams = this.Params.Input;
@@ -236,6 +240,7 @@ namespace Ironbug.Grasshopper.Component
                         
                         var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
                         
+                        //TODO: will remove master field at some point
                         if (dataField is IB_MasterField masterDataField)
                         {
                             var userInputs = item.VolatileData.AllData(true).Select(_ => ((GH_String)_).Value);
@@ -251,27 +256,7 @@ namespace Ironbug.Grasshopper.Component
                         {
                             object value = null;
                             fristData.CastTo(out value);
-
-                            ////TODO: type of int??
-                            //if (dataField.DataType == typeof(double))
-                            //{
-                            //    value = ((GH_Number)fristData).Value;
-                            //}
-                            //else if(dataField.DataType == typeof(double))
-                            //{
-                            //    fristData.CastTo(out value);
-                            //}
-                            ////else if(dataField.DataType.ToString() == "OpenStudio.Curve")
-                            ////{
-                            ////    IB_Curve c = null;
-                            ////    fristData.CastTo(out c);
-                            ////    value = c.ToOS();
-                            ////}
-                            //else
-                            //{
-                            //    value = ((GH_String)fristData).Value;
-                            //}
-
+                            
                             settingDatas.TryAdd(dataField, value);
                         }
 
