@@ -26,15 +26,17 @@ namespace Ironbug.HVAC.BaseClass
 
         protected IB_FieldSet()
         {
+            //First, get all self properties such as IB_TopField, IB_BasicField, IB_ProField, etc
+            //and put it to _items
+            this._items = this.GetSelfPreperties().ToList();
+
+            var osSetters = IB_OpsTypeOperator.GetOSSetters(this.RefOpsType).Select(_ => new IB_Field(_)); // convert to IB_Field
+            this._items.UpdateFromOSMethods(osSetters);
+
             //Assign reference IddObject from OpenStudio
             //this.RefIddObject = IB_OpsTypeOperator.GetIddObject(this.RefOpsType);
             var iddFields = IB_OpsTypeOperator.GetIddObject(this.RefOpsType).GetIddFields();
-
-            this._items = IB_OpsTypeOperator.GetOSSetters(this.RefOpsType)
-                .Select(_ => new IB_Field(_)) // convert to IB_Field
-                .UpdateFromIddFields(iddFields)
-                .UpdateFromSelfPreperties(this)
-                .ToList();
+            this._items.UpdateFromIddFields(iddFields);
             
             this.TheMasterDataField = GetTheMasterDataField(this);
             this._items.Add(TheMasterDataField);
@@ -46,11 +48,11 @@ namespace Ironbug.HVAC.BaseClass
         /// Call this method to get all fields that inside of this fieldset.
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<IB_Field> GetCustomizedDataFields()
-        {
-            return this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                            .Select(_ => (IB_Field)_.GetValue(this, null));
-        }
+        //public IEnumerable<IB_Field> GetCustomizedDataFields()
+        //{
+        //    return this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+        //                    .Select(_ => (IB_Field)_.GetValue(this, null));
+        //}
 
         //public IB_DataField GetDataFieldByName(string name)
         //{
@@ -170,7 +172,7 @@ namespace Ironbug.HVAC.BaseClass
 
             var dfSet = iB_fields.ToList();
 
-            dfSet.Add(new IB_Field("Name", "Name"));
+            //dfSet.Add(new IB_Field("Name", "Name"));
             //dfSet.Add(new IB_Field("Comment", "Comment"));
 
             foreach (var item in dfSet)
@@ -185,29 +187,46 @@ namespace Ironbug.HVAC.BaseClass
 
         }
 
-        
+        /// <summary>
+        /// Call this method to get all fields that inside of this fieldset.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<IB_Field> GetSelfPreperties(this IB_FieldSet derivedDataFieldSet)
+        {
+
+            return derivedDataFieldSet.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
+                .Select(_ => (IB_Field)_.GetValue(derivedDataFieldSet, null));
+            
+
+        }
 
         /// <summary>
         /// Map properties of the ProDataField or BasicDataField that defined in derived class, to DataFieldSet's IB_DataField collection.
         /// </summary>
         /// <returns></returns>
-        public static IEnumerable<IB_Field> UpdateFromSelfPreperties(this IEnumerable<IB_Field> ib_dataFields, IB_FieldSet derivedDataFieldSet)
+        public static IEnumerable<IB_Field> UpdateFromOSMethods(this IEnumerable<IB_Field> fieldItemCollection, IEnumerable<IB_Field> openStudioSetters)
         {
-            
-            derivedDataFieldSet.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-                .Select(_ => (IB_Field)_.GetValue(derivedDataFieldSet, null))
-                .ToList().ForEach(_ =>
+            var mergedFields = fieldItemCollection.ToList();
+            openStudioSetters.ToList().ForEach(_ =>
+            {
+                
+                var fieldMatched = mergedFields.GetByName(_.FULLNAME);
+                if (fieldMatched is null)
                 {
-                    //all customized DataFields will be tested before release, 
-                    //so there is no need to test it here for inclusion.
-                    var dataField = ib_dataFields.GetByName(_.FULLNAME);
-                    
-                    dataField.NickName = _.NickName;
-                    dataField.DetailedDescription = _.DetailedDescription;
+                    //setterMethod has not been included in fieldItemCollection
+                    mergedFields.Add(_);
+                }
+                else
+                {
+                    //TODO: this is not the best practice
+                    fieldMatched.DataType = _.DataType;
+                    fieldMatched.SetterMethod = _.SetterMethod;
+                }
 
-                });
+            });
 
-            return ib_dataFields;
+            fieldItemCollection = mergedFields;
+            return mergedFields;
 
         }
 

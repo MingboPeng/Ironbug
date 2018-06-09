@@ -14,10 +14,10 @@ namespace Ironbug.HVAC.BaseClass
         public string FullName { get; private set; }
         public string PerfectName { get; private set; }
         public string NickName { get; set; }
-        public string GetterMethodName { get; protected set; }
+        //public string GetterMethodName { get; protected set; }
         //public string SetterMethodName { get; protected set; }
-        public MethodInfo SetterMethod { get; protected set; } = null;
-        public Type DataType { get; private set; } = typeof(string);
+        public MethodInfo SetterMethod { get;  set; } = null;
+        public Type DataType { get;  set; } = typeof(string);
         //public bool IsHidden { get; set; }
 
         public IEnumerable<string> ValidData { get; private set; } = new List<string>();

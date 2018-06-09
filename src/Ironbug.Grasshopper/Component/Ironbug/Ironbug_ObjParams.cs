@@ -167,7 +167,7 @@ namespace Ironbug.Grasshopper.Component
             }
 
             this.DataFieldSet = GetDataFieldSet(type);
-            var dataFieldList = this.DataFieldSet.GetCustomizedDataFields();
+            var dataFieldList = this.DataFieldSet.GetSelfPreperties();
             //including ProDataField and MasterDataField
             this.ProDataFieldList = dataFieldList.Where(_ => !(_ is IB_BasicField)).ToList();
             this.ProDataFieldList.Add(this.DataFieldSet.TheMasterDataField);

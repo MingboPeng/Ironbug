@@ -23,7 +23,7 @@ namespace Ironbug.HVACTests
             var c = new OpenStudio.CurveCubic(md1);
             ////c.GetType().get
             var value = 0.5;
-            var methodInfo = c.GetType().GetMethod("setCoefficient2X", new[] { value.GetType() });
+            var methodInfo = c.GetType().GetMethod("setCoefficient2x", new[] { value.GetType() });
             Assert.IsTrue(methodInfo !=null);
         }
         [TestMethod]

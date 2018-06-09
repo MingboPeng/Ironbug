@@ -49,7 +49,7 @@ namespace Ironbug.HVACTests
         public void GetCustomizedDataFields_Test()
         {
             var datafields = IB_PumpVariableSpeed_DataFields.Value;
-            var customizedDataFields = datafields.GetCustomizedDataFields();
+            var customizedDataFields = datafields.GetSelfPreperties();
 
             var success = customizedDataFields.Count() == 8;
             Assert.IsTrue(success);
