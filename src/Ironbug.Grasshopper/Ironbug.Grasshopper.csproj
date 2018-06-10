@@ -121,6 +121,9 @@
     <Compile Include="Component\Ironbug\Ironbug_CurveTriquadratic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PipeAdiabatic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PipeOutdoor.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACComponentBase.cs" />
@@ -202,6 +205,168 @@
     <None Include="Resources\SetPoint.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\HCAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ObjParams.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutdoorAir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopCW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopDW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PumpC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PumpV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointFlowOA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetpointOAReset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointScheduled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointWarmest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SizingPlant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SizingSys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SizingZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThermalZone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitHeater.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\duct.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeAdiabatic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeIndoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeOutdoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HVAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_l.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_qt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_tq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChilledBeam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_CB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWBaseboard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWBR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalUncontrolled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardEC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardERC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardWC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BaseboardWRC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FanOnOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitVentHC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VRF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VRFUnit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\Boiler.png" />
   </ItemGroup>
   <ItemGroup>
@@ -241,66 +406,6 @@
     <None Include="Resources\CoilHW.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DistricCooling.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DistricHeating.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FanC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FanV.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ObjParams.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OutdoorAir.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PFPBox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PlantLoopCW.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PumpC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PumpV.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SetpointOAReset.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SetPointWarmest.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SFPBox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SizingPlant.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SizingSys.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SizingZone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ThermalZone.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnitHeater.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VAVBox.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AirLoop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\CoolingTower1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -310,94 +415,10 @@
     <None Include="Resources\CoolingTowerV.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PlantLoopHW.png" />
+    <None Include="Resources\DistricCooling.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PlantLoop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PlantLoopDW.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SetPointScheduled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\FanOnOff.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VRF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AirTerminalUncontrolled.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CoilHWBaseboard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CoilHWBR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnitVentC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnitVentH.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\UnitVentHC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VRFUnit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BaseboardEC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BaseboardERC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BaseboardWC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BaseboardWRC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ChilledBeam.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Coil_CB.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_q.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_qt.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_tq.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_e.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_fan.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\HCAC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bq.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_c.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_l.png" />
+    <None Include="Resources\DistricHeating.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -70,6 +70,9 @@
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="LoopObjs\IB_PipeOutdoor.cs" />
+    <Compile Include="LoopObjs\IB_PipeAdiabatic.cs" />
+    <Compile Include="LoopObjs\IB_Duct.cs" />
     <Compile Include="Curves\IB_CurveTriquadratic.cs" />
     <Compile Include="Curves\IB_CurveSigmoid.cs" />
     <Compile Include="Curves\IB_CurveQuartic.cs" />
