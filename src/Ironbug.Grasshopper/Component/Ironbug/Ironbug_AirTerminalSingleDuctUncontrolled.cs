@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AirTerminalSingleDuctUncontrolled()
           : base("Ironbug_AirTerminalSingleDuctUncontrolled", "Diffuser",
               "Description",
-              "Ironbug", "01:AirTerminals",
+              "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctUncontrolled_DataFieldSet))
         {
         }

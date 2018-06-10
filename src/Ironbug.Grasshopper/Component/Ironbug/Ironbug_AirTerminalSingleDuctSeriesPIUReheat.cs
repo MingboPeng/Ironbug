@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AirTerminalSingleDuctSeriesPIUReheat()
           : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SFP",
               "Description",
-              "Ironbug", "01:AirTerminals",
+              "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet))
         {
         }
