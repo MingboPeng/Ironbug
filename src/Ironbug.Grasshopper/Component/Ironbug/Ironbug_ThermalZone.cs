@@ -74,6 +74,8 @@ namespace Ironbug.Grasshopper.Component
                 OSZones.Add(new IB_ThermalZone(name));
             }
 
+            if (!OSZones.Any()) return;
+
             //add airTerminal
             var airTerminals = new List<IB_AirTerminal>();
 
@@ -184,27 +186,36 @@ namespace Ironbug.Grasshopper.Component
             get { return new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0"); }
         }
 
-        public static IEnumerable<string> CallFromHBHive(List<GH_Brep> inBreps)
+        private static IEnumerable<string> CallFromHBHive(List<GH_Brep> inBreps)
         {
             var HBIDs = new List<string>();
             foreach (var item in inBreps)
             {
-                //todo: if null
+                
+                if (inBreps is null) continue;
+
                 //todo: check if HBID existed
                 var HBID = item.Value.UserDictionary["HBID"] as string;
                 //string formatedHBID = string.Format("['{0}']['{1}']", HBID[0], HBID[1]);
                 HBIDs.Add(HBID);
             }
-
-            var HBZoneNames = GetHBObjects(HBIDs).Select(_ => _ as string);
-
-            return HBZoneNames;
+            
+            if (HBIDs.Any())
+            {
+                return GetHBObjects(HBIDs).Select(_ => _ as string);
+            }
+            else
+            {
+                return new List<string>();
+            }
+            
+            
 
         }
 
 
 
-        public static IList<dynamic> GetHBObjects(List<string> HBIDs)
+        private static IList<dynamic> GetHBObjects(List<string> HBIDs)
         {
 
             var pyRun = Rhino.Runtime.PythonScript.Create();
