@@ -353,6 +353,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap curve_e {
+            get {
+                object obj = ResourceManager.GetObject("curve_e", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap curve_fan {
+            get {
+                object obj = ResourceManager.GetObject("curve_fan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap curve_l {
             get {
                 object obj = ResourceManager.GetObject("curve_l", resourceCulture);
@@ -446,6 +466,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap FanV {
             get {
                 object obj = ResourceManager.GetObject("FanV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HVAC {
+            get {
+                object obj = ResourceManager.GetObject("HVAC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

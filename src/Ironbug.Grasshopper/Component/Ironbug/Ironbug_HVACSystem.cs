@@ -4,13 +4,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : GH_Component
+    public class Ironbug_HVACSystem : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SaveOSModel class.
         /// </summary>
-        public Ironbug_SaveOSModel()
-          : base("Ironbug_SaveOSModel", "Nickname",
+        public Ironbug_HVACSystem()
+          : base("Ironbug_HVACSystem", "HVACSystem",
               "Description",
               "Ironbug", "HVAC")
         {
@@ -21,19 +21,16 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
-            pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
+            pManager.AddGenericParameter("AirLoops", "AirLoops", "AirLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("VRFSystems", "VRFSystems", "VRFSystems", GH_ParamAccess.list);
-            pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
             pManager[0].Optional = true;
+            pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager[1].Optional = true;
             pManager[1].DataMapping = GH_DataMapping.Flatten;
             pManager[2].Optional = true;
             pManager[2].DataMapping = GH_DataMapping.Flatten;
-            pManager[3].Optional = true;
-            pManager[3].DataMapping = GH_DataMapping.Flatten;
 
         }
 
@@ -42,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACSystem", "HVACSystem", "A fully detailed HVAC system for ExportToOpenStudio component.", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -51,36 +48,18 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            string filepath = string.Empty;
-            filepath = @"C:\Users\mingo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
             var vrfs = new List<HVAC.IB_AirConditionerVariableRefrigerantFlow>();
-            bool write = false;
 
-            //var model = new OpenStudio.Model();
-
-            DA.GetData(0, ref filepath);
-            DA.GetDataList(1, airLoops);
-            DA.GetDataList(2,  plantLoops);
-            DA.GetDataList(3, vrfs);
-
-            DA.GetData(4, ref write);
-
-            if (!write) return;
+            DA.GetDataList(0, airLoops);
+            DA.GetDataList(1, plantLoops);
+            DA.GetDataList(2, vrfs);
             
-            if (string.IsNullOrEmpty(filepath)) return;
-
             var hvac = new HVAC.IB_HVACSystem(airLoops, plantLoops, vrfs);
-            var saved = hvac.SaveHVAC(filepath);
+            DA.SetData(0, hvac);
 
-            if (saved)
-            {
-                DA.SetData(0, filepath);
-            }
-            
-            
-            
+
         }
 
         /// <summary>
@@ -92,7 +71,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.HVAC;
             }
         }
 
@@ -101,7 +80,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public override Guid ComponentGuid
         {
-            get { return new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1"); }
+            get { return new Guid("330C6DCC-EC73-49C7-96CB-B0EB522A1585"); }
         }
 
         
