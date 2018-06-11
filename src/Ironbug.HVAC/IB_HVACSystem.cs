@@ -66,31 +66,17 @@ namespace Ironbug.HVAC
 
         private static OpenStudio.Model GetOrNewModel(string opsModelFilePath)
         {
-            if (!File.Exists(opsModelFilePath)) throw new Exception("OSM file doesn't exist!");
+            var model =  new OpenStudio.Model();
+            if (File.Exists(opsModelFilePath))
+            {
+                var osmPath = new OpenStudio.Path(opsModelFilePath);
+                var optionalModel = OpenStudio.Model.load(osmPath);
+
+                if(optionalModel.is_initialized()) model = optionalModel.get();
+            }
             
-            var osmPath = new OpenStudio.Path(opsModelFilePath);
-
-            var optionalModel = OpenStudio.Model.load(osmPath);
-            var model = optionalModel.is_initialized() ? optionalModel.get() : new OpenStudio.Model();
-
             return model;
         }
-
-
-        //private void SetThermalZones(OpenStudio.Model model)
-        //{
-        //    //link ThermalZone to Space(HBZone)
-        //    var thermalZones = model.getThermalZones();
-        //    var spaces = model.getSpaces();
-
-        //    foreach (var space in spaces)
-        //    {
-        //        //TODO: check what if couldn't find it by name??
-        //        var name = space.nameString().Replace("_space", "");
-        //        var thermalZone = thermalZones.Where(_ => _.nameString() == name).First();
-        //        space.setThermalZone(thermalZone);
-        //    }
-        //}
-
+        
     }
 }
