@@ -286,7 +286,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             ModelObject realObj = null;
-            if (this is IIB_ShareableObj)
+            if (this is IIB_DualLoopObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
                 realObj = objInModel.isNull()? InitAndSetAttributes(): objInModel.get();
@@ -323,7 +323,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             ModelObject realObj = null;
-            if (this is IIB_ShareableObj)
+            if (this is IIB_DualLoopObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
                 realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;

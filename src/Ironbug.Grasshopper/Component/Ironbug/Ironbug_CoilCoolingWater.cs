@@ -34,7 +34,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingWater", "CoilCW", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirSide_CoilCoolingWater", "CoilCW", "Connect to air loop's supply side or other water cooled system.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace Ironbug.Grasshopper.Component
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
 
         /// <summary>

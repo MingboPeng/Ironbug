@@ -117,10 +117,9 @@
     <Compile Include="Interfaces\IIB_DataFieldSet.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
     <Compile Include="BaseClass\IB_AirTerminal.cs" />
-    <Compile Include="Interfaces\IIB_DualLoopObject.cs" />
     <Compile Include="Interfaces\IIB_LoopObject.cs" />
     <Compile Include="Interfaces\IIB_PlantLoopObject.cs" />
-    <Compile Include="Interfaces\IIB_ShareableObj.cs" />
+    <Compile Include="Interfaces\IIB_DualLoopObj.cs" />
     <Compile Include="Interfaces\IIB_ToOPSable.cs" />
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IVoid.cs" />

@@ -31,6 +31,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilHeatingWaterBaseboard", "CoilHW_Bd", "connect to baseboard", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace Ironbug.Grasshopper.Component
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
 
         

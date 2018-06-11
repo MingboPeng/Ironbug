@@ -52,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             string filepath = string.Empty;
-            filepath = @"C:\Users\mingo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
+            //filepath = @"C:\Users\mingo\Documents\GitHub\Ironbug\doc\osmFile\savedFromGH.osm";
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
             var plantLoops = new List<HVAC.IB_PlantLoop>();
             var vrfs = new List<HVAC.IB_AirConditionerVariableRefrigerantFlow>();

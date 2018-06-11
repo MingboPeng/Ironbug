@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingWaterBaseboard : IB_CoilBasic, IIB_ShareableObj, IIB_PlantLoopObjects
+    public class IB_CoilHeatingWaterBaseboard : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingWaterBaseboard();
 

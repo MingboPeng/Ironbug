@@ -30,7 +30,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit", "Connect to Zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit_In", "Connect to Zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit_Out", "Connect to VRF system", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
 
         /// <summary>

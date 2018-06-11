@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_SetpointManager : IB_HVACObject, IIB_ShareableObj
+    public abstract class IB_SetpointManager : IB_HVACObject, IIB_AirLoopObject, IIB_PlantLoopObjects
     {
 
         public IB_SetpointManager(SetpointManager GhostOSObject) : base(GhostOSObject)

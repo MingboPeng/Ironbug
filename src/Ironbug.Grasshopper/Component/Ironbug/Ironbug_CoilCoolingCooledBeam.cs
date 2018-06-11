@@ -30,7 +30,8 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingCooledBeam", "Coil_CB", "connect to chilled beam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingCooledBeam", "Coil_CB", "Connect to chilled beam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
         /// <summary>

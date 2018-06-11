@@ -53,7 +53,6 @@ namespace Ironbug.Grasshopper.Component
             var branches = this.CollectBranches();
             this.Message = this.CountBranches(branches);
             
-            
             DA.SetDataTree(0, branches);
         }
 
