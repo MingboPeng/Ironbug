@@ -25,7 +25,17 @@ namespace Ironbug.HVAC
             }
         }
 
-        
+        public override string ToString()
+        {
+            int c = Count();
+            if (c <= 1)
+            {
+                return $"{this.Count()} zone branch";
+            }
+            return $"{this.Count()} zone branches";
+        }
+
+
     }
 
 

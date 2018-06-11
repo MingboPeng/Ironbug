@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Rhino.Geometry;
+using Grasshopper;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -29,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Branch1", "B1", "A list of zones will be automatically converted to branches. One zone per branch", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Branch1", "B1", "A list of zones will be automatically converted to branches. One zone per branch", GH_ParamAccess.tree);
             pManager[0].Optional = true;
         }
 
@@ -38,7 +40,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopBranches", "Branches", "use this in air loop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirLoopBranches", "Branches", "use this in air loop", GH_ParamAccess.tree);
         }
 
         /// <summary>
@@ -51,8 +53,8 @@ namespace Ironbug.Grasshopper.Component
             var branches = this.CollectBranches();
             this.Message = this.CountBranches(branches);
             
-
-            DA.SetData(0, branches);
+            
+            DA.SetDataTree(0, branches);
         }
 
         public bool CanInsertParameter(GH_ParameterSide side, int index)
@@ -71,7 +73,7 @@ namespace Ironbug.Grasshopper.Component
             param.NickName = String.Empty;
             param.Name = "Branch";
             param.Description = "A list of zones will be automatically converted to branches. One zone per branch";
-            param.Access = GH_ParamAccess.list;
+            param.Access = GH_ParamAccess.tree;
             param.Optional = true;
             return param;
         }
@@ -116,25 +118,26 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        private string CountBranches(HVAC.IB_AirLoopBranches branches)
+        private string CountBranches(DataTree<IB_AirLoopBranches> loops)
         {
             string messages = string.Empty;
-            var b = branches.Branches.Count;
+            if (loops.DataCount == 0) return messages;
 
-            if (b>0)
-            {
-                messages = $"{b} branches";
-            }
+            var firstTree = loops.Branches.First();
+            var airloopBranches = firstTree.First();
+            var b = airloopBranches.Branches.Count;
+
+            if (b>0) messages = $"{b} branches";
+            if (loops.BranchCount>1) messages += "/tree";
 
             return messages;
 
         }
 
-        private IB_AirLoopBranches CollectBranches()
+        private DataTree<IB_AirLoopBranches> CollectBranches()
         {
-            
-            var branches = new IB_AirLoopBranches();
-            
+            GH_Structure<IGH_Goo> tree = new GH_Structure<IGH_Goo>();
+
             var allParams = this.Params.Input;
             foreach (var param in allParams)
             {
@@ -143,37 +146,49 @@ namespace Ironbug.Grasshopper.Component
                     continue;
                 }
                 
-                //TODO: need to check what if the tree structure.
                 if (!param.VolatileData.IsEmpty)
                 {
-                    var branch = param
-                        .VolatileData
-                        .AllData(true)
-                        .Select((_) =>  (IB_HVACObject)((GH_ObjectWrapper)_).Value)
-                        .ToList();
-                    
-                    foreach (var item in branch)
+                    var treeData = param.VolatileData as GH_Structure<IGH_Goo>;
+                    tree.MergeStructure(treeData);
+                }
+                
+            }
+
+            var trees =  ConvertTreeItemsToTreeBranch(tree);
+
+            return trees;
+
+            DataTree<IB_AirLoopBranches> ConvertTreeItemsToTreeBranch(GH_Structure<IGH_Goo> treeItems)
+            {
+                DataTree<IB_AirLoopBranches> loops = new DataTree<IB_AirLoopBranches>();
+                var ItemGroups = treeItems.Branches;
+                int index = 0;
+                foreach (var group in ItemGroups)
+                {
+                    var loop = new IB_AirLoopBranches();
+                    foreach (var ghObj in group)
                     {
+                        var item = (IB_HVACObject)((GH_ObjectWrapper)ghObj).Value;
                         if (item is IB_ThermalZone zone)
                         {
-                            branches.Add(new List<IB_HVACObject>() { zone });
+                            loop.Add(new List<IB_HVACObject>() { zone });
                         }
                         else
                         {
                             throw new Exception("Currently AirloopBranch only accepts Zone objects. If you want to add AirTerminals, please add it directly to zones!");
                         }
-                        
+
                     }
-
-
                     
+                    loops.Add(loop, new GH_Path(index));
+                    index++;
                 }
+                
 
-                
-                
+                return loops;
+
+
             }
-
-            return branches;
         }
 
         private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)

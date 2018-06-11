@@ -9,7 +9,7 @@ namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
-        public List<List<IB_HVACObject>> Branches { get; set; } = new List<List<IB_HVACObject>>();
+        public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
         public IB_LoopBranches() : base(new Node(new Model()))
         {
 
@@ -65,23 +65,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
     }
-
-    //public class IB_LoopBranch: IB_HVACObject
-    //{
-    //    public IList<IB_HVACObject> BranchItems { get; set; } = new List<IB_HVACObject>();
-
-    //    protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_LoopBranch();
-
-    //    public override bool AddToNode(Node node)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-
-    //    protected override ModelObject InitOpsObj(Model model)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+    
 
 
 }

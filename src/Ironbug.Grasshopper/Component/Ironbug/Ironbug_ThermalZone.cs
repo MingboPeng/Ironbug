@@ -84,7 +84,6 @@ namespace Ironbug.Grasshopper.Component
                 //reset all puppetable state first, as it might came from previous solution.
                 airTerminals.ForEach(_ => _.ResetPuppetState());
                 //tracking all previously connected objs
-                //airTerminals.ForEach(_ => this.WatchPuppetStates(_));
 
                 if (airTerminals.Count != OSZones.Count && airTerminals.Count == 1)
                 {
