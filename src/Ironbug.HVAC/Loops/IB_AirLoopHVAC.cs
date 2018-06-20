@@ -15,7 +15,7 @@ namespace Ironbug.HVAC
         private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
         private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
-        
+        private IB_SizingSystem IB_SizingSystem { get; set; } = new IB_SizingSystem();
 
         private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
 
@@ -25,6 +25,12 @@ namespace Ironbug.HVAC
             //this.osModel = new Model();
             //this.ghostAirLoopHVAC = new AirLoopHVAC(new Model());
         }
+
+        public void SetSizingSystem(IB_SizingSystem sizing)
+        {
+            this.IB_SizingSystem = sizing;
+        }
+
 
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
@@ -63,10 +69,11 @@ namespace Ironbug.HVAC
         protected override ModelObject InitOpsObj(Model model)
         {
             this.CheckSupplySide(this.supplyComponents);
-
+            
             Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
             var airLoopHVAC = base.OnInitOpsObj(InitMethod, model, postProcess);
-
+            this.IB_SizingSystem.ToOS(airLoopHVAC);
+            
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);
             
@@ -78,7 +85,7 @@ namespace Ironbug.HVAC
             var fanCount = Components.Count(_ => _ is IB_Fan);
             if (fanCount == 0)
             {
-                throw new Exception("Airloop need at least one fan!");
+                throw new Exception("Airloop needs at least one fan!");
             }
             else
             {

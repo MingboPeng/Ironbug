@@ -28,8 +28,11 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
             pManager.AddGenericParameter("demand", "demand", "zoneBranches or other HVAC components", GH_ParamAccess.list);
+            pManager.AddGenericParameter("sizingSystem", "sizing", "HVAC components", GH_ParamAccess.item);
+            
             pManager[0].Optional = true;
             pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -52,7 +55,15 @@ namespace Ironbug.Grasshopper.Component
             var demandComs = new List<IB_HVACObject>();
             DA.GetDataList(1, demandComs);
 
+            HVAC.IB_SizingSystem sizing = null;
+           
+            
             var airLoop = new HVAC.IB_AirLoopHVAC();
+            if (DA.GetData(2, ref sizing))
+            {
+                airLoop.SetSizingSystem(sizing);
+            }
+            
 
             //TODO: need to check nulls
             foreach (var item in supplyComs)

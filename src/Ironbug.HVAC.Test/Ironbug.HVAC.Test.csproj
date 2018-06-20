@@ -64,7 +64,8 @@
       <HintPath>..\..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="OpenStudio, Version=2.4.1.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
   </ItemGroup>

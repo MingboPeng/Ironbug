@@ -195,6 +195,7 @@ namespace Ironbug.Grasshopper.Component
             }
             if (!fieldTobeAdded.Any())
             {
+                this.IsMasterSetting = true;
                 fieldTobeAdded = masterFieldList;
             }
 

@@ -52,7 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenStudio, Version=2.4.1.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,6 +87,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
+    <Compile Include="LoopObjs\IB_SizingSystem.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerAirToAirSensibleAndLatent.cs" />

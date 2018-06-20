@@ -70,8 +70,8 @@
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="OpenStudio, Version=2.4.1.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OpenStudio.2.4.0\lib\OpenStudio.dll</HintPath>
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
@@ -144,6 +144,7 @@
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveBicubic.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SizingSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingPlant.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
