@@ -89,6 +89,7 @@
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
     <Compile Include="LoopObjs\IB_SizingSystem.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterBaseboardRadiant.cs" />
@@ -186,7 +187,9 @@
       <Name>Ironbug.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Schedules\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

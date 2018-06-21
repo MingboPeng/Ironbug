@@ -14,13 +14,14 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this.temperature);
 
         private  SetpointManagerScheduled InitMethod(Model model) 
-            => new SetpointManagerScheduled(model, new ScheduleCompact(model, this.temperature));
+            => new SetpointManagerScheduled(model, new ScheduleRuleset(model, this.temperature));
         private static SetpointManagerScheduled InitMethod(Model model, double temp) 
-            => new SetpointManagerScheduled(model, new ScheduleCompact(model, temp));
+            => new SetpointManagerScheduled(model, new ScheduleRuleset(model, temp));
 
         public IB_SetpointManagerScheduled(double temperature) : base(InitMethod(new Model(), temperature))
         {
             this.temperature = temperature;
+
         }
         public override bool AddToNode(Node node)
         {

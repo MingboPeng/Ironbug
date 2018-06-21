@@ -140,6 +140,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
