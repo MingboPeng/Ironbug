@@ -12,6 +12,8 @@ namespace Ironbug.HVAC
         private IB_Child ControllerMechanicalVentilation => this.Children.GetChild<IB_ControllerMechanicalVentilation>();
         public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
         {
+            var mechVent = new IB_Child(new IB_ControllerMechanicalVentilation(),(obj) => this.SetMechanicalVentilation(obj as IB_ControllerMechanicalVentilation));
+            this.Children.Add(mechVent);
         }
 
         public void SetMechanicalVentilation(IB_ControllerMechanicalVentilation mechanicalVentilation)
