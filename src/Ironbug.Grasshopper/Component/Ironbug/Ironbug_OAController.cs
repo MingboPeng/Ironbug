@@ -28,7 +28,9 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("name", "name_", "name", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ControllerMechanicalVentilation", "MechVentCtrl_", "ControllerMechanicalVentilation", GH_ParamAccess.item);
             pManager[0].Optional = true;
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -48,14 +50,20 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_ControllerOutdoorAir();
             var name = string.Empty;
+            var mechVentCtrl = (HVAC.IB_ControllerMechanicalVentilation)null;
 
-            
             //collect settings
             DA.GetData(0, ref name);
             
+
             if (!string.IsNullOrWhiteSpace(name))
             {
                 obj.SetFieldValue(HVAC.IB_ControllerOutdoorAir_DataFieldSet.Value.Name, name);
+            }
+
+            if (DA.GetData(1, ref mechVentCtrl))
+            {
+                obj.SetMechanicalVentilation(mechVentCtrl);
             }
 
             this.SetObjParamsTo(obj);

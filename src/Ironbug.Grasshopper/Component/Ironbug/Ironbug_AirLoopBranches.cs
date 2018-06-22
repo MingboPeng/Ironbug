@@ -122,12 +122,15 @@ namespace Ironbug.Grasshopper.Component
             string messages = string.Empty;
             if (loops.DataCount == 0) return messages;
 
-            var firstTree = loops.Branches.First();
-            var airloopBranches = firstTree.First();
-            var b = airloopBranches.Branches.Count;
+            var totalB = 0;
 
-            if (b>0) messages = $"{b} branches";
-            if (loops.BranchCount>1) messages += "/tree";
+            foreach (var tree in loops.Branches)
+            {
+                totalB += tree.First().Branches.Count;
+            }
+            
+            if (totalB > 0) messages = $"{totalB} branches";
+            if (loops.BranchCount>1) messages += $"/{loops.BranchCount} trees";
 
             return messages;
 

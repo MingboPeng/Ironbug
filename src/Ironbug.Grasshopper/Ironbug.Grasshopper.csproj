@@ -121,6 +121,7 @@
     <Compile Include="Component\Ironbug\Ironbug_CurveTriquadratic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ControllerMechanicalVentilation.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeAdiabatic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeOutdoor.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
