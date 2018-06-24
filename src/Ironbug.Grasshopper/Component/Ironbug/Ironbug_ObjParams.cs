@@ -5,9 +5,7 @@ using System.Windows.Forms;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
-using Ironbug.HVAC;
 using Ironbug.Core;
-using Rhino.Geometry;
 using Ironbug.HVAC.BaseClass;
 using GH_IO.Serialization;
 
@@ -21,6 +19,7 @@ namespace Ironbug.Grasshopper.Component
         private Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; } = false;
+        private bool CanUseProSetting { get; set; } = true;
         private bool IsMasterSetting { get; set; } = false;
 
         private ICollection<IB_Field> profieldList { get; set; }
@@ -33,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_DataFields class.
         /// </summary>
         public Ironbug_ObjParams()
-          : base("Ironbug_DataFields", "Nickname",
+          : base("Ironbug_ObjParams", "ObjParams",
               "Description",
               "Ironbug", "00:Ironbug")
         {
@@ -98,8 +97,9 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            Menu_AppendItem(menu, "ProSetting", ProSetting, true, this.IsProSetting);
-            Menu_AppendItem(menu, "MasterSetting", MasterSetting, true, this.IsMasterSetting);
+            Menu_AppendItem(menu, "ProSettings", ProSetting, this.CanUseProSetting, this.IsProSetting);
+            Menu_AppendItem(menu, "MasterSettings", MasterSetting, true, this.IsMasterSetting);
+            Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
         }
 
@@ -202,6 +202,7 @@ namespace Ironbug.Grasshopper.Component
             }
             if (!fieldTobeAdded.Any())
             {
+                this.CanUseProSetting = false;
                 this.IsMasterSetting = true;
                 fieldTobeAdded = masterFieldList;
             }
@@ -318,8 +319,13 @@ namespace Ironbug.Grasshopper.Component
         private List<IGH_Param> AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
         {
             var paramList = new List<IGH_Param>();
+
             foreach (var field in fieldTobeAdded)
             {
+                //Don't add those already exist
+                var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name.ToUpper() == field.FULLNAME);
+                if (paramFound != null) continue;
+                //Add new Param
                 IGH_Param newParam = new Param_GenericObject();
                 if (field.DataType == typeof(string)) newParam = new Param_String();
                 if (field.DataType == typeof(double)) newParam = new Param_Number();
@@ -339,6 +345,26 @@ namespace Ironbug.Grasshopper.Component
             
         }
 
+        private void RemoveUnused(object sender, EventArgs e)
+        {
+            var inputParams = this.Params.Input;
+            var tobeRemoved = new List<IGH_Param>();
+            foreach (var item in inputParams)
+            {
+                if (item.SourceCount > 0) continue;
+                tobeRemoved.Add(item);
+            }
+
+            foreach (var item in tobeRemoved)
+            {
+
+                this.Params.UnregisterInputParameter(item);
+                this.IsMasterSetting = false;
+                this.IsProSetting = false;
+            }
+            this.Params.OnParametersChanged();
+            this.ExpireSolution(true);
+        }
 
         private void RemoveFields(IEnumerable<IB_Field> fieldsTobeRemoved)
         {
