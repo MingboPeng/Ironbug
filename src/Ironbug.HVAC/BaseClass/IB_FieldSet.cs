@@ -170,10 +170,7 @@ namespace Ironbug.HVAC.BaseClass
         {
 
             var dfSet = iB_fields.ToList();
-
-            //dfSet.Add(new IB_Field("Name", "Name"));
-            //dfSet.Add(new IB_Field("Comment", "Comment"));
-
+            
             foreach (var item in dfSet)
             {
                 var found = iddFields.FirstOrDefault(_ => CleanFULLNAME(_.name()) == item.FULLNAME);
@@ -219,6 +216,7 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     //TODO: this is not the best practice
                     fieldMatched.DataType = _.DataType;
+                    fieldMatched.DetailedDescription = _.DataType == typeof(bool)? $"{fieldMatched.DetailedDescription}\r\nPlease use TRUE or FALSE to set this value regardless whatever suggested below!" : fieldMatched.DetailedDescription;
                     fieldMatched.SetterMethod = _.SetterMethod;
                 }
 

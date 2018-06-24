@@ -90,7 +90,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
             }
-
+            
             string GetDefaultFromIDD(IddFieldProperties properties)
             {
                 var numDef = properties.numericDefault;
