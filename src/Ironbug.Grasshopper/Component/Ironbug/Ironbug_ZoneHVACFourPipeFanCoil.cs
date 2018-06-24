@@ -66,7 +66,7 @@ namespace Ironbug.Grasshopper.Component
         {
             get
             {
-                return null;
+                return Properties.Resources._4PipeFC;
             }
         }
         

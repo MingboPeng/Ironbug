@@ -26,7 +26,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating puppets", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Amount", "n", "number of puppets to be created", GH_ParamAccess.item, 1.0 );
+            pManager.AddNumberParameter("Amount", "n", "number of puppets to be created", GH_ParamAccess.item, 2 );
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
                 //You can add image files to your project resources and access them like this:
                 // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.Duplicate;
             }
         }
 
