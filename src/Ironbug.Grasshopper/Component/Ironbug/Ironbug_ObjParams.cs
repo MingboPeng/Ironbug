@@ -121,7 +121,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
-                this.FieldSet = GetFieldSetInstance(CurrentDataFieldType);
+                this.FieldSet = GetFieldSet(CurrentDataFieldType);
 
             }
             return base.Read(reader);
@@ -163,7 +163,7 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        private static IB_FieldSet GetFieldSetInstance(Type type)
+        private static IB_FieldSet GetFieldSet(Type type)
         {
             return Convert.ChangeType(Activator.CreateInstance(type, true), type) as IB_FieldSet;
         }
@@ -183,7 +183,7 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(inputParams[0]);
             }
 
-            this.FieldSet = GetFieldSetInstance(type);
+            this.FieldSet = GetFieldSet(type);
             //var fieldList = this.FieldSet.GetSelfPreperties();
             var fieldList = this.FieldSet;
             //including ProField and MasterField

@@ -21,7 +21,6 @@ namespace Ironbug.HVAC.BaseClass
         //parent type for getting all "set" methods 
         internal abstract Type RefOpsType { get; }
         
-        private IB_MasterField TheMasterDataField { get; }
 
 
         protected IB_FieldSet()
@@ -35,56 +34,15 @@ namespace Ironbug.HVAC.BaseClass
 
             //Assign reference IddObject from OpenStudio
             //this.RefIddObject = IB_OpsTypeOperator.GetIddObject(this.RefOpsType);
-            var iddFields = IB_OpsTypeOperator.GetIddObject(this.RefOpsType).GetIddFields();
+            var iddObj = IB_OpsTypeOperator.GetIddObject(this.RefOpsType);
+
+            var iddFields = iddObj.GetIddFields();
             this._items.UpdateFromIddFields(iddFields);
             
-            //this.TheMasterDataField = GetTheMasterDataField(this);
-            //this._items.Add(TheMasterDataField);
             
         }
         
-
-        /// <summary>
-        /// Call this method to get all fields that inside of this fieldset.
-        /// </summary>
-        /// <returns></returns>
-        //public IEnumerable<IB_Field> GetCustomizedDataFields()
-        //{
-        //    return this.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
-        //                    .Select(_ => (IB_Field)_.GetValue(this, null));
-        //}
-
-        //public IB_DataField GetDataFieldByName(string name)
-        //{
-        //    var field = this.GetType().GetField(name);
-        //    return (IB_DataField)field.GetValue(this);
-        //}
-
-
-
-        //private static IB_MasterField GetTheMasterDataField(IB_FieldSet dataFieldSet)
-        //{
-
-        //    var masterSettings = dataFieldSet.OrderBy(_ => _.FullName);
-        //    var description = "This gives you an option that if you are looking for a setting that is not listed above," +
-        //        "please feel free to pick any setting from following items, " +
-        //        "but please double check the EnergyPlus Input References to ensure you know what you are doing.\r\n\r\n";
-        //    description += "TDDO: show an example to explain how to use this!\r\n\r\n";
-        //    description += string.Join("\r\n", masterSettings.Select(_ => _.FullName));
-
-        //    ////TODO: there must be a better way to do this.
-        //    //var masterDataFieldMap = new Dictionary<string, IB_DataField>();
-        //    //foreach (var item in masterSettings)
-        //    //{
-        //    //    masterDataFieldMap.Add(item.FullName.ToUpper(), item);
-        //    //}
-
-        //    var df = new IB_MasterField(description);
-        //    return df;
-
-        //}
-
-            
+        
 
         public int Count => _items.Count;
 
