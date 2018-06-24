@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
         //public Type lastDataFieldType { get; set; }
         private Type CurrentDataFieldType { get; set; }
         //private List<IGH_Param> paramSet { get; set; }
-        public Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
+        private Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
         private bool IsProSetting { get; set; } = false;
         private bool IsMasterSetting { get; set; } = false;
@@ -54,6 +54,12 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("HVACObjParams", "ObjParams", "HVACObjParams", GH_ParamAccess.item);
+        }
+
+        protected override void BeforeSolveInstance()
+        {
+            var num = this.Params.Output.Count;
+            base.BeforeSolveInstance(); 
         }
 
         /// <summary>
@@ -123,16 +129,17 @@ namespace Ironbug.Grasshopper.Component
 
         public void CheckRecipients()
         {
-            var outputs = this.Params.Output;
-            if (!outputs.Any())
+            //var outputs = this.Params.Output;
+            //if (!outputs.Any())
+            //{
+            //    return;
+            //}
+            var recipients = this.Params.Output.Last().Recipients;
+            if (recipients.Count > 0)
             {
-                return;
-            }
-            var rec = outputs.Last().Recipients;
-            if (rec.Count > 0)
-            {
+                //TODO: Do I need IGH_DocumentObject?
                 this.DataFieldTypes = new Dictionary<IGH_DocumentObject, Type>();
-                foreach (var item in rec)
+                foreach (var item in recipients)
                 {
                     var targetHVACComponent = (Ironbug_HVACComponentBase)item.Attributes.GetTopLevel.DocObject;
                     
@@ -140,7 +147,7 @@ namespace Ironbug.Grasshopper.Component
                     this.DataFieldTypes.Add(targetHVACComponent, dataFieldType);
                 }
 
-                if (this.DataFieldTypes.Count > 1)
+                if (this.DataFieldTypes.Values.Distinct().Count() > 1)
                 {
                     this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "Different HVAC component has different setting parameters. You should use a new Ironbug_ObjParams for new HVAC component!");
                 }
