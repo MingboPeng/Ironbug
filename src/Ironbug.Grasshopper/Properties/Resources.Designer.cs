@@ -783,6 +783,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap VAVBoxNoReheat {
+            get {
+                object obj = ResourceManager.GetObject("VAVBoxNoReheat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap VRF {
             get {
                 object obj = ResourceManager.GetObject("VRF", resourceCulture);
