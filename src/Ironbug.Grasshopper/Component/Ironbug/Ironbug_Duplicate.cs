@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Parameters;
 using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_CreatePuppets : GH_Component
+    public class Ironbug_Duplicate : GH_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CreatePuppets class.
         /// </summary>
-        public Ironbug_CreatePuppets()
-          : base("Ironbug_CreatePuppets", "Puppets",
+        public Ironbug_Duplicate()
+          : base("Ironbug_Duplicate", "Duplicate",
               "Description",
               "Ironbug", "00:Ironbug")
         {
@@ -32,7 +34,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Puppets", "puppets", "Puppets", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Objects", "objs", "Objects", GH_ParamAccess.list);
+            pManager.AddGenericParameter("-", "-", "-", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -42,7 +45,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             HVAC.BaseClass.IB_ModelObject obj = null;
-            double amount = 1;
+            double amount = 2;
             DA.GetData(0, ref obj);
             DA.GetData(1, ref amount);
 
@@ -50,6 +53,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             {
 
                 var puppets = new List<HVAC.BaseClass.IB_ModelObject>();
+
                 for (int i = 0; i < amount; i++)
                 {
                     var puppet = obj.Duplicate();
@@ -60,11 +64,46 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
                 DA.SetDataList(0, puppets);
                 
+
             }
 
 
 
 
+        }
+
+        protected override void AfterSolveInstance()
+        {
+            base.AfterSolveInstance();
+            if (this.Params.Input[0].Sources.Count == 0) return;
+
+            var refComponent = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
+            if (!(refComponent is Ironbug_HVACComponentBase)) return;
+
+            var component = refComponent as Ironbug_HVACComponentBase;
+            var secondParam = this.Params.Output[1];
+
+            if (component.Params.Output.Count > 1)
+            {
+                var refSecondOutput = component.Params.Output[1];
+                
+                secondParam.Name = refSecondOutput.Name;
+                secondParam.NickName = refSecondOutput.NickName;
+                secondParam.Description = refSecondOutput.Description;
+
+                secondParam.ClearData();
+                var data = this.Params.Output[0].VolatileData;
+                secondParam.AddVolatileDataTree(data); 
+
+            }
+            else
+            {
+                secondParam.Name = "-";
+                secondParam.NickName = "-";
+                secondParam.Description = "-";
+            }
+            
+            //this.Params.OnParametersChanged();
         }
 
         /// <summary>
