@@ -240,28 +240,11 @@ namespace Ironbug.Grasshopper.Component
                         
                         var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
                         
-                        //TODO: will remove master field at some point
-                        if (dataField is IB_MasterField masterDataField)
-                        {
-                            var userInputs = item.VolatileData.AllData(true).Select(_ => ((GH_String)_).Value);
-                            var masterDic = masterDataField.CheckUserInputs(userInputs, dataFieldSet);
-
-                            foreach (var masterItem in masterDic)
-                            {
-                                settingDatas.TryAdd(masterItem.Key, masterItem.Value);
-                            }
-
-                        }
-                        else //IB_BasicDataField or IB_ProDataField
-                        {
-                            object value = null;
-                            fristData.CastTo(out value);
+                        object value = null;
+                        fristData.CastTo(out value);
                             
-                            settingDatas.TryAdd(dataField, value);
-                        }
-
+                        settingDatas.TryAdd(dataField, value);
                         
-
                     }
                 }
 
