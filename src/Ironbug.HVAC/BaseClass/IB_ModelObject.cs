@@ -127,22 +127,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             return puppet;
-
-            //if (this.CurrentState is IB_PuppetableState_None state)
-            //{
-            //    state.ToPuppetHost().AddPuppet(puppet);
-
-            //}
-            //else if (this.CurrentState is IB_PuppetableState_Host stateParent)
-            //{
-            //    stateParent.AddPuppet(puppet);
-            //}
-            //else
-            //{
-            //    //currently only two available
-            //}
-
-
+            
 
         }
         
@@ -203,11 +188,11 @@ namespace Ironbug.HVAC.BaseClass
         /// SetTrackingID only updates self object, but SetAllTrackingIDs will update self object and its child.
         /// Use this after called DuplicateAsPuppet method.
         /// </summary>
-        public virtual void SetAllTrackingIDs()
-        {
-            //this is default. 
-            this.SetTrackingID();
-        }
+        //public virtual void SetAllTrackingIDs()
+        //{
+        //    //this is default. 
+        //    this.SetTrackingID();
+        //}
 
         public void SetFieldValue(IB_Field field, object value)
         {

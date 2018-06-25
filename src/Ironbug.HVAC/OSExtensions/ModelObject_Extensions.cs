@@ -177,7 +177,7 @@ namespace Ironbug.HVAC
 
 
                 var dataname = field.name();
-                var defaultValue = GetDefaultValue(field);
+                var defaultValue = GetDefaultValue(field, ifIPUnit);
                 var unit = GetUnit(field, ifIPUnit);
 
 
@@ -225,15 +225,15 @@ namespace Ironbug.HVAC
                 return unit;
             }
 
-            string GetDefaultValue(IddField field)
+            string GetDefaultValue(IddField field, bool ifIPUnit)
             {
                 var sd = field.properties().stringDefault;
                 var defaultStrStr = sd.isNull() ? string.Empty : sd.get();
-                var defaultNumStr = GetDefaultNumStr(field);
+                var defaultNumStr = GetDefaultNumStr(field, ifIPUnit);
 
                 return string.IsNullOrWhiteSpace(defaultNumStr) ? defaultStrStr : defaultNumStr;
             }
-            string GetDefaultNumStr(IddField field)
+            string GetDefaultNumStr(IddField field, bool ifIPUnit)
             {
                 var numStr = String.Empty;
                 var fieldProp = field.properties();
@@ -245,6 +245,9 @@ namespace Ironbug.HVAC
 
                     var si = fieldProp.units;
                     if (si.isNull()) return numStr;
+
+                    if (!ifIPUnit) return num.ToString();
+
                     var siStr = si.get();
 
                     var ipStr = GetUnit(field, true);
