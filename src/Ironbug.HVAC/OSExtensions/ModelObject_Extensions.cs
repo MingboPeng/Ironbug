@@ -93,8 +93,7 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-               
-                throw new Exception($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException ?? e.Message);
+                throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException ?? e.Message);
                 //invokeResult = e.ToString();
             }
             finally

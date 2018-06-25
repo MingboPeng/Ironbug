@@ -145,6 +145,7 @@
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CurveBicubic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SizingSystem.cs" />
@@ -441,6 +442,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Duplicate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointSZReheat.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
