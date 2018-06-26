@@ -42,11 +42,16 @@ namespace Ironbug.HVAC
 
         protected override ModelObject InitOpsObj(Model model)
         {
-            var opsObj = base.OnInitOpsObj(InitMethod, model).to_ZoneHVACFourPipeFanCoil().get();
-            opsObj.setCoolingCoil((HVACComponent)this.CoolingCoil.To<IB_CoilCoolingWater>().ToOS(model));
-            opsObj.setHeatingCoil((HVACComponent)this.HeatingCoil.To<IB_CoilHeatingWater>().ToOS(model));
-            opsObj.setSupplyAirFan((HVACComponent)this.Fan.To<IB_Fan>().ToOS(model));
+            var opsObj = base.OnInitOpsObj(LocalInitMethod, model).to_ZoneHVACFourPipeFanCoil().get();
             return opsObj;
+
+            ZoneHVACFourPipeFanCoil LocalInitMethod(Model md)
+            => new ZoneHVACFourPipeFanCoil(md, md.alwaysOnDiscreteSchedule(),
+            (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md),
+            (HVACComponent)this.CoolingCoil.To<IB_CoilCoolingWater>().ToOS(md),
+            (HVACComponent)this.HeatingCoil.To<IB_CoilHeatingWater>().ToOS(md)
+            );
+
         }
     }
 
