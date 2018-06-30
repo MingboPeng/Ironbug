@@ -71,6 +71,7 @@
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingDesuperheater.cs" />
     <Compile Include="LoopObjs\IB_ControllerMechanicalVentilation.cs" />
     <Compile Include="LoopObjs\IB_PipeOutdoor.cs" />
     <Compile Include="LoopObjs\IB_PipeAdiabatic.cs" />

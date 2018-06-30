@@ -98,12 +98,18 @@ namespace Ironbug.HVAC
         {
             var spnd = AirLoopHVAC.supplyOutletNode();
             var comps = Components.Where(_ => !(_ is IB_SetpointManager));
-            comps.ToList()
-                .ForEach(_ => _.AddToNode(spnd));
 
-            var allcopied = AirLoopHVAC.supplyComponents()
-                .Where(_=>!_.IsNode())
-                .Count() == comps.Count();
+            var allcopied = true;
+            foreach (var comp in comps)
+            {
+                allcopied &= comp.AddToNode(spnd);
+            }
+            //comps.ToList()
+            //    .ForEach(_ => _.AddToNode(spnd));
+
+            //var allcopied = AirLoopHVAC.supplyComponents()
+            //    .Where(_=>!_.IsNode())
+            //    .Count() == comps.Count();
 
             allcopied &= this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components);
 
