@@ -215,15 +215,7 @@ namespace Ironbug.HVAC.BaseClass
             
         }
     }
-
-    public class IB_ProField : IB_Field
-    {
-        public IB_ProField(string FullName, string ShortName)
-            : base(FullName, ShortName)
-        {
-
-        }
-    }
+    
     public sealed class IB_Field_Comment
     {
         private static readonly Lazy<IB_Field> lazy =

@@ -42,16 +42,16 @@ namespace Ironbug.HVAC
             = new IB_BasicField("FuelType", "Fuel");
 
         public IB_Field DesignWaterOutletTemperature { get; }
-            = new IB_ProField("DesignWaterOutletTemperature", "OutWaterT");
+            = new IB_BasicField("DesignWaterOutletTemperature", "OutWaterT");
 
         public IB_Field NominalCapacity { get; }
-            = new IB_ProField("NominalCapacity", "Capacity");
+            = new IB_BasicField("NominalCapacity", "Capacity");
 
         public IB_Field NominalThermalEfficiency { get; }
-            = new IB_ProField("NominalThermalEfficiency", "Efficiency");
+            = new IB_BasicField("NominalThermalEfficiency", "Efficiency");
 
         public IB_Field NormalizedBoilerEfficiencyCurve { get; }
-           = new IB_ProField("NormalizedBoilerEfficiencyCurve", "EffCurve");
+           = new IB_BasicField("NormalizedBoilerEfficiencyCurve", "EffCurve");
         
     }
 }

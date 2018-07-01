@@ -61,7 +61,7 @@ namespace Ironbug.HVAC
 
 
         public IB_Field HighHumidityControl { get; }
-            = new IB_ProField("HighHumidityControl", "HiHumidityCtrl");
+            = new IB_BasicField("HighHumidityControl", "HiHumidityCtrl");
 
         
         

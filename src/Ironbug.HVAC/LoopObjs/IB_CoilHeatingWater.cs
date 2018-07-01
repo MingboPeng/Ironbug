@@ -52,20 +52,20 @@ namespace Ironbug.HVAC
             };
 
         public IB_Field RatedInletAirTemperature { get; }
-            = new IB_ProField("RatedInletAirTemperature", "InAirTemp");
+            = new IB_BasicField("RatedInletAirTemperature", "InAirTemp");
             
 
         public IB_Field RatedOutletWaterTemperature { get; }
             = new IB_BasicField("RatedOutletWaterTemperature", "OutWaterTemp");
 
         public IB_Field RatedOutletAirTemperature { get; }
-            = new IB_ProField("RatedOutletAirTemperature", "OutAirTemp");
+            = new IB_BasicField("RatedOutletAirTemperature", "OutAirTemp");
 
         public IB_Field UFactorTimesAreaValue { get; }
-            = new IB_ProField("UFactorTimesAreaValue", "UFactor");
+            = new IB_BasicField("UFactorTimesAreaValue", "UFactor");
 
         public IB_Field MaximumWaterFlowRate { get; }
-            = new IB_ProField("MaximumWaterFlowRate", "MaxFlow")
+            = new IB_BasicField("MaximumWaterFlowRate", "MaxFlow")
             {
                 DetailedDescription = "The maximum possible water flow rate (m3/sec) through the coil. " +
                 "This field is used when Coil Performance Input Method = UFactorTimesAreaAndDesignWaterFlowRate. " +
@@ -74,7 +74,7 @@ namespace Ironbug.HVAC
             };
 
         public IB_Field RatedRatioForAirAndWaterConvection { get; }
-            = new IB_ProField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");
+            = new IB_BasicField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");
         
     }
     

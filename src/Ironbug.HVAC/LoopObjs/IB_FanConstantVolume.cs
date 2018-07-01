@@ -41,10 +41,10 @@ namespace Ironbug.HVAC
             = new IB_BasicField("FanEfficiency", "Efficiency");
 
         public IB_Field PressureRise { get; }
-            = new IB_ProField("PressureRise", "PressureRise");
+            = new IB_BasicField("PressureRise", "PressureRise");
 
         public IB_Field MotorEfficiency { get; }
-            = new IB_ProField("MotorEfficiency", "MotorEfficiency");
+            = new IB_BasicField("MotorEfficiency", "MotorEfficiency");
 
         
     }

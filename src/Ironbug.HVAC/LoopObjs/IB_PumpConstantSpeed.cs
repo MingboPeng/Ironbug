@@ -39,10 +39,10 @@ namespace Ironbug.HVAC
             = new IB_BasicField("MotorEfficiency", "Efficiency");
 
         public IB_Field RatedFlowRate { get; }
-            = new IB_ProField("RatedFlowRate", "FlowRate");
+            = new IB_BasicField("RatedFlowRate", "FlowRate");
 
         public IB_Field PumpControlType { get; }
-            = new IB_ProField("PumpControlType", "ControlType");
+            = new IB_BasicField("PumpControlType", "ControlType");
 
        
 

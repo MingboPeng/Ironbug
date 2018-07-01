@@ -18,13 +18,13 @@ namespace Ironbug.Grasshopper.Component
         //private List<IGH_Param> paramSet { get; set; }
         private Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
-        private bool IsProSetting { get; set; } = false;
-        private bool CanUseProSetting { get; set; } = true;
+        private bool IsBasicSetting { get; set; } = true;
+        private bool IsThereBasicSetting { get; set; } = true;
         private bool IsMasterSetting { get; set; } = false;
 
-        private ICollection<IB_Field> profieldList { get; set; }
+        private ICollection<IB_Field> basicfieldList { get; set; } = new List<IB_Field>();
 
-        private ICollection<IB_Field> masterFieldList { get; set; }
+        private ICollection<IB_Field> masterFieldList { get; set; } = new List<IB_Field>();
 
         private IB_FieldSet FieldSet { get; set; }
 
@@ -97,8 +97,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            Menu_AppendItem(menu, "ProSettings", ProSetting, this.CanUseProSetting, this.IsProSetting);
-            Menu_AppendItem(menu, "MasterSettings", MasterSetting, true, this.IsMasterSetting);
+            Menu_AppendItem(menu, "BasicSettings", BasicSetting, this.IsThereBasicSetting, this.IsBasicSetting);
+            Menu_AppendItem(menu, "AllSettings", MasterSetting, true, this.IsMasterSetting);
             Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
         }
@@ -155,7 +155,7 @@ namespace Ironbug.Grasshopper.Component
                 var typeTobeShown = this.DataFieldTypes.First().Value;
                 if (typeTobeShown != this.CurrentDataFieldType)
                 {
-                    this.IsProSetting = false;
+                    this.IsBasicSetting = false;
                     this.IsMasterSetting = false;
                     AddParams(typeTobeShown);
                 }
@@ -186,23 +186,17 @@ namespace Ironbug.Grasshopper.Component
             this.FieldSet = GetFieldSet(type);
             //var fieldList = this.FieldSet.GetSelfPreperties();
             var fieldList = this.FieldSet;
-            //including ProField and MasterField
-            //MasterField is ProField
-            this.profieldList = fieldList.Where(_ => (_ is IB_ProField)).ToList();
 
-            this.masterFieldList = fieldList.Where(_ => !((_ is IB_ProField)||(_ is IB_BasicField) || (_ is IB_TopField))).ToList();
-
-            //this.ProDataFieldList.Add(this.FieldSet.TheMasterDataField);
+            this.basicfieldList = fieldList.Where(_ => _ is IB_BasicField).ToList();
+            this.masterFieldList = fieldList.Where(_ => !((_ is IB_BasicField)|| (_ is IB_TopField))).ToList();
 
             //only show the basic setting first
-            var fieldTobeAdded = fieldList.Where(_ => _ is IB_BasicField);
+            var fieldTobeAdded = basicfieldList;
+            this.IsBasicSetting = true;
             if (!fieldTobeAdded.Any())
             {
-                fieldTobeAdded = profieldList;
-            }
-            if (!fieldTobeAdded.Any())
-            {
-                this.CanUseProSetting = false;
+                this.IsThereBasicSetting = false;
+                this.IsBasicSetting = false;
                 this.IsMasterSetting = true;
                 fieldTobeAdded = masterFieldList;
             }
@@ -257,22 +251,22 @@ namespace Ironbug.Grasshopper.Component
 
         }
         
-        private void ProSetting(object sender, EventArgs e)
+        private void BasicSetting(object sender, EventArgs e)
         {
-            if (this.profieldList == null) return;
+            if (this.basicfieldList == null) return;
 
-            this.IsProSetting = !this.IsProSetting;
+            this.IsBasicSetting = !this.IsBasicSetting;
             
 
-            if (this.IsProSetting)
+            if (this.IsBasicSetting)
             {
 
-                this.AddFieldsToParams(this.profieldList);
+                this.AddFieldsToParams(this.basicfieldList);
 
             }
             else
             {
-                this.RemoveFields(this.profieldList);
+                this.RemoveFields(this.basicfieldList);
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
@@ -288,6 +282,7 @@ namespace Ironbug.Grasshopper.Component
             
             if (this.IsMasterSetting)
             {
+                this.AddFieldsToParams(this.basicfieldList);
                 this.AddFieldsToParams(this.masterFieldList);
             }
             else
@@ -343,7 +338,7 @@ namespace Ironbug.Grasshopper.Component
 
                 this.Params.UnregisterInputParameter(item);
                 this.IsMasterSetting = false;
-                this.IsProSetting = false;
+                this.IsBasicSetting = false;
             }
             this.Params.OnParametersChanged();
             this.ExpireSolution(true);
