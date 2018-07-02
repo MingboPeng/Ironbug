@@ -129,7 +129,7 @@
     <Compile Include="Interfaces\IIB_DualLoopObj.cs" />
     <Compile Include="Interfaces\IIB_ToOPSable.cs" />
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
-    <Compile Include="IVoid.cs" />
+    <Compile Include="IB_OutputVariable.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXMultiSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDXMultiSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDXSingleSpeed.cs" />

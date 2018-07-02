@@ -64,6 +64,24 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(findChiller);
 
         }
-        
+
+        [TestMethod]
+        public void IB_OutputVariables_Test()
+        {
+
+            var model = new OpenStudio.Model();
+
+            var obj = new HVAC.IB_BoilerHotWater();
+            var variableName = obj.SimulationOutputVariables.First();
+            var outputVariable = new IB_OutputVariable(variableName, IB_OutputVariable.OutputVariableTimeStep.Monthly);
+            obj.AddOutputVariables(new List<IB_OutputVariable>() { outputVariable });
+            obj.ToOS(model);
+
+            model.Save(saveFile);
+            var findChiller = model.getOutputVariables().Any();
+            Assert.IsTrue(findChiller);
+
+        }
+
     }
 }

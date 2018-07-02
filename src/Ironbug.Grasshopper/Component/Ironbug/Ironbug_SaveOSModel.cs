@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
+using System.IO;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -70,7 +71,10 @@ namespace Ironbug.Grasshopper.Component
             if (!write) return;
             
             if (string.IsNullOrEmpty(filepath)) return;
-
+            if (File.Exists(filepath))
+            {
+                File.Delete(filepath);
+            }
             var hvac = new HVAC.IB_HVACSystem(airLoops, plantLoops, vrfs);
             var saved = hvac.SaveHVAC(filepath);
 

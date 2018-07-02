@@ -44,19 +44,13 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
         }
-
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
+        
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
+        
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var HBZones = new List<GH_Brep>();
@@ -66,7 +60,8 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetDataList(0, HBZones))
             {
-                zoneNames = CallFromHBHive(HBZones).ToList();
+                var hbzones = HBZones.SkipWhile(_ => _ is null);
+                zoneNames = CallFromHBHive(hbzones).ToList();
             }
 
             foreach (var name in zoneNames)
@@ -164,28 +159,11 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, OSZones);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.ThermalZone;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
+        
+        public override Guid ComponentGuid => new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0");
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0"); }
-        }
-
-        private static IEnumerable<string> CallFromHBHive(List<GH_Brep> inBreps)
+        private static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
         {
             var HBIDs = new List<string>();
             foreach (var item in inBreps)

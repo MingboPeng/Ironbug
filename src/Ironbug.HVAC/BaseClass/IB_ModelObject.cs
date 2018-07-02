@@ -19,6 +19,7 @@ namespace Ironbug.HVAC.BaseClass
     public abstract class IB_ModelObject : IIB_ModelObject
     {
         public string Memo { get; set; }
+        public IEnumerable<string> SimulationOutputVariables { get; }
         public static bool IPUnit { get; set; } = false;
         public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
@@ -28,11 +29,23 @@ namespace Ironbug.HVAC.BaseClass
         public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
         protected ModelObject GhostOSObject { get; private set; }
 
+        private List<IB_OutputVariable> OutputVariables { get; set; } = new List<IB_OutputVariable>();
+
         public IB_ModelObject(ModelObject GhostOSObject)
         {
             this.CurrentState = new IB_PuppetableState_None(this);
             this.GhostOSObject = GhostOSObject;
             this.SetTrackingID();
+            this.SimulationOutputVariables = GhostOSObject.outputVariableNames();
+        }
+
+        public void AddOutputVariables(List<IB_OutputVariable> outputVariable)
+        {
+            if (outputVariable is null)
+            {
+                return;
+            }
+            this.OutputVariables.AddRange(outputVariable);
         }
 
         public void ChangeState(IB_PuppetableState newState)
@@ -44,33 +57,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             return this.CurrentState is IB_PuppetableState_Host;
         }
-
-        ///// <summary>
-        ///// Duplicate self as a "Puppet", including its sub-relationship connections
-        ///// </summary>
-        ///// <returns></returns>
-        //public IB_ModelObject DuplicateAsPuppet()
-        //{
-        //    var puppet = this.Duplicate();
-        //    puppet.SetAllTrackingIDs();
-
-        //    if (this.CurrentState is IB_PuppetableState_None state)
-        //    {
-        //        state.ToParentState().AddPuppet(puppet);
-
-        //    }
-        //    else if (this.CurrentState is IB_PuppetableState_Parent stateParent)
-        //    {
-        //        stateParent.AddPuppet(puppet);
-        //    }
-        //    else
-        //    {
-        //        //currently only two available
-        //    }
-
-        //    return puppet;
-
-        //}
+        
         public IB_ModelObject ToPuppetHost()
         {
             this.CurrentState.ToPuppetHost();
@@ -93,10 +80,10 @@ namespace Ironbug.HVAC.BaseClass
         }
         
 
-        public virtual IB_ModelObject DuplicateAsPuppet()
+        public IB_ModelObject DuplicateAsPuppet()
         {
 
-            var puppet = this.DuplicateAsPuppet(IB_InitSelf);
+            var puppet = DuplicateAsPuppet(IB_InitSelf);
             
             puppet.Children.Clear();
             foreach (var child in this.Children)
@@ -107,29 +94,31 @@ namespace Ironbug.HVAC.BaseClass
 
             this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return puppet;
+
+            //Local method
+            T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T : IB_ModelObject
+            {
+                T p = null;
+                if (this.CurrentState is IB_PuppetableState_Host stateParent)
+                {
+                    p = this.DuplicateIBObj(DupMethodHandler);
+                    //puppet.ToPuppet();
+                    p.SetTrackingID();
+                    stateParent.AddPuppet(p);
+                }
+                else
+                {
+                    throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
+                                                                                 //currently only two available
+                }
+
+                return p;
+
+
+            }
         }
         
         
-        protected T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T: IB_ModelObject
-        {
-            T puppet = null;
-            if (this.CurrentState is IB_PuppetableState_Host stateParent)
-            {
-                puppet = this.DuplicateIBObj(DupMethodHandler);
-                //puppet.ToPuppet();
-                puppet.SetTrackingID();
-                stateParent.AddPuppet(puppet);
-            }
-            else
-            {
-                throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
-                //currently only two available
-            }
-
-            return puppet;
-            
-
-        }
         
 
         public IList<IIB_ModelObject> GetPuppetsOrSelf()
@@ -234,7 +223,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public void SetFieldValues(Dictionary<IB_Field, object> DataFields)
         {
-            if (DataFields==null)
+            if (DataFields is null)
             {
                 return;
             }
@@ -283,6 +272,8 @@ namespace Ironbug.HVAC.BaseClass
                 realObj = InitAndSetAttributes();
             }
 
+            AddOutputVariablesToModel(this.OutputVariables, model);
+
             return realObj;
 
 
@@ -320,9 +311,24 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             realObj.SetCustomAttributes(this.CustomAttributes);
-            
-            
+
+            AddOutputVariablesToModel(this.OutputVariables, model);
+
+
             return postProcess(realObj);
+
+            
+        }
+        private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, Model md)
+        {
+            var vs = outputVariables;
+            foreach (var item in vs)
+            {
+                var outV = new OutputVariable(item.VariableName, md);
+                outV.setReportingFrequency(item.TimeStep);
+                //TODO: add keyname
+                //outV.setKeyValue("keyname");
+            }
         }
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
@@ -333,6 +339,7 @@ namespace Ironbug.HVAC.BaseClass
         //    return realObj;
         //}
 
+        //TODO: need to revisit this. this method has been overridden, but not used.
         public virtual IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(IB_InitSelf);
@@ -342,11 +349,12 @@ namespace Ironbug.HVAC.BaseClass
                 newObj.Children.Add(child.Duplicate());
             }
 
+            
             return newObj;
         }
 
         
-        protected virtual IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
+        protected IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
         {
             if (func == null)
             {
@@ -361,7 +369,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             newObj.UpdateOSModelObjectWithCustomAttr();
-           
+            newObj.AddOutputVariables(this.OutputVariables);
             return newObj;
         }
 

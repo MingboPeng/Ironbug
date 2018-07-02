@@ -39,27 +39,16 @@ namespace Ironbug.Grasshopper.Component
             
         }
         
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             
         }
-
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
+        
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("HVACObjParams", "ObjParams", "HVACObjParams", GH_ParamAccess.item);
         }
-
-        protected override void BeforeSolveInstance()
-        {
-            var num = this.Params.Output.Count;
-            base.BeforeSolveInstance(); 
-        }
+        
 
         /// <summary>
         /// This is the method that actually does the work.
@@ -71,29 +60,11 @@ namespace Ironbug.Grasshopper.Component
             settingDatas = CollectSettingData();
             DA.SetData(0, settingDatas);
         }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.ObjParams;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("c01b9512-5d83-4f5c-9116-ce897b94b2f2"); }
-        }
-
         
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.ObjParams;
+
+        public override Guid ComponentGuid => new Guid("c01b9512-5d83-4f5c-9116-ce897b94b2f2");
+       
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {

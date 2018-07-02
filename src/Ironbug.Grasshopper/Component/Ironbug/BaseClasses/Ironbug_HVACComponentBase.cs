@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Attributes;
 using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
@@ -13,52 +14,71 @@ namespace Ironbug.Grasshopper.Component
 {
     public abstract class Ironbug_HVACComponentBase : GH_Component
     {
-        private Ironbug_ObjParams settingParams { get; set; }
+        //private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
-        
+        public IB_ModelObject IB_ModelObject  => iB_ModelObject;
+        private IB_ModelObject iB_ModelObject;
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            if (this.RunCount < 1)  return;
+            //if (this.RunCount < 0) return;
 
             //e.ParameterSide == GH_ParameterSide.Output // would this will ever happen??
             if (e.ParameterSide == GH_ParameterSide.Input && 
                 e.Parameter.NickName == "params_")
             {
-                ParamSettingChanged();
+                ParamSettingChanged(e);
             }
 
-            void ParamSettingChanged()
+            void ParamSettingChanged(GH_ParamServerEventArgs args)
             {
-                var source = e.Parameter.Sources;
-                var sourceNum = source.Count;
-                //removal case
-                if (!source.Any())
-                {
-                    //settingParams?.CheckRecipients(); //This is a clean version
-                    if (settingParams != null)
-                    {
-                        //remove all inputParams
-                        settingParams.CheckRecipients();
-                    }
+                var sources = args.Parameter.Sources;
+                //var sourceNum = sources.Count;
+                ////removal case
+                //if (!sources.Any())
+                //{
+                //    //settingParams?.CheckRecipients(); //This is a clean version
+                //    if (settingParams != null)
+                //    {
+                //        //remove all inputParams
+                //        settingParams.CheckRecipients();
+                //    }
 
-                    settingParams = null;
+                //    settingParams = null;
 
-                    return;
-                }
+                //    return;
+                //}
 
                 //adding case
-                var firstsSource = source.First() as IGH_Param;
-                if (sourceNum == 1 && firstsSource != null)
+                foreach (var item in sources)
                 {
-                    //link to a new ObjParams
-                    settingParams = (Ironbug_ObjParams)firstsSource.Attributes.GetTopLevel.DocObject;
-                    if (settingParams != null)
+                    var docObj = item.Attributes.GetTopLevel.DocObject;
+                    if (docObj is Ironbug_ObjParams objParams)
                     {
-                        settingParams.CheckRecipients();
+                        objParams.CheckRecipients();
+                        //settingParams = objParams;
                     }
-
+                    else if (docObj is Ironbug_OutputParams outputParams)
+                    {
+                        outputParams.GetEPOutputVariables(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
+                    }
                 }
+                //var firstsSource = sources.First() as IGH_Param;
+                //if (sourceNum == 1 && firstsSource != null)
+                //{
+                //    //link to a new ObjParams
+                //    var docObj = firstsSource.Attributes.GetTopLevel.DocObject;
+                //    if (docObj is Ironbug_ObjParams objParams)
+                //    {
+                //        objParams.CheckRecipients();
+                //        settingParams = objParams;
+                //    }
+
+                //}
             }
             
 
@@ -117,6 +137,14 @@ namespace Ironbug.Grasshopper.Component
             base.BeforeSolveInstance();
         }
 
+        protected override void AfterSolveInstance()
+        {
+            var data = this.Params.Output.Last().VolatileData.AllData(true).First() as GH_ObjectWrapper;
+            this.iB_ModelObject = data.Value as IB_ModelObject;
+
+            base.AfterSolveInstance();  
+        }
+
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
             :base(name, nickname, description, category, subCategory)
         {
@@ -131,9 +159,9 @@ namespace Ironbug.Grasshopper.Component
             IGH_Param newParam = new Param_GenericObject();
             newParam.Name = "Parameters";
             newParam.NickName = "params_";
-            newParam.Description = "Detail settings for this object. Use Ironbug_ObjParams to set this.";
+            newParam.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
             newParam.MutableNickName = false;
-            newParam.Access = GH_ParamAccess.item;
+            newParam.Access = GH_ParamAccess.list;
             newParam.Optional = true;
 
             return newParam;
@@ -142,15 +170,40 @@ namespace Ironbug.Grasshopper.Component
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
             var paramInput = this.Params.Input.Last();
-            var attrsDic = paramInput.VolatileData.AllData(true).ToList().FirstOrDefault();
+            var objParams = paramInput.VolatileData.AllData(true).ToList();
+            var inputP = (Dictionary<IB_Field, object>) null;
+            var outputP = (List<IB_OutputVariable>)null;
 
-            var attris = (Dictionary<IB_Field, object>) null;
-            attrsDic?.CastTo(out attris);
+            foreach (var ghitem in objParams)
+            {
+                var item = ghitem as GH_ObjectWrapper;
+                
 
-            if (attris is null) return;
-            if (attris.Count == 0) return;
+                if (item.Value is Dictionary<IB_Field, object> inputParams)
+                {
+                    if (inputParams.Count == 0) return;
+                    if (inputP is null)
+                    {
+                        inputP = inputParams;
+                    }
+                }
+                else if(item.Value is List<IB_OutputVariable> outputParams)
+                {
+                    if (outputParams.Count == 0) return;
+                    if (outputP is null)
+                    {
+                        outputP = outputParams;
+                    }
 
-            IB_obj.SetFieldValues(attris);
+                }
+                
+                
+            }
+            
+
+            IB_obj.SetFieldValues(inputP);
+            IB_obj.AddOutputVariables(outputP);
+            
         }
 
 
