@@ -181,7 +181,7 @@ namespace Ironbug.Grasshopper.Component
 
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
-                    if (inputParams.Count == 0) return;
+                    if (inputParams.Count == 0) continue;
                     if (inputP is null)
                     {
                         inputP = inputParams;
@@ -189,7 +189,7 @@ namespace Ironbug.Grasshopper.Component
                 }
                 else if(item.Value is List<IB_OutputVariable> outputParams)
                 {
-                    if (outputParams.Count == 0) return;
+                    if (outputParams.Count == 0) continue;
                     if (outputP is null)
                     {
                         outputP = outputParams;
