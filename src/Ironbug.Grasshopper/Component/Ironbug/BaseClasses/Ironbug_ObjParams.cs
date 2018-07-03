@@ -18,6 +18,8 @@ namespace Ironbug.Grasshopper.Component
         //private List<IGH_Param> paramSet { get; set; }
         private Dictionary<IGH_DocumentObject,Type> DataFieldTypes { get; set; }
 
+        
+
         private bool IsBasicSetting { get; set; } = true;
         private bool IsThereBasicSetting { get; set; } = true;
         private bool IsMasterSetting { get; set; } = false;
@@ -51,6 +53,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            this.Message = "Double click for more details!";
             var settingDatas = new Dictionary<IB_Field, object>();
             settingDatas = CollectSettingData();
             DA.SetData(0, settingDatas);
@@ -267,8 +270,13 @@ namespace Ironbug.Grasshopper.Component
             foreach (var field in fieldTobeAdded)
             {
                 //Don't add those already exist
-                var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name.ToUpper() == field.FULLNAME);
-                if (paramFound != null) continue;
+                var inputNames = this.Params.Input.Select(_ => _.Name.ToUpper()).ToList();
+                if (inputNames.Contains(field.FULLNAME)) continue;
+
+                
+                //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name.ToUpper() == field.FULLNAME);
+                //if (paramFound != null) continue;
+
                 //Add new Param
                 IGH_Param newParam = new Param_GenericObject();
                 if (field.DataType == typeof(string)) newParam = new Param_String();
@@ -283,7 +291,11 @@ namespace Ironbug.Grasshopper.Component
                 newParam.Optional = true;
 
                 paramList.Add(newParam);
-                Params.RegisterInputParam(newParam);
+
+                inputNames.Add(field.FULLNAME);
+                inputNames.Sort();
+                var index = inputNames.IndexOf(field.FULLNAME);
+                Params.RegisterInputParam(newParam, index);
             }
             return paramList;
             
@@ -351,6 +363,25 @@ namespace Ironbug.Grasshopper.Component
         public void VariableParameterMaintenance()
         {
             //throw new NotImplementedException();
+        }
+
+        public override void CreateAttributes()
+        {
+            var newAttri = new IB_SettingComponentAttributes(this);
+            m_attributes = newAttri;
+        }
+        bool isCleanInputs = false;
+        internal void RespondToMouseDoubleClick()
+        {
+            isCleanInputs = !isCleanInputs;
+            if (isCleanInputs)
+            {
+                this.RemoveUnused(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.MasterSetting(this, EventArgs.Empty);
+            }
         }
     }
 }

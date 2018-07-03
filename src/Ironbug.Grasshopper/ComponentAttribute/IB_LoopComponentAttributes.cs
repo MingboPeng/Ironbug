@@ -31,6 +31,7 @@ namespace Ironbug.Grasshopper.Component
                         var colorSel = Color.FromArgb(200, 240, 248, 255); //airloop
                        
                         var pen = this.Selected? new Pen(colorSel, 2.5f): new Pen(color, 1.5f);
+                        pen.EndCap = System.Drawing.Drawing2D.LineCap.ArrowAnchor;
                         DrawLoopFlow(canvas, graphics, pen, obj1, obj2);
                     }
                 }
@@ -61,7 +62,7 @@ namespace Ironbug.Grasshopper.Component
                 //graphics.DrawPath(pen, wire);
                 //graphics.DrawCurve(pen,new PointF[] { p10, p11, p21, p20 },1);
                 grph.DrawBezier(pen, p10, p11, p21, p20);
-                grph.DrawLines(pen, new PointF[3] { p2L, p20, p2R });
+                //grph.DrawLines(pen, new PointF[3] { p2L, p20, p2R });
                 pen.Dispose();
             }
         }

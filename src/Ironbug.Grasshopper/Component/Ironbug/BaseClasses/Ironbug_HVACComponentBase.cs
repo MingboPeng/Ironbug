@@ -60,7 +60,7 @@ namespace Ironbug.Grasshopper.Component
                     }
                     else if (docObj is Ironbug_OutputParams outputParams)
                     {
-                        outputParams.GetEPOutputVariables(this, EventArgs.Empty);
+                        //outputParams.GetEPOutputVariables(this, EventArgs.Empty);
                     }
                     else
                     {
@@ -141,8 +141,8 @@ namespace Ironbug.Grasshopper.Component
         {
             if (this.iB_ModelObject is null)
             {
-                var data = this.Params.Output.Last().VolatileData.AllData(true).First() as GH_ObjectWrapper;
-                this.iB_ModelObject = data.Value as IB_ModelObject;
+                var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
+                this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
             
             base.AfterSolveInstance();  

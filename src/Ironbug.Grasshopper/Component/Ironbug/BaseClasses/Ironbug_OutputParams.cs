@@ -24,7 +24,9 @@ namespace Ironbug.Grasshopper.Component
             //pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.item);
             //pManager.AddTextParameter("name", "name", "name", GH_ParamAccess.item);
         }
+
         
+
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OutputParams", "OutputParams", "TODO...", GH_ParamAccess.item);
@@ -32,6 +34,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            this.Message = "Double click for more details!";
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             DA.SetData(0, settingDatas);
@@ -128,8 +131,10 @@ namespace Ironbug.Grasshopper.Component
             foreach (var outputV in variablesTobeAdded)
             {
                 //Don't add those already exist
-                var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name == outputV);
-                if (paramFound != null) continue;
+                var inputNames = this.Params.Input.Select(_ => _.Name).ToList();
+                if (inputNames.Contains(outputV)) continue;
+                //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name == outputV);
+                //if (paramFound != null) continue;
                 //Add new Param
                 IGH_Param newParam = new Param_GenericObject();
 
@@ -139,8 +144,11 @@ namespace Ironbug.Grasshopper.Component
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;
-                
-                Params.RegisterInputParam(newParam);
+
+                inputNames.Add(outputV);
+                inputNames.Sort();
+                var index = inputNames.IndexOf(outputV);
+                Params.RegisterInputParam(newParam, index);
             }
             this.Params.OnParametersChanged();
             this.ExpireSolution(true);
@@ -168,5 +176,26 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
         
         public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
+
+        public override void CreateAttributes()
+        {
+            var newAttri = new IB_SettingComponentAttributes(this);
+            m_attributes = newAttri;
+        }
+
+        bool isCleanInputs = false;
+        internal void RespondToMouseDoubleClick()
+        {
+            isCleanInputs = !isCleanInputs;
+            if (isCleanInputs)
+            {
+                this.RemoveUnused(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.GetEPOutputVariables(this, EventArgs.Empty);
+            }
+        }
+
     }
 }

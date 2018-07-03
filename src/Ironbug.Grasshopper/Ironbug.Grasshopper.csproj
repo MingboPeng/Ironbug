@@ -82,6 +82,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
@@ -166,7 +167,6 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Heating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />
-    <Compile Include="Component\Ironbug\TestHVAC.cs" />
     <Compile Include="Component\MyComponent1.cs" />
     <Compile Include="Component\readPyObj.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
