@@ -99,6 +99,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendItem(menu, "EPOutputVariables", GetEPOutputVariables, true);
+            Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
         }
 
@@ -145,7 +146,26 @@ namespace Ironbug.Grasshopper.Component
             this.ExpireSolution(true);
 
         }
-        protected override System.Drawing.Bitmap Icon => null;
+
+        private void RemoveUnused(object sender, EventArgs e)
+        {
+            var inputParams = this.Params.Input;
+            var tobeRemoved = new List<IGH_Param>();
+            foreach (var item in inputParams)
+            {
+                if (item.SourceCount > 0) continue;
+                tobeRemoved.Add(item);
+            }
+
+            foreach (var item in tobeRemoved)
+            {
+                this.Params.UnregisterInputParameter(item);
+            }
+            this.Params.OnParametersChanged();
+            this.ExpireSolution(true);
+        }
+
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
         
         public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
     }

@@ -139,9 +139,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AfterSolveInstance()
         {
-            var data = this.Params.Output.Last().VolatileData.AllData(true).First() as GH_ObjectWrapper;
-            this.iB_ModelObject = data.Value as IB_ModelObject;
-
+            if (this.iB_ModelObject is null)
+            {
+                var data = this.Params.Output.Last().VolatileData.AllData(true).First() as GH_ObjectWrapper;
+                this.iB_ModelObject = data.Value as IB_ModelObject;
+            }
+            
             base.AfterSolveInstance();  
         }
 

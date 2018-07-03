@@ -373,7 +373,7 @@ namespace Ironbug.HVAC.BaseClass
             return newObj;
         }
 
-        protected virtual T DuplicateIBObj<T>(Func<T> func) where T : IB_ModelObject
+        protected T DuplicateIBObj<T>(Func<T> func) where T : IB_ModelObject
         {
             if (func == null)
             {
