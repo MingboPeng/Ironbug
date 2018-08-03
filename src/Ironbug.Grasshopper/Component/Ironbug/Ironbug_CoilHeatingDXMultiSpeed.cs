@@ -42,6 +42,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_CoilHeatingDXMultiSpeed();
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This obj is not fully finished by OpenStudio, stay tuned!");
         }
 
         /// <summary>
