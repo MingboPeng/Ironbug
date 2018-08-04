@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
     {
         public Ladybug_SortByLayers()
           : base("Ladybug_SortByLayers", "SortByLayers",
-              "Sort and group Rhino objects by layers",
+              "Sort and group Rhino objects by layers.\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
               "Ladybug", "5 | Extra")
         {
         }

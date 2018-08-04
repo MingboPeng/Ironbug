@@ -18,10 +18,11 @@ namespace Ironbug
         /// </summary>
         public Honeybee_ReadAnnualResultsIII()
           : base("Honeybee_ReadAnnualResultsIII", "ReadAnnualResultsIII",
-              "read the annual ill files very fast!!",
-              "Mingbo_Dev", "Honeybee")
+              "read the annual ill files very fast!!\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
+              "Honeybee", "04 | Daylight | Daylight")
         {
         }
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

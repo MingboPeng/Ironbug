@@ -10,7 +10,7 @@ namespace Ironbug.Honeybee.Radiance.Command
     //https://github.com/ladybug-tools/honeybee/blob/master/honeybee/radiance/command/raTiff.py
     //C:\Users\Mingbo\AppData\Roaming\McNeel\Rhinoceros\5.0\scripts\honeybee\radiance\command
 
-    public class RaTiff_ : RadianceBaseCommand
+    public class RaTiff_Legacy : RadianceBaseCommand
     {
         private string inputHdrFile;
 
@@ -28,7 +28,7 @@ namespace Ironbug.Honeybee.Radiance.Command
             set { outputTiffFile = value; }
         }
 
-        public RaTiff_(string inputHdrFile, string outputTiffFile):base("ra_tiff.exe")
+        public RaTiff_Legacy(string inputHdrFile, string outputTiffFile):base("ra_tiff.exe")
         {
             this.InputHdrFile = inputHdrFile;
             this.OutputTiffFile = outputTiffFile;

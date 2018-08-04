@@ -14,7 +14,6 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Special;
 using GH_IO.Serialization;
-
 using Ironbug.Grasshopper.Properties;
 
 using Ironbug.Core;
@@ -55,7 +54,7 @@ namespace Ironbug.Grasshopper
         public Ladybug_ImageViewer()
           : base("Ladybug_ImageViewer", "Viewer",
               "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
-              "Mingbo_Dev", "5 | Extra")
+              "Ladybug", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
@@ -111,6 +110,15 @@ namespace Ironbug.Grasshopper
             //{
             //    this.RADPath = radPath;
             //}
+
+            //Remove old ImageViewer
+            var defaultFd = GH.Folders.DefaultAssemblyFolder;
+            var foundOld = Directory.GetFiles(defaultFd, "Ladybug_ImageViewer.gha");
+            if (foundOld.Any())
+            {
+                File.Delete(foundOld.First());
+            }
+
         }
 
         ////happens befor solution
@@ -253,7 +261,7 @@ namespace Ironbug.Grasshopper
             }
             for (int i = 0; i < postFilePaths.Count; i++)
             {
-                if (postFilePaths[i]!=null)
+                if (postFilePaths[i]!=null && File.Exists( postFilePaths[i]))
                 {
                     newFilePaths.Add(filePaths[i]);
                     using (var bitMap = new Bitmap(postFilePaths[i]))
@@ -300,6 +308,14 @@ namespace Ironbug.Grasshopper
 
                 if (File.Exists(tiffFile))
                 {
+                    //check image size
+                    var hdrSize = new FileInfo(filePath).Length;
+                    if (hdrSize <=1)
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input image is not a valid image!");
+                        return null;
+                    }
+                    
                     var hdrTimeStamp = File.GetLastWriteTime(filePath);
                     var tifTimeStamp = File.GetLastWriteTime(tiffFile);
 
@@ -310,8 +326,14 @@ namespace Ironbug.Grasshopper
 
                 if (isNewHDR)
                 {
-                    var radTiff = new Honeybee.Radiance.Command.RaTiff_(filePath, tiffFile);
+                    var radTiff = new Honeybee.Radiance.Command.RaTiff_Legacy(filePath, tiffFile);
                     radTiff.Execute();
+                    if (!File.Exists(tiffFile))
+                    {
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Cannot read this HDR file, please check if you have Radiance installed!\n\rYou might also want to use 'Honeybee_Convert HDR to TIF' component to convert HDR image first!");
+                        return null;
+                    }
+
                 }
 
             }
@@ -336,6 +358,7 @@ namespace Ironbug.Grasshopper
             }
             else
             {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input image doesn't exist or is not supported format!");
                 return null;
             }
 
