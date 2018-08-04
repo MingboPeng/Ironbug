@@ -85,9 +85,7 @@ namespace Ironbug.Grasshopper
             pManager.AddTextParameter("imagePath", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
             pManager.AddTextParameter("colors", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
             pManager.AddTextParameter("GIF", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
-            pManager[0].MutableNickName = false;
-            pManager[1].MutableNickName = false;
-            pManager[2].MutableNickName = false;
+            
         }
         
 
