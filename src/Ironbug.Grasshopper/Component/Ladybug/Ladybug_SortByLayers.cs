@@ -122,24 +122,8 @@ namespace Ironbug.Grasshopper.Component
 
 
         }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.SortByLayers;
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("a3b74b0f-2fab-42de-bd88-3326331a93a5"); }
-        }
+        public override Guid ComponentGuid => new Guid("a3b74b0f-2fab-42de-bd88-3326331a93a5");
     }
 }

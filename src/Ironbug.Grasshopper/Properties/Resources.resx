@@ -364,4 +364,10 @@
   <data name="OutputVariable" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OutputVariable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ReadAnnualResultsIII" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReadAnnualResultsIII.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SortByLayers" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SortByLayers.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

@@ -703,6 +703,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ReadAnnualResultsIII {
+            get {
+                object obj = ResourceManager.GetObject("ReadAnnualResultsIII", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SetPointFlowOA {
             get {
                 object obj = ResourceManager.GetObject("SetPointFlowOA", resourceCulture);
@@ -786,6 +796,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap SizingZone {
             get {
                 object obj = ResourceManager.GetObject("SizingZone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SortByLayers {
+            get {
+                object obj = ResourceManager.GetObject("SortByLayers", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
