@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Drawing;
 using Grasshopper.Kernel;
+using GH = Grasshopper;
 
-namespace Ironbug.Grasshopper
+namespace Ironbug.Grasshopper.Component
 {
     public class IronbugInfo : GH_AssemblyInfo
     {
@@ -52,6 +53,21 @@ namespace Ironbug.Grasshopper
                 //Return a string representing your preferred contact details.
                 return "";
             }
+        }
+    }
+
+    public class CategoryIcon : GH_AssemblyPriority
+    {
+        public override GH_LoadingInstruction PriorityLoad()
+        {
+            GH.Instances.ComponentServer.AddCategoryIcon("Ladybug", Properties.Resources.Ladybug);
+            GH.Instances.ComponentServer.AddCategoryIcon("Honeybee", Properties.Resources.Honeybee);
+
+            GH.Instances.ComponentServer.AddCategoryIcon("Ironbug", Properties.Resources.Ironbug);
+            GH.Instances.ComponentServer.AddCategoryShortName("Ironbug", "IB");
+            GH.Instances.ComponentServer.AddCategorySymbolName("Ironbug", 'I');
+            
+            return GH_LoadingInstruction.Proceed;
         }
     }
 }

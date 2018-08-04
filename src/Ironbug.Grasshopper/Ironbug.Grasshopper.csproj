@@ -458,6 +458,21 @@
   <ItemGroup>
     <None Include="Resources\SortByLayers.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Artboard 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ladybug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Honeybee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ironbug2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Ironbug.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
