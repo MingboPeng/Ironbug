@@ -69,7 +69,7 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="OpenStudio, Version=2.4.1.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
+    <Reference Include="OpenStudio, Version=2.5.0.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
     </Reference>
@@ -459,9 +459,6 @@
     <None Include="Resources\SortByLayers.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Artboard 2.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Ladybug.png" />
   </ItemGroup>
   <ItemGroup>
@@ -482,8 +479,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"
-Copy "$(SolutionDir)\lib\OpenStudio\forGH\openstudio_csharp.dll" "$(TargetDir)\openstudio_csharp.dll"</PostBuildEvent>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).gha"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <FallbackCulture>en-US</FallbackCulture>
@@ -494,12 +490,10 @@ Copy "$(SolutionDir)\lib\OpenStudio\forGH\openstudio_csharp.dll" "$(TargetDir)\o
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
-  <Import Project="..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.4.0\build\OpenStudio.targets'))" />
     <Error Condition="!Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets'))" />
     <Error Condition="!Exists('..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets'))" />
   </Target>

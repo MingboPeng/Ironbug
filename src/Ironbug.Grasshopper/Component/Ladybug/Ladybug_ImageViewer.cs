@@ -113,10 +113,12 @@ namespace Ironbug.Grasshopper
 
             //Remove old ImageViewer
             var defaultFd = GH.Folders.DefaultAssemblyFolder;
+            var oldV = Path.Combine(defaultFd, "Ladybug_ImageViewer.gha");
             var foundOld = Directory.GetFiles(defaultFd, "Ladybug_ImageViewer.gha");
-            if (foundOld.Any())
+            if (File.Exists(oldV))
             {
-                File.Delete(foundOld.First());
+                File.Delete(oldV);
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "The old ImageViewer has been removed, restart the Grasshopper will fix two ImageViewer issue!");
             }
 
         }
