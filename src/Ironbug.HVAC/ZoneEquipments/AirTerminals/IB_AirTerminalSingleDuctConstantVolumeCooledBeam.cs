@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation
-            var coil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetCoolingCoil(obj as IB_CoilCoolingCooledBeam));
+            var coil = new IB_Child(new IB_CoilCoolingCooledBeam(), (obj) => this.SetCoolingCoil(obj as IB_CoilCoolingCooledBeam));
             this.Children.Add(coil);
 
         }

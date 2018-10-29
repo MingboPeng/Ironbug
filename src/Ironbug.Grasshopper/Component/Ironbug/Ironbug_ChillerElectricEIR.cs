@@ -43,6 +43,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_ChillerElectricEIR();
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
 
         /// <summary>

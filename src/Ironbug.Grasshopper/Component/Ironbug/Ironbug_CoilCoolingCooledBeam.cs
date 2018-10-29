@@ -45,6 +45,7 @@ namespace Ironbug.Grasshopper.Component
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
 
         
