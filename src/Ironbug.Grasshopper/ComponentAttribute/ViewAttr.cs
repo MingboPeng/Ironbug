@@ -233,13 +233,23 @@ namespace Ironbug.Grasshopper
             
             Pen pen = new Pen(Color.Gray, 3);
             SolidBrush myBrush = new SolidBrush(Color.Gray);
-            
-            Font ubuntuFont = new Font("ubuntu", 8);
+
+            Font standardFont = GH_FontServer.Standard;
+            Font standardFont4kScreen = new Font(standardFont.Name, 4);
+
+            if (GH_FontServer.StringWidth("Please use a valid image file path.",standardFont) >300)
+            {
+                standardFont = standardFont4kScreen;
+            }
+            else if (GH_FontServer.StringWidth("Please use a valid image file path.", GH_FontServer.Small) > 220)
+            {
+                standardFont = GH_FontServer.Small;
+            }
             StringFormat myFormat = new StringFormat();
-            
+
             MyGraphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", ubuntuFont, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
+            MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", standardFont, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
             MyGraphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
             
             myBrush.Dispose();

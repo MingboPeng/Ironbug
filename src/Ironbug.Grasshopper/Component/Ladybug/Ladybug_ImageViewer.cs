@@ -54,7 +54,7 @@ namespace Ironbug.Grasshopper
         public Ladybug_ImageViewer()
           : base("Ladybug_ImageViewer", "Viewer",
               "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
-              "Ladybug", "5 | Extra")
+              "Ladybug_Dev", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
@@ -112,14 +112,14 @@ namespace Ironbug.Grasshopper
             //}
 
             //Remove old ImageViewer
-            var defaultFd = GH.Folders.DefaultAssemblyFolder;
-            var oldV = Path.Combine(defaultFd, "Ladybug_ImageViewer.gha");
-            var foundOld = Directory.GetFiles(defaultFd, "Ladybug_ImageViewer.gha");
-            if (File.Exists(oldV))
-            {
-                File.Delete(oldV);
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "The old ImageViewer has been removed, restart the Grasshopper will fix two ImageViewer issue!");
-            }
+            //var defaultFd = GH.Folders.DefaultAssemblyFolder;
+            //var oldV = Path.Combine(defaultFd, "Ladybug_ImageViewer.gha");
+            //var foundOld = Directory.GetFiles(defaultFd, "Ladybug_ImageViewer.gha");
+            //if (File.Exists(oldV))
+            //{
+            //    File.Delete(oldV);
+            //    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "The old ImageViewer has been removed, restart the Grasshopper will fix two ImageViewer issue!");
+            //}
 
         }
 
@@ -283,6 +283,7 @@ namespace Ironbug.Grasshopper
         {
             if (string.IsNullOrEmpty(filePath))
             {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input image path is not valid!");
                 return null;
             }
 
