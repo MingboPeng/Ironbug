@@ -46,7 +46,7 @@ namespace Ironbug.Honeybee.Radiance.Command
 
         protected abstract string ToRadString(bool relativePath = false);
 
-        public bool Execute()
+        public virtual string Execute()
         {
             Process cmd = new Process()
             {
@@ -72,22 +72,22 @@ namespace Ironbug.Honeybee.Radiance.Command
 
             cmd.Start();
             //cmd.BeginOutputReadLine();
-            string outputs = cmd.StandardOutput.ReadLine();
+            string outputs = cmd.StandardOutput.ReadToEnd();
             string err = cmd.StandardError.ReadToEnd();
-            Console.WriteLine(outputs);
-            Console.WriteLine(err);
+            //Console.WriteLine(outputs);
+            //Console.WriteLine(err);
 
             cmd.WaitForExit();
-
-            //while (!cmd.HasExited)
-            //{
-            //    int milliseconds = 25;
-            //    Thread.Sleep(milliseconds);
-            //}
+            
 
             cmd.Close();
 
-            return true;
+            if (!string.IsNullOrEmpty(err))
+            {
+                new Exception(err);
+            }
+            
+            return outputs;
 
             
         }

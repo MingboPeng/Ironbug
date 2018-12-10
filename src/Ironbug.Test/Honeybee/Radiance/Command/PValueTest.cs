@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.Honeybee.Radiance.Command;
+using System.Linq;
 
 namespace Ironbug.Test.Honeybee.Radiance.Command
 {
@@ -60,5 +61,34 @@ namespace Ironbug.Test.Honeybee.Radiance.Command
             Console.WriteLine(lines[0]);
             Assert.IsTrue(lines.Length > 0);
         }
+
+        [TestMethod]
+        public void PValueLegacy_Test()
+        {
+            var hdrFile = @"C:\Users\mingo\OneDrive\Desktop\Room.HDR";
+            var pvalue = new PValue_Legacy(hdrFile);
+
+            var cmdString = pvalue.ToString();
+            //Console.WriteLine("cmdString: " + cmdString);
+
+            var output = pvalue.Execute().ToArray();
+            var counts = output.Length;
+
+            Console.WriteLine("TotalLineCount: " + counts);
+
+            for (int i = 0; i < 5; i++)
+            {
+                Console.WriteLine("output: " + output[i]);
+            }
+            Console.WriteLine("....... ");
+            for (int i = counts-5; i < counts; i++)
+            {
+                Console.WriteLine("output: " + output[i]);
+            }
+
+
+            Assert.IsTrue(counts > 0);
+        }
+        
     }
 }
