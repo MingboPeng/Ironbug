@@ -87,6 +87,7 @@
   <ItemGroup>
     <Compile Include="Honeybee\Radiance\Command\FalsecolorTest.cs" />
     <Compile Include="Honeybee\Radiance\Command\RaTiffTest.cs" />
+    <Compile Include="Honeybee\Radiance\Command\PValueTest.cs" />
     <Compile Include="Ladybug\TEST_Wea.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
