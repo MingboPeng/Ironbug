@@ -35,10 +35,14 @@ namespace Ironbug.Grasshopper
         private List<Drawing.Point> TempExtrCoordinates2 = new List<Drawing.Point>();
         public List<List<Color>> ExtractedColors = new List<List<Color>>();
 
+        private List<List<int>> PValues = new List<List<int>>();
+        public List<List<int>> ExtractedPValues = new List<List<int>>();
+
         public bool DisableClickable = true;
         public bool ifSaveThis = false;
         public bool ifSaveAll = false;
         public bool IsImgList = false;
+        public bool IsGetPValue = false;
 
         private bool isScaleChanged = false;
         private int GifFrameDuration = 100;
@@ -103,6 +107,9 @@ namespace Ironbug.Grasshopper
             this.TempExtrCoordinates = new List<Drawing.Point>();
             
             this.ExtractedColors = new List<List<Color>>() { new List<Color>() };
+
+            this.PValues = new List<List<int>> { new List<int>() };
+            this.ExtractedPValues = new List<List<int>>() { new List<int>() };
 
             ////Check the Radiance folder
             //var radPath = GetRADPath();
@@ -281,7 +288,7 @@ namespace Ironbug.Grasshopper
 
         private string CheckImg(string filePath)
         {
-            if (string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath) || !File.Exists(filePath))
             {
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input image path is not valid!");
                 return null;
@@ -304,7 +311,7 @@ namespace Ironbug.Grasshopper
             var isTIF = fileExtension == ".TIF" || fileExtension == ".TIFF";
 
             //convert HDR
-            if (File.Exists(filePath) && isHDR)
+            if (isHDR)
             {
                 tiffFile = tempPath + "\\" + fileName + "LB.TIF";
                 var isNewHDR = true;
@@ -340,7 +347,7 @@ namespace Ironbug.Grasshopper
                 }
 
             }
-            else if (File.Exists(filePath) && (isJPG || isPNG || isGIF || isTIF))
+            else if (isJPG || isPNG || isGIF || isTIF)
             {
                 tiffFile = tempPath + "\\" + fileName + fileExtension;
                 //tiffFile = filePath.Insert(filePath.Length - 4, "_LB");
@@ -465,7 +472,8 @@ namespace Ironbug.Grasshopper
             newMenu.Items.RemoveAt(2); // remove Bake
 
             Menu_AppendItem(newMenu, "Clear clicked pixel coordinates", OnClearValues);
-            
+            Menu_AppendItem(newMenu, "Get Radiance values (only works with HDR image)", OnGetPValues, true, this.IsGetPValue);
+            Menu_AppendSeparator(newMenu);
             Menu_AppendItem(newMenu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
             Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
             Menu_AppendSeparator(newMenu);
@@ -529,7 +537,44 @@ namespace Ironbug.Grasshopper
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
-        
+        private void OnGetPValues(object sender, EventArgs e)
+        {
+            this.IsGetPValue = !this.IsGetPValue;
+            var currentFile = this.FilePaths[this.currentBitmapIndex];
+            
+            PValues[this.currentBitmapIndex] = GetPvalues(currentFile).ToList();
+        }
+
+        private IEnumerable<int> GetPvalues(string HDRImg)
+        {
+            
+            var isHDR = Path.GetExtension(HDRImg).ToUpper() == ".HDR";
+            if (!isHDR)
+            {
+                new Exception("Input image is not Radiance HDR!");
+            }
+            var pvalue = new Honeybee.Radiance.Command.PValue_Legacy(HDRImg);
+            var outputs = pvalue.Execute();
+            return outputs;
+        }
+
+        private int GetPValueFromXY(Drawing.Point point, List<int> RadValues)
+        {
+            var radValue = 0;
+
+            var x0 = Bitmap.Width;
+            var y0 = Bitmap.Height;
+            var x1 = point.X;
+            var y1 = point.Y;
+            
+            var ValueIndex = (y1 - 1) * x0 + x1;
+            var rgb_avg = RadValues[ValueIndex];
+            radValue = rgb_avg * 179;
+
+            return radValue;
+        }
+
+
         private void OnSaveThisWithCoords(object sender, EventArgs e)
         {
 
@@ -674,6 +719,7 @@ namespace Ironbug.Grasshopper
         private void OnMouseImgClickEvent(object sender, Drawing.Point clickedPtOnOriginalBitmap)
         {
             var clickedColor = new Color();
+            var msg = string.Empty;
             this.ExtractedCoordinates.Add(clickedPtOnOriginalBitmap);
 
             if (this.ifSaveAll)
@@ -682,12 +728,22 @@ namespace Ironbug.Grasshopper
             }
             else
             {
-                clickedColor = this.Bitmap.GetPixel(clickedPtOnOriginalBitmap.X, clickedPtOnOriginalBitmap.Y);
-
-                this.ExtractedColors[0].Add(clickedColor);
+                if (IsGetPValue)
+                {
+                    var clickedPValue =  this.GetPValueFromXY( clickedPtOnOriginalBitmap,this.PValues[this.currentBitmapIndex]);
+                    this.ExtractedPValues[0].Add(clickedPValue);
+                    msg = "Clicked at: " + clickedPtOnOriginalBitmap + "\nRadianceValue: " + clickedPValue.ToString();
+                }
+                else
+                {
+                    clickedColor = this.Bitmap.GetPixel(clickedPtOnOriginalBitmap.X, clickedPtOnOriginalBitmap.Y);
+                    this.ExtractedColors[0].Add(clickedColor);
+                    msg = "Clicked at: " + clickedPtOnOriginalBitmap + "\n" + clickedColor.ToString();
+                }
+                
             }
-            
-            this.Message = "Clicked at: " + clickedPtOnOriginalBitmap + "\n" + clickedColor.ToString();
+
+            this.Message = msg;
 
             this.UpdateImgs();
 

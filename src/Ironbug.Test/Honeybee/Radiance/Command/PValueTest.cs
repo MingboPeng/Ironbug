@@ -75,6 +75,8 @@ namespace Ironbug.Test.Honeybee.Radiance.Command
             var counts = output.Length;
 
             Console.WriteLine("TotalLineCount: " + counts);
+            Console.WriteLine("X: " + pvalue.X);
+            Console.WriteLine("Y: " + pvalue.Y);
 
             for (int i = 0; i < 5; i++)
             {

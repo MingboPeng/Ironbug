@@ -11,6 +11,9 @@ namespace Ironbug.Honeybee.Radiance.Command
     {
         private string inputHdrFile;
 
+        public int X = 0;
+        public int Y = 0;
+
         private string InputHdrFile
         {
             get { return inputHdrFile; }
@@ -40,18 +43,23 @@ namespace Ironbug.Honeybee.Radiance.Command
             return radString;
         }
 
-        public new IEnumerable<string> Execute()
+        public new IEnumerable<int> Execute()
         {
             var outputStr = base.Execute().Trim();
             var outputlist = outputStr.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             if (outputlist.Length==0)
             {
                 new Exception("Failed to extract HDR image values!");
-                return new List<string>();
+                return new List<int>();
             }
             else
             {
-                return outputlist.Skip(1);
+                var dim = outputlist[0].Split(' ');
+
+                this.X = Convert.ToInt16(dim[3]);
+                this.Y = Convert.ToInt16(dim[1]);
+                var output = outputlist.Skip(1).Select(_ => Convert.ToInt32(double.Parse(_.Trim())));
+                return output;
             }
 
             
