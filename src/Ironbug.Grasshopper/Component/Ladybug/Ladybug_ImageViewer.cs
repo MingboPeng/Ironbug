@@ -35,8 +35,8 @@ namespace Ironbug.Grasshopper
         private List<Drawing.Point> TempExtrCoordinates2 = new List<Drawing.Point>();
         public List<List<Color>> ExtractedColors = new List<List<Color>>();
 
-        private List<List<int>> PValues = new List<List<int>>();
-        public List<List<int>> ExtractedPValues = new List<List<int>>();
+        private List<List<double>> PValues = new List<List<double>>();
+        public List<List<double>> ExtractedPValues = new List<List<double>>();
 
         public bool DisableClickable = true;
         public bool ifSaveThis = false;
@@ -86,7 +86,7 @@ namespace Ironbug.Grasshopper
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("imagePath", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
-            pManager.AddTextParameter("colors", "colors", "Color infomation that extracted from the input image.", GH_ParamAccess.list);
+            pManager.AddTextParameter("values", "values", "Color infomation or Radiance value that extracted from the input image.\nRadiance value only available on HDR image, and the unit is based on Radiance study type.\n -Illuminance: lux\n-Luminance: cd/m2", GH_ParamAccess.list);
             pManager.AddTextParameter("GIF", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
             
         }
@@ -108,8 +108,8 @@ namespace Ironbug.Grasshopper
             
             this.ExtractedColors = new List<List<Color>>() { new List<Color>() };
 
-            this.PValues = new List<List<int>> { new List<int>() };
-            this.ExtractedPValues = new List<List<int>>() { new List<int>() };
+            this.PValues = new List<List<double>> { new List<double>() };
+            this.ExtractedPValues = new List<List<double>>() { new List<double>() };
 
             ////Check the Radiance folder
             //var radPath = GetRADPath();
@@ -215,8 +215,9 @@ namespace Ironbug.Grasshopper
             
             //current img to be shown
             this.Bitmap = this.Bitmaps[this.currentBitmapIndex];
-            //string filePath = this.FilePaths[this.currentBitmapIndex];
             
+            //string filePath = this.FilePaths[this.currentBitmapIndex];
+
             //get colors from input coordinates
             var imgCoordinates = new List<Point3d>();
             if (DA.GetDataList(1, imgCoordinates))
@@ -234,6 +235,7 @@ namespace Ironbug.Grasshopper
             
 
             var imgs = new List<string>();
+
             if (this.ifSaveAll)
             {
                 this.ExtractedColors = GetColors(this.ExtractedCoordinates, this.Bitmaps);
@@ -252,9 +254,15 @@ namespace Ironbug.Grasshopper
                 imgs.Add(this.FilePaths[this.currentBitmapIndex]);
             }
 
+            if (this.IsGetPValue)
+            {
+                var pValues = this.GetPValues(FilePaths[this.currentBitmapIndex],this.ExtractedCoordinates);
+                this.ExtractedPValues[0] = pValues.ToList();
+            }
+
             DA.SetDataList(0, imgs);
 
-            DA.SetDataTree(1, FormatColorDataTree(this.ExtractedColors));
+            DA.SetDataTree(1, FormatColorOrPValueDataTree());
             
         }
 
@@ -541,11 +549,11 @@ namespace Ironbug.Grasshopper
         {
             this.IsGetPValue = !this.IsGetPValue;
             var currentFile = this.FilePaths[this.currentBitmapIndex];
-            
-            PValues[this.currentBitmapIndex] = GetPvalues(currentFile).ToList();
+
+            this.GetPValues(currentFile);
         }
 
-        private IEnumerable<int> GetPvalues(string HDRImg)
+        private IEnumerable<double> GetPValues(string HDRImg)
         {
             
             var isHDR = Path.GetExtension(HDRImg).ToUpper() == ".HDR";
@@ -555,12 +563,32 @@ namespace Ironbug.Grasshopper
             }
             var pvalue = new Honeybee.Radiance.Command.PValue_Legacy(HDRImg);
             var outputs = pvalue.Execute();
+
+            //TODO: this is not the right way to do...
+            this.PValues[this.currentBitmapIndex] = outputs.ToList();
             return outputs;
         }
 
-        private int GetPValueFromXY(Drawing.Point point, List<int> RadValues)
+        private IEnumerable<double> GetPValues(string HDRImg, List<Drawing.Point> ExtractedCoordinates)
         {
-            var radValue = 0;
+            this.GetPValues(HDRImg);
+            var pValues = new List<double>();
+
+            foreach (var point in ExtractedCoordinates)
+            {
+                var validPoint = this.ValidateCoordinate(point, this.Bitmap);
+                var pValue = this.GetPValueFromXY(validPoint, this.PValues[this.currentBitmapIndex]);
+                pValues.Add(pValue);
+                
+            }
+
+            return pValues;
+
+        }
+
+        private double GetPValueFromXY(Drawing.Point point, List<double> RadValues)
+        {
+            var radValue = 0.0;
 
             var x0 = Bitmap.Width;
             var y0 = Bitmap.Height;
@@ -732,7 +760,7 @@ namespace Ironbug.Grasshopper
                 {
                     var clickedPValue =  this.GetPValueFromXY( clickedPtOnOriginalBitmap,this.PValues[this.currentBitmapIndex]);
                     this.ExtractedPValues[0].Add(clickedPValue);
-                    msg = "Clicked at: " + clickedPtOnOriginalBitmap + "\nRadianceValue: " + clickedPValue.ToString();
+                    msg = "Clicked at: " + clickedPtOnOriginalBitmap + "\nRadiance Value: " + clickedPValue.ToString();
                 }
                 else
                 {
@@ -787,31 +815,43 @@ namespace Ironbug.Grasshopper
         {
             var colors = new List<Color>();
             var validCoordinates = new List<Drawing.Point>();
+
             var bitmap = inBitmap;
 
             foreach (var item in imgCoordinates)
             {
-                int x = item.X;
-                int y = item.Y;
-                bool isValidX = x >= 0 && x <= bitmap.Width;
-                bool isValidY = y >= 0 && y <= bitmap.Height;
-
-                if (isValidX && isValidY)
-                {
-                    validCoordinates.Add(new Drawing.Point(x, y));
-                    colors.Add(bitmap.GetPixel(x, y));
-                    //((ImageFromPathAttrib)m_attributes).displayCoordinates(new System.Drawing.Point(x,y));
-                }
-                else
-                {
-                    this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "{ "+item.ToString() + "} is not a valid coordinate.\nIt should be no bigger than current image's size " + bitmap.Size);
-                }
-                
+                var validCoordinate = ValidateCoordinate(item, inBitmap);
+                validCoordinates.Add(validCoordinate);
+                colors.Add(bitmap.GetPixel(validCoordinate.X, validCoordinate.Y));
             }
+            
 
             this.ExtractedCoordinates = validCoordinates;
             return colors;
 
+        }
+
+        private Drawing.Point ValidateCoordinate(Drawing.Point imgCoordinate, Bitmap inBitmap)
+        {
+            var validCoordinate = new Drawing.Point();
+            var bitmap = inBitmap;
+            
+            int x = imgCoordinate.X;
+            int y = imgCoordinate.Y;
+            bool isValidX = x >= 0 && x <= bitmap.Width;
+            bool isValidY = y >= 0 && y <= bitmap.Height;
+
+            if (isValidX && isValidY)
+            {
+                validCoordinate = imgCoordinate;
+            }
+            else
+            {
+                new Exception("{ " + validCoordinate.ToString() + "} is not a valid coordinate.\nIt should be no bigger than current image's size " + bitmap.Size);
+            }
+
+            
+            return validCoordinate;
         }
 
         private List<List<Color>> GetColors(List<Drawing.Point> imgCoordinates, List<Bitmap> inBitmap)
@@ -917,8 +957,7 @@ namespace Ironbug.Grasshopper
 
         private void UpdateColorParamValues()
         {
-            //GH.DataTree<Color> outputDataTree = new GH.DataTree<Color>();
-            GH_Structure<GH_Colour> outputDataTree = FormatColorDataTree(this.ExtractedColors);
+            GH_Structure<GH_String> outputDataTree = this.FormatColorOrPValueDataTree();
             
             //update color outputs
             this.Params.Output[1].ExpireSolution(false);
@@ -929,15 +968,32 @@ namespace Ironbug.Grasshopper
             
         }
 
-        private GH_Structure<GH_Colour> FormatColorDataTree(List<List<Color>> allColors)
+        private GH_Structure<GH_String> FormatColorOrPValueDataTree()
         {
             
-            GH_Structure<GH_Colour> outputDataTree = new GH_Structure<GH_Colour>();
-            for (int i = 0; i < allColors.Count; i++)
+            GH_Structure<GH_String> outputDataTree = new GH_Structure<GH_String>();
+
+            if (this.IsGetPValue)
             {
-                var ghColors = allColors[i].Select(_ => new GH_Colour(_));
-                outputDataTree.AppendRange(ghColors, new GH_Path(i));
+                List<List<double>> allPValues = this.ExtractedPValues;
+                for (int i = 0; i < allPValues.Count; i++)
+                {
+                    var ghColors = allPValues[i].Select(_ => new GH_String(_.ToString()));
+                    outputDataTree.AppendRange(ghColors, new GH_Path(i));
+                }
             }
+            else
+            {
+                List<List<Color>> allColors = this.ExtractedColors;
+                for (int i = 0; i < allColors.Count; i++)
+                {
+                    var ghColors = allColors[i].Select(_ => new GH_String(_.ToString()));
+                    outputDataTree.AppendRange(ghColors, new GH_Path(i));
+                }
+            }
+
+            
+
             return outputDataTree;
         }
     }
