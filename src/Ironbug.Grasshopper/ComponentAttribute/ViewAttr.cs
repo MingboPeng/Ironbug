@@ -1,10 +1,10 @@
-﻿using System;
-using System.Drawing;
-using Grasshopper.GUI;
+﻿using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Attributes;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -17,19 +17,23 @@ namespace Ironbug.Grasshopper
     public class ImageFromPathAttrib : GH_ComponentAttributes
     {
         //String myPath;
-        const int rawSize = 320;
-        const int TopOffset = 60;
-        const int NavButtonSize = 20;
-        int BtmOffset = 0;
+        private const int rawSize = 320;
+
+        private const int TopOffset = 60;
+        private const int NavButtonSize = 20;
+        private int BtmOffset = 0;
+
         //float XYRatio =1;
         private double scale;
 
         //public string imgPath = string.Empty;
-        List<Point> coordinates = new List<Point>();
+        private List<Point> coordinates = new List<Point>();
+
         //List<string> currentValues = new List<string>();
-        Bitmap imgBitmap;
-        Graphics MyGraphics;
-        Ladybug_ImageViewer ViewOwner;
+        private Bitmap imgBitmap;
+
+        private Graphics MyGraphics;
+        private Ladybug_ImageViewer ViewOwner;
 
         public ImageFromPathAttrib(Ladybug_ImageViewer owner)
             : base(owner)
@@ -37,69 +41,17 @@ namespace Ironbug.Grasshopper
             this.imgBitmap = owner.Bitmap;
             this.scale = owner.Scale;
             this.ViewOwner = (Ladybug_ImageViewer)this.Owner;
-
         }
 
-        
         protected override void Layout()
         {
-            RectangleF @in = new RectangleF(this.Pivot, this.Bounds.Size);
-            if ((double)@in.Width < (double)rawSize)
-                @in.Width = (float)(double)rawSize;
-            if ((double)@in.Height < (double)(double)rawSize)
-                @in.Height = (float)(double)rawSize;
-            this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
-            
+            //RectangleF @in = new RectangleF(this.Pivot, this.Bounds.Size);
+            //if ((double)@in.Width < (double)rawSize)
+            //    @in.Width = (float)(double)rawSize;
+            //if ((double)@in.Height < (double)(double)rawSize)
+            //    @in.Height = (float)(double)rawSize;
+            //this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
 
-        }
-        
-        private RectangleF GetBounds(PointF location, SizeF imgSizeXY, int topOffset, int btmOffset, double scale)
-        {
-
-            RectangleF rec = new RectangleF();
-            rec.Location = location;
-            rec.Width = imgSizeXY.Width*(float)scale;
-            rec.Height = imgSizeXY.Height * (float)scale + topOffset + btmOffset;
-            rec.Inflate(2f, 2f);
-
-            return (RectangleF)GH_Convert.ToRectangle(rec);
-        }
-
-        private RectangleF GetImgBounds(RectangleF bounds, int topOffset, int btmOffset )
-        {
-            RectangleF rec = bounds;
-            rec.Y += topOffset;
-            rec.Height = rec.Height - topOffset - btmOffset;
-
-            rec.Inflate(-2f,-2f);
-            return rec;
-        }
-
-        private RectangleF GetNavBounds(RectangleF imgBound, int btmOffset, int size, bool rightSide)
-        {
-            RectangleF rec = imgBound;
-
-            if (rightSide)
-            {
-                rec.X += (rec.Width - size - 10);
-            }
-            else
-            {
-                rec.X += 10;
-            }
-            
-
-            rec.Y += (rec.Height + (btmOffset - size)/2);
-            rec.Width = size;
-            rec.Height = size;
-
-            return rec;
-        }
-
-        protected override void PrepareForRender(GH_Canvas canvas)
-        {
-            base.PrepareForRender(canvas);
-            
             this.scale = this.ViewOwner.Scale;
             this.imgBitmap = this.ViewOwner.Bitmap;
             this.coordinates = this.ViewOwner.ExtractedCoordinates;
@@ -133,14 +85,60 @@ namespace Ironbug.Grasshopper
             inputRect.X += Owner.Params.InputWidth;
 
             RectangleF outRect = new RectangleF(Pivot, new SizeF(10f, 54f));
-            outRect.X += Bounds.Width - Owner.Params.OutputWidth-10;
+            outRect.X += Bounds.Width - Owner.Params.OutputWidth - 10;
 
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
-
-            this.ExpireLayout();
-
         }
+
+        private RectangleF GetBounds(PointF location, SizeF imgSizeXY, int topOffset, int btmOffset, double scale)
+        {
+            RectangleF rec = new RectangleF();
+            rec.Location = location;
+            rec.Width = imgSizeXY.Width * (float)scale;
+            rec.Height = imgSizeXY.Height * (float)scale + topOffset + btmOffset;
+            rec.Inflate(2f, 2f);
+
+            return (RectangleF)GH_Convert.ToRectangle(rec);
+        }
+
+        private RectangleF GetImgBounds(RectangleF bounds, int topOffset, int btmOffset)
+        {
+            RectangleF rec = bounds;
+            rec.Y += topOffset;
+            rec.Height = rec.Height - topOffset - btmOffset;
+
+            rec.Inflate(-2f, -2f);
+            return rec;
+        }
+
+        private RectangleF GetNavBounds(RectangleF imgBound, int btmOffset, int size, bool rightSide)
+        {
+            RectangleF rec = imgBound;
+
+            if (rightSide)
+            {
+                rec.X += (rec.Width - size - 10);
+            }
+            else
+            {
+                rec.X += 10;
+            }
+
+            rec.Y += (rec.Height + (btmOffset - size) / 2);
+            rec.Width = size;
+            rec.Height = size;
+
+            return rec;
+        }
+
+        //protected override void PrepareForRender(GH_Canvas canvas)
+        //{
+        //    base.PrepareForRender(canvas);
+
+        //    this.ExpireLayout();
+
+        //}
         protected override void Render(GH_Canvas canvas, Graphics graphics, GH_CanvasChannel channel)
         {
             base.Render(canvas, graphics, channel);
@@ -160,44 +158,37 @@ namespace Ironbug.Grasshopper
                 {
                     DisplayDefaultComponent();
                 }
-
             }
-
-            
-
         }
 
         private void DisplayNav()
         {
             if (this.BtmOffset == 0) return;
-            
+
             RectangleF recImg = GetImgBounds(this.Bounds, TopOffset, BtmOffset);
             Pen pen = new Pen(new SolidBrush(Color.White));
             //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
-            RectangleF recNavLeft = GetNavBounds(recImg, BtmOffset, NavButtonSize,false);
+            RectangleF recNavLeft = GetNavBounds(recImg, BtmOffset, NavButtonSize, false);
             RectangleF recNavRight = GetNavBounds(recImg, BtmOffset, NavButtonSize, true);
-            
+
             MyGraphics.DrawEllipse(pen, recNavLeft);
             MyGraphics.DrawEllipse(pen, recNavRight);
 
             MyGraphics.DrawString("◄", new Font("Arial", 10), new SolidBrush(Color.White), recNavLeft.X, recNavLeft.Y + 3);
-            MyGraphics.DrawString("►", new Font("Arial", 10), new SolidBrush(Color.White), recNavRight.X+3, recNavRight.Y + 3);
-
+            MyGraphics.DrawString("►", new Font("Arial", 10), new SolidBrush(Color.White), recNavRight.X + 3, recNavRight.Y + 3);
         }
 
         private void DisplayImg(Bitmap inBitmap)
         {
-            
             RectangleF rec = GetImgBounds(this.Bounds, TopOffset, BtmOffset);
-            
+
             MyGraphics.DrawImage(imgBitmap, rec);
 
             //draw pixel coordinates
-            if (this.coordinates.Count>0)
+            if (this.coordinates.Count > 0)
             {
                 DisplayCoordinates(this.coordinates, this.MyGraphics);
             }
-            
         }
 
         private void DisplayCoordinates(List<Point> coordinates, Graphics graphics)
@@ -209,17 +200,13 @@ namespace Ironbug.Grasshopper
 
             foreach (var item in coordinates)
             {
-                
-                var relativePt = new PointF(item.X * img2ViewportRatio  + rec.X - dotSize/2 , item.Y * img2ViewportRatio + rec.Y - dotSize / 2);
-                
+                var relativePt = new PointF(item.X * img2ViewportRatio + rec.X - dotSize / 2, item.Y * img2ViewportRatio + rec.Y - dotSize / 2);
+
                 //SolidBrush myBrush = new SolidBrush(Color.White);
                 Pen pen = new Pen(new SolidBrush(Color.White));
                 //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
                 graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
-                
             }
-
-            
         }
 
         private void DisplayDefaultComponent()
@@ -230,14 +217,14 @@ namespace Ironbug.Grasshopper
             this.Owner.Message = null;
 
             RectangleF rec = GetImgBounds(Bounds, TopOffset, BtmOffset);
-            
+
             Pen pen = new Pen(Color.Gray, 3);
             SolidBrush myBrush = new SolidBrush(Color.Gray);
 
             Font standardFont = GH_FontServer.Standard;
             Font standardFont4kScreen = new Font(standardFont.Name, 4);
 
-            if (GH_FontServer.StringWidth("Please use a valid image file path.",standardFont) >300)
+            if (GH_FontServer.StringWidth("Please use a valid image file path.", standardFont) > 300)
             {
                 standardFont = standardFont4kScreen;
             }
@@ -250,16 +237,16 @@ namespace Ironbug.Grasshopper
             MyGraphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
             MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", standardFont, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
-            MyGraphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width*2/3));
-            
+            MyGraphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width * 2 / 3));
+
             myBrush.Dispose();
             myFormat.Dispose();
-
         }
 
         public delegate void ImgClick_Handler(object sender, Point clickedPtOnOriginalBitmap);
 
         private ImgClick_Handler MouseImgClickEvent;
+
         public event ImgClick_Handler mouseImgClickEvent
         {
             add
@@ -287,7 +274,9 @@ namespace Ironbug.Grasshopper
         }
 
         public delegate void NavClick_Handler(object sender, bool clickedRightButton);
+
         private NavClick_Handler MouseNavClickEvent;
+
         public event NavClick_Handler mouseNavClickEvent
         {
             add
@@ -314,27 +303,23 @@ namespace Ironbug.Grasshopper
             }
         }
 
-
         public override GH_ObjectResponse RespondToMouseDown(GH_Canvas sender, GH_CanvasMouseEvent e)
         {
-            
             if (e.Button == MouseButtons.Left && imgBitmap != null)
             {
-                
                 RectangleF recImg = GetImgBounds(this.Bounds, TopOffset, BtmOffset);
                 RectangleF recNavLeft = GetNavBounds(recImg, BtmOffset, NavButtonSize, false);
                 RectangleF recNavRight = GetNavBounds(recImg, BtmOffset, NavButtonSize, true);
 
                 //Click inside the img
-                if (recImg.Contains(e.CanvasLocation)  && !ViewOwner.DisableClickable)
+                if (recImg.Contains(e.CanvasLocation) && !ViewOwner.DisableClickable)
                 {
-                    
                     float img2ViewportRatio = (float)recImg.Width / (float)this.imgBitmap.Width;
-                    PointF clickedPt = PointF.Subtract(e.CanvasLocation,new SizeF(recImg.X, recImg.Y));
-                    
+                    PointF clickedPt = PointF.Subtract(e.CanvasLocation, new SizeF(recImg.X, recImg.Y));
+
                     //convert current pt location on grasshopper view back to original image size system
                     Point PixelPtOnOriginalBitmap = Point.Round(new PointF(clickedPt.X / img2ViewportRatio, clickedPt.Y / img2ViewportRatio));
-                    
+
                     this.MouseImgClickEvent(this, PixelPtOnOriginalBitmap);
                     return GH_ObjectResponse.Handled;
                 }
@@ -355,11 +340,5 @@ namespace Ironbug.Grasshopper
             }
             return base.RespondToMouseDown(sender, e);
         }
-
-        
-
-        
-
     }
 }
-
