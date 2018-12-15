@@ -45,12 +45,6 @@ namespace Ironbug.Grasshopper
 
         protected override void Layout()
         {
-            //RectangleF @in = new RectangleF(this.Pivot, this.Bounds.Size);
-            //if ((double)@in.Width < (double)rawSize)
-            //    @in.Width = (float)(double)rawSize;
-            //if ((double)@in.Height < (double)(double)rawSize)
-            //    @in.Height = (float)(double)rawSize;
-            //this.Bounds = (RectangleF)GH_Convert.ToRectangle(@in);
 
             this.scale = this.ViewOwner.Scale;
             this.imgBitmap = this.ViewOwner.Bitmap;
@@ -86,7 +80,7 @@ namespace Ironbug.Grasshopper
 
             RectangleF outRect = new RectangleF(Pivot, new SizeF(10f, 54f));
             outRect.X += Bounds.Width - Owner.Params.OutputWidth - 10;
-
+            
             LayoutInputParams(Owner, inputRect);
             LayoutOutputParams(Owner, outRect);
         }
@@ -201,10 +195,7 @@ namespace Ironbug.Grasshopper
             foreach (var item in coordinates)
             {
                 var relativePt = new PointF(item.X * img2ViewportRatio + rec.X - dotSize / 2, item.Y * img2ViewportRatio + rec.Y - dotSize / 2);
-
-                //SolidBrush myBrush = new SolidBrush(Color.White);
                 Pen pen = new Pen(new SolidBrush(Color.White));
-                //graphics.FillEllipse(myBrush, relativePt.X, relativePt.Y, dotSize, dotSize);
                 graphics.DrawEllipse(pen, relativePt.X, relativePt.Y, dotSize, dotSize);
             }
         }
@@ -221,22 +212,15 @@ namespace Ironbug.Grasshopper
             Pen pen = new Pen(Color.Gray, 3);
             SolidBrush myBrush = new SolidBrush(Color.Gray);
 
-            Font standardFont = GH_FontServer.Standard;
-            Font standardFont4kScreen = new Font(standardFont.Name, 4);
-
-            if (GH_FontServer.StringWidth("Please use a valid image file path.", standardFont) > 300)
-            {
-                standardFont = standardFont4kScreen;
-            }
-            else if (GH_FontServer.StringWidth("Please use a valid image file path.", GH_FontServer.Small) > 220)
-            {
-                standardFont = GH_FontServer.Small;
-            }
+            Font standardFont = GH_FontServer.Standard; //29
+            //Font standardFont4kScreen = new Font(standardFont.Name, 4); //15
+            Font standardFontAdjust = GH_FontServer.NewFont(standardFont, (float) Math.Round(120M/ standardFont.Height));
+            
             StringFormat myFormat = new StringFormat();
 
             MyGraphics.FillRectangle(myBrush, Rectangle.Round(rec));
             //graphics.DrawRectangle(pen, Rectangle.Round(imgViewBounds));
-            MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", standardFont, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
+            MyGraphics.DrawString("Please use a valid image file path.\nHDR, TIF, PNG, GIF, or JPG image", standardFontAdjust, Brushes.White, new Point((int)rec.X + 12, (int)rec.Y + ((int)rec.Width * 2 / 3) + 10), myFormat);
             MyGraphics.DrawImage(Properties.Resources.Ladybug_Viewer_370, new RectangleF(rec.X, rec.Y, rec.Width, rec.Width * 2 / 3));
 
             myBrush.Dispose();
