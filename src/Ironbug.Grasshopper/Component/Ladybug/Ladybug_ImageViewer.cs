@@ -56,9 +56,9 @@ namespace Ironbug.Grasshopper
         /// new tabs/panels will automatically be created.
         /// </summary>
         public Ladybug_ImageViewer()
-          : base("Ladybug_ImageViewer", "Viewer",
-              "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug",
-              "Ladybug_Dev", "5 | Extra")
+          : base("Ladybug_ImageViewer", "ImageViewer",
+              "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug/src/Ironbug.Grasshopper",
+              "Ladybug", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
@@ -73,11 +73,15 @@ namespace Ironbug.Grasshopper
         {
             pManager.AddTextParameter("imagePath_", "imagePath_", "one or a list of image file path.", GH_ParamAccess.list);
             pManager.AddPointParameter("coordinates_", "coordinates_", "A list of points for extracting colors from the source image.", GH_ParamAccess.list);
-            pManager.AddNumberParameter("_scale_", "_scale_", "Set this image viewport scale.", GH_ParamAccess.item, 1);
+            pManager.AddNumberParameter("_scale_", "_scale_", "Set this image view port scale.", GH_ParamAccess.item, 1);
             //pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
+
+            pManager[0].MutableNickName = false;
+            pManager[1].MutableNickName = false;
+            pManager[2].MutableNickName = false;
         }
 
         /// <summary>
@@ -86,9 +90,12 @@ namespace Ironbug.Grasshopper
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("imagePath", "imagePath", "A new image marked with coordinates.", GH_ParamAccess.list);
-            pManager.AddTextParameter("values", "values", "Color infomation or Radiance value that extracted from the input image.\nRadiance value only available on HDR image, and the unit is based on Radiance study type.\n -Illuminance: lux\n-Luminance: cd/m2", GH_ParamAccess.list);
+            pManager.AddTextParameter("values", "values", "Color information or Radiance value that extracted from the input image.\nRadiance value only available on HDR image, and the unit is based on the Radiance study type.\n -Illuminance: lux\n -Luminance: cd/m2", GH_ParamAccess.list);
             pManager.AddTextParameter("GIF", "GIF", "Generates an animated gif image when there is a list of images.", GH_ParamAccess.item);
-            
+
+            pManager[0].MutableNickName = false;
+            pManager[1].MutableNickName = false;
+            pManager[2].MutableNickName = false;
         }
         
 
@@ -154,7 +161,7 @@ namespace Ironbug.Grasshopper
                     this.ExtractedColors[0] = GetColors(this.ExtractedCoordinates, this.Bitmap);
                 }
                 
-                this.UpdateColorParamValues();
+                this.UpdateValueOutputData();
                 GH.Instances.ActiveCanvas.Document.NewSolution(false);
             }
             else
@@ -483,7 +490,7 @@ namespace Ironbug.Grasshopper
             Menu_AppendItem(newMenu, "Get Radiance values (only works with HDR image)", OnGetPValues, true, this.IsGetPValue);
             Menu_AppendSeparator(newMenu);
             Menu_AppendItem(newMenu, "Extract all pixel coordinates",OnExtractPtToGhPoints);
-            Menu_AppendItem(newMenu, "Disable clickable image", OnDisableImgClickable, true, this.DisableClickable);
+            Menu_AppendItem(newMenu, "Disable click-able image", OnDisableImgClickable, true, this.DisableClickable);
             Menu_AppendSeparator(newMenu);
             Menu_AppendItem(newMenu, "Save this image with marked coordinates", OnSaveThisWithCoords, true, this.ifSaveThis);
             Menu_AppendItem(newMenu, "Save all images with marked coordinates", OnSaveAllImgsWithCoords, this.IsImgList, this.ifSaveAll);
@@ -541,7 +548,7 @@ namespace Ironbug.Grasshopper
 
             this.Message = null;
             this.Attributes.ExpireLayout();
-            this.UpdateColorParamValues();
+            this.UpdateValueOutputData();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
 
@@ -551,6 +558,8 @@ namespace Ironbug.Grasshopper
             var currentFile = this.FilePaths[this.currentBitmapIndex];
 
             this.GetPValues(currentFile);
+            this.OnClearValues(sender, new EventArgs());
+
         }
 
         private IEnumerable<double> GetPValues(string HDRImg)
@@ -627,7 +636,7 @@ namespace Ironbug.Grasshopper
             this.Params.Output[0].AddVolatileDataList(new GH_Path(0, 0), imgs);
 
             this.ExtractedColors = new List<List<Color>>() { GetColors(this.ExtractedCoordinates, this.Bitmap) };
-            this.UpdateColorParamValues();
+            this.UpdateValueOutputData();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
 
@@ -654,7 +663,7 @@ namespace Ironbug.Grasshopper
             this.Params.Output[0].ExpireSolution(false);
             this.Params.Output[0].AddVolatileDataList(new GH_Path(0, 0), imgs);
 
-            this.UpdateColorParamValues();
+            this.UpdateValueOutputData();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
 
         }
@@ -739,7 +748,7 @@ namespace Ironbug.Grasshopper
             
             
 
-            this.UpdateColorParamValues();
+            this.UpdateValueOutputData();
             this.UpdateImgs();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
@@ -775,7 +784,7 @@ namespace Ironbug.Grasshopper
 
             this.UpdateImgs();
 
-            this.UpdateColorParamValues();
+            this.UpdateValueOutputData();
             GH.Instances.ActiveCanvas.Document.NewSolution(false);
         }
         #endregion
@@ -955,7 +964,7 @@ namespace Ironbug.Grasshopper
             this.Params.Output[0].AddVolatileDataList(new GH_Path(0, 0), imgs);
         }
 
-        private void UpdateColorParamValues()
+        private void UpdateValueOutputData()
         {
             GH_Structure<GH_String> outputDataTree = this.FormatColorOrPValueDataTree();
             

@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SaveOSModel class.
         /// </summary>
         public Ironbug_SaveOSModel()
-          : base("Ironbug_SaveOSModel", "Nickname",
+          : base("Ironbug_SaveToFile", "SaveToFile",
               "Description",
               "Ironbug", "HVAC")
         {
@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "file path", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FilePath", "path", "OSM file path", GH_ParamAccess.item);
             pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("VRFSystems", "VRFSystems", "VRFSystems", GH_ParamAccess.list);
