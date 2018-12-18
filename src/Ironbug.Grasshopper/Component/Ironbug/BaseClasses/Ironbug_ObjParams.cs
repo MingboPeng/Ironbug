@@ -43,7 +43,8 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            
+            //pManager.AddGenericParameter("////", "////", "All inputs vary based on the connected HVAC component", GH_ParamAccess.item);
+            //pManager[0].Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -53,7 +54,11 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            this.Message = "Double click for more details!";
+            if (this.Params.Input.Any())
+            {
+                this.Message = "Double click for more details!";
+            }
+            
             var settingDatas = new Dictionary<IB_Field, object>();
             settingDatas = CollectSettingData();
             DA.SetData(0, settingDatas);
@@ -126,7 +131,9 @@ namespace Ironbug.Grasshopper.Component
                 {
                     this.IsBasicSetting = false;
                     this.IsMasterSetting = false;
-                    AddParams(typeTobeShown);
+                    AddParamsByType(typeTobeShown);
+
+                    this.Message = "Double click for more details!";
                 }
                 
             }
@@ -139,7 +146,7 @@ namespace Ironbug.Grasshopper.Component
 
         
 
-        private void AddParams(Type type)
+        private void AddParamsByType(Type type)
         {
            
             this.CurrentDataFieldType = type;
