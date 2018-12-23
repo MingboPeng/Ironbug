@@ -37,15 +37,34 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             
             var zonefaces = new List<Brep>();
             var glzs = new List<Brep>();
+
+            //var zoneBrep1 = new Brep();
+            //var zoneBrep2 = new Brep();
+            var zoneBrep3 = new Brep();
             foreach (OPS.Surface sf in sfs)
             {
-                var face = sf.ToOpsSurface();
+                var face = sf.ToBrep();
                 var subsrfs = sf.subSurfaces().Select(s => s.ToBrep());
-                zonefaces.Add(face.BrepGeometry);
+                zonefaces.Add(face);
                 glzs.AddRange(subsrfs);
+
+                //test
+                //zoneBrep1.Join(face.BrepGeometry, tol, true);
+                //zoneBrep2.AddSurface(face.BrepGeometry.Surfaces[0]);
+                zoneBrep3.Append(face);
+                zoneBrep3.Faces.Last().UserDictionary.ReplaceContentsWith(face.UserDictionary);
             }
+            //var isclosed1 = zoneBrep1.IsSolid;
+            //var isclosed2 = zoneBrep2.IsSolid;
+            var isclosed3 = zoneBrep3.IsSolid;
+
+            //zoneBrep1.JoinNakedEdges(tol);
+            //zoneBrep2.JoinNakedEdges(tol);
+            zoneBrep3.JoinNakedEdges(tol);
+
             var b = Brep.JoinBreps(zonefaces, tol)[0];
             var space = new RHIB_Space(b);
+            
             space.Name = ospace.nameString();
             space.UserDictionary.Set("OSM_String", ospace.__str__());
             //space.OSM_String = ospace.__str__();
@@ -73,6 +92,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             {
                 throw new System.Exception(string.Format("Failed to import {0}!", planarSurface.nameString()));
             }
+            
+            srf.Faces[0].UserDictionary.Set("OSM_String", planarSurface.__str__());
             return srf;
         }
         public static RHIB_Surface ToOpsSurface(this OPS.Surface surface)
@@ -105,9 +126,13 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //s.Name = surface.nameString();
             //s.UserDictionary.Set("OSM_String", surface.__str__());
             //return s;
+            //this.sub
         }
 
 
 
     }
+
+
+
 }
