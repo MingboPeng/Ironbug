@@ -109,12 +109,8 @@ namespace Ironbug.RhinoOpenStudio
             var layerName = "OS:Space";
             var layerIndex = doc.Layers.Add(layerName, System.Drawing.Color.Black);
             var glzLayerIdx = doc.Layers.Add("OS:Glazing", System.Drawing.Color.Blue);
-            //if (layerIndex < 0 ) return false;
-
-            //var objAtt = new ObjectAttributes { LayerIndex = layerIndex };
-            //var glzObjAtt = new ObjectAttributes { LayerIndex = glzLayerIdx };
-
-
+            
+            //Check unit system : meter only
             doc.AdjustModelUnitSystem(UnitSystem.Meters, false);
 
             if (filename.Contains(".osm"))
@@ -128,37 +124,31 @@ namespace Ironbug.RhinoOpenStudio
                 }
                 var model = tempModel.get();
                 var sps = model.getSpaces();
-
-
-                //var tol = doc.ModelAbsoluteTolerance;
-                Rhino.UI.Dialogs.ShowMessage(sps.Count + " space loaded", "test");
+                
+                var spaceAddedCount = 0;
 
                 foreach (OPS.Space sp in sps)
                 {
-                    //if (sp.nameString() != "Corridor_2_space")
-                    //{
-                    //    continue;
-                    //}
                     var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
 
                     //add glz surfaces to rhino doc.
                     foreach (var glz in glzs)
                     {
-                        doc.Objects.AddBrep(glz);
+                        //doc.Objects.AddBrep(glz);
+                        doc.Objects.AddRhinoObject(glz);
                     }
 
-
-                    //doc.Objects.AddBrep(space);
-                    //var RHIB_obj = new RHIB_Space(space);
-
-                    doc.Objects.AddRhinoObject(space); // TODO: this doesn't make sense!!!
-                    space.Attributes.LayerIndex = layerIndex;
-                    space.CommitChanges();
-
-
-
+                    if (space.BrepGeometry.IsSolid)
+                    {
+                        doc.Objects.AddRhinoObject(space);
+                        space.Attributes.LayerIndex = layerIndex;
+                        space.CommitChanges();
+                        spaceAddedCount++;
+                    }
+                    
                 }
 
+                Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
                 //doc.Views.Redraw();
                 read_success = true;
             }

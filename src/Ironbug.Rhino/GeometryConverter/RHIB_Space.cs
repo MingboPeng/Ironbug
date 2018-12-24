@@ -19,62 +19,48 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         {
         }
 
+
         public override string ToString()
         {
-            return "RHIB_Space";
+            return "Space";
         }
 
-        public override string ShortDescription(bool plural)
-        {
-            return "RHIB_Space";
-        }
+        public override string ShortDescription(bool plural) => "Space";
 
         public string OSM_String = string.Empty;
 
-        public static (RHIB_Space space, List<Brep> glzs) FromOpsSpace(OPS.Space OpenStudioSpace)
+        public static (RHIB_Space space, List<RHIB_SubSurface> glzs) FromOpsSpace(OPS.Space OpenStudioSpace)
         {
             var ospace = OpenStudioSpace;
             var sfs = ospace.surfaces;
             var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
             //tol = 0.000001;
-            var zonefaces = new List<Brep>();
-            var glzs = new List<Brep>();
 
-            //var zoneBrep1 = new Brep();
-            //var zoneBrep2 = new Brep();
+            var zonefaces = new List<Brep>();
+            var glzs = new List<RHIB_SubSurface>();
             var zoneBrep3 = new Brep();
 
             
             foreach (OPS.Surface sf in sfs)
             {
                 var surfaceBrep = sf.ToBrep();
-                var glzSurfaceBrep = sf.subSurfaces().Select(s => s.ToBrep());
+                var glzSurfaceBrep = sf.subSurfaces().Select(s => new RHIB_SubSurface(s));
                
                 zonefaces.Add(surfaceBrep);
-
-                glzs.AddRange(glzSurfaceBrep);
                 zoneBrep3.Append(surfaceBrep);
 
+                glzs.AddRange(glzSurfaceBrep);
+                
             }
-            //var isclosed1 = zoneBrep1.IsSolid;
-            //var isclosed2 = zoneBrep2.IsSolid;
-            //var isclosed3 = zoneBrep3.IsSolid;
 
-            //zoneBrep1.JoinNakedEdges(tol);
-            //zoneBrep2.JoinNakedEdges(tol);
             zoneBrep3.JoinNakedEdges(tol);
-
             var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
             if (!closedBrep.IsSolid)
             {
                 closedBrep = zoneBrep3;
             }
-            
-            //if (!zoneBrep3.IsSolid)
-            //{
-            //    Rhino.UI.Dialogs.ShowMessage("Brep is not solid", "testsrfs");
-            //}
 
+            //add osm info to user data
             var userData = new OsmString();
             userData.Notes = ospace.__str__();
             closedBrep.UserData.Add(userData);
@@ -82,11 +68,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             var space = new RHIB_Space(closedBrep);
             space.Name = ospace.nameString();
-            //space.UserDictionary.Set("OSM_String", ospace.__str__());
-            //space.UserDictionary.Set("OSM_Object", ObjectToByteArray(ospace));
-            //space.OSM_String = ospace.__str__();
             
-
             return (space, glzs);
         }
 
@@ -109,73 +91,48 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
     {
         public static Brep ToBrep(this OPS.PlanarSurface planarSurface)
         {
-            //var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance; //TODO: move this to somewhere cleaner!!!
+
             var pts = planarSurface.vertices().Select(pt => new Point3d(pt.x(), pt.y(), pt.z())).ToList();
             pts.Add(pts[0]);
-
-            if (planarSurface.nameString() == "Classroom_27_Srf_0")
-            {
-                var st = pts.Select(_ => _.ToString());
-            }
             
             var crv = new PolylineCurve(pts);
             //crv.MakeClosed(tol); //Why does this is not working??? Rhino??
+
             var plannarBrep = Brep.CreatePlanarBreps(crv, 0.000001)[0];
-            //var str = plannarBrep.Vertices.Select(_ => _..ToString());
 
-
-            Surface srf = plannarBrep.Surfaces[0];
-            
-            if (!srf.IsValid)
+            if (!plannarBrep.IsValid)
             {
                 throw new System.Exception(string.Format("Failed to import {0}!", planarSurface.nameString()));
             }
             
-
+            //add osm data as user data
+            Surface srf = plannarBrep.Surfaces[0];
             var userData = new OsmString();
             userData.Notes = planarSurface.__str__();
             srf.UserData.Add(userData);
-
-            //var brepWithSrf = srf.ToBrep();
+            
             return plannarBrep;
         }
-        public static RHIB_Surface ToOpsSurface(this OPS.Surface surface)
-        {
-            var brep = surface.ToBrep();
-            var s = new RHIB_Surface(brep);
-            s.Name = surface.nameString();
-
-            var userData = new OsmString();
-            userData.Notes = surface.__str__();
-            s.UserData.Add(userData);
-
-            return s;
-        }
+       
     }
     
-    public class RHIB_Surface : CustomBrepObject
+    public class RHIB_SubSurface : CustomBrepObject
     {
-        public RHIB_Surface(Brep m)
+        public RHIB_SubSurface(Brep m)
             : base(m)
         {
         }
 
-        public RHIB_Surface()
+        public RHIB_SubSurface()
         {
         }
 
-        public RHIB_Surface(OPS.Surface surface)
+        public RHIB_SubSurface(OPS.SubSurface surface):this (surface.ToBrep())
         {
-            //var brep = surface.ToBrep();
-            
-            //var s = new RHIB_Surface(brep);
-            //s.Name = surface.nameString();
-            //s.UserDictionary.Set("OSM_String", surface.__str__());
-            //return s;
-            //this.sub
+
         }
 
-
+        public override string ShortDescription(bool plural) => "SubSurface";
 
     }
 

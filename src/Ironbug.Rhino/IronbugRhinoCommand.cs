@@ -93,8 +93,17 @@ namespace Ironbug.RhinoOpenStudio
                     msgString = userdata.Notes;
                 }
             }
+            else if (brepobj is RHIB_SubSurface subSurface)
+            {
+                var userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmString)) as OsmString;
+                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                {
+                    msgString = userdata.Notes;
+                }
+            }
             else
             {
+                Rhino.UI.Dialogs.ShowMessage("Invalid OpenStudio object", "OpengStudio Info");
                 return Result.Failure;
             }
 
