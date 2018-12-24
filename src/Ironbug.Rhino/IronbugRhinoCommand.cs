@@ -63,7 +63,7 @@ namespace Ironbug.RhinoOpenStudio
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
             var go = new GetObject();
-            go.SetCommandPrompt("Select a zone or a surface");
+            go.SetCommandPrompt("Select a space or a space's surface");
             go.GeometryFilter = ObjectType.Brep;
             go.SubObjectSelect = true;
             go.Get();
@@ -75,54 +75,31 @@ namespace Ironbug.RhinoOpenStudio
             //var index = selObj.GeometryComponentIndex;
             var brepobj = selObj.Object() as BrepObject;
 
-            if (possibleSrf!=null)
+            var msgString = string.Empty;
+            if (possibleSrf != null && brepobj is RHIB_Space)
             {
-                //Rhino.UI.Dialogs.ShowMessage(possibleSrf.UserDictionary.GetString("OSM_String", string.Empty), "testsrfs");
-                //var objbytes = possibleSrf.UserDictionary.GetBytes("OSM_Object");
-                //var osmobj = ByteArrayToObject(objbytes) as OpenStudio.Space;
-                //Rhino.UI.Dialogs.ShowMessage(osmobj.__str__(), "testsrfs");
 
                 var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmString)) as OsmString;
-                Rhino.UI.Dialogs.ShowMessage(userdata.Notes, "testsrfs");
+                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                {
+                    msgString = userdata.Notes;
+                }
             }
             else if (brepobj is RHIB_Space zone)
             {
-                Rhino.UI.Dialogs.ShowMessage(zone.BrepGeometry.UserDictionary.GetString("OSM_String", string.Empty), "test");
+                var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
+                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                {
+                    msgString = userdata.Notes;
+                }
             }
             else
             {
-                Rhino.UI.Dialogs.ShowMessage("Invalid OpenStudio geometry", "test");
                 return Result.Failure;
             }
+
+            Rhino.UI.Dialogs.ShowMessage(msgString, "OpengStudio Info");
             
-            
-
-            //srf = brepobj.BrepGeometry.Faces[srf.FaceIndex];
-
-            //ObjRef selZone;
-            //Result rc = RhinoGet.GetOneObject("select one zone", false, Rhino.DocObjects.ObjectType.AnyObject, out selZone);
-            //if (rc == Result.Success)
-            //{
-            //    if (selZone != null)
-            //    {
-            //        var obj = doc.Objects.FindId(selZone.ObjectId);
-            //        if (obj is RHIB_Space zone)
-            //        {
-            //            Rhino.UI.Dialogs.ShowMessage(zone.UserDictionary.GetString("OSM_String",string.Empty), "test");
-            //        }
-            //        else
-            //        {
-            //            //Rhino.UI.Dialogs.ShowMessage(obj.UserDictionary.GetString("OSM_String", string.Empty), "test");
-            //        }
-                    
-
-            //        //var osmzone = selZone.Geometry() as RHIB_ThermalZone;
-            //        //osmzone.
-            //    }
-
-
-            //}
-
             return Result.Success;
         }
 
