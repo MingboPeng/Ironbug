@@ -135,7 +135,7 @@ namespace Ironbug.RhinoOpenStudio
 
                 foreach (OPS.Space sp in sps)
                 {
-                    //if (sp.nameString() != "Classroom_27_space")
+                    //if (sp.nameString() != "Corridor_2_space")
                     //{
                     //    continue;
                     //}

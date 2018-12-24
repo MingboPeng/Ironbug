@@ -64,8 +64,12 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //zoneBrep2.JoinNakedEdges(tol);
             zoneBrep3.JoinNakedEdges(tol);
 
-            //var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
-
+            var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
+            if (!closedBrep.IsSolid)
+            {
+                closedBrep = zoneBrep3;
+            }
+            
             //if (!zoneBrep3.IsSolid)
             //{
             //    Rhino.UI.Dialogs.ShowMessage("Brep is not solid", "testsrfs");
@@ -73,10 +77,10 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             var userData = new OsmString();
             userData.Notes = ospace.__str__();
-            zoneBrep3.UserData.Add(userData);
+            closedBrep.UserData.Add(userData);
             
 
-            var space = new RHIB_Space(zoneBrep3);
+            var space = new RHIB_Space(closedBrep);
             space.Name = ospace.nameString();
             //space.UserDictionary.Set("OSM_String", ospace.__str__());
             //space.UserDictionary.Set("OSM_Object", ObjectToByteArray(ospace));
