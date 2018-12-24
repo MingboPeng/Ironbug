@@ -9,6 +9,7 @@ using Ironbug.RhinoOpenStudio.GeometryConverter;
 using System.Reflection;
 using System.IO;
 using Ironbug.Core.OpenStudio;
+using Rhino.FileIO;
 
 namespace Ironbug.RhinoOpenStudio
 {
@@ -104,12 +105,13 @@ namespace Ironbug.RhinoOpenStudio
                     //add glz surfaces to rhino doc.
                     foreach (var glz in glzs)
                     {
-                        
                         doc.Objects.AddBrep(glz);
                     }
 
-                    //var RHIB_brep = new RHIB_Space(space);
-                    
+
+                    //doc.Objects.AddBrep(space);
+                    //var RHIB_obj = new RHIB_Space(space);
+
                     doc.Objects.AddRhinoObject(space); // TODO: this doesn't make sense!!!
                     space.Attributes.LayerIndex = layerIndex;
                     space.CommitChanges();
@@ -133,6 +135,15 @@ namespace Ironbug.RhinoOpenStudio
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
 
-        
+        protected override void WriteDocument(RhinoDoc doc, BinaryArchiveWriter archive, FileWriteOptions options)
+        {
+            base.WriteDocument(doc, archive, options);
+
+        }
+
+        protected override void ReadDocument(RhinoDoc doc, BinaryArchiveReader archive, FileReadOptions options)
+        {
+            base.ReadDocument(doc, archive, options);
+        }
     }
 }

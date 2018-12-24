@@ -3,6 +3,8 @@ using Rhino.Geometry;
 using System.Collections.Generic;
 using OPS = OpenStudio;
 using System.Linq;
+using System;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
@@ -43,16 +45,20 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var zoneBrep3 = new Brep();
             foreach (OPS.Surface sf in sfs)
             {
-                var face = sf.ToBrep();
-                var subsrfs = sf.subSurfaces().Select(s => s.ToBrep());
-                zonefaces.Add(face);
-                glzs.AddRange(subsrfs);
+                var surfaceBrep = sf.ToBrep();
+                var glzSurfaceBrep = sf.subSurfaces().Select(s => s.ToBrep());
+               
+                zonefaces.Add(surfaceBrep);
 
+                glzs.AddRange(glzSurfaceBrep);
                 //test
                 //zoneBrep1.Join(face.BrepGeometry, tol, true);
                 //zoneBrep2.AddSurface(face.BrepGeometry.Surfaces[0]);
-                zoneBrep3.Append(face);
-                zoneBrep3.Faces.Last().UserDictionary.ReplaceContentsWith(face.UserDictionary);
+                
+                zoneBrep3.Append(surfaceBrep);
+                //zoneBrep3.Faces.Last().UserDictionary.ReplaceContentsWith(face.UserDictionary);
+                //zoneBrep3.Faces.Last().UserData.Add(sfud);
+
             }
             //var isclosed1 = zoneBrep1.IsSolid;
             //var isclosed2 = zoneBrep2.IsSolid;
@@ -62,19 +68,36 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //zoneBrep2.JoinNakedEdges(tol);
             zoneBrep3.JoinNakedEdges(tol);
 
-            var b = Brep.JoinBreps(zonefaces, tol)[0];
-            var space = new RHIB_Space(b);
+            var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
+
+            var userData = new OsmString();
+            userData.Notes = ospace.__str__();
+            closedBrep.UserData.Add(userData);
             
+
+            var space = new RHIB_Space(closedBrep);
             space.Name = ospace.nameString();
-            space.UserDictionary.Set("OSM_String", ospace.__str__());
+            //space.UserDictionary.Set("OSM_String", ospace.__str__());
+            //space.UserDictionary.Set("OSM_Object", ObjectToByteArray(ospace));
             //space.OSM_String = ospace.__str__();
+            
 
             return (space, glzs);
         }
 
-        
-        
-        
+        //public static byte[] ObjectToByteArray(Object obj)
+        //{
+        //    BinaryFormatter bf = new BinaryFormatter();
+        //    using (var ms = new System.IO.MemoryStream())
+        //    {
+        //        bf.Serialize(ms, obj);
+        //        return ms.ToArray();
+        //    }
+        //}
+
+
+
+
     }
 
     public static class OpenStudioExtension
@@ -86,22 +109,30 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             pts.Add(pts[0]);
             //crv.MakeClosed(tol); //Why does this is not working??? Rhino??
             var crv = new PolylineCurve(pts);
-            var srf = Brep.CreatePlanarBreps(crv, tol)[0];
-
+            Surface srf = Brep.CreatePlanarBreps(crv, tol)[0].Surfaces[0];
+            
             if (!srf.IsValid)
             {
                 throw new System.Exception(string.Format("Failed to import {0}!", planarSurface.nameString()));
             }
             
-            srf.Faces[0].UserDictionary.Set("OSM_String", planarSurface.__str__());
-            return srf;
+
+            var userData = new OsmString();
+            userData.Notes = planarSurface.__str__();
+            srf.UserData.Add(userData);
+
+            var brepWithSrf = srf.ToBrep();
+            return brepWithSrf;
         }
         public static RHIB_Surface ToOpsSurface(this OPS.Surface surface)
         {
             var brep = surface.ToBrep();
             var s = new RHIB_Surface(brep);
             s.Name = surface.nameString();
-            s.UserDictionary.Set("OSM_String", surface.__str__());
+
+            var userData = new OsmString();
+            userData.Notes = surface.__str__();
+            s.UserData.Add(userData);
 
             return s;
         }
@@ -132,6 +163,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
 
     }
+
+
 
 
 

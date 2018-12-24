@@ -77,11 +77,17 @@ namespace Ironbug.RhinoOpenStudio
 
             if (possibleSrf!=null)
             {
-                Rhino.UI.Dialogs.ShowMessage(possibleSrf.UserDictionary.GetString("OSM_String", string.Empty), "testsrfs");
+                //Rhino.UI.Dialogs.ShowMessage(possibleSrf.UserDictionary.GetString("OSM_String", string.Empty), "testsrfs");
+                //var objbytes = possibleSrf.UserDictionary.GetBytes("OSM_Object");
+                //var osmobj = ByteArrayToObject(objbytes) as OpenStudio.Space;
+                //Rhino.UI.Dialogs.ShowMessage(osmobj.__str__(), "testsrfs");
+
+                var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmString)) as OsmString;
+                Rhino.UI.Dialogs.ShowMessage(userdata.Notes, "testsrfs");
             }
             else if (brepobj is RHIB_Space zone)
             {
-                Rhino.UI.Dialogs.ShowMessage(zone.UserDictionary.GetString("OSM_String", string.Empty), "test");
+                Rhino.UI.Dialogs.ShowMessage(zone.BrepGeometry.UserDictionary.GetString("OSM_String", string.Empty), "test");
             }
             else
             {
@@ -119,5 +125,19 @@ namespace Ironbug.RhinoOpenStudio
 
             return Result.Success;
         }
+
+        
+
+        //public static Object ByteArrayToObject(byte[] arrBytes)
+        //{
+        //    using (var memStream = new System.IO.MemoryStream())
+        //    {
+        //        var binForm = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+        //        memStream.Write(arrBytes, 0, arrBytes.Length);
+        //        memStream.Seek(0, System.IO.SeekOrigin.Begin);
+        //        var obj = binForm.Deserialize(memStream);
+        //        return obj;
+        //    }
+        //}
     }
 }

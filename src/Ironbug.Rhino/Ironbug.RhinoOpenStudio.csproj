@@ -62,6 +62,7 @@
     <Compile Include="GeometryConverter\RHIB_Space.cs" />
     <Compile Include="IronbugRhinoCommand.cs" />
     <Compile Include="IronbugRhinoPlugIn.cs" />
+    <Compile Include="OsmString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
