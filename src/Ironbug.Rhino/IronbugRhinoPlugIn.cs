@@ -60,16 +60,22 @@ namespace Ironbug.RhinoOpenStudio
             {
                 if (item is BrepObject brep)
                 {
+                    var userdata = brep.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
+                    if (null == userdata)
+                    {
+                        continue;
+                    }
                     var isSrf = brep.BrepGeometry.IsSurface;
                     var isSolid = brep.BrepGeometry.IsSolid;
                     if (isSolid)
                     {
+                       
                         var space = new RHIB_Space(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), space);
                     }
                 }
             }
-            Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
+            //Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
         }
         ///<summary>Gets the only instance of the IronbugRhinoPlugIn plug-in.</summary>
         public static IronbugRhinoPlugIn Instance
@@ -129,6 +135,10 @@ namespace Ironbug.RhinoOpenStudio
 
                 foreach (OPS.Space sp in sps)
                 {
+                    //if (sp.nameString() != "Classroom_27_space")
+                    //{
+                    //    continue;
+                    //}
                     var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
 
                     //add glz surfaces to rhino doc.

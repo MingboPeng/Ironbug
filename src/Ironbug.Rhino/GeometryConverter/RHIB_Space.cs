@@ -36,13 +36,15 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var ospace = OpenStudioSpace;
             var sfs = ospace.surfaces;
             var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
-            
+            //tol = 0.000001;
             var zonefaces = new List<Brep>();
             var glzs = new List<Brep>();
 
             //var zoneBrep1 = new Brep();
             //var zoneBrep2 = new Brep();
             var zoneBrep3 = new Brep();
+
+            
             foreach (OPS.Surface sf in sfs)
             {
                 var surfaceBrep = sf.ToBrep();
@@ -51,31 +53,30 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 zonefaces.Add(surfaceBrep);
 
                 glzs.AddRange(glzSurfaceBrep);
-                //test
-                //zoneBrep1.Join(face.BrepGeometry, tol, true);
-                //zoneBrep2.AddSurface(face.BrepGeometry.Surfaces[0]);
-                
                 zoneBrep3.Append(surfaceBrep);
-                //zoneBrep3.Faces.Last().UserDictionary.ReplaceContentsWith(face.UserDictionary);
-                //zoneBrep3.Faces.Last().UserData.Add(sfud);
 
             }
             //var isclosed1 = zoneBrep1.IsSolid;
             //var isclosed2 = zoneBrep2.IsSolid;
-            var isclosed3 = zoneBrep3.IsSolid;
+            //var isclosed3 = zoneBrep3.IsSolid;
 
             //zoneBrep1.JoinNakedEdges(tol);
             //zoneBrep2.JoinNakedEdges(tol);
             zoneBrep3.JoinNakedEdges(tol);
 
-            var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
+            //var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
+
+            //if (!zoneBrep3.IsSolid)
+            //{
+            //    Rhino.UI.Dialogs.ShowMessage("Brep is not solid", "testsrfs");
+            //}
 
             var userData = new OsmString();
             userData.Notes = ospace.__str__();
-            closedBrep.UserData.Add(userData);
+            zoneBrep3.UserData.Add(userData);
             
 
-            var space = new RHIB_Space(closedBrep);
+            var space = new RHIB_Space(zoneBrep3);
             space.Name = ospace.nameString();
             //space.UserDictionary.Set("OSM_String", ospace.__str__());
             //space.UserDictionary.Set("OSM_Object", ObjectToByteArray(ospace));
@@ -104,12 +105,22 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
     {
         public static Brep ToBrep(this OPS.PlanarSurface planarSurface)
         {
-            var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance; //TODO: move this to somewhere cleaner!!!
+            //var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance; //TODO: move this to somewhere cleaner!!!
             var pts = planarSurface.vertices().Select(pt => new Point3d(pt.x(), pt.y(), pt.z())).ToList();
             pts.Add(pts[0]);
-            //crv.MakeClosed(tol); //Why does this is not working??? Rhino??
+
+            if (planarSurface.nameString() == "Classroom_27_Srf_0")
+            {
+                var st = pts.Select(_ => _.ToString());
+            }
+            
             var crv = new PolylineCurve(pts);
-            Surface srf = Brep.CreatePlanarBreps(crv, tol)[0].Surfaces[0];
+            //crv.MakeClosed(tol); //Why does this is not working??? Rhino??
+            var plannarBrep = Brep.CreatePlanarBreps(crv, 0.000001)[0];
+            //var str = plannarBrep.Vertices.Select(_ => _..ToString());
+
+
+            Surface srf = plannarBrep.Surfaces[0];
             
             if (!srf.IsValid)
             {
@@ -121,8 +132,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             userData.Notes = planarSurface.__str__();
             srf.UserData.Add(userData);
 
-            var brepWithSrf = srf.ToBrep();
-            return brepWithSrf;
+            //var brepWithSrf = srf.ToBrep();
+            return plannarBrep;
         }
         public static RHIB_Surface ToOpsSurface(this OPS.Surface surface)
         {
