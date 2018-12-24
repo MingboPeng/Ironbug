@@ -34,9 +34,9 @@ namespace Ironbug.RhinoOpenStudio
         {
             // Usually commands in import plug-ins are used to modify settings and behavior.
             // The import work itself is performed by the IronbugRhinoPlugIn class.
-            
             return Result.Success;
         }
+
     }
 
     public class osmInfo : Command

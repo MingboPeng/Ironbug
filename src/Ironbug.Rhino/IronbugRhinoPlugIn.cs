@@ -10,6 +10,7 @@ using System.Reflection;
 using System.IO;
 using Ironbug.Core.OpenStudio;
 using Rhino.FileIO;
+using Rhino.PlugIns;
 
 namespace Ironbug.RhinoOpenStudio
 {
@@ -41,8 +42,35 @@ namespace Ironbug.RhinoOpenStudio
             }
             
             Instance = this;
+            RhinoDoc.EndOpenDocument += OnEndOpenDocument;
+        }
+        
+        protected override LoadReturnCode OnLoad(ref string errorMessage)
+        {
+            
+            return base.OnLoad(ref errorMessage);
         }
 
+        public override PlugInLoadTime LoadTime => PlugInLoadTime.AtStartup;
+
+        private void OnEndOpenDocument(object sender, DocumentOpenEventArgs e)
+        {
+            var objs = e.Document.Objects;
+            foreach (var item in objs)
+            {
+                if (item is BrepObject brep)
+                {
+                    var isSrf = brep.BrepGeometry.IsSurface;
+                    var isSolid = brep.BrepGeometry.IsSolid;
+                    if (isSolid)
+                    {
+                        var space = new RHIB_Space(brep.BrepGeometry);
+                        objs.Replace(new ObjRef(brep), space);
+                    }
+                }
+            }
+            Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
+        }
         ///<summary>Gets the only instance of the IronbugRhinoPlugIn plug-in.</summary>
         public static IronbugRhinoPlugIn Instance
         {
@@ -56,6 +84,7 @@ namespace Ironbug.RhinoOpenStudio
         {
             var result = new Rhino.PlugIns.FileTypeList();
             result.AddFileType("OpenStudio Model (*.osm)", "osm");
+           
             return result;
         }
 
@@ -134,16 +163,7 @@ namespace Ironbug.RhinoOpenStudio
         // You can override methods here to change the plug-in behavior on
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
-
-        protected override void WriteDocument(RhinoDoc doc, BinaryArchiveWriter archive, FileWriteOptions options)
-        {
-            base.WriteDocument(doc, archive, options);
-
-        }
-
-        protected override void ReadDocument(RhinoDoc doc, BinaryArchiveReader archive, FileReadOptions options)
-        {
-            base.ReadDocument(doc, archive, options);
-        }
+        
+        
     }
 }
