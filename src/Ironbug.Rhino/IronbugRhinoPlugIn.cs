@@ -25,21 +25,29 @@ namespace Ironbug.RhinoOpenStudio
         public OsmDocumentData OsmFileString { get; private set; } = new OsmDocumentData();
         public string OsmFilePath { get; private set; } = string.Empty;
 
+        public object OsmModel { get; private set; }
+
         public IronbugRhinoPlugIn()
         {
             try
             {
-                if (!OpenStudioHelper.LoadAssemblies())
+                var osmVersion = "2.7.0.0";
+                if (!OpenStudioHelper.LoadAssemblies(osmVersion))
                 {
                     Rhino.UI.Dialogs.ShowMessage("Failed to load OpenStudio.dll!", "test");
                 }
-                //this.OsmModel = new OPS.Model();
-            }
-            catch (FileNotFoundException e)
-            {
-                Rhino.UI.Dialogs.ShowMessage(e.Message, "test");
-            }
+                else
+                {
+                    RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
 
+                }
+
+
+            }
+            catch (FileNotFoundException loadError)
+            {
+                Rhino.UI.Dialogs.ShowMessage(loadError.Message, "test");
+            }
             Instance = this;
             
             RhinoDoc.EndOpenDocument += OnEndOpenDocument;
@@ -55,7 +63,11 @@ namespace Ironbug.RhinoOpenStudio
 
         private void OnEndOpenDocument(object sender, DocumentOpenEventArgs e)
         {
+            
+
             var objs = e.Document.Objects;
+            var subsurfaceLoadedCount = 0;
+            var spaceLoadedCount = 0;
             foreach (var item in objs)
             {
                 if (item is BrepObject brep)
@@ -68,6 +80,7 @@ namespace Ironbug.RhinoOpenStudio
                         if (null == srfUserdata) continue;
                         var subSurface = new RHIB_SubSurface(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), subSurface);
+                        subsurfaceLoadedCount++;
                     }
 
                     //space
@@ -79,8 +92,16 @@ namespace Ironbug.RhinoOpenStudio
                     {
                         var space = new RHIB_Space(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), space);
+                        spaceLoadedCount++;
+
                     }
                 }
+            }
+
+            if (subsurfaceLoadedCount>0 || spaceLoadedCount>0)
+            {
+                RhinoApp.WriteLine("{0} OS:Space; {1} OS:Subsurface loaded", spaceLoadedCount, subsurfaceLoadedCount);
+                this.OsmModel = new OPS.Model();
             }
             //Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
         }
@@ -132,7 +153,7 @@ namespace Ironbug.RhinoOpenStudio
                 this.OsmFilePath = filename;
                 ReadOsmToDoc(filename);
                 var model = tempModel.get();
-                //this.OsmModel = model;
+                this.OsmModel = model;
                 var sps = model.getSpaces();
 
                 var spaceAddedCount = 0;

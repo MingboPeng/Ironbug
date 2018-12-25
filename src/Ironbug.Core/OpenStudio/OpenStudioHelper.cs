@@ -9,7 +9,7 @@ namespace Ironbug.Core.OpenStudio
 {
     public static class OpenStudioHelper
     {
-        public static bool LoadAssemblies()
+        public static bool LoadAssemblies(string version = "2.7.0.0")
         {
             Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
             var possibleOpsDll = asms.Where(_ => _.GetName().Name.ToUpper() == "OPENSTUDIO");
@@ -20,7 +20,7 @@ namespace Ironbug.Core.OpenStudio
                 var path = @"C:\openstudio-2.7.0\CSharp\openstudio";
                 var file = "OpenStudio.dll";
                 var asmFile = Path.Combine(path, file);
-                var version = "2.7.0.0";
+                //version = "2.7.0.0";
 
                 if (AssemblyName.GetAssemblyName(asmFile).Version.ToString() == version)
                 {
