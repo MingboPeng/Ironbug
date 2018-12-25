@@ -129,7 +129,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
         public RHIB_SubSurface(OPS.SubSurface surface):this (surface.ToBrep())
         {
-
+            this.Name = surface.nameString();
         }
 
         public override string ShortDescription(bool plural) => "SubSurface";

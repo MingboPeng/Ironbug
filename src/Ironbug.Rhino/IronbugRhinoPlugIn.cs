@@ -60,12 +60,20 @@ namespace Ironbug.RhinoOpenStudio
             {
                 if (item is BrepObject brep)
                 {
-                    var userdata = brep.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
-                    if (null == userdata)
-                    {
-                        continue;
-                    }
+                    //subsurface
                     var isSrf = brep.BrepGeometry.IsSurface;
+                    if (isSrf)
+                    {
+                        var srfUserdata = brep.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmString)) as OsmString;
+                        if (null == srfUserdata) continue;
+                        var subSurface = new RHIB_SubSurface(brep.BrepGeometry);
+                        objs.Replace(new ObjRef(brep), subSurface);
+                    }
+
+                    //space
+                    var userdata = brep.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
+                    if (null == userdata) continue;
+                    
                     var isSolid = brep.BrepGeometry.IsSolid;
                     if (isSolid)
                     {
