@@ -22,10 +22,10 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
         public override string ToString()
         {
-            return "Space";
+            return "OS_Space";
         }
 
-        public override string ShortDescription(bool plural) => "Space";
+        public override string ShortDescription(bool plural) => "OS_Space";
 
         public string OSM_String = string.Empty;
 
@@ -61,7 +61,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             }
 
             //add osm info to user data
-            var userData = new OsmString();
+            var userData = new OsmObjectData();
             userData.Notes = ospace.__str__();
             closedBrep.UserData.Add(userData);
             
@@ -107,7 +107,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             
             //add osm data as user data
             Surface srf = plannarBrep.Surfaces[0];
-            var userData = new OsmString();
+            var userData = new OsmObjectData();
             userData.Notes = planarSurface.__str__();
             srf.UserData.Add(userData);
             
@@ -132,7 +132,30 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             this.Name = surface.nameString();
         }
 
-        public override string ShortDescription(bool plural) => "SubSurface";
+        public override string ShortDescription(bool plural) => "OS_SubSurface";
+
+        public bool ToOS(OPS.Model model)
+        {
+            var rhBrep = this.BrepGeometry;
+            var rhVts = rhBrep.Vertices;
+            var osmStr = rhBrep.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+            var osmIdfobj =  OpenStudio.IdfObject.load(osmStr.Notes).get();
+
+            var handle = osmIdfobj.handle();
+            var osmObj = model.getSubSurface(handle).get();
+
+
+            var osmVets = new OPS.Point3dVector();
+            foreach (var pt in rhVts)
+            {
+                var p = pt.Location;
+                osmVets.Add(new OPS.Point3d(p.X, p.Y, p.Z));
+            }
+
+
+            return osmObj.setVertices(osmVets); 
+        }
+
 
     }
 

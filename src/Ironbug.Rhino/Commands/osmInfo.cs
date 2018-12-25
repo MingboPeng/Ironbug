@@ -7,38 +7,8 @@ using Rhino.Input;
 using Rhino.Input.Custom;
 using Ironbug.RhinoOpenStudio.GeometryConverter;
 
-namespace Ironbug.RhinoOpenStudio
+namespace Ironbug.RhinoOpenStudio.Commands
 {
-    public class IronbugRhinoCommand : Command
-    {
-        public IronbugRhinoCommand()
-        {
-            // Rhino only creates one instance of each command class defined in a
-            // plug-in, so it is safe to store a refence in a static property.
-            Instance = this;
-        }
-
-        ///<summary>The only instance of this command.</summary>
-        public static IronbugRhinoCommand Instance
-        {
-            get; private set;
-        }
-
-        ///<returns>The command name as it appears on the Rhino command line.</returns>
-        public override string EnglishName
-        {
-            get { return "IronbugRhinoCommand"; }
-        }
-
-        protected override Result RunCommand(RhinoDoc doc, RunMode mode)
-        {
-            // Usually commands in import plug-ins are used to modify settings and behavior.
-            // The import work itself is performed by the IronbugRhinoPlugIn class.
-            return Result.Success;
-        }
-
-    }
-
     public class osmInfo : Command
     {
         public osmInfo()
@@ -79,7 +49,7 @@ namespace Ironbug.RhinoOpenStudio
             if (possibleSrf != null && brepobj is RHIB_Space)
             {
 
-                var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmString)) as OsmString;
+                var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                 if (!string.IsNullOrWhiteSpace(userdata.Notes))
                 {
                     msgString = userdata.Notes;
@@ -87,7 +57,7 @@ namespace Ironbug.RhinoOpenStudio
             }
             else if (brepobj is RHIB_Space zone)
             {
-                var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
+                var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                 if (!string.IsNullOrWhiteSpace(userdata.Notes))
                 {
                     msgString = userdata.Notes;
@@ -95,7 +65,7 @@ namespace Ironbug.RhinoOpenStudio
             }
             else if (brepobj is RHIB_SubSurface subSurface)
             {
-                var userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmString)) as OsmString;
+                var userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                 if (!string.IsNullOrWhiteSpace(userdata.Notes))
                 {
                     msgString = userdata.Notes;
@@ -108,11 +78,11 @@ namespace Ironbug.RhinoOpenStudio
             }
 
             Rhino.UI.Dialogs.ShowMessage(msgString, "OpengStudio Info");
-            
+
             return Result.Success;
         }
 
-        
+
 
         //public static Object ByteArrayToObject(byte[] arrBytes)
         //{
@@ -126,4 +96,5 @@ namespace Ironbug.RhinoOpenStudio
         //    }
         //}
     }
+
 }

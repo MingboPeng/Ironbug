@@ -1,9 +1,10 @@
 ﻿using Rhino.DocObjects.Custom;
+using System.Collections.Generic;
 
 namespace Ironbug.RhinoOpenStudio
 {
     [System.Runtime.InteropServices.Guid("6674D055-C507-4A62-A601-D00A52060359")]
-    public class OsmString : Rhino.DocObjects.Custom.UserData
+    public class OsmObjectData : Rhino.DocObjects.Custom.UserData
     {
         #region Private constants
 
@@ -53,7 +54,7 @@ namespace Ironbug.RhinoOpenStudio
         /// </summary>
         protected override void OnDuplicate(UserData source)
         {
-            if (source is OsmString src)
+            if (source is OsmObjectData src)
             {
                 Notes = src.Notes;
             }
@@ -99,4 +100,5 @@ namespace Ironbug.RhinoOpenStudio
 
         #endregion Userdata overrides
     }
+
 }

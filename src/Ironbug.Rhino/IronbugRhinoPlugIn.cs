@@ -1,16 +1,11 @@
-﻿using Rhino;
-using Rhino.DocObjects;
-using Rhino.Geometry;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using OPS = OpenStudio;
+﻿using Ironbug.Core.OpenStudio;
 using Ironbug.RhinoOpenStudio.GeometryConverter;
-using System.Reflection;
-using System.IO;
-using Ironbug.Core.OpenStudio;
+using Rhino;
+using Rhino.DocObjects;
 using Rhino.FileIO;
 using Rhino.PlugIns;
+using System.IO;
+using OPS = OpenStudio;
 
 namespace Ironbug.RhinoOpenStudio
 {
@@ -25,6 +20,11 @@ namespace Ironbug.RhinoOpenStudio
     public class IronbugRhinoPlugIn : Rhino.PlugIns.FileImportPlugIn
 
     {
+        private const int MAJOR = 1;
+        private const int MINOR = 0;
+        public OsmDocumentData OsmFileString { get; private set; } = new OsmDocumentData();
+        public string OsmFilePath { get; private set; } = string.Empty;
+
         public IronbugRhinoPlugIn()
         {
             try
@@ -33,21 +33,21 @@ namespace Ironbug.RhinoOpenStudio
                 {
                     Rhino.UI.Dialogs.ShowMessage("Failed to load OpenStudio.dll!", "test");
                 }
-                
+                //this.OsmModel = new OPS.Model();
             }
             catch (FileNotFoundException e)
             {
-
                 Rhino.UI.Dialogs.ShowMessage(e.Message, "test");
             }
-            
+
             Instance = this;
+            
             RhinoDoc.EndOpenDocument += OnEndOpenDocument;
         }
-        
+
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
-            
+            RhinoDoc.CloseDocument += OnCloseDocument;
             return base.OnLoad(ref errorMessage);
         }
 
@@ -64,20 +64,19 @@ namespace Ironbug.RhinoOpenStudio
                     var isSrf = brep.BrepGeometry.IsSurface;
                     if (isSrf)
                     {
-                        var srfUserdata = brep.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmString)) as OsmString;
+                        var srfUserdata = brep.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                         if (null == srfUserdata) continue;
                         var subSurface = new RHIB_SubSurface(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), subSurface);
                     }
 
                     //space
-                    var userdata = brep.BrepGeometry.UserData.Find(typeof(OsmString)) as OsmString;
+                    var userdata = brep.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                     if (null == userdata) continue;
-                    
+
                     var isSolid = brep.BrepGeometry.IsSolid;
                     if (isSolid)
                     {
-                       
                         var space = new RHIB_Space(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), space);
                     }
@@ -85,6 +84,7 @@ namespace Ironbug.RhinoOpenStudio
             }
             //Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
         }
+
         ///<summary>Gets the only instance of the IronbugRhinoPlugIn plug-in.</summary>
         public static IronbugRhinoPlugIn Instance
         {
@@ -98,7 +98,7 @@ namespace Ironbug.RhinoOpenStudio
         {
             var result = new Rhino.PlugIns.FileTypeList();
             result.AddFileType("OpenStudio Model (*.osm)", "osm");
-           
+
             return result;
         }
 
@@ -117,22 +117,24 @@ namespace Ironbug.RhinoOpenStudio
             var layerName = "OS:Space";
             var layerIndex = doc.Layers.Add(layerName, System.Drawing.Color.Black);
             var glzLayerIdx = doc.Layers.Add("OS:Glazing", System.Drawing.Color.Blue);
-            
+
             //Check unit system : meter only
             doc.AdjustModelUnitSystem(UnitSystem.Meters, false);
 
             if (filename.Contains(".osm"))
             {
-
                 var p = OPS.OpenStudioUtilitiesCore.toPath(filename);
                 var tempModel = OPS.Model.load(p);
                 if (!tempModel.is_initialized())
                 {
                     return false;
                 }
+                this.OsmFilePath = filename;
+                ReadOsmToDoc(filename);
                 var model = tempModel.get();
+                //this.OsmModel = model;
                 var sps = model.getSpaces();
-                
+
                 var spaceAddedCount = 0;
 
                 foreach (OPS.Space sp in sps)
@@ -153,7 +155,6 @@ namespace Ironbug.RhinoOpenStudio
                         space.CommitChanges();
                         spaceAddedCount++;
                     }
-                    
                 }
 
                 Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
@@ -171,7 +172,49 @@ namespace Ironbug.RhinoOpenStudio
         // You can override methods here to change the plug-in behavior on
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
-        
-        
+
+        private void ReadOsmToDoc(string osmFilePath)
+        {
+            OsmFileString.Add(File.ReadAllText(osmFilePath));
+        }
+
+        /// <summary>
+        /// OnCloseDocument event handler.
+        /// </summary>
+        private void OnCloseDocument(object sender, DocumentEventArgs e)
+        {
+            // When the document is closed, clear our
+            // document user data containers.
+            OsmFileString.Clear();
+        }
+
+        protected override bool ShouldCallWriteDocument(FileWriteOptions options)
+        {
+            return this.OsmFileString.Count > 0;
+        }
+
+        /// <summary>
+        /// Called when Rhino is saving a .3dm file to allow the plug-in to save document user data.
+        /// </summary>
+        protected override void WriteDocument(RhinoDoc doc, BinaryArchiveWriter archive, FileWriteOptions options)
+        {
+            OsmFileString.WriteDocument(archive);
+        }
+
+        /// <summary>
+        /// Called whenever a Rhino document is being loaded and plug-in user data was
+        /// encountered written by a plug-in with this plug-in's GUID.
+        /// </summary>
+        protected override void ReadDocument(RhinoDoc doc, BinaryArchiveReader archive, FileReadOptions options)
+        {
+            var string_table = new OsmDocumentData();
+            string_table.ReadDocument(archive);
+
+            if (!options.ImportMode && !options.ImportReferenceMode)
+            {
+                if (string_table.Count > 0)
+                    OsmFileString.AddRange(string_table.ToArray());
+            }
+        }
     }
 }
