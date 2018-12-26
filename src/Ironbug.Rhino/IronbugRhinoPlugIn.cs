@@ -4,6 +4,7 @@ using Rhino;
 using Rhino.DocObjects;
 using Rhino.FileIO;
 using Rhino.PlugIns;
+using System.Collections.Generic;
 using System.IO;
 using OPS = OpenStudio;
 
@@ -237,5 +238,15 @@ namespace Ironbug.RhinoOpenStudio
                     OsmFileString.AddRange(string_table.ToArray());
             }
         }
+
+        protected override void ObjectPropertiesPages(List<Rhino.UI.ObjectPropertiesPage> pages)
+        {
+            if (null == pages)
+                return;
+            OsmPropertyPanel objectPropertiesPage = new OsmPropertyPanel();
+            pages.Add((Rhino.UI.ObjectPropertiesPage)objectPropertiesPage);
+        }
+
+
     }
 }
