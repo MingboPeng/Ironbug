@@ -40,7 +40,6 @@ namespace Ironbug.RhinoOpenStudio
                 else
                 {
                     RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
-
                 }
 
 
