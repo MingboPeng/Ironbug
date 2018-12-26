@@ -76,6 +76,7 @@
     <Compile Include="OsmPropertyPanelUC.Designer.cs">
       <DependentUpon>OsmPropertyPanelUC.cs</DependentUpon>
     </Compile>
+    <Compile Include="OsmPropertyPanelUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
