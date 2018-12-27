@@ -62,48 +62,46 @@ namespace Ironbug.RhinoOpenStudio.Commands
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            // Usually commands in import plug-ins are used to modify settings and behavior.
-            // The import work itself is performed by the IronbugRhinoPlugIn class.
-            var path = IronbugRhinoPlugIn.Instance.OsmFilePath;
-            var osmP = OpenStudio.OpenStudioUtilitiesCore.toPath(path);
-            var osmModel = OpenStudio.Model.load(osmP).get();
+            //var path = IronbugRhinoPlugIn.Instance.OsmFilePath;
+            //var osmP = OpenStudio.OpenStudioUtilitiesCore.toPath(path);
+            //var osmModel = OpenStudio.Model.load(osmP).get();
 
-            var go = new GetObject();
-            go.SetCommandPrompt("Select a glazing surface to update osm");
-            go.GeometryFilter = ObjectType.Brep;
-            go.SubObjectSelect = true;
-            go.Get();
-            if (go.CommandResult() != Result.Success)
-                return go.CommandResult();
+            //var go = new GetObject();
+            //go.SetCommandPrompt("Select a glazing surface to update osm");
+            //go.GeometryFilter = ObjectType.Brep;
+            //go.SubObjectSelect = true;
+            //go.Get();
+            //if (go.CommandResult() != Result.Success)
+            //    return go.CommandResult();
 
-            var selObj = go.Object(0);
-            var possibleSrf = selObj.Face();
-            //var index = selObj.GeometryComponentIndex;
-            var brepobj = selObj.Object() as BrepObject;
+            //var selObj = go.Object(0);
+            //var possibleSrf = selObj.Face();
+            ////var index = selObj.GeometryComponentIndex;
+            //var brepobj = selObj.Object() as BrepObject;
 
-            var msgString = string.Empty;
-            if (brepobj is RHIB_SubSurface subSurface)
-            {
-                if (!subSurface.ToOS(osmModel))
-                    return Result.Failure;
+            //var msgString = string.Empty;
+            //if (brepobj is RHIB_SubSurface subSurface)
+            //{
+            //    if (!subSurface.ToOS(osmModel))
+            //        return Result.Failure;
                 
 
-                var testOsmFile = @"C:\Users\mingo\OneDrive\Desktop\TestFiles\20181212_MHS_PC_SavedFromRh.osm";
-                var newOsmP = OpenStudio.OpenStudioUtilitiesCore.toPath(testOsmFile);
-                var isSaved = osmModel.save(newOsmP, true);
+            //    var testOsmFile = @"C:\Users\mingo\OneDrive\Desktop\TestFiles\20181212_MHS_PC_SavedFromRh.osm";
+            //    var newOsmP = OpenStudio.OpenStudioUtilitiesCore.toPath(testOsmFile);
+            //    var isSaved = osmModel.save(newOsmP, true);
 
-                if (!isSaved)
-                    return Result.Failure;
+            //    if (!isSaved)
+            //        return Result.Failure;
 
-                msgString = "saved to " + testOsmFile;
-            }
-            else
-            {
-                Rhino.UI.Dialogs.ShowMessage("Invalid OpenStudio object", "OpengStudio Info");
-                return Result.Failure;
-            }
+            //    msgString = "saved to " + testOsmFile;
+            //}
+            //else
+            //{
+            //    Rhino.UI.Dialogs.ShowMessage("Invalid OpenStudio object", "OpengStudio Info");
+            //    return Result.Failure;
+            //}
 
-            Rhino.UI.Dialogs.ShowMessage(msgString, "OpengStudio Info");
+            //Rhino.UI.Dialogs.ShowMessage(msgString, "OpengStudio Info");
             
             return Result.Success;
         }

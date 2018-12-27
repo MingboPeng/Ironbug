@@ -154,7 +154,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
 
                 var shownValue = string.IsNullOrWhiteSpace(customStr) ? defaultValue : customStr;
-                shownValue = ReplaceGUIDString(shownValue);
+                //shownValue = ReplaceGUIDString(shownValue);
                 var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
                 var shownDefault = string.IsNullOrWhiteSpace(defaultValue) ? string.Empty : string.Format(" (Default: {0})", defaultValue);
 

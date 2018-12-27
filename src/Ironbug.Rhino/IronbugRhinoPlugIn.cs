@@ -23,10 +23,10 @@ namespace Ironbug.RhinoOpenStudio
     {
         private const int MAJOR = 1;
         private const int MINOR = 0;
-        public OsmDocumentData OsmFileString { get; private set; } = new OsmDocumentData();
-        public string OsmFilePath { get; private set; } = string.Empty;
+        private OsmDocumentData OsmFileString { get; set; } = new OsmDocumentData();
+        //public string OsmFilePath { get; private set; } = string.Empty;
 
-        public object OsmModel { get; private set; }
+        public OpenStudio.Model OsmModel { get; private set; }
 
         public IronbugRhinoPlugIn()
         {
@@ -64,7 +64,6 @@ namespace Ironbug.RhinoOpenStudio
         private void OnEndOpenDocument(object sender, DocumentOpenEventArgs e)
         {
             
-
             var objs = e.Document.Objects;
             var subsurfaceLoadedCount = 0;
             var spaceLoadedCount = 0;
@@ -101,7 +100,7 @@ namespace Ironbug.RhinoOpenStudio
             if (subsurfaceLoadedCount>0 || spaceLoadedCount>0)
             {
                 RhinoApp.WriteLine("{0} OS:Space; {1} OS:Subsurface loaded", spaceLoadedCount, subsurfaceLoadedCount);
-                this.OsmModel = new OPS.Model();
+                this.ReadOsmModelToDoc();
             }
             //Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
         }
@@ -150,8 +149,8 @@ namespace Ironbug.RhinoOpenStudio
                 {
                     return false;
                 }
-                this.OsmFilePath = filename;
-                ReadOsmToDoc(filename);
+                //this.OsmFilePath = filename;
+                ReadOsmStringToDoc(filename);
                 var model = tempModel.get();
                 this.OsmModel = model;
                 var sps = model.getSpaces();
@@ -194,9 +193,26 @@ namespace Ironbug.RhinoOpenStudio
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
 
-        private void ReadOsmToDoc(string osmFilePath)
+        private void ReadOsmStringToDoc(string osmFilePath)
         {
             OsmFileString.Add(File.ReadAllText(osmFilePath));
+        }
+
+        private void ReadOsmModelToDoc()
+        {
+            if (this.OsmFileString.Count == 0) return;
+
+            var tempPath = Path.GetTempPath() + @"\Ironbug\TempOpenStudio";
+            Directory.CreateDirectory(tempPath);
+
+            var tempFile = Path.Combine(tempPath, "temp.osm");
+            File.WriteAllText(tempFile, this.OsmFileString.Item(0));
+            if (File.Exists(tempFile))
+            {
+                var p = OpenStudio.OpenStudioUtilitiesCore.toPath(tempFile);
+                this.OsmModel = OPS.Model.load(p).get();
+            }
+            
         }
 
         /// <summary>
@@ -204,9 +220,13 @@ namespace Ironbug.RhinoOpenStudio
         /// </summary>
         private void OnCloseDocument(object sender, DocumentEventArgs e)
         {
-            // When the document is closed, clear our
-            // document user data containers.
-            OsmFileString.Clear();
+            this.OsmFileString.Clear();
+            if (this.OsmModel !=null)
+            {
+                this.OsmModel = null;
+            }
+            
+
         }
 
         protected override bool ShouldCallWriteDocument(FileWriteOptions options)
@@ -243,7 +263,7 @@ namespace Ironbug.RhinoOpenStudio
             if (null == pages)
                 return;
             OsmPropertyPanel objectPropertiesPage = new OsmPropertyPanel();
-            pages.Add((Rhino.UI.ObjectPropertiesPage)objectPropertiesPage);
+            pages.Add(objectPropertiesPage);
         }
 
 

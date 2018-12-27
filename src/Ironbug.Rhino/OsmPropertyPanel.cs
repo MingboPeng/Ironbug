@@ -49,8 +49,7 @@ namespace Ironbug.RhinoOpenStudio
                 try
                 {
                     var idfobj = OpenStudio.IdfObject.load(idfString).get();
-                    var data = idfobj.GetUserFriendlyFieldInfo();
-                    this.panelUI.PopulateIdfData(data);
+                    this.panelUI.PopulateIdfData(idfobj);
                 }
                 catch (System.Exception ex)
                 {

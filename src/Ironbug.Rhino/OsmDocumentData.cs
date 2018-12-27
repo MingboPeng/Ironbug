@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Ironbug.RhinoOpenStudio
 {
-
     public class OsmDocumentData
     {
         /// <summary>
         /// Class major and minor verson numbers
         /// </summary>
         private const int MAJOR = 1;
+
         private const int MINOR = 0;
 
         // The data...
