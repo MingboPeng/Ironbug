@@ -1,9 +1,10 @@
 ﻿using Rhino.DocObjects.Custom;
-using System.Collections.Generic;
+using System.Collections;
+
 
 namespace Ironbug.RhinoOpenStudio
 {
-    [System.Runtime.InteropServices.Guid("6674D055-C507-4A62-A601-D00A52060359")]
+    [System.Runtime.InteropServices.Guid("6D96F2CA-3A79-4789-B5D1-93B6B0B25C67")]
     public class OsmObjectData : Rhino.DocObjects.Custom.UserData
     {
         #region Private constants
@@ -28,8 +29,10 @@ namespace Ironbug.RhinoOpenStudio
         /// The notes field
         /// </summary>
         public string Notes { get; set; }
-        #endregion Public properties
 
+        public Rhino.Collections.ArchivableDictionary OsmObjProperties { get; set; } = new Rhino.Collections.ArchivableDictionary();
+        #endregion Public properties
+        
         #region Userdata overrides
 
         /// <summary>
@@ -37,17 +40,9 @@ namespace Ironbug.RhinoOpenStudio
         /// </summary>
         public override string Description => "OsmString";
 
-        /// <summary>
-        /// If you want to save this user data in a 3dm file, override ShouldWrite and return
-        /// true. If you do support serialization, you must also override the Read and Write
-        /// functions.
-        /// </summary>
         public override bool ShouldWrite => IsValid;
 
-        public override string ToString()
-        {
-            return Description;
-        }
+        public override string ToString() => Description;
 
         /// <summary>
         /// Is called when the object is being duplicated.
@@ -57,6 +52,8 @@ namespace Ironbug.RhinoOpenStudio
             if (source is OsmObjectData src)
             {
                 Notes = src.Notes;
+                //OsmObjProperties.AddContentsFrom(src.OsmObjProperties);
+                OsmObjProperties = src.OsmObjProperties.Clone();
             }
         }
         /// <summary>
@@ -72,6 +69,7 @@ namespace Ironbug.RhinoOpenStudio
                 if (minor >= MINOR_VERSION)
                 {
                     Notes = archive.ReadString();
+                    OsmObjProperties = archive.ReadDictionary();
                 }
 
                 // Note, if you every roll the minor version number,
@@ -91,6 +89,7 @@ namespace Ironbug.RhinoOpenStudio
 
             // Write 1.0 fields
             archive.WriteString(Notes);
+            archive.WriteDictionary(OsmObjProperties);
 
             // Note, if you every roll the minor version number,
             // then write those fields here.

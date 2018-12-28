@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Rhino;
+﻿using Rhino;
 using Rhino.Commands;
-using Rhino.DocObjects;
-using Rhino.Input;
-using Rhino.Input.Custom;
-using Ironbug.RhinoOpenStudio.GeometryConverter;
 
 namespace Ironbug.RhinoOpenStudio.Commands
 {
@@ -36,7 +30,6 @@ namespace Ironbug.RhinoOpenStudio.Commands
             // The import work itself is performed by the IronbugRhinoPlugIn class.
             return Result.Success;
         }
-
     }
 
     public class SaveOSM : Command
@@ -84,7 +77,6 @@ namespace Ironbug.RhinoOpenStudio.Commands
             //{
             //    if (!subSurface.ToOS(osmModel))
             //        return Result.Failure;
-                
 
             //    var testOsmFile = @"C:\Users\mingo\OneDrive\Desktop\TestFiles\20181212_MHS_PC_SavedFromRh.osm";
             //    var newOsmP = OpenStudio.OpenStudioUtilitiesCore.toPath(testOsmFile);
@@ -102,10 +94,8 @@ namespace Ironbug.RhinoOpenStudio.Commands
             //}
 
             //Rhino.UI.Dialogs.ShowMessage(msgString, "OpengStudio Info");
-            
+
             return Result.Success;
         }
-
     }
-
 }

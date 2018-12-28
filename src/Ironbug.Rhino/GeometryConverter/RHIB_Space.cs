@@ -44,7 +44,9 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             
             foreach (OpenStudio.Surface sf in sfs)
             {
-                var surfaceBrep = sf.ToBrep();
+                
+                var surfaceBrep = sf.ToBrepFromSurface();
+                //surfaceBrep.Surfaces
                 var glzSurfaceBrep = sf.subSurfaces().Select(s => new RHIB_SubSurface(s));
                
                 zonefaces.Add(surfaceBrep);
@@ -90,6 +92,18 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
     public static class OpenStudioExtension
     {
+        public static Brep ToBrepFromSurface(this OpenStudio.Surface surface)
+        {
+            var b = surface.ToBrep();
+            var userData = b.Surfaces[0].UserData.First(_=>_ is OsmObjectData) as OsmObjectData;
+
+            userData.OsmObjProperties.Set("isPartOfEnvelope", surface.isPartOfEnvelope());
+            userData.OsmObjProperties.Set("surfaceType", surface.surfaceType());
+            
+            //userData.OsmObjProperties.Set("dd", Mesh.CreateFromBrep(b)[0]);
+
+            return b;
+        }
         public static Brep ToBrep(this PlanarSurface planarSurface)
         {
 
