@@ -14,6 +14,7 @@ namespace Ironbug.RhinoOpenStudio
         public override bool ShouldDisplay(ObjectPropertiesPageEventArgs e)
         {
             if (e.ObjectCount != 1) return false;
+            if (e.Objects.Length != 1) return false; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
 
             var selectedObj = e.Objects[0];
             var isOSM = selectedObj is RHIB_SubSurface;
@@ -28,6 +29,7 @@ namespace Ironbug.RhinoOpenStudio
         public override void UpdatePage(ObjectPropertiesPageEventArgs e)
         {
             if (e.ObjectCount != 1) return;
+            if (e.Objects.Length != 1) return; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
 
             var selectedObj = e.Objects[0];
 
