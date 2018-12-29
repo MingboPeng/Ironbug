@@ -49,6 +49,34 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             return osmObj.setVertices(osmVets);
         }
 
+        public bool Update()
+        {
+            var m = IronbugRhinoPlugIn.Instance.OsmModel;
+            var rhBrep = this.BrepGeometry;
+            var rhVts = rhBrep.Vertices;
+            var osmStr = rhBrep.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+            var osmIdfobj = OpenStudio.IdfObject.load(osmStr.Notes).get();
+            var handle = osmIdfobj.handle();
+
+            var osmObj = m.getSubSurface(handle).get();
+
+            var osmVets = new OPS.Point3dVector();
+            foreach (var pt in rhVts)
+            {
+                var p = pt.Location;
+                osmVets.Add(new OPS.Point3d(p.X, p.Y, p.Z));
+            }
+
+            if (osmObj.setVertices(osmVets))
+            {
+                //update the osm strings attached to rhino geometry
+                osmStr.Notes = osmObj.__str__();
+                return true;
+            }
+
+            return false;
+        }
+
 
     }
 }

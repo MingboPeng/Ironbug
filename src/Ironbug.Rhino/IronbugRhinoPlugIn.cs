@@ -23,9 +23,12 @@ namespace Ironbug.RhinoOpenStudio
     {
         private const int MAJOR = 1;
         private const int MINOR = 0;
+
+        //Access this by IronbugRhinoPlugIn.Instance.OsmFileString;
         private OsmDocumentData OsmFileString { get; set; } = new OsmDocumentData();
         //public string OsmFilePath { get; private set; } = string.Empty;
 
+        //Access this by IronbugRhinoPlugIn.Instance.OsmModel;
         public OpenStudio.Model OsmModel { get; private set; }
 
         public IronbugRhinoPlugIn()
@@ -100,9 +103,24 @@ namespace Ironbug.RhinoOpenStudio
             if (subsurfaceLoadedCount>0 || spaceLoadedCount>0)
             {
                 RhinoApp.WriteLine("{0} OS:Space; {1} OS:Subsurface loaded", spaceLoadedCount, subsurfaceLoadedCount);
-                this.ReadOsmModelToDoc();
+                RhinoDoc.ReplaceRhinoObject += RhinoDoc_ReplaceRhinoObject;
+                this.ReadTempOsmModelToThisDoc();
             }
             //Rhino.UI.Dialogs.ShowMessage("file open event end", "test");
+        }
+
+        private void RhinoDoc_ReplaceRhinoObject(object sender, RhinoReplaceObjectEventArgs e)
+        {
+            if (e.OldRhinoObject is RHIB_SubSurface && e.NewRhinoObject is RHIB_SubSurface)
+            {
+                //TODO: Check if new rhino obj has the same osm handle id as old rhino obj.
+                //for now, they are the same.
+
+                var newobj = e.NewRhinoObject as RHIB_SubSurface;
+
+                if (newobj.Update())
+                    RhinoApp.WriteLine("one surface updated #####################################");
+            }
         }
 
         ///<summary>Gets the only instance of the IronbugRhinoPlugIn plug-in.</summary>
@@ -198,19 +216,19 @@ namespace Ironbug.RhinoOpenStudio
             OsmFileString.Add(File.ReadAllText(osmFilePath));
         }
 
-        private void ReadOsmModelToDoc()
+        private void ReadTempOsmModelToThisDoc()
         {
-            if (this.OsmFileString.Count == 0) return;
+            if (OsmFileString.Count == 0) return;
 
             var tempPath = Path.GetTempPath() + @"\Ironbug\TempOpenStudio";
             Directory.CreateDirectory(tempPath);
 
             var tempFile = Path.Combine(tempPath, "temp.osm");
-            File.WriteAllText(tempFile, this.OsmFileString.Item(0));
+            File.WriteAllText(tempFile, OsmFileString.Item(0));
             if (File.Exists(tempFile))
             {
                 var p = OpenStudio.OpenStudioUtilitiesCore.toPath(tempFile);
-                this.OsmModel = OPS.Model.load(p).get();
+                OsmModel = OPS.Model.load(p).get();
             }
             
         }
@@ -221,7 +239,7 @@ namespace Ironbug.RhinoOpenStudio
         private void OnCloseDocument(object sender, DocumentEventArgs e)
         {
             this.OsmFileString.Clear();
-            if (this.OsmModel !=null)
+            if (this.OsmModel != null)
             {
                 this.OsmModel = null;
             }
@@ -239,7 +257,7 @@ namespace Ironbug.RhinoOpenStudio
         /// </summary>
         protected override void WriteDocument(RhinoDoc doc, BinaryArchiveWriter archive, FileWriteOptions options)
         {
-            OsmFileString.WriteDocument(archive);
+            this.OsmFileString.WriteDocument(archive);
         }
 
         /// <summary>
