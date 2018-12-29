@@ -110,11 +110,11 @@ namespace Ironbug.RhinoOpenStudio
                     {
                         //do nothing
                     }
-                    else if (item.DataName == "Space Type Name")
-                    {
-                        var spaceType = this.OsSpaceTypes.First(_ => _.handle().__str__() == valueToShow);
-                        valueToShow = spaceType.nameString();
-                    }
+                    //else if (item.DataName == "Space Type Name")
+                    //{
+                    //    var spaceType = this.OsSpaceTypes.First(_ => _.handle().__str__() == valueToShow);
+                    //    valueToShow = spaceType.nameString();
+                    //}
                     else if (match)
                     {
                         var m = IronbugRhinoPlugIn.Instance.OsmModel;

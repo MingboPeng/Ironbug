@@ -14,6 +14,11 @@ namespace Ironbug.RhinoOpenStudio
         private (List<Brep> Roof, List<Brep> Wall, List<Brep> Floor) m_ObjectToBeShown;
         public OsmObjDisplayConduit()
         {
+            this.UpdateOsmObjects();
+        }
+
+        private void UpdateOsmObjects()
+        {
             var s = new Rhino.DocObjects.ObjectEnumeratorSettings();
             s.HiddenObjects = true;
             s.NormalObjects = true;
@@ -64,15 +69,14 @@ namespace Ironbug.RhinoOpenStudio
                     }
 
                 }
-                
+
             }
 
-            this.m_ObjectToBeShown = (roofToBeShown,wallToBeShown,floorToBeShown);
-
-
-
-
+            this.m_ObjectToBeShown = (roofToBeShown, wallToBeShown, floorToBeShown);
+            
         }
+
+       
         protected override void CalculateBoundingBox(CalculateBoundingBoxEventArgs e)
         {
             base.CalculateBoundingBox(e);
@@ -102,43 +106,7 @@ namespace Ironbug.RhinoOpenStudio
                 e.Display.DrawBrepWires(item, System.Drawing.Color.BurlyWood, 2);
             }
 
-            //var allGameObjects = e.RhinoDoc.Objects;
-
-            //var s = new Rhino.DocObjects.ObjectEnumeratorSettings();
-            //s.HiddenObjects = true;
-            //s.NormalObjects = true;
-            //s.ObjectTypeFilter = Rhino.DocObjects.ObjectType.Brep;
-
-            //var allObjs = e.RhinoDoc.Objects.GetObjectList(s);
-
-            //foreach (var go in allObjs)
-            //{
-
-
-            //    if (go.Geometry.ObjectType != Rhino.DocObjects.ObjectType.Brep)
-            //        continue;
-
-            //    var osmObj = go as RHIB_Space;
-            //    if (null == osmObj)
-            //        continue;
-
-            //    var spaceBrep = osmObj.BrepGeometry;
-            //    var srfBrepfaces = spaceBrep.Faces;
-            //    var spaceSrfs = spaceBrep.Surfaces;
-            //    foreach (var item in srfBrepfaces)
-            //    {
-            //        var srf = item.UnderlyingSurface();
-            //        var objData = srf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            //        var objDataStr = objData.Notes;
-            //        if (objDataStr.Contains("Wall,                                   !- Surface Type"))
-            //        {
-            //            var srfB = item.ToBrep();
-            //            e.Display.DrawBrepShaded(srfB, mat);
-            //            e.Display.DrawBrepWires(srfB, System.Drawing.Color.SteelBlue, 2);
-            //        }
-
-            //    }
-            //}
+         
         }
     }
 }
