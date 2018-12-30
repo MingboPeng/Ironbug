@@ -45,12 +45,12 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             return plannarBrep;
         }
 
-        public static IEnumerable<(string DataName, string DataValue, string DataUnit)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
+        public static IEnumerable<(string DataName, string DataValue, string DataUnit, int DataFieldIndex)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
         {
             var com = idfObject;
             IddObject iddObject = com.iddObject();
 
-            var valueWithInfo = new List<(string, string, string)>();
+            var valueWithInfo = new List<(string DataName, string DataValue, string DataUnit, int DataField)>();
             var fieldCount = com.numFields();
 
             for (int i = 0; i < fieldCount; i++)
@@ -58,10 +58,12 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 var ifIPUnit = ifIPUnits;
 
                 uint index = (uint)i;
+                
                 var field = iddObject.getField(index).get();
-
+                
                 if (!field.IsWorkableField()) continue;
-                var fieldProp = field.properties();
+                var dataType = field.properties().type.valueDescription();
+                //var fieldProp = field.properties();
                 var valueStr = com.getString(index).get();
 
                 OSOptionalQuantity oQuantity = null;
@@ -88,7 +90,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
                 var att = String.Format("{0,-23} !- {1}{2}{3}", shownValue, dataname, shownUnit, shownDefault);
 
-                valueWithInfo.Add((dataname, shownValue, shownUnit));
+                valueWithInfo.Add((dataname, shownValue, shownUnit, i));
             }
 
             return valueWithInfo;

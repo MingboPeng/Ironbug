@@ -33,25 +33,24 @@ namespace Ironbug.RhinoOpenStudio
 
             var selectedObj = e.Objects[0];
 
-            var idfString = string.Empty;
+            OsmObjectData userdata = null;
             if (selectedObj is RHIB_SubSurface subSurface)
             {
-                var userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                idfString = userdata.Notes;
+                userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
             }
             else if (selectedObj is RHIB_Space zone)
             {
-                var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                idfString = userdata.Notes;
+                userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
             }
 
             //add to panel
-            if (!string.IsNullOrWhiteSpace(idfString))
+            if (null != userdata)
             {
                 try
                 {
-                    var idfobj = OpenStudio.IdfObject.load(idfString).get();
-                    this.panelUI.PopulateIdfData(idfobj);
+                    //TODO: I don't think this is the best way to do...fix it later!!
+                    this.panelUI.SelectedObj = selectedObj;
+                    this.panelUI.PopulateIdfData(userdata);
                 }
                 catch (System.Exception ex)
                 {

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.RhinoOpenStudio.GeometryConverter;
 using System.Text.RegularExpressions;
+using Rhino.DocObjects;
 
 namespace Ironbug.RhinoOpenStudio
 {
     internal class OsmPropertyPanelUI : Eto.Forms.Panel
     {
+        public RhinoObject SelectedObj { get; set; } 
         public OsmPropertyPanelUI() : base()
         {
             InitializeComponent();
@@ -53,9 +55,9 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
-        private static IEnumerable<OpenStudio.SpaceType> osSpaceTypes;
+        private static IDictionary<string, string> osSpaceTypes;
 
-        private IEnumerable<OpenStudio.SpaceType> OsSpaceTypes
+        private IDictionary<string, string> OsSpaceTypes
         {
             get
             {
@@ -76,9 +78,12 @@ namespace Ironbug.RhinoOpenStudio
         }
 
         //Populate all idf items
-        public bool PopulateIdfData(OpenStudio.IdfObject idfObject)
+        public bool PopulateIdfData(OsmObjectData osmObjectData)
         {
+
             var success = false;
+
+            var idfObject = OpenStudio.IdfObject.load(osmObjectData.Notes).get();
 
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
@@ -123,6 +128,13 @@ namespace Ironbug.RhinoOpenStudio
                         {
                             valueToShow = osObj.get().nameString();
                         }
+                        inputBox.Enabled = false;
+                    }
+                    else
+                    {
+                        inputBox.LostFocus += InputBox_LostFocus;
+                        inputBox.TextChanged += InputBox_TextChanged;
+
                     }
                     inputBox.Text = valueToShow;
                 }
@@ -143,6 +155,60 @@ namespace Ironbug.RhinoOpenStudio
                 return match.Success;
             }
         }
+        private bool _textChanged = false;
+
+        private void InputBox_TextChanged(object sender, System.EventArgs e)
+        {
+            
+            var s = sender as TextBox;
+            if (!s.HasFocus)
+                return; //do no fire this event when updated not manually.
+
+
+            _textChanged = true;
+            
+
+        }
+        private void InputBox_LostFocus(object sender, System.EventArgs e)
+        {
+            if (!_textChanged)
+                return;
+
+            _textChanged = false;
+
+            var s = sender as TextBox;
+
+            if (s.HasFocus)
+                return;
+
+            Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
+
+            if (SelectedObj == null)
+                return;
+
+            //TODO: now only testing the subsurface
+            if (SelectedObj is RHIB_SubSurface srf)
+            {
+                var iddFieldIndex = (int)s.Tag ;
+
+                try
+                {
+                    if (!srf.UpdateIdfString(iddFieldIndex, s.Text))
+                    {
+                        throw new System.Exception("Failed to update the value");
+                    }
+                }
+                catch (System.Exception ee)
+                {
+
+                    throw new System.Exception(ee.Message);
+                }
+                
+
+            }
+        }
+
+
 
         //private TableLayout CreateSpaceLayout()
         //{
@@ -173,7 +239,8 @@ namespace Ironbug.RhinoOpenStudio
             foreach (var item in data)
             {
                 layout.Add(new Label { Text = string.Format("{0} {1}", item.DataName, item.DataUnit) }, 0, count * 2);
-                layout.Add(new TextBox { }, 0, count * 2 + 1);
+
+                layout.Add(new TextBox { Tag = item.DataFieldIndex }, 0, count * 2 + 1);
                 count++;
             }
             layout.Add(null, 0, rowCounts - 1);// add an empty row at the end.
@@ -181,14 +248,18 @@ namespace Ironbug.RhinoOpenStudio
             return layout;
         }
 
-        private IEnumerable<OpenStudio.SpaceType> GetSpaceTypes()
+        private Dictionary<string, string> GetSpaceTypes()
         {
             var model = IronbugRhinoPlugIn.Instance.OsmModel;
-            var typedic = new Dictionary<string, string>();
+            var dic = new Dictionary<string, string>();
 
-            var types = model.getSpaceTypes().ToArray();
+            var types = model.getSpaceTypes();
+            foreach (var item in types)
+            {
+                dic.Add(item.handle().__str__(), item.nameString());
+            }
 
-            return types;
+            return dic;
 
         }
     }
