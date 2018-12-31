@@ -55,6 +55,22 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
+        private static TableLayout osSurfaceLayout;
+
+        public TableLayout OsSurfaceLayout
+        {
+            get
+            {
+                if (osSurfaceLayout == null)
+                {
+                    osSurfaceLayout = this.CreateLayout(this.ExampleOSModel.getSurfaces()[0].idfObject());
+                }
+                return osSurfaceLayout;
+            }
+
+        }
+
+
         private static IDictionary<string, string> osSpaceTypes;
 
         private IDictionary<string, string> OsSpaceTypes
@@ -99,14 +115,19 @@ namespace Ironbug.RhinoOpenStudio
             {
                 layout = this.OsSubSurfaceLayout;
             }
+            else if(osType == "OS:Surface")
+            {
+                layout = this.OsSurfaceLayout;
+            }
 
             if (layout == null) return false;
 
             var count = 0;
             foreach (var item in data)
             {
-                var inputBox = layout.Controls.ToList()[(count * 2) + 1] as TextBox;
-                if (inputBox != null)
+                var inputControl = layout.Controls.ToList()[(count * 2) + 1];
+                
+                if (inputControl is TextBox textBox)
                 {
                     var valueToShow = item.DataValue;
                     var match = MatchGUIDString(valueToShow);
@@ -117,8 +138,9 @@ namespace Ironbug.RhinoOpenStudio
                     }
                     //else if (item.DataName == "Space Type Name")
                     //{
-                    //    var spaceType = this.OsSpaceTypes.First(_ => _.handle().__str__() == valueToShow);
-                    //    valueToShow = spaceType.nameString();
+
+                    //    //var spaceType = this.OsSpaceTypes.First(_ => _.handle().__str__() == valueToShow);
+                    //    //valueToShow = spaceType.nameString();
                     //}
                     else if (match)
                     {
@@ -128,16 +150,24 @@ namespace Ironbug.RhinoOpenStudio
                         {
                             valueToShow = osObj.get().nameString();
                         }
-                        inputBox.Enabled = false;
+                        textBox.Enabled = false;
                     }
                     else
                     {
-                        inputBox.LostFocus += InputBox_LostFocus;
-                        inputBox.TextChanged += InputBox_TextChanged;
+                        
 
                     }
-                    inputBox.Text = valueToShow;
+                    textBox.Text = valueToShow;
                 }
+                else if (inputControl is DropDown dropDown)
+                {
+                    if (item.DataName == "Space Type Name")
+                    {
+                        dropDown.SelectedKey = item.DataValue;
+                        
+                    }
+                }
+
                 //layout.Add(new TextBox { Text = item.DataValue }, 0, count * 2 + 1);
                 count++;
             }
@@ -155,6 +185,52 @@ namespace Ironbug.RhinoOpenStudio
                 return match.Success;
             }
         }
+
+        private void DropDown_SelectedKeyChanged(object sender, System.EventArgs e)
+        {
+            var s = sender as DropDown;
+            var k = s.SelectedKey;
+            var v = s.SelectedValue;
+
+            if (SelectedObj == null)
+                return;
+
+            if (!s.HasFocus)
+                return;
+
+            //TODO: now only testing the space 
+            if (SelectedObj is RHIB_Space space)
+            {
+                var iddFieldIndex = (int)s.Tag;
+
+                try
+                {
+
+
+                    if (!space.UpdateIdfString(iddFieldIndex, k))
+                    {
+                        throw new System.Exception("Failed to update the value");
+                    }
+                    else
+                    {
+                        Rhino.RhinoApp.WriteLine("updated to {0} : {1}", k, v);
+                    }
+
+
+
+                }
+                catch (System.Exception ee)
+                {
+
+                    throw new System.Exception(ee.Message);
+                }
+
+
+            }
+
+            
+        }
+
         private bool _textChanged = false;
 
         private void InputBox_TextChanged(object sender, System.EventArgs e)
@@ -180,11 +256,10 @@ namespace Ironbug.RhinoOpenStudio
 
             if (s.HasFocus)
                 return;
-
-            Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
-
+            
             if (SelectedObj == null)
                 return;
+
 
             //TODO: now only testing the subsurface
             if (SelectedObj is RHIB_SubSurface srf)
@@ -193,10 +268,19 @@ namespace Ironbug.RhinoOpenStudio
 
                 try
                 {
+                    
+
                     if (!srf.UpdateIdfString(iddFieldIndex, s.Text))
                     {
                         throw new System.Exception("Failed to update the value");
                     }
+                    else
+                    {
+                        Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
+                    }
+
+                    
+                    
                 }
                 catch (System.Exception ee)
                 {
@@ -206,6 +290,8 @@ namespace Ironbug.RhinoOpenStudio
                 
 
             }
+
+            
         }
 
 
@@ -227,6 +313,8 @@ namespace Ironbug.RhinoOpenStudio
 
         //    return layout;
         //}
+
+
         private TableLayout CreateLayout(OpenStudio.IdfObject idfObject)
         {
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
@@ -239,8 +327,32 @@ namespace Ironbug.RhinoOpenStudio
             foreach (var item in data)
             {
                 layout.Add(new Label { Text = string.Format("{0} {1}", item.DataName, item.DataUnit) }, 0, count * 2);
+                //TODO: fix this later. No hard coded!!!
+                if (item.DataName == "Space Type Name")
+                {
+                    var ls = new DropDown
+                    {
+                        Tag = item.DataFieldIndex
+                    };
+                    foreach (var spaceType in this.OsSpaceTypes)
+                    {
+                        ls.Items.Add( spaceType.Value, spaceType.Key);
+                    }
 
-                layout.Add(new TextBox { Tag = item.DataFieldIndex }, 0, count * 2 + 1);
+                    ls.SelectedKeyChanged += DropDown_SelectedKeyChanged;
+                    //ls.LostFocus
+                    layout.Add(ls, 0, count * 2 + 1);
+
+                    
+                }
+                else
+                {
+                    var textBox = new TextBox { Tag = item.DataFieldIndex };
+                    textBox.LostFocus += InputBox_LostFocus;
+                    textBox.TextChanged += InputBox_TextChanged;
+                    layout.Add(textBox, 0, count * 2 + 1);
+                }
+                    
                 count++;
             }
             layout.Add(null, 0, rowCounts - 1);// add an empty row at the end.

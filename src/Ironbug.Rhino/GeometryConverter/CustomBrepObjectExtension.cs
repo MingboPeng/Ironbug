@@ -25,6 +25,23 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //TODO: this shouldn't return null case.....
             return osmObject;
         }
-    
+
+        public static OsmObjectData GetOsmObjectData(this Brep brep)
+        {
+            OsmObjectData osmObject = null;
+            var isSrf = brep.IsSurface;
+            if (isSrf)
+            {
+                osmObject = brep.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+            }
+            else
+            {
+                osmObject = brep.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+            }
+
+            //TODO: this shouldn't return null case.....
+            return osmObject;
+        }
+
     }
 }

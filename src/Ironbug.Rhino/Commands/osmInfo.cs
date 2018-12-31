@@ -48,7 +48,7 @@ namespace Ironbug.RhinoOpenStudio.Commands
             var msgString = string.Empty;
             if (possibleSrf != null && brepobj is RHIB_Space)
             {
-
+                //possibleSrf.
                 var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
                 if (!string.IsNullOrWhiteSpace(userdata.Notes))
                 {

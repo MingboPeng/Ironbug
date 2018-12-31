@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
-    public class RHIB_Space : CustomBrepObject
+    public class RHIB_Space : CustomBrepObject,IRHIB_GeometryBase
     {
         public RHIB_Space(Brep m)
             : base(m)
@@ -21,10 +21,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         }
 
 
-        public override string ToString()
-        {
-            return "OS_Space";
-        }
+        public override string ToString() => "OS_Space";
 
         public override string ShortDescription(bool plural) => "OS_Space";
 
@@ -75,6 +72,26 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             return (space, glzs);
         }
 
+        public bool UpdateIdfString(int IddFieldIndex, string Value)
+        {
+
+            var osmData = this.GetOsmObjectData();
+            var osmIdfobj = OpenStudio.IdfObject.load(osmData.Notes).get();
+
+            osmIdfobj.setString((uint)IddFieldIndex, Value);
+
+            var newIdfString = osmIdfobj.__str__();
+            
+
+            if (newIdfString.Contains(Value))
+            {
+                osmData.Notes = newIdfString;
+                return true;
+            }
+            
+            return false;
+        }
+
         //public static byte[] ObjectToByteArray(Object obj)
         //{
         //    BinaryFormatter bf = new BinaryFormatter();
@@ -84,11 +101,17 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         //        return ms.ToArray();
         //    }
         //}
-
-
-
+        
 
     }
+
+    //public class RHIB_Surface: BrepFace
+    //{
+    //    private RHIB_Surface()
+    //    {
+    //        this = base.CreateExtrusion()
+    //    }
+    //}
 
     
 

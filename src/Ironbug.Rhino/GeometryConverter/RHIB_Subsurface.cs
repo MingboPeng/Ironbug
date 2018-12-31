@@ -9,7 +9,7 @@ using OPS = OpenStudio;
 
 namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
-    public class RHIB_SubSurface : CustomBrepObject
+    public class RHIB_SubSurface : CustomBrepObject, IRHIB_GeometryBase
     {
         //IDictionary<string, string> m_OpenStudioProperties;
 
@@ -104,9 +104,13 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
         public bool UpdateIdfString(int IddFieldIndex, string Value)
         {
-            var m = IronbugRhinoPlugIn.Instance.OsmModel;
-            var rhBrep = this.BrepGeometry;
+            //var actDoc = Rhino.RhinoDoc.ActiveDoc;
+            //var num = actDoc.BeginUndoRecord("idfObject Change");
+
+            //var m = IronbugRhinoPlugIn.Instance.OsmModel;
+            //var rhBrep = this.Duplicate();
             
+
             var osmData = this.GetOsmObjectData();
             var osmIdfobj = OpenStudio.IdfObject.load(osmData.Notes).get();
 
@@ -126,17 +130,32 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             if (newIdfString.Contains(Value))
             {
+                
                 osmData.Notes = newIdfString;
+
+                //Rhino.RhinoDoc.ActiveDoc.Objects.AddRhinoObject(rhBrep);
+                //Rhino.RhinoDoc.ActiveDoc.Objects.Delete(this);
+
+
+
                 return true;
             }
 
-            
+
             return false;
             
         }
 
+        public RHIB_SubSurface Duplicate()
+        {
+            var newObj = new RHIB_SubSurface( this.DuplicateBrepGeometry());
+            return newObj;
+        }
+
 
     }
+
+
 
     public sealed class SubSurface_FeildSet
     {
