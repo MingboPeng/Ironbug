@@ -44,7 +44,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var rhBrep = this.BrepGeometry;
             var rhVts = rhBrep.Vertices;
             var osmStr = rhBrep.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            var osmIdfobj = OpenStudio.IdfObject.load(osmStr.Notes).get();
+            var osmIdfobj = OpenStudio.IdfObject.load(osmStr.IDFString).get();
 
             var handle = osmIdfobj.handle();
             var osmObj = model.getSubSurface(handle).get();
@@ -74,7 +74,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var rhVts = rhBrep.Vertices;
 
             var osmData = this.GetOsmObjectData();
-            var osmIdfobj = OpenStudio.IdfObject.load(osmData.Notes).get();
+            var osmIdfobj = OpenStudio.IdfObject.load(osmData.IDFString).get();
             var handle = osmIdfobj.handle();
 
            
@@ -95,7 +95,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             if (result)
             {
                 //update the osm strings attached to rhino geometry
-                osmData.Notes = osmObj.__str__();
+                osmData.IDFString = osmObj.__str__();
                 return true;
             }
 
@@ -112,7 +112,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             
 
             var osmData = this.GetOsmObjectData();
-            var osmIdfobj = OpenStudio.IdfObject.load(osmData.Notes).get();
+            var osmIdfobj = OpenStudio.IdfObject.load(osmData.IDFString).get();
 
             osmIdfobj.setString((uint)IddFieldIndex, Value);
 
@@ -131,7 +131,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             if (newIdfString.Contains(Value))
             {
                 
-                osmData.Notes = newIdfString;
+                osmData.IDFString = newIdfString;
 
                 //Rhino.RhinoDoc.ActiveDoc.Objects.AddRhinoObject(rhBrep);
                 //Rhino.RhinoDoc.ActiveDoc.Objects.Delete(this);

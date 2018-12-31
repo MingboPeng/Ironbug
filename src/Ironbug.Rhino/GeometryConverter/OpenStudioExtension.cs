@@ -39,18 +39,18 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //add osm data as user data
             Rhino.Geometry.Surface srf = plannarBrep.Surfaces[0];
             var userData = new OsmObjectData();
-            userData.Notes = planarSurface.__str__();
+            userData.IDFString = planarSurface.__str__();
             srf.UserData.Add(userData);
 
             return plannarBrep;
         }
 
-        public static IEnumerable<(string DataName, string DataValue, string DataUnit, int DataFieldIndex)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
+        public static IEnumerable<(string DataName, string DataValue, string DataUnit, (int DataFieldIndex, IEnumerable<string> ValidData, string DataType) FieldInfo)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
         {
             var com = idfObject;
             IddObject iddObject = com.iddObject();
 
-            var valueWithInfo = new List<(string DataName, string DataValue, string DataUnit, int DataField)>();
+            var valueWithInfo = new List<(string DataName, string DataValue, string DataUnit, (int DataField, IEnumerable<string> ValidData, string dataType))>();
             var fieldCount = com.numFields();
 
             for (int i = 0; i < fieldCount; i++)
@@ -78,7 +78,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 {
                     customStr = valueStr;
                 }
-
+                
                 var dataname = field.name();
                 var defaultValue = GetDefaultValue(field, ifIPUnit);
                 var unit = GetUnit(field, ifIPUnit);
@@ -88,20 +88,20 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
                 var shownDefault = string.IsNullOrWhiteSpace(defaultValue) ? string.Empty : string.Format(" (Default: {0})", defaultValue);
 
-                var att = String.Format("{0,-23} !- {1}{2}{3}", shownValue, dataname, shownUnit, shownDefault);
-
-                valueWithInfo.Add((dataname, shownValue, shownUnit, i));
+                //var att = String.Format("{0,-23} !- {1}{2}{3}", shownValue, dataname, shownUnit, shownDefault);
+                var vaildData = field.keys().Select(_ => _.name());
+                valueWithInfo.Add((dataname, shownValue, shownUnit, (i, vaildData,dataType)));
             }
 
             return valueWithInfo;
 
-            string ReplaceGUIDString(string s)
-            {
-                var match = System.Text.RegularExpressions.Regex.Match(s, @"\{[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}",
-       System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+       //     string ReplaceGUIDString(string s)
+       //     {
+       //         var match = System.Text.RegularExpressions.Regex.Match(s, @"\{[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}",
+       //System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-                return match.Success ? "#[GUID]" : s;
-            }
+       //         return match.Success ? "#[GUID]" : s;
+       //     }
 
             string GetUnit(IddField field, bool ifIPUnit)
             {

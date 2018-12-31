@@ -23,12 +23,12 @@ namespace Ironbug.RhinoOpenStudio
         /// <summary>
         /// Returns true of our user data is valid.
         /// </summary>
-        public bool IsValid => !string.IsNullOrEmpty(Notes);
+        public bool IsValid => !string.IsNullOrEmpty(IDFString);
 
         /// <summary>
         /// The notes field
         /// </summary>
-        public string Notes { get; set; }
+        public string IDFString { get; set; }
 
         public Rhino.Collections.ArchivableDictionary OsmObjProperties { get; set; } = new Rhino.Collections.ArchivableDictionary();
         #endregion Public properties
@@ -38,7 +38,7 @@ namespace Ironbug.RhinoOpenStudio
         /// <summary>
         /// Descriptive name of the user data.
         /// </summary>
-        public override string Description => "OsmString";
+        public override string Description => "OpenStudio Data";
 
         public override bool ShouldWrite => IsValid;
 
@@ -51,7 +51,7 @@ namespace Ironbug.RhinoOpenStudio
         {
             if (source is OsmObjectData src)
             {
-                Notes = src.Notes;
+                IDFString = src.IDFString;
                 //OsmObjProperties.AddContentsFrom(src.OsmObjProperties);
                 OsmObjProperties = src.OsmObjProperties.Clone();
             }
@@ -68,7 +68,7 @@ namespace Ironbug.RhinoOpenStudio
                 // Read 1.0 fields  here
                 if (minor >= MINOR_VERSION)
                 {
-                    Notes = archive.ReadString();
+                    IDFString = archive.ReadString();
                     OsmObjProperties = archive.ReadDictionary();
                 }
 
@@ -88,7 +88,7 @@ namespace Ironbug.RhinoOpenStudio
             archive.Write3dmChunkVersion(MAJOR_VERSION, MINOR_VERSION);
 
             // Write 1.0 fields
-            archive.WriteString(Notes);
+            archive.WriteString(IDFString);
             archive.WriteDictionary(OsmObjProperties);
 
             // Note, if you every roll the minor version number,
@@ -98,6 +98,25 @@ namespace Ironbug.RhinoOpenStudio
         }
 
         #endregion Userdata overrides
+
+        public bool UpdateIdfString(int IddFieldIndex, string Value)
+        {
+            
+            var osmIdfobj = OpenStudio.IdfObject.load(this.IDFString).get();
+
+            osmIdfobj.setString((uint)IddFieldIndex, Value);
+
+            var newIdfString = osmIdfobj.__str__();
+
+
+            if (newIdfString.Contains(Value))
+            {
+                this.IDFString = newIdfString;
+                return true;
+            }
+
+            return false;
+        }
     }
 
 }

@@ -50,25 +50,25 @@ namespace Ironbug.RhinoOpenStudio.Commands
             {
                 //possibleSrf.
                 var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                if (!string.IsNullOrWhiteSpace(userdata.IDFString))
                 {
-                    msgString = userdata.Notes;
+                    msgString = userdata.IDFString;
                 }
             }
             else if (brepobj is RHIB_Space zone)
             {
                 var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                if (!string.IsNullOrWhiteSpace(userdata.IDFString))
                 {
-                    msgString = userdata.Notes;
+                    msgString = userdata.IDFString;
                 }
             }
             else if (brepobj is RHIB_SubSurface subSurface)
             {
                 var userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                if (!string.IsNullOrWhiteSpace(userdata.Notes))
+                if (!string.IsNullOrWhiteSpace(userdata.IDFString))
                 {
-                    msgString = userdata.Notes;
+                    msgString = userdata.IDFString;
                 }
             }
             else

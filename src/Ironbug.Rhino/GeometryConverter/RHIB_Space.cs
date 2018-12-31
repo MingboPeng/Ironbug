@@ -62,7 +62,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             //add osm info to user data
             var userData = new OsmObjectData();
-            userData.Notes = ospace.__str__();
+            userData.IDFString = ospace.__str__();
             closedBrep.UserData.Add(userData);
             
 
@@ -76,7 +76,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         {
 
             var osmData = this.GetOsmObjectData();
-            var osmIdfobj = OpenStudio.IdfObject.load(osmData.Notes).get();
+            var osmIdfobj = OpenStudio.IdfObject.load(osmData.IDFString).get();
 
             osmIdfobj.setString((uint)IddFieldIndex, Value);
 
@@ -85,7 +85,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             if (newIdfString.Contains(Value))
             {
-                osmData.Notes = newIdfString;
+                osmData.IDFString = newIdfString;
                 return true;
             }
             
