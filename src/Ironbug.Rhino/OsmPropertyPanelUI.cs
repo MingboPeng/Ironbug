@@ -158,7 +158,16 @@ namespace Ironbug.RhinoOpenStudio
                 }
                 else if (inputControl is DropDown dropDown)
                 {
-                    dropDown.SelectedKey = item.DataValue;
+                    if (item.FieldInfo.ValidData.Any())
+                    { // choice type
+                        var itemIndex = item.FieldInfo.ValidData.Select(_ => _.ToLower()).ToList().IndexOf(item.DataValue.ToLower());
+                        dropDown.SelectedIndex = itemIndex;
+                    }
+                    else //object-list type
+                    {
+                        dropDown.SelectedKey = item.DataValue;
+                    }
+                    
                 }
                 
                 count++;
