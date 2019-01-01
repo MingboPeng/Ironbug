@@ -48,8 +48,15 @@ namespace Ironbug.RhinoOpenStudio
                 {
                     var srf = item.UnderlyingSurface();
                     var objData = srf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                    var isPartOfEnvelope = objData.OsmObjProperties.GetBool("isPartOfEnvelope");
-                    var surfaceType = objData.OsmObjProperties.GetString("surfaceType");
+
+                    var idfObj = OpenStudio.IdfObject.load(objData.IDFString).get();
+                    var osmSurf = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get().to_Surface().get();
+                    var isPartOfEnvelope = osmSurf.isPartOfEnvelope();
+                    var surfaceType = osmSurf.surfaceType();
+
+
+                    //var isPartOfEnvelope = objData.OsmObjProperties.GetBool("isPartOfEnvelope");
+                    //var surfaceType = objData.OsmObjProperties.GetString("surfaceType");
 
                     if (!isPartOfEnvelope)
                         continue;

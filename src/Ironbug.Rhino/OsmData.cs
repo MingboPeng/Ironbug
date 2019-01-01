@@ -19,15 +19,7 @@ namespace Ironbug.RhinoOpenStudio
         #endregion Private constants
 
         #region Public properties
-
-        /// <summary>
-        /// Returns true of our user data is valid.
-        /// </summary>
-        public bool IsValid => !string.IsNullOrEmpty(IDFString);
-
-        /// <summary>
-        /// The notes field
-        /// </summary>
+        
         public string IDFString { get; set; }
 
         public Rhino.Collections.ArchivableDictionary OsmObjProperties { get; set; } = new Rhino.Collections.ArchivableDictionary();
@@ -40,6 +32,7 @@ namespace Ironbug.RhinoOpenStudio
         /// </summary>
         public override string Description => "OpenStudio Data";
 
+        public bool IsValid => !string.IsNullOrEmpty(IDFString);
         public override bool ShouldWrite => IsValid;
 
         public override string ToString() => Description;
@@ -102,21 +95,48 @@ namespace Ironbug.RhinoOpenStudio
         public bool UpdateIdfString(int IddFieldIndex, string Value)
         {
             
-            var osmIdfobj = OpenStudio.IdfObject.load(this.IDFString).get();
+            var idfObj = OpenStudio.IdfObject.load(this.IDFString).get();
+            idfObj.setString((uint)IddFieldIndex, Value);
 
-            osmIdfobj.setString((uint)IddFieldIndex, Value);
+            var osmObj = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+            osmObj.setString((uint)IddFieldIndex, Value);
 
-            var newIdfString = osmIdfobj.__str__();
+            var newIdfString = idfObj.__str__();
+            var newOsmString = osmObj.__str__();
 
+            //var osmObjtest = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+            //osmObjtest.setString((uint)IddFieldIndex, Value);
+            //var newOsmStringTest = osmObjtest.__str__();
 
             if (newIdfString.Contains(Value))
             {
-                this.IDFString = newIdfString;
+                if (newIdfString == newOsmString)
+                {
+                    this.IDFString = newIdfString;
+                }
+                else
+                {
+                    throw new System.ArgumentException("Failed to update OpenStudio model!");
+                }
+
+
+                
                 return true;
             }
 
             return false;
         }
+
+        //private static bool UpdateOsm(string idfString)
+        //{
+            
+        //    var idf = OpenStudio.IdfObject.load(idfString).get();
+        //    var handle = idf.handle();
+        //    var m = IronbugRhinoPlugIn.Instance.OsmModel;
+        //    m.toIdfFile().getObject(handle).get().
+        //    .getObject(handle).get().re
+        //    var handle =
+        //}
     }
 
 }

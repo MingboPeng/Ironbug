@@ -259,24 +259,7 @@ namespace Ironbug.RhinoOpenStudio
                 throw new System.Exception(ee.Message);
             }
         }
-
-        //private TableLayout CreateSpaceLayout()
-        //{
-        //    var osSpace = this.ExampleOSModel.getSpaces()[0];
-        //    var idfObject = osSpace.idfObject();
-        //    var layout = CreateLayout(idfObject);
-
-        //    return layout;
-        //}
-
-        //private TableLayout CreateSubSurfaceLayout()
-        //{
-        //    var osObj = this.ExampleOSModel.getSubSurfaces()[0];
-        //    var idfObject = osObj.idfObject();
-        //    var layout = CreateLayout(idfObject);
-
-        //    return layout;
-        //}
+        
 
         private TableLayout CreateLayout(OpenStudio.IdfObject idfObject)
         {
