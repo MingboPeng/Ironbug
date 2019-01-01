@@ -9,7 +9,7 @@ namespace Ironbug.RhinoOpenStudio
     internal class OsmPropertyPanelUI : Eto.Forms.Panel
     {
         //public RhinoObject SelectedObj { get; set; }
-        private OsmObjectData OsmObject;
+        private OpenStudio.IdfObject IdfObject;
 
         public OsmPropertyPanelUI() : base()
         {
@@ -99,12 +99,13 @@ namespace Ironbug.RhinoOpenStudio
         }
 
         //Populate all idf items
-        public bool PopulateIdfData(OsmObjectData osmObjectData)
+        public bool PopulateIdfData(Rhino.Collections.ArchivableDictionary OsmDataDic, string UserDataKey)
         {
             var success = false;
-            this.OsmObject = osmObjectData;
+            var idfString = OsmDataDic.GetString(UserDataKey);
 
-            var idfObject = OpenStudio.IdfObject.load(osmObjectData.IDFString).get();
+            var idfObject = OpenStudio.IdfObject.load(idfString).get();
+            this.IdfObject = idfObject;
 
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
@@ -186,33 +187,33 @@ namespace Ironbug.RhinoOpenStudio
 
         private void DropDown_SelectedKeyChanged(object sender, System.EventArgs e)
         {
-            var s = sender as DropDown;
-            var k = s.SelectedKey;
-            var v = s.SelectedValue;
+            //var s = sender as DropDown;
+            //var k = s.SelectedKey;
+            //var v = s.SelectedValue;
 
-            if (this.OsmObject == null)
-                return;
+            //if (this.IdfObject == null)
+            //    return;
 
-            if (!s.HasFocus)
-                return;
+            //if (!s.HasFocus)
+            //    return;
 
-            var iddFieldIndex = (int)s.Tag;
+            //var iddFieldIndex = (int)s.Tag;
 
-            try
-            {
-                if (!this.OsmObject.UpdateIdfString(iddFieldIndex, k))
-                {
-                    throw new System.Exception("Failed to update the value");
-                }
-                else
-                {
-                    Rhino.RhinoApp.WriteLine("updated to {0} : {1}", k, v);
-                }
-            }
-            catch (System.Exception ee)
-            {
-                throw new System.Exception(ee.Message);
-            }
+            //try
+            //{
+            //    if (!this.IdfObject.UpdateIdfString(iddFieldIndex, k))
+            //    {
+            //        throw new System.Exception("Failed to update the value");
+            //    }
+            //    else
+            //    {
+            //        Rhino.RhinoApp.WriteLine("updated to {0} : {1}", k, v);
+            //    }
+            //}
+            //catch (System.Exception ee)
+            //{
+            //    throw new System.Exception(ee.Message);
+            //}
         }
 
         private bool _textChanged = false;
@@ -228,36 +229,36 @@ namespace Ironbug.RhinoOpenStudio
 
         private void InputBox_LostFocus(object sender, System.EventArgs e)
         {
-            if (!_textChanged)
-                return;
+            //if (!_textChanged)
+            //    return;
 
-            _textChanged = false;
+            //_textChanged = false;
 
-            var s = sender as TextBox;
+            //var s = sender as TextBox;
 
-            if (s.HasFocus)
-                return;
+            //if (s.HasFocus)
+            //    return;
 
-            if (this.OsmObject == null)
-                return;
+            //if (this.IdfObject == null)
+            //    return;
 
-            var iddFieldIndex = (int)s.Tag;
+            //var iddFieldIndex = (int)s.Tag;
 
-            try
-            {
-                if (!this.OsmObject.UpdateIdfString(iddFieldIndex, s.Text))
-                {
-                    throw new System.Exception("Failed to update the value");
-                }
-                else
-                {
-                    Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
-                }
-            }
-            catch (System.Exception ee)
-            {
-                throw new System.Exception(ee.Message);
-            }
+            //try
+            //{
+            //    if (!this.IdfObject.UpdateIdfString(iddFieldIndex, s.Text))
+            //    {
+            //        throw new System.Exception("Failed to update the value");
+            //    }
+            //    else
+            //    {
+            //        Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
+            //    }
+            //}
+            //catch (System.Exception ee)
+            //{
+            //    throw new System.Exception(ee.Message);
+            //}
         }
         
 

@@ -26,6 +26,7 @@ namespace Ironbug.RhinoOpenStudio
 
         //Access this by IronbugRhinoPlugIn.Instance.OsmFileString;
         private OsmDocumentData OsmFileString { get; set; } = new OsmDocumentData();
+
         //public string OsmFilePath { get; private set; } = string.Empty;
 
         //Access this by IronbugRhinoPlugIn.Instance.OsmModel;
@@ -44,15 +45,13 @@ namespace Ironbug.RhinoOpenStudio
                 {
                     RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
                 }
-
-
             }
             catch (FileNotFoundException loadError)
             {
                 Rhino.UI.Dialogs.ShowMessage(loadError.Message, "test");
             }
             Instance = this;
-            
+
             RhinoDoc.EndOpenDocument += OnEndOpenDocument;
         }
 
@@ -66,7 +65,6 @@ namespace Ironbug.RhinoOpenStudio
 
         private void OnEndOpenDocument(object sender, DocumentOpenEventArgs e)
         {
-            
             var objs = e.Document.Objects;
             var subsurfaceLoadedCount = 0;
             var spaceLoadedCount = 0;
@@ -95,12 +93,11 @@ namespace Ironbug.RhinoOpenStudio
                         var space = new RHIB_Space(brep.BrepGeometry);
                         objs.Replace(new ObjRef(brep), space);
                         spaceLoadedCount++;
-
                     }
                 }
             }
 
-            if (subsurfaceLoadedCount>0 || spaceLoadedCount>0)
+            if (subsurfaceLoadedCount > 0 || spaceLoadedCount > 0)
             {
                 RhinoApp.WriteLine("{0} OS:Space; {1} OS:Subsurface loaded", spaceLoadedCount, subsurfaceLoadedCount);
                 RhinoDoc.ReplaceRhinoObject += RhinoDoc_ReplaceRhinoObject;
@@ -179,20 +176,17 @@ namespace Ironbug.RhinoOpenStudio
                 {
                     var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
 
-                    //add glz surfaces to rhino doc.
-                    foreach (var glz in glzs)
-                    {
-                        //doc.Objects.AddBrep(glz);
-                        doc.Objects.AddRhinoObject(glz);
-                    }
+                    ////add glz surfaces to rhino doc.
+                    //foreach (var glz in glzs)
+                    //{
+                    //    //doc.Objects.AddBrep(glz);
+                    //    doc.Objects.AddRhinoObject(glz);
+                    //}
 
-                    if (space.BrepGeometry.IsSolid)
-                    {
-                        doc.Objects.AddRhinoObject(space);
-                        space.Attributes.LayerIndex = layerIndex;
-                        space.CommitChanges();
-                        spaceAddedCount++;
-                    }
+                    doc.Objects.AddRhinoObject(space);
+                    space.Attributes.LayerIndex = layerIndex;
+                    space.CommitChanges();
+                    spaceAddedCount++;
                 }
 
                 Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
@@ -230,7 +224,6 @@ namespace Ironbug.RhinoOpenStudio
                 var p = OpenStudio.OpenStudioUtilitiesCore.toPath(tempFile);
                 OsmModel = OPS.Model.load(p).get();
             }
-            
         }
 
         /// <summary>
@@ -243,8 +236,6 @@ namespace Ironbug.RhinoOpenStudio
             {
                 this.OsmModel = null;
             }
-            
-
         }
 
         protected override bool ShouldCallWriteDocument(FileWriteOptions options)
@@ -283,7 +274,5 @@ namespace Ironbug.RhinoOpenStudio
             OsmPropertyPanel objectPropertiesPage = new OsmPropertyPanel();
             pages.Add(objectPropertiesPage);
         }
-
-
     }
 }

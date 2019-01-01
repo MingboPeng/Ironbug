@@ -1,4 +1,5 @@
 ﻿using OpenStudio;
+
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -8,26 +9,25 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
     public static class OpenStudioExtension
     {
-        public static Brep ToBrepFromSurface(this OpenStudio.Surface surface)
-        {
-            var b = surface.ToBrep();
-            var userData = b.Surfaces[0].UserData.First(_ => _ is OsmObjectData) as OsmObjectData;
+        //public static Brep ToBrepFromSurface(this OpenStudio.Surface surface)
+        //{
+        //    var b = surface.ToBrep();
+        //    var userData = b.Surfaces[0].UserData.First(_ => _ is OsmObjectData) as OsmObjectData;
 
-            userData.OsmObjProperties.Set("isPartOfEnvelope", surface.isPartOfEnvelope());
-            userData.OsmObjProperties.Set("surfaceType", surface.surfaceType());
+        //    userData.OsmObjProperties.Set("isPartOfEnvelope", surface.isPartOfEnvelope());
+        //    userData.OsmObjProperties.Set("surfaceType", surface.surfaceType());
 
-            //userData.OsmObjProperties.Set("dd", Mesh.CreateFromBrep(b)[0]);
+        //    //userData.OsmObjProperties.Set("dd", Mesh.CreateFromBrep(b)[0]);
 
-            return b;
-        }
+        //    return b;
+        //}
 
-        public static Brep ToBrep(this PlanarSurface planarSurface)
+        public static (Brep SrfBrep, string IDFString) ToBrep(this PlanarSurface planarSurface)
         {
             var pts = planarSurface.vertices().Select(pt => new Rhino.Geometry.Point3d(pt.x(), pt.y(), pt.z())).ToList();
             pts.Add(pts[0]);
 
             var crv = new PolylineCurve(pts);
-            //crv.MakeClosed(tol); //Why does this is not working??? Rhino??
 
             var plannarBrep = Brep.CreatePlanarBreps(crv, 0.000001)[0];
 
@@ -38,11 +38,11 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             //add osm data as user data
             Rhino.Geometry.Surface srf = plannarBrep.Surfaces[0];
-            var userData = new OsmObjectData();
-            userData.IDFString = planarSurface.__str__();
-            srf.UserData.Add(userData);
-
-            return plannarBrep;
+            //var userData = new OsmObjectData();
+            var IDFString = planarSurface.__str__();
+            //srf.UserData.Add(userData);
+            
+            return (plannarBrep, IDFString);
         }
 
         public static IEnumerable<(string DataName, string DataValue, string DataUnit, (int DataFieldIndex, IEnumerable<string> ValidData, string DataType) FieldInfo)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
@@ -186,6 +186,41 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         public static bool IsRealType(this IddField iddField)
         {
             return iddField.properties().type.valueDescription() == "real";
+        }
+
+        public static bool UpdateIdfString(this IdfObject IdfObj, int IddFieldIndex, string Value)
+        {
+
+            var idfObj = IdfObj;
+            idfObj.setString((uint)IddFieldIndex, Value);
+
+            var osmObj = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+            osmObj.setString((uint)IddFieldIndex, Value);
+
+            var newIdfString = idfObj.__str__();
+            var newOsmString = osmObj.__str__();
+
+            //var osmObjtest = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+            //osmObjtest.setString((uint)IddFieldIndex, Value);
+            //var newOsmStringTest = osmObjtest.__str__();
+
+            if (newIdfString.Contains(Value))
+            {
+                if (newIdfString == newOsmString)
+                {
+                    //this.IDFString = newIdfString;
+                }
+                else
+                {
+                    throw new System.ArgumentException("Failed to update OpenStudio model!");
+                }
+
+
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

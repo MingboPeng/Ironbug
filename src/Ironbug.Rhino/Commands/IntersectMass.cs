@@ -64,8 +64,8 @@ namespace Ironbug.RhinoOpenStudio.Commands
             {
                 try
                 {
-                    //var results = oldBreps.AsParallel().AsOrdered().Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
-                    var results = oldBreps.Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
+                    var results = oldBreps.AsParallel().AsOrdered().Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
+                    //var results = oldBreps.Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
                     int count = 0;
 
                     //while (results.Count()< oldBreps.Count())
@@ -76,8 +76,8 @@ namespace Ironbug.RhinoOpenStudio.Commands
                     {
                         //RhinoDoc.ActiveDoc.Objects.AddBrep(newBrep);
                         //RhinoDoc.ActiveDoc.Objects.Delete(selectedObjs[count],false);
-                        RhinoDoc.ActiveDoc.Objects.Replace(selectedObjs[count], newBrep);
-                        RhinoApp.WriteLine("Finished {0}/{1}", count + 1, oldBreps.Count);
+                        //RhinoDoc.ActiveDoc.Objects.Replace(selectedObjs[count], newBrep);
+                        //RhinoApp.WriteLine("Finished {0}/{1}", count + 1, oldBreps.Count);
                         count++;
                     }
                 }
@@ -99,7 +99,7 @@ namespace Ironbug.RhinoOpenStudio.Commands
         private static Brep SplitBrepWithBreps(Brep CurrentBrep, List<Brep> AllBreps, double tolerance)
         {
             var currentBrep = CurrentBrep.DuplicateBrep();
-            var allBreps = AllBreps;
+            var allBreps = AllBreps.Select(_=>_.DuplicateBrep());
 
             foreach (Brep item in allBreps)
             {

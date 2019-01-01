@@ -48,19 +48,19 @@ namespace Ironbug.RhinoOpenStudio.Commands
             var msgString = string.Empty;
             if (possibleSrf != null && brepobj is RHIB_Space)
             {
-                //possibleSrf.
-                var userdata = possibleSrf.UnderlyingSurface().UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                if (!string.IsNullOrWhiteSpace(userdata.IDFString))
+                var srfID = possibleSrf.GetCentorAreaForID();
+                var userdata = brepobj.Attributes.UserDictionary.GetString(srfID);
+                if (!string.IsNullOrWhiteSpace(userdata))
                 {
-                    msgString = userdata.IDFString;
+                    msgString = userdata;
                 }
             }
             else if (brepobj is RHIB_Space zone)
             {
-                var userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-                if (!string.IsNullOrWhiteSpace(userdata.IDFString))
+                var userdata = zone.Attributes.UserDictionary.GetString("OpenStudioSpaceData");
+                if (!string.IsNullOrWhiteSpace(userdata))
                 {
-                    msgString = userdata.IDFString;
+                    msgString = userdata;
                 }
             }
             else if (brepobj is RHIB_SubSurface subSurface)

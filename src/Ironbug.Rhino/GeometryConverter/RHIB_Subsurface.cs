@@ -23,19 +23,19 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         {
         }
 
-        public RHIB_SubSurface(OPS.SubSurface subSurface) : this(subSurface.ToBrep())
-        {
-            this.Name = subSurface.nameString();
+        //public RHIB_SubSurface(OPS.SubSurface subSurface) : this(subSurface.ToBrep())
+        //{
+        //    this.Name = subSurface.nameString();
 
-            //var osmData = this.GetOsmObjectData();
-            //if (osmData != null)
-            //{
+        //    //var osmData = this.GetOsmObjectData();
+        //    //if (osmData != null)
+        //    //{
 
-            //    subSurface.surface
-            //    //TODO: need to create a helper to convert osm data string to OsmObjProperties dictionary items
-            //    osmData.OsmObjProperties.Set()
-            //}
-        }
+        //    //    subSurface.surface
+        //    //    //TODO: need to create a helper to convert osm data string to OsmObjProperties dictionary items
+        //    //    osmData.OsmObjProperties.Set()
+        //    //}
+        //}
 
         public override string ShortDescription(bool plural) => "OS_SubSurface";
 

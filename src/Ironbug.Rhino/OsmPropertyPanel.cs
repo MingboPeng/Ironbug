@@ -32,29 +32,36 @@ namespace Ironbug.RhinoOpenStudio
 
             var selectedObj = e.Objects[0];
             var isSelectedBrepFace = null != selectedObj.GetSelectedSubObjects();
+
+            var userdataKey = string.Empty;
+
+            var userDic = selectedObj.Attributes.UserDictionary;
             
-            OsmObjectData userdata = null;
             if (isSelectedBrepFace && selectedObj is RHIB_Space)
             {
                 var faceIndex = selectedObj.GetSelectedSubObjects()[0].Index;
-                Rhino.Geometry.Surface surf = ((RHIB_Space)selectedObj).BrepGeometry.Surfaces[faceIndex];
-                userdata = surf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+                //Rhino.Geometry.Surface surf = ((RHIB_Space)selectedObj).BrepGeometry.Surfaces[faceIndex];
+                //userdata = surf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+
+                userdataKey = ((RHIB_Space)selectedObj).BrepGeometry.Faces[faceIndex].GetCentorAreaForID();
+                //userdata = selectedObj.Attributes.UserDictionary.GetString(srfID);
             }
             else if (selectedObj is RHIB_SubSurface subSurface)
             {
-                userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+                //userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
             }
             else if (selectedObj is RHIB_Space zone)
             {
-                userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+                userdataKey = "OpenStudioSpaceData";
+                //userdata = zone.Attributes.UserDictionary.GetString("OpenStudioSpaceData");
             }
 
             //add to panel
-            if (null != userdata)
+            if (!string.IsNullOrWhiteSpace(userdataKey))
             {
                 try
                 {
-                    this.panelUI.PopulateIdfData(userdata);
+                    this.panelUI.PopulateIdfData(userDic, userdataKey);
                 }
                 catch (System.Exception ex)
                 {
