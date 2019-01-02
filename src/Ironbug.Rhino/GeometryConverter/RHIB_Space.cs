@@ -6,6 +6,7 @@ using System.Linq;
 using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
+using Rhino.Collections;
 
 namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
@@ -15,94 +16,116 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             : base(m)
         {
         }
-
+        
         public RHIB_Space()
         {
         }
-
-
+        
         public override string ToString() => "OS_Space";
 
         public override string ShortDescription(bool plural) => "OS_Space";
-
-        public string OSM_String = string.Empty;
+        public static RHIB_Space ToRHIB_Space(Brep brep, Rhino.Collections.ArchivableDictionary IdfData)
+        {
+            var space = new RHIB_Space(brep);
+            space.Attributes.UserDictionary.Set("OpenStudioData", IdfData);
+            return space;
+        }
 
         public static (RHIB_Space space, List<RHIB_SubSurface> glzs) FromOpsSpace(Space OpenStudioSpace)
         {
             var ospace = OpenStudioSpace;
             var sfs = ospace.surfaces;
             var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
-            //tol = 0.000001;
             
             var zonefaces = new List<Brep>();
             var glzs = new List<RHIB_SubSurface>();
             var zoneBrep3 = new Brep();
             
-          
             var userDataDic = new Rhino.Collections.ArchivableDictionary();
-            userDataDic.Set("OpenStudioSpaceData", ospace.__str__());
-
+            
             foreach (OpenStudio.Surface sf in sfs)
             {
+                //Surface
                 var rhBrep = sf.ToBrep();
-                //surfaceBrep.Surfaces
-                //var glzSurfaceBrep = sf.subSurfaces().Select(s => new RHIB_SubSurface(s));
-               
                 zonefaces.Add(rhBrep.SrfBrep);
                 zoneBrep3.Append(rhBrep.SrfBrep);
+                userDataDic.Set(rhBrep.SrfBrep.GetCentorAreaForID(), rhBrep.IDFString);
 
-
-                userDataDic.Set(rhBrep.SrfBrep.GetCentorAreaForID(), sf.__str__());
-                
-                //glzs.AddRange(glzSurfaceBrep);
+                //SubSurface
+                var glzSurfaceBrep = sf.subSurfaces().Select(s => s.ToBrep());
+                var rhib_glzs = glzSurfaceBrep.Select(_ => RHIB_SubSurface.ToRHIB_SubSurface(_.SrfBrep, _.IDFString));
+                glzs.AddRange(rhib_glzs);
 
             }
 
+            //Space
             zoneBrep3.JoinNakedEdges(tol);
             var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
             if (!closedBrep.IsSolid)
             {
                 closedBrep = zoneBrep3;
             }
+            userDataDic.Set("SpaceData", ospace.__str__());
 
-            //add osm info to user data
-            //var userData = new OsmObjectData();
-
-            //userData.IDFString = ospace.__str__();
-            //closedBrep.UserData.Add(userData);
-            
-            //var att = new Rhino.DocObjects.ObjectAttributes();
-            //att.UserData.Add(userData);
-            
-
-            var space = new RHIB_Space(closedBrep);
-
-            space.Attributes.UserDictionary.AddContentsFrom(userDataDic);
+            var space =  RHIB_Space.ToRHIB_Space(closedBrep, userDataDic);
             space.Name = ospace.nameString();
-            
-            return (space, glzs);
 
-            
+            return (space, glzs);
         }
 
-        public bool UpdateIdfString(int IddFieldIndex, string Value)
+
+
+        public bool UpdateIdfData(int IddFieldIndex, string Value, string BrepFaceCenterAreaID = "")
         {
-
-            var osmData = this.GetOsmObjectData();
-            var osmIdfobj = OpenStudio.IdfObject.load(osmData.IDFString).get();
-
-            osmIdfobj.setString((uint)IddFieldIndex, Value);
-            var newIdfString = osmIdfobj.__str__();
-            
-
-            if (newIdfString.Contains(Value))
+            var idfString = string.Empty;
+            var isSpace = string.IsNullOrEmpty(BrepFaceCenterAreaID);
+            if (isSpace)
             {
-                osmData.IDFString = newIdfString;
-                return true;
+                idfString = this.GetIdfString();
+            }
+            else
+            {
+                idfString = this.GetSurfaceIdfString(BrepFaceCenterAreaID);
             }
             
-            return false;
+            //Update IdfString
+            var osmIdfobj = OpenStudio.IdfObject.load(idfString).get();
+            osmIdfobj.setString((uint)IddFieldIndex, Value);
+            var newIdfString = osmIdfobj.__str__();
+
+
+            if (!newIdfString.Contains(Value))
+                return false; //TODO: add exception message
+
+            //var m = IronbugRhinoPlugIn.Instance.OsmModel;
+            //var osmObj_optional = m.getObject(osmIdfobj.handle());
+
+            //if (osmObj_optional.isNull())
+            //    return false; //TODO: add exception message
+
+            //var osmobj = osmObj_optional.get();
+            
+            if (isSpace)
+            {
+                this.GetIdfData().Remove("SpaceData");
+                this.GetIdfData().Set("SpaceData", newIdfString);
+            }
+            else
+            {
+                this.GetIdfData().Remove(BrepFaceCenterAreaID);
+                this.GetIdfData().Set(BrepFaceCenterAreaID, newIdfString);
+            }
+
+            return true;
         }
+
+        private ArchivableDictionary GetIdfData()
+        {
+            return this.Attributes.UserDictionary.GetDictionary("OpenStudioData");
+        }
+
+        public string GetIdfString() => this.GetIdfData().GetString("SpaceData");
+        public string GetSurfaceIdfString(string CentorAreaForID) => this.GetIdfData().GetString(CentorAreaForID);
 
         //public static byte[] ObjectToByteArray(Object obj)
         //{
@@ -113,7 +136,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         //        return ms.ToArray();
         //    }
         //}
-        
+
 
     }
 

@@ -4,8 +4,7 @@ using System.Collections;
 
 namespace Ironbug.RhinoOpenStudio
 {
-    [System.Runtime.InteropServices.Guid("6D96F2CA-3A79-4789-B5D1-93B6B0B25C67")]
-    public class OsmObjectData : Rhino.DocObjects.Custom.UserData
+    public class OsmObjectData : UserData
     {
         #region Private constants
 

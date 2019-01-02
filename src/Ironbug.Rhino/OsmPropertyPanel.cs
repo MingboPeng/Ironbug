@@ -18,50 +18,33 @@ namespace Ironbug.RhinoOpenStudio
         {
             if (e.ObjectCount != 1) return false;
             if (e.Objects.Length != 1) return false; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
-            
+
             var isOSM = false;
             RhinoObject selectedObj = e.Objects[0];
             isOSM = selectedObj is IRHIB_GeometryBase;
             return isOSM;
         }
-        
+
         public override void UpdatePage(ObjectPropertiesPageEventArgs e)
         {
-            if (e.ObjectCount != 1) return;
-            if (e.Objects.Length != 1) return; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
-
             var selectedObj = e.Objects[0];
+
             var isSelectedBrepFace = null != selectedObj.GetSelectedSubObjects();
-
-            var userdataKey = string.Empty;
-
-            var userDic = selectedObj.Attributes.UserDictionary;
             
-            if (isSelectedBrepFace && selectedObj is RHIB_Space)
+            if (selectedObj is IRHIB_GeometryBase rhib)
             {
-                var faceIndex = selectedObj.GetSelectedSubObjects()[0].Index;
-                //Rhino.Geometry.Surface surf = ((RHIB_Space)selectedObj).BrepGeometry.Surfaces[faceIndex];
-                //userdata = surf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+                var spaceSurfaceID = string.Empty;
 
-                userdataKey = ((RHIB_Space)selectedObj).BrepGeometry.Faces[faceIndex].GetCentorAreaForID();
-                //userdata = selectedObj.Attributes.UserDictionary.GetString(srfID);
-            }
-            else if (selectedObj is RHIB_SubSurface subSurface)
-            {
-                //userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            }
-            else if (selectedObj is RHIB_Space zone)
-            {
-                userdataKey = "OpenStudioSpaceData";
-                //userdata = zone.Attributes.UserDictionary.GetString("OpenStudioSpaceData");
-            }
+                if (isSelectedBrepFace && selectedObj is RHIB_Space sp)
+                {
+                    //Surface of space (which is a face of Brep)
+                    var faceIndex = selectedObj.GetSelectedSubObjects()[0].Index;
+                    spaceSurfaceID = ((RHIB_Space)selectedObj).BrepGeometry.Faces[faceIndex].GetCentorAreaForID();
+                }
 
-            //add to panel
-            if (!string.IsNullOrWhiteSpace(userdataKey))
-            {
                 try
                 {
-                    this.panelUI.PopulateIdfData(userDic, userdataKey);
+                    this.panelUI.PopulateIdfData(rhib, spaceSurfaceID);
                 }
                 catch (System.Exception ex)
                 {
@@ -69,7 +52,7 @@ namespace Ironbug.RhinoOpenStudio
                 }
             }
         }
-        
+
         public override object PageControl => panelUI ?? (panelUI = new OsmPropertyPanelUI());
     }
 }

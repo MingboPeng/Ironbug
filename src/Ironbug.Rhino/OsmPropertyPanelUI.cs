@@ -9,8 +9,10 @@ namespace Ironbug.RhinoOpenStudio
     internal class OsmPropertyPanelUI : Eto.Forms.Panel
     {
         //public RhinoObject SelectedObj { get; set; }
-        private OpenStudio.IdfObject IdfObject;
-
+        //private OpenStudio.IdfObject IdfObject;
+        private IRHIB_GeometryBase _selectedObject;
+        private string _spaceSurfaceCenterAreaID = string.Empty;
+            
         public OsmPropertyPanelUI() : base()
         {
             InitializeComponent();
@@ -98,34 +100,36 @@ namespace Ironbug.RhinoOpenStudio
             
         }
 
+
         //Populate all idf items
-        public bool PopulateIdfData(Rhino.Collections.ArchivableDictionary OsmDataDic, string UserDataKey)
+        public bool PopulateIdfData(IRHIB_GeometryBase rhib, string SpaceSurfaceCenterAreaID = "")
         {
+            //assign to property
+            this._selectedObject = rhib;
+            this._spaceSurfaceCenterAreaID = SpaceSurfaceCenterAreaID;
+
             var success = false;
-            var idfString = OsmDataDic.GetString(UserDataKey);
 
+            //get idfString
+            var idfString = string.Empty;
+            if (string.IsNullOrEmpty(SpaceSurfaceCenterAreaID))
+            {
+                idfString = rhib.GetIdfString();
+            }
+            else
+            {
+                idfString = ((RHIB_Space)rhib).GetSurfaceIdfString(SpaceSurfaceCenterAreaID);
+            }
+            
+            //get Ops idfObject
             var idfObject = OpenStudio.IdfObject.load(idfString).get();
-            this.IdfObject = idfObject;
 
+            //get field list
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
 
             var osType = idfObject.iddObject().type().valueDescription();
-
-            TableLayout layout = null;
-            if (osType == "OS:Space")
-            {
-                layout = this.OsSpaceLayout;
-            }
-            else if (osType == "OS:SubSurface")
-            {
-                layout = this.OsSubSurfaceLayout;
-            }
-            else if (osType == "OS:Surface")
-            {
-                layout = this.OsSurfaceLayout;
-            }
-
+            var layout = this.GetLayoutByOsType(osType);
             if (layout == null) return false;
 
             var count = 0;
@@ -138,11 +142,7 @@ namespace Ironbug.RhinoOpenStudio
                     var valueToShow = item.DataValue;
                     var match = MatchGUIDString(valueToShow);
 
-                    if (string.IsNullOrWhiteSpace(valueToShow))
-                    {
-                        //do nothing
-                    }
-                    else if (match)
+                    if (match)
                     {
                         var m = IronbugRhinoPlugIn.Instance.OsmModel;
                         var osObj = m.getObject(OpenStudio.OpenStudioUtilitiesCore.toUUID(valueToShow));
@@ -152,25 +152,23 @@ namespace Ironbug.RhinoOpenStudio
                         }
                         textBox.Enabled = false;
                     }
-                    else
-                    {
-                    }
+
                     textBox.Text = valueToShow;
                 }
                 else if (inputControl is DropDown dropDown)
                 {
                     if (item.FieldInfo.ValidData.Any())
-                    { // choice type
+                    { 
+                        // choice type
                         var itemIndex = item.FieldInfo.ValidData.Select(_ => _.ToLower()).ToList().IndexOf(item.DataValue.ToLower());
                         dropDown.SelectedIndex = itemIndex;
                     }
-                    else //object-list type
+                    else
                     {
+                        //object-list type
                         dropDown.SelectedKey = item.DataValue;
                     }
-                    
                 }
-                
                 count++;
             }
 
@@ -185,35 +183,74 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
+        private TableLayout GetLayoutByOsType(string OsType)
+        {
+            TableLayout layout = null;
+            if (OsType == "OS:Space")
+            {
+                layout = this.OsSpaceLayout;
+            }
+            else if (OsType == "OS:SubSurface")
+            {
+                layout = this.OsSubSurfaceLayout;
+            }
+            else if (OsType == "OS:Surface")
+            {
+                layout = this.OsSurfaceLayout;
+            }
+
+            return layout;
+        }
+
         private void DropDown_SelectedKeyChanged(object sender, System.EventArgs e)
         {
-            //var s = sender as DropDown;
-            //var k = s.SelectedKey;
-            //var v = s.SelectedValue;
+            var s = sender as DropDown;
+            var k = s.SelectedKey;
+            var v = s.SelectedValue;
 
-            //if (this.IdfObject == null)
-            //    return;
+            if (this._selectedObject == null)
+                return;
 
-            //if (!s.HasFocus)
-            //    return;
+            if (!s.HasFocus)
+                return;
 
-            //var iddFieldIndex = (int)s.Tag;
+            var iddFieldIndex = (int)s.Tag;
 
-            //try
-            //{
-            //    if (!this.IdfObject.UpdateIdfString(iddFieldIndex, k))
-            //    {
-            //        throw new System.Exception("Failed to update the value");
-            //    }
-            //    else
-            //    {
-            //        Rhino.RhinoApp.WriteLine("updated to {0} : {1}", k, v);
-            //    }
-            //}
-            //catch (System.Exception ee)
-            //{
-            //    throw new System.Exception(ee.Message);
-            //}
+            var success = this.UpdateObjData(iddFieldIndex, k);
+            
+            if (success)
+            {
+                Rhino.RhinoApp.WriteLine("Updated to {0}", v);
+            }
+            else
+            {
+                throw new System.Exception("Failed to update the value");
+            }
+
+        }
+
+        private bool UpdateObjData(int iddFieldIndex, string Value)
+        {
+            try
+            {
+                var success = false;
+                if (string.IsNullOrEmpty(this._spaceSurfaceCenterAreaID))
+                {
+                    //this is a space or subspace (which is a window)
+                    success = this._selectedObject.UpdateIdfData(iddFieldIndex, Value);
+                }
+                else
+                {
+                    //this is surface of the space 
+                    success = this._selectedObject.UpdateIdfData(iddFieldIndex, Value, this._spaceSurfaceCenterAreaID);
+                }
+
+                return success;
+            }
+            catch (System.Exception ee)
+            {
+                throw new System.Exception(ee.Message);
+            }
         }
 
         private bool _textChanged = false;
@@ -229,36 +266,30 @@ namespace Ironbug.RhinoOpenStudio
 
         private void InputBox_LostFocus(object sender, System.EventArgs e)
         {
-            //if (!_textChanged)
-            //    return;
+            if (!_textChanged)
+                return;
 
-            //_textChanged = false;
+            if (this._selectedObject == null)
+                return;
 
-            //var s = sender as TextBox;
+            _textChanged = false;
 
-            //if (s.HasFocus)
-            //    return;
+            var s = sender as TextBox;
+            if (s.HasFocus)
+                return;
+            
+            var iddFieldIndex = (int)s.Tag;
 
-            //if (this.IdfObject == null)
-            //    return;
+            var success = this.UpdateObjData(iddFieldIndex, s.Text);
 
-            //var iddFieldIndex = (int)s.Tag;
-
-            //try
-            //{
-            //    if (!this.IdfObject.UpdateIdfString(iddFieldIndex, s.Text))
-            //    {
-            //        throw new System.Exception("Failed to update the value");
-            //    }
-            //    else
-            //    {
-            //        Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
-            //    }
-            //}
-            //catch (System.Exception ee)
-            //{
-            //    throw new System.Exception(ee.Message);
-            //}
+            if (success)
+            {
+                Rhino.RhinoApp.WriteLine("Updated to {0}", s.Text);
+            }
+            else
+            {
+                throw new System.Exception("Failed to update the value");
+            }
         }
         
 

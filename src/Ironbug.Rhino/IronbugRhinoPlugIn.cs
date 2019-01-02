@@ -171,17 +171,15 @@ namespace Ironbug.RhinoOpenStudio
                 var sps = model.getSpaces();
 
                 var spaceAddedCount = 0;
-
                 foreach (OPS.Space sp in sps)
                 {
                     var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
 
-                    ////add glz surfaces to rhino doc.
-                    //foreach (var glz in glzs)
-                    //{
-                    //    //doc.Objects.AddBrep(glz);
-                    //    doc.Objects.AddRhinoObject(glz);
-                    //}
+                    //add glz surfaces to rhino doc.
+                    foreach (var glz in glzs)
+                    {
+                        doc.Objects.AddRhinoObject(glz);
+                    }
 
                     doc.Objects.AddRhinoObject(space);
                     space.Attributes.LayerIndex = layerIndex;
@@ -190,7 +188,6 @@ namespace Ironbug.RhinoOpenStudio
                 }
 
                 Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
-                //doc.Views.Redraw();
                 read_success = true;
             }
             else

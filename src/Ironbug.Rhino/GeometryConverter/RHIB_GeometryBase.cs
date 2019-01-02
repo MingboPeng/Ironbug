@@ -10,9 +10,9 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
     {
         //IDictionary<string, string> m_OpenStudioProperties;
 
-        bool UpdateIdfString(int IddFieldIndex, string Value);
+        bool UpdateIdfData(int IddFieldIndex, string Value, string brepFaceCenterAreaID = "");
 
-
+        string GetIdfString();
 
 
 
