@@ -38,11 +38,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSpaceLayout;
+            }
+            set
+            {
                 if (osSpaceLayout == null)
                 {
-                    osSpaceLayout = this.CreateLayout(this.ExampleOSModel.getSpaces()[0].idfObject());
+                    osSpaceLayout = value;
                 }
-                return osSpaceLayout;
             }
         }
 
@@ -52,11 +55,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSubSurfaceLayout;
+            }
+            set
+            {
                 if (osSubSurfaceLayout == null)
                 {
-                    osSubSurfaceLayout = this.CreateLayout(this.ExampleOSModel.getSubSurfaces()[0].idfObject());
+                    osSubSurfaceLayout = value;
                 }
-                return osSubSurfaceLayout;
             }
         }
 
@@ -66,11 +72,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSurfaceLayout;
+            }
+            set
+            {
                 if (osSurfaceLayout == null)
                 {
-                    osSurfaceLayout = this.CreateLayout(this.ExampleOSModel.getSurfaces()[0].idfObject());
+                    osSurfaceLayout = value;
                 }
-                return osSurfaceLayout;
             }
         }
 
@@ -128,8 +137,8 @@ namespace Ironbug.RhinoOpenStudio
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
 
-            var osType = idfObject.iddObject().type().valueDescription();
-            var layout = this.GetLayoutByOsType(osType);
+            
+            var layout = this.GetLayoutByOsType(idfObject);
             if (layout == null) return false;
 
             var count = 0;
@@ -183,19 +192,29 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
-        private TableLayout GetLayoutByOsType(string OsType)
+        private TableLayout GetLayoutByOsType(OpenStudio.IdfObject idfObject)
         {
             TableLayout layout = null;
-            if (OsType == "OS:Space")
+            var osType = idfObject.iddObject().type().valueDescription();
+            if (osType == "OS:Space")
             {
+                if (OsSpaceLayout == null)
+                    OsSpaceLayout = CreateLayout(idfObject);
+
                 layout = this.OsSpaceLayout;
             }
-            else if (OsType == "OS:SubSurface")
+            else if (osType == "OS:SubSurface")
             {
+                if (OsSubSurfaceLayout == null)
+                    OsSubSurfaceLayout = CreateLayout(idfObject);
+
                 layout = this.OsSubSurfaceLayout;
             }
-            else if (OsType == "OS:Surface")
+            else if (osType == "OS:Surface")
             {
+                if (OsSurfaceLayout == null)
+                    OsSurfaceLayout = CreateLayout(idfObject);
+
                 layout = this.OsSurfaceLayout;
             }
 

@@ -49,9 +49,14 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 var rhBrep = sf.ToBrep();
                 zonefaces.Add(rhBrep.SrfBrep);
                 zoneBrep3.Append(rhBrep.SrfBrep);
-                userDataDic.Set(rhBrep.SrfBrep.GetCentorAreaForID(), rhBrep.IDFString);
+                var srfID = rhBrep.SrfBrep.GetCentorAreaForID();
+                if (srfID == "")
+                {
+                    var a = rhBrep.SrfBrep.GetCentorAreaForID();
+                }
+                userDataDic.Set(srfID, rhBrep.IDFString);
 
-                //SubSurface
+                //SubSurface (Glasses)
                 var glzSurfaceBrep = sf.subSurfaces().Select(s => s.ToBrep());
                 var rhib_glzs = glzSurfaceBrep.Select(_ => RHIB_SubSurface.ToRHIB_SubSurface(_.SrfBrep, _.IDFString));
                 glzs.AddRange(rhib_glzs);

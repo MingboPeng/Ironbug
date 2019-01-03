@@ -11,6 +11,7 @@ namespace Ironbug.RhinoOpenStudio
 {
     class OsmObjDisplayConduit : Rhino.Display.DisplayConduit
     {
+        readonly BoundingBox _bbox;
         private (List<Brep> Roof, List<Brep> Wall, List<Brep> Floor) m_ObjectToBeShown;
         public OsmObjDisplayConduit()
         {
@@ -30,10 +31,9 @@ namespace Ironbug.RhinoOpenStudio
             var wallToBeShown = new List<Brep>();
             var floorToBeShown = new List<Brep>();
 
+            var m = new OpenStudio.Model();
             foreach (var obj in allObjs)
             {
-
-
                 if (obj.Geometry.ObjectType != Rhino.DocObjects.ObjectType.Brep)
                     continue;
 
@@ -43,18 +43,22 @@ namespace Ironbug.RhinoOpenStudio
 
                 var spaceBrep = osmObj.BrepGeometry;
                 var srfBrepfaces = spaceBrep.Faces;
-                var spaceSrfs = spaceBrep.Surfaces;
+                //var spaceSrfs = spaceBrep.Surfaces;
+
                 foreach (var item in srfBrepfaces)
                 {
-                    var srf = item.UnderlyingSurface();
-                    var objData = srf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
+                    //get idfstring
+                    var srfID = item.GetCentorAreaForID();
 
-                    var idfObj = OpenStudio.IdfObject.load(objData.IDFString).get();
-                    var osmSurf = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get().to_Surface().get();
-                    var isPartOfEnvelope = osmSurf.isPartOfEnvelope();
+                    var idfString = osmObj.GetSurfaceIdfString(srfID);
+
+                    //get idfObject 
+                    var idfObj = OpenStudio.IdfObject.load(idfString).get();
+                    var osmSurf = m.addObject(idfObj).get().to_Surface().get();
+                    //get object info
+                    var isPartOfEnvelope = osmSurf.outsideBoundaryCondition().ToLower() == "outdoors";
                     var surfaceType = osmSurf.surfaceType();
-
-
+                    
                     //var isPartOfEnvelope = objData.OsmObjProperties.GetBool("isPartOfEnvelope");
                     //var surfaceType = objData.OsmObjProperties.GetString("surfaceType");
 
@@ -72,7 +76,7 @@ namespace Ironbug.RhinoOpenStudio
                     }
                     else if (surfaceType == "Floor")
                     {
-                        //floorToBeShown.Add(b);
+                        floorToBeShown.Add(b);
                     }
 
                 }
@@ -88,6 +92,7 @@ namespace Ironbug.RhinoOpenStudio
         {
             base.CalculateBoundingBox(e);
             e.BoundingBox.Union(e.Display.Viewport.ConstructionPlane().Origin);
+            
         }
 
         
@@ -96,21 +101,21 @@ namespace Ironbug.RhinoOpenStudio
         {
             base.PreDrawObjects(e);
             
-            var mat = new DisplayMaterial(System.Drawing.Color.SteelBlue, 0.1);
-            var matRoof = new DisplayMaterial(System.Drawing.Color.BurlyWood, 0.5);
+            var mat = new DisplayMaterial(System.Drawing.Color.FromArgb(112,150,131,74),0.2);
+            var matRoof = new DisplayMaterial(System.Drawing.Color.FromArgb(112,112,57,57),0.5);
             var objsToBeShown = this.m_ObjectToBeShown;
 
             var walls = objsToBeShown.Wall;
             foreach (var item in walls)
             {
                 e.Display.DrawBrepShaded(item, mat);
-                e.Display.DrawBrepWires(item, System.Drawing.Color.SteelBlue, 2);
+                e.Display.DrawBrepWires(item, System.Drawing.Color.FromArgb(112, 150, 131, 74), 2);
             }
             var roofs = objsToBeShown.Roof;
             foreach (var item in roofs)
             {
                 e.Display.DrawBrepShaded(item, matRoof);
-                e.Display.DrawBrepWires(item, System.Drawing.Color.BurlyWood, 2);
+                e.Display.DrawBrepWires(item, System.Drawing.Color.FromArgb(112, 112, 57, 57), 2);
             }
 
          
