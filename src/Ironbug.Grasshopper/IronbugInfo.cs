@@ -60,6 +60,23 @@ namespace Ironbug.Grasshopper.Component
     {
         public override GH_LoadingInstruction PriorityLoad()
         {
+            try
+            {
+                var osmVersion = "2.7.0.0";
+                if (Core.OpenStudio.OpenStudioHelper.LoadAssemblies(osmVersion))
+                {
+                    Rhino.RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
+                }
+                else
+                {
+                    throw new ArgumentException("Failed to load OpenStudio.dll!");
+                }
+            }
+            catch (System.IO.FileNotFoundException loadError)
+            {
+                throw new ArgumentException(loadError.Message);
+            }
+
             GH.Instances.ComponentServer.AddCategoryIcon("Ladybug", Properties.Resources.Ladybug);
             GH.Instances.ComponentServer.AddCategoryIcon("Honeybee", Properties.Resources.Honeybee);
 
