@@ -18,43 +18,33 @@ namespace Ironbug.RhinoOpenStudio
         {
             if (e.ObjectCount != 1) return false;
             if (e.Objects.Length != 1) return false; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
-            
+
             var isOSM = false;
             RhinoObject selectedObj = e.Objects[0];
             isOSM = selectedObj is IRHIB_GeometryBase;
             return isOSM;
         }
-        
+
         public override void UpdatePage(ObjectPropertiesPageEventArgs e)
         {
-            if (e.ObjectCount != 1) return;
-            if (e.Objects.Length != 1) return; //there is a bug in Rhino, which ObjectCount ==1, but Object is empty.
-
             var selectedObj = e.Objects[0];
+
             var isSelectedBrepFace = null != selectedObj.GetSelectedSubObjects();
             
-            OsmObjectData userdata = null;
-            if (isSelectedBrepFace && selectedObj is RHIB_Space)
+            if (selectedObj is IRHIB_GeometryBase rhib)
             {
-                var faceIndex = selectedObj.GetSelectedSubObjects()[0].Index;
-                Rhino.Geometry.Surface surf = ((RHIB_Space)selectedObj).BrepGeometry.Surfaces[faceIndex];
-                userdata = surf.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            }
-            else if (selectedObj is RHIB_SubSurface subSurface)
-            {
-                userdata = subSurface.BrepGeometry.Surfaces[0].UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            }
-            else if (selectedObj is RHIB_Space zone)
-            {
-                userdata = zone.BrepGeometry.UserData.Find(typeof(OsmObjectData)) as OsmObjectData;
-            }
+                var spaceSurfaceID = string.Empty;
 
-            //add to panel
-            if (null != userdata)
-            {
+                if (isSelectedBrepFace && selectedObj is RHIB_Space sp)
+                {
+                    //Surface of space (which is a face of Brep)
+                    var faceIndex = selectedObj.GetSelectedSubObjects()[0].Index;
+                    spaceSurfaceID = ((RHIB_Space)selectedObj).BrepGeometry.Faces[faceIndex].GetCentorAreaForID();
+                }
+
                 try
                 {
-                    this.panelUI.PopulateIdfData(userdata);
+                    this.panelUI.PopulateIdfData(rhib, spaceSurfaceID);
                 }
                 catch (System.Exception ex)
                 {
@@ -62,7 +52,7 @@ namespace Ironbug.RhinoOpenStudio
                 }
             }
         }
-        
+
         public override object PageControl => panelUI ?? (panelUI = new OsmPropertyPanelUI());
     }
 }

@@ -43,5 +43,33 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             return osmObject;
         }
 
+        public static string GetCentorAreaForID(this BrepFace SurfaceAsBrep)
+        {
+            var str = string.Empty;
+            if (SurfaceAsBrep.IsValid)
+            {
+                var face = SurfaceAsBrep;
+                var prop = AreaMassProperties.Compute(SurfaceAsBrep);
+                var c = prop.Centroid;
+                var a = prop.Area;
+
+                str = string.Format("{0}_{1}_{2}_{3}", Math.Round(c.X,3), Math.Round(c.Y), Math.Round(c.Z), Math.Round(a));
+            }
+
+            return str;
+        }
+
+        public static string GetCentorAreaForID(this Brep SurfaceAsBrep)
+        {
+            var str = string.Empty;
+            if (SurfaceAsBrep.IsValid)
+            {
+                var face = SurfaceAsBrep.Faces[0];
+                str = face.GetCentorAreaForID();
+            }
+
+            return str;
+        }
+
     }
 }

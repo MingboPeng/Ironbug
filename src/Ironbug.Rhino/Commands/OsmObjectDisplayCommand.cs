@@ -5,7 +5,7 @@ namespace Ironbug.RhinoOpenStudio.Commands
 {
     public class OsmObjectDisplayCommand : Command
     {
-        public override string EnglishName => "OsmObjectDisplay";
+        public override string EnglishName => "ShowEnvelope";
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {

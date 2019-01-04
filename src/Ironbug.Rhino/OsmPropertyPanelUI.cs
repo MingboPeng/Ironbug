@@ -9,8 +9,10 @@ namespace Ironbug.RhinoOpenStudio
     internal class OsmPropertyPanelUI : Eto.Forms.Panel
     {
         //public RhinoObject SelectedObj { get; set; }
-        private OsmObjectData OsmObject;
-
+        //private OpenStudio.IdfObject IdfObject;
+        private IRHIB_GeometryBase _selectedObject;
+        private string _spaceSurfaceCenterAreaID = string.Empty;
+            
         public OsmPropertyPanelUI() : base()
         {
             InitializeComponent();
@@ -36,11 +38,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSpaceLayout;
+            }
+            set
+            {
                 if (osSpaceLayout == null)
                 {
-                    osSpaceLayout = this.CreateLayout(this.ExampleOSModel.getSpaces()[0].idfObject());
+                    osSpaceLayout = value;
                 }
-                return osSpaceLayout;
             }
         }
 
@@ -50,11 +55,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSubSurfaceLayout;
+            }
+            set
+            {
                 if (osSubSurfaceLayout == null)
                 {
-                    osSubSurfaceLayout = this.CreateLayout(this.ExampleOSModel.getSubSurfaces()[0].idfObject());
+                    osSubSurfaceLayout = value;
                 }
-                return osSubSurfaceLayout;
             }
         }
 
@@ -64,11 +72,14 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
+                return osSurfaceLayout;
+            }
+            set
+            {
                 if (osSurfaceLayout == null)
                 {
-                    osSurfaceLayout = this.CreateLayout(this.ExampleOSModel.getSurfaces()[0].idfObject());
+                    osSurfaceLayout = value;
                 }
-                return osSurfaceLayout;
             }
         }
 
@@ -98,33 +109,36 @@ namespace Ironbug.RhinoOpenStudio
             
         }
 
+
         //Populate all idf items
-        public bool PopulateIdfData(OsmObjectData osmObjectData)
+        public bool PopulateIdfData(IRHIB_GeometryBase rhib, string SpaceSurfaceCenterAreaID = "")
         {
+            //assign to property
+            this._selectedObject = rhib;
+            this._spaceSurfaceCenterAreaID = SpaceSurfaceCenterAreaID;
+
             var success = false;
-            this.OsmObject = osmObjectData;
 
-            var idfObject = OpenStudio.IdfObject.load(osmObjectData.IDFString).get();
+            //get idfString
+            var idfString = string.Empty;
+            if (string.IsNullOrEmpty(SpaceSurfaceCenterAreaID))
+            {
+                idfString = rhib.GetIdfString();
+            }
+            else
+            {
+                idfString = ((RHIB_Space)rhib).GetSurfaceIdfString(SpaceSurfaceCenterAreaID);
+            }
+            
+            //get Ops idfObject
+            var idfObject = OpenStudio.IdfObject.load(idfString).get();
 
+            //get field list
             var data = idfObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
 
-            var osType = idfObject.iddObject().type().valueDescription();
-
-            TableLayout layout = null;
-            if (osType == "OS:Space")
-            {
-                layout = this.OsSpaceLayout;
-            }
-            else if (osType == "OS:SubSurface")
-            {
-                layout = this.OsSubSurfaceLayout;
-            }
-            else if (osType == "OS:Surface")
-            {
-                layout = this.OsSurfaceLayout;
-            }
-
+            
+            var layout = this.GetLayoutByOsType(idfObject);
             if (layout == null) return false;
 
             var count = 0;
@@ -137,11 +151,7 @@ namespace Ironbug.RhinoOpenStudio
                     var valueToShow = item.DataValue;
                     var match = MatchGUIDString(valueToShow);
 
-                    if (string.IsNullOrWhiteSpace(valueToShow))
-                    {
-                        //do nothing
-                    }
-                    else if (match)
+                    if (match)
                     {
                         var m = IronbugRhinoPlugIn.Instance.OsmModel;
                         var osObj = m.getObject(OpenStudio.OpenStudioUtilitiesCore.toUUID(valueToShow));
@@ -151,25 +161,23 @@ namespace Ironbug.RhinoOpenStudio
                         }
                         textBox.Enabled = false;
                     }
-                    else
-                    {
-                    }
+
                     textBox.Text = valueToShow;
                 }
                 else if (inputControl is DropDown dropDown)
                 {
                     if (item.FieldInfo.ValidData.Any())
-                    { // choice type
+                    { 
+                        // choice type
                         var itemIndex = item.FieldInfo.ValidData.Select(_ => _.ToLower()).ToList().IndexOf(item.DataValue.ToLower());
                         dropDown.SelectedIndex = itemIndex;
                     }
-                    else //object-list type
+                    else
                     {
+                        //object-list type
                         dropDown.SelectedKey = item.DataValue;
                     }
-                    
                 }
-                
                 count++;
             }
 
@@ -184,13 +192,42 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
+        private TableLayout GetLayoutByOsType(OpenStudio.IdfObject idfObject)
+        {
+            TableLayout layout = null;
+            var osType = idfObject.iddObject().type().valueDescription();
+            if (osType == "OS:Space")
+            {
+                if (OsSpaceLayout == null)
+                    OsSpaceLayout = CreateLayout(idfObject);
+
+                layout = this.OsSpaceLayout;
+            }
+            else if (osType == "OS:SubSurface")
+            {
+                if (OsSubSurfaceLayout == null)
+                    OsSubSurfaceLayout = CreateLayout(idfObject);
+
+                layout = this.OsSubSurfaceLayout;
+            }
+            else if (osType == "OS:Surface")
+            {
+                if (OsSurfaceLayout == null)
+                    OsSurfaceLayout = CreateLayout(idfObject);
+
+                layout = this.OsSurfaceLayout;
+            }
+
+            return layout;
+        }
+
         private void DropDown_SelectedKeyChanged(object sender, System.EventArgs e)
         {
             var s = sender as DropDown;
             var k = s.SelectedKey;
             var v = s.SelectedValue;
 
-            if (this.OsmObject == null)
+            if (this._selectedObject == null)
                 return;
 
             if (!s.HasFocus)
@@ -198,16 +235,36 @@ namespace Ironbug.RhinoOpenStudio
 
             var iddFieldIndex = (int)s.Tag;
 
+            var success = this.UpdateObjData(iddFieldIndex, k);
+            
+            if (success)
+            {
+                Rhino.RhinoApp.WriteLine("Updated to {0}", v);
+            }
+            else
+            {
+                throw new System.Exception("Failed to update the value");
+            }
+
+        }
+
+        private bool UpdateObjData(int iddFieldIndex, string Value)
+        {
             try
             {
-                if (!this.OsmObject.UpdateIdfString(iddFieldIndex, k))
+                var success = false;
+                if (string.IsNullOrEmpty(this._spaceSurfaceCenterAreaID))
                 {
-                    throw new System.Exception("Failed to update the value");
+                    //this is a space or subspace (which is a window)
+                    success = this._selectedObject.UpdateIdfData(iddFieldIndex, Value);
                 }
                 else
                 {
-                    Rhino.RhinoApp.WriteLine("updated to {0} : {1}", k, v);
+                    //this is surface of the space 
+                    success = this._selectedObject.UpdateIdfData(iddFieldIndex, Value, this._spaceSurfaceCenterAreaID);
                 }
+
+                return success;
             }
             catch (System.Exception ee)
             {
@@ -231,32 +288,26 @@ namespace Ironbug.RhinoOpenStudio
             if (!_textChanged)
                 return;
 
+            if (this._selectedObject == null)
+                return;
+
             _textChanged = false;
 
             var s = sender as TextBox;
-
             if (s.HasFocus)
                 return;
-
-            if (this.OsmObject == null)
-                return;
-
+            
             var iddFieldIndex = (int)s.Tag;
 
-            try
+            var success = this.UpdateObjData(iddFieldIndex, s.Text);
+
+            if (success)
             {
-                if (!this.OsmObject.UpdateIdfString(iddFieldIndex, s.Text))
-                {
-                    throw new System.Exception("Failed to update the value");
-                }
-                else
-                {
-                    Rhino.RhinoApp.WriteLine("{0} has been changed to: {1}", s.Tag, s.Text);
-                }
+                Rhino.RhinoApp.WriteLine("Updated to {0}", s.Text);
             }
-            catch (System.Exception ee)
+            else
             {
-                throw new System.Exception(ee.Message);
+                throw new System.Exception("Failed to update the value");
             }
         }
         

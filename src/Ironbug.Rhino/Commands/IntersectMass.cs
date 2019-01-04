@@ -10,24 +10,17 @@ namespace Ironbug.RhinoOpenStudio.Commands
 {
     public class IntersectMass : Command
     {
-        public IntersectMass()
-        {
-            // Rhino only creates one instance of each command class defined in a
-            // plug-in, so it is safe to store a refence in a static property.
-            Instance = this;
-        }
+        int _processCount = 0;
+        int _totalCount = 0;
 
-        ///<summary>The only instance of this command.</summary>
+        public IntersectMass() => Instance = this;
+
         public static IntersectMass Instance
         {
             get; private set;
         }
-
-        ///<returns>The command name as it appears on the Rhino command line.</returns>
-        public override string EnglishName
-        {
-            get { return "IntersectMass"; }
-        }
+        
+        public override string EnglishName => "IntersectMass";
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
@@ -50,7 +43,7 @@ namespace Ironbug.RhinoOpenStudio.Commands
                 var geo = item.Geometry();
                 if (geo is Extrusion extrusion)
                 {
-                    checkedBrepObjs.Add(extrusion.ToBrep().DuplicateBrep());
+                    checkedBrepObjs.Add(extrusion.ToBrep());
                 }
                 else if (geo is Brep brep)
                 {
@@ -64,22 +57,23 @@ namespace Ironbug.RhinoOpenStudio.Commands
             {
                 try
                 {
-                    //var results = oldBreps.AsParallel().AsOrdered().Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
-                    var results = oldBreps.Select(b => SplitBrepWithBreps(b, oldBreps, tolerance));
-                    int count = 0;
+                    this._processCount = 0;
+                    this._totalCount = oldBreps.Count;
+                    System.Action action = () => RhinoApp.WriteLine("Processing {0}/{1} Breps.", this._processCount, this._totalCount);
+                    var results = oldBreps.AsParallel().AsOrdered().Select(b => SplitBrepWithBreps(b, oldBreps, tolerance, ref _processCount, action));
 
-                    //while (results.Count()< oldBreps.Count())
-                    //{
-                    //    RhinoApp.WriteLine("Finished {0}/{1}", results.Count() + 1, oldBreps.Count);
-                    //}
+                    var finishedCount = 0;
                     foreach (var newBrep in results)
                     {
-                        //RhinoDoc.ActiveDoc.Objects.AddBrep(newBrep);
-                        //RhinoDoc.ActiveDoc.Objects.Delete(selectedObjs[count],false);
-                        RhinoDoc.ActiveDoc.Objects.Replace(selectedObjs[count], newBrep);
-                        RhinoApp.WriteLine("Finished {0}/{1}", count + 1, oldBreps.Count);
-                        count++;
+                        //Use delete instead of replace for removing the userdata as well.
+                        RhinoDoc.ActiveDoc.Objects.AddBrep(newBrep);
+                        RhinoDoc.ActiveDoc.Objects.Delete(selectedObjs[finishedCount],true); 
+
+                        //RhinoDoc.ActiveDoc.Objects.Replace(selectedObjs[finishedCount], newBrep);
+                        finishedCount++;
                     }
+
+                    RhinoApp.WriteLine("Done! Finished {0} Breps.", finishedCount);
                 }
                 catch (System.Exception ex)
                 {
@@ -87,16 +81,15 @@ namespace Ironbug.RhinoOpenStudio.Commands
                     Rhino.UI.Dialogs.ShowMessage(ex.Message,"error");
                 }
                 
-
-                
             }
-
             
 
             return Result.Success;
         }
 
-        private static Brep SplitBrepWithBreps(Brep CurrentBrep, List<Brep> AllBreps, double tolerance)
+        
+
+        private static Brep SplitBrepWithBreps(Brep CurrentBrep, List<Brep> AllBreps, double tolerance, ref int processCount, System.Action PostAction)
         {
             var currentBrep = CurrentBrep.DuplicateBrep();
             var allBreps = AllBreps;
@@ -112,6 +105,9 @@ namespace Ironbug.RhinoOpenStudio.Commands
                     currentBrep.Faces.ShrinkFaces();
                 }
             }
+            processCount++;
+            PostAction();
+            
             return currentBrep;
         }
     }
