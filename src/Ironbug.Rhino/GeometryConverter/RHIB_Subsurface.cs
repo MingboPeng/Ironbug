@@ -102,22 +102,33 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             if (!newIdfString.Contains(Value))
                 return false; //TODO: add exception message
+
+            var num = Rhino.RhinoDoc.ActiveDoc.BeginUndoRecord(string.Format("OS:SubSurface attribute updates: {0}", Value));
+
+            var newobj = new RHIB_SubSurface(this.BrepGeometry);
+            var newUserDataDic = this.GetIdfData().Clone();
+            newUserDataDic.Set("SubSurfaceData", newIdfString);
+            newobj.Attributes.UserDictionary.Set("OpenStudioData", newUserDataDic);
             
-            this.GetIdfData().Remove("SubSurfaceData");
-            this.GetIdfData().Set("SubSurfaceData", newIdfString);
+            Rhino.RhinoDoc.ActiveDoc.Objects.Replace(new Rhino.DocObjects.ObjRef(this.Id), newobj);
+            if (num > 0)
+            {
+                Rhino.RhinoDoc.ActiveDoc.EndUndoRecord(num);
+            }
+
 
             return true;
         }
 
-        public RHIB_SubSurface Duplicate()
-        {
-            var newObj = new RHIB_SubSurface(this.DuplicateBrepGeometry());
-            return newObj;
-        }
+        //public RHIB_SubSurface Duplicate()
+        //{
+        //    var newObj = new RHIB_SubSurface(this.DuplicateBrepGeometry());
+        //    return newObj;
+        //}
     }
 
-    public sealed class SubSurface_FeildSet
-    {
-        //
-    }
+    //public sealed class SubSurface_FeildSet
+    //{
+    //    //
+    //}
 }

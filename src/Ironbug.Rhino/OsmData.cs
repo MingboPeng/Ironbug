@@ -91,40 +91,40 @@ namespace Ironbug.RhinoOpenStudio
 
         #endregion Userdata overrides
 
-        public bool UpdateIdfString(int IddFieldIndex, string Value)
-        {
+        //public bool UpdateIdfString(int IddFieldIndex, string Value)
+        //{
             
-            var idfObj = OpenStudio.IdfObject.load(this.IDFString).get();
-            idfObj.setString((uint)IddFieldIndex, Value);
+        //    var idfObj = OpenStudio.IdfObject.load(this.IDFString).get();
+        //    idfObj.setString((uint)IddFieldIndex, Value);
 
-            var osmObj = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
-            osmObj.setString((uint)IddFieldIndex, Value);
+        //    var osmObj = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+        //    osmObj.setString((uint)IddFieldIndex, Value);
 
-            var newIdfString = idfObj.__str__();
-            var newOsmString = osmObj.__str__();
+        //    var newIdfString = idfObj.__str__();
+        //    var newOsmString = osmObj.__str__();
 
-            //var osmObjtest = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
-            //osmObjtest.setString((uint)IddFieldIndex, Value);
-            //var newOsmStringTest = osmObjtest.__str__();
+        //    //var osmObjtest = IronbugRhinoPlugIn.Instance.OsmModel.getObject(idfObj.handle()).get();
+        //    //osmObjtest.setString((uint)IddFieldIndex, Value);
+        //    //var newOsmStringTest = osmObjtest.__str__();
 
-            if (newIdfString.Contains(Value))
-            {
-                if (newIdfString == newOsmString)
-                {
-                    this.IDFString = newIdfString;
-                }
-                else
-                {
-                    throw new System.ArgumentException("Failed to update OpenStudio model!");
-                }
+        //    if (newIdfString.Contains(Value))
+        //    {
+        //        if (newIdfString == newOsmString)
+        //        {
+        //            this.IDFString = newIdfString;
+        //        }
+        //        else
+        //        {
+        //            throw new System.ArgumentException("Failed to update OpenStudio model!");
+        //        }
 
 
                 
-                return true;
-            }
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
 
         //private static bool UpdateOsm(string idfString)
         //{

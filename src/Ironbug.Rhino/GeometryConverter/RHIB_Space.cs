@@ -109,25 +109,32 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //    return false; //TODO: add exception message
 
             //var osmobj = osmObj_optional.get();
-            
+            var num = Rhino.RhinoDoc.ActiveDoc.BeginUndoRecord(string.Format("OS:Space attribute updates: {0}",Value));
+
+            var newobj = new RHIB_Space(this.BrepGeometry);
+            var newUserDataDic = this.GetIdfData().Clone();
+            newobj.Attributes.UserDictionary.Set("OpenStudioData", newUserDataDic);
             if (isSpace)
             {
-                this.GetIdfData().Remove("SpaceData");
-                this.GetIdfData().Set("SpaceData", newIdfString);
+                newUserDataDic.Set("SpaceData", newIdfString);
             }
             else
             {
-                this.GetIdfData().Remove(BrepFaceCenterAreaID);
-                this.GetIdfData().Set(BrepFaceCenterAreaID, newIdfString);
+                newUserDataDic.Set(BrepFaceCenterAreaID, newIdfString);
             }
+            
+            Rhino.RhinoDoc.ActiveDoc.Objects.Replace(new Rhino.DocObjects.ObjRef(this.Id), newobj);
+            if (num > 0)
+            {
+                Rhino.RhinoDoc.ActiveDoc.EndUndoRecord(num);
+            }
+
+
 
             return true;
         }
-
-        private ArchivableDictionary GetIdfData()
-        {
-            return this.Attributes.UserDictionary.GetDictionary("OpenStudioData");
-        }
+        
+        private ArchivableDictionary GetIdfData() => this.Attributes.UserDictionary.GetDictionary("OpenStudioData");
 
         public string GetIdfString() => this.GetIdfData().GetString("SpaceData");
         public string GetSurfaceIdfString(string CentorAreaForID) => this.GetIdfData().GetString(CentorAreaForID);
