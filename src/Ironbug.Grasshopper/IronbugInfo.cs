@@ -63,14 +63,8 @@ namespace Ironbug.Grasshopper.Component
             try
             {
                 var osmVersion = "2.7.0.0";
-                if (Core.OpenStudio.OpenStudioHelper.LoadAssemblies(osmVersion))
-                {
-                    Rhino.RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
-                }
-                else
-                {
-                    throw new ArgumentException("Failed to load OpenStudio.dll!");
-                }
+                Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine(message);
+                Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger, osmVersion);
             }
             catch (System.IO.FileNotFoundException loadError)
             {

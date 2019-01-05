@@ -1,4 +1,4 @@
-﻿using Ironbug.Core.OpenStudio;
+﻿
 using Ironbug.RhinoOpenStudio.GeometryConverter;
 using Rhino;
 using Rhino.DocObjects;
@@ -36,15 +36,9 @@ namespace Ironbug.RhinoOpenStudio
         {
             try
             {
-                var osmVersion = "2.7.0.0";
-                if (!OpenStudioHelper.LoadAssemblies(osmVersion))
-                {
-                    Rhino.UI.Dialogs.ShowMessage("Failed to load OpenStudio.dll!", "test");
-                }
-                else
-                {
-                    RhinoApp.WriteLine("OpenStudio library {0} loaded", osmVersion);
-                }
+                System.Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine(message);
+                Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger);
+
             }
             catch (FileNotFoundException loadError)
             {
