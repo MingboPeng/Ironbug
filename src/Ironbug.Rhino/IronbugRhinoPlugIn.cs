@@ -143,9 +143,8 @@ namespace Ironbug.RhinoOpenStudio
         protected override bool ReadFile(string filename, int index, RhinoDoc doc, Rhino.FileIO.FileReadOptions options)
         {
             bool read_success = false;
-            var layerName = "OS:Space";
-            var layerIndex = doc.Layers.Add(layerName, System.Drawing.Color.Black);
-            var glzLayerIdx = doc.Layers.Add("OS:Glazing", System.Drawing.Color.Blue);
+            
+            
 
             //Check unit system : meter only
             doc.AdjustModelUnitSystem(UnitSystem.Meters, false);
@@ -162,26 +161,10 @@ namespace Ironbug.RhinoOpenStudio
                 ReadOsmStringToDoc(filename);
                 var model = tempModel.get();
                 this.OsmModel = model;
-                var sps = model.getSpaces();
 
-                var spaceAddedCount = 0;
-                foreach (OPS.Space sp in sps)
-                {
-                    var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
+                this.LoadSpaceFromOSM(model, doc);
+                this.LoadShdFromOSM(model, doc);
 
-                    //add glz surfaces to rhino doc.
-                    foreach (var glz in glzs)
-                    {
-                        doc.Objects.AddRhinoObject(glz);
-                    }
-
-                    doc.Objects.AddRhinoObject(space);
-                    space.Attributes.LayerIndex = layerIndex;
-                    space.CommitChanges();
-                    spaceAddedCount++;
-                }
-
-                Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
                 read_success = true;
             }
             else
@@ -192,9 +175,46 @@ namespace Ironbug.RhinoOpenStudio
             return read_success;
         }
 
-        // You can override methods here to change the plug-in behavior on
-        // loading and shut down, add options pages to the Rhino _Option command
-        // and maintain plug-in wide options in a document.
+        private void LoadSpaceFromOSM(OpenStudio.Model model, RhinoDoc doc)
+        {
+            var layerIndex = doc.Layers.Add("OS:Space", System.Drawing.Color.Black);
+            var glzLayerIdx = doc.Layers.Add("OS:Glazing", System.Drawing.Color.Blue);
+
+            var sps = model.getSpaces();
+            var spaceAddedCount = 0;
+            foreach (OPS.Space sp in sps)
+            {
+                var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
+
+                //add glz surfaces to rhino doc.
+                foreach (var glz in glzs)
+                {
+                    doc.Objects.AddRhinoObject(glz);
+                }
+
+                doc.Objects.AddRhinoObject(space);
+                space.Attributes.LayerIndex = layerIndex;
+                space.CommitChanges();
+                spaceAddedCount++;
+            }
+
+            Rhino.UI.Dialogs.ShowMessage(spaceAddedCount + " OpenStudio spaces loaded", "Open OpenStudio model");
+        }
+
+        private void LoadShdFromOSM(OpenStudio.Model model, RhinoDoc doc)
+        {
+            var shdLayerIdx = doc.Layers.Add("OS:Shading", System.Drawing.Color.Blue);
+
+            var shds = model.getShadingSurfaces();
+            foreach (OpenStudio.ShadingSurface shd in shds)
+            {
+                var s = RHIB_ShadingSurface.ToRHIB_SubSurface(shd);
+                s.Attributes.LayerIndex = shdLayerIdx;
+                doc.Objects.AddRhinoObject(s);
+                
+                s.CommitChanges();
+            }
+        }
 
         private void ReadOsmStringToDoc(string osmFilePath)
         {

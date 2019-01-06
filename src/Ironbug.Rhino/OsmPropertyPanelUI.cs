@@ -15,7 +15,7 @@ namespace Ironbug.RhinoOpenStudio
             
         public OsmPropertyPanelUI() : base()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
 
         private static OpenStudio.Model exampleOSModel;
@@ -83,6 +83,23 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
+        private static TableLayout osShadingSurfaceLayout;
+
+        public TableLayout OsShadingSurfaceLayout
+        {
+            get
+            {
+                return osShadingSurfaceLayout;
+            }
+            set
+            {
+                if (osShadingSurfaceLayout == null)
+                {
+                    osShadingSurfaceLayout = value;
+                }
+            }
+        }
+
         private static IDictionary<string, string> osSpaceTypes;
 
         private IDictionary<string, string> OsSpaceTypes
@@ -97,17 +114,14 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
-        /// <summary>
-        /// Create Panel.Content
-        /// </summary>
-        private void InitializeComponent()
-        {
-            //initialize table layouts for OS:Space, Surface, SubSurface
-            var a = this.OsSpaceLayout;
-            var b = this.OsSurfaceLayout;
-            var c = this.OsSubSurfaceLayout;
+        ///// <summary>
+        ///// Create Panel.Content
+        ///// </summary>
+        //private void InitializeComponent()
+        //{
+        //    //initialize table layouts for OS:Space, Surface, SubSurface
             
-        }
+        //}
 
 
         //Populate all idf items
@@ -139,7 +153,10 @@ namespace Ironbug.RhinoOpenStudio
 
             
             var layout = this.GetLayoutByOsType(idfObject);
-            if (layout == null) return false;
+            if (layout == null)
+            {
+                throw new System.ArgumentException("Unknown geometry type!");
+            }
 
             var count = 0;
             foreach (var item in data)
@@ -216,6 +233,13 @@ namespace Ironbug.RhinoOpenStudio
                     OsSurfaceLayout = CreateLayout(idfObject);
 
                 layout = this.OsSurfaceLayout;
+            }
+            else if (osType == "OS:ShadingSurface")
+            {
+                if (OsShadingSurfaceLayout == null)
+                    OsShadingSurfaceLayout = CreateLayout(idfObject);
+
+                layout = this.OsShadingSurfaceLayout;
             }
 
             return layout;

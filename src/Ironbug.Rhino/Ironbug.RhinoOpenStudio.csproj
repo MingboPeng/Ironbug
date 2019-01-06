@@ -67,6 +67,7 @@
     <Compile Include="GeometryConverter\CustomBrepObjectExtension.cs" />
     <Compile Include="GeometryConverter\OpenStudioExtension.cs" />
     <Compile Include="GeometryConverter\RHIB_GeometryBase.cs" />
+    <Compile Include="GeometryConverter\RHIB_ShadingSurface.cs" />
     <Compile Include="GeometryConverter\RHIB_Space.cs" />
     <Compile Include="Commands\IronbugRhinoCommand.cs" />
     <Compile Include="GeometryConverter\RHIB_SubSurface.cs" />

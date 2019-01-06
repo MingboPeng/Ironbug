@@ -80,6 +80,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 }
                 
                 var dataname = field.name();
+                if (dataname.Contains("Vertex")) continue;
+
                 var defaultValue = GetDefaultValue(field, ifIPUnit);
                 var unit = GetUnit(field, ifIPUnit);
 
