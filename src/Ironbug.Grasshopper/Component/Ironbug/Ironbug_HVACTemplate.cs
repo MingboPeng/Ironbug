@@ -64,7 +64,16 @@ namespace Ironbug.Grasshopper.Component
             CreateTemplateFromXMLString(@"C:\Ironbug\HVACTemplates\Default\Test.txt", ref run);
         }
 
-        private static void CreateTemplateFromXMLString(string FilePath, ref bool Run)
+        private Size GetMoveVector(PointF FromLocation)
+        {
+            var moveX = this.Attributes.Bounds.Left - 80 - FromLocation.X;
+            var moveY = this.Attributes.Bounds.Y + 180 - FromLocation.Y;
+            var loc = new Point(Convert.ToInt32(moveX), Convert.ToInt32(moveY));
+            
+            return new Size(loc);
+        }
+
+        private void CreateTemplateFromXMLString(string FilePath, ref bool Run)
         {
             var canvasCurrent = GH.Instances.ActiveCanvas;
             var f = canvasCurrent.Focused;
@@ -88,8 +97,15 @@ namespace Ironbug.Grasshopper.Component
 
                 docTemp.SelectAll();
                 docTemp.MutateAllIds();
+
+                //move to where this component is...
+                var box = docTemp.BoundingBox(false);
+                var vec = GetMoveVector(box.Location);
+                docTemp.TranslateObjects(vec ,true);
+
                 docTemp.ExpireSolution();
                 var objects = docTemp.Objects;
+                
 
                 var docCurrent = canvasCurrent.Document;
                 docCurrent.DeselectAll();
