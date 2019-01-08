@@ -1,23 +1,16 @@
 ﻿using Rhino.DocObjects.Custom;
 using Rhino.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
     public class RHIB_ShadingSurface : CustomBrepObject, IRHIB_GeometryBase
     {
-        public RHIB_ShadingSurface(Brep brep):base(brep)
+        public RHIB_ShadingSurface(Brep brep) : base(brep)
         {
-
         }
 
         public RHIB_ShadingSurface()
         {
-
         }
 
         public static RHIB_ShadingSurface ToRHIB_SubSurface(OpenStudio.ShadingSurface shadingSurface)
@@ -29,9 +22,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 var g = shdG_o.get();
                 var isOriginDef = g.isXOriginDefaulted() && g.isYOriginDefaulted() && g.isZOriginDefaulted();
                 vec = new Vector3d(g.xOrigin(), g.yOrigin(), g.zOrigin());
-                
             }
-            
+
             var shd = shadingSurface.ToBrep();
             shd.SrfBrep.Translate(vec);
             var srf = new RHIB_ShadingSurface(shd.SrfBrep);
@@ -42,7 +34,9 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             return srf;
         }
+
         private Rhino.Collections.ArchivableDictionary GetIdfData() => this.Attributes.UserDictionary.GetDictionary("OpenStudioData");
+
         public string GetIdfString() => this.GetIdfData().GetString("ShadingSurfaceData");
 
         public bool UpdateIdfData(int IddFieldIndex, string Value, string brepFaceCenterAreaID = "")
@@ -69,7 +63,6 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             {
                 Rhino.RhinoDoc.ActiveDoc.EndUndoRecord(num);
             }
-
 
             return true;
         }

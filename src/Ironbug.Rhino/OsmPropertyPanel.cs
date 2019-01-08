@@ -27,6 +27,7 @@ namespace Ironbug.RhinoOpenStudio
 
         public override void UpdatePage(ObjectPropertiesPageEventArgs e)
         {
+           
             var selectedObj = e.Objects[0];
 
             var isSelectedBrepFace = null != selectedObj.GetSelectedSubObjects();
@@ -44,7 +45,10 @@ namespace Ironbug.RhinoOpenStudio
 
                 try
                 {
+                    //this.OnActivate(false);
+                    //this.OnSizeParent(100, 100);
                     this.panelUI.PopulateIdfData(rhib, spaceSurfaceID);
+                    //this.OnActivate(true);
                 }
                 catch (System.Exception ex)
                 {

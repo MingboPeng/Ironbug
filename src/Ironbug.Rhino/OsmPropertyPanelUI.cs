@@ -15,7 +15,7 @@ namespace Ironbug.RhinoOpenStudio
             
         public OsmPropertyPanelUI() : base()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
 
         private static OpenStudio.Model exampleOSModel;
@@ -38,14 +38,13 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
-                return osSpaceLayout;
-            }
-            set
-            {
                 if (osSpaceLayout == null)
                 {
-                    osSpaceLayout = value;
+                    var iddType = new OpenStudio.IddObjectType("OS:Space");
+                    var idd = new OpenStudio.IdfObject(iddType).iddObject();
+                    osSpaceLayout = CreateLayout(idd);
                 }
+                return osSpaceLayout;
             }
         }
 
@@ -55,14 +54,13 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
-                return osSubSurfaceLayout;
-            }
-            set
-            {
                 if (osSubSurfaceLayout == null)
                 {
-                    osSubSurfaceLayout = value;
+                    var iddType = new OpenStudio.IddObjectType("OS:SubSurface");
+                    var idd = new OpenStudio.IdfObject(iddType).iddObject();
+                    osSubSurfaceLayout = CreateLayout(idd);
                 }
+                return osSubSurfaceLayout;
             }
         }
 
@@ -72,14 +70,13 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
-                return osSurfaceLayout;
-            }
-            set
-            {
                 if (osSurfaceLayout == null)
                 {
-                    osSurfaceLayout = value;
+                    var iddType = new OpenStudio.IddObjectType("OS:Surface");
+                    var idd = new OpenStudio.IdfObject(iddType).iddObject();
+                    osSurfaceLayout = CreateLayout(idd);
                 }
+                return osSurfaceLayout;
             }
         }
 
@@ -89,14 +86,13 @@ namespace Ironbug.RhinoOpenStudio
         {
             get
             {
-                return osShadingSurfaceLayout;
-            }
-            set
-            {
                 if (osShadingSurfaceLayout == null)
                 {
-                    osShadingSurfaceLayout = value;
+                    var iddType = new OpenStudio.IddObjectType("OS:ShadingSurface");
+                    var idd = new OpenStudio.IdfObject(iddType).iddObject();
+                    osShadingSurfaceLayout = CreateLayout(idd);
                 }
+                return osShadingSurfaceLayout;
             }
         }
 
@@ -117,16 +113,19 @@ namespace Ironbug.RhinoOpenStudio
         ///// <summary>
         ///// Create Panel.Content
         ///// </summary>
-        //private void InitializeComponent()
-        //{
-        //    //initialize table layouts for OS:Space, Surface, SubSurface
-            
-        //}
+        private void InitializeComponent()
+        {
+            //initialize table layouts for OS:Space, Surface, SubSurface
+            var a = this.OsSpaceLayout;
+            var b = this.OsSubSurfaceLayout;
+            var c = this.OsSurfaceLayout;
+        }
 
 
         //Populate all idf items
         public bool PopulateIdfData(IRHIB_GeometryBase rhib, string SpaceSurfaceCenterAreaID = "")
         {
+            //this.Content.Dispose();
             //assign to property
             this._selectedObject = rhib;
             this._spaceSurfaceCenterAreaID = SpaceSurfaceCenterAreaID;
@@ -152,16 +151,16 @@ namespace Ironbug.RhinoOpenStudio
             var rowCounts = data.Count * 2 + 1;
 
             
-            var layout = this.GetLayoutByOsType(idfObject);
+            var layout = this.GetLayoutByOsType(idfObject.iddObject());
             if (layout == null)
             {
                 throw new System.ArgumentException("Unknown geometry type!");
             }
-
-            var count = 0;
+            
             foreach (var item in data)
             {
-                var inputControl = layout.Controls.ToList()[(count * 2) + 1];
+                var inputControl = layout.Controls.Where(_=>!(_ is Label))
+                    .FirstOrDefault(_ => ((FieldInfo)(_.Tag)).DataName == item.DataName);
 
                 if (inputControl is TextBox textBox)
                 {
@@ -195,10 +194,11 @@ namespace Ironbug.RhinoOpenStudio
                         dropDown.SelectedKey = item.DataValue;
                     }
                 }
-                count++;
             }
 
             this.Content = layout;
+            layout.Update();
+
             success = true;
             return success;
 
@@ -209,35 +209,35 @@ namespace Ironbug.RhinoOpenStudio
             }
         }
 
-        private TableLayout GetLayoutByOsType(OpenStudio.IdfObject idfObject)
+        private TableLayout GetLayoutByOsType(OpenStudio.IddObject iddObject)
         {
             TableLayout layout = null;
-            var osType = idfObject.iddObject().type().valueDescription();
+            var osType = iddObject.type().valueDescription();
             if (osType == "OS:Space")
             {
-                if (OsSpaceLayout == null)
-                    OsSpaceLayout = CreateLayout(idfObject);
+                //if (OsSpaceLayout == null)
+                //    OsSpaceLayout = CreateLayout(iddObject);
 
                 layout = this.OsSpaceLayout;
             }
             else if (osType == "OS:SubSurface")
             {
-                if (OsSubSurfaceLayout == null)
-                    OsSubSurfaceLayout = CreateLayout(idfObject);
+                //if (OsSubSurfaceLayout == null)
+                //    OsSubSurfaceLayout = CreateLayout(iddObject);
 
                 layout = this.OsSubSurfaceLayout;
             }
             else if (osType == "OS:Surface")
             {
-                if (OsSurfaceLayout == null)
-                    OsSurfaceLayout = CreateLayout(idfObject);
+                //if (OsSurfaceLayout == null)
+                //    OsSurfaceLayout = CreateLayout(iddObject);
 
                 layout = this.OsSurfaceLayout;
             }
             else if (osType == "OS:ShadingSurface")
             {
-                if (OsShadingSurfaceLayout == null)
-                    OsShadingSurfaceLayout = CreateLayout(idfObject);
+                //if (OsShadingSurfaceLayout == null)
+                //    OsShadingSurfaceLayout = CreateLayout(iddObject);
 
                 layout = this.OsShadingSurfaceLayout;
             }
@@ -257,10 +257,10 @@ namespace Ironbug.RhinoOpenStudio
             if (!s.HasFocus)
                 return;
 
-            var iddFieldIndex = (int)s.Tag;
+            var iddFieldInfo= (FieldInfo)s.Tag;
 
-            var success = this.UpdateObjData(iddFieldIndex, k);
-            
+            var success = this.UpdateObjData(iddFieldInfo.DataFieldIndex, k);
+
             if (success)
             {
                 Rhino.RhinoApp.WriteLine("Updated to {0}", v);
@@ -320,10 +320,10 @@ namespace Ironbug.RhinoOpenStudio
             var s = sender as TextBox;
             if (s.HasFocus)
                 return;
-            
-            var iddFieldIndex = (int)s.Tag;
 
-            var success = this.UpdateObjData(iddFieldIndex, s.Text);
+            var iddFieldInfo = (FieldInfo)s.Tag;
+
+            var success = this.UpdateObjData(iddFieldInfo.DataFieldIndex, s.Text);
 
             if (success)
             {
@@ -336,9 +336,9 @@ namespace Ironbug.RhinoOpenStudio
         }
         
 
-        private TableLayout CreateLayout(OpenStudio.IdfObject idfObject)
+        private TableLayout CreateLayout(OpenStudio.IddObject iddObject)
         {
-            var data = idfObject.GetUserFriendlyFieldInfo().ToList();
+            var data = iddObject.GetUserFriendlyFieldInfo().ToList();
             var rowCounts = data.Count * 2 + 1;
             var layout = new TableLayout(1, rowCounts);
             layout.Spacing = new Eto.Drawing.Size(5, 5);
@@ -349,14 +349,31 @@ namespace Ironbug.RhinoOpenStudio
             {
                 layout.Add(new Label { Text = string.Format("{0} {1}", item.DataName, item.DataUnit) }, 0, count * 2);
                 Control ctrl;
+                OpenStudio.IddObjectType iddType = null;
+
+                if (item.DataType.ToLower() == "object-list")
+                {
+                    try
+                    {
+                        var typeNameStr = item.DataName.Replace("Name", "").Replace(" ", "");
+                        iddType = new OpenStudio.IddObjectType("OS:" + typeNameStr);
+                    }
+                    catch (System.ApplicationException ex)
+                    {
+
+                        //throw;
+                    }
+                }
                 
-                if (item.FieldInfo.DataType.ToLower() == "choice" )
+                
+
+                if (item.DataType.ToLower() == "choice")
                 {
                     var ls = new DropDown
                     {
-                        Tag = item.FieldInfo.DataFieldIndex
+                        Tag = item
                     };
-                    foreach (var d in item.FieldInfo.ValidData)
+                    foreach (var d in item.ValidData)
                     {
                         ls.Items.Add(d);
                     }
@@ -365,23 +382,53 @@ namespace Ironbug.RhinoOpenStudio
                     ctrl = ls;
 
                 }
-                else if (item.DataName == "Space Type Name") //TODO: fix this later. No hard coded!!! This is for object-list type field
+                else if (iddType != null)
                 {
                     var ls = new DropDown
                     {
-                        Tag = item.FieldInfo.DataFieldIndex
+                        Tag = item
                     };
-                    foreach (var spaceType in this.OsSpaceTypes)
+                    
+                    
+                    var md = IronbugRhinoPlugIn.Instance.OsmModel;
+                    var objs = md.getObjectsByType(iddType);
+
+                    
+                    var items = new List<(string Value, string Key)>();
+                    foreach (var d in objs)
                     {
-                        ls.Items.Add(spaceType.Value, spaceType.Key);
+                        items.Add((d.nameString(), d.handle().__str__()));
                     }
+                    var orderedLs = items.OrderBy(_ => _.Value);
+
+                    ls.Items.Add("------", "");
+                    foreach (var d in orderedLs)
+                    {
+                        ls.Items.Add(d.Value, d.Key);
+                    }
+                    
 
                     ls.SelectedKeyChanged += DropDown_SelectedKeyChanged;
                     ctrl = ls;
                 }
+                //else if (item.DataName == "Space Type Name") //TODO: fix this later. No hard coded!!! This is for object-list type field
+                //{
+                //    var ls = new DropDown
+                //    {
+                //        Tag = item
+                //    };
+                //    var spTypes = OpenStudio.OpenStudioModelGeometry.getSpaceTypes(IronbugRhinoPlugIn.Instance.OsmModel);
+                //    foreach (var spaceType in spTypes)
+                //    {
+                //        ls.Items.Add(spaceType.nameString(), spaceType.handle().__str__());
+                //    }
+
+                //    ls.SelectedKeyChanged += DropDown_SelectedKeyChanged;
+                //    ctrl = ls;
+                //}
                 else
                 {
-                    var textBox = new TextBox { Tag = item.FieldInfo.DataFieldIndex };
+                    var textBox = new TextBox { Tag = item };
                     textBox.LostFocus += InputBox_LostFocus;
                     textBox.TextChanged += InputBox_TextChanged;
 

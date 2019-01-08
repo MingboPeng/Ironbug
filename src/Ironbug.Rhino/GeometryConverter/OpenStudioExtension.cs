@@ -41,8 +41,41 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             //var userData = new OsmObjectData();
             var IDFString = planarSurface.__str__();
             //srf.UserData.Add(userData);
-            
+
             return (plannarBrep, IDFString);
+        }
+
+        public static IEnumerable<FieldInfo> GetUserFriendlyFieldInfo(this IddObject iddObject, bool ifIPUnits = false)
+        {
+            var valueWithInfo = new List<FieldInfo>();
+            var fieldCount = iddObject.numFields();
+
+            for (int i = 0; i < fieldCount; i++)
+            {
+                var ifIPUnit = ifIPUnits;
+
+                uint index = (uint)i;
+
+                var field = iddObject.getField(index).get();
+
+                if (!field.IsWorkableField()) continue;
+                var dataType = field.properties().type.valueDescription();
+                
+
+                var dataname = field.name();
+                if (dataname.Contains("Vertex")) continue;
+
+                var defaultValue = GetDefaultValue(field, ifIPUnit);
+                var unit = GetUnit(field, ifIPUnit);
+                
+                var shownUnit = string.IsNullOrWhiteSpace(unit) ? string.Empty : string.Format(" [{0}]", unit);
+                var shownDefault = string.IsNullOrWhiteSpace(defaultValue) ? string.Empty : string.Format(" (Default: {0})", defaultValue);
+                
+                var vaildData = field.keys().Select(_ => _.name());
+                valueWithInfo.Add(new FieldInfo(dataname, shownUnit, i, vaildData, dataType));
+            }
+
+            return valueWithInfo;
         }
 
         public static IEnumerable<(string DataName, string DataValue, string DataUnit, (int DataFieldIndex, IEnumerable<string> ValidData, string DataType) FieldInfo)> GetUserFriendlyFieldInfo(this IdfObject idfObject, bool ifIPUnits = false)
@@ -50,21 +83,27 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var com = idfObject;
             IddObject iddObject = com.iddObject();
 
-            var valueWithInfo = new List<(string DataName, string DataValue, string DataUnit, (int DataField, IEnumerable<string> ValidData, string dataType))>();
-            var fieldCount = com.numFields();
+            var valueWithInfo = new List<(string DataName, string DataValue, string DataUnit, (int DataFieldIndex, IEnumerable<string> ValidData, string dataType))>();
+            var fieldCount = iddObject.numFields();
 
             for (int i = 0; i < fieldCount; i++)
             {
                 var ifIPUnit = ifIPUnits;
 
                 uint index = (uint)i;
-                
+
                 var field = iddObject.getField(index).get();
-                
+
                 if (!field.IsWorkableField()) continue;
                 var dataType = field.properties().type.valueDescription();
+
                 //var fieldProp = field.properties();
-                var valueStr = com.getString(index).get();
+                var tryValueStr = com.getString(index);
+                var valueStr = string.Empty;
+                if (tryValueStr.is_initialized())
+                {
+                    valueStr = tryValueStr.get();
+                }
 
                 OSOptionalQuantity oQuantity = null;
                 var customStr = String.Empty;
@@ -78,12 +117,12 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                 {
                     customStr = valueStr;
                 }
-                
+
                 var dataname = field.name();
                 if (dataname.Contains("Vertex")) continue;
 
-                var defaultValue = GetDefaultValue(field, ifIPUnit);
-                var unit = GetUnit(field, ifIPUnit);
+                var defaultValue = field.GetDefaultValue(ifIPUnit);
+                var unit = field.GetUnit(ifIPUnit);
 
                 var shownValue = string.IsNullOrWhiteSpace(customStr) ? defaultValue : customStr;
                 //shownValue = ReplaceGUIDString(shownValue);
@@ -92,73 +131,79 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
                 //var att = String.Format("{0,-23} !- {1}{2}{3}", shownValue, dataname, shownUnit, shownDefault);
                 var vaildData = field.keys().Select(_ => _.name());
-                valueWithInfo.Add((dataname, shownValue, shownUnit, (i, vaildData,dataType)));
+                valueWithInfo.Add((dataname, shownValue, shownUnit, (i, vaildData, dataType)));
             }
 
             return valueWithInfo;
 
-       //     string ReplaceGUIDString(string s)
-       //     {
-       //         var match = System.Text.RegularExpressions.Regex.Match(s, @"\{[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}",
-       //System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            //     string ReplaceGUIDString(string s)
+            //     {
+            //         var match = System.Text.RegularExpressions.Regex.Match(s, @"\{[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}\}",
+            //System.Text.RegularExpressions.RegexOptions.IgnoreCase);
 
-       //         return match.Success ? "#[GUID]" : s;
-       //     }
+            //         return match.Success ? "#[GUID]" : s;
+            //     }
 
-            string GetUnit(IddField field, bool ifIPUnit)
+            
+
+            
+            
+        }
+
+        public static string GetDefaultValue(this IddField field, bool ifIPUnit)
+        {
+            var sd = field.properties().stringDefault;
+            var defaultStrStr = sd.isNull() ? string.Empty : sd.get();
+            var defaultNumStr = GetDefaultNumStr(field, ifIPUnit);
+
+            return string.IsNullOrWhiteSpace(defaultNumStr) ? defaultStrStr : defaultNumStr;
+        }
+
+        public static string GetDefaultNumStr(this IddField field, bool ifIPUnit)
+        {
+            var numStr = String.Empty;
+            var fieldProp = field.properties();
+            if (fieldProp.numericDefault.is_initialized())
             {
-                var optionalUnit = field.getUnits(ifIPUnit);
-                var unit = string.Empty;
-                if (optionalUnit.is_initialized())
-                {
-                    var unit2 = optionalUnit.get();
-                    var prettyString = unit2.prettyString();
-                    var standardString = unit2.standardString();
+                var num = fieldProp.numericDefault.get();
+                //autosized
+                if (num == -9999) return numStr;
 
-                    unit = string.IsNullOrWhiteSpace(prettyString) ? standardString : prettyString;
-                }
-                else
-                {
-                    unit = string.Empty;
-                }
+                var si = fieldProp.units;
+                if (si.isNull()) return numStr;
 
-                return unit;
+                if (!ifIPUnit) return num.ToString();
+
+                var siStr = si.get();
+
+                var ipStr = GetUnit(field, true);
+                if (string.IsNullOrWhiteSpace(ipStr)) return numStr;
+
+                var uconvert = OpenStudioUtilitiesUnits.convert(num, siStr, ipStr);
+
+                numStr = uconvert.is_initialized() ? uconvert.get().ToString() : "#SI" + num.ToString();
+            }
+            return numStr;
+        }
+
+        public static string GetUnit(this IddField field, bool ifIPUnit)
+        {
+            var optionalUnit = field.getUnits(ifIPUnit);
+            var unit = string.Empty;
+            if (optionalUnit.is_initialized())
+            {
+                var unit2 = optionalUnit.get();
+                var prettyString = unit2.prettyString();
+                var standardString = unit2.standardString();
+
+                unit = string.IsNullOrWhiteSpace(prettyString) ? standardString : prettyString;
+            }
+            else
+            {
+                unit = string.Empty;
             }
 
-            string GetDefaultValue(IddField field, bool ifIPUnit)
-            {
-                var sd = field.properties().stringDefault;
-                var defaultStrStr = sd.isNull() ? string.Empty : sd.get();
-                var defaultNumStr = GetDefaultNumStr(field, ifIPUnit);
-
-                return string.IsNullOrWhiteSpace(defaultNumStr) ? defaultStrStr : defaultNumStr;
-            }
-            string GetDefaultNumStr(IddField field, bool ifIPUnit)
-            {
-                var numStr = String.Empty;
-                var fieldProp = field.properties();
-                if (fieldProp.numericDefault.is_initialized())
-                {
-                    var num = fieldProp.numericDefault.get();
-                    //autosized
-                    if (num == -9999) return numStr;
-
-                    var si = fieldProp.units;
-                    if (si.isNull()) return numStr;
-
-                    if (!ifIPUnit) return num.ToString();
-
-                    var siStr = si.get();
-
-                    var ipStr = GetUnit(field, true);
-                    if (string.IsNullOrWhiteSpace(ipStr)) return numStr;
-
-                    var uconvert = OpenStudioUtilitiesUnits.convert(num, siStr, ipStr);
-
-                    numStr = uconvert.is_initialized() ? uconvert.get().ToString() : "#SI" + num.ToString();
-                }
-                return numStr;
-            }
+            return unit;
         }
 
         public static bool IsWorkableField(this IddField iddField)
@@ -192,7 +237,6 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
         public static bool UpdateIdfString(this IdfObject IdfObj, int IddFieldIndex, string Value)
         {
-
             var idfObj = IdfObj;
             idfObj.setString((uint)IddFieldIndex, Value);
 
@@ -217,12 +261,27 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
                     throw new System.ArgumentException("Failed to update OpenStudio model!");
                 }
 
-
-
                 return true;
             }
 
             return false;
+        }
+    }
+
+    public class FieldInfo
+    {
+        public string DataName;
+        public string DataUnit;
+        public int DataFieldIndex;
+        public IEnumerable<string> ValidData;
+        public string DataType;
+        public FieldInfo(string DataName, string DataUnit, int DataFieldIndex, IEnumerable<string> ValidData, string dataType)
+        {
+            this.DataName = DataName;
+            this.DataUnit = DataUnit;
+            this.DataFieldIndex = DataFieldIndex;
+            this.ValidData = ValidData;
+            this.DataType = dataType;
         }
     }
 }
