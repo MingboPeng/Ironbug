@@ -89,6 +89,7 @@
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_NoAirLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
@@ -98,6 +99,8 @@
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDesuperheater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantConstFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboardRadiant.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboard.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerVariableSpeed.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveWater.cs" />

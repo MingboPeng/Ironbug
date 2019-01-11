@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Ironbug.HVAC
 {
@@ -58,7 +59,9 @@ namespace Ironbug.HVAC
             {
                 vrf.ToOS(model);
             }
-            
+
+            CheckInternalSourceConstruction(model);
+
             //save osm file
             return model.save(osmPath, true);
             
@@ -76,6 +79,45 @@ namespace Ironbug.HVAC
             }
             
             return model;
+        }
+
+        //This is due to how HB sets up the this type of construction
+        private static void CheckInternalSourceConstruction(OpenStudio.Model model)
+        {
+            var tempM_o = model.getMaterialByName("INTERNAL SOURCE");
+            if (tempM_o.isNull()) return;
+            var tempM = tempM_o.get();
+            var handle = tempM.handle().__str__();
+
+            foreach (var item in tempM.sources())
+            {
+                if (item.to_Construction().isNull()) continue;
+
+                var tempC = item.to_Construction().get();
+                var mLayers = tempC.layers();
+
+                var newLayers = new OpenStudio.MaterialVector(mLayers);
+                var index = newLayers.ToList().FindIndex(_ => _.nameString() == "INTERNAL SOURCE");
+                newLayers.RemoveAt(index);
+
+                //create ConstructionWithInternalSource
+                var opC = new OpenStudio.ConstructionWithInternalSource(model);
+                opC.setName(tempC.nameString());
+                opC.setLayers(newLayers);
+                opC.setSourcePresentAfterLayerNumber(index);
+
+                //assign to surfaces 
+                foreach (var i in tempC.sources())
+                {
+                    if (i.to_PlanarSurface().isNull()) continue;
+                    var srf = i.to_PlanarSurface().get();
+                    srf.setConstruction(opC);
+                }
+
+                tempC.remove();
+            }
+            
+            
         }
         
     }
