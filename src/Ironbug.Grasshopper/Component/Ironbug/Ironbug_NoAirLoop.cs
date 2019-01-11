@@ -20,7 +20,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        protected override System.Drawing.Bitmap Icon => Resources.AirLoop;
+        protected override System.Drawing.Bitmap Icon => Resources.NoAirLoop;
 
         public override Guid ComponentGuid => new Guid("31ED5059-5198-4099-9B70-4C7A86D9E27C");
 

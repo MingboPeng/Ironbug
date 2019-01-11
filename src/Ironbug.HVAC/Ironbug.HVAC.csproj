@@ -71,6 +71,8 @@
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="LoopObjs\IB_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantConstFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDesuperheater.cs" />
     <Compile Include="LoopObjs\IB_ControllerMechanicalVentilation.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerAirToAirSensibleAndLatent.cs" />

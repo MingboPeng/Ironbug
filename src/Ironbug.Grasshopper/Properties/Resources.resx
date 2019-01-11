@@ -379,4 +379,25 @@
   <data name="Ladybug" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Ladybug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CoilHWRC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHWRC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHWRV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHWRV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_RC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_RC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_RV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_RV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NoAirLoop" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\NoAirLoop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RadiantC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RadiantC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RadiantV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\RadiantV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

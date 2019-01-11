@@ -89,6 +89,8 @@
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_NoAirLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
@@ -475,6 +478,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Ironbug.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiantV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiantC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_RV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_RC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWRC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHWRV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NoAirLoop.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

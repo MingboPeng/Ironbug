@@ -193,6 +193,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Coil_RC {
+            get {
+                object obj = ResourceManager.GetObject("Coil_RC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Coil_RV {
+            get {
+                object obj = ResourceManager.GetObject("Coil_RV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CoilCDX1 {
             get {
                 object obj = ResourceManager.GetObject("CoilCDX1", resourceCulture);
@@ -296,6 +316,26 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap CoilHWBR {
             get {
                 object obj = ResourceManager.GetObject("CoilHWBR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CoilHWRC {
+            get {
+                object obj = ResourceManager.GetObject("CoilHWRC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CoilHWRV {
+            get {
+                object obj = ResourceManager.GetObject("CoilHWRV", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -593,6 +633,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap NoAirLoop {
+            get {
+                object obj = ResourceManager.GetObject("NoAirLoop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OACtrl {
             get {
                 object obj = ResourceManager.GetObject("OACtrl", resourceCulture);
@@ -726,6 +776,26 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap PumpV {
             get {
                 object obj = ResourceManager.GetObject("PumpV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RadiantC {
+            get {
+                object obj = ResourceManager.GetObject("RadiantC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap RadiantV {
+            get {
+                object obj = ResourceManager.GetObject("RadiantV", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

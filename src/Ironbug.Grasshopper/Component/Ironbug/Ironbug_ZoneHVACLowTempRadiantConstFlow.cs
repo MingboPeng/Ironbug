@@ -15,11 +15,11 @@ namespace Ironbug.Grasshopper.Component
               typeof(IB_ZoneHVACLowTempRadiantConstFlow_DataFieldSet))
         {
         }
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.RadiantC;
 
         public override Guid ComponentGuid => new Guid("EF691837-6BEA-46A6-97CC-E97C9574F8AA");
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
