@@ -212,7 +212,16 @@ namespace Ironbug.Grasshopper.Component
                         
                         object value = null;
                         fristData.CastTo(out value);
-                            
+
+                        if (dataField.ValidData.Any())
+                        {
+                            var valueStr = value.ToString();
+                            if (!dataField.ValidData.Contains(valueStr))
+                            {
+                                throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
+                            }
+                        }
+                        
                         settingDatas.TryAdd(dataField, value);
                         
                     }
