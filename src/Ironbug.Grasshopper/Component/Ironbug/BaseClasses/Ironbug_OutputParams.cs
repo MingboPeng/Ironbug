@@ -62,7 +62,7 @@ namespace Ironbug.Grasshopper.Component
                         fristData.CastTo(out value);
                         if (value)
                         {
-                            outputVariables.Add(new IB_OutputVariable(item.Name, IB_OutputVariable.OutputVariableTimeStep.Hourly));
+                            outputVariables.Add(new IB_OutputVariable(item.Name, IB_OutputVariable.TimeSteps.Hourly));
                         }
                         
 

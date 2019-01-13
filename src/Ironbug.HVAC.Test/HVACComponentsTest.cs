@@ -73,7 +73,7 @@ namespace Ironbug.HVACTests
 
             var obj = new HVAC.IB_BoilerHotWater();
             var variableName = obj.SimulationOutputVariables.First();
-            var outputVariable = new IB_OutputVariable(variableName, IB_OutputVariable.OutputVariableTimeStep.Monthly);
+            var outputVariable = new IB_OutputVariable(variableName, IB_OutputVariable.TimeSteps.Monthly);
             obj.AddOutputVariables(new List<IB_OutputVariable>() { outputVariable });
             obj.ToOS(model);
 
