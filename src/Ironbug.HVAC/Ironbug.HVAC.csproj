@@ -95,6 +95,8 @@
     <Compile Include="LoopObjs\IB_SizingSystem.cs" />
     <Compile Include="Loops\IB_NoAirLoop.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
+    <Compile Include="BaseClass\IB_Schedule.cs" />
+    <Compile Include="Schedules\IB_ScheduleRuleset.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
@@ -197,8 +199,6 @@
       <Name>Ironbug.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Schedules\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

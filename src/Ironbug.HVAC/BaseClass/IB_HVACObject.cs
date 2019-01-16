@@ -1,8 +1,4 @@
 ﻿using OpenStudio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -17,28 +13,23 @@ namespace Ironbug.HVAC.BaseClass
 
         public IB_HVACObject(HVACComponent GhostOSObject) : base(GhostOSObject)
         {
-
         }
 
         public virtual ModelObject ToOS(Model model)
         {
             return this.InitOpsObj(model);
         }
+
         public override IB_ModelObject Duplicate()
         {
             return base.DuplicateIBObj(IB_InitSelf);
         }
+
         //public virtual IB_ModelObject DuplicateAsPuppet()
         //{
         //    return this.DuplicateAsPuppet(IB_InitFunc);
         //}
-
-
-
     }
-
-
-
 
     //public interface IB_Viz
     //{
