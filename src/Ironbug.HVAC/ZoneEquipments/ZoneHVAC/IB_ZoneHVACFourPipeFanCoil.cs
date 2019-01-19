@@ -8,14 +8,14 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACFourPipeFanCoil();
 
-        private static ZoneHVACFourPipeFanCoil InitMethod(Model model)
+        private static ZoneHVACFourPipeFanCoil NewDefaultOpsObj(Model model)
             => new ZoneHVACFourPipeFanCoil(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilCoolingWater(model), new CoilHeatingWater(model));
 
         private IB_CoilCoolingWater CoolingCoil => this.Children.Get<IB_CoilCoolingWater>();
         private IB_CoilHeatingWater HeatingCoil => this.Children.Get<IB_CoilHeatingWater>();
         private IB_Fan Fan => this.Children.Get<IB_Fan>();
 
-        public IB_ZoneHVACFourPipeFanCoil() : base(InitMethod(new Model()))
+        public IB_ZoneHVACFourPipeFanCoil() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_CoilHeatingWater());
             this.AddChild(new IB_CoilCoolingWater());
@@ -37,9 +37,9 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var opsObj = base.OnInitOpsObj(LocalInitMethod, model).to_ZoneHVACFourPipeFanCoil().get();
+            var opsObj = base.OnNewOpsObj(LocalInitMethod, model).to_ZoneHVACFourPipeFanCoil().get();
             return opsObj;
 
             ZoneHVACFourPipeFanCoil LocalInitMethod(Model md)

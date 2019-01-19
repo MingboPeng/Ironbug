@@ -8,9 +8,9 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SizingPlant();
 
-        private static SizingPlant InitMethod(Model model) => new SizingPlant(model, new PlantLoop(model));
+        private static SizingPlant NewDefaultOpsObj(Model model) => new SizingPlant(model, new PlantLoop(model));
 
-        public IB_SizingPlant() : base(InitMethod(new Model()))
+        public IB_SizingPlant() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -23,11 +23,11 @@ namespace Ironbug.HVAC
         {
             //create a new sizingPlant to target plant loop
             var targetModel = loop.model();
-            return base.OnInitOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
+            return base.OnNewOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
         }
 
         //this is replaced by above method
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
             throw new NotImplementedException();
         }

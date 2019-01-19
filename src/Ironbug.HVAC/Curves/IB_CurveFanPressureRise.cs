@@ -7,16 +7,16 @@ namespace Ironbug.HVAC.Curves
     public class IB_CurveFanPressureRise : IB_Curve
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CurveFanPressureRise();
-        private static CurveFanPressureRise InitMethod(Model model)
+        private static CurveFanPressureRise NewDefaultOpsObj(Model model)
             => new CurveFanPressureRise(model);
         
 
-        public IB_CurveFanPressureRise():base(InitMethod(new Model()))
+        public IB_CurveFanPressureRise():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CurveFanPressureRise().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveFanPressureRise().get();
         }
     }
 

@@ -7,16 +7,16 @@ namespace Ironbug.HVAC.Curves
     public class IB_CurveTriquadratic : IB_Curve
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CurveTriquadratic();
-        private static CurveTriquadratic InitMethod(Model model)
+        private static CurveTriquadratic NewDefaultOpsObj(Model model)
             => new CurveTriquadratic(model);
         
 
-        public IB_CurveTriquadratic():base(InitMethod(new Model()))
+        public IB_CurveTriquadratic():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CurveTriquadratic().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveTriquadratic().get();
         }
     }
 

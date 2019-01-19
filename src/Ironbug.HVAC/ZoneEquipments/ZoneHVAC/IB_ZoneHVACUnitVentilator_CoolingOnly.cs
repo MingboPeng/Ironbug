@@ -11,11 +11,11 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACUnitVentilator_CoolingOnly();
 
-        private static ZoneHVACUnitVentilator InitMethod(Model model) => new ZoneHVACUnitVentilator(model);
+        private static ZoneHVACUnitVentilator NewDefaultOpsObj(Model model) => new ZoneHVACUnitVentilator(model);
         private IB_CoilBasic CoolingCoil => this.Children.Get<IB_CoilCoolingBasic>();
         private IB_Fan Fan => this.Children.Get<IB_Fan>();
 
-        public IB_ZoneHVACUnitVentilator_CoolingOnly() : base(InitMethod(new Model()))
+        public IB_ZoneHVACUnitVentilator_CoolingOnly() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_CoilCoolingWater());
             this.AddChild(new IB_FanConstantVolume());
@@ -30,9 +30,9 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(InitMethod, model).to_ZoneHVACUnitVentilator().get();
+            var opsObj =  base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACUnitVentilator().get();
             opsObj.setCoolingCoil(this.CoolingCoil.ToOS(model));
             opsObj.setSupplyAirFan(this.Fan.ToOS(model));
             return opsObj;

@@ -17,9 +17,9 @@ namespace Ironbug.HVAC
 
         private IB_SizingSystem IB_SizingSystem { get; set; } = new IB_SizingSystem();
 
-        private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
+        private static AirLoopHVAC NewDefaultOpsObj(Model model) => new AirLoopHVAC(model);
 
-        public IB_AirLoopHVAC() : base(InitMethod(new Model()))
+        public IB_AirLoopHVAC() : base(NewDefaultOpsObj(new Model()))
         {
             //this.basePoint = new Point3d();
             //this.osModel = new Model();
@@ -66,12 +66,12 @@ namespace Ironbug.HVAC
             return this.DuplicateIBObj(IB_InitSelf);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
             this.CheckSupplySide(this.supplyComponents);
             
             Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
-            var airLoopHVAC = base.OnInitOpsObj(InitMethod, model, postProcess);
+            var airLoopHVAC = base.OnInitOpsObj(NewDefaultOpsObj, model, postProcess);
             this.IB_SizingSystem.ToOS(airLoopHVAC);
             
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);

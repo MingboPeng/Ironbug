@@ -14,10 +14,10 @@ namespace Ironbug.HVAC
 
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
 
-        private static CoilHeatingLowTempRadiantConstFlow InitMethod(Model model, double waterHiT, double waterLoT, double airHiT, double airLoT) 
+        private static CoilHeatingLowTempRadiantConstFlow NewDefaultOpsObj(Model model, double waterHiT, double waterLoT, double airHiT, double airLoT) 
             => new CoilHeatingLowTempRadiantConstFlow(model, new ScheduleRuleset(model, waterHiT), new ScheduleRuleset(model, waterLoT), new ScheduleRuleset(model, airHiT), new ScheduleRuleset(model, airLoT));
 
-        private CoilHeatingLowTempRadiantConstFlow InitMethod(Model model)
+        private CoilHeatingLowTempRadiantConstFlow NewDefaultOpsObj(Model model)
             => new CoilHeatingLowTempRadiantConstFlow(model, new ScheduleRuleset(model, waterHiT), new ScheduleRuleset(model, waterLoT), new ScheduleRuleset(model, airHiT), new ScheduleRuleset(model, airLoT));
 
         public new CoilHeatingLowTempRadiantConstFlow ToOS(Model model)
@@ -31,13 +31,13 @@ namespace Ironbug.HVAC
             return ((CoilHeatingLowTempRadiantConstFlow)this.ToOS(model)).addToNode(node);
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingLowTempRadiantConstFlow().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingLowTempRadiantConstFlow().get();
         }
 
         public IB_CoilHeatingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 
-            : base(InitMethod(new Model(), waterHiT, waterLoT, airHiT, airLoT))
+            : base(NewDefaultOpsObj(new Model(), waterHiT, waterLoT, airHiT, airLoT))
         {
             this.airHiT = airHiT;
             this.airLoT = airLoT;

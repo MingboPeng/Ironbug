@@ -8,8 +8,8 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerMechanicalVentilation();
 
-        private static ControllerMechanicalVentilation InitMethod(Model model) => new ControllerMechanicalVentilation(model);
-        public IB_ControllerMechanicalVentilation() : base(InitMethod(new Model()))
+        private static ControllerMechanicalVentilation NewDefaultOpsObj(Model model) => new ControllerMechanicalVentilation(model);
+        public IB_ControllerMechanicalVentilation() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -18,15 +18,15 @@ namespace Ironbug.HVAC
             return this.DuplicateIBObj(() => new IB_ControllerMechanicalVentilation());
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var newObj = this.OnInitOpsObj(InitMethod, model).to_ControllerMechanicalVentilation().get();
+            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model).to_ControllerMechanicalVentilation().get();
             return newObj;
         }
 
         public ModelObject ToOS(Model model)
         {
-            return this.InitOpsObj(model);
+            return this.NewOpsObj(model);
         }
 
     }

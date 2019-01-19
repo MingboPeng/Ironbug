@@ -8,9 +8,9 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerOutdoorAir();
 
-        private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
+        private static ControllerOutdoorAir NewDefaultOpsObj(Model model) => new ControllerOutdoorAir(model);
         private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.Children.Get<IB_ControllerMechanicalVentilation>();
-        public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
+        public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_ControllerMechanicalVentilation());
         }
@@ -28,9 +28,9 @@ namespace Ironbug.HVAC
         //    return newObj;
         //}
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var newObj = (ControllerOutdoorAir)this.OnInitOpsObj(InitMethod, model); //TODO: would this work?
+            var newObj = (ControllerOutdoorAir)this.OnNewOpsObj(NewDefaultOpsObj, model); //TODO: would this work?
             var newMechVent = (ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.ToOS(model);
             newObj.setControllerMechanicalVentilation(newMechVent);
 
@@ -39,7 +39,7 @@ namespace Ironbug.HVAC
 
         public ModelObject ToOS(Model model)
         {
-            return this.InitOpsObj(model);
+            return this.NewOpsObj(model);
         }
 
     }

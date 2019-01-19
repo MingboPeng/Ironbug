@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctVAVReheat();
 
         //this is for OpenStudio object initialization
-        private static AirTerminalSingleDuctVAVReheat InitMethod(Model model) =>
+        private static AirTerminalSingleDuctVAVReheat NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctVAVReheat(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWater(model));
 
         //Associated child object
@@ -20,16 +20,16 @@ namespace Ironbug.HVAC
         //optional if there is no child
         public void SetReheatCoil(IB_CoilHeatingBasic ReheatCoil) => this.SetChild(ReheatCoil);
 
-        public IB_AirTerminalSingleDuctVAVReheat() : base(InitMethod(new Model()))
+        public IB_AirTerminalSingleDuctVAVReheat() : base(NewDefaultOpsObj(new Model()))
         {
             //optional if there is no child
             //Added child with action to Children list, for later automation
             this.AddChild(new IB_CoilHeatingWater());
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctVAVReheat().get();
+            return base.OnNewOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctVAVReheat().get();
 
             //Local Method
             AirTerminalSingleDuctVAVReheat InitMethodWithCoil(Model md) =>

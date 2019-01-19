@@ -10,7 +10,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public virtual ModelObject ToOS(Model model)
         {
-            return this.InitOpsObj(model);
+            return this.NewOpsObj(model);
         }
     }
 }

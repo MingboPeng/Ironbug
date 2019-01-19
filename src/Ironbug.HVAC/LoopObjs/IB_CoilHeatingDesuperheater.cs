@@ -7,12 +7,12 @@ namespace Ironbug.HVAC
     public class IB_CoilHeatingDesuperheater : IB_Coil
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDesuperheater(this.HeatingSource);
-        private static CoilHeatingDesuperheater InitMethod(Model model) => new CoilHeatingDesuperheater(model);
+        private static CoilHeatingDesuperheater NewDefaultOpsObj(Model model) => new CoilHeatingDesuperheater(model);
 
         //Now supports CoilCoolingDXSingleSpeed and CoilCoolingDXTwoSpeed
         //TODO: will add later: RefrigerationCondenserAirCooled, RefrigerationCondenserEvaporativeCooled, RefrigerationCondenserWaterCooled
         private IB_CoilDX HeatingSource => this.Children.Get<IB_CoilDX>();
-        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(InitMethod(new Model()))
+        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(heatingSource);
         }
@@ -41,9 +41,9 @@ namespace Ironbug.HVAC
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var newObj = base.OnInitOpsObj(InitMethod, model).to_CoilHeatingDesuperheater().get();
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingDesuperheater().get();
             var newHS = this.HeatingSource.ToOS(model);
             newObj.setHeatingSource(newHS);
             return newObj;

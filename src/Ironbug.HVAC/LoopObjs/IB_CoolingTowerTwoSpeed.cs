@@ -8,8 +8,8 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoolingTowerTwoSpeed();
 
-        private static CoolingTowerTwoSpeed InitMethod(Model model) => new CoolingTowerTwoSpeed(model);
-        public IB_CoolingTowerTwoSpeed() : base(InitMethod(new Model()))
+        private static CoolingTowerTwoSpeed NewDefaultOpsObj(Model model) => new CoolingTowerTwoSpeed(model);
+        public IB_CoolingTowerTwoSpeed() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -19,9 +19,9 @@ namespace Ironbug.HVAC
             return ((CoolingTowerTwoSpeed)this.ToOS(model)).addToNode(node);
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoolingTowerTwoSpeed().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoolingTowerTwoSpeed().get();
         }
     }
 

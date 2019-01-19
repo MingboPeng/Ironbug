@@ -11,8 +11,8 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_DistrictHeating();
 
-        private static DistrictHeating InitMethod(Model model) => new DistrictHeating(model);
-        public IB_DistrictHeating() : base(InitMethod(new Model()))
+        private static DistrictHeating NewDefaultOpsObj(Model model) => new DistrictHeating(model);
+        public IB_DistrictHeating() : base(NewDefaultOpsObj(new Model()))
         {
         }
         public override bool AddToNode(Node node)
@@ -22,9 +22,9 @@ namespace Ironbug.HVAC
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_DistrictHeating().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_DistrictHeating().get();
         }
     }
 

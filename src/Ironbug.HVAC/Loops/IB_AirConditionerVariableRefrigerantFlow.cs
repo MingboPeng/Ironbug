@@ -15,10 +15,10 @@ namespace Ironbug.HVAC
 
         
 
-        private static AirConditionerVariableRefrigerantFlow InitMethod(Model model) 
+        private static AirConditionerVariableRefrigerantFlow NewDefaultOpsObj(Model model) 
             => new AirConditionerVariableRefrigerantFlow(model);
 
-        public IB_AirConditionerVariableRefrigerantFlow() : base(InitMethod(new Model()))
+        public IB_AirConditionerVariableRefrigerantFlow() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -39,9 +39,9 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var newObj = base.OnInitOpsObj(InitMethod, model).to_AirConditionerVariableRefrigerantFlow().get();
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model).to_AirConditionerVariableRefrigerantFlow().get();
             
             var allTerms = this.Terminals.SelectMany(_ => _.GetPuppetsOrSelf());
             foreach (var terminal in allTerms)

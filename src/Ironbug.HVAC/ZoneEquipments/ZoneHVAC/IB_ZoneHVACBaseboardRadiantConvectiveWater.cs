@@ -8,12 +8,12 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACBaseboardRadiantConvectiveWater();
 
-        private static ZoneHVACBaseboardRadiantConvectiveWater InitMethod(Model model) 
+        private static ZoneHVACBaseboardRadiantConvectiveWater NewDefaultOpsObj(Model model) 
             => new ZoneHVACBaseboardRadiantConvectiveWater(model);
 
         private IB_CoilHeatingWaterBaseboardRadiant HeatingCoil => this.Children.Get<IB_CoilHeatingWaterBaseboardRadiant>();
 
-        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(InitMethod(new Model()))
+        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_CoilHeatingWaterBaseboardRadiant());
         }
@@ -23,9 +23,9 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(InitMethod, model).to_ZoneHVACBaseboardRadiantConvectiveWater().get();
+            var opsObj =  base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACBaseboardRadiantConvectiveWater().get();
             opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             return opsObj;
         }

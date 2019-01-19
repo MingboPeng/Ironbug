@@ -56,6 +56,6 @@ namespace Ironbug.HVAC.BaseClass
             throw new NotImplementedException();
         }
 
-        protected override ModelObject InitOpsObj(Model model) => null;
+        protected override ModelObject NewOpsObj(Model model) => null;
     }
 }

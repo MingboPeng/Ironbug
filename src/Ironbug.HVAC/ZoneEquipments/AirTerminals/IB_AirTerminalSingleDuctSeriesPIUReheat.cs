@@ -9,13 +9,13 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctSeriesPIUReheat();
 
-        private static AirTerminalSingleDuctSeriesPIUReheat InitMethod(Model model) =>
+        private static AirTerminalSingleDuctSeriesPIUReheat NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctSeriesPIUReheat(model, new FanConstantVolume(model), new CoilHeatingElectric(model));
 
         private IB_CoilBasic ReheatCoil => this.Children.Get<IB_CoilHeatingBasic>();
         private IB_Fan Fan => this.Children.Get<IB_Fan>();
         
-        public IB_AirTerminalSingleDuctSeriesPIUReheat() : base(InitMethod(new Model()))
+        public IB_AirTerminalSingleDuctSeriesPIUReheat() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_CoilHeatingElectric());
             this.AddChild(new IB_FanConstantVolume());
@@ -35,9 +35,9 @@ namespace Ironbug.HVAC
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethodWithChildren, model).to_AirTerminalSingleDuctSeriesPIUReheat().get();
+            return base.OnNewOpsObj(InitMethodWithChildren, model).to_AirTerminalSingleDuctSeriesPIUReheat().get();
             
             //Local Method
             AirTerminalSingleDuctSeriesPIUReheat InitMethodWithChildren(Model md) =>

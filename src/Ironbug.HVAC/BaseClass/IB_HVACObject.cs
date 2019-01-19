@@ -18,7 +18,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public virtual HVACComponent ToOS(Model model)
         {
-            return this.InitOpsObj(model) as HVACComponent;
+            return this.NewOpsObj(model) as HVACComponent;
         }
         public override IB_ModelObject Duplicate()
         {

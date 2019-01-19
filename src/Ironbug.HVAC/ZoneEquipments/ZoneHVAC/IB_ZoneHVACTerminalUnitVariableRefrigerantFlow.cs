@@ -11,18 +11,18 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
 
-        private static ZoneHVACTerminalUnitVariableRefrigerantFlow InitMethod(Model model) 
+        private static ZoneHVACTerminalUnitVariableRefrigerantFlow NewDefaultOpsObj(Model model) 
             => new ZoneHVACTerminalUnitVariableRefrigerantFlow(model);
         
-        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(InitMethod(new Model()))
+        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(NewDefaultOpsObj(new Model()))
         { 
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
             //TODO: double check this new way
-            return base.OnInitOpsObj(InitMethod, model,(_)=>_.to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get());
-            //return base.OnInitOpsObj(InitMethod, model).to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get();
+            return base.OnInitOpsObj(NewDefaultOpsObj, model,(_)=>_.to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get());
+            //return base.OnInitOpsObj(NewDefaultOpsObj, model).to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get();
         }
 
 

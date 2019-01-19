@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
             return this.DuplicateIBObj(IB_InitSelf);
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
             var tzs = this.thermalZones;
             foreach (var item in tzs)

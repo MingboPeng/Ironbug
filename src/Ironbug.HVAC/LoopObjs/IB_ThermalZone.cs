@@ -8,18 +8,18 @@ namespace Ironbug.HVAC.BaseClass
     public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ThermalZone();
-        private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
+        private static ThermalZone NewDefaultOpsObj(Model model) => new ThermalZone(model);
 
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
         public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
         
-        public IB_ThermalZone():base(InitMethod(new Model()))
+        public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
         {
             
         }
-        public IB_ThermalZone(string HBZoneName) : base(InitMethod(new Model()))
+        public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj(new Model()))
         {
             base.SetFieldValue(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
 
@@ -53,7 +53,7 @@ namespace Ironbug.HVAC.BaseClass
             this.ZoneEquipments.Add(Equipment);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
             //check the model if there's a same named thermal zone
             //if yes, then return it
@@ -89,7 +89,7 @@ namespace Ironbug.HVAC.BaseClass
             }
             else
             {
-                newZone = (ThermalZone)base.OnInitOpsObj(InitMethod, model);
+                newZone = (ThermalZone)base.OnNewOpsObj(NewDefaultOpsObj, model);
             }
             
             

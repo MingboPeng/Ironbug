@@ -8,9 +8,9 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingCooledBeam();
 
-        private static CoilCoolingCooledBeam InitMethod(Model model) => new CoilCoolingCooledBeam(model);
+        private static CoilCoolingCooledBeam NewDefaultOpsObj(Model model) => new CoilCoolingCooledBeam(model);
 
-        public IB_CoilCoolingCooledBeam() : base(InitMethod(new Model()))
+        public IB_CoilCoolingCooledBeam() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -21,9 +21,9 @@ namespace Ironbug.HVAC
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilCoolingCooledBeam().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingCooledBeam().get();
         }
     }
     public sealed class IB_CoilCoolingCooledBeam_DataFieldSet

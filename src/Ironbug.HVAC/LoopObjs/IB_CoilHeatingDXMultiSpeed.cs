@@ -8,9 +8,9 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDXMultiSpeed();
 
-        private static CoilHeatingDXMultiSpeed InitMethod(Model model) => new CoilHeatingDXMultiSpeed(model);
+        private static CoilHeatingDXMultiSpeed NewDefaultOpsObj(Model model) => new CoilHeatingDXMultiSpeed(model);
 
-        public IB_CoilHeatingDXMultiSpeed() : base(InitMethod(new Model()))
+        public IB_CoilHeatingDXMultiSpeed() : base(NewDefaultOpsObj(new Model()))
         {
             
         }
@@ -22,9 +22,9 @@ namespace Ironbug.HVAC
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingDXMultiSpeed().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingDXMultiSpeed().get();
         }
 
     }

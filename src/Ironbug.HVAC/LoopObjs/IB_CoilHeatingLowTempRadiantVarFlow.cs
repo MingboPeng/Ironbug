@@ -10,10 +10,10 @@ namespace Ironbug.HVAC
         
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantVarFlow(airLoT);
 
-        private static CoilHeatingLowTempRadiantVarFlow InitMethod(Model model, double airLoT) 
+        private static CoilHeatingLowTempRadiantVarFlow NewDefaultOpsObj(Model model, double airLoT) 
             => new CoilHeatingLowTempRadiantVarFlow(model, new ScheduleRuleset(model, airLoT));
 
-        private CoilHeatingLowTempRadiantVarFlow InitMethod(Model model)
+        private CoilHeatingLowTempRadiantVarFlow NewDefaultOpsObj(Model model)
             => new CoilHeatingLowTempRadiantVarFlow(model, new ScheduleRuleset(model, airLoT));
 
         public new CoilHeatingLowTempRadiantVarFlow ToOS(Model model)
@@ -27,13 +27,13 @@ namespace Ironbug.HVAC
             return this.ToOS(model).addToNode(node);
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingLowTempRadiantVarFlow().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingLowTempRadiantVarFlow().get();
         }
 
         public IB_CoilHeatingLowTempRadiantVarFlow(double airLoT) 
-            : base(InitMethod(new Model(), airLoT))
+            : base(NewDefaultOpsObj(new Model(), airLoT))
         {
             this.airLoT = airLoT;
         }

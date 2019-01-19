@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         //this is for self duplication and duplication as Puppet
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctVAVReheat();
         //this is for OpenStudio object initialization
-        private static AirTerminalSingleDuctConstantVolumeCooledBeam InitMethod(Model model) =>
+        private static AirTerminalSingleDuctConstantVolumeCooledBeam NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctConstantVolumeCooledBeam(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWater(model));
         
         //Associated with child object 
@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         public void SetCoolingCoil(IB_CoilCoolingCooledBeam coil) => this.SetChild(coil);
         
 
-        public IB_AirTerminalSingleDuctConstantVolumeCooledBeam() : base(InitMethod(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeCooledBeam() : base(NewDefaultOpsObj(new Model()))
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation
@@ -32,9 +32,9 @@ namespace Ironbug.HVAC
 
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctConstantVolumeCooledBeam().get();
+            return base.OnNewOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctConstantVolumeCooledBeam().get();
 
             //Local Method
             AirTerminalSingleDuctConstantVolumeCooledBeam InitMethodWithCoil(Model md) =>

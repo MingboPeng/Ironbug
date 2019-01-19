@@ -7,15 +7,15 @@ namespace Ironbug.HVAC.Curves
     public class IB_CurveBiquadratic : IB_Curve
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CurveBiquadratic();
-        private static CurveBiquadratic InitMethod(Model model)
+        private static CurveBiquadratic NewDefaultOpsObj(Model model)
             => new CurveBiquadratic(model);
         
 
-        public IB_CurveBiquadratic():base(InitMethod(new Model())) { }
+        public IB_CurveBiquadratic():base(NewDefaultOpsObj(new Model())) { }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CurveBiquadratic().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveBiquadratic().get();
         }
     }
 

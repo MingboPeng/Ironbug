@@ -12,21 +12,21 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf 
             => () => new IB_ZoneHVACLowTempRadiantVarFlow(HeatingCoil, CoolingCoil);
 
-        private static ZoneHVACLowTempRadiantVarFlow InitMethod(Model model, IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil, IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil) 
+        private static ZoneHVACLowTempRadiantVarFlow NewDefaultOpsObj(Model model, IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil, IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil) 
             => new ZoneHVACLowTempRadiantVarFlow(model,model.alwaysOnDiscreteSchedule(), HeatingCoil.ToOS(model), CoolingCoil.ToOS(model));
 
         
         public IB_ZoneHVACLowTempRadiantVarFlow(IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil, IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil) 
-            : base(InitMethod(new Model(), HeatingCoil, CoolingCoil))
+            : base(NewDefaultOpsObj(new Model(), HeatingCoil, CoolingCoil))
         {
             this.AddChild(HeatingCoil);
             this.AddChild(CoolingCoil);
             
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(LocalInitMethod, model).to_ZoneHVACLowTempRadiantVarFlow().get();
+            var opsObj =  base.OnNewOpsObj(LocalInitMethod, model).to_ZoneHVACLowTempRadiantVarFlow().get();
             return opsObj;
 
             ZoneHVACLowTempRadiantVarFlow LocalInitMethod(Model m)

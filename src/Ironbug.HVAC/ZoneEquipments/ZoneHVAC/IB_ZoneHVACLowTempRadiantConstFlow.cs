@@ -14,12 +14,12 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf 
             => () => new IB_ZoneHVACLowTempRadiantConstFlow(HeatingCoil, CoolingCoil, TubingLength);
 
-        private static ZoneHVACLowTempRadiantConstFlow InitMethod(Model model, IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil, IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil, double TubingLength) 
+        private static ZoneHVACLowTempRadiantConstFlow NewDefaultOpsObj(Model model, IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil, IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil, double TubingLength) 
             => new ZoneHVACLowTempRadiantConstFlow(model,model.alwaysOnDiscreteSchedule(), HeatingCoil.ToOS(model), CoolingCoil.ToOS(model), TubingLength);
 
         
         public IB_ZoneHVACLowTempRadiantConstFlow(IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil, IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil, double TubingLength) 
-            : base(InitMethod(new Model(), HeatingCoil, CoolingCoil, TubingLength))
+            : base(NewDefaultOpsObj(new Model(), HeatingCoil, CoolingCoil, TubingLength))
         {
 
             this.AddChild(HeatingCoil);
@@ -28,9 +28,9 @@ namespace Ironbug.HVAC
             this.TubingLength = TubingLength;
         }
         
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(LocalInitMethod, model).to_ZoneHVACLowTempRadiantConstFlow().get();
+            var opsObj =  base.OnNewOpsObj(LocalInitMethod, model).to_ZoneHVACLowTempRadiantConstFlow().get();
             return opsObj;
 
             ZoneHVACLowTempRadiantConstFlow LocalInitMethod(Model m)

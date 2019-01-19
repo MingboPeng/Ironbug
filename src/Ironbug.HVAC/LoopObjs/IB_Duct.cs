@@ -7,16 +7,16 @@ namespace Ironbug.HVAC
     public class IB_Duct : IB_HVACObject, IIB_AirLoopObject
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_Duct();
-        private static Duct InitMethod(Model model)
+        private static Duct NewDefaultOpsObj(Model model)
             => new Duct(model);
         
 
-        public IB_Duct():base(InitMethod(new Model()))
+        public IB_Duct():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_Duct().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_Duct().get();
         }
 
         public override bool AddToNode(Node node)

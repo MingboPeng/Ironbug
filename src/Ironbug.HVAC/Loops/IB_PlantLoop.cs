@@ -16,8 +16,8 @@ namespace Ironbug.HVAC
 
         private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
         
-        private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
-        public IB_PlantLoop() : base(InitMethod(new Model()))
+        private static PlantLoop NewDefaultOpsObj(Model model) => new PlantLoop(model);
+        public IB_PlantLoop() : base(NewDefaultOpsObj(new Model()))
         {
         }
         public void SetSizingPlant(IB_SizingPlant sizing)
@@ -50,9 +50,9 @@ namespace Ironbug.HVAC
         }
 
 
-        protected override ModelObject InitOpsObj(Model model)
+        protected override ModelObject NewOpsObj(Model model)
         {
-            var plant = base.OnInitOpsObj(InitMethod, model).to_PlantLoop().get();
+            var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
 
             IB_SizingPlant.ToOS(plant);
 
