@@ -2,7 +2,7 @@
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_HVACObject : IB_ModelObject, IIB_ToOPSable
+    public abstract class IB_HVACObject : IB_ModelObject
     {
         //protected abstract Func<IB_ModelObject> IB_InitFunc { get; }
 
@@ -15,9 +15,9 @@ namespace Ironbug.HVAC.BaseClass
         {
         }
 
-        public virtual ModelObject ToOS(Model model)
+        public virtual HVACComponent ToOS(Model model)
         {
-            return this.InitOpsObj(model);
+            return this.InitOpsObj(model) as HVACComponent;
         }
 
         public override IB_ModelObject Duplicate()

@@ -2,7 +2,7 @@
 
 namespace Ironbug.HVAC
 {
-    public interface IIB_PlantLoopObjects:IIB_ToOPSable, IIB_LoopObject
+    public interface IIB_PlantLoopObjects:IIB_LoopObject
     {
         //void ToOS_Supply(Loop Loop);
 

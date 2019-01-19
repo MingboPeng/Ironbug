@@ -163,6 +163,7 @@
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctParallelPIUReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitHeater.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACPackagedTerminalAirConditioner.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_HeatingOnly.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingOnly.cs" />
