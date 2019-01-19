@@ -10,23 +10,22 @@ namespace Ironbug.HVAC
     public class IB_SetpointManagerSingleZoneReheat : IB_SetpointManager
     {
         
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneReheat(this.ControlZone.To<IB_ThermalZone>());
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneReheat(this.ControlZone);
 
         private static SetpointManagerSingleZoneReheat InitMethod(Model model) 
             => new SetpointManagerSingleZoneReheat(model);
 
-        private IB_Child ControlZone => this.Children.GetChild<IB_ThermalZone>();
+        private IB_ThermalZone ControlZone => this.Children.Get<IB_ThermalZone>();
         public IB_SetpointManagerSingleZoneReheat(IB_ThermalZone thermalZone) : base(InitMethod(new Model()))
         {
-            var zone = new IB_Child(thermalZone, (obj) => this.SetControlZone(obj as IB_ThermalZone));
-            this.Children.Add(zone);
+            this.AddChild(thermalZone);
 
             ((SetpointManagerSingleZoneReheat)this.GhostOSObject).setControlZone((ThermalZone)thermalZone.ToOS(GhostOSObject.model()));
         }
 
         public void SetControlZone(IB_ThermalZone zone)
         {
-            this.ControlZone.Set(zone);
+            this.SetChild(zone);
         }
         public override bool AddToNode(Node node)
         {
@@ -37,7 +36,7 @@ namespace Ironbug.HVAC
         protected override ModelObject InitOpsObj(Model model)
         {
             var newObj = base.OnInitOpsObj(InitMethod, model).to_SetpointManagerSingleZoneReheat().get();
-            var zone = (ThermalZone)this.ControlZone.To<IB_ThermalZone>().ToOS(model);
+            var zone = (ThermalZone)this.ControlZone.ToOS(model);
             newObj.setControlZone(zone);
             return newObj;
         }

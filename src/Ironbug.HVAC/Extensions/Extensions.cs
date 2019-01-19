@@ -30,9 +30,9 @@ namespace Ironbug.HVAC
             return count;
         }
 
-        public static IB_Child GetChild<T>(this IEnumerable<IB_Child> children) where T:IB_ModelObject
+        public static T Get<T>(this IEnumerable<IB_Child> children) where T:IB_ModelObject
         {
-            return children.Where(_ => _.IsType(typeof(T))).FirstOrDefault();
+            return children.FirstOrDefault(_ => _.IsType(typeof(T))).To<T>();
         }
     }
 }

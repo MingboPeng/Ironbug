@@ -4,24 +4,23 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ZoneHVACBaseboardConvectiveWater : BaseClass.IB_ZoneEquipment
+    public class IB_ZoneHVACBaseboardConvectiveWater : IB_ZoneEquipment
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACBaseboardConvectiveWater();
 
         private static ZoneHVACBaseboardConvectiveWater InitMethod(Model model) 
             => new ZoneHVACBaseboardConvectiveWater(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWaterBaseboard(model));
 
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilHeatingWaterBaseboard>();
+        private IB_CoilHeatingWaterBaseboard HeatingCoil => this.Children.Get<IB_CoilHeatingWaterBaseboard>();
 
         public IB_ZoneHVACBaseboardConvectiveWater() : base(InitMethod(new Model()))
         {
-            var heatingCoil = new IB_Child(new IB_CoilHeatingWaterBaseboard(), (obj) => this.SetHeatingCoil(obj as IB_CoilHeatingWaterBaseboard));
-            this.Children.Add(heatingCoil);
+            this.AddChild(new IB_CoilHeatingWaterBaseboard());
         }
 
         public void SetHeatingCoil(IB_CoilHeatingWaterBaseboard Coil)
         {
-            this.HeatingCoil.Set(Coil);
+            this.SetChild(Coil);
         }
 
         protected override ModelObject InitOpsObj(Model model)
@@ -29,7 +28,7 @@ namespace Ironbug.HVAC
             return base.OnInitOpsObj(InitMethodWithChildren, model).to_ZoneHVACBaseboardConvectiveElectric().get();
             //Local Method
             ZoneHVACBaseboardConvectiveWater InitMethodWithChildren(Model md) =>
-                new ZoneHVACBaseboardConvectiveWater(md, md.alwaysOnDiscreteSchedule(), (StraightComponent)this.HeatingCoil.To<IB_CoilHeatingWaterBaseboard>().ToOS(md));
+                new ZoneHVACBaseboardConvectiveWater(md, md.alwaysOnDiscreteSchedule(), (StraightComponent)this.HeatingCoil.ToOS(md));
         }
     }
 

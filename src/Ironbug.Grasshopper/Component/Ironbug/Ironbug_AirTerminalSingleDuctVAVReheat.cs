@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new IB_AirTerminalSingleDuctVAVReheat();
             obj.PuppetEventHandler += PuppetStateChanged;
 
-            var coil = (IB_CoilBasic)null;
+            var coil = (IB_CoilHeatingBasic)null;
             
             if (DA.GetData(0, ref coil))
             {

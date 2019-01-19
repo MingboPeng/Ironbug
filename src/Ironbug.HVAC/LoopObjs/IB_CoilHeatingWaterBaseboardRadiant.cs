@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingWaterBaseboardRadiant : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilHeatingWaterBaseboardRadiant : IB_CoilHeatingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingWaterBaseboardRadiant();
 

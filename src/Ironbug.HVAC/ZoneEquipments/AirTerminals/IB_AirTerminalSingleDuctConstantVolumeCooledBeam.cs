@@ -17,17 +17,16 @@ namespace Ironbug.HVAC
         
         //Associated with child object 
         //optional if there is no child 
-        private IB_Child CoolingCoil => this.Children.GetChild<IB_CoilCoolingCooledBeam>();
+        private IB_CoilCoolingCooledBeam CoolingCoil => this.Children.Get<IB_CoilCoolingCooledBeam>();
         //optional if there is no child 
-        public void SetCoolingCoil(IB_CoilCoolingCooledBeam coil) => this.CoolingCoil.Set(coil);
+        public void SetCoolingCoil(IB_CoilCoolingCooledBeam coil) => this.SetChild(coil);
         
 
         public IB_AirTerminalSingleDuctConstantVolumeCooledBeam() : base(InitMethod(new Model()))
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation
-            var coil = new IB_Child(new IB_CoilCoolingCooledBeam(), (obj) => this.SetCoolingCoil(obj as IB_CoilCoolingCooledBeam));
-            this.Children.Add(coil);
+            this.AddChild(new IB_CoilCoolingCooledBeam());
 
         }
 
@@ -39,7 +38,7 @@ namespace Ironbug.HVAC
 
             //Local Method
             AirTerminalSingleDuctConstantVolumeCooledBeam InitMethodWithCoil(Model md) =>
-                new AirTerminalSingleDuctConstantVolumeCooledBeam(md, md.alwaysOnDiscreteSchedule(), (HVACComponent)this.CoolingCoil.To<IB_CoilCoolingCooledBeam>().ToOS(md));
+                new AirTerminalSingleDuctConstantVolumeCooledBeam(md, md.alwaysOnDiscreteSchedule(), this.CoolingCoil.ToOS(md));
         }
         
 

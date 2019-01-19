@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingLowTempRadiantConstFlow : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilHeatingLowTempRadiantConstFlow : IB_CoilHeatingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         private double waterHiT = 50; //122F
         private double waterLoT = 30; //86F

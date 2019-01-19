@@ -11,33 +11,30 @@ namespace Ironbug.HVAC
         private static ZoneHVACFourPipeFanCoil InitMethod(Model model)
             => new ZoneHVACFourPipeFanCoil(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilCoolingWater(model), new CoilHeatingWater(model));
 
-        private IB_Child CoolingCoil => this.Children.GetChild<IB_CoilCoolingWater>();
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilHeatingWater>();
-        private IB_Child Fan => this.Children.GetChild<IB_Fan>();
+        private IB_CoilCoolingWater CoolingCoil => this.Children.Get<IB_CoilCoolingWater>();
+        private IB_CoilHeatingWater HeatingCoil => this.Children.Get<IB_CoilHeatingWater>();
+        private IB_Fan Fan => this.Children.Get<IB_Fan>();
 
         public IB_ZoneHVACFourPipeFanCoil() : base(InitMethod(new Model()))
         {
-            var hCoil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetHeatingCoil(obj as IB_CoilHeatingWater));
-            var cCoil = new IB_Child(new IB_CoilCoolingWater(), (obj) => this.SetCoolingCoil(obj as IB_CoilCoolingWater));
-            var fan = new IB_Child(new IB_FanConstantVolume(), (obj) => this.SetFan(obj as IB_Fan));
-            this.Children.Add(hCoil);
-            this.Children.Add(cCoil);
-            this.Children.Add(fan);
+            this.AddChild(new IB_CoilHeatingWater());
+            this.AddChild(new IB_CoilCoolingWater());
+            this.AddChild(new IB_FanConstantVolume());
         }
 
         public void SetFan(IB_Fan Fan)
         {
-            this.Fan.Set(Fan);
+            this.SetChild(Fan);
         }
 
         public void SetHeatingCoil(IB_CoilHeatingWater Coil)
         {
-            this.HeatingCoil.Set(Coil);
+            this.SetChild(Coil);
         }
 
         public void SetCoolingCoil(IB_CoilCoolingWater Coil)
         {
-            this.CoolingCoil.Set(Coil);
+            this.SetChild(Coil);
         }
 
         protected override ModelObject InitOpsObj(Model model)
@@ -47,9 +44,9 @@ namespace Ironbug.HVAC
 
             ZoneHVACFourPipeFanCoil LocalInitMethod(Model md)
             => new ZoneHVACFourPipeFanCoil(md, md.alwaysOnDiscreteSchedule(),
-            (HVACComponent)this.Fan.To<IB_Fan>().ToOS(md),
-            (HVACComponent)this.CoolingCoil.To<IB_CoilCoolingWater>().ToOS(md),
-            (HVACComponent)this.HeatingCoil.To<IB_CoilHeatingWater>().ToOS(md)
+            this.Fan.ToOS(md),
+            this.CoolingCoil.ToOS(md),
+            this.HeatingCoil.ToOS(md)
             );
 
         }

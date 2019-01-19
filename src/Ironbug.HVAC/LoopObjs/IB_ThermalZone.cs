@@ -15,8 +15,6 @@ namespace Ironbug.HVAC.BaseClass
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
         
-
-        
         public IB_ThermalZone():base(InitMethod(new Model()))
         {
             

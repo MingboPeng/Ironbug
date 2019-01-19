@@ -7,32 +7,32 @@ using System.Text;
 namespace Ironbug.HVAC
 {
 
-    public delegate void LinkToChild<T>(T child) where T : IB_ModelObject;
+    //public delegate void LinkToChild<T>(T child) where T : IB_ModelObject;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T">Child type</typeparam>
-    /// <param name="child"></param>
-    public delegate void RelationWithChild<T>(T child) where T : IIB_ModelObject;
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T">Child1 type</typeparam>
-    /// <typeparam name="K">Child2 type</typeparam>
-    /// <param name="child1"></param>
-    /// <param name="child2"></param>
-    public delegate void RelationWithChild<T, K>(T child1, K child2) where T : IB_ModelObject where K : IB_ModelObject;
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <typeparam name="T">Child type</typeparam>
+    ///// <param name="child"></param>
+    //public delegate void RelationWithChild<T>(T child) where T : IIB_ModelObject;
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    ///// <typeparam name="T">Child1 type</typeparam>
+    ///// <typeparam name="K">Child2 type</typeparam>
+    ///// <param name="child1"></param>
+    ///// <param name="child2"></param>
+    //public delegate void RelationWithChild<T, K>(T child1, K child2) where T : IB_ModelObject where K : IB_ModelObject;
 
     public class IB_Child
     {
         private IB_ModelObject IB_Obj;
-        private Action<IB_ModelObject> linkAction;
+        //private Action<IB_ModelObject> linkAction;
 
-        public IB_Child(IB_ModelObject ibObj, Action<IB_ModelObject> link)
+        public IB_Child(IB_ModelObject ibObj)
         {
             this.IB_Obj = ibObj;
-            this.linkAction = link;
+            //this.linkAction = link;
         }
 
         //invoke action
@@ -54,13 +54,13 @@ namespace Ironbug.HVAC
 
         public IB_Child Duplicate()
         {
-            return new IB_Child(this.IB_Obj.Duplicate(), this.linkAction);
+            return new IB_Child(this.IB_Obj.Duplicate());
         }
 
-        public IB_ModelObject DuplicateChild()
-        {
-            return this.IB_Obj.Duplicate();
-        }
+        //public IB_ModelObject DuplicateChild()
+        //{
+        //    return this.IB_Obj.Duplicate();
+        //}
 
         public T To<T>() where T: IB_ModelObject
         {
@@ -74,7 +74,7 @@ namespace Ironbug.HVAC
 
         public IB_Child DuplicateAsPuppet()
         {
-            return new IB_Child(this.IB_Obj.DuplicateAsPuppet(), this.linkAction);
+            return new IB_Child(this.IB_Obj.DuplicateAsPuppet());
         }
 
         

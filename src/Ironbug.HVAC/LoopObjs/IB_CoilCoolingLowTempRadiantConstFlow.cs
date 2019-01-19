@@ -1,13 +1,10 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingLowTempRadiantConstFlow : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilCoolingLowTempRadiantConstFlow : IB_CoilCoolingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         private double waterHiT = 15; //59F
         private double waterLoT = 10; //50F

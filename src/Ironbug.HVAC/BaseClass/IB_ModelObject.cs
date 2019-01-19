@@ -48,6 +48,18 @@ namespace Ironbug.HVAC.BaseClass
             this.OutputVariables.AddRange(outputVariable);
         }
 
+        internal void AddChild(IB_ModelObject ChildObj)
+        {
+            var c = new IB_Child(ChildObj);
+            this.Children.Add(c);
+        }
+
+        internal void SetChild<T>(T ChildObj) where T:IB_ModelObject
+        {
+            var t = typeof(T);
+            this.Children.FirstOrDefault(_ => _.IsType(typeof(T))).Set(ChildObj);
+        }
+
         public void ChangeState(IB_PuppetableState newState)
         {
             this.CurrentState = newState;

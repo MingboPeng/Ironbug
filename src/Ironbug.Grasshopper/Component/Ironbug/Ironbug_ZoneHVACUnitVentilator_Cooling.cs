@@ -48,7 +48,7 @@ namespace Ironbug.Grasshopper.Component
             obj.PuppetEventHandler += PuppetStateChanged;
 
             var fan = (IB_Fan)null;
-            var coilC = (IB_CoilBasic)null;
+            var coilC = (IB_CoilCoolingBasic)null;
             
 
             if (DA.GetData(0, ref coilC))

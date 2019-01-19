@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingElectric : IB_CoilBasic
+    public class IB_CoilHeatingElectric : IB_CoilHeatingBasic
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingElectric();
 

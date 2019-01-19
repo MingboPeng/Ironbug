@@ -1,13 +1,11 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingLowTempRadiantVarFlow : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilCoolingLowTempRadiantVarFlow : IB_CoilCoolingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         private double airHiT = 50; 
         

@@ -83,5 +83,31 @@ namespace Ironbug.HVACTests
 
         }
 
+        [TestMethod]
+        public void IB_ZoneHVACUnitVentilator_CoolingHeating_Test()
+        {
+            var model = new OpenStudio.Model();
+
+            var obj = new HVAC.IB_ZoneHVACUnitVentilator_CoolingHeating();
+            var fan = new HVAC.IB_FanOnOff();
+
+            obj.SetFan(fan);
+            var fanChild = obj.Children.Get<IB_Fan>();
+            var children = obj.Children;
+
+            var hc = new IB_CoilHeatingElectric();
+            obj.SetHeatingCoil(hc);
+
+            var cc = new IB_CoilCoolingWater();
+            obj.SetCoolingCoil(cc);
+
+            var hcChild = obj.Children.Get<IB_CoilHeatingBasic>();
+            var ccChild = obj.Children.Get<IB_CoilCoolingBasic>();
+
+            var success = fanChild is IB_FanOnOff;
+            success &= !hcChild.Equals(ccChild);
+            Assert.IsTrue(success);
+        }
+
     }
 }

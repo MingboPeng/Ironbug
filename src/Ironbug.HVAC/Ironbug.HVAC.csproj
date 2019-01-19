@@ -64,7 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClass\IB_CoilBasic.cs" />
+    <Compile Include="BaseClass\IB_CoilCoolingBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
+    <Compile Include="BaseClass\IB_CoilHeatingBasic.cs" />
     <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />

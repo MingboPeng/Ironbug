@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilHeatingGas : IB_CoilBasic
+    public class IB_CoilHeatingGas : IB_CoilHeatingBasic
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingGas();
 
@@ -27,9 +27,9 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_CoilCoolingGas_DataFieldSet 
-        : IB_FieldSet<IB_CoilCoolingGas_DataFieldSet, CoilHeatingGas>
+    public sealed class IB_CoilHeatingGas_DataFieldSet
+        : IB_FieldSet<IB_CoilHeatingGas_DataFieldSet, CoilHeatingGas>
     {
-        private IB_CoilCoolingGas_DataFieldSet() {}
+        private IB_CoilHeatingGas_DataFieldSet() {}
     }
 }
