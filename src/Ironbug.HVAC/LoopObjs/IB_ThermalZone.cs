@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.BaseClass
         private static ThermalZone InitMethod(Model model) => new ThermalZone(model);
 
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
-        public List<IIB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IIB_ZoneEquipment>();
+        public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
         

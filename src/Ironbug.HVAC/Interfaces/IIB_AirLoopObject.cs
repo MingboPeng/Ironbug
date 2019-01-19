@@ -1,8 +1,6 @@
-﻿using OpenStudio;
-
-namespace Ironbug.HVAC
+﻿namespace Ironbug.HVAC
 {
-    public interface IIB_AirLoopObject: IIB_ToOPSable,IIB_LoopObject
+    public interface IIB_AirLoopObject:IIB_LoopObject
     {
 
         //void ToOS_Demand(Loop Loop);

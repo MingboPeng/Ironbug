@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
+﻿using OpenStudio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
         public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
+
         public IB_LoopBranches() : base(new Node(new Model()))
         {
-
         }
 
         public void Add(List<IB_HVACObject> HVACObjects)
@@ -44,8 +42,6 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             return loopBranches;
-            
-           
         }
 
         public int Count()
@@ -59,13 +55,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             throw new NotImplementedException();
         }
-        
 
         protected override ModelObject InitOpsObj(Model model) => null;
-
-
     }
-    
-
-
 }

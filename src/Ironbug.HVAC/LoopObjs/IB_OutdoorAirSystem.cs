@@ -14,8 +14,8 @@ namespace Ironbug.HVAC
         private IB_Child IB_ControllerOutdoorAir => this.Children.GetChild<IB_ControllerOutdoorAir>();
 
         //TODO: finish this later
-        private IList<IIB_AirLoopObject> OAStreamObjs = new List<IIB_AirLoopObject>();
-        private IList<IIB_AirLoopObject> ReliefStreamObjs = new List<IIB_AirLoopObject>();
+        private IList<IB_HVACObject> OAStreamObjs = new List<IB_HVACObject>();
+        private IList<IB_HVACObject> ReliefStreamObjs = new List<IB_HVACObject>();
 
         
         public IB_OutdoorAirSystem():base(InitMethod(new Model()))
@@ -44,7 +44,7 @@ namespace Ironbug.HVAC
             var oaObjs = this.OAStreamObjs.Reverse();
             foreach (var item in oaObjs)
             {
-                ((HVACComponent)item.ToOS(model)).addToNode(oaNode);
+                item.ToOS(model).addToNode(oaNode);
             };
             return true;
         }
@@ -61,7 +61,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             //Duplicate self;
-            var newObj = (IB_OutdoorAirSystem)base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
+            var newObj = base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
 
             //Duplicate child member;
             var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.DuplicateChild();
