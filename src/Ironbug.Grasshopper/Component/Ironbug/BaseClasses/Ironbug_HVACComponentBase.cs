@@ -106,6 +106,7 @@ namespace Ironbug.Grasshopper.Component
             var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
             foreach (var reciever in puppetReceivers)
             {
+                
                 reciever.ExpireSolution(true);
             }
 
