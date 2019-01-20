@@ -22,8 +22,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide reheat source. CoilHeatingDX", GH_ParamAccess.item);
-            pManager[0].Optional = true;
+            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide reheat source. CoilHeatingWater", GH_ParamAccess.item);
+            //pManager[0].Optional = true;
             pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. CoilCoolingDX", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         {
             
             var fan = new IB_FanConstantVolume();
-            var coilH = new IB_CoilHeatingDXSingleSpeed();
+            var coilH =  (IB_CoilHeatingWater) null;
             var coilC = new IB_CoilCoolingDXSingleSpeed();
 
             DA.GetData(0, ref coilH);

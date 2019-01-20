@@ -3,7 +3,6 @@ using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -27,8 +26,9 @@ namespace Ironbug.HVAC
 
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
+            if (!(HvacComponent is IIB_PlantLoopObjects))
+                throw new ArgumentException($"{HvacComponent.GetType()} is not a plant loop object.\nOnly plant loop object is allowed to add to plantloop!");
 
-            
             if (HvacComponent is IB_PlantLoopBranches)
             {
                 CheckWithBranch(this.supplyComponents);
@@ -40,6 +40,9 @@ namespace Ironbug.HVAC
 
         public void AddToDemand(IB_HVACObject HvacComponent)
         {
+            if (!(HvacComponent is IIB_PlantLoopObjects))
+                throw new ArgumentException($"{HvacComponent.GetType()} is not a plant loop object.\nOnly plant loop object is allowed to add to plantloop!");
+
             if (HvacComponent is IB_PlantLoopBranches)
             {
                 CheckWithBranch(this.demandComponents);
@@ -92,18 +95,30 @@ namespace Ironbug.HVAC
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
             
             var spInletNode = plant.supplyInletNode();
-            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            //objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            objsBeforeBranch.ToList().ForEach(_ => 
+            {
+                if (!_.AddToNode(spInletNode))
+                {
+                    throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
+                }
+            });
 
             if (branchObj != null)
             {
                 ((IB_PlantLoopBranches)branchObj).ToOS_Supply(plant);
             }
             
-
             var spOutLetNode = plant.supplyOutletNode();
-            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            //objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            objsAfterBranch.ToList().ForEach(_ => 
+            {
+                if (!_.AddToNode(spOutLetNode))
+                {
+                    throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
+                }
+            });
 
-            
             var addedObjs = plant.supplyComponents().Where(_ => _.comment().Contains("TrackingID"));
             var allcopied = addedObjs.Count() == filteredObjs.CountWithBranches();
             

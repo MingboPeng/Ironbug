@@ -35,7 +35,7 @@ namespace Ironbug.HVAC
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
             //TODO: check before add
-            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
+            if (HvacComponent is IIB_AirLoopObject)
             {
                 this.supplyComponents.Add(HvacComponent);
             }
@@ -48,7 +48,7 @@ namespace Ironbug.HVAC
         public void AddToDemandSide(IB_HVACObject HvacComponent)
         {
             
-            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
+            if (HvacComponent is IIB_AirLoopObject)
             {
                 this.demandComponents.Add(HvacComponent);
             }

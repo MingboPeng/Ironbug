@@ -24,7 +24,9 @@ namespace Ironbug.HVAC
                 foreach (var item in restChild)
                 {
                     var node = plant.supplyMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
+                    if (!item.AddToNode(node))
+                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
+                    
                 }
             }
         }
@@ -46,7 +48,8 @@ namespace Ironbug.HVAC
                 {
                     //TDDO: double check the obj order here
                     var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
+                    if (!item.AddToNode(node))
+                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
                 }
 
                 ////TODO: testing puppets only
