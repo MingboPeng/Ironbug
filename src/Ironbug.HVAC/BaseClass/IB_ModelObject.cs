@@ -56,8 +56,19 @@ namespace Ironbug.HVAC.BaseClass
 
         internal void SetChild<T>(T ChildObj) where T:IB_ModelObject
         {
-            var t = typeof(T);
             this.Children.FirstOrDefault(_ => _.IsType(typeof(T))).Set(ChildObj);
+        }
+        internal void SetChild<T>(int ChildIndex, T ChildObj) where T : IB_ModelObject
+        {
+            var child = this.Children[ChildIndex];
+            if (child.IsType(typeof(T)))
+            {
+                child.Set(ChildObj);
+            }
+            else
+            {
+                throw new ArgumentException($"Set {ChildObj.GetType()} to {GhostOSObject.GetType()} failed!");
+            }
         }
 
         public void ChangeState(IB_PuppetableState newState)

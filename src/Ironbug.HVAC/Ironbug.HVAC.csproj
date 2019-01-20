@@ -146,6 +146,7 @@
     <Compile Include="LoopObjs\IB_CoolingTowerTwoSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoolingTowerSingleSpeed.cs" />
     <Compile Include="LoopObjs\IB_SizingPlant.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACPackagedTerminalHeatPump.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Loops\IB_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_ChillerElectricEIR.cs" />

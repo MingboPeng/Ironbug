@@ -34,5 +34,20 @@ namespace Ironbug.HVAC
         {
             return children.FirstOrDefault(_ => _.IsType(typeof(T))).To<T>();
         }
+
+        public static T Get<T>(this IEnumerable<IB_Child> children, int ChildIndex) where T : IB_ModelObject
+        {
+            if (!(children.Count()> ChildIndex)) return null;
+
+            var child = children.ElementAt(ChildIndex);
+            if (child.IsType(typeof(T)))
+            {
+                return child.To<T>();
+            }
+            else
+            {
+                throw new ArgumentException($"Child at {ChildIndex} doesn't match {typeof(T)}!");
+            }
+        }
     }
 }
