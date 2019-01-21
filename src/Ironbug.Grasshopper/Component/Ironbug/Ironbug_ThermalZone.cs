@@ -89,6 +89,7 @@ namespace Ironbug.Grasshopper.Component
                         var puppet = airTerminal.DuplicateAsPuppet() as IB_AirTerminal;
                         zone.SetAirTerminal(puppet);
                     }
+                    airTerminal.PuppetStateUpdated();
 
                 }
                 else if (airTerminals.Count == OSZones.Count)
@@ -137,6 +138,7 @@ namespace Ironbug.Grasshopper.Component
                             var eqpPuppet = eqpHost.DuplicateAsPuppet() as IB_ZoneEquipment;
                             zone.AddZoneEquipment(eqpPuppet);
                         }
+                        eqp.PuppetStateUpdated();
                     }
                 }
 
@@ -249,6 +251,7 @@ for HBID in HBIDs:
             foreach (var item in itemNotConnectedAnyMore)
             {
                 item.Value.ResetPuppetState();
+                item.Value.PuppetStateUpdated();
             }
 
             //replace hvacComps with currentConnectedObjs

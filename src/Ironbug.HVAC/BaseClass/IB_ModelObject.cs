@@ -89,6 +89,7 @@ namespace Ironbug.HVAC.BaseClass
                 child.Get().ToPuppetHost();
             }
 
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return this;
         }
 
@@ -99,9 +100,18 @@ namespace Ironbug.HVAC.BaseClass
             {
                 child.Get().ResetPuppetState();
             }
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
         }
-        
+
+        public void PuppetStateUpdated()
+        {
+            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            foreach (var child in this.Children)
+            {
+                child.PuppetStateUpdated();
+            }
+        }
+
 
         public IB_ModelObject DuplicateAsPuppet()
         {
@@ -115,7 +125,7 @@ namespace Ironbug.HVAC.BaseClass
                 puppet.Children.Add(childPuppet);
             }
 
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return puppet;
 
             //Local method
