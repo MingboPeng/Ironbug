@@ -296,15 +296,6 @@
     <None Include="Resources\duct.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PipeAdiabatic.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PipeIndoor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PipeOutdoor.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\curve_e.png" />
   </ItemGroup>
   <ItemGroup>
@@ -461,9 +452,6 @@
     <None Include="Resources\SetPointSZReheat.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OutputVariable.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ReadAnnualResultsIII.png" />
   </ItemGroup>
   <ItemGroup>
@@ -501,6 +489,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\NoAirLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeAdiabatic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeIndoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeOutdoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PTHP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PTAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutputVariable.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

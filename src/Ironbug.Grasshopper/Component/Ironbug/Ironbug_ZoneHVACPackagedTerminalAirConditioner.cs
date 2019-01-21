@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.PTAC;
 
         public override Guid ComponentGuid => new Guid("104B43E5-E89F-4241-8180-9213B17086B5");
 
