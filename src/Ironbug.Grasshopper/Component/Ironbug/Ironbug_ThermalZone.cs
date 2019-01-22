@@ -53,28 +53,65 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            if (this.SecondRun)
+            {
+                this.SecondRun = false;
+                DA.SetDataList(0, this._zones);
+                this._zones = null;
+                
+            }
+            else
+            {
+                
+            }
+            DA.DisableGapLogic();
+
+
+           
+
+            //if (this.SecondRun)
+            //{
+                
+            //    this.SecondRun = true;
+            //    DA.SetDataList(0, this._zones);
+            //    this._zones = null;
+            //}
+            //else
+            //{
+            //    this._zones = OSZones;
+            //}
+            
+        }
+
+        private void CreateZones()
+        {
+            var willNeedSecondRun = false;
             var HBZones = new List<GH_Brep>();
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = new List<string>();
-
-            if (DA.GetDataList(0, HBZones))
-            {
+            this.Params.Input[0].CollectData();
+            HBZones = this.Params.Input[0].VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
+          
                 var hbzones = HBZones.SkipWhile(_ => _ is null);
                 zoneNames = CallFromHBHive(hbzones).ToList();
-            }
+            
 
             foreach (var name in zoneNames)
             {
                 OSZones.Add(new IB_ThermalZone(name));
             }
 
-            if (!OSZones.Any()) return;
-
+            if (!OSZones.Any())
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No valid HBZones!");
+                return;
+            } 
             //add airTerminal
             var airTerminals = new List<IB_AirTerminal>();
-
-            if (DA.GetDataList(1, airTerminals))
+            this.Params.Input[1].CollectData();
+            airTerminals = this.Params.Input[1].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_AirTerminal).ToList();
+            if (airTerminals.Any())
             {
                 //reset all puppetable state first, as it might came from previous solution.
                 airTerminals.ForEach(_ => _.ResetPuppetState());
@@ -90,6 +127,9 @@ namespace Ironbug.Grasshopper.Component
                         zone.SetAirTerminal(puppet);
                     }
                     airTerminal.PuppetStateUpdated();
+
+                    willNeedSecondRun = true;
+                    //this.SecondRun = true;
 
                 }
                 else if (airTerminals.Count == OSZones.Count)
@@ -113,9 +153,12 @@ namespace Ironbug.Grasshopper.Component
 
             //add ZoneEquipments
             var zoneEquipments = new List<IB_ZoneEquipment>();
-            if (DA.GetDataList(2, zoneEquipments))
+            this.Params.Input[2].CollectData();
+            zoneEquipments = this.Params.Input[2].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_ZoneEquipment).ToList();
+
+            if (zoneEquipments.Any())
             {
-                
+
                 //zoneEquipments.ForEach(_ => this.WatchPuppetStates(_));
                 zoneEquipments.ForEach(_ => _.ResetPuppetState());
                 if (OSZones.Count == 1)
@@ -140,6 +183,9 @@ namespace Ironbug.Grasshopper.Component
                         }
                         eqp.PuppetStateUpdated();
                     }
+
+                    willNeedSecondRun = true;
+                    //this.SecondRun = true;
                 }
 
 
@@ -147,8 +193,11 @@ namespace Ironbug.Grasshopper.Component
 
             //add Sizing
             var sizing = new IB_SizingZone();
-            if (DA.GetData(3, ref sizing))
+            this.Params.Input[3].CollectData();
+            var szs = this.Params.Input[3].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_SizingZone).ToList();
+            if (szs.Any())
             {
+                sizing = szs.ElementAt(0);
                 OSZones.ForEach(_ => _.SetSizingZone(sizing));
             }
 
@@ -158,8 +207,11 @@ namespace Ironbug.Grasshopper.Component
                 this.SetObjParamsTo(zone);
             }
 
-            DA.SetDataList(0, OSZones);
+            this._zones = OSZones;
+            this.SecondRun = willNeedSecondRun;
         }
+        private List<IB_ThermalZone> _zones;
+
 
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
         
@@ -257,6 +309,20 @@ for HBID in HBIDs:
             //replace hvacComps with currentConnectedObjs
             hvacComps = currentConnectedObjs;
 
+        }
+        public bool SecondRun = false;
+
+        public override void ExpireSolution(bool recompute)
+        {
+            if (this.SecondRun)
+            {
+                //base.ExpireSolution(recompute);
+            }
+            else
+            {
+                this.CreateZones();
+            }
+            base.ExpireSolution(recompute);
         }
     }
 }
