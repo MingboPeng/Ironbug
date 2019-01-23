@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using Grasshopper.Kernel.Data;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
@@ -12,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
-
+        private bool SecondRun = false;
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -24,6 +25,7 @@ namespace Ironbug.Grasshopper.Component
         {
             //this.Params.ParameterChanged += Params_ParameterChanged;
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+            //this.SolutionExpired += Ironbug_ThermalZone_SolutionExpired;
         }
 
        
@@ -49,39 +51,45 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
-        
+
+        protected override void BeforeSolveInstance()
+        {
+            var doc = OnPingDocument();
+            
+            if (!this.SecondRun)
+            {
+                //var p = doc.SolutionProgress(out i, out mi);
+                doc.SolutionEnd += Doc_SolutionEnd;
+                doc?.RequestAbortSolution();
+            }
+
+            this.SecondRun = false;
+        }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            if (this.SecondRun)
-            {
-                this.SecondRun = false;
-                DA.SetDataList(0, this._zones);
-                this._zones = null;
-                
-            }
-            else
-            {
-                
-            }
-            DA.DisableGapLogic();
-
-
-           
-
-            //if (this.SecondRun)
-            //{
-                
-            //    this.SecondRun = true;
-            //    DA.SetDataList(0, this._zones);
-            //    this._zones = null;
-            //}
-            //else
-            //{
-            //    this._zones = OSZones;
-            //}
             
+            DA.SetDataList(0, this._zones);
+            this.SecondRun = false;
+
         }
+
+        private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
+        {
+            this.OnPingDocument().SolutionEnd -= Doc_SolutionEnd;
+
+
+            this.CreateZones();
+
+            this.SecondRun = true;
+            var outp = this.Params.Output[0];
+            
+            this.ExpireSolution(false);
+
+            this.OnPingDocument().NewSolution(false);
+
+        }
+        
 
         private void CreateZones()
         {
@@ -90,8 +98,12 @@ namespace Ironbug.Grasshopper.Component
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = new List<string>();
-            this.Params.Input[0].CollectData();
-            HBZones = this.Params.Input[0].VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
+            var hbZoneIn = this.Params.Input[0];
+            if (hbZoneIn == null) return;
+
+            var phase = hbZoneIn.Phase;
+            hbZoneIn.CollectData();
+            HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
           
                 var hbzones = HBZones.SkipWhile(_ => _ is null);
                 zoneNames = CallFromHBHive(hbzones).ToList();
@@ -128,7 +140,7 @@ namespace Ironbug.Grasshopper.Component
                     }
                     airTerminal.PuppetStateUpdated();
 
-                    willNeedSecondRun = true;
+                    //willNeedSecondRun = true;
                     //this.SecondRun = true;
 
                 }
@@ -184,7 +196,7 @@ namespace Ironbug.Grasshopper.Component
                         eqp.PuppetStateUpdated();
                     }
 
-                    willNeedSecondRun = true;
+                    //willNeedSecondRun = true;
                     //this.SecondRun = true;
                 }
 
@@ -310,19 +322,8 @@ for HBID in HBIDs:
             hvacComps = currentConnectedObjs;
 
         }
-        public bool SecondRun = false;
+        
 
-        public override void ExpireSolution(bool recompute)
-        {
-            if (this.SecondRun)
-            {
-                //base.ExpireSolution(recompute);
-            }
-            else
-            {
-                this.CreateZones();
-            }
-            base.ExpireSolution(recompute);
-        }
+
     }
 }

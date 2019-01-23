@@ -119,22 +119,6 @@ namespace Ironbug.Grasshopper.Component
                 {
                     return true;
                 }
-                else if (owner is Ironbug_ThermalZone zone)
-                {
-                    if (zone.SecondRun)
-                    {
-                        zone.ExpireSolution(false);
-                        zone.SecondRun = false;
-                        return false;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    //return zone.SecondRun ? true : false;
-                    //return true;
-                    
-                }
                 //in case of user uses any gh_param, instated of connect to puppet receiver directly.
                 else if (owner is IGH_Param)
                 {
