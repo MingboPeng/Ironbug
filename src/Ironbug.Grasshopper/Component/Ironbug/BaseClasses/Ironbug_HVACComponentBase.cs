@@ -106,8 +106,9 @@ namespace Ironbug.Grasshopper.Component
             var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
             foreach (var reciever in puppetReceivers)
             {
-                
-                reciever.ExpireSolution(false);
+                var recompute = this.OnPingDocument().SolutionHistory.Count == 0;
+                reciever.ExpireSolution(recompute);
+
             }
 
             //local function
@@ -115,7 +116,9 @@ namespace Ironbug.Grasshopper.Component
             {
                 var owner = gh_Param.Attributes.GetTopLevel.DocObject;
                 
-                if (owner is Ironbug_AirLoopBranches || owner is Ironbug_PlantBranches || owner is Ironbug_AirConditionerVariableRefrigerantFlow)
+                if (owner is Ironbug_AirLoopBranches || 
+                    owner is Ironbug_PlantBranches || 
+                    owner is Ironbug_AirConditionerVariableRefrigerantFlow)
                 {
                     return true;
                 }

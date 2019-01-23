@@ -13,7 +13,6 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
-        private bool SecondRun = false;
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -56,23 +55,26 @@ namespace Ironbug.Grasshopper.Component
         {
             var doc = OnPingDocument();
             
-            if (!this.SecondRun)
+            if (doc.SolutionHistory.Count == 0)
             {
-                //var p = doc.SolutionProgress(out i, out mi);
+                this.CreateZones();
+                return;
+            }
+
+            
+            if (doc.SolutionDepth == 1)
+            {
                 doc.SolutionEnd += Doc_SolutionEnd;
                 doc?.RequestAbortSolution();
             }
-
-            this.SecondRun = false;
+            
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            
             DA.SetDataList(0, this._zones);
-            this.SecondRun = false;
-
         }
+        
 
         private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
         {
@@ -80,8 +82,7 @@ namespace Ironbug.Grasshopper.Component
 
 
             this.CreateZones();
-
-            this.SecondRun = true;
+            
             var outp = this.Params.Output[0];
             
             this.ExpireSolution(false);
@@ -93,7 +94,7 @@ namespace Ironbug.Grasshopper.Component
 
         private void CreateZones()
         {
-            var willNeedSecondRun = false;
+            this._zones = null;
             var HBZones = new List<GH_Brep>();
             var OSZones = new List<IB_ThermalZone>();
 
@@ -195,9 +196,7 @@ namespace Ironbug.Grasshopper.Component
                         }
                         eqp.PuppetStateUpdated();
                     }
-
-                    //willNeedSecondRun = true;
-                    //this.SecondRun = true;
+                    
                 }
 
 
@@ -220,9 +219,9 @@ namespace Ironbug.Grasshopper.Component
             }
 
             this._zones = OSZones;
-            this.SecondRun = willNeedSecondRun;
         }
-        private List<IB_ThermalZone> _zones;
+
+        private List<IB_ThermalZone> _zones = null;
 
 
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
