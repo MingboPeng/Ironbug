@@ -20,7 +20,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             return this.NewOpsObj(model) as HVACComponent;
         }
-        public virtual IB_HVACObject Duplicate()
+        public new virtual IB_HVACObject Duplicate()
         {
             return base.Duplicate() as IB_HVACObject;
         }

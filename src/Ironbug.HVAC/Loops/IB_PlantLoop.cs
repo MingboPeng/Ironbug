@@ -72,11 +72,11 @@ namespace Ironbug.HVAC
             var newObj = (IB_PlantLoop)this.DuplicateIBObj(IB_InitSelf);
 
             this.supplyComponents.ForEach(d =>
-                newObj.AddToSupply((IB_HVACObject)d.Duplicate())
+                newObj.AddToSupply(d.Duplicate())
                 );
 
             this.demandComponents.ForEach(d =>
-                newObj.AddToDemand((IB_HVACObject)d.Duplicate())
+                newObj.AddToDemand(d.Duplicate())
                 );
 
             newObj.SetSizingPlant((IB_SizingPlant)this.IB_SizingPlant.Duplicate());

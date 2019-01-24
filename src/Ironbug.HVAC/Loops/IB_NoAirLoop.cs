@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_NoAirLoop();
         
-        private IList<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
+        private List<IB_ThermalZone> thermalZones { get; set; } = new List<IB_ThermalZone>();
         
 
         public IB_NoAirLoop() : base()
@@ -27,8 +27,13 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            //TODO: duplicate child objects
-            return this.DuplicateIBObj(IB_InitSelf);
+            var newObj = this.DuplicateIBObj(() => new IB_NoAirLoop());
+
+            this.thermalZones.ForEach(
+                _ => newObj.AddThermalZones(_.Duplicate())
+                );
+
+            return newObj;
         }
         
         protected override ModelObject NewOpsObj(Model model)

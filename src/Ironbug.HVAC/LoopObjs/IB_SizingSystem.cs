@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_SizingSystem Duplicate()
+        public new IB_SizingSystem Duplicate()
         {
             return base.DuplicateIBObj(IB_InitSelf) as IB_SizingSystem;
         }

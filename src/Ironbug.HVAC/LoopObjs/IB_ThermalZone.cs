@@ -110,7 +110,7 @@ namespace Ironbug.HVAC.BaseClass
             return newZone;
         }
 
-        public override IB_ModelObject Duplicate()
+        public new IB_ThermalZone Duplicate()
         {
             
             //Duplicate self;

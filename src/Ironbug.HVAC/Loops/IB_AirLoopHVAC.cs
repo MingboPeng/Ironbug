@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -12,8 +10,8 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirLoopHVAC();
 
-        private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
-        private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
+        private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
+        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
         private IB_SizingSystem _SizingSystem { get; set; } = new IB_SizingSystem();
 
@@ -63,18 +61,14 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(() => new IB_AirLoopHVAC());
-            var newSpl = this.supplyComponents.Select(_ => _.Duplicate());
-            var newDmd = this.demandComponents.Select(_ => _.Duplicate());
 
-            foreach (var item in newSpl)
-            {
-                newObj.AddToSupplySide(item);
-            }
+            this.supplyComponents.ForEach(d =>
+                newObj.AddToSupplySide(d.Duplicate())
+                );
 
-            foreach (var item in newDmd)
-            {
-                newObj.AddToDemandSide(item);
-            }
+            this.demandComponents.ForEach(d =>
+                newObj.AddToDemandSide(d.Duplicate())
+                );
 
             newObj.SetSizingSystem(this._SizingSystem.Duplicate());
 
