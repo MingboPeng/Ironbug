@@ -13,6 +13,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
+        private bool _firstRun = true;
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -62,10 +63,11 @@ namespace Ironbug.Grasshopper.Component
             }
 
             
-            if (doc.SolutionDepth == 1)
+            if (this._firstRun)
             {
                 doc.SolutionEnd += Doc_SolutionEnd;
                 doc?.RequestAbortSolution();
+                this._firstRun = false;
             }
             
         }
@@ -219,6 +221,7 @@ namespace Ironbug.Grasshopper.Component
             }
 
             this._zones = OSZones;
+            this._firstRun = false;
         }
 
         private List<IB_ThermalZone> _zones = null;

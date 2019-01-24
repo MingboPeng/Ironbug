@@ -149,11 +149,11 @@ namespace Ironbug.HVACTests
 
             HVAC.IB_SizingPlant sizingPlant = new HVAC.IB_SizingPlant();
             var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            sizingPlant.SetFieldValue(szFields.LoopType, "Heating");
+
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
             
-            sizing.SetFieldValue(szFields.LoopType, "Heating");
-
-            plant.SetSizingPlant((IB_SizingPlant)sizing);
+            plant.SetSizingPlant(sizing);
 
             var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
             if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
@@ -162,10 +162,11 @@ namespace Ironbug.HVACTests
             }
             plant.SetFieldValue(plantFields.FluidType, "Water");
 
+            var newPlant = plant.Duplicate() as IB_PlantLoop;
 
-            plant.ToOS(md1);
+            newPlant.ToOS(md1);
             
-            var success1 = plant.IsInModel(md1);
+            var success1 = newPlant.IsInModel(md1);
             var success3 = md1.Save(saveFile);
             var success = success1 && success3;
 
@@ -254,6 +255,25 @@ namespace Ironbug.HVACTests
             success &= md1.Save(saveFile);
 
             Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void DuplicateWithChild()
+        {
+            var oa = new IB_OutdoorAirSystem();
+            var oac = new IB_ControllerOutdoorAir();
+            oac.SetFieldValue(IB_ControllerOutdoorAir_DataFieldSet.Value.EconomizerControlType, "DifferentialDryBulb");
+            oa.SetController(oac);
+
+            var newOa = oa.Duplicate() as IB_OutdoorAirSystem;
+
+            var s = newOa.Children
+                .Get<IB_ControllerOutdoorAir>()
+                .CustomAttributes
+                .Where(_=>_.Value.ToString() == "DifferentialDryBulb")
+                .Any();
+
+            Assert.IsTrue(s);
         }
     }
 }

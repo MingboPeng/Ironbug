@@ -14,16 +14,19 @@ namespace Ironbug.HVAC
         {
         }
 
-        public override IB_ModelObject Duplicate()
+        public IB_SizingSystem Duplicate()
         {
-            return base.DuplicateIBObj(IB_InitSelf);
+            return base.DuplicateIBObj(IB_InitSelf) as IB_SizingSystem;
         }
 
         public ModelObject ToOS(AirLoopHVAC loop)
         {
             //create a new sizingPlant to target plant loop
             var targetModel = loop.model();
-            return base.OnNewOpsObj((Model model) => new SizingSystem(model, loop), targetModel);
+            var old = loop.sizingSystem();
+            var obj = base.OnNewOpsObj((Model model) => new SizingSystem(model, loop), targetModel);
+            old.remove();
+            return obj;
         }
 
         //this is replaced by above method

@@ -286,7 +286,7 @@ namespace Ironbug.HVAC.BaseClass
         //protected abstract T InitOpsObj<T>(Model model);
         //protected delegate ModelObject InitMethodDelegate(Model model);
 
-        protected ModelObject OnNewOpsObj(Func<Model, ModelObject> InitMethodHandler, Model model)
+        protected T OnNewOpsObj<T>(Func<Model, T> InitMethodHandler, Model model) where T: ModelObject
         {
             if (InitMethodHandler == null)
             {
@@ -307,7 +307,7 @@ namespace Ironbug.HVAC.BaseClass
 
             AddOutputVariablesToModel(this.OutputVariables, model);
 
-            return realObj;
+            return realObj as T;
 
 
             ModelObject InitAndSetAttributes()
@@ -376,7 +376,7 @@ namespace Ironbug.HVAC.BaseClass
         public virtual IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(IB_InitSelf);
-
+            newObj.Children.Clear();
             foreach (var child in this.Children)
             {
                 newObj.Children.Add(child.Duplicate());

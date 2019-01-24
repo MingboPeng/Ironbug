@@ -88,6 +88,10 @@ namespace Ironbug.HVAC
                 {
                     parm = new object[] { CheckBelonging(tempComp, value) };
                     invokeResult = method.Invoke(tempComp, parm);
+                    if (invokeResult is bool b)
+                    {
+                        if(!b) throw new ArgumentException($"Failed to set {value} to {tempComp.GetType()}!");
+                    }
                 }
                 
             }

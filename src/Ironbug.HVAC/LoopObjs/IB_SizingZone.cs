@@ -17,17 +17,6 @@ namespace Ironbug.HVAC
         {
         }
         
-        /// <summary>
-        /// This is the base Duplicate() for IB_SizingZone, you need to call SetSizingZone in IB_ThermalZone to link SizingZone to ThermalZone; 
-        /// Or you can use DuplicateToZone(IB_ThermalZone ThermalZone) instead.
-        /// </summary>
-        /// <returns>IB_ModelObject</returns>
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(IB_InitSelf);
-        }
-        
-
         public ModelObject ToOS(ThermalZone thermalZone)
         {
             //create a sizingZone to target thermalZone

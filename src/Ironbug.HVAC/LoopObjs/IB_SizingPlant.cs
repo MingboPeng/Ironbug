@@ -13,11 +13,7 @@ namespace Ironbug.HVAC
         public IB_SizingPlant() : base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(IB_InitSelf);
-        }
+        
 
         public ModelObject ToOS(PlantLoop loop)
         {

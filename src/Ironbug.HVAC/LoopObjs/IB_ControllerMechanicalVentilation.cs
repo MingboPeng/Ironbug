@@ -12,11 +12,7 @@ namespace Ironbug.HVAC
         public IB_ControllerMechanicalVentilation() : base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override IB_ModelObject Duplicate()
-        {
-            return this.DuplicateIBObj(() => new IB_ControllerMechanicalVentilation());
-        }
+        
 
         protected override ModelObject NewOpsObj(Model model)
         {

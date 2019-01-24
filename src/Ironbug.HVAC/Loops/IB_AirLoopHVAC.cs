@@ -15,7 +15,7 @@ namespace Ironbug.HVAC
         private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
         private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
-        private IB_SizingSystem IB_SizingSystem { get; set; } = new IB_SizingSystem();
+        private IB_SizingSystem _SizingSystem { get; set; } = new IB_SizingSystem();
 
         private static AirLoopHVAC NewDefaultOpsObj(Model model) => new AirLoopHVAC(model);
 
@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
 
         public void SetSizingSystem(IB_SizingSystem sizing)
         {
-            this.IB_SizingSystem = sizing;
+            this._SizingSystem = sizing;
         }
 
 
@@ -62,8 +62,23 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            //TODO: duplicate child objects
-            return this.DuplicateIBObj(IB_InitSelf);
+            var newObj = this.DuplicateIBObj(() => new IB_AirLoopHVAC());
+            var newSpl = this.supplyComponents.Select(_ => _.Duplicate());
+            var newDmd = this.demandComponents.Select(_ => _.Duplicate());
+
+            foreach (var item in newSpl)
+            {
+                newObj.AddToSupplySide(item);
+            }
+
+            foreach (var item in newDmd)
+            {
+                newObj.AddToDemandSide(item);
+            }
+
+            newObj.SetSizingSystem(this._SizingSystem.Duplicate());
+
+            return newObj;
         }
 
         protected override ModelObject NewOpsObj(Model model)
@@ -72,7 +87,7 @@ namespace Ironbug.HVAC
             
             Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
             var airLoopHVAC = base.OnInitOpsObj(NewDefaultOpsObj, model, postProcess);
-            this.IB_SizingSystem.ToOS(airLoopHVAC);
+            this._SizingSystem.ToOS(airLoopHVAC);
             
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);
