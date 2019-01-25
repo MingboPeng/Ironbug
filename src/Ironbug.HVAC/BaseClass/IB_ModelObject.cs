@@ -278,7 +278,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public bool IsInModel(Model model)
         {
-            return !this.GhostOSObject.GetIfInModel(model).isNull();
+            return !(this.GhostOSObject.GetIfInModel(model) is null);
         }
         //this is for override
         //public abstract ModelObject ToOS(Model model);
@@ -292,12 +292,13 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return null;
             }
-
+            
             ModelObject realObj = null;
             if (this is IIB_DualLoopObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
-                realObj = objInModel.isNull()? InitAndSetAttributes(): objInModel.get();
+                var ifNull = objInModel is null;
+                realObj = ifNull ? InitAndSetAttributes(): objInModel;
                 
             }
             else
@@ -306,7 +307,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             AddOutputVariablesToModel(this.OutputVariables, model);
-
+            
             return realObj as T;
 
 
@@ -318,40 +319,38 @@ namespace Ironbug.HVAC.BaseClass
                 return obj;
             }
             
-            
-            
+
+
         }
 
         
+        //protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
+        //{
+        //    if (initMethod == null)
+        //    {
+        //        return null;
+        //    }
 
-        //TODO: need double check, this might not be working
-        protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
-        {
-            if (initMethod == null)
-            {
-                return null;
-            }
+        //    ModelObject realObj = null;
+        //    if (this is IIB_DualLoopObj)
+        //    {
+        //        var objInModel = this.GhostOSObject.GetIfInModel(model);
+        //        realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
+        //    }
+        //    else
+        //    {
+        //        realObj = initMethod(model);
+        //    }
 
-            ModelObject realObj = null;
-            if (this is IIB_DualLoopObj)
-            {
-                var objInModel = this.GhostOSObject.GetIfInModel(model);
-                realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
-            }
-            else
-            {
-                realObj = initMethod(model);
-            }
+        //    realObj.SetCustomAttributes(this.CustomAttributes);
 
-            realObj.SetCustomAttributes(this.CustomAttributes);
-
-            AddOutputVariablesToModel(this.OutputVariables, model);
+        //    AddOutputVariablesToModel(this.OutputVariables, model);
 
 
-            return postProcess(realObj);
+        //    return postProcess(realObj);
 
             
-        }
+        //}
         private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, Model md)
         {
             var vs = outputVariables;

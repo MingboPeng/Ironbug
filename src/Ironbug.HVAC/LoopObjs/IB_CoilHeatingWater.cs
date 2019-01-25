@@ -17,14 +17,16 @@ namespace Ironbug.HVAC
         public override bool AddToNode(Node node)
         {
             var model = node.model();
-            return ((CoilHeatingWater)this.NewOpsObj(model)).addToNode(node);
+            var result = ((CoilHeatingWater)this.NewOpsObj(model)).addToNode(node);
+            return result;
             
         }
 
 
         protected override ModelObject NewOpsObj(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingWater().get();
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            return obj;
         }
 
 

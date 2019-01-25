@@ -22,8 +22,7 @@ namespace Ironbug.HVAC
         
         protected override ModelObject NewOpsObj(Model model)
         {
-            ChillerElectricEIR postProcess(ModelObject _) => _.to_ChillerElectricEIR().get();
-            return base.OnInitOpsObj(NewDefaultOpsObj, model, postProcess);
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

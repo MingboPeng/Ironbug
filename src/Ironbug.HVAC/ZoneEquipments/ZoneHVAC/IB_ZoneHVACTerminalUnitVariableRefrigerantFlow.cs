@@ -20,9 +20,7 @@ namespace Ironbug.HVAC
         
         protected override ModelObject NewOpsObj(Model model)
         {
-            //TODO: double check this new way
-            return base.OnInitOpsObj(NewDefaultOpsObj, model,(_)=>_.to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get());
-            //return base.OnInitOpsObj(NewDefaultOpsObj, model).to_ZoneHVACTerminalUnitVariableRefrigerantFlow().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
 

@@ -79,8 +79,7 @@ namespace Ironbug.HVAC
         {
             this.CheckSupplySide(this.supplyComponents);
             
-            Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
-            var airLoopHVAC = base.OnInitOpsObj(NewDefaultOpsObj, model, postProcess);
+            var airLoopHVAC = base.OnNewOpsObj(NewDefaultOpsObj, model);
             this._SizingSystem.ToOS(airLoopHVAC);
             
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);

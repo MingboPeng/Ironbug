@@ -41,13 +41,15 @@ namespace Ironbug.HVAC
 
                 var items = branch.SelectMany(_ => _.GetPuppetsOrSelf()).Select(_ => _ as IB_HVACObject);
                 //add one branch
-                plant.addDemandBranchForComponent((HVACComponent)items.First().ToOS(model));
+                var firstItem = items.First();
+                plant.addDemandBranchForComponent(firstItem.ToOS(model));
                 //add the rest child in this branch
                 var restChild = items.Skip(1);
+                //TDDO: double check the obj order here
+                var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
                 foreach (var item in restChild)
                 {
-                    //TDDO: double check the obj order here
-                    var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
+                    
                     if (!item.AddToNode(node))
                         throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
                 }

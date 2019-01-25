@@ -65,6 +65,7 @@ namespace Ironbug.Grasshopper.Component
             
             if (this._firstRun)
             {
+                this._firstRun = false;
                 doc.SolutionEnd += Doc_SolutionEnd;
                 doc?.RequestAbortSolution();
                 
@@ -106,6 +107,7 @@ namespace Ironbug.Grasshopper.Component
             if (hbZoneIn == null) return;
 
             var phase = hbZoneIn.Phase;
+            if (phase == GH_SolutionPhase.Failed) return;
             hbZoneIn.CollectData();
             HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
           

@@ -89,7 +89,7 @@ namespace Ironbug.HVAC.BaseClass
             }
             else
             {
-                newZone = (ThermalZone)base.OnNewOpsObj(NewDefaultOpsObj, model);
+                newZone = base.OnNewOpsObj(NewDefaultOpsObj, model);
             }
             
             

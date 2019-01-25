@@ -1,6 +1,7 @@
 ﻿using OpenStudio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -19,25 +20,38 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        public static OptionalParentObject GetIfInModel(this ModelObject component, Model model)
-        {
-            var uid = component.comment();
-            var type = component.iddObject().type();
-            var objs = model.getObjectsByType(type);
-            var optionObj = new OptionalParentObject();
-            foreach (var item in objs)
-            {
-                if (item.comment().Equals(uid))
-                {
-                    var h = item.handle();
-                    optionObj = model.getParentObject(h);
+        //public static OptionalParentObject GetIfInModel(this ModelObject component, Model model)
+        //{
+        //    var uid = component.comment();
+        //    var type = component.iddObject().type();
+        //    var objs = model.getObjectsByType(type);
+        //    var optionObj = new OptionalParentObject();
+        //    foreach (var item in objs)
+        //    {
+        //        if (item.comment().Equals(uid))
+        //        {
+        //            var h = item.handle();
+        //            optionObj = model.getParentObject(h);
                     
-                    //optionObj.set(model.getParentObject(h).get());
-                }
-            }
-            return optionObj;
+        //            //optionObj.set(model.getParentObject(h).get());
+        //        }
+        //    }
+        //    return optionObj;
+        //}
+
+        public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
+        {
+            var getmethodName = $"get{typeof(T).Name}s";
+            var methodInfo = typeof(Model).GetMethod(getmethodName);
+            if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
+
+            var objresults = methodInfo.Invoke(model, null);
+            var objList = (objresults as IEnumerable<T>).ToList();
+            var matchObj = objList.FirstOrDefault(_ => _.comment() == component.comment());
+
+            return matchObj;
         }
-        
+
 
         public static object GetFieldValue(this ModelObject component, string getterMethodName)
         {

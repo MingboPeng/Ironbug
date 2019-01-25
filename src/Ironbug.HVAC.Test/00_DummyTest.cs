@@ -77,7 +77,7 @@ namespace Ironbug.HVACTests
 
             var optional = airflow.GetIfInModel(md1);
             
-            Assert.IsTrue(!optional.isNull());
+            Assert.IsTrue(!(optional is null));
         }
 
         
