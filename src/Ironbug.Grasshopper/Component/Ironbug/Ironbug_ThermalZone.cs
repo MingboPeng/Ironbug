@@ -67,7 +67,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 doc.SolutionEnd += Doc_SolutionEnd;
                 doc?.RequestAbortSolution();
-                this._firstRun = false;
+                
             }
             
         }
@@ -75,6 +75,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             DA.SetDataList(0, this._zones);
+            this._firstRun = true;
         }
         
 
