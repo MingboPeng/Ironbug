@@ -78,10 +78,10 @@ namespace Ironbug.HVAC
         //    return plant;
         //}
 
-        public override IB_ModelObject Duplicate()
+        public new IB_PlantLoop Duplicate()
         {
 
-            var newObj = (IB_PlantLoop)this.DuplicateIBObj(IB_InitSelf);
+            var newObj = this.DuplicateIBObj(() => new IB_PlantLoop());
 
             this.supplyComponents.ForEach(d =>
                 newObj.AddToSupply(d.Duplicate())
@@ -139,7 +139,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add plant loop's supply components!");
+                throw new ArgumentException("Failed to add plant loop's supply components!");
             }
 
             return allcopied;

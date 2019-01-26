@@ -19,6 +19,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return;
             }
+
             this.Branches.Add(HVACObjects);
         }
 
@@ -55,7 +56,6 @@ namespace Ironbug.HVAC.BaseClass
         {
             throw new NotImplementedException();
         }
-
-        //protected override ModelObject NewOpsObj(Model model) => null;
+        
     }
 }

@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
             foreach (var branch in branches)
             {
                 //add one branch
-                plant.addSupplyBranchForComponent((HVACComponent)branch.First().ToOS(model));
+                plant.addSupplyBranchForComponent(branch.First().ToOS(model));
                 //add the rest child in this branch
                 var restChild = branch.Skip(1);
                 foreach (var item in restChild)
@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
 
         public void ToOS_Demand(Loop PlantLoop)
         {
-            var branches = this.CheckPuppetsInBranches(this).Branches;
+            var branches = this.CheckPuppetsInBranches().Branches;
             var plant = PlantLoop as PlantLoop;
             var model = PlantLoop.model();
             foreach (var branch in branches)
@@ -67,10 +67,10 @@ namespace Ironbug.HVAC
             }
         }
 
-        public IB_PlantLoopBranches CheckPuppetsInBranches(IB_LoopBranches IB_Branches)
+        public IB_PlantLoopBranches CheckPuppetsInBranches()
         {
             
-            var branches = IB_Branches.Branches;
+            var branches = this.Branches;
             var newBranches = new IB_PlantLoopBranches();
             foreach (var branch in branches)
             {

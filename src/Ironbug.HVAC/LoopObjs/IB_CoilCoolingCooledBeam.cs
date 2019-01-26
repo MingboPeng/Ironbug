@@ -19,11 +19,7 @@ namespace Ironbug.HVAC
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        //protected override ModelObject NewOpsObj(Model model)
-        //{
-        //    return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingCooledBeam().get();
-        //}
+        
     }
     public sealed class IB_CoilCoolingCooledBeam_DataFieldSet
         : IB_FieldSet<IB_CoilCoolingCooledBeam_DataFieldSet, CoilCoolingCooledBeam>

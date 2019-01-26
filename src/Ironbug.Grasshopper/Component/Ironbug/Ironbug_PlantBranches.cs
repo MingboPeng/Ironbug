@@ -203,7 +203,7 @@ namespace Ironbug.Grasshopper.Component
 
             }
 
-            var checkedBranch = branches.CheckPuppetsInBranches(branches);
+            var checkedBranch = branches.CheckPuppetsInBranches();
 
             return checkedBranch;
         }
