@@ -24,10 +24,7 @@ namespace Ironbug.HVAC.BaseClass
             return (beforeBranch, branch, afterBranch);
         }
 
-        public virtual ModelObject ToOS(Model model)
-        {
-            return this.NewOpsObj(model);
-        }
+        public abstract ModelObject ToOS(Model model);
 
         protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components)
         {

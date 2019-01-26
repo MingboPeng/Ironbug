@@ -7,23 +7,18 @@ namespace Ironbug.HVAC
     public class IB_FanOnOff : IB_Fan
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_FanOnOff();
-
+        
         private static FanOnOff NewDefaultOpsObj(Model model) => new FanOnOff(model);
 
         public IB_FanOnOff():base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
+        
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((FanOnOff)this.ToOS(model)).addToNode(node);
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_FanOnOff().get();
-        }
+        
         
     }
 

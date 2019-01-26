@@ -16,11 +16,11 @@ namespace Ironbug.HVAC
         public IB_AirTerminalSingleDuctVAVNoReheat() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        
 
-        protected override ModelObject NewOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_AirTerminalSingleDuctVAVNoReheat().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
         
 

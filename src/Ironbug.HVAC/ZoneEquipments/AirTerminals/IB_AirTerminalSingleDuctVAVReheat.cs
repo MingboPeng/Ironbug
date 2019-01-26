@@ -27,9 +27,9 @@ namespace Ironbug.HVAC
             this.AddChild(new IB_CoilHeatingWater());
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctVAVReheat().get();
+            return base.OnNewOpsObj(InitMethodWithCoil, model);
 
             //Local Method
             AirTerminalSingleDuctVAVReheat InitMethodWithCoil(Model md) =>

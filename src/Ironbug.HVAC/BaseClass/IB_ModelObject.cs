@@ -282,7 +282,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         //this is for override
         //public abstract ModelObject ToOS(Model model);
-        protected abstract ModelObject NewOpsObj(Model model);
+        //protected abstract ModelObject NewOpsObj(Model model);
         //protected abstract T InitOpsObj<T>(Model model);
         //protected delegate ModelObject InitMethodDelegate(Model model);
 

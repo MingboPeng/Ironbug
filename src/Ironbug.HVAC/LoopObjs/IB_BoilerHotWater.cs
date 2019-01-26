@@ -12,16 +12,9 @@ namespace Ironbug.HVAC
         public IB_BoilerHotWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((BoilerHotWater)this.ToOS(model)).addToNode(node);
-        }
-        
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_BoilerHotWater().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

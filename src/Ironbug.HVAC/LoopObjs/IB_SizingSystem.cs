@@ -29,11 +29,11 @@ namespace Ironbug.HVAC
             return obj;
         }
 
-        //this is replaced by above method
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            throw new NotImplementedException();
-        }
+        ////this is replaced by above method
+        //protected override ModelObject NewOpsObj(Model model)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 
     public sealed class IB_SizingSystem_FieldSet

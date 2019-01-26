@@ -21,7 +21,7 @@ namespace Ironbug.HVAC
             this.SetChild(heatingSource);
         }
 
-        public override bool AddToNode(Node node)
+        public new bool AddToNode(Node node)
         {
             var model = node.model();
             var newObj = (CoilHeatingDesuperheater)this.ToOS(model);
@@ -39,15 +39,15 @@ namespace Ironbug.HVAC
             
 
         }
-        
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingDesuperheater().get();
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             var newHS = this.HeatingSource.ToOS(model);
             newObj.setHeatingSource(newHS);
             return newObj;
         }
+        
 
     }
 

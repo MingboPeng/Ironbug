@@ -13,17 +13,9 @@ namespace Ironbug.HVAC
         public IB_CoilHeatingWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
+
         
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            var result = ((CoilHeatingWater)this.NewOpsObj(model)).addToNode(node);
-            return result;
-            
-        }
-
-
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;

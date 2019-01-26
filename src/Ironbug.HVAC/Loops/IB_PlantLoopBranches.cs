@@ -30,6 +30,7 @@ namespace Ironbug.HVAC
                 }
             }
         }
+
         public void ToOS_Demand(Loop PlantLoop)
         {
             var branches = this.CheckPuppetsInBranches(this).Branches;

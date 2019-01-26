@@ -38,10 +38,9 @@ namespace Ironbug.HVAC
 
             return newObj;
         }
-
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model).to_AirConditionerVariableRefrigerantFlow().get();
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             
             var allTerms = this.Terminals.SelectMany(_ => _.GetPuppetsOrSelf());
             foreach (var terminal in allTerms)

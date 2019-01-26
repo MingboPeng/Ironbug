@@ -13,17 +13,11 @@ namespace Ironbug.HVAC
         public IB_HeatExchangerAirToAirSensibleAndLatent() : base(NewDefaultOpsObj(new Model()))
         {
         }
+         
 
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((HeatExchangerAirToAirSensibleAndLatent)this.ToOS(model)).addToNode(node);
-        }
-        
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_HeatExchangerAirToAirSensibleAndLatent().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

@@ -14,16 +14,11 @@ namespace Ironbug.HVAC
         public IB_PipeAdiabatic():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_PipeAdiabatic().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((PipeAdiabatic)base.ToOS(model)).addToNode(node);
-        }
+        
     }
 
     public sealed class IB_PipeAdiabatic_FieldSet

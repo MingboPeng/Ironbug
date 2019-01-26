@@ -19,27 +19,14 @@ namespace Ironbug.HVAC
         {
             this.SetChild(mechanicalVentilation);
         }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    var newObj = this.DuplicateIBObj(() => new IB_ControllerOutdoorAir());
-        //    var newMechVent = (IB_ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.Duplicate();
-        //    newObj.SetMechanicalVentilation(newMechVent);
-        //    return newObj;
-        //}
-
-        protected override ModelObject NewOpsObj(Model model)
+        
+        public ModelObject ToOS(Model model)
         {
-            var newObj = (ControllerOutdoorAir)this.OnNewOpsObj(NewDefaultOpsObj, model); //TODO: would this work?
+            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model);
             var newMechVent = (ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.ToOS(model);
             newObj.setControllerMechanicalVentilation(newMechVent);
 
             return newObj;
-        }
-
-        public ModelObject ToOS(Model model)
-        {
-            return this.NewOpsObj(model);
         }
 
     }

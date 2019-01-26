@@ -75,7 +75,7 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override ModelObject ToOS(Model model)
         {
             this.CheckSupplySide(this.supplyComponents);
             

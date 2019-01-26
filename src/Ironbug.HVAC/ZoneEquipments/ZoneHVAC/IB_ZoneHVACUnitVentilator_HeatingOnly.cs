@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -30,14 +27,14 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACUnitVentilator().get();
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             opsObj.setSupplyAirFan(this.Fan.ToOS(model));
             return opsObj;
-            
         }
+        
     }
     
 }

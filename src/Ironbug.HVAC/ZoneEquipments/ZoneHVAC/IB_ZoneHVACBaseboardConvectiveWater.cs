@@ -23,10 +23,10 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithChildren, model).to_ZoneHVACBaseboardConvectiveElectric().get();
-            //Local Method
+            return base.OnNewOpsObj(InitMethodWithChildren, model); 
+
             ZoneHVACBaseboardConvectiveWater InitMethodWithChildren(Model md) =>
                 new ZoneHVACBaseboardConvectiveWater(md, md.alwaysOnDiscreteSchedule(), (StraightComponent)this.HeatingCoil.ToOS(md));
         }

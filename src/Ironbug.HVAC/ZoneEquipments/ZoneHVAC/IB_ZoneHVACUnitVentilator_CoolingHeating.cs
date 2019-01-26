@@ -25,12 +25,7 @@ namespace Ironbug.HVAC
         {
             this.SetChild(Fan);
         }
-
-        //TODO: This is only for testing, need to be removed.
-        public IB_Fan GetFan()
-        {
-           return this.Children.Get<IB_Fan>();
-        }
+        
         
         public void SetCoolingCoil(IB_CoilCoolingBasic Coil)
         {
@@ -41,15 +36,15 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACUnitVentilator().get();
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             opsObj.setCoolingCoil(this.CoolingCoil.ToOS(model));
             opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             opsObj.setSupplyAirFan(this.Fan.ToOS(model));
             return opsObj;
-            
         }
+        
     }
 
     public sealed class IB_ZoneHVACUnitVentilator_DataFieldSet 

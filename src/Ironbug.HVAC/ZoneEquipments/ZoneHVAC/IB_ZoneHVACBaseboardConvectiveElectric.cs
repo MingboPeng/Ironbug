@@ -16,9 +16,9 @@ namespace Ironbug.HVAC
         {
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACBaseboardConvectiveElectric().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

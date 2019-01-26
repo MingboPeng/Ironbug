@@ -14,21 +14,10 @@ namespace Ironbug.HVAC
         {
             
         }
-
-        public override bool AddToNode(Node node)
+        
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((CoilCoolingDXSingleSpeed)this.ToOS(model)).addToNode(node);
-        }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_CoilCoolingDXSingleSpeed());
-        //}
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingDXSingleSpeed().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

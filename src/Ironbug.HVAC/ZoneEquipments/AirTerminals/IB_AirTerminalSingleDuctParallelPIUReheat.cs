@@ -29,16 +29,10 @@ namespace Ironbug.HVAC
             this.SetChild(Fan);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithChildren, model).to_AirTerminalSingleDuctParallelPIUReheat().get();
-            //var newOSCoil = (HVACComponent)this.ReheatCoil.To<IB_Coil>().ToOS(model);
-            //var newOSFan = (HVACComponent)this.Fan.To<IB_Fan>().ToOS(model);
-            //newOSObj.setReheatCoil(newOSCoil);
-            //newOSObj.setFan(newOSFan);
-
-
-            //Local Method
+            return base.OnNewOpsObj(InitMethodWithChildren, model);
+            
             AirTerminalSingleDuctParallelPIUReheat InitMethodWithChildren(Model md) =>
                 new AirTerminalSingleDuctParallelPIUReheat(md, model.alwaysOnDiscreteSchedule(), this.Fan.ToOS(md), this.ReheatCoil.ToOS(md));
 

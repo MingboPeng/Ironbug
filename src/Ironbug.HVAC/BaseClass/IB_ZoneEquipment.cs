@@ -2,16 +2,18 @@
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_ZoneEquipment : IB_ModelObject, IIB_ZoneEquipment
+    public abstract class IB_ZoneEquipment : IB_HVACObject, IIB_ZoneEquipment
     {
         public IB_ZoneEquipment(HVACComponent GhostOSObject) : base(GhostOSObject)
         {
         }
 
-        public virtual ModelObject ToOS(Model model)
-        {
-            return this.NewOpsObj(model);
-        }
+        //public abstract ModelObject ToOS(Model model);
+
+        //public override bool AddToNode(Node node)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
         //public override IB_ModelObject Duplicate()
         //{

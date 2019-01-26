@@ -53,12 +53,12 @@ namespace Ironbug.HVAC.BaseClass
             this.ZoneEquipments.Add(Equipment);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
             //check the model if there's a same named thermal zone
             //if yes, then return it
             //if no, then create a new one
-            
+
             var optionalNames = this.CustomAttributes.Where(_ => _.Key.FULLNAME == "NAME");
             var optionalZone = new OptionalThermalZone();
 
@@ -91,8 +91,8 @@ namespace Ironbug.HVAC.BaseClass
             {
                 newZone = base.OnNewOpsObj(NewDefaultOpsObj, model);
             }
-            
-            
+
+
             //add child to newZone
             this.IB_SizingZone.ToOS(newZone);
 
@@ -106,10 +106,10 @@ namespace Ironbug.HVAC.BaseClass
             //AirTerminal has been added with zone when the zone was added to the loop
             //var newTerminal = this.AirTerminal.ToOS(model);
             //newZone.addEquipment(newTerminal);
-            
+
             return newZone;
         }
-
+        
         public new IB_ThermalZone Duplicate()
         {
             
@@ -134,11 +134,7 @@ namespace Ironbug.HVAC.BaseClass
             return newObj;
         }
         
-
-        public override bool AddToNode(Node node)
-        {
-            throw new NotImplementedException();
-        }
+        
         
     }
 

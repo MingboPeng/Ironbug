@@ -12,11 +12,16 @@ namespace Ironbug.HVAC.Curves
         
 
         public IB_CurveBiquadratic():base(NewDefaultOpsObj(new Model())) { }
-        
-        protected override ModelObject NewOpsObj(Model model)
+
+        public override Curve ToOS()
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveBiquadratic().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
         }
+
+        //protected override ModelObject NewOpsObj(Model model)
+        //{
+        //    return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveBiquadratic().get();
+        //}
     }
 
     public sealed class IB_CurveBiquadratic_DataFieldSet

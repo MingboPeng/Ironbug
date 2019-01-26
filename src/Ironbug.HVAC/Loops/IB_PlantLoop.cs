@@ -52,19 +52,31 @@ namespace Ironbug.HVAC
             
         }
 
-
-        protected override ModelObject NewOpsObj(Model model)
+        public override ModelObject ToOS(Model model)
         {
             var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
 
             IB_SizingPlant.ToOS(plant);
 
             this.AddSupplyObjects(plant, this.supplyComponents);
-            
+
             this.AddDemandObjects(plant, this.demandComponents);
-            
+
             return plant;
         }
+
+        //protected override ModelObject NewOpsObj(Model model)
+        //{
+        //    var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
+
+        //    IB_SizingPlant.ToOS(plant);
+
+        //    this.AddSupplyObjects(plant, this.supplyComponents);
+            
+        //    this.AddDemandObjects(plant, this.demandComponents);
+            
+        //    return plant;
+        //}
 
         public override IB_ModelObject Duplicate()
         {

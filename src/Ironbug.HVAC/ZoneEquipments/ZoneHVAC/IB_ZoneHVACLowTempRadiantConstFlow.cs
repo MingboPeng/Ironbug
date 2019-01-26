@@ -28,9 +28,9 @@ namespace Ironbug.HVAC
             this.TubingLength = TubingLength;
         }
         
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnNewOpsObj(LocalInitMethod, model).to_ZoneHVACLowTempRadiantConstFlow().get();
+            var opsObj = base.OnNewOpsObj(LocalInitMethod, model);
             return opsObj;
 
             ZoneHVACLowTempRadiantConstFlow LocalInitMethod(Model m)

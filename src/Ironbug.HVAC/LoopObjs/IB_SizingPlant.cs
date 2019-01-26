@@ -21,12 +21,7 @@ namespace Ironbug.HVAC
             var targetModel = loop.model();
             return base.OnNewOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
         }
-
-        //this is replaced by above method
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
     public sealed class IB_SizingPlant_DataFieldSet

@@ -9,9 +9,6 @@ namespace Ironbug.HVAC.BaseClass
         {
         }
 
-        public Curve ToOS()
-        {
-            return this.NewOpsObj(new Model()).to_Curve().get();
-        }
+        public abstract Curve ToOS();
     }
 }

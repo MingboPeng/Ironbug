@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -30,15 +27,15 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithChildren, model).to_ZoneHVACUnitHeater().get();
+            return base.OnNewOpsObj(InitMethodWithChildren, model);
 
             //Local Method
-            ZoneHVACUnitHeater InitMethodWithChildren(Model md) => 
+            ZoneHVACUnitHeater InitMethodWithChildren(Model md) =>
                 new ZoneHVACUnitHeater(md, md.alwaysOnDiscreteSchedule(), this.Fan.ToOS(md), this.HeatingCoil.ToOS(md));
         }
+        
     }
     public sealed class IB_ZoneHVACUnitHeater_DataFieldSet 
         : IB_FieldSet<IB_ZoneHVACUnitHeater_DataFieldSet, ZoneHVACUnitHeater>

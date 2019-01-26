@@ -14,9 +14,9 @@ namespace Ironbug.HVAC.Curves
         public IB_CurveFanPressureRise():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject NewOpsObj(Model model)
+        public override Curve ToOS()
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CurveFanPressureRise().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
         }
     }
 

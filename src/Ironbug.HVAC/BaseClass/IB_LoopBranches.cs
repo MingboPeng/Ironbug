@@ -51,11 +51,11 @@ namespace Ironbug.HVAC.BaseClass
             return count;
         }
 
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
             throw new NotImplementedException();
         }
 
-        protected override ModelObject NewOpsObj(Model model) => null;
+        //protected override ModelObject NewOpsObj(Model model) => null;
     }
 }

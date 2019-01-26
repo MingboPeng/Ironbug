@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -18,7 +17,7 @@ namespace Ironbug.HVAC
         { 
         }
         
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }

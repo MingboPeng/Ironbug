@@ -23,12 +23,13 @@ namespace Ironbug.HVAC
             this.SetChild(Coil);
         }
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnNewOpsObj(NewDefaultOpsObj, model).to_ZoneHVACBaseboardRadiantConvectiveWater().get();
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             return opsObj;
         }
+
     }
 
     public sealed class IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet

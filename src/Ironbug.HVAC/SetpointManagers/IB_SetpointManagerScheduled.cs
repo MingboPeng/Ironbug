@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -23,16 +20,9 @@ namespace Ironbug.HVAC
             this.temperature = temperature;
 
         }
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-
-            return ((SetpointManagerScheduled)this.ToOS(model)).addToNode(node);
-        }
-        
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_SetpointManagerScheduled().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 }

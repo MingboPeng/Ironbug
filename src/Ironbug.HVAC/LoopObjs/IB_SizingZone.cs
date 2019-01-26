@@ -23,12 +23,7 @@ namespace Ironbug.HVAC
             var targetModel = thermalZone.model();
             return base.OnNewOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
         }
-
-        //this is replaced by above method
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            throw new NotImplementedException();
-        }
+        
         
     }
 

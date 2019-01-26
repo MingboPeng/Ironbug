@@ -27,15 +27,10 @@ namespace Ironbug.HVAC
         {
             this.SetChild(zone);
         }
-        public override bool AddToNode(Node node)
+
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((SetpointManagerSingleZoneReheat)this.ToOS(model)).addToNode(node);
-        }
-        
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model).to_SetpointManagerSingleZoneReheat().get();
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             var zone = (ThermalZone)this.ControlZone.ToOS(model);
             newObj.setControlZone(zone);
             return newObj;

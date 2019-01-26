@@ -14,16 +14,11 @@ namespace Ironbug.HVAC
         public IB_PipeOutdoor():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_PipeOutdoor().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((PipeOutdoor)base.ToOS(model)).addToNode(node);
-        }
+        
     }
 
     public sealed class IB_PipeOutdoor_FieldSet

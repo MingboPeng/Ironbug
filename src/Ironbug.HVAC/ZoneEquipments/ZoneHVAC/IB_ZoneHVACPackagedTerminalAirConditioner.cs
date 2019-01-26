@@ -23,10 +23,9 @@ namespace Ironbug.HVAC
             this.AddChild(SupplyFan);
         }
 
-
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnNewOpsObj(LocalInitMethod, model).to_ZoneHVACPackagedTerminalAirConditioner().get();
+            var opsObj = base.OnNewOpsObj(LocalInitMethod, model);
             return opsObj;
 
             ZoneHVACPackagedTerminalAirConditioner LocalInitMethod(Model m)
@@ -37,8 +36,9 @@ namespace Ironbug.HVAC
                 _heatingCoil.ToOS(m),
                 _coolingCoil.ToOS(m)
                 );
-
+            throw new NotImplementedException();
         }
+        
     }
 
     public sealed class IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet

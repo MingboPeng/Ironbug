@@ -13,14 +13,8 @@ namespace Ironbug.HVAC
         public IB_FanConstantVolume():base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((FanConstantVolume)this.ToOS(model)).addToNode(node);
-        }
-
-        protected override ModelObject NewOpsObj(Model model)
+        
+        public override HVACComponent ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }

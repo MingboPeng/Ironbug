@@ -14,17 +14,9 @@ namespace Ironbug.HVAC
         {
         }
         
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((CoilHeatingWaterBaseboard)this.NewOpsObj(model)).addToNode(node);
-
-        }
-
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilHeatingWaterBaseboard().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
 

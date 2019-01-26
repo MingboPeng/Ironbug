@@ -41,7 +41,9 @@ namespace Ironbug.HVAC
 
         public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
         {
-            var getmethodName = $"get{typeof(T).Name}s";
+
+            if (component.GetType().Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
+            var getmethodName = $"get{component.GetType().Name}s";
             var methodInfo = typeof(Model).GetMethod(getmethodName);
             if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
 

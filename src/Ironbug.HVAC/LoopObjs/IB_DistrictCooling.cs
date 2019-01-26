@@ -15,16 +15,10 @@ namespace Ironbug.HVAC
         public IB_DistrictCooling() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((DistrictCooling)this.ToOS(model)).addToNode(node);
-        }
-        
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_DistrictCooling().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
     public sealed class IB_DistrictCooling_DataFieldSet

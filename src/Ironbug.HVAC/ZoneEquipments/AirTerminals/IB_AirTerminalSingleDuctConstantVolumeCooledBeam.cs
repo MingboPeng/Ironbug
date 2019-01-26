@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -30,13 +27,12 @@ namespace Ironbug.HVAC
 
         }
 
-        
 
-        protected override ModelObject NewOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithCoil, model).to_AirTerminalSingleDuctConstantVolumeCooledBeam().get();
-
-            //Local Method
+            return base.OnNewOpsObj(InitMethodWithCoil, model);
+            
             AirTerminalSingleDuctConstantVolumeCooledBeam InitMethodWithCoil(Model md) =>
                 new AirTerminalSingleDuctConstantVolumeCooledBeam(md, md.alwaysOnDiscreteSchedule(), this.CoolingCoil.ToOS(md));
         }

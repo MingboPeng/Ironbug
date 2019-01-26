@@ -33,11 +33,11 @@ namespace Ironbug.HVAC
             }
             this.SetChild(fan);
         }
-        
 
-        protected override ModelObject NewOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(InitMethodWithChildren, model).to_AirTerminalSingleDuctSeriesPIUReheat().get();
+            return base.OnNewOpsObj(InitMethodWithChildren, model);
             
             //Local Method
             AirTerminalSingleDuctSeriesPIUReheat InitMethodWithChildren(Model md) =>

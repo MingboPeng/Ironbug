@@ -13,16 +13,10 @@ namespace Ironbug.HVAC
         {
         }
         
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model).to_ControllerMechanicalVentilation().get();
-            return newObj;
-        }
-
         public ModelObject ToOS(Model model)
         {
-            return this.NewOpsObj(model);
+            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model);
+            return newObj;
         }
 
     }

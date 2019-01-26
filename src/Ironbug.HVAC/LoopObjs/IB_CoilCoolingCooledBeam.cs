@@ -13,18 +13,17 @@ namespace Ironbug.HVAC
         public IB_CoilCoolingCooledBeam() : base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((CoilCoolingCooledBeam)this.ToOS(model)).addToNode(node);
-        }
         
 
-        protected override ModelObject NewOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingCooledBeam().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
+
+        //protected override ModelObject NewOpsObj(Model model)
+        //{
+        //    return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingCooledBeam().get();
+        //}
     }
     public sealed class IB_CoilCoolingCooledBeam_DataFieldSet
         : IB_FieldSet<IB_CoilCoolingCooledBeam_DataFieldSet, CoilCoolingCooledBeam>

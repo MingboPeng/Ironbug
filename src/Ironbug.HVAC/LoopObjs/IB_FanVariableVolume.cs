@@ -15,18 +15,12 @@ namespace Ironbug.HVAC
         public IB_FanVariableVolume() : base(NewDefaultOpsObj(new Model()))
         {
             
-        }   
-
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_FanVariableVolume().get();
         }
-
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((FanVariableVolume)this.ToOS(model)).addToNode(node);
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
+        
     }
 
     public sealed class IB_FanVariableVolume_DataFields 

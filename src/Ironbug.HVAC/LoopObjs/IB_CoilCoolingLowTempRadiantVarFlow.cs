@@ -19,18 +19,7 @@ namespace Ironbug.HVAC
 
         public new CoilCoolingLowTempRadiantVarFlow ToOS(Model model)
         {
-            return (CoilCoolingLowTempRadiantVarFlow)base.ToOS(model);
-        }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return this.ToOS(model).addToNode(node);
-        }
-        
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model).to_CoilCoolingLowTempRadiantVarFlow().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
         public IB_CoilCoolingLowTempRadiantVarFlow( double airHiT) 

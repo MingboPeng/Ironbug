@@ -13,17 +13,12 @@ namespace Ironbug.HVAC
         {
             
         }
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
 
-            return ((ChillerElectricEIR)this.ToOS(model)).addToNode(node);
+        public override HVACComponent ToOS(Model model)
+        {
+             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
         
-        protected override ModelObject NewOpsObj(Model model)
-        {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model);
-        }
     }
 
     public sealed class IB_ChillerElectricEIR_DataFieldSet
