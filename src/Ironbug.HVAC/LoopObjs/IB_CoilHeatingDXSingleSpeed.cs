@@ -7,23 +7,18 @@ namespace Ironbug.HVAC
     public class IB_CoilHeatingDXSingleSpeed: IB_CoilDX
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDXSingleSpeed();
-        private static CoilHeatingDXSingleSpeed InitMethod(Model model) => new CoilHeatingDXSingleSpeed(model);
+        private static CoilHeatingDXSingleSpeed NewDefaultOpsObj(Model model) => new CoilHeatingDXSingleSpeed(model);
 
-        public IB_CoilHeatingDXSingleSpeed() : base(InitMethod(new Model()))
+        public IB_CoilHeatingDXSingleSpeed() : base(NewDefaultOpsObj(new Model()))
         {
 
-        }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((CoilHeatingDXSingleSpeed)this.ToOS(model)).addToNode(node);
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilHeatingDXSingleSpeed().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
     }

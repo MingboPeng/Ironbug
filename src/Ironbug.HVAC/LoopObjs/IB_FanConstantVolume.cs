@@ -8,21 +8,15 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_FanConstantVolume();
 
-        private static FanConstantVolume InitMethod(Model model) => new FanConstantVolume(model);
+        private static FanConstantVolume NewDefaultOpsObj(Model model) => new FanConstantVolume(model);
 
-        public IB_FanConstantVolume():base(InitMethod(new Model()))
+        public IB_FanConstantVolume():base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
+        
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((FanConstantVolume)this.ToOS(model)).addToNode(node);
-        }
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_FanConstantVolume().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
         
     }

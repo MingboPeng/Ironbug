@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Grasshopper.Kernel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Data;
-using Grasshopper.Kernel.Parameters;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_Duplicate : GH_Component
     {
+        public override GH_Exposure Exposure => GH_Exposure.primary;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Duplicate;
+
+        public override Guid ComponentGuid => new Guid("cb1cb9d6-e29e-4d26-9133-82b47c0e6d8d");
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_CreatePuppets class.
         /// </summary>
@@ -26,7 +27,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating puppets", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Amount", "n", "number of puppets to be created", GH_ParamAccess.item, 2 );
+            pManager.AddNumberParameter("Amount", "n", "number of puppets to be created", GH_ParamAccess.item, 2);
         }
 
         /// <summary>
@@ -49,9 +50,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(0, ref obj);
             DA.GetData(1, ref amount);
 
-            if (obj !=null)
+            if (obj != null)
             {
-
                 var puppets = new List<HVAC.BaseClass.IB_ModelObject>();
 
                 for (int i = 0; i < amount; i++)
@@ -59,17 +59,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                     var puppet = obj.Duplicate();
                     puppet.SetTrackingID();
                     puppets.Add(puppet);
-
                 }
 
                 DA.SetDataList(0, puppets);
-                
-
             }
-
-
-
-
         }
 
         protected override void AfterSolveInstance()
@@ -86,15 +79,14 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             if (component.Params.Output.Count > 1)
             {
                 var refSecondOutput = component.Params.Output[1];
-                
+
                 secondParam.Name = refSecondOutput.Name;
                 secondParam.NickName = refSecondOutput.NickName;
                 secondParam.Description = refSecondOutput.Description;
 
                 secondParam.ClearData();
                 var data = this.Params.Output[0].VolatileData;
-                secondParam.AddVolatileDataTree(data); 
-
+                secondParam.AddVolatileDataTree(data);
             }
             else
             {
@@ -102,29 +94,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 secondParam.NickName = "-";
                 secondParam.Description = "-";
             }
-            
+
             //this.Params.OnParametersChanged();
-        }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.Duplicate;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("cb1cb9d6-e29e-4d26-9133-82b47c0e6d8d"); }
         }
     }
 }

@@ -48,6 +48,29 @@ namespace Ironbug.HVAC.BaseClass
             this.OutputVariables.AddRange(outputVariable);
         }
 
+        internal void AddChild(IB_ModelObject ChildObj)
+        {
+            var c = new IB_Child(ChildObj);
+            this.Children.Add(c);
+        }
+
+        internal void SetChild<T>(T ChildObj) where T:IB_ModelObject
+        {
+            this.Children.FirstOrDefault(_ => _.IsType(typeof(T))).Set(ChildObj);
+        }
+        internal void SetChild<T>(int ChildIndex, T ChildObj) where T : IB_ModelObject
+        {
+            var child = this.Children[ChildIndex];
+            if (child.IsType(typeof(T)))
+            {
+                child.Set(ChildObj);
+            }
+            else
+            {
+                throw new ArgumentException($"Set {ChildObj.GetType()} to {GhostOSObject.GetType()} failed!");
+            }
+        }
+
         public void ChangeState(IB_PuppetableState newState)
         {
             this.CurrentState = newState;
@@ -66,6 +89,7 @@ namespace Ironbug.HVAC.BaseClass
                 child.Get().ToPuppetHost();
             }
 
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return this;
         }
 
@@ -76,9 +100,18 @@ namespace Ironbug.HVAC.BaseClass
             {
                 child.Get().ResetPuppetState();
             }
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
         }
-        
+
+        public void PuppetStateUpdated()
+        {
+            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            foreach (var child in this.Children)
+            {
+                child.PuppetStateUpdated();
+            }
+        }
+
 
         public IB_ModelObject DuplicateAsPuppet()
         {
@@ -92,7 +125,7 @@ namespace Ironbug.HVAC.BaseClass
                 puppet.Children.Add(childPuppet);
             }
 
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
             return puppet;
 
             //Local method
@@ -245,26 +278,27 @@ namespace Ironbug.HVAC.BaseClass
 
         public bool IsInModel(Model model)
         {
-            return !this.GhostOSObject.GetIfInModel(model).isNull();
+            return !(this.GhostOSObject.GetIfInModel(model) is null);
         }
         //this is for override
         //public abstract ModelObject ToOS(Model model);
-        protected abstract ModelObject InitOpsObj(Model model);
+        //protected abstract ModelObject NewOpsObj(Model model);
         //protected abstract T InitOpsObj<T>(Model model);
         //protected delegate ModelObject InitMethodDelegate(Model model);
 
-        protected ModelObject OnInitOpsObj(Func<Model, ModelObject> InitMethodHandler, Model model)
+        protected T OnNewOpsObj<T>(Func<Model, T> InitMethodHandler, Model model) where T: ModelObject
         {
             if (InitMethodHandler == null)
             {
                 return null;
             }
-
+            
             ModelObject realObj = null;
             if (this is IIB_DualLoopObj)
             {
                 var objInModel = this.GhostOSObject.GetIfInModel(model);
-                realObj = objInModel.isNull()? InitAndSetAttributes(): objInModel.get();
+                var ifNull = objInModel is null;
+                realObj = ifNull ? InitAndSetAttributes(): objInModel;
                 
             }
             else
@@ -273,8 +307,8 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             AddOutputVariablesToModel(this.OutputVariables, model);
-
-            return realObj;
+            
+            return realObj as T;
 
 
             ModelObject InitAndSetAttributes()
@@ -285,40 +319,38 @@ namespace Ironbug.HVAC.BaseClass
                 return obj;
             }
             
-            
-            
+
+
         }
 
         
+        //protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
+        //{
+        //    if (initMethod == null)
+        //    {
+        //        return null;
+        //    }
 
-        //TODO: need double check, this might not be working
-        protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
-        {
-            if (initMethod == null)
-            {
-                return null;
-            }
+        //    ModelObject realObj = null;
+        //    if (this is IIB_DualLoopObj)
+        //    {
+        //        var objInModel = this.GhostOSObject.GetIfInModel(model);
+        //        realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
+        //    }
+        //    else
+        //    {
+        //        realObj = initMethod(model);
+        //    }
 
-            ModelObject realObj = null;
-            if (this is IIB_DualLoopObj)
-            {
-                var objInModel = this.GhostOSObject.GetIfInModel(model);
-                realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
-            }
-            else
-            {
-                realObj = initMethod(model);
-            }
+        //    realObj.SetCustomAttributes(this.CustomAttributes);
 
-            realObj.SetCustomAttributes(this.CustomAttributes);
-
-            AddOutputVariablesToModel(this.OutputVariables, model);
+        //    AddOutputVariablesToModel(this.OutputVariables, model);
 
 
-            return postProcess(realObj);
+        //    return postProcess(realObj);
 
             
-        }
+        //}
         private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, Model md)
         {
             var vs = outputVariables;
@@ -343,7 +375,7 @@ namespace Ironbug.HVAC.BaseClass
         public virtual IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(IB_InitSelf);
-
+            newObj.Children.Clear();
             foreach (var child in this.Children)
             {
                 newObj.Children.Add(child.Duplicate());

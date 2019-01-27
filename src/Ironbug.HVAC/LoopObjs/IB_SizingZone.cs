@@ -11,35 +11,19 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SizingZone();
 
-        private static SizingZone InitMethod(Model model) => new SizingZone(model, new ThermalZone(model));
+        private static SizingZone NewDefaultOpsObj(Model model) => new SizingZone(model, new ThermalZone(model));
         
-        public IB_SizingZone():base(InitMethod(new Model()))
+        public IB_SizingZone():base(NewDefaultOpsObj(new Model()))
         {
         }
         
-        /// <summary>
-        /// This is the base Duplicate() for IB_SizingZone, you need to call SetSizingZone in IB_ThermalZone to link SizingZone to ThermalZone; 
-        /// Or you can use DuplicateToZone(IB_ThermalZone ThermalZone) instead.
-        /// </summary>
-        /// <returns>IB_ModelObject</returns>
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(IB_InitSelf);
-        }
-        
-
         public ModelObject ToOS(ThermalZone thermalZone)
         {
             //create a sizingZone to target thermalZone
             var targetModel = thermalZone.model();
-            return base.OnInitOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
+            return base.OnNewOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
         }
-
-        //this is replaced by above method
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            throw new NotImplementedException();
-        }
+        
         
     }
 

@@ -6,55 +6,39 @@ namespace Ironbug.HVAC
 {
     public class IB_ZoneHVACPackagedTerminalAirConditioner : IB_ZoneEquipment
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACPackagedTerminalAirConditioner(Fan.To<IB_Fan>(), CoolingCoil.To<IB_CoilBasic>(), HeatingCoil.To<IB_CoilBasic>());
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACPackagedTerminalAirConditioner(_fan, _heatingCoil, _coolingCoil);
 
-        private static ZoneHVACPackagedTerminalAirConditioner InitMethod(Model model, IB_Fan SupplyFan, IB_CoilBasic HeatingCoil, IB_CoilBasic CoolingCoil) 
+        private static ZoneHVACPackagedTerminalAirConditioner NewDefaultOpsObj(Model model, IB_Fan SupplyFan, IB_Coil HeatingCoil, IB_Coil CoolingCoil) 
             => new ZoneHVACPackagedTerminalAirConditioner(model,model.alwaysOnDiscreteSchedule(), SupplyFan.ToOS(model), HeatingCoil.ToOS(model), CoolingCoil.ToOS(model));
 
-        private IB_Child CoolingCoil => this.Children.GetChild<IB_CoilBasic>();
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilBasic>();
-        private IB_Child Fan => this.Children.GetChild<IB_Fan>();
+        private IB_Coil _coolingCoil => this.Children.Get<IB_Coil>(0);
+        private IB_Coil _heatingCoil => this.Children.Get<IB_Coil>(1);
+        private IB_Fan _fan => this.Children.Get<IB_Fan>(2);
 
-        public IB_ZoneHVACPackagedTerminalAirConditioner(IB_Fan SupplyFan, IB_CoilBasic HeatingCoil, IB_CoilBasic CoolingCoil) 
-            : base(InitMethod(new Model(),SupplyFan, HeatingCoil, CoolingCoil))
+        public IB_ZoneHVACPackagedTerminalAirConditioner(IB_Fan SupplyFan, IB_Coil HeatingCoil, IB_Coil CoolingCoil) 
+            : base(NewDefaultOpsObj(new Model(),SupplyFan, HeatingCoil, CoolingCoil))
         {
-            var coolingCoil = new IB_Child(CoolingCoil, (obj) => this.SetCoolingCoil(obj as IB_CoilBasic));
-            var heatingCoil = new IB_Child(HeatingCoil, (obj) => this.SetHeatingCoil(obj as IB_CoilBasic));
-            var fan = new IB_Child(SupplyFan, (obj) => this.SetFan(obj as IB_Fan)); 
-
-            this.Children.Add(coolingCoil);
-            this.Children.Add(heatingCoil);
-            this.Children.Add(fan);
-        }
-        public void SetFan(IB_Fan Fan)
-        {
-            this.Fan.Set(Fan);
-        }
-        
-        public void SetCoolingCoil(IB_CoilBasic Coil)
-        {
-            this.CoolingCoil.Set(Coil);
-        }
-        public void SetHeatingCoil(IB_CoilBasic Coil)
-        {
-            this.HeatingCoil.Set(Coil);
+            this.AddChild(CoolingCoil);
+            this.AddChild(HeatingCoil);
+            this.AddChild(SupplyFan);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(LocalInitMethod, model).to_ZoneHVACUnitVentilator().get();
+            var opsObj = base.OnNewOpsObj(LocalInitMethod, model);
             return opsObj;
 
             ZoneHVACPackagedTerminalAirConditioner LocalInitMethod(Model m)
             => new ZoneHVACPackagedTerminalAirConditioner(
                 m,
                 m.alwaysOnDiscreteSchedule(),
-                Fan.To<IB_Fan>().ToOS(m),
-                HeatingCoil.To<IB_CoilBasic>().ToOS(m),
-                CoolingCoil.To<IB_CoilBasic>().ToOS(m)
+                _fan.ToOS(m),
+                _heatingCoil.ToOS(m),
+                _coolingCoil.ToOS(m)
                 );
-
+            throw new NotImplementedException();
         }
+        
     }
 
     public sealed class IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet

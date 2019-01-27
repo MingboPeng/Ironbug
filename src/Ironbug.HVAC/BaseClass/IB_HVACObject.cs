@@ -7,29 +7,42 @@ namespace Ironbug.HVAC.BaseClass
         //protected abstract Func<IB_ModelObject> IB_InitFunc { get; }
 
         //Must override in child class
-        public abstract bool AddToNode(Node node);
+        //public abstract bool AddToNode(Node node);
 
         //public abstract ModelObject ToOS(Model model);
 
         public IB_HVACObject(HVACComponent GhostOSObject) : base(GhostOSObject)
         {
+
         }
 
-        public virtual HVACComponent ToOS(Model model)
+        public abstract HVACComponent ToOS(Model model);
+        //public virtual HVACComponent ToOS(Model model)
+        //{
+        //    return this.NewOpsObj(model) as HVACComponent;
+        //}
+
+        public bool AddToNode(Node node)
         {
-            return this.InitOpsObj(model) as HVACComponent;
+            var model = node.model();
+            return ToOS(model).addToNode(node);
         }
 
-        public override IB_ModelObject Duplicate()
+        public new virtual IB_HVACObject Duplicate()
         {
-            return base.DuplicateIBObj(IB_InitSelf);
+            return base.Duplicate() as IB_HVACObject;
         }
-
         //public virtual IB_ModelObject DuplicateAsPuppet()
         //{
         //    return this.DuplicateAsPuppet(IB_InitFunc);
         //}
+
+
+
     }
+
+
+
 
     //public interface IB_Viz
     //{

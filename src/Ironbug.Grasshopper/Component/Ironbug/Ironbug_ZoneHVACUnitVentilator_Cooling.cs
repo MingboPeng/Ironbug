@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Ironbug.Grasshopper.Component
             obj.PuppetEventHandler += PuppetStateChanged;
 
             var fan = (IB_Fan)null;
-            var coilC = (IB_CoilBasic)null;
+            var coilC = (IB_CoilCoolingBasic)null;
             
 
             if (DA.GetData(0, ref coilC))

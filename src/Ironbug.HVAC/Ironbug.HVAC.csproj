@@ -64,7 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClass\IB_CoilBasic.cs" />
+    <Compile Include="BaseClass\IB_CoilCoolingBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
+    <Compile Include="BaseClass\IB_CoilHeatingBasic.cs" />
     <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="LoopObjs\IB_CoolingTowerTwoSpeed.cs" />
     <Compile Include="LoopObjs\IB_CoolingTowerSingleSpeed.cs" />
     <Compile Include="LoopObjs\IB_SizingPlant.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACPackagedTerminalHeatPump.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Loops\IB_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_ChillerElectricEIR.cs" />

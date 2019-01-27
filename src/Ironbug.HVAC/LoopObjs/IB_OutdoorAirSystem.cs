@@ -9,19 +9,19 @@ namespace Ironbug.HVAC
     public class IB_OutdoorAirSystem : IB_HVACObject, IIB_AirLoopObject
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_OutdoorAirSystem();
-        private static AirLoopHVACOutdoorAirSystem InitMethod(Model model) 
+        private static AirLoopHVACOutdoorAirSystem NewDefaultOpsObj(Model model) 
             => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
-        private IB_Child IB_ControllerOutdoorAir => this.Children.GetChild<IB_ControllerOutdoorAir>();
+        private IB_ControllerOutdoorAir ControllerOutdoorAir => this.Children.Get<IB_ControllerOutdoorAir>();
 
         //TODO: finish this later
-        private IList<IIB_AirLoopObject> OAStreamObjs = new List<IIB_AirLoopObject>();
-        private IList<IIB_AirLoopObject> ReliefStreamObjs = new List<IIB_AirLoopObject>();
+        private IList<IB_HVACObject> OAStreamObjs = new List<IB_HVACObject>();
+        private IList<IB_HVACObject> ReliefStreamObjs = new List<IB_HVACObject>();
 
         
-        public IB_OutdoorAirSystem():base(InitMethod(new Model()))
+        public IB_OutdoorAirSystem():base(NewDefaultOpsObj(new Model()))
         {
-            var controller = new IB_Child(new IB_ControllerOutdoorAir(), (obj) => this.SetController(obj as IB_ControllerOutdoorAir));
-            this.Children.Add(controller);
+
+            this.AddChild(new IB_ControllerOutdoorAir());
             
         }
         
@@ -32,10 +32,10 @@ namespace Ironbug.HVAC
 
         public void SetController(IB_ControllerOutdoorAir ControllerOutdoorAir)
         {
-            this.IB_ControllerOutdoorAir.Set(ControllerOutdoorAir);
+            this.SetChild(ControllerOutdoorAir);
         }
 
-        public override bool AddToNode(Node node)
+        public new bool AddToNode(Node node)
         {
             var model = node.model();
             var oa = ((AirLoopHVACOutdoorAirSystem)this.ToOS(model));
@@ -44,33 +44,33 @@ namespace Ironbug.HVAC
             var oaObjs = this.OAStreamObjs.Reverse();
             foreach (var item in oaObjs)
             {
-                ((HVACComponent)item.ToOS(model)).addToNode(oaNode);
+                item.ToOS(model).addToNode(oaNode);
             };
             return true;
         }
-        
-        protected override ModelObject InitOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            var ctrl = (ControllerOutdoorAir)this.IB_ControllerOutdoorAir.To<IB_ControllerOutdoorAir>().ToOS(model);
-            var newObj = base.OnInitOpsObj((m)=>new AirLoopHVACOutdoorAirSystem(m,ctrl), model).to_AirLoopHVACOutdoorAirSystem().get();
+            var ctrl = (ControllerOutdoorAir)this.ControllerOutdoorAir.ToOS(model);
+            var newObj = base.OnNewOpsObj((m) => new AirLoopHVACOutdoorAirSystem(m, ctrl), model);
 
             return newObj;
         }
         
 
-        public override IB_ModelObject Duplicate()
-        {
-            //Duplicate self;
-            var newObj = (IB_OutdoorAirSystem)base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
+        //public override IB_ModelObject Duplicate()
+        //{
+        //    //Duplicate self;
+        //    var newObj = base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
 
-            //Duplicate child member;
-            var newCtrl = (IB_ControllerOutdoorAir)this.IB_ControllerOutdoorAir.DuplicateChild();
+        //    //Duplicate child member;
+        //    var newCtrl = (IB_ControllerOutdoorAir)this.ControllerOutdoorAir.Duplicate();
 
-            //add new child member to new object;
-            newObj.SetController(newCtrl);
+        //    //add new child member to new object;
+        //    newObj.SetController(newCtrl);
 
-            return newObj;
-        }
+        //    return newObj;
+        //}
 
         //public override ModelObject ToOS(Model model)
         //{

@@ -7,9 +7,9 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_SaveOSModel : GH_Component
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SaveOSModel class.
-        /// </summary>
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
+        public override Guid ComponentGuid => new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1");
+        
         public Ironbug_SaveOSModel()
           : base("Ironbug_SaveToFile", "SaveToFile",
               "Description",
@@ -87,16 +87,7 @@ namespace Ironbug.Grasshopper.Component
             
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1"); }
-        }
 
-        
     }
 }

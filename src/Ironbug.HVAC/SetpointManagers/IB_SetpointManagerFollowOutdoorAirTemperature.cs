@@ -8,23 +8,16 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerFollowOutdoorAirTemperature();
 
-        private static SetpointManagerFollowOutdoorAirTemperature InitMethod(Model model) => new SetpointManagerFollowOutdoorAirTemperature(model);
+        private static SetpointManagerFollowOutdoorAirTemperature NewDefaultOpsObj(Model model) => new SetpointManagerFollowOutdoorAirTemperature(model);
 
 
-        public IB_SetpointManagerFollowOutdoorAirTemperature() : base(InitMethod(new Model()))
+        public IB_SetpointManagerFollowOutdoorAirTemperature() : base(NewDefaultOpsObj(new Model()))
         { 
         }
         
-
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((SetpointManagerFollowOutdoorAirTemperature)this.ToOS(model)).addToNode(node);
-        }
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_SetpointManagerFollowOutdoorAirTemperature().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

@@ -8,26 +8,15 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingDXTwoSpeed();
 
-        private static CoilCoolingDXTwoSpeed InitMethod(Model model) => new CoilCoolingDXTwoSpeed(model);
+        private static CoilCoolingDXTwoSpeed NewDefaultOpsObj(Model model) => new CoilCoolingDXTwoSpeed(model);
 
-        public IB_CoilCoolingDXTwoSpeed() : base(InitMethod(new Model()))
+        public IB_CoilCoolingDXTwoSpeed() : base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
+        
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((CoilCoolingDXTwoSpeed)this.ToOS(model)).addToNode(node);
-        }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.DuplicateIBObj(() => new IB_CoilCoolingDXTwoSpeed());
-        //}
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilCoolingDXTwoSpeed().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

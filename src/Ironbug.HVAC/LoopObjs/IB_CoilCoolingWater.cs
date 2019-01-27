@@ -4,26 +4,18 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingWater : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilCoolingWater : IB_CoilCoolingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingWater();
 
-        private static CoilCoolingWater InitMethod(Model model) => new CoilCoolingWater(model);
+        private static CoilCoolingWater NewDefaultOpsObj(Model model) => new CoilCoolingWater(model);
 
-        public IB_CoilCoolingWater() : base(InitMethod(new Model()))
+        public IB_CoilCoolingWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
-
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((CoilCoolingWater)this.ToOS(model)).addToNode(node);
-        }
-        
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilCoolingWater().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
     public sealed class IB_CoilCoolingWater_DataFieldSet 

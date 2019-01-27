@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -12,14 +10,14 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirLoopHVAC();
 
-        private IList<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
-        private IList<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
+        private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
+        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
 
-        private IB_SizingSystem IB_SizingSystem { get; set; } = new IB_SizingSystem();
+        private IB_SizingSystem _SizingSystem { get; set; } = new IB_SizingSystem();
 
-        private static AirLoopHVAC InitMethod(Model model) => new AirLoopHVAC(model);
+        private static AirLoopHVAC NewDefaultOpsObj(Model model) => new AirLoopHVAC(model);
 
-        public IB_AirLoopHVAC() : base(InitMethod(new Model()))
+        public IB_AirLoopHVAC() : base(NewDefaultOpsObj(new Model()))
         {
             //this.basePoint = new Point3d();
             //this.osModel = new Model();
@@ -28,14 +26,14 @@ namespace Ironbug.HVAC
 
         public void SetSizingSystem(IB_SizingSystem sizing)
         {
-            this.IB_SizingSystem = sizing;
+            this._SizingSystem = sizing;
         }
 
 
         public void AddToSupplySide(IB_HVACObject HvacComponent)
         {
             //TODO: check before add
-            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
+            if (HvacComponent is IIB_AirLoopObject)
             {
                 this.supplyComponents.Add(HvacComponent);
             }
@@ -48,7 +46,7 @@ namespace Ironbug.HVAC
         public void AddToDemandSide(IB_HVACObject HvacComponent)
         {
             
-            if (HvacComponent is IIB_AirLoopObject || HvacComponent is IB_SetpointManager)
+            if (HvacComponent is IIB_AirLoopObject)
             {
                 this.demandComponents.Add(HvacComponent);
             }
@@ -60,19 +58,29 @@ namespace Ironbug.HVAC
 
         }
 
-        public override IB_ModelObject Duplicate()
+        public new IB_AirLoopHVAC Duplicate()
         {
-            //TODO: duplicate child objects
-            return this.DuplicateIBObj(IB_InitSelf);
+            var newObj = this.DuplicateIBObj(() => new IB_AirLoopHVAC());
+
+            this.supplyComponents.ForEach(d =>
+                newObj.AddToSupplySide(d.Duplicate())
+                );
+
+            this.demandComponents.ForEach(d =>
+                newObj.AddToDemandSide(d.Duplicate())
+                );
+
+            newObj.SetSizingSystem(this._SizingSystem.Duplicate());
+
+            return newObj;
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override ModelObject ToOS(Model model)
         {
             this.CheckSupplySide(this.supplyComponents);
             
-            Func<ModelObject, AirLoopHVAC> postProcess = (ModelObject _) => _.to_AirLoopHVAC().get();
-            var airLoopHVAC = base.OnInitOpsObj(InitMethod, model, postProcess);
-            this.IB_SizingSystem.ToOS(airLoopHVAC);
+            var airLoopHVAC = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            this._SizingSystem.ToOS(airLoopHVAC);
             
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);

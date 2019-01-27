@@ -8,20 +8,13 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_BoilerHotWater();
 
-        private static BoilerHotWater InitMethod(Model model) => new BoilerHotWater(model);
-        public IB_BoilerHotWater() : base(InitMethod(new Model()))
+        private static BoilerHotWater NewDefaultOpsObj(Model model) => new BoilerHotWater(model);
+        public IB_BoilerHotWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((BoilerHotWater)this.ToOS(model)).addToNode(node);
-        }
-        
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_BoilerHotWater().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

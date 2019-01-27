@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

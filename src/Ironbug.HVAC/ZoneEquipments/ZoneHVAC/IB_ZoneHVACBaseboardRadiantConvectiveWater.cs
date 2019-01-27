@@ -8,28 +8,28 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACBaseboardRadiantConvectiveWater();
 
-        private static ZoneHVACBaseboardRadiantConvectiveWater InitMethod(Model model) 
+        private static ZoneHVACBaseboardRadiantConvectiveWater NewDefaultOpsObj(Model model) 
             => new ZoneHVACBaseboardRadiantConvectiveWater(model);
 
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilHeatingWaterBaseboardRadiant>();
+        private IB_CoilHeatingWaterBaseboardRadiant HeatingCoil => this.Children.Get<IB_CoilHeatingWaterBaseboardRadiant>();
 
-        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(InitMethod(new Model()))
+        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(NewDefaultOpsObj(new Model()))
         {
-            var heatingCoil = new IB_Child(new IB_CoilHeatingWaterBaseboardRadiant(), (obj) => this.SetHeatingCoil(obj as IB_CoilHeatingWaterBaseboardRadiant));
-            this.Children.Add(heatingCoil);
+            this.AddChild(new IB_CoilHeatingWaterBaseboardRadiant());
         }
 
         public void SetHeatingCoil(IB_CoilHeatingWaterBaseboardRadiant Coil)
         {
-            this.HeatingCoil.Set(Coil);
+            this.SetChild(Coil);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(InitMethod, model).to_ZoneHVACBaseboardRadiantConvectiveWater().get();
-            opsObj.setHeatingCoil((HVACComponent)this.HeatingCoil.To<IB_CoilHeatingWaterBaseboardRadiant>().ToOS(model));
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             return opsObj;
         }
+
     }
 
     public sealed class IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet

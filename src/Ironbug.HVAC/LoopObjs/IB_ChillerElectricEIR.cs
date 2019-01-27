@@ -8,23 +8,17 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ChillerElectricEIR();
 
-        private static ChillerElectricEIR InitMethod(Model model) => new ChillerElectricEIR(model);
-        public IB_ChillerElectricEIR() : base(InitMethod(new Model()))
+        private static ChillerElectricEIR NewDefaultOpsObj(Model model) => new ChillerElectricEIR(model);
+        public IB_ChillerElectricEIR() : base(NewDefaultOpsObj(new Model()))
         {
             
         }
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
 
-            return ((ChillerElectricEIR)this.ToOS(model)).addToNode(node);
+        public override HVACComponent ToOS(Model model)
+        {
+             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
         
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            ChillerElectricEIR postProcess(ModelObject _) => _.to_ChillerElectricEIR().get();
-            return base.OnInitOpsObj(InitMethod, model, postProcess);
-        }
     }
 
     public sealed class IB_ChillerElectricEIR_DataFieldSet

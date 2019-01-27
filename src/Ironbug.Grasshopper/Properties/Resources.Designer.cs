@@ -583,6 +583,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HVACTemplate {
+            get {
+                object obj = ResourceManager.GetObject("HVACTemplate", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ironbug {
             get {
                 object obj = ResourceManager.GetObject("Ironbug", resourceCulture);
@@ -763,6 +773,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PTAC {
+            get {
+                object obj = ResourceManager.GetObject("PTAC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PTHP {
+            get {
+                object obj = ResourceManager.GetObject("PTHP", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PumpC {
             get {
                 object obj = ResourceManager.GetObject("PumpC", resourceCulture);
@@ -806,6 +836,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap ReadAnnualResultsIII {
             get {
                 object obj = ResourceManager.GetObject("ReadAnnualResultsIII", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap saveHVAC {
+            get {
+                object obj = ResourceManager.GetObject("saveHVAC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

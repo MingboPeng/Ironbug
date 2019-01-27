@@ -18,19 +18,22 @@ namespace Ironbug.HVAC
             foreach (var branch in branches)
             {
                 //add one branch
-                plant.addSupplyBranchForComponent((HVACComponent)branch.First().ToOS(model));
+                plant.addSupplyBranchForComponent(branch.First().ToOS(model));
                 //add the rest child in this branch
                 var restChild = branch.Skip(1);
                 foreach (var item in restChild)
                 {
                     var node = plant.supplyMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
+                    if (!item.AddToNode(node))
+                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
+                    
                 }
             }
         }
+
         public void ToOS_Demand(Loop PlantLoop)
         {
-            var branches = this.CheckPuppetsInBranches(this).Branches;
+            var branches = this.CheckPuppetsInBranches().Branches;
             var plant = PlantLoop as PlantLoop;
             var model = PlantLoop.model();
             foreach (var branch in branches)
@@ -39,14 +42,17 @@ namespace Ironbug.HVAC
 
                 var items = branch.SelectMany(_ => _.GetPuppetsOrSelf()).Select(_ => _ as IB_HVACObject);
                 //add one branch
-                plant.addDemandBranchForComponent((HVACComponent)items.First().ToOS(model));
+                var firstItem = items.First();
+                plant.addDemandBranchForComponent(firstItem.ToOS(model));
                 //add the rest child in this branch
                 var restChild = items.Skip(1);
+                //TDDO: double check the obj order here
+                var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
                 foreach (var item in restChild)
                 {
-                    //TDDO: double check the obj order here
-                    var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
-                    item.AddToNode(node);
+                    
+                    if (!item.AddToNode(node))
+                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
                 }
 
                 ////TODO: testing puppets only
@@ -61,10 +67,10 @@ namespace Ironbug.HVAC
             }
         }
 
-        public IB_PlantLoopBranches CheckPuppetsInBranches(IB_LoopBranches IB_Branches)
+        public IB_PlantLoopBranches CheckPuppetsInBranches()
         {
             
-            var branches = IB_Branches.Branches;
+            var branches = this.Branches;
             var newBranches = new IB_PlantLoopBranches();
             foreach (var branch in branches)
             {

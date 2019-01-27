@@ -7,23 +7,18 @@ namespace Ironbug.HVAC
     public class IB_PipeAdiabatic : IB_HVACObject, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PipeAdiabatic();
-        private static PipeAdiabatic InitMethod(Model model)
+        private static PipeAdiabatic NewDefaultOpsObj(Model model)
             => new PipeAdiabatic(model);
         
 
-        public IB_PipeAdiabatic():base(InitMethod(new Model()))
+        public IB_PipeAdiabatic():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_PipeAdiabatic().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((PipeAdiabatic)base.ToOS(model)).addToNode(node);
-        }
+        
     }
 
     public sealed class IB_PipeAdiabatic_FieldSet

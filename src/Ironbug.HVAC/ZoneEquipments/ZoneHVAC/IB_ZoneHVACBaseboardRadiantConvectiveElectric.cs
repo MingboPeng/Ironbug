@@ -8,17 +8,17 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACBaseboardRadiantConvectiveElectric();
 
-        private static ZoneHVACBaseboardRadiantConvectiveElectric InitMethod(Model model) 
+        private static ZoneHVACBaseboardRadiantConvectiveElectric NewDefaultOpsObj(Model model) 
             => new ZoneHVACBaseboardRadiantConvectiveElectric(model);
         
 
-        public IB_ZoneHVACBaseboardRadiantConvectiveElectric() : base(InitMethod(new Model()))
+        public IB_ZoneHVACBaseboardRadiantConvectiveElectric() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_ZoneHVACBaseboardRadiantConvectiveElectric().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

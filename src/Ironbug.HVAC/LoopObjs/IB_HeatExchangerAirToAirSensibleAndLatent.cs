@@ -8,22 +8,16 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_HeatExchangerAirToAirSensibleAndLatent();
 
-        private static HeatExchangerAirToAirSensibleAndLatent InitMethod(Model model) => new HeatExchangerAirToAirSensibleAndLatent(model);
+        private static HeatExchangerAirToAirSensibleAndLatent NewDefaultOpsObj(Model model) => new HeatExchangerAirToAirSensibleAndLatent(model);
 
-        public IB_HeatExchangerAirToAirSensibleAndLatent() : base(InitMethod(new Model()))
+        public IB_HeatExchangerAirToAirSensibleAndLatent() : base(NewDefaultOpsObj(new Model()))
         {
         }
+         
 
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
-            var model = node.model();
-            return ((HeatExchangerAirToAirSensibleAndLatent)this.ToOS(model)).addToNode(node);
-        }
-        
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            return base.OnInitOpsObj(InitMethod, model).to_HeatExchangerAirToAirSensibleAndLatent().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

@@ -1,44 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using Ironbug.HVAC;
-using Grasshopper.Kernel;
-using Rhino.Geometry;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
-using System.Windows.Forms;
-using System.Linq;
 using Ironbug.HVAC.BaseClass;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_OutputParams : GH_Component, IGH_VariableParameterComponent
     {
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
+
+        public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
+
         public Ironbug_OutputParams()
           : base("Ironbug_OutputParams", "OutputParams",
               "Description",
               "Ironbug", "00:Ironbug")
         {
         }
-        
+
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             //pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.item);
             //pManager.AddTextParameter("name", "name", "name", GH_ParamAccess.item);
         }
 
-        
-
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OutputParams", "OutputParams", "TODO...", GH_ParamAccess.item);
         }
-        
+
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             this.Message = "Double click for more details!";
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             DA.SetData(0, settingDatas);
-            
         }
 
         private List<IB_OutputVariable> CollectOutputVariable()
@@ -57,19 +57,14 @@ namespace Ironbug.Grasshopper.Component
 
                     if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
                     {
-                        
                         bool value;
                         fristData.CastTo(out value);
                         if (value)
                         {
                             outputVariables.Add(new IB_OutputVariable(item.Name, IB_OutputVariable.TimeSteps.Hourly));
                         }
-                        
-
                     }
                 }
-                
-
             }
             return outputVariables;
         }
@@ -98,7 +93,7 @@ namespace Ironbug.Grasshopper.Component
         {
             //throw new NotImplementedException();
         }
-        
+
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendItem(menu, "EPOutputVariables", GetEPOutputVariables, true);
@@ -123,7 +118,6 @@ namespace Ironbug.Grasshopper.Component
                 var outvariables = ibObj.SimulationOutputVariables;
                 this.AddVariablesToParams(outvariables);
             }
-
         }
 
         private void AddVariablesToParams(IEnumerable<string> variablesTobeAdded)
@@ -152,7 +146,6 @@ namespace Ironbug.Grasshopper.Component
             }
             this.Params.OnParametersChanged();
             this.ExpireSolution(true);
-
         }
 
         private void RemoveUnused(object sender, EventArgs e)
@@ -173,17 +166,14 @@ namespace Ironbug.Grasshopper.Component
             this.ExpireSolution(true);
         }
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
-        
-        public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
-
         public override void CreateAttributes()
         {
             var newAttri = new IB_SettingComponentAttributes(this);
             m_attributes = newAttri;
         }
 
-        bool isCleanInputs = false;
+        private bool isCleanInputs = false;
+
         internal void RespondToMouseDoubleClick()
         {
             isCleanInputs = !isCleanInputs;
@@ -196,6 +186,5 @@ namespace Ironbug.Grasshopper.Component
                 this.GetEPOutputVariables(this, EventArgs.Empty);
             }
         }
-
     }
 }

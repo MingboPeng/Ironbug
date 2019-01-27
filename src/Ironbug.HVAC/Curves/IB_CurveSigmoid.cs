@@ -7,16 +7,16 @@ namespace Ironbug.HVAC.Curves
     public class IB_CurveSigmoid : IB_Curve
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CurveSigmoid();
-        private static CurveSigmoid InitMethod(Model model)
+        private static CurveSigmoid NewDefaultOpsObj(Model model)
             => new CurveSigmoid(model);
         
 
-        public IB_CurveSigmoid():base(InitMethod(new Model()))
+        public IB_CurveSigmoid():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        public override Curve ToOS()
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CurveSigmoid().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
         }
     }
 

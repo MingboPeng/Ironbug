@@ -40,9 +40,14 @@ namespace Ironbug.Grasshopper.Component
             int size = 6;
             var y = bounds.Y - size - 3;
 
-            int fontWidth = GH_FontServer.StringWidth(message, GH_FontServer.Small);
+            
             //draw message
-            graphics.DrawString(message, GH_FontServer.Small, new SolidBrush(Color.Black), new PointF(bounds.Right - fontWidth, y-3));
+            var smallFont = GH_FontServer.Small;
+            var sz = (float)System.Math.Round(66M / smallFont.Height);
+            Font standardFontAdjust = GH_FontServer.NewFont(smallFont, sz);
+            int fontWidth = GH_FontServer.StringWidth(message, standardFontAdjust);
+
+            graphics.DrawString(message, standardFontAdjust, new SolidBrush(Color.Black), new PointF(bounds.Right - fontWidth, y-3));
 
             //draw dots
             for (int i = 1; i <= 3; i++)

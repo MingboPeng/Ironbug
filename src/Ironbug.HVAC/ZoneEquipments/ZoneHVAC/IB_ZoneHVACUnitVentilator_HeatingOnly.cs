@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -11,36 +8,33 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACUnitVentilator_HeatingOnly();
 
-        private static ZoneHVACUnitVentilator InitMethod(Model model) => new ZoneHVACUnitVentilator(model);
-        private IB_Child HeatingCoil => this.Children.GetChild<IB_CoilBasic>();
-        private IB_Child Fan => this.Children.GetChild<IB_Fan>();
+        private static ZoneHVACUnitVentilator NewDefaultOpsObj(Model model) => new ZoneHVACUnitVentilator(model);
+        private IB_CoilBasic HeatingCoil => this.Children.Get<IB_CoilHeatingBasic>();
+        private IB_Fan Fan => this.Children.Get<IB_Fan>();
 
-        public IB_ZoneHVACUnitVentilator_HeatingOnly() : base(InitMethod(new Model()))
+        public IB_ZoneHVACUnitVentilator_HeatingOnly() : base(NewDefaultOpsObj(new Model()))
         {
-            var heatingCoil = new IB_Child(new IB_CoilHeatingWater(), (obj) => this.SetHeatingCoil(obj as IB_CoilBasic));
-            var fan = new IB_Child(new IB_FanConstantVolume(), (obj) => this.SetFan(obj as IB_Fan));
-            
-            this.Children.Add(heatingCoil);
-            this.Children.Add(fan);
+            this.AddChild(new IB_CoilHeatingWater());
+            this.AddChild(new IB_FanConstantVolume());
         }
         public void SetFan(IB_Fan Fan)
         {
-            this.Fan.Set(Fan);
+            this.SetChild(Fan);
         }
         
-        public void SetHeatingCoil(IB_CoilBasic Coil)
+        public void SetHeatingCoil(IB_CoilHeatingBasic Coil)
         {
-            this.HeatingCoil.Set(Coil);
+            this.SetChild(Coil);
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var opsObj =  base.OnInitOpsObj(InitMethod, model).to_ZoneHVACUnitVentilator().get();
-            opsObj.setHeatingCoil((HVACComponent)this.HeatingCoil.To<IB_CoilBasic>().ToOS(model));
-            opsObj.setSupplyAirFan((HVACComponent)this.Fan.To<IB_Fan>().ToOS(model));
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
+            opsObj.setSupplyAirFan(this.Fan.ToOS(model));
             return opsObj;
-            
         }
+        
     }
     
 }

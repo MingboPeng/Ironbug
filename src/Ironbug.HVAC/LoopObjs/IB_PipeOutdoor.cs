@@ -7,23 +7,18 @@ namespace Ironbug.HVAC
     public class IB_PipeOutdoor : IB_HVACObject, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PipeOutdoor();
-        private static PipeOutdoor InitMethod(Model model)
+        private static PipeOutdoor NewDefaultOpsObj(Model model)
             => new PipeOutdoor(model);
         
 
-        public IB_PipeOutdoor():base(InitMethod(new Model()))
+        public IB_PipeOutdoor():base(NewDefaultOpsObj(new Model()))
         {
         }
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_PipeOutdoor().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((PipeOutdoor)base.ToOS(model)).addToNode(node);
-        }
+        
     }
 
     public sealed class IB_PipeOutdoor_FieldSet

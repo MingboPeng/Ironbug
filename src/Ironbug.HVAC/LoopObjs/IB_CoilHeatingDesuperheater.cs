@@ -6,23 +6,22 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingDesuperheater : IB_Coil
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDesuperheater(this.HeatingSource.To<IB_CoilDX>());
-        private static CoilHeatingDesuperheater InitMethod(Model model) => new CoilHeatingDesuperheater(model);
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingDesuperheater(this.HeatingSource);
+        private static CoilHeatingDesuperheater NewDefaultOpsObj(Model model) => new CoilHeatingDesuperheater(model);
 
         //Now supports CoilCoolingDXSingleSpeed and CoilCoolingDXTwoSpeed
         //TODO: will add later: RefrigerationCondenserAirCooled, RefrigerationCondenserEvaporativeCooled, RefrigerationCondenserWaterCooled
-        private IB_Child HeatingSource => this.Children.GetChild<IB_CoilDX>();
-        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(InitMethod(new Model()))
+        private IB_CoilDX HeatingSource => this.Children.Get<IB_CoilDX>();
+        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj(new Model()))
         {
-            var hs = new IB_Child(heatingSource, (obj) => this.SetHeatingSource(obj as IB_CoilDX));
-            this.Children.Add(hs);
+            this.AddChild(heatingSource);
         }
         public void SetHeatingSource(IB_CoilDX heatingSource)
         {
-            this.HeatingSource.Set(heatingSource);
+            this.SetChild(heatingSource);
         }
 
-        public override bool AddToNode(Node node)
+        public new bool AddToNode(Node node)
         {
             var model = node.model();
             var newObj = (CoilHeatingDesuperheater)this.ToOS(model);
@@ -40,15 +39,15 @@ namespace Ironbug.HVAC
             
 
         }
-        
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            var newObj = base.OnInitOpsObj(InitMethod, model).to_CoilHeatingDesuperheater().get();
-            var newHS = this.HeatingSource.To<IB_CoilDX>().ToOS(model);
+            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var newHS = this.HeatingSource.ToOS(model);
             newObj.setHeatingSource(newHS);
             return newObj;
         }
+        
 
     }
 

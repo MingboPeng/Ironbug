@@ -4,27 +4,22 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingCooledBeam : IB_CoilBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
+    public class IB_CoilCoolingCooledBeam : IB_CoilCoolingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingCooledBeam();
 
-        private static CoilCoolingCooledBeam InitMethod(Model model) => new CoilCoolingCooledBeam(model);
+        private static CoilCoolingCooledBeam NewDefaultOpsObj(Model model) => new CoilCoolingCooledBeam(model);
 
-        public IB_CoilCoolingCooledBeam() : base(InitMethod(new Model()))
+        public IB_CoilCoolingCooledBeam() : base(NewDefaultOpsObj(new Model()))
         {
-        }
-
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((CoilCoolingCooledBeam)this.ToOS(model)).addToNode(node);
         }
         
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_CoilCoolingCooledBeam().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
+        
     }
     public sealed class IB_CoilCoolingCooledBeam_DataFieldSet
         : IB_FieldSet<IB_CoilCoolingCooledBeam_DataFieldSet, CoilCoolingCooledBeam>

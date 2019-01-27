@@ -8,39 +8,25 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerOutdoorAir();
 
-        private static ControllerOutdoorAir InitMethod(Model model) => new ControllerOutdoorAir(model);
-        private IB_Child ControllerMechanicalVentilation => this.Children.GetChild<IB_ControllerMechanicalVentilation>();
-        public IB_ControllerOutdoorAir() : base(InitMethod(new Model()))
+        private static ControllerOutdoorAir NewDefaultOpsObj(Model model) => new ControllerOutdoorAir(model);
+        private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.Children.Get<IB_ControllerMechanicalVentilation>();
+        public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj(new Model()))
         {
-            var mechVent = new IB_Child(new IB_ControllerMechanicalVentilation(),(obj) => this.SetMechanicalVentilation(obj as IB_ControllerMechanicalVentilation));
-            this.Children.Add(mechVent);
+            this.AddChild(new IB_ControllerMechanicalVentilation());
         }
 
         public void SetMechanicalVentilation(IB_ControllerMechanicalVentilation mechanicalVentilation)
         {
-            this.ControllerMechanicalVentilation.Set(mechanicalVentilation);
+            this.SetChild(mechanicalVentilation);
         }
-
-        public override IB_ModelObject Duplicate()
+        
+        public ModelObject ToOS(Model model)
         {
-            var newObj = this.DuplicateIBObj(() => new IB_ControllerOutdoorAir());
-            var newMechVent = (IB_ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.DuplicateChild();
-            newObj.SetMechanicalVentilation(newMechVent);
-            return newObj;
-        }
-
-        protected override ModelObject InitOpsObj(Model model)
-        {
-            var newObj = (ControllerOutdoorAir)this.OnInitOpsObj(InitMethod, model); //TODO: would this work?
-            var newMechVent = (ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.To<IB_ControllerMechanicalVentilation>().ToOS(model);
+            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model);
+            var newMechVent = (ControllerMechanicalVentilation)this.ControllerMechanicalVentilation.ToOS(model);
             newObj.setControllerMechanicalVentilation(newMechVent);
 
             return newObj;
-        }
-
-        public ModelObject ToOS(Model model)
-        {
-            return this.InitOpsObj(model);
         }
 
     }

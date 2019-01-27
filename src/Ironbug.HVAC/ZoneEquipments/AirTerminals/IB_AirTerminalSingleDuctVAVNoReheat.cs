@@ -9,18 +9,18 @@ namespace Ironbug.HVAC
         //this is for self duplication and duplication as Puppet
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctVAVNoReheat();
         //this is for OpenStudio object initialization
-        private static AirTerminalSingleDuctVAVNoReheat InitMethod(Model model) =>
+        private static AirTerminalSingleDuctVAVNoReheat NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctVAVNoReheat(model, model.alwaysOnDiscreteSchedule());
         
         
-        public IB_AirTerminalSingleDuctVAVNoReheat() : base(InitMethod(new Model()))
+        public IB_AirTerminalSingleDuctVAVNoReheat() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        
 
-        protected override ModelObject InitOpsObj(Model model)
+
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model).to_AirTerminalSingleDuctVAVNoReheat().get();
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
         
 

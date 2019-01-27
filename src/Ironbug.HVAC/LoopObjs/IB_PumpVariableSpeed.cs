@@ -8,21 +8,15 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PumpVariableSpeed();
 
-        private static PumpVariableSpeed InitMethod(Model model) => new PumpVariableSpeed(model);
-        public IB_PumpVariableSpeed() : base(InitMethod(new Model()))
+        private static PumpVariableSpeed NewDefaultOpsObj(Model model) => new PumpVariableSpeed(model);
+        public IB_PumpVariableSpeed() : base(NewDefaultOpsObj(new Model()))
         {
 
-        }
-        public override bool AddToNode(Node node)
-        {
-            var model = node.model();
-            return ((PumpVariableSpeed)this.ToOS(model)).addToNode(node);
-        }
-        
+        } 
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override HVACComponent ToOS(Model model)
         {
-            return base.OnInitOpsObj(InitMethod, model);
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

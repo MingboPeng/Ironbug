@@ -2,8 +2,8 @@
 
 namespace Ironbug.HVAC
 {
-    public interface IIB_ToOPSable
-    {
-        ModelObject ToOS(Model model);
-    }
+    //public interface IIB_ToOPSable
+    //{
+    //    ModelObject ToOS(Model model);
+    //}
 }

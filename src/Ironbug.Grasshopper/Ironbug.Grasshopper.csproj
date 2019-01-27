@@ -169,10 +169,12 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACFourPipeFanCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalHeatPump.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Heating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitHeater.cs" />
@@ -292,15 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\duct.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PipeAdiabatic.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PipeIndoor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PipeOutdoor.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\curve_e.png" />
@@ -459,9 +452,6 @@
     <None Include="Resources\SetPointSZReheat.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\OutputVariable.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\ReadAnnualResultsIII.png" />
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +489,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\NoAirLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeAdiabatic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeIndoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PipeOutdoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PTHP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PTAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OutputVariable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HVACTemplate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\saveHVAC.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

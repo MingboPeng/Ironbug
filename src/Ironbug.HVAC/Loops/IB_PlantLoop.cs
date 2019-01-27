@@ -3,7 +3,6 @@ using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -16,8 +15,8 @@ namespace Ironbug.HVAC
 
         private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
         
-        private static PlantLoop InitMethod(Model model) => new PlantLoop(model);
-        public IB_PlantLoop() : base(InitMethod(new Model()))
+        private static PlantLoop NewDefaultOpsObj(Model model) => new PlantLoop(model);
+        public IB_PlantLoop() : base(NewDefaultOpsObj(new Model()))
         {
         }
         public void SetSizingPlant(IB_SizingPlant sizing)
@@ -27,8 +26,9 @@ namespace Ironbug.HVAC
 
         public void AddToSupply(IB_HVACObject HvacComponent)
         {
+            if (!(HvacComponent is IIB_PlantLoopObjects))
+                throw new ArgumentException($"{HvacComponent.GetType()} is not a plant loop object.\nOnly plant loop object is allowed to add to plantloop!");
 
-            
             if (HvacComponent is IB_PlantLoopBranches)
             {
                 CheckWithBranch(this.supplyComponents);
@@ -40,6 +40,9 @@ namespace Ironbug.HVAC
 
         public void AddToDemand(IB_HVACObject HvacComponent)
         {
+            if (!(HvacComponent is IIB_PlantLoopObjects))
+                throw new ArgumentException($"{HvacComponent.GetType()} is not a plant loop object.\nOnly plant loop object is allowed to add to plantloop!");
+
             if (HvacComponent is IB_PlantLoopBranches)
             {
                 CheckWithBranch(this.demandComponents);
@@ -49,31 +52,43 @@ namespace Ironbug.HVAC
             
         }
 
-
-        protected override ModelObject InitOpsObj(Model model)
+        public override ModelObject ToOS(Model model)
         {
-            var plant = base.OnInitOpsObj(InitMethod, model).to_PlantLoop().get();
+            var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
 
             IB_SizingPlant.ToOS(plant);
 
             this.AddSupplyObjects(plant, this.supplyComponents);
-            
+
             this.AddDemandObjects(plant, this.demandComponents);
-            
+
             return plant;
         }
 
-        public override IB_ModelObject Duplicate()
+        //protected override ModelObject NewOpsObj(Model model)
+        //{
+        //    var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
+
+        //    IB_SizingPlant.ToOS(plant);
+
+        //    this.AddSupplyObjects(plant, this.supplyComponents);
+            
+        //    this.AddDemandObjects(plant, this.demandComponents);
+            
+        //    return plant;
+        //}
+
+        public new IB_PlantLoop Duplicate()
         {
 
-            var newObj = (IB_PlantLoop)this.DuplicateIBObj(IB_InitSelf);
+            var newObj = this.DuplicateIBObj(() => new IB_PlantLoop());
 
             this.supplyComponents.ForEach(d =>
-                newObj.AddToSupply((IB_HVACObject)d.Duplicate())
+                newObj.AddToSupply(d.Duplicate())
                 );
 
             this.demandComponents.ForEach(d =>
-                newObj.AddToDemand((IB_HVACObject)d.Duplicate())
+                newObj.AddToDemand(d.Duplicate())
                 );
 
             newObj.SetSizingPlant((IB_SizingPlant)this.IB_SizingPlant.Duplicate());
@@ -92,18 +107,30 @@ namespace Ironbug.HVAC
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
             
             var spInletNode = plant.supplyInletNode();
-            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            //objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
+            objsBeforeBranch.ToList().ForEach(_ => 
+            {
+                if (!_.AddToNode(spInletNode))
+                {
+                    throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
+                }
+            });
 
             if (branchObj != null)
             {
                 ((IB_PlantLoopBranches)branchObj).ToOS_Supply(plant);
             }
             
-
             var spOutLetNode = plant.supplyOutletNode();
-            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            //objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
+            objsAfterBranch.ToList().ForEach(_ => 
+            {
+                if (!_.AddToNode(spOutLetNode))
+                {
+                    throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
+                }
+            });
 
-            
             var addedObjs = plant.supplyComponents().Where(_ => _.comment().Contains("TrackingID"));
             var allcopied = addedObjs.Count() == filteredObjs.CountWithBranches();
             
@@ -112,7 +139,7 @@ namespace Ironbug.HVAC
 
             if (!allcopied)
             {
-                throw new Exception("Failed to add plant loop's supply components!");
+                throw new ArgumentException("Failed to add plant loop's supply components!");
             }
 
             return allcopied;

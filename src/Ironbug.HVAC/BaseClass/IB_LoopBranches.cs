@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections;
+﻿using OpenStudio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
         public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
+
         public IB_LoopBranches() : base(new Node(new Model()))
         {
-
         }
 
         public void Add(List<IB_HVACObject> HVACObjects)
@@ -21,6 +19,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return;
             }
+
             this.Branches.Add(HVACObjects);
         }
 
@@ -29,7 +28,7 @@ namespace Ironbug.HVAC.BaseClass
             return "LoopBranches";
         }
 
-        public override IB_ModelObject Duplicate()
+        public override IB_HVACObject Duplicate()
         {
             //var newBranches = new List<List<IB_HVACObject>>();
             var loopBranches = new IB_PlantLoopBranches();
@@ -38,14 +37,12 @@ namespace Ironbug.HVAC.BaseClass
                 var newBranch = new List<IB_HVACObject>();
                 foreach (var item in branch)
                 {
-                    newBranch.Add((IB_HVACObject)item.Duplicate());
+                    newBranch.Add(item.Duplicate());
                 }
                 loopBranches.Add(newBranch);
             }
 
             return loopBranches;
-            
-           
         }
 
         public int Count()
@@ -55,17 +52,10 @@ namespace Ironbug.HVAC.BaseClass
             return count;
         }
 
-        public override bool AddToNode(Node node)
+        public override HVACComponent ToOS(Model model)
         {
             throw new NotImplementedException();
         }
         
-
-        protected override ModelObject InitOpsObj(Model model) => null;
-
-
     }
-    
-
-
 }
