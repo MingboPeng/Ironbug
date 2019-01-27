@@ -1,19 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using Grasshopper.Kernel.Data;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
     {
         private bool _firstRun = true;
+
+        private List<IB_ThermalZone> _zones = null;
+
+        protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
+
+        public override Guid ComponentGuid => new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0");
+
+        public override GH_Exposure Exposure => GH_Exposure.primary;
+
         /// <summary>
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
@@ -23,12 +30,8 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "00:Ironbug",
               typeof(IB_ThermalZone_DataFieldSet))
         {
-            //this.Params.ParameterChanged += Params_ParameterChanged;
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
-            //this.SolutionExpired += Ironbug_ThermalZone_SolutionExpired;
         }
-
-       
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -46,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
         }
-        
+
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
@@ -55,22 +58,19 @@ namespace Ironbug.Grasshopper.Component
         protected override void BeforeSolveInstance()
         {
             var doc = OnPingDocument();
-            
+
             if (doc.SolutionHistory.Count == 0)
             {
                 this.CreateZones();
                 return;
             }
 
-            
             if (this._firstRun)
             {
                 this._firstRun = false;
                 doc.SolutionEnd += Doc_SolutionEnd;
                 doc?.RequestAbortSolution();
-                
             }
-            
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -78,23 +78,19 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, this._zones);
             this._firstRun = true;
         }
-        
 
         private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
         {
             this.OnPingDocument().SolutionEnd -= Doc_SolutionEnd;
 
-
             this.CreateZones();
-            
+
             var outp = this.Params.Output[0];
-            
+
             this.ExpireSolution(false);
 
             this.OnPingDocument().NewSolution(false);
-
         }
-        
 
         private void CreateZones()
         {
@@ -110,10 +106,9 @@ namespace Ironbug.Grasshopper.Component
             if (phase == GH_SolutionPhase.Failed) return;
             hbZoneIn.CollectData();
             HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
-          
-                var hbzones = HBZones.SkipWhile(_ => _ is null);
-                zoneNames = CallFromHBHive(hbzones).ToList();
-            
+
+            var hbzones = HBZones.SkipWhile(_ => _ is null);
+            zoneNames = CallFromHBHive(hbzones).ToList();
 
             foreach (var name in zoneNames)
             {
@@ -124,7 +119,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No valid HBZones!");
                 return;
-            } 
+            }
             //add airTerminal
             var airTerminals = new List<IB_AirTerminal>();
             this.Params.Input[1].CollectData();
@@ -148,7 +143,6 @@ namespace Ironbug.Grasshopper.Component
 
                     //willNeedSecondRun = true;
                     //this.SecondRun = true;
-
                 }
                 else if (airTerminals.Count == OSZones.Count)
                 {
@@ -176,7 +170,6 @@ namespace Ironbug.Grasshopper.Component
 
             if (zoneEquipments.Any())
             {
-
                 //zoneEquipments.ForEach(_ => this.WatchPuppetStates(_));
                 zoneEquipments.ForEach(_ => _.ResetPuppetState());
                 if (OSZones.Count == 1)
@@ -201,10 +194,7 @@ namespace Ironbug.Grasshopper.Component
                         }
                         eqp.PuppetStateUpdated();
                     }
-                    
                 }
-
-
             }
 
             //add Sizing
@@ -217,7 +207,6 @@ namespace Ironbug.Grasshopper.Component
                 OSZones.ForEach(_ => _.SetSizingZone(sizing));
             }
 
-
             foreach (var zone in OSZones)
             {
                 this.SetObjParamsTo(zone);
@@ -227,19 +216,11 @@ namespace Ironbug.Grasshopper.Component
             this._firstRun = false;
         }
 
-        private List<IB_ThermalZone> _zones = null;
-
-
-        protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
-        
-        public override Guid ComponentGuid => new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0");
-
         private static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
         {
             var HBIDs = new List<string>();
             foreach (var item in inBreps)
             {
-                
                 if (inBreps is null) continue;
 
                 //todo: check if HBID existed
@@ -247,7 +228,7 @@ namespace Ironbug.Grasshopper.Component
                 //string formatedHBID = string.Format("['{0}']['{1}']", HBID[0], HBID[1]);
                 HBIDs.Add(HBID);
             }
-            
+
             if (HBIDs.Any())
             {
                 return GetHBObjects(HBIDs).Select(_ => _ as string);
@@ -256,16 +237,10 @@ namespace Ironbug.Grasshopper.Component
             {
                 return new List<string>();
             }
-            
-            
-
         }
-
-
 
         private static IList<dynamic> GetHBObjects(List<string> HBIDs)
         {
-
             var pyRun = Rhino.Runtime.PythonScript.Create();
             pyRun.SetVariable("HBIDs", HBIDs.ToArray());
             string pyScript = @"
@@ -290,7 +265,6 @@ for HBID in HBIDs:
 
             //only AirTerminal or ZoneEquipment remains
             this.WatchPuppetStates();
-
         }
 
         //private void Params_ParameterChanged(object sender, GH_ParamServerEventArgs e)
@@ -298,21 +272,21 @@ for HBID in HBIDs:
         //    throw new NotImplementedException();
         //}
 
-        
-        IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
+        private IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
 
         //This is really only for trying to cleanup the mass after any input prameter's disconnection
         private void WatchPuppetStates()
         {
             var ATorZE = this.Params.Input.Where(input => input.Name == "AirTerminal" || input.Name == "ZoneEquipments");
-            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_=>_.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponentBase);
+            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_ => _.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponentBase);
             var ibobjs = sources.Select(
-                _ => {
+                _ =>
+                {
                     IB_ZoneEquipment eqp = null;
                     _.VolatileData.AllData(true).First().CastTo(out eqp);
                     return eqp;
                 }).Where(obj => obj != null);
-            
+
             var currentConnectedObjs = ibobjs.ToDictionary(_ => _.GetTrackingID());
 
             //try to get which one in hvacComps is not in currentConnectedObjs
@@ -325,10 +299,6 @@ for HBID in HBIDs:
 
             //replace hvacComps with currentConnectedObjs
             hvacComps = currentConnectedObjs;
-
         }
-        
-
-
     }
 }
