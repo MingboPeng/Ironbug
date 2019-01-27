@@ -4,11 +4,16 @@ using Grasshopper.Kernel.Special;
 using GH = Grasshopper;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_HVACTemplate : GH_Component
     {
+        List<string> folderList = new List<string>();
+        List<List<string>> filesList = new List<List<string>>();
         public Ironbug_HVACTemplate()
           : base("Ironbug_HVACTemplate", "HVACTemplate",
               "Description",
@@ -16,52 +21,47 @@ namespace Ironbug.Grasshopper.Component
         {
         }
         public override Guid ComponentGuid => new Guid("F11CEDF5-6613-4B0B-A6C3-C0FCCF1454FD");
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.HVACTemplate;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddBooleanParameter("run", "_run", "run to create from a template", GH_ParamAccess.item);
+            pManager.AddTextParameter("Directory", "_dir", "Additional folder path to import the HVAC template.", GH_ParamAccess.list);
+            pManager[0].Optional = true;
             
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
+            pManager.AddTextParameter("Templates", "out", "HVAC templates found from folders", GH_ParamAccess.list);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var run = false;
-            DA.GetData(0, ref run);
-            if (!run) return;
+            this.Message = "Right click";
+            this.folderList = new List<string>();
+            this.filesList = new List<List<string>>();
 
-            //var ghBoiler = new Ironbug_BoilerHotWater();
-            //ghBoiler.CreateAttributes();
-            //var boilerP = new PointF(this.Attributes.Bounds.Left - 80, this.Attributes.Bounds.Y + 200);
-            //ghBoiler.Attributes.Pivot = boilerP;
-            //GH.Instances.ActiveCanvas.Document.AddObject(ghBoiler, false);
-            ////ghBoiler.ExpireSolution(true);
+            var dirs = new List<string>()
+            {
+                @"C:\Ironbug\HVACTemplates\"
+            };
+            DA.GetDataList(0, dirs);
 
-            //var pLoop = new Ironbug_PlantBranches();
-            //pLoop.CreateAttributes();
-            //pLoop.Attributes.Pivot = new PointF(boilerP.X + 150, boilerP.Y);
-            //GH.Instances.ActiveCanvas.Document.AddObject(pLoop, false);
+            dirs =  dirs.Where(_ => Directory.Exists(_)).ToList();
 
-            //pLoop.Params.Input[0].AddSource(ghBoiler.Params.Output[0]);
+            foreach (var dir in dirs)
+            {
+                var fs = Directory.GetFiles(dir, "*.txt", SearchOption.AllDirectories).ToList();
+                if (fs.Any())
+                {
+                    this.folderList.Add(Path.GetDirectoryName(Path.Combine(dir, "test.txt")));
+                    this.filesList.Add(fs);
 
-            ////create a group
-            //var GhGroup = new GH_Group();
-            //GhGroup.CreateAttributes();
-            //GhGroup.NickName = "Extracted Coordinates";
-            //GhGroup.Colour = Color.White;
-            //GhGroup.AddObject(ghBoiler.InstanceGuid);
-            //GhGroup.AddObject(pLoop.InstanceGuid);
-            //GH.Instances.ActiveCanvas.Document.AddObject(GhGroup, false);
-            ////GhGroup.ExpireSolution(true);
+                }
+            }
+            DA.SetDataList(0, this.filesList.SelectMany(_=>_));
 
 
-            //GH.Instances.ActiveCanvas.Document.NewSolution(false);
-
-            CreateTemplateFromXMLString(@"C:\Ironbug\HVACTemplates\Default\Test.txt", ref run);
         }
 
         private Size GetMoveVector(PointF FromLocation)
@@ -90,7 +90,7 @@ namespace Ironbug.Grasshopper.Component
 
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed");
+                    System.Windows.Forms.MessageBox.Show("Failed to add template.");
                     return;
                 }
                 var docTemp = io.Document;
@@ -112,5 +112,49 @@ namespace Ironbug.Grasshopper.Component
                 docCurrent.MergeDocument(docTemp);
             }
         }
+
+        
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            var newMenu = menu;
+            newMenu.Items.Clear();
+
+            var count = 0;
+            foreach (var filesPerFolder in this.filesList)
+            {
+                var menuItem = addFromFolder(this.folderList[count], filesPerFolder);
+                menu.Items.Add(menuItem);
+                count++;
+            }
+            
+            
+        }
+
+        private ToolStripMenuItem addFromFolder(string rootFolder , List<string> filesPerFolder)
+        {
+            var folderName = new DirectoryInfo(rootFolder).Name;
+            var t = new ToolStripMenuItem(folderName);
+
+            foreach (var item in filesPerFolder)
+            {
+                var p = Path.GetDirectoryName(item);
+                var name = Path.GetFileNameWithoutExtension(item);
+                var showName = p.Length > rootFolder.Length ? p.Replace(rootFolder+"\\", "") + "\\" + name : name;
+
+                EventHandler ev = (object sender, EventArgs e) =>
+                {
+                    var a = sender as ToolStripDropDownItem;
+                    var r = true;
+                    CreateTemplateFromXMLString(a.Tag.ToString(), ref r);
+                    this.ExpireSolution(true);
+
+                };
+
+                Menu_AppendItem(t.DropDown, showName, ev, null, item);
+            }
+
+            return t;
+        } 
     }
+    
 }
