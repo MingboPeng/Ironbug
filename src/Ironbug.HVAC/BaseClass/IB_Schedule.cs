@@ -6,9 +6,6 @@
         {
             //var a = OpenStudio.ScheduleRuleset
         }
-        public virtual OpenStudio.ModelObject ToOS(OpenStudio.Model model)
-        {
-            return this.InitOpsObj(model);
-        }
+        public abstract OpenStudio.ModelObject ToOS(OpenStudio.Model model);
     }
 }

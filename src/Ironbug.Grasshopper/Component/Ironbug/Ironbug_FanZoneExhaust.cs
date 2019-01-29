@@ -1,7 +1,6 @@
 ﻿using System;
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
-using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -12,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("FFCB9844-A425-4D06-A1B3-9C2ABBB5BF97");
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
         
         public Ironbug_FanZoneExhaust()
           : base("Ironbug_FanZoneExhaust", "ExFan",

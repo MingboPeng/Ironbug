@@ -168,6 +168,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACEnergyRecoveryVentilator.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
