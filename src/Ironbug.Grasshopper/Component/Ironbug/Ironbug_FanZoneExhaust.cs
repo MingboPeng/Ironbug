@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_FanZoneExhaust : Ironbug_HVACComponentBase
     {
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.exFan;
 
         public override Guid ComponentGuid => new Guid("FFCB9844-A425-4D06-A1B3-9C2ABBB5BF97");
 

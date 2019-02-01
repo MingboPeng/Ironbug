@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
               typeof(IB_ZoneHVACEnergyRecoveryVentilator_DataFieldSet))
         {
         }
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.zoneERV;
 
         public override Guid ComponentGuid => new Guid("B117A73D-597E-4922-9E34-F93F081EBE2F");
 
