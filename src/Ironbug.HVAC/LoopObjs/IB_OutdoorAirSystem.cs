@@ -35,7 +35,7 @@ namespace Ironbug.HVAC
             this.SetChild(ControllerOutdoorAir);
         }
 
-        public new bool AddToNode(Node node)
+        public override bool AddToNode(Node node)
         {
             var model = node.model();
             var oa = ((AirLoopHVACOutdoorAirSystem)this.ToOS(model));

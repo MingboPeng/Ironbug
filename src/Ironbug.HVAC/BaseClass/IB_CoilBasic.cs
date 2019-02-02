@@ -8,10 +8,10 @@ namespace Ironbug.HVAC.BaseClass
         {
 
         }
-        public override HVACComponent ToOS(Model model)
-        {
-            throw new System.NotImplementedException();
-        }
+        //public override HVACComponent ToOS(Model model)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
     }
 
 }
