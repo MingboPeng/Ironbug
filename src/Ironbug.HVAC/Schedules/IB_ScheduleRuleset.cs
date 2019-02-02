@@ -19,7 +19,7 @@ namespace Ironbug.HVAC.Schedules
             this.constantNumber = value;
         }
 
-        protected override ModelObject InitOpsObj(Model model)
+        public override ModelObject ToOS(Model model)
         {
             //return base.OnInitOpsObj(InitMethod, model).to_ScheduleRuleset().get();
             var name = $"Constant Schedule {this.constantNumber}";

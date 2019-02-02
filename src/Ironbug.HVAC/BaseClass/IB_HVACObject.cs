@@ -22,7 +22,7 @@ namespace Ironbug.HVAC.BaseClass
         //    return this.NewOpsObj(model) as HVACComponent;
         //}
 
-        public bool AddToNode(Node node)
+        public virtual bool AddToNode(Node node)
         {
             var model = node.model();
             return ToOS(model).addToNode(node);

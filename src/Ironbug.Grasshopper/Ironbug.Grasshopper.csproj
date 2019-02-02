@@ -164,9 +164,11 @@
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FanZoneExhaust.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACEnergyRecoveryVentilator.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
@@ -513,6 +515,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\saveHVAC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exFan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoneERV.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

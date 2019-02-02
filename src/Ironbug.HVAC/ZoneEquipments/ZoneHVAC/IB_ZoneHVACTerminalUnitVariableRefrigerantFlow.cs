@@ -17,6 +17,11 @@ namespace Ironbug.HVAC
         { 
         }
         
+        //public override ZoneHVACTerminalUnitVariableRefrigerantFlow ToOS(Model model)
+        //{
+        //    return base.OnNewOpsObj(NewDefaultOpsObj, model);
+        //}
+
         public override HVACComponent ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);

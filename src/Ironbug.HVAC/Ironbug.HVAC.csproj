@@ -102,6 +102,8 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_FanZoneExhaust.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACFourPipeFanCoil.cs" />

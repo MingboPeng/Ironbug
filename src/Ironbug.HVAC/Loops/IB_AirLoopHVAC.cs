@@ -58,7 +58,7 @@ namespace Ironbug.HVAC
 
         }
 
-        public new IB_AirLoopHVAC Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(() => new IB_AirLoopHVAC());
 
@@ -70,7 +70,7 @@ namespace Ironbug.HVAC
                 newObj.AddToDemandSide(d.Duplicate())
                 );
 
-            newObj.SetSizingSystem(this._SizingSystem.Duplicate());
+            newObj.SetSizingSystem(this._SizingSystem.Duplicate() as IB_SizingSystem);
 
             return newObj;
         }

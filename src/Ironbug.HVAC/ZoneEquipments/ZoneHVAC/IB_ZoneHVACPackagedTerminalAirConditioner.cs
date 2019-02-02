@@ -36,7 +36,6 @@ namespace Ironbug.HVAC
                 _heatingCoil.ToOS(m),
                 _coolingCoil.ToOS(m)
                 );
-            throw new NotImplementedException();
         }
         
     }

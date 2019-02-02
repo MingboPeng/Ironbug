@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         private CoilCoolingLowTempRadiantConstFlow NewDefaultOpsObj(Model model)
             => new CoilCoolingLowTempRadiantConstFlow(model, new ScheduleRuleset(model, waterHiT), new ScheduleRuleset(model, waterLoT), new ScheduleRuleset(model, airHiT), new ScheduleRuleset(model, airLoT));
 
-        public new CoilCoolingLowTempRadiantConstFlow ToOS(Model model)
+        public override HVACComponent ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }

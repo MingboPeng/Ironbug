@@ -25,7 +25,7 @@ namespace Ironbug.HVAC
             var newObj = this.DuplicateIBObj(() => new IB_NoAirLoop());
 
             this._thermalZones.ForEach(
-                _ => newObj.AddThermalZones(_.Duplicate())
+                _ => newObj.AddThermalZones(_.Duplicate() as IB_ThermalZone)
                 );
 
             return newObj;
@@ -36,7 +36,7 @@ namespace Ironbug.HVAC
             var tzs = this._thermalZones;
             foreach (var item in tzs)
             {
-                var zone = (ThermalZone)item.ToOS(model);
+                item.ToOS(model);
             }
 
             return null;

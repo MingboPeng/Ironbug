@@ -119,25 +119,31 @@ namespace Ironbug.HVACTests
         {
             //var md1 = new OpenStudio.Model();
             var airflow = new HVAC.IB_AirLoopHVAC();
+            var oa = new IB_OutdoorAirSystem();
+            var erv = new IB_HeatExchangerAirToAirSensibleAndLatent();
             var coil = new HVAC.IB_CoilHeatingWater();
             var fan = new IB_FanConstantVolume();
 
+            oa.SetHeatExchanger(erv);
 
+            airflow.AddToSupplySide(oa);
             airflow.AddToSupplySide(coil);
             airflow.AddToSupplySide(fan);
-            airflow.ToOS(md1);
+            //airflow.ToOS(md1);
 
             var md2 = new OpenStudio.Model();
             airflow.ToOS(md2);
 
-            var success1 = coil.IsInModel(md1);
-            var success2 = coil.IsInModel(md2);
-            var success_fan = fan.IsInModel(md1);
+            var success1 = coil.IsInModel(md2);
+            success1 &= coil.IsInModel(md2);
+            success1 &= fan.IsInModel(md2);
+            success1 &= oa.IsInModel(md2);
+            success1 &= erv.IsInModel(md2);
 
-            
+
             var success3 = md2.Save(saveFile);
 
-            var success = success1 && success2 && success3 & success_fan;
+            var success = success1;
 
             Assert.IsTrue(success);
         }

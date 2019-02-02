@@ -85,11 +85,13 @@ namespace Ironbug.Grasshopper.Component
 
         public override bool Read(GH_IReader reader)
         {
-            if (reader.ItemExists("DataFieldSetType"))
+            if (reader.ItemExists("DataFieldSetType") && this.Params.Output.FirstOrDefault().Recipients.Any())
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
                 this.FieldSet = GetFieldSet(CurrentDataFieldType);
+                this.basicfieldList = FieldSet.Where(_ => _ is IB_BasicField).ToList();
+                this.masterFieldList = FieldSet.Where(_ => !((_ is IB_BasicField) || (_ is IB_TopField))).ToList();
             }
             return base.Read(reader);
         }
@@ -373,5 +375,6 @@ namespace Ironbug.Grasshopper.Component
                 this.MasterSetting(this, EventArgs.Empty);
             }
         }
+
     }
 }

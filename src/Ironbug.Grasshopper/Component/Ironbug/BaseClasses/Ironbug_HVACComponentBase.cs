@@ -21,11 +21,9 @@ namespace Ironbug.Grasshopper.Component
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
-            //if (this.RunCount < 0) return;
-
-            //e.ParameterSide == GH_ParameterSide.Output // would this will ever happen??
-            if (e.ParameterSide == GH_ParameterSide.Input && 
-                e.Parameter.NickName == "params_")
+            var pName = e.Parameter.NickName;
+            var isParam = pName == "params_" || pName == "Parameters_";
+            if (e.ParameterSide == GH_ParameterSide.Input && isParam )
             {
                 ParamSettingChanged(e);
             }
@@ -33,21 +31,6 @@ namespace Ironbug.Grasshopper.Component
             void ParamSettingChanged(GH_ParamServerEventArgs args)
             {
                 var sources = args.Parameter.Sources;
-                //var sourceNum = sources.Count;
-                ////removal case
-                //if (!sources.Any())
-                //{
-                //    //settingParams?.CheckRecipients(); //This is a clean version
-                //    if (settingParams != null)
-                //    {
-                //        //remove all inputParams
-                //        settingParams.CheckRecipients();
-                //    }
-
-                //    settingParams = null;
-
-                //    return;
-                //}
 
                 //adding case
                 foreach (var item in sources)
@@ -67,18 +50,6 @@ namespace Ironbug.Grasshopper.Component
                         this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
                     }
                 }
-                //var firstsSource = sources.First() as IGH_Param;
-                //if (sourceNum == 1 && firstsSource != null)
-                //{
-                //    //link to a new ObjParams
-                //    var docObj = firstsSource.Attributes.GetTopLevel.DocObject;
-                //    if (docObj is Ironbug_ObjParams objParams)
-                //    {
-                //        objParams.CheckRecipients();
-                //        settingParams = objParams;
-                //    }
-
-                //}
             }
             
 
@@ -164,7 +135,7 @@ namespace Ironbug.Grasshopper.Component
         private static IGH_Param CreateParamInput()
         {
             IGH_Param newParam = new Param_GenericObject();
-            newParam.Name = "Parameters";
+            newParam.Name = "Parameters_";
             newParam.NickName = "params_";
             newParam.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
             newParam.MutableNickName = false;
