@@ -683,6 +683,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ObjViewer {
+            get {
+                object obj = ResourceManager.GetObject("ObjViewer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap OutdoorAir {
             get {
                 object obj = ResourceManager.GetObject("OutdoorAir", resourceCulture);
@@ -856,6 +866,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap saveHVAC {
             get {
                 object obj = ResourceManager.GetObject("saveHVAC", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointDualScheduled {
+            get {
+                object obj = ResourceManager.GetObject("SetPointDualScheduled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

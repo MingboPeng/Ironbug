@@ -87,6 +87,7 @@
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerWarmest.cs" />
@@ -521,6 +523,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\zoneERV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ObjViewer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointDualScheduled.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

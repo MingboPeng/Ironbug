@@ -8,7 +8,7 @@ namespace Ironbug.Core.OpenStudio
 {
     public static class OpenStudioHelper
     {
-        public static bool LoadAssemblies(Action<string> MessageLogger, string Version = "2.7.0.0")
+        public static bool LoadAssemblies(Action<string> MessageLogger, string Version = "2.5.0.0")
         {
             Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
             var possibleOpsDll = asms.Where(_ => _.GetName().Name.ToUpper() == "OPENSTUDIO");
@@ -18,7 +18,7 @@ namespace Ironbug.Core.OpenStudio
             {
                 var possiblePath = new List<string>();
                 possiblePath.Add(@"C:\Ironbug");
-                possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
+                //possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
                 possiblePath.Add(@"C:\openstudio-2.5.0\CSharp\openstudio");
 
                 var file = "OpenStudio.dll";
@@ -27,7 +27,7 @@ namespace Ironbug.Core.OpenStudio
 
                 if (string.IsNullOrEmpty(path))
                 {
-                    throw new FileNotFoundException(string.Format("Cannot find {0} in {1}", file, @"C:\Ironbug"));
+                    throw new FileNotFoundException(string.Format("Cannot find OpenStudio {0} installed!\n\nIronbug needs a specific version of OpenStudio.", Version));
                 }
 
                 var asmFile = Path.Combine(path, file);

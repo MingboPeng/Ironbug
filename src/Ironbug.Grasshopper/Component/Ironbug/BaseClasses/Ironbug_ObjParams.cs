@@ -85,7 +85,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override bool Read(GH_IReader reader)
         {
-            if (reader.ItemExists("DataFieldSetType") && this.Params.Output.FirstOrDefault().Recipients.Any())
+            if (reader.ItemExists("DataFieldSetType") )
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);

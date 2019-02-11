@@ -7,7 +7,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ironbug.HVACTests
 {
-    
+   
+
 
     [TestClass]
     public class HVACWorkflowTest
@@ -17,12 +18,29 @@ namespace Ironbug.HVACTests
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
 
+        private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
+        {
+            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
+        
+            sizing.SetFieldValue(szFields.LoopType, "Cooling");
+            sizing.SetFieldValue(szFields.DesignLoopExitTemperature, 7.22);
+            sizing.SetFieldValue(szFields.LoopDesignTemperatureDifference, 6.67);
+            
+            return sizing;
+        }
+        
         [TestMethod]
         public void IBChiller_Loop_Test()
         {
             //var md1 = new OpenStudio.Model();
             var cwlp = new IB_PlantLoop();
+            var cwsz = setSizingDefault( new IB_SizingPlant());
+            cwlp.SetSizingPlant(cwsz);
+
             var cdlp = new IB_PlantLoop();
+
+
             var chiller = new IB_ChillerElectricEIR();
 
             var branches = new IB_PlantLoopBranches();
@@ -45,8 +63,12 @@ namespace Ironbug.HVACTests
             //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
             md1.Save(saveFile);
 
-            var findChiller = md1.getChillerElectricEIRs().Count() == 1;
-            Assert.IsTrue(findChiller);
+            var chillers = md1.getChillerElectricEIRs();
+            var findChiller = chillers.Count() == 1;
+
+            var cwloopSz = chillers.First().plantLoop().get().sizingPlant();
+            var isCooling = cwloopSz.loopType() == "Cooling";
+            Assert.IsTrue(findChiller & isCooling);
 
         }
 
@@ -124,6 +146,10 @@ namespace Ironbug.HVACTests
             var coil = new HVAC.IB_CoilHeatingWater();
             var fan = new IB_FanConstantVolume();
 
+            var f = new IB_Field("LatentEffectivenessat100CoolingAirFlow", "LatentEffectivenessat100CoolingAirFlow");
+            erv.SetFieldValue(f, 0.555);
+
+
             oa.SetHeatExchanger(erv);
 
             airflow.AddToSupplySide(oa);
@@ -136,9 +162,10 @@ namespace Ironbug.HVACTests
 
             var success1 = coil.IsInModel(md2);
             success1 &= coil.IsInModel(md2);
-            success1 &= fan.IsInModel(md2);
+            success1 &= fan.IsInModel(md2); 
             success1 &= oa.IsInModel(md2);
             success1 &= erv.IsInModel(md2);
+            success1 &= md2.getHeatExchangerAirToAirSensibleAndLatents().First().latentEffectivenessat100CoolingAirFlow() == 0.555;
 
 
             var success3 = md2.Save(saveFile);
@@ -147,6 +174,7 @@ namespace Ironbug.HVACTests
 
             Assert.IsTrue(success);
         }
+
 
         [TestMethod]
         public void HWloopWorkflow_Test()
