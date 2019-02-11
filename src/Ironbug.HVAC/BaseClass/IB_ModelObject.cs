@@ -438,6 +438,25 @@ namespace Ironbug.HVAC.BaseClass
             //return this.GhostOSObject.__str__();
         }
 
+        public List<string> ToStrings()
+        {
+            var s = new List<string>();
+            s.Add(this.GhostOSObject.__str__());
+
+            var parentObj = this.Duplicate().GhostOSObject.to_ParentObject();
+            if (parentObj.is_initialized())
+            {
+                var obj = parentObj.get();
+                var children = obj.children();
+                foreach (var item in children)
+                {
+                    s.Add(item.__str__());
+                }
+
+            }
+            return s;
+        }
+
         
 
         private static string CreateUID()
