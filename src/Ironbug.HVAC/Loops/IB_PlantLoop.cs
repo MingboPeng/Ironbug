@@ -22,6 +22,9 @@ namespace Ironbug.HVAC
         public void SetSizingPlant(IB_SizingPlant sizing)
         {
             this.IB_SizingPlant = sizing;
+            //var obj = this.GhostOSObject as PlantLoop;
+            this.IB_SizingPlant.ToOS(this.GhostOSObject as PlantLoop);
+            
         }
 
         public void AddToSupply(IB_HVACObject HvacComponent)
@@ -78,7 +81,7 @@ namespace Ironbug.HVAC
         //    return plant;
         //}
 
-        public new IB_PlantLoop Duplicate()
+        public override IB_ModelObject Duplicate()
         {
 
             var newObj = this.DuplicateIBObj(() => new IB_PlantLoop());

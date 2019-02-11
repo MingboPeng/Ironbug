@@ -10,8 +10,6 @@ namespace Ironbug.HVAC
 
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this.temperature);
 
-        private  SetpointManagerScheduled NewDefaultOpsObj(Model model) 
-            => new SetpointManagerScheduled(model, new ScheduleRuleset(model, this.temperature));
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp) 
             => new SetpointManagerScheduled(model, new ScheduleRuleset(model, temp));
 
@@ -20,9 +18,25 @@ namespace Ironbug.HVAC
             this.temperature = temperature;
 
         }
+
+        public override IB_HVACObject Duplicate()
+        {
+            var newobj = base.Duplicate() as IB_SetpointManagerScheduled;
+            newobj.temperature = this.temperature;
+            return newobj;
+        }
+
         public override HVACComponent ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
+
+
+            SetpointManagerScheduled NewDefaultOpsObj(Model m)
+            {
+                var sch = new ScheduleRuleset(m, this.temperature);
+                sch.setName("Constant value at " + this.temperature);
+                return new SetpointManagerScheduled(m, sch);
+            }
         }
     }
 }
