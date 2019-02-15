@@ -216,6 +216,10 @@
       <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
       <Name>Ironbug.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ironbug.EPDoc\Ironbug.EPDoc.csproj">
+      <Project>{28144fdf-48c8-461b-985b-eaca33aacb7d}</Project>
+      <Name>Ironbug.EPDoc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj">
       <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
       <Name>Ironbug.HVAC</Name>

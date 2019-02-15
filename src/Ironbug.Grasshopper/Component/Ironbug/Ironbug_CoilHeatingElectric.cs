@@ -14,6 +14,7 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
         {
+            this.Description = EPDoc.CoilHeatingElectric.Note;
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;

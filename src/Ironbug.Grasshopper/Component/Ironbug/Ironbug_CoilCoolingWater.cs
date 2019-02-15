@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Grasshopper.Kernel;
+using System;
+using Ironbug.EPDoc;
 
-using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -14,13 +12,14 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_CoilCoolingWater()
           : base("Ironbug_CoilCoolingWater", "CoilCW",
-              "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingWater_DataFieldSet))
+              HVAC.IB_CoilCoolingWater_DataFieldSet.Value)
         {
-        }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+            this.Description = EPDoc.CoilCoolingWater.Note;
 
+        }
+
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

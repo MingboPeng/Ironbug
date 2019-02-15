@@ -16,6 +16,8 @@ namespace Ironbug.Grasshopper.Component
     {
         //private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
+        public IB_FieldSet DataField { get; private set; }
+
         public IB_ModelObject IB_ModelObject  => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;
 
@@ -121,6 +123,16 @@ namespace Ironbug.Grasshopper.Component
             }
             
             base.AfterSolveInstance();  
+        }
+
+     
+        public Ironbug_HVACComponentBase(string name, string nickname, string category, string subCategory, IB_FieldSet DataField)
+            : base(name, nickname, DataField.OwnerEpDoc, category, subCategory)
+        {
+            this.DataField = DataField;
+            var paramInput = CreateParamInput();
+            Params.RegisterInputParam(paramInput);
+            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 

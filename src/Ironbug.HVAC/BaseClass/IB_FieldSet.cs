@@ -11,6 +11,7 @@ namespace Ironbug.HVAC.BaseClass
     
     public abstract class IB_FieldSet: ICollection<IB_Field>
     {
+        public string OwnerEpDoc = string.Empty;
 
         private ICollection<IB_Field> _items { get; set; } = new List<IB_Field>();
 
