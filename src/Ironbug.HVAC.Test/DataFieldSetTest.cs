@@ -130,10 +130,9 @@ namespace Ironbug.HVACTests
             var datafields = IB_CoilCoolingWater_DataFieldSet.Value;
 
             var dec = datafields.ElementAt(0).Description;
-            var success = dec.Contains("####EnergyPlus Input and Output Reference####");
+            var success = dec.Contains("EnergyPlus is a trademark of the US Department of Energy.");
 
             Assert.IsTrue(success);
-
         }
 
 

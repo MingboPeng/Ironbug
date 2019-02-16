@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public Ironbug_SetpointManagerWarmest()
           : base("Ironbug_SetpointManagerWarmest", "SpWarmest",
-              "Description",
+             EPDoc.SetpointManagerWarmest.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -25,8 +25,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("minTemperature", "_minT", "MinimumSetpointTemperature", GH_ParamAccess.item);
-            pManager.AddNumberParameter("maxTemperature", "_maxT", "MaximumSetpointTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("minTemperature", "_minT", EPDoc.SetpointManagerWarmest.Field_MinimumSetpointTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("maxTemperature", "_maxT", EPDoc.SetpointManagerWarmest.Field_MaximumSetpointTemperature, GH_ParamAccess.item);
             
         }
 

@@ -53,16 +53,21 @@ namespace Ironbug.HVAC.BaseClass
             if (type!=null)
             {
                 //add notes to field's description
-                var note = type.GetProperty("Note").GetValue(null, null) as string;
+                var note = type.GetField("Note").GetValue(null) as string;
                 if (!string.IsNullOrEmpty(note))
                 {
                     note = note.Length > 3000?note.Substring(0,3000)+"....(Due to the length of content, documentation has been shown partially)":note;
                     note += Environment.NewLine;
                     note += Environment.NewLine;
                     note += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
-                    this.OwnerEpNote = note;
+                    
                 }
-                
+                else
+                {
+                   note = "There is no documentation available";
+
+                }
+                this.OwnerEpNote = note;
                 this._items.UpdateFromEpDoc(type);
             }
             
@@ -175,10 +180,10 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in iB_fields)
             {
                 var fieldNameInEpDoc = string.Format("FIELD_{0}", item.FULLNAME);
-                var found = EpDocType.GetProperties().FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                var found = EpDocType.GetFields().FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
                 if (found is null) continue;
 
-                string fieldNote = found.GetValue(null, null) as string;
+                string fieldNote = found.GetValue(null) as string;
                 
                 item.AddDescriptionFromEpNote(fieldNote);
             }

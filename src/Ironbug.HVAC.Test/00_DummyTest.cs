@@ -6,6 +6,8 @@ using System.Linq;
 using System.Collections.Generic;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace Ironbug.HVACTests
 {
@@ -102,7 +104,27 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(!string.IsNullOrEmpty(temp));
         }
 
+        [TestMethod]
+        public void ReadJson()
+        {
 
+            var dir = @"C:\Users\mingo\Documents\GitHub\EPDoc2Json\Doc\";
+            var files = Directory.GetFiles(dir, "*.json");
+            var arr = new List<object>();
+            foreach (var f in files)
+            {
+
+                dynamic docObj = JsonConvert.DeserializeObject(File.ReadAllText(f));
+                var ar = docObj.subsection;
+                var items = ar.Children();
+                arr.AddRange(items);
+            }
+
+            //var list = arr.Children().ToList();
+
+            Assert.IsTrue(true);
+
+        }
 
 
     }

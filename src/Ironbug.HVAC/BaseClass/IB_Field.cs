@@ -30,7 +30,6 @@ namespace Ironbug.HVAC.BaseClass
 
         //public string Unit { get; set; }
         
-
         internal IB_Field(MethodInfo opsSetterMethod)
             : this(opsSetterMethod.Name.Substring(3), string.Empty)
         {
@@ -52,18 +51,24 @@ namespace Ironbug.HVAC.BaseClass
 
         public void AddDescriptionFromEpNote(string EpNote)
         {
+            var dec = string.Empty;
+
             if (!string.IsNullOrEmpty(EpNote))
             {
-                var dec = EpNote;
+                dec = EpNote;
                 dec += Environment.NewLine;
                 dec += Description;
                 dec += Environment.NewLine;
                 dec += Environment.NewLine;
                 dec += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
-
-                this.Description = dec;
-
+                
             }
+            else
+            {
+                dec = "There is no documentation available";
+            }
+
+            this.Description = dec;
         }
 
         public IB_Field UpdateFromIddField(IddField field)

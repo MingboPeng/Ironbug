@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
+﻿using Grasshopper.Kernel;
+using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
@@ -14,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public Ironbug_SetpointManagerOutdoorAirReset()
           : base("Ironbug_SetpointManagerOutdoorAirReset", "SpOAReset",
-              "Description",
+              EPDoc.SetpointManagerOutdoorAirReset.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -24,10 +20,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("SetpointatOutdoorHighTemperature", "_SpOHTemp", "SetpointatOutdoorHighTemperature", GH_ParamAccess.item);
-            pManager.AddNumberParameter("OutdoorHighTemperature", "_OHTemp", "OutdoorHighTemperature", GH_ParamAccess.item);
-            pManager.AddNumberParameter("SetpointatOutdoorLowTemperature", "_SpOLTemp", "SetpointatOutdoorLowTemperature", GH_ParamAccess.item);
-            pManager.AddNumberParameter("OutdoorLowTemperature", "_OLTemp", "OutdoorLowTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("SetpointatOutdoorHighTemperature", "_SpOHTemp", EPDoc.SetpointManagerOutdoorAirReset.Field_SetpointAtOutdoorHighTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("OutdoorHighTemperature", "_OHTemp", EPDoc.SetpointManagerOutdoorAirReset.Field_OutdoorHighTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("SetpointatOutdoorLowTemperature", "_SpOLTemp", EPDoc.SetpointManagerOutdoorAirReset.Field_SetpointAtOutdoorLowTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("OutdoorLowTemperature", "_OLTemp", EPDoc.SetpointManagerOutdoorAirReset.Field_OutdoorLowTemperature, GH_ParamAccess.item);
         }
 
         /// <summary>

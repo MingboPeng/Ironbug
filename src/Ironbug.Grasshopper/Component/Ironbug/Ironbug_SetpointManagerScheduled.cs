@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         public Ironbug_SetpointManagerScheduled()
           : base("Ironbug_SetpointManagerScheduled", "SpScheduled",
-              "Description",
+              EPDoc.SetpointManagerScheduled.Note,
               "Ironbug", "05:SetpointManager")
         {
         }

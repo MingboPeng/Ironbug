@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     {
         public Ironbug_SetpointManagerScheduledDualSetpoint()
           : base("Ironbug_SetpointManagerScheduledDualSetpoint", "SpDual",
-              "Description",
+              EPDoc.SetpointManagerScheduledDualSetpoint.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
