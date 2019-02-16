@@ -11,9 +11,9 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilCoolingWater class.
         /// </summary>
         public Ironbug_CoilCoolingWater()
-          : base("Ironbug_CoilCoolingWater", "CoilCW",
+          : base("Ironbug_CoilCoolingWater", "CoilCW","",
               "Ironbug", "02:LoopComponents",
-              HVAC.IB_CoilCoolingWater_DataFieldSet.Value)
+              typeof(HVAC.IB_CoilCoolingWater_DataFieldSet))
         {
             this.Description = EPDoc.CoilCoolingWater.Note;
 

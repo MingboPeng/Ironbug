@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.BaseClass
     
     public abstract class IB_FieldSet: ICollection<IB_Field>
     {
-        public string OwnerEpDoc = string.Empty;
+        public string OwnerEpNote = string.Empty;
 
         private ICollection<IB_Field> _items { get; set; } = new List<IB_Field>();
 
@@ -21,8 +21,8 @@ namespace Ironbug.HVAC.BaseClass
 
         //parent type for getting all "set" methods 
         internal abstract Type RefOpsType { get; }
-        
 
+        internal abstract Type RefEpType { get; }
 
         protected IB_FieldSet()
         {
@@ -39,10 +39,37 @@ namespace Ironbug.HVAC.BaseClass
 
             var iddFields = iddObj.GetIddFields();
             this._items.UpdateFromIddFields(iddFields);
-            
-            
+
+            AddDescriptionFromEPDoc(this.RefEpType);
         }
-        
+
+        private void AddDescriptionFromEPDoc(Type RefObjType)
+        {
+            var tp = RefObjType;
+
+            var name = string.Format("Ironbug.EPDoc.{0}", tp.Name);
+            Type type = typeof(EPDoc.ExampleClass).Assembly.GetType(name, false, true);
+            
+            if (type!=null)
+            {
+                //add notes to field's description
+                var note = type.GetProperty("Note").GetValue(null, null) as string;
+                if (!string.IsNullOrEmpty(note))
+                {
+                    note = note.Length > 3000?note.Substring(0,3000)+"....(Due to the length of content, documentation has been shown partially)":note;
+                    note += Environment.NewLine;
+                    note += Environment.NewLine;
+                    note += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
+                    this.OwnerEpNote = note;
+                }
+                
+                this._items.UpdateFromEpDoc(type);
+            }
+            
+
+        }
+
+
         
 
         public int Count => _items.Count;
@@ -139,6 +166,23 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             return dfSet;
+
+        }
+
+        public static void UpdateFromEpDoc(this IEnumerable<IB_Field> iB_fields, Type EpDocType)
+        {
+            
+            foreach (var item in iB_fields)
+            {
+                var fieldNameInEpDoc = string.Format("FIELD_{0}", item.FULLNAME);
+                var found = EpDocType.GetProperties().FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                if (found is null) continue;
+
+                string fieldNote = found.GetValue(null, null) as string;
+                
+                item.AddDescriptionFromEpNote(fieldNote);
+            }
+            
 
         }
 

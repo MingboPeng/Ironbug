@@ -24,6 +24,9 @@ namespace Ironbug.HVAC
     public sealed class IB_CoilHeatingGas_DataFieldSet
         : IB_FieldSet<IB_CoilHeatingGas_DataFieldSet, CoilHeatingGas>
     {
+
+        internal override Type RefEpType => typeof(EPDoc.CoilHeatingFuel);
         private IB_CoilHeatingGas_DataFieldSet() {}
+
     }
 }

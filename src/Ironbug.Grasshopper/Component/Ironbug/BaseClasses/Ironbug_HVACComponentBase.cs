@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
     {
         //private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
-        public IB_FieldSet DataField { get; private set; }
+        //public IB_FieldSet DataField { get; private set; }
 
         public IB_ModelObject IB_ModelObject  => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;
@@ -126,17 +126,17 @@ namespace Ironbug.Grasshopper.Component
         }
 
      
-        public Ironbug_HVACComponentBase(string name, string nickname, string category, string subCategory, IB_FieldSet DataField)
-            : base(name, nickname, DataField.OwnerEpDoc, category, subCategory)
-        {
-            this.DataField = DataField;
-            var paramInput = CreateParamInput();
-            Params.RegisterInputParam(paramInput);
-            Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
-        }
+        //public Ironbug_HVACComponentBase(string name, string nickname, string category, string subCategory, IB_FieldSet DataField)
+        //    : base(name, nickname, DataField.OwnerEpNote, category, subCategory)
+        //{
+        //    this.DataFieldType = DataField.GetType();
+        //    var paramInput = CreateParamInput();
+        //    Params.RegisterInputParam(paramInput);
+        //    Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+        //}
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
-            :base(name, nickname, description, category, subCategory)
+            :base(name, nickname, (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote, category, subCategory)
         {
             this.DataFieldType = DataFieldType;
             var paramInput = CreateParamInput();

@@ -55,7 +55,7 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(success);
 
         }
-        
+
 
         //[TestMethod]
         //public void MapOpsSettings_Test()
@@ -87,7 +87,7 @@ namespace Ironbug.HVACTests
         //    var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddField;
         //    field.UpdateFromOpenStudioMethod("Coefficient1ofthePartLoadPerformanceCurve", typeof(double));
         //    var success = field.SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
-            
+
         //    Assert.IsTrue(success);
 
         //}
@@ -95,7 +95,7 @@ namespace Ironbug.HVACTests
         //[TestMethod]
         //public void MapOpsSettings3_Test()
         //{
-            
+
         //    var instance = IB_PumpVariableSpeed_DataFields.Value;
         //    //var instance = IB_FanVariableVolume_DataFields.Value;
         //    //check each customized data field if can be found in IddObject,
@@ -124,6 +124,18 @@ namespace Ironbug.HVACTests
         //    Assert.IsTrue(success);
 
         //}
+        [TestMethod]
+        public void DataFieldTypeEpNote_Test()
+        {
+            var datafields = IB_CoilCoolingWater_DataFieldSet.Value;
+
+            var dec = datafields.ElementAt(0).Description;
+            var success = dec.Contains("####EnergyPlus Input and Output Reference####");
+
+            Assert.IsTrue(success);
+
+        }
+
 
         [TestMethod]
         public void DataFieldType_Test()

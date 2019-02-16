@@ -80,10 +80,30 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(!(optional is null));
         }
 
-        
+        [TestMethod]
+        public void GetEPDoc_Test()
+        {
+            var refType = typeof(CoilCoolingWater);
 
-        
-        
+            var name = string.Format("Ironbug.EPDoc.{0}", refType.Name);
+            Type type = typeof(Ironbug.EPDoc.ExampleClass).Assembly.GetType(name,false,true);
+            //Type type = Type.GetType("Ironbug.EPDoc.CoilCoolingWater");
+
+            //dynamic obj = null;
+            //if (type != null)
+            //{
+            //    obj = Activator.CreateInstance(type,true);
+            //}
+           
+            
+            var note = type.GetProperty("Note").GetValue(null,null) as string;
+            string temp = type.GetProperty("Field_DesignInletWaterTemperature").GetValue(null, null) as string;
+
+            Assert.IsTrue(!string.IsNullOrEmpty(temp));
+        }
+
+
+
 
     }
 }

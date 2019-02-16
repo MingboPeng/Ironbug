@@ -50,14 +50,30 @@ namespace Ironbug.HVAC.BaseClass
             
         }
 
+        public void AddDescriptionFromEpNote(string EpNote)
+        {
+            if (!string.IsNullOrEmpty(EpNote))
+            {
+                var dec = EpNote;
+                dec += Environment.NewLine;
+                dec += Description;
+                dec += Environment.NewLine;
+                dec += Environment.NewLine;
+                dec += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
+
+                this.Description = dec;
+
+            }
+        }
+
         public IB_Field UpdateFromIddField(IddField field)
         {
             var prop = field.properties();
             (var validDataItems, var validDataStr) = GetValidData(field);
 
 
-            var description = prop.note;
-            description += GetDefaultFromIDD(prop);
+            //var description = prop.note;
+            var description = GetDefaultFromIDD(prop);
             description += GetUnitsFromIDD(field);
             description += validDataStr;
 

@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="COILCOOLINGWATER.cs" />
+    <Compile Include="ExampleClass.cs" />
     <Compile Include="EPDOC.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

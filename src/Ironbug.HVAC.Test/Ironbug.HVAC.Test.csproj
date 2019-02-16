@@ -57,6 +57,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -94,6 +95,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ironbug.EPDoc\Ironbug.EPDoc.csproj">
+      <Project>{28144fdf-48c8-461b-985b-eaca33aacb7d}</Project>
+      <Name>Ironbug.EPDoc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj">
       <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
       <Name>Ironbug.HVAC</Name>
