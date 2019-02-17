@@ -22,11 +22,13 @@ namespace Ironbug.HVAC
         public ModelObject ToOS(AirLoopHVAC loop)
         {
             //create a new sizingPlant to target plant loop
-            var targetModel = loop.model();
+            //var targetModel = loop.model();
             var old = loop.sizingSystem();
-            var obj = base.OnNewOpsObj((Model model) => new SizingSystem(model, loop), targetModel);
-            old.remove();
-            return obj;
+            old.SetCustomAttributes(this.CustomAttributes);
+            //this.CustomAttributes
+            //var obj = base.OnNewOpsObj((Model model) => new SizingSystem(model, loop), targetModel);
+            //old.remove();
+            return old;
         }
 
         ////this is replaced by above method
