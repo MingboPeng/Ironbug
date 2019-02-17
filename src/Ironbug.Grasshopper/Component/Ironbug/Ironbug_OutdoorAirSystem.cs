@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_OutdoorAirSystem()
           : base("Ironbug_OutdoorAirSystem", "OASystem",
-              "Description",
+              EPDoc.AirLoopHVACOutdoorAirSystem.Note,
               "Ironbug", "02:LoopComponents")
         {
         }

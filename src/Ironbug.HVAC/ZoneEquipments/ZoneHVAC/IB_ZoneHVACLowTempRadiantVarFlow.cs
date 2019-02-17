@@ -21,7 +21,6 @@ namespace Ironbug.HVAC
         {
             this.AddChild(HeatingCoil);
             this.AddChild(CoolingCoil);
-            
         }
         
         public override HVACComponent ToOS(Model model)
@@ -42,6 +41,7 @@ namespace Ironbug.HVAC
     public sealed class IB_ZoneHVACLowTempRadiantVarFlow_DataFieldSet
         : IB_FieldSet<IB_ZoneHVACLowTempRadiantVarFlow_DataFieldSet, ZoneHVACLowTempRadiantVarFlow>
     {
+        internal override Type RefEpType => typeof(EPDoc.ZoneHVACLowTemperatureRadiantVariableFlow);
         private IB_ZoneHVACLowTempRadiantVarFlow_DataFieldSet() { }
 
     }

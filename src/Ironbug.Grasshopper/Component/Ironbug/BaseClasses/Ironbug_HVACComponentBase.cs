@@ -124,19 +124,14 @@ namespace Ironbug.Grasshopper.Component
             
             base.AfterSolveInstance();  
         }
-
-     
-        //public Ironbug_HVACComponentBase(string name, string nickname, string category, string subCategory, IB_FieldSet DataField)
-        //    : base(name, nickname, DataField.OwnerEpNote, category, subCategory)
-        //{
-        //    this.DataFieldType = DataField.GetType();
-        //    var paramInput = CreateParamInput();
-        //    Params.RegisterInputParam(paramInput);
-        //    Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
-        //}
+        
+        private static string FindComDescription(string UsersDescription, Type DataFieldType)
+        {
+            return UsersDescription == "Description"? (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote : UsersDescription;
+        }
 
         public Ironbug_HVACComponentBase(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
-            :base(name, nickname, (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote, category, subCategory)
+            :base(name, nickname, FindComDescription(description, DataFieldType), category, subCategory)
         {
             this.DataFieldType = DataFieldType;
             var paramInput = CreateParamInput();

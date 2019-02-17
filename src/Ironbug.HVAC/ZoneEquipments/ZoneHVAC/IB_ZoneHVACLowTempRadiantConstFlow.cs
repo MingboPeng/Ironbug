@@ -47,6 +47,7 @@ namespace Ironbug.HVAC
     public sealed class IB_ZoneHVACLowTempRadiantConstFlow_DataFieldSet
         : IB_FieldSet<IB_ZoneHVACLowTempRadiantConstFlow_DataFieldSet, ZoneHVACLowTempRadiantConstFlow>
     {
+        internal override Type RefEpType => typeof(EPDoc.ZoneHVACLowTemperatureRadiantConstantFlow);
         private IB_ZoneHVACLowTempRadiantConstFlow_DataFieldSet() { }
 
     }

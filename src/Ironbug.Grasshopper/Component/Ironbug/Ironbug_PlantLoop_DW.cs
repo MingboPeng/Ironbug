@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_PlantLoop_DW()
           : base("Ironbug_CondenserWaterPlantLoop", "DWLoop",
-              "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
+              EPDoc.CondenserLoop.Note,
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_DataFieldSet))
         {

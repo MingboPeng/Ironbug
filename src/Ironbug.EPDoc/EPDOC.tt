@@ -19,6 +19,7 @@ namespace Ironbug.EPDoc
 	var files = Directory.GetFiles(dir, "*.json");
 
 	var arr = new List<dynamic>();
+	
 	foreach (var f in files)
 	{
 		dynamic docObj = JsonConvert.DeserializeObject(File.ReadAllText(f));
@@ -26,12 +27,18 @@ namespace Ironbug.EPDoc
 		arr.AddRange(ar.Children());
 	}
 
+	var classNames = new List<string>();
 	foreach (var item in arr)
 	{
 		var className = CheckInputFullName(item.Name);
 		var  inputFields = new List<dynamic>();
 		var optionalSubsubsection =item.Subsubsections;
 
+		if(classNames.Contains(className)){
+			continue;
+		}
+
+		classNames.Add(className);
 		if(optionalSubsubsection != null)
 		{
 			foreach(var obj in optionalSubsubsection)
@@ -52,16 +59,20 @@ namespace Ironbug.EPDoc
 public static class <#=className#>
     { 
 		public static string Name = @"<#=item.Name#>";
-		public static string Note = @"<#=string.Join(Environment.NewLine, item.Note)#>";
+		public static string Note = @"<#=string.Join(Environment.NewLine, item.Note==null?"":item.Note)#>";
 <#
 if(inputFields != null) {
-		
+	var fNames = new List<string>();
 	foreach(var f in inputFields)
 	{
 			var fName = CheckInputFullName(f.Name).Replace("Field","Field_");
+			if (!fNames.Contains(fName)){
+				fNames.Add(fName);
 	#>
 	public static string <#=fName#> = @"<#=f.Note == null?"":string.Join(Environment.NewLine, f.Note).Trim()#>";
 	<#
+			}
+	
 	}
 		
 }

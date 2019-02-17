@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_AirLoopHVAC()
           : base("Ironbug_AirLoopHVAC", "AirLoop",
-              "Description",
+              EPDoc.AirLoopHVAC.Note,
               "Ironbug", "01:Loops")
         {
         }
