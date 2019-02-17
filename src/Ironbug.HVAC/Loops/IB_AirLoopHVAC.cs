@@ -27,6 +27,7 @@ namespace Ironbug.HVAC
         public void SetSizingSystem(IB_SizingSystem sizing)
         {
             this._SizingSystem = sizing;
+            this._SizingSystem.ToOS(this.GhostOSObject as AirLoopHVAC);
         }
 
 

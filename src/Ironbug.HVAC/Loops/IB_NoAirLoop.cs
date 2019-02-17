@@ -46,5 +46,10 @@ namespace Ironbug.HVAC
         {
             return string.Format("{0} zones in this NoAirLoop", this._thermalZones.Count);
         }
+
+        public override List<string> ToStrings()
+        {
+            return new List<string>() { this.ToString() };
+        }
     }
 }

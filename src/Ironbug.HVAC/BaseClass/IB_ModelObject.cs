@@ -438,7 +438,7 @@ namespace Ironbug.HVAC.BaseClass
             //return this.GhostOSObject.__str__();
         }
 
-        public List<string> ToStrings()
+        public virtual List<string> ToStrings()
         {
             var s = new List<string>();
             s.Add(this.GhostOSObject.__str__());

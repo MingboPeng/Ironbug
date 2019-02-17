@@ -28,6 +28,11 @@ namespace Ironbug.HVAC.BaseClass
             return "LoopBranches";
         }
 
+        public override List<string> ToStrings()
+        {
+            return new List<string>() { this.ToString() };
+        }
+
         public override IB_HVACObject Duplicate()
         {
             //var newBranches = new List<List<IB_HVACObject>>();
