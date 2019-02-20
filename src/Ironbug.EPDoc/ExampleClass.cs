@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Ironbug.EPDoc
+﻿namespace Ironbug.EPDoc
 {
     ////This is a test file
     ///Do not delete this, as this is used as an entry.

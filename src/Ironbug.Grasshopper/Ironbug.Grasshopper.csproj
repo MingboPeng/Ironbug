@@ -83,6 +83,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACEnergyRecoveryVentilator.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ImportOSM.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />

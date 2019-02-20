@@ -7,21 +7,9 @@ namespace Ironbug.Grasshopper.Component
 {
     public class IronbugInfo : GH_AssemblyInfo
     {
-        public override string Name
-        {
-            get
-            {
-                return "Ironbug.Grasshopper";
-            }
-        }
-        public override Bitmap Icon
-        {
-            get
-            {
-                //Return a 24x24 pixel bitmap to represent this GHA library.
-                return null;
-            }
-        }
+        public override string Name => "Ironbug.Grasshopper";
+        public override Bitmap Icon => Properties.Resources.Ironbug;
+
         public override string Description
         {
             get
@@ -30,30 +18,10 @@ namespace Ironbug.Grasshopper.Component
                 return "";
             }
         }
-        public override Guid Id
-        {
-            get
-            {
-                return new Guid("af71b7c3-47f5-40b4-bb70-1b2fa1dd51e2");
-            }
-        }
+        public override Guid Id => new Guid("af71b7c3-47f5-40b4-bb70-1b2fa1dd51e2");
 
-        public override string AuthorName
-        {
-            get
-            {
-                //Return a string identifying you or your company.
-                return "Mingbo Peng";
-            }
-        }
-        public override string AuthorContact
-        {
-            get
-            {
-                //Return a string representing your preferred contact details.
-                return "";
-            }
-        }
+        public override string AuthorName => "Mingbo Peng";
+        public override string AuthorContact => "";
     }
 
     public class CategoryIcon : GH_AssemblyPriority
@@ -62,9 +30,10 @@ namespace Ironbug.Grasshopper.Component
         {
             try
             {
-                var osmVersion = "2.5.0.0";
+                var osmVersion = "2.5.0";
                 Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine(message);
                 Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger, osmVersion);
+                
             }
             catch (System.IO.FileNotFoundException loadError)
             {

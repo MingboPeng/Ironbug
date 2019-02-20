@@ -38,7 +38,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("HoneybeeZone", "_HBZones", "HBZone", GH_ParamAccess.list);
+            pManager.AddBrepParameter("HoneybeeZonesOrOsZones", "_HBZonesOrOsZones", "HBZone or OsZones", GH_ParamAccess.list);
             //pManager[0].Optional = true;
 
             //don't forget to change the names in WatchPuppetStates, when change the name here.

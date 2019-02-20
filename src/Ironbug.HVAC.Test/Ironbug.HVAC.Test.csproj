@@ -98,6 +98,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
+      <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
+      <Name>Ironbug.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ironbug.EPDoc\Ironbug.EPDoc.csproj">
       <Project>{28144fdf-48c8-461b-985b-eaca33aacb7d}</Project>
       <Name>Ironbug.EPDoc</Name>
