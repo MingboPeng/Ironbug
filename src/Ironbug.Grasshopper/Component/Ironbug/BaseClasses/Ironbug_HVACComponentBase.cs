@@ -1,4 +1,5 @@
-﻿using Grasshopper.Kernel;
+﻿using GH_IO.Serialization;
+using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using GH = Grasshopper;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -17,6 +19,8 @@ namespace Ironbug.Grasshopper.Component
 
         public IB_ModelObject IB_ModelObject  => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;
+
+        public static int DisplayMode = 1;
 
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
@@ -54,7 +58,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        public string PuppetableStateMsg { get; set; } 
+        //public string PuppetableStateMsg { get; set; } 
         //protected void PuppetStateChanged(object sender, PuppetEventArg e)
         //{
         //    if (e.State is IB_PuppetableState_Host state)
@@ -105,11 +109,11 @@ namespace Ironbug.Grasshopper.Component
 
         //}
 
-        protected override void BeforeSolveInstance()
-        {
-            this.PuppetableStateMsg = string.Empty;
-            base.BeforeSolveInstance();
-        }
+        //protected override void BeforeSolveInstance()
+        //{
+        //    this.PuppetableStateMsg = string.Empty;
+        //    base.BeforeSolveInstance();
+        //}
 
         protected override void AfterSolveInstance()
         {
@@ -134,6 +138,7 @@ namespace Ironbug.Grasshopper.Component
             var paramInput = CreateParamInput();
             Params.RegisterInputParam(paramInput);
             Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
+            this.IconDisplayMode = DisplayMode == 0 ? GH_IconDisplayMode.application : GH_IconDisplayMode.icon;
         }
         
         private static IGH_Param CreateParamInput()
@@ -199,11 +204,67 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
+            menu.Items.RemoveAt(1); // remove Preview
+            menu.Items.RemoveAt(2); // remove Bake
+
+            var t = new ToolStripMenuItem("Icon Display Mode");
+            Menu_AppendItem(t.DropDown, "Application", SetMode0, true, DisplayMode == 0)
+                .ToolTipText = "Based on Grasshopper's global setting";
+            Menu_AppendItem(t.DropDown, "Icon + NickName", SetMode1, true, DisplayMode == 1);
+            Menu_AppendItem(t.DropDown, "Icon + FullName", SetMode2, true, DisplayMode == 2);
+            menu.Items.Add(t);
             
             Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
                 .ToolTipText = "This will set all HVAC components with IP unit system";
             Menu_AppendSeparator(menu);
         }
+
+        private void SetMode0(object sender, EventArgs e)
+        {
+            DisplayMode = 0;
+            UpdateAttribute();
+        }
+        private void SetMode1(object sender, EventArgs e)
+        {
+            DisplayMode = 1;
+            UpdateAttribute();
+        }
+        private void SetMode2(object sender, EventArgs e)
+        {
+            DisplayMode = 2;
+            UpdateAttribute();
+        }
+
+        private void UpdateAttribute()
+        {
+            var allComs = GH.Instances.ActiveCanvas.Document.Objects.Where(_ => _ is Ironbug_HVACComponentBase);
+            var mode = DisplayMode == 0 ? GH_IconDisplayMode.application : GH_IconDisplayMode.icon;
+            foreach (var item in allComs)
+            {
+                item.IconDisplayMode = mode;
+                item.Attributes.ExpireLayout();
+            }
+            GH.Instances.RedrawCanvas();
+
+
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("IconDisplayMode"))
+            {
+                DisplayMode = reader.GetInt32("IconDisplayMode");
+            }
+            
+            return base.Read(reader);
+        }
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetInt32("IconDisplayMode", DisplayMode);
+            this.IconDisplayMode = DisplayMode == 0? GH_IconDisplayMode.application: GH_IconDisplayMode.icon;
+            return base.Write(writer);
+        }
+
 
         private void ChangeUnit(object sender, EventArgs e)
         {
