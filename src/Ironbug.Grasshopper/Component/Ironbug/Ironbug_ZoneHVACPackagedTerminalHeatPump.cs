@@ -52,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref spCoilH);
 
             var obj = new HVAC.IB_ZoneHVACPackagedTerminalHeatPump(fan,coilH,coilC,spCoilH);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

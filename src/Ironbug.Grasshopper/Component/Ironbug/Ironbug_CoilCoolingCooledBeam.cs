@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilCoolingCooledBeam();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

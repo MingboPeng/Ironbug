@@ -45,7 +45,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ZoneHVACUnitVentilator_CoolingOnly();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             var fan = (IB_Fan)null;
             var coilC = (IB_CoilCoolingBasic)null;

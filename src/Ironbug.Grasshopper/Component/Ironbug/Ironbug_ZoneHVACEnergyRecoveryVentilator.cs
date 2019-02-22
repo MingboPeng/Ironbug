@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
 
             
             var obj = new HVAC.IB_ZoneHVACEnergyRecoveryVentilator(heatingEx, spFan, exFan);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

@@ -44,7 +44,7 @@ namespace Ironbug.Grasshopper.Component
             if (!DA.GetData(1, ref coilC)) return; 
             
             var obj = new HVAC.IB_ZoneHVACLowTempRadiantVarFlow(coilH,coilC);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

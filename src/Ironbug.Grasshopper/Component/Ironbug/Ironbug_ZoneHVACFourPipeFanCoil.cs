@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ZoneHVACFourPipeFanCoil();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             var fan = (IB_Fan)null;
             var coilH = (IB_CoilHeatingWater)null;

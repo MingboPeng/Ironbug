@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref fan);
 
             var obj = new HVAC.IB_ZoneHVACPackagedTerminalAirConditioner(fan,coilH,coilC);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

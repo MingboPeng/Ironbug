@@ -1,13 +1,10 @@
-﻿using Grasshopper.GUI.Canvas;
-using Grasshopper.Kernel;
-using Grasshopper.Kernel.Attributes;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
@@ -58,55 +55,55 @@ namespace Ironbug.Grasshopper.Component
         }
 
         public string PuppetableStateMsg { get; set; } 
-        protected void PuppetStateChanged(object sender, PuppetEventArg e)
-        {
-            if (e.State is IB_PuppetableState_Host state)
-            {
-                this.PuppetableStateMsg = state.ToString();
-            }
-            else
-            {
-                this.PuppetableStateMsg = string.Empty;
-            }
-            this.TellPuppetReceivers();
-            this.Attributes.ExpireLayout();
-            this.Attributes.PerformLayout();
-        }
+        //protected void PuppetStateChanged(object sender, PuppetEventArg e)
+        //{
+        //    if (e.State is IB_PuppetableState_Host state)
+        //    {
+        //        this.PuppetableStateMsg = state.ToString();
+        //    }
+        //    else
+        //    {
+        //        this.PuppetableStateMsg = string.Empty;
+        //    }
+        //    this.TellPuppetReceivers();
+        //    this.Attributes.ExpireLayout();
+        //    this.Attributes.PerformLayout();
+        //}
 
         //loop branches and vrf system are puppet receivers
-        private void TellPuppetReceivers()
-        {
-            var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
-            foreach (var reciever in puppetReceivers)
-            {
-                var recompute = this.OnPingDocument().SolutionHistory.Count == 0;
-                reciever.ExpireSolution(recompute);
+        //private void TellPuppetReceivers()
+        //{
+        //    var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
+        //    foreach (var reciever in puppetReceivers)
+        //    {
+        //        var recompute = this.OnPingDocument().SolutionHistory.Count == 0;
+        //        reciever.ExpireSolution(recompute);
 
-            }
+        //    }
 
-            //local function
-            bool CheckIfReceiver(IGH_Param gh_Param)
-            {
-                var owner = gh_Param.Attributes.GetTopLevel.DocObject;
+        //    //local function
+        //    bool CheckIfReceiver(IGH_Param gh_Param)
+        //    {
+        //        var owner = gh_Param.Attributes.GetTopLevel.DocObject;
                 
-                if (owner is Ironbug_AirLoopBranches || 
-                    owner is Ironbug_PlantBranches || 
-                    owner is Ironbug_AirConditionerVariableRefrigerantFlow)
-                {
-                    return true;
-                }
-                //in case of user uses any gh_param, instated of connect to puppet receiver directly.
-                else if (owner is IGH_Param)
-                {
-                    return true;
-                }
-                else 
-                {
-                    return false;
-                }
-            }
+        //        if (owner is Ironbug_AirLoopBranches || 
+        //            owner is Ironbug_PlantBranches || 
+        //            owner is Ironbug_AirConditionerVariableRefrigerantFlow)
+        //        {
+        //            return true;
+        //        }
+        //        //in case of user uses any gh_param, instated of connect to puppet receiver directly.
+        //        else if (owner is IGH_Param)
+        //        {
+        //            return true;
+        //        }
+        //        else 
+        //        {
+        //            return false;
+        //        }
+        //    }
 
-        }
+        //}
 
         protected override void BeforeSolveInstance()
         {

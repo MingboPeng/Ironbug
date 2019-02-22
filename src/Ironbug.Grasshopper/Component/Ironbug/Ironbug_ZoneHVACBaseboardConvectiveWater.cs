@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ZoneHVACBaseboardConvectiveWater();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             
             var coilH = (IB_CoilHeatingWaterBaseboard)null;
 

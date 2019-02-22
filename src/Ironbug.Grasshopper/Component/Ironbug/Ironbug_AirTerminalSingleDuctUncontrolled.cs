@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctUncontrolled();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

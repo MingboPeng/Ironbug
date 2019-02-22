@@ -45,7 +45,6 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctConstantVolumeCooledBeam();
-            obj.PuppetEventHandler += PuppetStateChanged;
 
             var coil = (IB_CoilCoolingCooledBeam)null;
             
