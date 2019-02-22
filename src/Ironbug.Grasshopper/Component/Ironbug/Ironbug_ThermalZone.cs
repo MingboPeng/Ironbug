@@ -55,57 +55,69 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
 
-        protected override void BeforeSolveInstance()
-        {
-            var doc = OnPingDocument();
+        //protected override void BeforeSolveInstance()
+        //{
+        //    var doc = OnPingDocument();
 
-            if (doc.SolutionHistory.Count == 0)
-            {
-                this.CreateZones();
-                return;
-            }
+        //    if (doc.SolutionHistory.Count == 0)
+        //    {
+        //        this.CreateZones();
+        //        return;
+        //    }
 
-            if (this._firstRun)
-            {
-                this._firstRun = false;
-                doc.SolutionEnd += Doc_SolutionEnd;
-                doc?.RequestAbortSolution();
-            }
-        }
+        //    if (this._firstRun)
+        //    {
+        //        this._firstRun = false;
+        //        doc.SolutionEnd += Doc_SolutionEnd;
+        //        doc?.RequestAbortSolution();
+        //    }
+        //}
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            DA.SetDataList(0, this._zones);
+            var HBZones = new List<GH_Brep>();
+            if (!DA.GetDataList(0, HBZones)) return;
+
+            var airTerminals = new List<IB_AirTerminal>();
+            DA.GetDataList(1, airTerminals);
+
+            var zoneEquipments = new List<IB_ZoneEquipment>();
+            DA.GetDataList(2, zoneEquipments);
+
+
+            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipments);
+
+            DA.SetDataList(0, zones);
             this._firstRun = true;
         }
 
-        private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
-        {
-            this.OnPingDocument().SolutionEnd -= Doc_SolutionEnd;
+        //private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
+        //{
+        //    this.OnPingDocument().SolutionEnd -= Doc_SolutionEnd;
 
-            this.CreateZones();
+        //    this.CreateZones();
 
-            var outp = this.Params.Output[0];
+        //    var outp = this.Params.Output[0];
 
-            this.ExpireSolution(false);
+        //    this.ExpireSolution(false);
 
-            this.OnPingDocument().NewSolution(false);
-        }
+        //    this.OnPingDocument().NewSolution(false);
+        //}
 
-        private void CreateZones()
+        private List<IB_ThermalZone> CreateZones(List<GH_Brep> HBZones, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments)
         {
             this._zones = null;
-            var HBZones = new List<GH_Brep>();
+            //var HBZones = new List<GH_Brep>();
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = new List<string>();
-            var hbZoneIn = this.Params.Input[0];
-            if (hbZoneIn == null) return;
+            //var hbZoneIn = this.Params.Input[0];
+            //if (hbZoneIn == null) return;
 
-            var phase = hbZoneIn.Phase;
-            if (phase == GH_SolutionPhase.Failed) return;
-            hbZoneIn.CollectData();
-            HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
+            //var phase = hbZoneIn.Phase;
+            //if (phase == GH_SolutionPhase.Failed) return;
+            //hbZoneIn.CollectData();
+            //HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
 
             var hbzones = HBZones.SkipWhile(_ => _ is null);
             zoneNames = CallFromHBHive(hbzones).ToList();
@@ -117,34 +129,17 @@ namespace Ironbug.Grasshopper.Component
 
             if (!OSZones.Any())
             {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "No valid HBZones!");
-                return;
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid HBZones!");
+                //return;
             }
             //add airTerminal
-            var airTerminals = new List<IB_AirTerminal>();
-            this.Params.Input[1].CollectData();
-            airTerminals = this.Params.Input[1].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_AirTerminal).ToList();
+            var airTerminals = AirTerminals;
+            //this.Params.Input[1].CollectData();
+            //airTerminals = this.Params.Input[1].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_AirTerminal).ToList();
             if (airTerminals.Any())
             {
-                //reset all puppetable state first, as it might came from previous solution.
-                airTerminals.ForEach(_ => _.ResetPuppetState());
-                //tracking all previously connected objs
-
-                if (airTerminals.Count != OSZones.Count && airTerminals.Count == 1)
-                {
-                    //change state
-                    var airTerminal = airTerminals.First().ToPuppetHost();
-                    foreach (var zone in OSZones)
-                    {
-                        var puppet = airTerminal.DuplicateAsPuppet() as IB_AirTerminal;
-                        zone.SetAirTerminal(puppet);
-                    }
-                    airTerminal.PuppetStateUpdated();
-
-                    //willNeedSecondRun = true;
-                    //this.SecondRun = true;
-                }
-                else if (airTerminals.Count == OSZones.Count)
+                
+                if (airTerminals.Count == OSZones.Count)
                 {
                     for (int i = 0; i < airTerminals.Count; i++)
                     {
@@ -154,7 +149,7 @@ namespace Ironbug.Grasshopper.Component
                 else
                 {
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
-                    return;
+                    //return;
                 }
             }
             else
@@ -164,37 +159,26 @@ namespace Ironbug.Grasshopper.Component
             }
 
             //add ZoneEquipments
-            var zoneEquipments = new List<IB_ZoneEquipment>();
-            this.Params.Input[2].CollectData();
-            zoneEquipments = this.Params.Input[2].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_ZoneEquipment).ToList();
+            var zoneEquipments = ZoneEquipments;
+            //this.Params.Input[2].CollectData();
+            //zoneEquipments = this.Params.Input[2].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_ZoneEquipment).ToList();
 
             if (zoneEquipments.Any())
             {
-                //zoneEquipments.ForEach(_ => this.WatchPuppetStates(_));
-                zoneEquipments.ForEach(_ => _.ResetPuppetState());
-                if (OSZones.Count == 1)
+                
+                //more than one zone
+                foreach (var eqp in zoneEquipments)
                 {
-                    //only one zone
-                    foreach (var eqp in zoneEquipments)
+                    //change state
+                    var eqpHost = eqp.ToPuppetHost();
+                    foreach (var zone in OSZones)
                     {
-                        OSZones.First().AddZoneEquipment(eqp);
+                        var eqpPuppet = eqpHost.DuplicateAsPuppet() as IB_ZoneEquipment;
+                        zone.AddZoneEquipment(eqpPuppet);
                     }
+                    eqp.PuppetStateUpdated();
                 }
-                else
-                {
-                    //more than one zone
-                    foreach (var eqp in zoneEquipments)
-                    {
-                        //change state
-                        var eqpHost = eqp.ToPuppetHost();
-                        foreach (var zone in OSZones)
-                        {
-                            var eqpPuppet = eqpHost.DuplicateAsPuppet() as IB_ZoneEquipment;
-                            zone.AddZoneEquipment(eqpPuppet);
-                        }
-                        eqp.PuppetStateUpdated();
-                    }
-                }
+                
             }
 
             //add Sizing
@@ -214,6 +198,7 @@ namespace Ironbug.Grasshopper.Component
 
             this._zones = OSZones;
             this._firstRun = false;
+            return OSZones;
         }
 
         private static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
