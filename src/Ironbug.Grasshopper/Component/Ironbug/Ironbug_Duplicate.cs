@@ -1,4 +1,5 @@
 ﻿using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
 using System;
 using System.Collections.Generic;
 
@@ -36,7 +37,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Objects", "objs", "Objects", GH_ParamAccess.list);
+            pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager.AddGenericParameter("-", "-", "-", GH_ParamAccess.list);
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>
@@ -86,7 +89,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
                 secondParam.ClearData();
                 var data = this.Params.Output[0].VolatileData;
-                secondParam.AddVolatileDataTree(data);
+                data.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
+                
+                secondParam.AddVolatileDataList(new GH_Path(0), data.AllData(false));
             }
             else
             {
