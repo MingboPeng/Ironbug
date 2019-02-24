@@ -51,7 +51,7 @@ namespace Ironbug.Grasshopper.Component
                     if (ifNewerVersion)
                     {
 
-                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Cannot open a newer version of file ({v.str()}). \r\nThis only supports {supportedV} or less!");
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Cannot open a newer version of file ({v.str()}). \r\nThis only supports up to {supportedV}!");
                         return;
                     }
                 }

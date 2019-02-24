@@ -3724,6 +3724,574 @@ ZoneHVAC:EnergyRecoveryVentilator:Controller,
   16.6,                                         !- Minimum Value of x
   29.13;                                       !- Maximum Value of x";
 	}
+	public static class InputForDesignCalculationsAndComponentAutosizing
+    { 
+		public static string Name = @"Input for Design Calculations and Component Autosizing";
+		public static string Note = @"";
+}
+	public static class DesignSpecificationOutdoorAir
+    { 
+		public static string Name = @"DesignSpecification:OutdoorAir";
+		public static string Note = @"This object allows for the outdoor air requirements to be defined in a common location for use by other objects. This object may be referenced by name from other objects (e.g., VAV terminal units, AirTerminal:SingleDuct:Uncontrolled, and AirTerminal:SingleDuct:Mixer) as required to identify an outdoor air quantity for use by that object. Note that a zone name Is not included as an input to this zone outdoor air definition and the number of people in a zone, zone floor area, and zone volume can only be determined after this object has been referenced by another. A single zone outdoor air definition may be referenced by multiple objects to specify that the same outdoor air requirements are used by those objects {or} multiple zone outdoor air objects may be defined and referenced by other objects as needed. If multiple zone outdoor air definitions are used, each outdoor air definition must have a unique name.
+";
+	public static string Field_Name = @"Unique identifying name. Any reference to this name by other objects will denote that the following outdoor air requirements will be used.";
+		public static string Field_OutdoorAirMethod = @"The input must be either {Flow/Person}, {Flow/Area}, {Flow/Zone, AirChanges/Hour}, {Sum}, {Maximum}, {IndoorAirQualityProcedure}, {ProportionalControlBasedOnDesignOccupancy}, or {ProportionalControlBasedonOccupancySchedule}. The default is {Flow/Person}.
+ 
+ 
+
+  {Flow/Person} means the program will use the input from the field {Outdoor Air Flow per Person} and the actual zone occupancy to calculate a zone outdoor air flow rate.  
+
+  {Flow/Area} means that the program will use the input from the field {Outdoor Air Flow per Zone Floor Area} and the actual zone floor area as the zone outdoor air flow rate.   
+  {Flow/Zone} means that the program will use the input of the field {Outdoor Air Flow per Zone} as the zone outdoor air flow rate.   
+
+  {AirChanges/Hour} means that the program will use the input from the field {Air Changes per Hour} and the actual zone volume (divided by 3600 seconds per hour) as the zone outdoor air flow rate.  
+
+  {Sum} means that the flows calculated from the fields {Outdoor Air Flow per Person,} {Outdoor Air Flow per Area, Outdoor Air Flow per Zone}, and {Air Changes per Hour} (using the associated conversions to m^{3}/s for each field) will be added to obtain the zone outdoor air flow rate.
+
+  {Maximum} means that the maximum flow derived from {Outdoor Air Flow per Person,} {Outdoor Air Flow per Area, Outdoor Air Flow per Zone,} and {Air Changes per Hour} (using the associated conversions to m^{3}/s for each field) will be used as the zone outdoor air flow rate.
+   
+  {IndoorAirQualityProcedure} means that the program will use the other procedure defined in ASHRAE Standard 62.1-2007 to calculate the amount of outdoor air necessary in order to maintain the levels of indoor air carbon dioxide at or below the setpoint defined in the ZoneControl:ContaminantController object. Appendix A of the ASHRAE 62.1-2010 user????????s manual discusses another method for implementing CO2-based DCV in a single zone system. The last two methods of Proportional Control calculate the required outdoor air flow rate which varies in proportion to the percentage of the CO2 signal range and has two choices to calculate occupancy-based outdoor air rate. 
+  
+  {ProportionalControlBasedonOccupancySchedule} uses the real occupancy at the current time step to calculate outdoor air rate.
+
+  {ProportionalControlBasedonDesignOccupancy} uses the design occupancy level to calculate outdoor air rate. The former choice is a good approach to estimate outdoor air rate. However, for practical applications, the zone controller usually does not have the real time occupancy information, and the design occupancy level is assumed. The latter choice is used in the design stage.";
+		public static string Field_OutdoorAirFlowPerPerson = @"The design outdoor air volume flow rate per person for this zone in cubic meters per second per person. The default is 0.00944 (20 cfm per person). An outdoor air flow rate is calculated based on the total number of people for all People statements assigned to the zone. Occupancy schedule values {are not} applied during sizing calculations and {are} applied during the remainder of the simulation. This input is used if {Outdoor Air Method} is one of {Outdoor Air Flow per Person}, {Sum}, or {Maximum}.";
+		public static string Field_OutdoorAirFlowPerZoneFloorArea = @"The design outdoor air volume flow rate per square meter of floor area (units are m^{3}/s-m^{2}). This input is used if {Outdoor Air Method} is {Flow/Area, Sum} or {Maximum}. The default value for this field is 0.";
+		public static string Field_OutdoorAirFlowPerZone = @"The design outdoor air flow rate for this zone in cubic meters per second. This input field is used if {Outdoor Air Method} is {Flow/Zone, Sum} or {Maximum}. The default value for this field is 0.";
+		public static string Field_OutdoorAirFlowChangesPerHour = @"The design outdoor air volume flow rate in air changes per hour. This factor is used along with the Zone Volume and converted to cubic meters per second. This input field is used if {Outdoor Air Method} is {AirChanges/Hour, Sum} or {Maximum}. The default value for this field is 0.";
+		public static string Field_OutdoorAirScheduleName = @"This field is the name of schedule that defines how outdoor air requirements change over time. The field is optional. If left blank, the schedule defaults to 1.0. If used, then the schedule values are multiplied by the outdoor air flow rate defined by the previous fields. The schedule values must be between 0 and 1, inclusive.  
+
+If this DesignSpecification:OutdoorAir object is referenced by a Controller:MechanicalVentilation object (either directly or indirectly through Sizing:Zone), the schedule will be applied to all types of outdoor air calculations for the corresponding zone, regardless of the System Outdoor Air Method selected. If the schedule value is zero, then the zone will be completely removed from the system outdoor air calculations.";
+		public static string Field_ProportionalControlMinimumOutdoorAirFlowRateScheduleName = @"This field is the name of schedule that defines how minimum outdoor air requirements change over time. The field is optional. If left blank, the schedule defaults to 1.0. If used when the field System Outdoor Air Method = ProportionalControlBasedOnDesignOARate in Controller:MechanicalVentilation, then the schedule values are multiplied by the outdoor air flow rate.
+
+An IDF example:
+
+
+
+DesignSpecification:OutdoorAir
+      ZoneOAData,            !- Name
+      Sum,                   !- Outdoor Air Method
+      0.00944,               !- Outdoor Air Flow per Person {m3/s}
+      0.00305,               !- Outdoor Air Flow per Zone Floor Area {m3/s-m2}
+      ,                      !- Outdoor Air Flow per Zone {m3/s}
+      ,                      !- Outdoor Air Flow Air Changes per Hour
+      OARequirements Sched;  !- Outdoor Air Schedule Name
+
+
+  Schedule:Compact,
+      OARequirements Sched,    !- Name
+      Any Number,              !- Schedule Type Limits Name
+      Through: 12/31,          !- Field 1
+      For: Weekdays SummerDesignDay WinterDesignDay,  !- Field 2
+      Until: 24:00, 1.0,       !- Field 4
+      For: AllOtherDays,       !- Field 5
+      Until: 24:00, 0.5;       !- Field 7";
+	}
+	public static class DesignSpecificationZoneAirDistribution
+    { 
+		public static string Name = @"DesignSpecification:ZoneAirDistribution";
+		public static string Note = @"This object is used to describe the air distribution effectiveness and fraction of secondary recirculation air (return air not directly mixed with outdoor air) of a zone. It is referenced by the Sizing:Zone and Controller:MechanicalVentilation objects.
+";
+	public static string Field_Name = @"The unique user assigned name for an instance of this object. Any other object referencing this object will use this name.";
+		public static string Field_ZoneAirDistributionEffectivenessInCoolingMode = @"The positive numeric input for this field is the zone air distribution effectiveness when the zone is in cooling mode. Default value of this field is 1.0. ASHRAE Standard 62.1-2010 provides typical values.";
+		public static string Field_ZoneAirDistributionEffectivenessInHeatingMode = @"The positive numeric input for this field is the zone air distribution effectiveness when the zone is in heating mode. Default value of this field is 1.0. ASHRAE Standard 62.1-2010 provides typical values as follows:
+
+\begin{figure}[hbtp] % fig 71
+\centering
+\includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio=true]{media/image133.png}
+\caption{Zone Air Distribution Effectiveness (Source: ASHRAE Standard 62.1-2010) \protect \label{fig:zone-air-distribution-effectiveness-source}}
+\end{figure}";
+		public static string Field_ZoneAirDistributionEffectivenessScheduleName = @"This optional field input points to a schedule with values of zone air distribution effectiveness. It provides a more flexible way of specifying zone air distribution effectiveness if it changes with time and/or system operating status and controls. If the schedule is specified, the zone air distribution effectiveness in cooling mode and heating mode will be ignored.";
+		public static string Field_ZoneSecondaryRecirculationFraction = @"The non-negative numeric input for this field is the fraction of a zone's recirculation air that does not directly mix with the outdoor air. The zone secondary recirculation fraction Er is determined by the designer based on system configuration. For plenum return systems with secondary recirculation (e.g., fan-powered VAV with plenum return) Er is usually less than 1.0, although values may range from 0.1 to 1.2 depending upon the location of the ventilation zone relative to other zones and the air handler. For ducted return systems with secondary recirculation (e.g., fan-powered VAV with ducted return), Er is typically 0.0, while for those with system-level recirculation (e.g, dual-fan dual-duct systems with ducted return) Er is typically 1.0. For other system types, Er is typically 0.75. Minimum is 0.0, and default is 0.0 for single-path systems (also to maintain backward compatibility). For parallel fan-powered VAV systems, the secondary ventilation path only functions (Er > 0.0) when the fans in the VAV boxes operate, which is during heating. The local ventilation path and the benefits of secondary recirculation disappear during cooling, when the local parallel fans are off (Er = 0.0).";
+		public static string Field_MinimumZoneVentilation = @"Efficiency}\label{field-minimum-zone-ventilation-efficiency}
+
+This optional input sets a minimum on the ventilation efficiency for the zone. It is only used with the Ventilation Rate Procedure (VRP), single-path method. VRP should be chosen in Sizing System, System Outdoor Air Method = VentilationRateProcedure. Single-path method is indicated by leaving the previous input (Zone Secondary Recirculation Fraction) blank or setting it to 0.0. If the calculated value of ventilation efficiency for a zone is less than this value, it is raised to this minimum by raising the zone minimum air flow rate. This new value for zone minimum air flow rate then overrides other defaults and inputs in Sizing:Zone.
+
+An example of this in an IDF context is shown:
+
+
+
+DesignSpecification:ZoneAirDistribution,
+      CM DSZAD ZN_1_FLR_1_SEC_1,  !- Name
+      1,                       !- Zone Air Distribution Effectiveness in Cooling Mode {dimensionless}
+      1,                       !- Zone Air Distribution Effectiveness in Heating Mode {dimensionless}
+      ;                        !- Zone Air Distribution Effectiveness Schedule Name";
+	}
+	public static class SizingParameters
+    { 
+		public static string Name = @"Sizing:Parameters";
+		public static string Note = @"This object allows the user to specify global heating and cooling sizing ratios. These ratios will be applied at the zone level to all of the zone heating and cooling loads and air flow rates. These new loads and air flow rates are then used to calculate the system level flow rates and capacities and are used in all component sizing calculations.
+
+The user can also specify the width (in load timesteps) of a moving average window which can be used to smooth the calculated zone design flow sequences. The use of this parameter is described below.
+";
+	public static string Field_HeatingSizingFactor = @"The global heating sizing ratio applied to all of the zone design heating loads and air flow rates.";
+		public static string Field_CoolingSizingFactor = @"The global cooling sizing ratio applied to all of the zone design cooling loads and air flow rates";
+		public static string Field_TimestepsInAveragingWindow = @"The number of load timesteps in the zone design flow sequence averaging window. The default is 1, in which case the calculated zone design flow rates are averaged over the load timestep.
+
+The zone design air flow rate calculation is performed assuming a potentially infinite supply of heating or cooling air at a fixed temperature. Thus the calculated design air flow rate will always be able to meet any load or change in load no matter how large or abrupt. In reality air flow rates are limited by duct sizes and fan capacities. The idealized zone design flow calculation may result in unrealistically large flow rates, especially if the user is performing the sizing calculations using thermostat schedules with night setup or setback. The calculated zone design flow rates are always averaged over the load timestep. The user may want to perform a broader average to mitigate the effect of thermostat setup and setback and prevent the warm up or cool down flow rates from dominating the design flow rate calculation.. Specifying the width of the averaging window allows the user to do this.
+
+For example, if the load calculation timestep is 15 minutes and the user specifies the {Timesteps in Averaging Window} to be 4, the zone design air flows will be averaged over a time period of 1 hour. Specifying 8 would result in averaging over a 2 hour period.";
+	}
+	public static class OutputControlSizingStyle
+    { 
+		public static string Name = @"OutputControl:Sizing:Style";
+		public static string Note = @"As described early in the document (see: EnergyPlus Output Processing), the user may select the ``style'' for the sizing result files (epluszsz.<ext>, eplusssz.<ext>). This object applies to all sizing output files.
+
+
+OutputControl:Sizing:Style,
+       \memo default style for the Sizing output files is comma -- this works well for
+       \memo importing into spreadsheet programs such as Excel(tm) but not so well for word
+       \memo processing progams -- there tab may be a better choice.  fixed puts spaces between
+       \memo the columns
+       \unique-object
+   A1; \field Column Separator
+       \required-field
+       \type choice
+       \key Comma
+       \key Tab
+       \key Fixed
+
+";
+	public static string Field_ColumnSeparator = @"For this field, the desired separator for columns is entered. ``Comma'' creates comma separated fields/columns in the outputs (eplus<sizing type>.csv files are created). ``Tab'' creates tab separated fields/columns in the outputs (eplus<sizing type>.tab files are created). ``Fixed'' creates space separated fields/columns in the outputs (eplus<sizing type>.txt files are created) but these are not necessarily lined up for easy printing.
+
+Note that both tab and comma separated files easily import into Excel??? or other spreadsheet programs. The tab delimited files can also be viewed by text editors, word processing programs and easily converted to ``tables'' within those programs.";
+	}
+	public static class SizingZone
+    { 
+		public static string Name = @"Sizing:Zone";
+		public static string Note = @"The Sizing:Zone object provides the data needed to perform a zone design air flow calculation for a single zone. This calculation assumes a variable amount of supply air at a fixed temperature and humidity. The information needed consists of the zone inlet supply air conditions: temperature and humidity ratio for heating and cooling. The calculation is done for every design day included in the input. The maximum cooling load and air flow and the maximum heating load and air flow are then saved for the system level design calculations and for the component automatic sizing calculations.
+
+The Sizing:Zone object is also the place where the user can specify the design outdoor air flow rate by referencing the name of a design specification outdoor air object. This can be specified in a number of ways (ref. DesignSpecification:OutdoorAir).This data is saved for use in the system sizing calculation or for sizing zone components that use outdoor air.
+
+The user can also place limits on the heating and design cooling air flow rates. See {~Heating Design Air Flow Method} and {Cooling Design Air Flow Method} below and the explanations of the various heating and cooling flow input fields.
+
+The user can ask the zone design calculation to take into account the effect of a Dedicated Outdoor Air System on the zone design loads and airflow rates. The design calculation will calculate the heat addition rate to the zone of an idealized SOA system and add or subtract the result from the total zone loads and flow rates.
+";
+	public static string Field_ZoneName = @"The name of the Zone corresponding to this Sizing:Zone object. This is the zone for which the design air flow calculation will be made using the input data of this Sizing:Zone Object.";
+		public static string Field_ZoneCoolingDesignSupplyAirTemperatureInputMethod = @"The input must be either {SupplyAirTemperature} or {TemperatureDifference}. {SupplyAirTemperature} means that the user inputs from the fields of Zone Cooling Design Supply Air Temperature will be used to determine the zone cooling design air flow rates. {TemperatureDifference} means that the user inputs from the fields of Zone Cooling Design Supply Air Temperature Difference will be used to determine the zone cooling design air flow rates.";
+		public static string Field_ZoneCoolingDesignSupplyAirTemperature = @"The supply air temperature in degrees Celsius for the zone cooling design air flow rate calculation. Air is supplied to the zone at this temperature during the cooling design day simulation, The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the~ zone cooling design air flow rate. This field is only used when Zone Cooling Design Supply Air Temperature Input Method = {SupplyAirTemperature}.";
+		public static string Field_ZoneCoolingDesignSupplyAirTemperatureDifference = @"The temperature difference between cooling design supply air temperature and room air temperature in degrees Celsius for the zone cooling design air flow rate calculation. Air is supplied to the zone at this temperature during the cooling design day simulation. The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the zone cooling design air flow rate. This field is only used when Zone Cooling Design Supply Air Temperature Input Method = {TemperatureDifference}.";
+		public static string Field_ZoneHeatingDesignSupplyAirTemperatureInputMethod = @"The input must be either {SupplyAirTemperature} or {TemperatureDifference}. {SupplyAirTemperature} means that the user inputs from the fields of Zone Heating Design Supply Air Temperature will be used to determine the zone heating design air flow rates. {TemperatureDifference} means that the user inputs from the fields of Zone Heating Design Supply Air Temperature Difference will be used to determine the zone heating design air flow rates.";
+		public static string Field_ZoneHeatingDesignSupplyAirTemperature = @"The supply air temperature in degrees Celsius for the zone heating design air flow rate calculation. Air is supplied to the zone at this temperature during the heating design day simulation, The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the zone heating design air flow rate. This field is only used when Zone Heating Design Supply Air Temperature Input Method = {SupplyAirTemperature}.";
+		public static string Field_ZoneHeatingDesignSupplyAirTemperatureDifference = @"The temperature difference between heating design supply air temperature and room air temperature in degrees Celsius for the zone heating design air flow rate calculation. Air is supplied to the zone at this temperature during the heating design day simulation. The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the zone heating design air flow rate. This field is only used when Zone Heating Design Supply Air Temperature Input Method = {TemperatureDifference}.";
+		public static string Field_ZoneCoolingDesignSupplyAirHumidityRatio = @"The humidity ratio in kilograms of water per kilogram of dry air of the supply air in the zone cooling design air flow rate calculation.";
+		public static string Field_ZoneHeatingDesignSupplyAirHumidityRatio = @"The humidity ratio in kilograms of water per kilogram of dry air of the supply air in the zone heating design air flow rate calculation.";
+		public static string Field_DesignSpecificationOutdoorAirObjectName = @"This alpha field specifies the name of a DesignSpecification:OutdoorAir object which specifies the design outdoor air flow rate for the zone.
+
+When a choice of IndoorAirQualityProcedure is entered in the Outdoor Air Method field of the DesignSpecification:OutdoorAir object, the design outdoor airflow rate is calculated based on the choice of Sum in the same field.
+
+When a choice of ProportionalControlBasedOnDesignOccupancy or ProportionalControlBasedonOccupancySchedule is entered, the design outdoor airflow rate is calculated based on equations specified in the Proportional Control section in the Engineering Reference.";
+		public static string Field_ZoneHeatingSizingFactor = @"This input is a zone level heating sizing ratio. The zone design heating air flow rates and loads will be multiplied by the number input in this field. This input overrides the building level sizing factor input in the Sizing:Parameters object. And, of course, if this field is blank or zero, the global heating sizing factor from the Sizing:Parameters object is used.";
+		public static string Field_ZoneCoolingSizingFactor = @"This input is a zone level cooling sizing ratio. The zone design cooling air flow rates and loads will be multiplied by the number input in this field. This input overrides the building level sizing factor input in the Sizing:Parameters object. And, of course, if this field is blank or zero, the global cooling sizing factor from the Sizing:Parameters object is used.";
+		public static string Field_CoolingDesignAirFlowMethod = @"The input must be either {Flow/Zone, DesignDay, or DesignDayWithLimit}. {Flow/Zone} means that the program will use the input of the field {Cooling Design Air Flow Rate} as the zone design cooling air flow rate. {DesignDay} means the program will calculate the zone design cooling air flow rate using the Sizing:Zone input data and a design day simulation without imposing any limits other than those set by the minimum outside air requirements. {DesignDayWithLimit} means that the maximum from {Cooling Minimum Air Flow per Zone Floor Area} and {Cooling Minimum Air Flow} will set a lower limit on the design maximum cooling air flow rate. The default method is {DesignDay}: i.e., the program uses the calculated design values subject to ventilation requirements.";
+		public static string Field_CoolingDesignAirFlowRate = @"The design zone cooling air flow rate in cubic meters per second. This input is used if {Cooling Design Air Flow Method} is specified as {Flow/Zone}. This value will be multiplied by the global or zone sizing factor and by zone multipliers.";
+		public static string Field_CoolingMinimumAirFlowPerZoneFloorArea = @"The minimum zone cooling volumetric flow rate per square meter (units are m^{3}/s-m^{2}). This field is used when {Cooling Design Air Flow Method} is specified as {DesignDayWithLimit}. In this case it sets a lower bound on the zone design cooling air flow rate. In all cases the maximum flow derived from {Cooling Minimum Air Flow per Zone Floor Area}, {Cooling Minimum Air Flow}, {Cooling Minimum Air Flow Fraction} and the design outdoor air flow rate (including VRP adjustments) is used to set a minimum supply air flow rate for the zone for VAV systems. The default is 0.000762, corresponding to 0.15 cfm/ft^{2}. The applicable sizing factor is not applied to this value.";
+		public static string Field_CoolingMinimumAirFlow = @"The minimum zone cooling volumetric flow rate in m^{3}/s. This field is used when {Cooling Design Air Flow Method} is specified as {DesignDayWithLimit}. In this case it sets a lower bound on the zone design cooling air flow rate.  In all cases the maximum flow derived from {Cooling Minimum Air Flow per Zone Floor Area}, {Cooling Minimum Air Flow}, {Cooling Minimum Air Flow Fraction} and the design outdoor air flow rate (including VRP adjustments) is used to set a minimum supply air flow rate for the zone for VAV systems. The default is zero. The applicable sizing factor is not applied to this value.";
+		public static string Field_CoolingMinimumAirFlowFraction = @"The minimum zone design cooling volumetric flow rate expressed as a fraction of the zone design cooling volumetric flow rate.  In all cases the maximum flow derived from {Cooling Minimum Air Flow per Zone Floor Area}, {Cooling Minimum Air Flow}, {Cooling Minimum Air Flow Fraction} and the design outdoor air flow rate (including VRP adjustments) is used to set a minimum supply air flow rate for the zone for VAV systems. The default is 0.2. This input is currently used in sizing the VAV air terminal unit and fan minimum flow rate. It does not currently affect other component autosizing.";
+		public static string Field_HeatingDesignAirFlowMethod = @"The input must be either {Flow/Zone, DesignDay, or DesignDayWithLimit}. {Flow/Zone} means that the program will use the input of the field {Heating Design Air Flow Rate} as the zone design heating air flow rate. {DesignDay} means the program will calculate the zone design heating air flow rate using the Sizing:Zone input data and a design day simulation without imposing any limits other than those set by the minimum outside air requirements. {DesignDayWithLimit} means that the maximum from {Heating Maximum Air Flow per Zone Floor Area} and {Heating Maximum Air Flow} will set a lower limit on the design maximum heating air flow rate. The default method is {DesignDay}: i.e., the program uses the calculated design values subject to ventilation requirements.";
+		public static string Field_HeatingDesignAirFlowRate = @"The design zone heating air flow rate in cubic meters per second. This input is used if {Heating Design Air Flow Method} is specified as {Flow/Zone}. This value will be multiplied by the global or zone sizing factor and by zone multipliers.";
+		public static string Field_HeatingMaximumAirFlowPerZoneFloorArea = @"The maximum zone heating volumetric flow rate per square meter (units are m^{3}/s-m^{2}). This field is used when {Heating Design Air Flow Method} is specified as {DesignDayWithLimit}. In this case it sets an upper bound on the zone design heating air flow rate. For this and the next two input fields, the maximum flow derived from {Heating Maximum Air Flow per Zone Floor Area}, {Heating Maximum Air Flow}, and {Heating Maximum Air Flow Fraction}~ is used to set a maximum heating supply air flow rate for the zone for VAV systems. The default is 0.002032, corresponding to 0.40 cfm/ft^{2}. If the maximum heating design flow rate calculated using these input fields is greater than the design heating flow rate calculated during sizing, these input fields have no impact on sizing. It may be more appropriate to select only one of these three fields to calculate the maximum heating design flow rate (i.e., if one ore more of these three fields is 0, it will not be used in calculating the maximum heating design flow rate).";
+		public static string Field_HeatingMaximumAirFlow = @"The maximum zone heating volumetric flow rate in m^{3}/s. This field is used when {Heating Design Air Flow Method} is specified as {DesignDayWithLimit}. In this case it sets an upper bound on the zone design heating air flow rate. For this field and the two input fields just prior to and after this field,,the maximum flow derived from {Heating Maximum Air Flow per Zone Floor Area}, {Heating Maximum Air Flow}, and {Heating Maximum Air Flow Fraction} is used to set a maximum heating supply air flow rate for the zone for VAV systems. The default is 0.1415762, corresponding to 300 cfm. If the maximum heating design flow rate calculated using these input fields is greater than the design heating flow rate calculated during sizing, these input fields have no impact on sizing. It may be more appropriate to select only one of these three fields to calculate the maximum heating design flow rate (i.e., if one ore more of these three fields is 0, it will not be used in calculating the maximum heating design flow rate).";
+		public static string Field_HeatingMaximumAirFlowFraction = @"The maximum zone design heating volumetric flow rate expressed as a fraction of the zone design cooling volumetric flow rate. For this and the previous two input fields, the maximum flow derived from {Heating Maximum Air Flow per Zone Floor Area}, {Heating Maximum Air Flow}, and {Heating Maximum Air Flow Fraction}~ is used to set a maximum heating supply air flow rate for the zone for VAV systems. The default is 0.3. If the maximum heating design flow rate calculated using these input fields is greater than the design heating flow rate calculated during sizing, these input fields have no impact on sizing. It may be more appropriate to select only one of these three fields to calculate the maximum heating design flow rate (i.e., if one ore more of these three fields is 0, it will not be used in calculating the maximum heating design flow rate).";
+		public static string Field_DesignSpecificationZoneAirDistributionObjectName = @"The name of the DesignSpecification:ZoneAirDistribution object, defining the air distribution effectiveness and secondary recirculation air fraction, that applies to the zone or zone list. This object may be used for the same zone in the Controller:MechanicalVentilation object if no such DesignSpecification:ZoneAirDistribution object is specified.";
+		public static string Field_AccountForDedicatedOutdoorAirSystem = @"This is a choice field with choices {Yes} or {No}. The default is {No}. Choosing {Yes} means that the zone sizing calculation will use the subsequent inputs to calculate the heat gain or loss (heat gains are positive, heat loss is negative) imposed on the zone by a Dedicated Outdoor Air System (DOAS). This heat gain is then added to the zone design heat gain for the zone and the zone design air flow rate is adjusted to meet the DOAS heat gain plus the zone design heat gain.";
+		public static string Field_DedicatedOutdoorAirSystemControlStrategy = @"This is a choice field with a choice of three ideal control strategies for the DOA system. The choices are {NeutralSupplyAir}, {NeutralDehumidifiedSupplyAir}, or {ColdSupplyAir}. The default is {NeutralSupplyAir}.
+
+{NeutralSupplyAir} implies that the ventilation air supplied to the zone will cause little heating or cooling. The air will be heated or cooled to keep it between the low and high temperature setpoints specified in the subsequent two fields. A good choice for these fields might be 21.1 and 23.9 degrees C.
+
+{NeutralDehumidifiedSupplyAir} means that the ventilation air will be cooled and dehumidified and then reheated to a neutral temperature. The ventilation air is cooled to the lower setpoint temperature (if necessary) and reheated to the upper setpoint temperature. A good choice for the setpoints would be 14.4 and 22.2 degrees C.
+
+{ColdSupplyAir} means that the ventilation air will be used to supply cooling to the zone. Cold outside air is heated to the upper setpoint; warm outside air is cooled to the lower setpoint. A good choice for the setpoints would be 12.2 and 14.4 degrees C.";
+		public static string Field_DedicatedOutdoorAirLowTemperatueSetpointForDesign = @"The lower setpoint temperature to be used with the DOAS design control strategy. The units are degrees C. The default is autosized to the values given above for the three design control strategies.";
+		public static string Field_DedicatedOutdoorAirHighTemperatureSetpointForDesign = @"The higher setpoint temperature to be used with the DOAS design control strategy. The units are degrees C. The default is autosized to the values given above for the three design control strategies.
+
+An IDF example:
+
+
+
+Sizing:Zone,
+      SPACE5-1,                !- Name of a zone
+      14.,                     !- Zone cooling design supply air temperature {C}
+      50.,                     !- Zone heating design supply air temperature {C}
+      0.009,                   !- Zone cooling design supply air humidity ratio {kg-H2O/kg-air}
+      0.004,                   !- Zone heating design supply air humidity ratio {kg-H2O/kg-air}
+      DSOA1,                   !- Design Specification Outdoor Air Object Name
+      0.0,                     !- zone heating sizing factor
+      0.0,                     !- zone cooling sizing factor
+      designdaywithlimit,      !- Cooling Design Air Flow Method
+      ,                        !- cooling design air flow rate {m3/s}
+      ,                        !- Cooling Minimum Air Flow per zone area {m3/s-m2}
+      ,                        !- Cooling Minimum Air Flow {m3/s}
+      ,                        !- fraction of the cooling design air flow rate
+      designday,               !- Heating Design Air Flow Method
+      ,                        !- heating design air flow rate {m3/s}
+      ,                        !- heating max air flow per zone area {m3/s-m2}
+      ,                        !- heating max air flow {m3/s}
+      ,                        !- fraction of the cooling design air flow rate
+      DSZADO1,                 !- Design Specification Zone Air Distribution Object Name
+      Yes,                     !- Account for Dedicated Outside Air System
+      ColdSupplyAir,           !- Dedicated Outside Air System Control Strategy
+      12.2,                    !- Dedicated Outside Air Low Setpoint for Design
+      14.4;                    !- Dedicated Outside Air High Setpoint for Design
+
+  DesignSpecification:OutdoorAir,
+  DSOA1,                   !- Name
+  SUM,                     !- Outdoor Air Method
+  0.00236,                 !- Outdoor Air Flow per Person
+  0.000305,                !- Outdoor Air Flow per Zone Floor Area
+  0.0,                     !- Outdoor Air Flow per Zone
+  0.0,                     !- Outdoor Air Flow Air Changes per Hour
+  ;                        !- Outdoor Air Flow Rate Fraction Schedule Name
+
+  DesignSpecification:ZoneAirDistribution,
+      DSZADO1,                 !- Name
+      1.0,                     !- Zone Air Distribution Effectiveness in Cooling Mode
+      1.0,                     !- Zone Air Distribution Effectiveness in Heating Mode
+      ,                        !- Zone Air Distribution Effectiveness Schedule Name
+      0.3;                     !- Zone Secondary Recirculation Fraction";
+	}
+	public static class DesignSpecificationZoneHVACSizing
+    { 
+		public static string Name = @"DesignSpecification:ZoneHVAC:Sizing";
+		public static string Note = @"This object is used to describe general sizing and scalable sizing methods which are referenced by zone HVAC equipment objects. It is optional input field in zone HVAC objects. If a name of this optional input is not specified or is blank then the sizing method or input specified in the parent object is used.~ If the name of this object is entered, then the values or method specified overrides the sizing method in the parent zone HVAC objects. This object is meant to provide scalable sizing method to users. The name of this object is an optional input field in the zoneHVAC objects. When this name in not specified in the zone HVAC object the sizing method or the value specified in the zone HVAC object will be used.
+
+List of zoneHVAC objects than can reference this object include:
+
+
+
+  ZoneHVAC:TerminalUnit:VariableRefrigerantFlow
+
+  ZoneHVAC:PackagedTerminalAirConditioner
+
+  ZoneHVAC:PackagedTerminalHeatPump
+
+  ZoneHVAC:WaterToAirHeatPump
+
+  ZoneHVAC:WindowAirConditioner
+
+  ZoneHVAC:UnitHeater
+
+  ZoneHVAC:UnitVentilator
+
+  ZoneHVAC:FourPipeFanCoil
+
+  ZoneHVAC:VentilatedSlab
+
+  ZoneHVAC:EvaporativeCoolerUnit
+
+  ZoneHVAC:IdealLoadsAirSystem
+
+
+The sizing methods input fields available in this objects are for supply air flow and capacity for heating and cooling operating modes. Some zone HVAC equipment has single supply air flow rate input field that serves both cooling and heating operating modes.~ So entering either of the cooling or heating scalable sizing input field is sufficient.~ When there are separate input fields for cooling, heating, no-cooling, and no-heating operating modes, the corresponding input fields are specified.~ The child components supply air flow rate are also sized using scalable sizing methods specified in the parent objects. The methods allow users to enter a fixed or hard sized values, autosizable, or scalable sizing methods.~ Methods allowed for sizing supply air flow rates include: {SupplyAirFlowRate}, {FractionOfAutosizedCoolingAirflow}, {FractionOfAutosizedHeatingAirflow}, {FlowPerFloorArea, FlowPerCoolingCapacity}, and {FlowPerHeatingCapacity}.~ The different sizing options are defined as follows:
+
+
+
+  {SupplyAirFlowRate}: entered when it is intended that the user specified either hard value or the simulation engine autosize the supply air flow rates for cooling, heating, and no-cooling or no-heating operating modes.
+
+  {FlowPerFloorArea}: entered when it is intended that the simulation engine determine the supply air flow rates from the user specified {supply air flow rates per unit floor area} and the zone floor area of the zone served by the zone HVAC equipment.
+
+  {FractionOfAutosizedCoolingAirflow}: entered when it is intended that the simulation engine determines the supply air flow rates from the user specified {flow fraction} and {autosized cooling design supply air flow rate}.
+
+  {FractionOfAutosizedHeatingAirflow}: entered when it is intended that the simulation engine determines the supply air flow rates from the user specified {flow fraction} and {autosized heating design supply air flow rate}.
+
+  {FlowPerCoolingCapacity}: entered when it is intended t that he simulation engine determines the supply air flow rates from the user specified {supply air flow per cooling capacity value} and {autosized cooling design capacity}.
+
+  {FlowPerHeatingCapacity}: entered when it is intended that the simulation engine determines the supply air flow rates from the user specified {supply air flow per heating capacity value} and {autosized heating design capacity}.
+
+
+The~ Design Specification ZoneHVAC Sizing object also has input fields for sizing or scalable sizing of cooling and heating capacity. However, most of the parent zone HVAC objects do not have input fields for sizing capacities. So, the capacity scalable sizing fields in the parent objects are used for sizing child components capacity sizings.~ The scalable capacity sizing may be indirectly impacted by the scalable supply air flow rates sizing values. Moreover, the autosized cold water, hot water and steam flow rates in the parent zone HVAC objects (e.g.~FanCoils, UnitHeaters, UnitVentilators, and VentilatedSlabs) and capacity in child components are determined using the scalable sizing methods.~ Sizing methods allowed for cooling and heating capacity include: {CoolingDesignCapacity, HeatingDesignCapacity}, {CapacityPerFloorArea, FractionOfAutosizedCoolingCapacity}, {FractionOfAutosizedHeatingCapacity}.
+
+
+
+  {CoolingDesignCapacity}: entered when it is intended that user specifies either a hard sized cooling capacity value or the simulation engine autosizes cooling capacity value for the cooling design capacity.
+
+  {HeatingDesignCapacity}: entered when it is intended that user specifies either a hard sized heating capacity value or the simulation engine autosized heating capacity value for the heating design capacity.
+
+  {CapacityPerFloorArea}: is entered when it is intended that the simulation engine determines the cooling or heating capacity from user specified capacity per floor area value and the floor area of the zone served by the zone HVAC equipment.
+
+  {FractionOfAutosizedCoolingCapacity}: entered when it is intended that the simulation engine sizes the cooling capacity from the user specified {capacity fraction} and {autosized cooling design capacity} value.
+
+  {FractionOfAutosizedHeatingCapacity}: entered when it is intended that the simulation engine sizes the heating capacity from the user specified {capacity fraction} and {autosized heating design capacity} value.
+
+
+Description of the input fields of the design specification zone HVAC sizing object ``DesignSpecification:ZoneHVAC:Sizing'':
+";
+	public static string Field_Name = @"Unique identifier name of the DesignSpecification:ZoneHVAC:Sizing object. This sizing specification object referenced by a zone HVAC equipment whose design calculation will be made using the input data of this object.";
+		public static string Field_CoolingDesignAirFlowMethod = @"The input of this field must be the method used to determine the cooling supply air volume flow rate. Input allowed is either {None}, {SupplyAirFlowRate}, {FlowPerFloorArea}, {FractionOfAutosizedCoolingAirflow}, or {FlowPerCoolingCapacity}.~ None means cooling coil is not included in the zone HVAC equipment or this field may be left blank. {SupplyAirFlowRate} means the user specifies the magnitude of supply air flow rate or the program calculates the design cooling supply air volume flow rate if autosize is specified. {FlowPerFloorArea} means the program calculates the cooling supply air volume flow rate from zone floor area served by the zone HVAC unit and user specified {Flow Per Floor Area} value. {FractionOfAutosizedCoolingAirflow} means the program calculates the cooling supply air volume flow rate from user specified fraction and the autosized design cooling supply air volume flow rate value determined by the simulation. FlowPerCoolingCapacity means the supply air volume is calculated from user specified flow per cooling capacity and design cooling capacity determined by the simulation. The default method is {SupplyAirFlowRate}.";
+		public static string Field_CoolingDesignSupplyAirFlowRateM3S = @"Enter the magnitude of the cooling supply air volume flow rate in m3/s. This input is an alternative to using the program auto-calculated value. This input is a required field when the Cooling Design air Flow Method is {SupplyAirFlowRate}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment. This input field is also autosizable.";
+		public static string Field_CoolingDesignSupplyAirFlowRatePerFloorAreaM3SM2 = @"Enter the cooling supply air volume flow rate per zone conditioned floor area in m3/s-m2. This field is required field when the Cooling Design air Flow Method is {FlowPerFloorArea}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design Air Flow Method is not {FlowPerFloorArea}. The program calculates the cooling supply air volume flow rate from the zone conditioned floor area served by the zone HVAC equipment and the flow per unit area value specified by the user. Zone sizing object (Sizing:Zone) is not required.";
+		public static string Field_FractionOfAutosizedCoolingDesignSupplyAirFlowRate = @"Enter the cooling supply air volume flow rate as a fraction of the autosized cooling supply air flow rate. This input field is required when the Cooling Design air Flow Method is {FractionOfAutosizedCoolingAirflow}. This input field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design air Flow Method is not {FractionOfAutosizedCoolingAirflow}. The program calculates the cooling supply air volume flow rate from the design autosized cooling supply air flow rate and user specified fraction. Zone sizing object (Sizing:Zone) is required.";
+		public static string Field_CoolingDesignSupplyAirFlowRatePerUnitCoolingCapacityM3SW = @"Enter the cooling supply air volume flow rate per unit cooling capacity in m3/s-W. This input field is required when the Cooling Design air Flow Method is {FlowPerCoolingCapacity}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design air Flow Method is not {FlowPerCoolingCapacity}. The program calculates the cooling supply air volume flow rate from the design autosized cooling capacity and user specified flow per cooling capacity value. Zone sizing object (Sizing:Zone) is required.";
+		public static string Field_SupplyAirFlowRateMethodWhenNoCoolingOrHeatingIsRequired = @"Enter the method used to determine the supply air volume flow rate when No Cooling or Heating is required. Inputs allowed are {None}, {SupplyAirFlowRate}, {FlowPerFloorArea}, {FractionOfAutosizedCoolingAirflow}, and {FractionOfAutosizedHeatingAirflow.} {None} is used when a cooling or heating coil is not included in the zone HVAC equipment or this field may be left blank. {SupplyAirFlowRate} means user specifies the magnitude of supply air flow rate or the program calculates the design supply air volume flow rate if autosize is specified. {FlowPerFloorArea} means the program calculates the supply air volume flow rate from the zone floor area served by the zone HVAC unit and Flow Per Floor Area value specified by user. {FractionOfAutosizedCoolingAirflow} means the program calculates the supply air volume flow rate from user specified fraction and autosized design cooling supply air volume flow rate value determined by the program. FractionOfAutosizedHeatingAirflow means the program calculates the supply air volume flow rate from user specified fraction and autosized heating supply air flow rate value determined by the program. The default method is {SupplyAirFlowRate}.";
+		public static string Field_SupplyAirFlowRateWhenNoCoolingOrHeatingIsRequiredM3S = @"Enter the magnitude of the supply air volume flow rate when no cooling or heating is required in m3/s. This input is an alternative to using the program auto-calculated value. This input is a required field when the Supply Air Flow Rate Method When No Cooling or Heating is Required is {SupplyAirFlowRate}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment. This input field is also autosizable.";
+		public static string Field_SupplyAirFlowRatePerFloorAreaWhenNoClgOrHtgIsRequiredM3SM2 = @"Enter the magnitude of supply air volume flow rate per zone floor area in m3/s-m2. This input is a required field when Supply Air ~Flow Rate Method When No Cooling or Heating is Required is {FlowPerFloorArea}. The program calculates the supply air flow rate when no cooling or heating is required from user specified flow per floor area and the zone area served by current zoneHVAC equipment.";
+		public static string Field_FractionOfDesignCoolingSupplyAirFlowRateWhenNoClgOrHtgRequired = @"Enter the fraction of supply air volume flow rate as a fraction of the autosized cooling supply air flow rate. This input field is required field when Supply Air Flow Rate Method When No Cooling or Heating is Required is {FractionOfAutosizedCoolingAirflow}.~ The program calculates the supply air flow rate when no cooling or heating is required from user specified fraction and the design cooling autosized supply air flow rate.";
+		public static string Field_FractionOfDesignHeatingSupplyAirFlowRateWhenNoClgOrHtgRequired = @"Enter the fraction of supply air volume flow rate as a fraction of the autosized cooling supply air flow rate. This input field is required field when Supply Air Flow Rate Method When No Cooling or Heating is Required is {FractionOfAutosizedHeatingAirflow}.~ The program calculates the supply air flow rate when no cooling or heating is required from user specified fraction and the design heating autosized supply air flow rate.";
+		public static string Field_HeatingDesignAirFlowMethod = @"The input of this field must be the method used to determine the heating supply air volume flow rate. Input allowed is either {None}, {SupplyAirFlowRate}, {FlowPerFloorArea}, {FractionOfAutosizedCoolingAirflow}, or {FlowPerCoolingCapacity}.~ {None} means heating coil is not included in the zone HVAC equipment or this field may be left blank. {SupplyAirFlowRate} means the user specifies the magnitude of supply air flow rate or the program calculates the design heating supply air volume flow rate if autosize is specified. {FlowPerFloorArea} means the program calculates the heating supply air volume flow rate from zone floor area served by the zone HVAC unit and user specified {Flow Per Floor Area} value. {FractionOfAutosizedHeatingAirflow} means the program calculates the heating supply air volume flow rate from user specified fraction and the autosized design heating supply air volume flow rate value determined by the simulation. {FlowPerHeatingCapacity} means the supply air volume is calculated from user specified flow per heating capacity and design heating capacity determined by the simulation. The default method is {SupplyAirFlowRate}.";
+		public static string Field_HeatingDesignSupplyAirFlowRateM3S = @"Enter the magnitude of the heating supply air volume flow rate in m3/s. This input is an alternative to using the program auto-calculated value. This input is a required field when the Heating Design air Flow Method is {SupplyAirFlowRate}. This field may be left blank if a heating coil is not included in the zone HVAC equipment. This input field is also autosizable.";
+		public static string Field_HeatingDesignSupplyAirFlowRatePerFloorAreaM3SM2 = @"Enter the heating supply air volume flow rate per zone conditioned floor area in m3/s-m2. This field is required field when the Heating Design air Flow Method is {FlowPerFloorArea}. This field may be left blank if a heating coil is not included in the zone HVAC equipment or the Heating Design Air Flow Method is not {FlowPerFloorArea}. The program calculates the heating supply air volume flow rate from the zone conditioned floor area served by the zone HVAC equipment and the flow per unit area value specified by the user.";
+		public static string Field_FractionOfAutosizedHeatingDesignSupplyAirFlowRate = @"Enter the heating supply air volume flow rate as a fraction of the autosized heating supply air flow rate. This input field is required when the Heating Design air Flow Method is {FractionOfAutosizedHeatingAirflow}. This input field may be left blank if a heating coil is not included in the zone HVAC equipment or the Heating Design air Flow Method is not {FractionOfAutosizedHeatingAirflow}. The program calculates the heating supply air volume flow rate from the design autosized heating supply air flow rate and user specified fraction.";
+		public static string Field_HeatingDesignSupplyAirFlowRatePerUnitHeatingCapacityM3SW = @"Enter the heating supply air volume flow rate per unit heating capacity in m3/s-W. This input field is required when the Heating Design air Flow Method is {FlowPerHeatingCapacity}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Heating Design air Flow Method is not {FlowPerHeatingCapacity}. The program calculates the heating supply air volume flow rate from the design autosized heating capacity and user specified flow per unit heating capacity value.";
+		public static string Field_CoolingDesignCapacityMethod = @"Enter the method used to determine the cooling design capacity for scalable sizing. Input allowed is either {None}, {CoolingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedCoolingCapacity}. None is used when a cooling coil is not included in the Zone HVAC equipment or this field may be left blank. If this input field is left blank, then the design cooling capacity is set to zero. {CoolingDesignCapacity} means user specifies the magnitude of cooling capacity or the program calculates the design cooling capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design cooling capacity from user specified cooling capacity per floor area and floor area of the zone served by the HVAC unit. {FractionOfAutosizedCoolingCapacity} means the program calculates the design cooling capacity from user specified fraction and the auto-sized design cooling capacity. The default method is {CoolingDesignCapacity}.";
+		public static string Field_CoolingDesignCapacityW = @"Enter the magnitude of the cooling capacity in Watts. This input is an alternative to using the program auto-calculated cooling capacity value. This input is a required field when the Cooling Design Capacity Method is {CoolingDesignCapacity}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or alternative method is specified. This input field is autosizable. Design day sizing run must be specified.";
+		public static string Field_CoolingDesignCapacityPerFloorAreaWM2 = @"Enter the cooling capacity per unit floor area in m3/s-m2. This field is required field when the Cooling Design Capacity Method is {CapacityPerFloorArea}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design Capacity Method is not {CapacityPerFloorArea}. The program calculates the cooling capacity from floor area of the zone served by the zone HVAC equipment and the cooling capacity per unit floor area value specified by the user.";
+		public static string Field_FractionOfAutosizedCoolingDesignCapacity = @"Enter the cooling capacity as a fraction of the autosized cooling capacity. This input field is required when the Cooling Design Capacity Method is {FractionOfAutosizedCoolingCapacity}. This input field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design Capacity Method is not {FractionOfAutosizedCoolingCapacity}. The program calculates the cooling capacity from the design autosized cooling capacity and user specified fraction. Design day sizing run must be specified.";
+		public static string Field_HeatingDesignCapacityMethod = @"Enter the method used to determine the heating design capacity for scalable sizing. Input allowed is either {None}, {HeatingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedHeatingCapacity}. None is used when a heating coil is not included in the Zone HVAC equipment or this field may be left blank. If this input field is left blank, then the design heating capacity is set to zero. {HeatingDesignCapacity} means user specifies the magnitude of heating capacity or the program calculates the design heating capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design heating capacity from user specified heating capacity per floor area and floor area of the zone served by the HVAC unit. {FractionOfAutosizedHeatingCapacity} means the program calculates the design heating capacity from user specified fraction and the auto-sized design heating capacity. The default method is {HeatingDesignCapacity}.";
+		public static string Field_HeatingDesignCapacityW = @"Enter the magnitude of the heating capacity in Watts. This input is an alternative to using the program auto-calculated heating capacity value. This input is a required field when the Heating Design Capacity Method is {HeatingDesignCapacity}. This field may be left blank if a heating coil is not included in the zone HVAC equipment or alternative method is specified. This input field is autosizable. Design day sizing run must be specified.";
+		public static string Field_HeatingDesignCapacityPerFloorAreaWM2 = @"Enter the heating capacity per unit floor area in m3/s-m2. This field is required field when the Heating Design Capacity Method is {CapacityPerFloorArea}. This field may be left blank if a heating coil is not included in the zone HVAC equipment or the Heating Design Capacity Method is not {CapacityPerFloorArea}. The program calculates the heating capacity from floor area of the zone served by the zone HVAC equipment and the heating capacity per unit floor area value specified by the user.";
+		public static string Field_FractionOfAutosizedHeatingDesignCapacity = @"Enter the heating capacity as a fraction of the autosized heating capacity. This input field is required when the Heating Design Capacity Method is {FractionOfAutosizedHeatingCapacity}. This input field may be left blank if a heating coil is not included in the zone HVAC equipment or the Heating Design Capacity Method is not {FractionOfAutosizedHeatingCapacity}. The program calculates the heating capacity from the design autosized cooling capacity and user specified fraction. Design day sizing run must be specified.
+
+
+
+  DesignSpecification:ZoneHVAC:Sizing,
+      VRFDesignSpec1,          !- Name
+      SupplyAirFlowRate,       !- Cooling Design Air Flow Method
+      autosize,                !- Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Unit of Capacity {m3/s-W}
+      SupplyAirFlowRate,       !- Supply Air Flow Rate Method When No Cooling or Heating is Required
+      autosize,                !- Supply Air Flow Rate When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate Per Floor Area When No Clg or Htg is Required
+      ,                     !- Fraction of Autosized Design Cooling Supply Air Flow Rate When No Clg or Htg
+      ,                     !- Fraction of Autosized Design Heating Supply Air Flow Rate When No Clg or Htg
+      SupplyAirFlowRate,       !- Heating Design Air Flow Method
+      autosize,                !- Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Unit of Heating Capacity
+      CoolingDesignCapacity,   !- Cooling Design Capacity Method
+      autosize,                !- Cooling Design Capacity {W}
+      ,                        !- Cooling Design Capacity Per Floor Area {W/m2}
+      ,                        !- Fraction of Autosized Cooling Design Capacity {-}
+      HeatingDesignCapacity,   !- Heating Design Capacity Method
+      autosize,                !- Heating Design Capacity {W}
+      ,                        !- Heating Design Capacity Per Floor Area {W/m2}
+      ;                        !- Fraction of Autosized Cooling Design Capacity {-}
+
+    DesignSpecification:ZoneHVAC:Sizing,
+      VRFDesignSpec2,          !- Name
+      FlowPerFloorArea,        !- Cooling Design Air Flow Method
+      ,                        !- Cooling Design Supply Air Flow Rate
+      3.6311418E-03,           !- Cooling Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Unit of Capacity {m3/s-W}
+      FlowPerFloorArea,        !- Supply Air Flow Rate Method When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate When No Cooling or Heating is Required
+      3.6311418E-03,           !- Supply Air Flow Rate Per Floor Area When No Clg or Htg is Required
+      ,                     !- Fraction of Autosized Design Cooling Supply Air Flow Rate When No Clg or Htg
+      ,                     !- Fraction of Autosized Design Heating Supply Air Flow Rate When No Clg or Htg
+      FlowPerFloorArea,        !- Heating Design Air Flow Method
+      ,                        !- Heating Design Supply Air Flow Rate
+      3.6311418E-03,           !- Heating Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Unit of Heating Capacity
+      CoolingDesignCapacity,   !- Cooling Design Capacity Method
+      autosize,                !- Cooling Design Capacity {W}
+      ,                        !- Cooling Design Capacity Per Floor Area {W/m2}
+      ,                        !- Fraction of Autosized Cooling Design Capacity {-}
+      HeatingDesignCapacity,   !- Heating Design Capacity Method
+      autosize,                !- Heating Design Capacity {W}
+      ,                        !- Heating Design Capacity Per Floor Area {W/m2}
+      ;                        !- Fraction of Autosized Cooling Design Capacity {-}
+
+  DesignSpecification:ZoneHVAC:Sizing,
+      VRFDesignSpec3,          !- Name
+      FractionOfAutosizedCoolingAirflow,  !- Cooling Design Air Flow Method
+      ,                        !- Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Floor Area
+      0.5,                     !- Fraction of Autosized Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Unit of Capacity {m3/s-W}
+    FractionOfAutosizedCoolingAirflow, !- Supply Air Flow Rate Method When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate Per Floor Area When No Clg or Htg is Required
+      0.5,                 !- Fraction of Autosized Design Cooling Supply Air Flow Rate When No Clg or Htg
+      ,                    !- Fraction of Autosized Design Heating Supply Air Flow Rate When No Clg or Htg
+      FractionOfAutosizedHeatingAirflow,  !- Heating Design Air Flow Method
+      ,                        !- Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Floor Area
+      0.5,                     !- Fraction of Autosized Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Unit of Heating Capacity
+      CoolingDesignCapacity,   !- Cooling Design Capacity Method
+      autosize,                !- Cooling Design Capacity {W}
+      ,                        !- Cooling Design Capacity Per Floor Area {W/m2}
+      ,                        !- Fraction of Autosized Cooling Design Capacity {-}
+      HeatingDesignCapacity,   !- Heating Design Capacity Method
+      autosize,                !- Heating Design Capacity {W}
+      ,                        !- Heating Design Capacity Per Floor Area {W/m2}
+      ;                        !- Fraction of Autosized Cooling Design Capacity {-}
+
+  DesignSpecification:ZoneHVAC:Sizing,
+      VRFDesignSpec4,          !- Name
+      FlowPerCoolingCapacity,  !- Cooling Design Air Flow Method
+      ,                        !- Cooling Design Supply Air Flow Rate
+      ,                        !- Cooling Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Cooling Design Supply Air Flow Rate
+      2.9541628E-05,           !- Cooling Design Supply Air Flow Rate Per Unit of Capacity {m3/s-W}
+    FractionOfAutosizedHeatingAirflow, !- Supply Air Flow Rate Method When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate When No Cooling or Heating is Required
+      ,                        !- Supply Air Flow Rate Per Floor Area When No Clg or Htg is Required
+      ,                    !- Fraction of Autosized Design Cooling Supply Air Flow Rate When No Clg or Htg
+      0.413231177,         !- Fraction of Autosized Design Heating Supply Air Flow Rate When No Clg or Htg
+      FlowPerHeatingCapacity,  !- Heating Design Air Flow Method
+      ,                        !- Heating Design Supply Air Flow Rate
+      ,                        !- Heating Design Supply Air Flow Rate Per Floor Area
+      ,                        !- Fraction of Autosized Heating Design Supply Air Flow Rate
+      2.9541628E-05,           !- Heating Design Supply Air Flow Rate Per Unit of Heating Capacity
+      CoolingDesignCapacity,   !- Cooling Design Capacity Method
+      autosize,                !- Cooling Design Capacity {W}
+      ,                        !- Cooling Design Capacity Per Floor Area {W/m2}
+      ,                        !- Fraction of Autosized Cooling Design Capacity {-}
+      HeatingDesignCapacity,   !- Heating Design Capacity Method
+      autosize,                !- Heating Design Capacity {W}
+      ,                        !- Heating Design Capacity Per Floor Area {W/m2}
+      ;                        !- Fraction of Autosized Cooling Design Capacity {-}";
+	}
+	public static class DesignSpecificationAirTerminalSizing
+    { 
+		public static string Name = @"DesignSpecification:AirTerminal:Sizing";
+		public static string Note = @"This object modifies the sizing of an air loop terminal unit. It may be referenced by a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled object. The values specified here are applied to the base sizing results from the corresponding Sizing:Zone inputs. Any given DesignSpecification:AirTerminal:Sizing object may be used by multiple terminal units with similar characteristics.
+";
+	public static string Field_Name = @"Name of the design specification air terminal sizing object. This name may be referenced by a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled object.";
+		public static string Field_FractionOfDesignSensibleCoolingLoad = @"The fraction of the design sensible cooling load to be met by this terminal unit. This fraction is applied after the Zone Cooling Sizing Factor (see Sizing:Zone).";
+		public static string Field_CoolingDesignSupplyAirTemperatureDifferenceRatio = @"This ratio adjusts the supply air temperature difference used to calculate the cooling design supply air flow rate for this terminal unit.";
+		public static string Field_FractionOfDesignSensibleHeatingLoad = @"The fraction of the design sensible heating load to be met by this terminal unit. This fraction is applied after the Zone Heating Sizing Factor (see Sizing:Zone).";
+		public static string Field_HeatingDesignSupplyAirTemperatureDifferenceRatio = @"This ratio adjusts the supply air temperature difference used to calculate the heating design supply air flow rate for this terminal unit.";
+		public static string Field_FractionOfMinimumOutdoorAirFlow = @"The fraction of the zone minimum outdoor air requirement to be met by this terminal unit.
+
+An IDF example:
+
+
+
+  DesignSpecification:AirTerminal:Sizing,
+    Recirculation System A Terminal Sizing, !- Name
+????????0.6,                     !- Fraction of Design Cooling Load
+    0.8,                     !- Cooling Design Supply Air Temperature Difference Ratio
+????????1.0,                     !- Fraction of Design Heating Load
+    1.0,                     !- Heating Design Supply Air Temperature Difference Ratio
+????????0.0;                     !- Fraction of Minimum Outdoor Air Flow";
+	}
+	public static class SizingSystem
+    { 
+		public static string Name = @"Sizing:System";
+		public static string Note = @"The Sizing:System object contains the input needed to perform a central forced air system design air flow, heating capacity, and cooling capacity calculation for a system serving one or more zones. The information needed consists of the outside environmental conditions and the design supply air temperatures, outdoor air flow rate, and minimum system air flow ratio.
+
+The outside conditions come from the design days in the input. A system sizing calculation is performed for every design day in the input file and the resulting maximum heating and cooling air flow rates and capacities are saved for use in the component sizing calculations.
+
+Supply air conditions are specified by inputting a supply air temperature for cooling, a supply air temperature for heating, and a preheat temperature.
+
+The system sizing calculation sums the zone design air flow rates to obtain a system supply air flow rate. The design conditions and the outdoor air flow rate are used to calculate a design mixed air temperature. The temperature plus the design supply air temperatures allows the calculation of system design heating and cooling capacities.
+";
+	public static string Field_AirLoopName = @"The name of the AirLoopHVAC corresponding to this Sizing:System object. This is the air system for which the design calculation will be made using the input data of this Sizing:System Object.";
+		public static string Field_TypeOfLoadToSizeOn = @"The user specified type of load on which to size the central system. The choices are {Sensible}, {Total} and {VentilationRequirement}. {Sensible} and {Total} mean that the central system supply air flow rate will be determined by combining the zone design air flow rates, which have been calculated to meet the zone sensible loads from the design days. {VentilationRequirement} means that the central system supply air flow rate will be determined by the system ventilation requirement. In addition {Sensible} tells the program to size the central cooling coil using entering air flow rate and air conditions at the sensible load peak; {Total} indicates that the program should size the central cooling coil at the air flow rate and conditions at the total load peak. The central heating coil is always sized at the conditions at the peak sensible heating load.";
+		public static string Field_DesignOutdoorAirFlowRate = @"The design outdoor air flow rate in cubic meters per second. Generally this should be the minimum outdoor air flow. It is used for both heating and cooling design calculations. The assumption for cooling is that any outdoor air economizer will be closed. If {Autosize} is input the outdoor air flow rate will be taken from the sum of the zone outdoor air flow rates or calculated based on the System Outdoor Air Method selection (field below).";
+		public static string Field_CentralHeatingMaximumSystemAirFlowRatio = @"The ratio of the maximum system air flow rate for heating to the maximum system air flow rate. The value must be between 0 and 1. For constant volume systems the ratio should be set to 1. This ratio should be set to reflect what the user expects the system flow rate to be when maximum heating demand occurs. This ratio is used in calculating the central system heating capacity. Thus if the system is VAV with the zone VAV dampers held at minimum flow when there is a zone heating demand, this ratio should be set to the minimum flow ratio. If the zone VAV dampers are reverse action and can open to full flow to meet heating demand, this ratio should be set to 1. The default is set to 0.5, reflecting the fact that VAV dampers are typically not allowed to fully open during heating.
+
+This field can be set to {AutoSize}.  When automatically calculated, the ratio is determined from the system heating design flow rate divided by the main (which is usually the max of heating and cooling design flow rates) design flow rate.  The design flow rates are also adjusted to be more accurate by examining each of the air terminals attached to the air system and summing the heating and maximum flow rates.";
+		public static string Field_PreheatDesignTemperature = @"The design air temperature exiting the preheat coil (if any) in degrees Celsius.";
+		public static string Field_PreheatDesignHumidityRatio = @"The design humidity ratio exiting the preheat coil (if any) in kilograms of water per kilogram of dry air. (kgWater/kgDryAir)";
+		public static string Field_PrecoolDesignTemperature = @"The design air temperature exiting the precooling coil (if any) in degrees Celsius.";
+		public static string Field_PrecoolDesignHumidityRatio = @"The design humidity ratio exiting the precooling coil (if any) in kilograms of water per kilogram of dry air. (kgWater/kgDryAir)";
+		public static string Field_CentralCoolingDesignSupplyAirTemperature = @"The design supply air temperature for cooling in degrees Celsius. This should be the temperature of the air exiting the central cooling coil.";
+		public static string Field_CentralHeatingDesignSupplyAirTemperature = @"The design supply air temperature for heating in degrees Celsius. This can be either the reset temperature for a single duct system or the actual hot duct supply air temperature for dual duct systems. It should be the temperature at the exit of the main heating coil. This value is also used for the sizing of zone equipment (e.g., reheat coil) for the system embedded with central heating coils, but it is not used if there is no central heating coil in the system.";
+		public static string Field_TypeOfZoneSumToUse = @"If the input is {coincident} the central system air flow rate will be sized on the sum of the coincident zone air flow rates. If the input is {noncoincident} the central system air flow rate will be sized on the sum of the noncoincident zone air flow rates. The default is noncoincident.";
+		public static string Field_100OutdoorAirInCooling = @"Entering {Yes} means the system will be sized for cooling using 100% outdoor air. Entering {No} means the system will be sized for cooling using minimum outside air (the default).";
+		public static string Field_100OutdoorAirInHeating = @"Entering {Yes} means the system will be sized for heating using 100% outdoor air. Entering {No} means the system will be sized for heating using minimum outside air (the default).";
+		public static string Field_CentralCoolingDesignSupplyAirHumidityRatio = @"The design humidity ratio in kilograms of water per kilogram of dry air at the exit of the central cooling coil. The default is 0.008 (kgWater/kgDryAir).";
+		public static string Field_CentralHeatingDesignSupplyAirHumidityRatio = @"The design humidity ratio in kilograms of water per kilogram of dry air at the exit of the central heating coil. This value is also used for the sizing of zone equipment (e.g., reheat coil) for the system embedded with central heating coils, but it is not used if there is no central heating coil in the system. The default is 0.008 (kgWater/kgDryAir).";
+		public static string Field_CoolingSupplyAirFlowRateMethod = @"The input of this field must be the method used to determine the airloop cooling supply air volume flow rate. The input must be either, {DesignDay}, {Flow/System,} {FlowPerFloorArea}, {FractionOfAutosizedCoolingAirflow}, or {FlowPerCoolingCapacity}. {DesignDay} means the program will calculate the system design cooling supply air volume flow rate using the System Sizing input data and a design day simulation. {Flow/System} means that the program will use the input of the field {Cooling Design Air Flow Rate} as the system design cooling supply air volume flow rate. {FlowPerFloorArea} means the program calculates the cooling supply air volume flow rate from zone floor area served by the airloop and user specified {Flow Per Floor Area} value. {FractionOfAutosizedCoolingAirflow} means the program calculates the cooling supply air volume flow rate from user specified fraction and the autosized design cooling supply air volume flow rate value determined by the simulation. {FlowPerCoolingCapacity} means the supply air volume is calculated from user specified flow per cooling capacity and design cooling capacity determined by the simulation. The default method is {DesignDay}: i.e., the program uses the calculated design values.";
+		public static string Field_CoolingSupplyAirFlowRate = @"The design system cooling air flow rate in cubic meters per second. This input is an alternative to using the program autocalculated value. This input is used if Coolingi Supply Air Flow Rate Method is Flow/System. This value will {not} be multiplied by any sizing factor or by zone multipliers. If using zone multipliers, this value must be large enough to serve the multiplied zones.";
+		public static string Field_CoolingSupplyAirFlowRatePerFloorAreaM3SM2 = @"Enter the cooling supply air volume flow rate per zone conditioned floor area in m3/s-m2. This field is required field when the Cooling Supply Air Flow Rate Method is {FlowPerFloorArea}. This field may be left blank if a cooling coil is not included in the airloop or the Cooling Supply Air Flow Rate Method is not {FlowPerFloorArea}. The program calculates the cooling supply air volume flow rate from the cooled floor area served by the air loop and the {Flow Per Unit Area} value specified by the user.";
+		public static string Field_CoolingFractionOfAutosizedCoolingDesignSupplyAirFlowRate = @"Enter the cooling supply air volume flow rate as a fraction of the airloop autosized cooling supply air flow rate. This input field is required when the Cooling Supply Air Flow Rate Method is {FractionOfAutosizedCoolingAirflow}. This input field may be left blank if a cooling coil is not included in the airloop or the Cooling Supply Air Flow Rate Method is not {FractionOfAutosizedCoolingAirflow}. The program calculates the cooling supply air volume flow rate from the design autosized cooling supply air flow rate and user specified fraction.";
+		public static string Field_CoolingSupplyAirFlowRatePerUnitCoolingCapacityM3SW = @"Enter the cooling supply air volume flow rate per unit cooling capacity in m3/s-W. This input field is required when the Cooling Supply Air Flow Rate Method is {FlowPerCoolingCapacity}. This field may be left blank if a cooling coil is not included in the airloop or the Cooling Supply Air Flow Rate Method is not {FlowPerCoolingCapacity}. The program calculates the airloop cooling supply air volume flow rate from the design autosized cooling capacity and user specified {Flow Per Cooling Capacity} value.";
+		public static string Field_HeatingSupplyAirFlowRateMethod = @"The input of this field must be the method used to determine the airloop heating supply air volume flow rate. The input must be either, {DesignDay}, {Flow/System,} {FlowPerFloorArea}, {FractionOfAutosizedHeatingAirflow}, {FractionOfAutosizedCoolingAirflow} or {FlowPerHeatingCapacity}. {DesignDay} means the program will calculate the system design heating supply air volume flow rate using the System Sizing input data and a design day simulation. {Flow/System} means that the program will use the input of the field {Heating Design Air Flow Rate} as the system design heating supply air volume flow rate. {FlowPerFloorArea} means the program calculates the system heating supply air volume flow rate from zone floor area served by the airloop and user specified {Flow Per Floor Area} value. {FractionOfAutosizedHeatingAirflow} means the program calculates the system heating supply air volume flow rate from user specified fraction and the autosized system design heating supply air volume flow rate value determined by the simulation. {FractionOfAutosizedCoolingAirflow} means the program calculates the system heating supply air volume flow rate from user specified fraction and the autosized system design cooling supply air volume flow rate value determined by the simulation. {FlowPerHeatingCapacity} means the system heating supply air volume is calculated from user specified flow per heating capacity and design heating capacity determined by the simulation. The default method is {DesignDay}: i.e., the program uses the calculated design values.";
+		public static string Field_HeatingSupplyAirFlowRate = @"The design system heating air flow rate in cubic meters per second. This input is an alternative to using the program autocalculated value. This input is used if Heating Supply Air Flow Rate Method is Flow/System. This value will {not} be multiplied by any sizing factor or by zone multipliers. If using zone multipliers, this value must be large enough to serve the multiplied zones.";
+		public static string Field_HeatingSupplyAirFlowRatePerFloorAreaM3SM2 = @"Enter the heating supply air volume flow rate per zone conditioned floor area in m3/s-m2. This field is required field when the Heating Supply Air Flow Rate Method is {FlowPerFloorArea}. This field may be left blank if a heating coil is not included in the airloop or the Heating Supply Air Flow Rate Method is not {FlowPerFloorArea}. The program calculates the heating supply air volume flow rate from the heated or cooled floor area served by the air loop and the {Flow Per Unit Area} value specified by the user.";
+		public static string Field_HeatingFractionOfAutosizedHeatingSupplyAirFlowRate = @"Enter the heating supply air volume flow rate as a fraction of the airloop autosized heating supply air flow rate. This input field is required when the Heating Supply Air Flow Rate Method is {FractionOfAutosizedHeatingAirflow}. This input field may be left blank if heating coil is not included in the airloop or the Heating Supply Air Flow Rate Method is not {FractionOfAutosizedHeatingAirflow}. The program calculates the heating supply air volume flow rate from the design autosized heating supply air flow rate and user specified fraction.";
+		public static string Field_HeatingFractionOfAutosizedCoolingSupplyAirFlowRate = @"Enter the heating supply air volume flow rate as a fraction of the airloop autosized cooling supply air flow rate. This input field is required when the Heating Supply Air Flow Rate Method is {FractionOfAutosizedCoolingAirflow}. This input field may be left blank if heating coil is not included in the airloop or the Heating Supply Air Flow Rate Method is not {FractionOfAutosizedCoolingAirflow}. The program calculates the heating supply air volume flow rate from the design autosized cooling supply air flow rate and user specified fraction.";
+		public static string Field_HeatingDesignSupplyAirFlowRatePerUnitHeatingCapacityM3SW = @"Enter the heating supply air volume flow rate per unit heating capacity in m3/s-W. This input field is required when the Heating Design air Flow Method is {FlowPerCoolingCapacity}. This field may be left blank if a heating coil is not included in the airloop or the Heating Design air Flow Method is not {FlowPerHeatingCapacity}. The program calculates the airloop heating supply air volume flow rate from the design autosized heating capacity and user specified {Flow Per Heating Capacity} value.";
+		public static string Field_SystemOutdoorAirMethod = @"The method used to calculate the system minimum outdoor air flow. The two choices are ZoneSum and VentilationRateProcedure (VRP). ZoneSum sums the outdoor air flows across all zones served by the system. VRP uses the multi-zone equations defined in 62.1-2007 to calculate the system outdoor air flow. VRP considers zone air distribution effectiveness and zone diversification of outdoor air fractions. VRP may also adjust autosized air terminal maximum and minimum supply flow rates if needed to ensure adequate outdoor air flow rate to each zone.";
+		public static string Field_ZoneMaximumOutdoorAirFraction = @"This positive numeric input is the zone maximum outdoor air fraction. For an air loop, when a zone requires outdoor air higher than the user specified Zone Maximum Outdoor Air Fraction, the zone supply air flow will be increased to cap the outdoor air fraction at the maximum value. This allows the system level outdoor air flow to be reduced while the total supply air flow increases. Valid values are from 0 to 1.0. Default is 1.0 which indicates zones can have 100% outdoor air maintaining backward compatibility. This inputs work for constant volume air systems, single and dual duct VAV systems.";
+		public static string Field_CoolingDesignCapacityMethod = @"Enter the method used to determine the cooling design capacity for scalable sizing. Input allowed is either {None}, {CoolingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedCoolingCapacity}. None is used when a cooling coil is not included in the airloop. If this input field is left blank, or None is specified, then the autosized design cooling capacity determined by the program is used. {CoolingDesignCapacity} means user specifies the magnitude of cooling capacity or the program calculates the design cooling capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design cooling capacity from user specified cooling capacity per floor area and floor area of the zones served by the airloop. {FractionOfAutosizedCoolingCapacity} means the program calculates the design cooling capacity from user specified fraction and the auto-sized design cooling capacity. If the value this input field is blank or specified as None, then the next three input fields are not required. The default method is {CoolingDesignCapacity}.";
+		public static string Field_CoolingDesignCapacityW = @"Enter the magnitude of the cooling capacity in Watts. This input is an alternative to using the program auto-calculated cooling capacity value. This input is a required field when the Cooling Design Capacity Method is {CoolingDesignCapacity}. This field may be left blank if a cooling coil is not included in the air loop or alternative method is specified. This input field is autosizable.";
+		public static string Field_CoolingDesignCapacityPerFloorAreaWM2 = @"Enter the cooling capacity per unit floor area in m3/s-m2. This field is required field when the Cooling Design Capacity Method is {CapacityPerFloorArea}. This field may be left blank if a cooling coil is not included in the airloop or the Cooling Design Capacity Method is not {CapacityPerFloorArea}. The program calculates the cooling capacity from floor area of the zones served by the airloop and the cooling capacity per unit floor area value specified by the user.";
+		public static string Field_FractionOfAutosizedCoolingDesignCapacity = @"Enter the cooling capacity as a fraction of the autosized cooling capacity. This input field is required when the Cooling Design Capacity Method is {FractionOfAutosizedCoolingCapacity}. This input field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design Capacity Method is not {FractionOfAutosizedCoolingCapacity}. The program calculates the cooling capacity from the design autosized cooling capacity and user specified fraction. Design day sizing run must be specified.";
+		public static string Field_HeatingDesignCapacityMethod = @"Enter the method used to determine the heating design capacity for scalable sizing. Input allowed is either {None}, {HeatingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedHeatingCapacity}. {None} is used when a heating coil is not included in the airloop. If this input field is left blank, then the autosized design heating capacity determined by the program is used. {HeatingDesignCapacity} means user specifies the magnitude of heating capacity or the program calculates the design heating capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design heating capacity from user specified heating capacity per floor area and floor area of the zones served by the airllop. {FractionOfAutosizedHeatingCapacity} means the program calculates the design heating capacity from user specified fraction and the auto-sized design heating capacity. If the value this input field is blank or specified as None, then the next three input fields are not required. The default method is {HeatingDesignCapacity}.";
+		public static string Field_HeatingDesignCapacityW = @"Enter the magnitude of the heating capacity in Watts. This input is an alternative to using the program auto-calculated heating capacity value. This input is a required field when the Heating Design Capacity Method is {HeatingDesignCapacity}. This field may be left blank if a heating coil is not included in the airloop or alternative method is specified. This input field is autosizable.";
+		public static string Field_HeatingDesignCapacityPerFloorAreaWM2 = @"Enter the heating capacity per unit floor area in m3/s-m2. This field is required field when the Heating Design Capacity Method is {CapacityPerFloorArea}. This field may be left blank if a heating coil is not included in the airloop or the Heating Design Capacity Method is not {CapacityPerFloorArea}. The program calculates the heating capacity from floor area of the zones served by the airloop and the heating capacity per unit floor area value specified by the user.";
+		public static string Field_FractionOfAutosizedHeatingDesignCapacity = @"Enter the heating capacity as a fraction of the autosized heating capacity. This input field is required when the Heating Design Capacity Method is FractionOfAutosizedHeatingCapacity. This input field may be left blank if heating coil is not included in the airloop or the Heating Design Capacity Method is not FractionOfAutosizedHeatingCapacity. The program calculates the heating capacity from the design autosized cooling capacity and user specified fraction.";
+		public static string Field_CentralCoolingCapacityControlMethod = @"Specifies how the central cooling coil will be controlled, which affects the coil sizing calculation. There are 4 choices: VAV, Bypass, VT, and OnOff. Choose VAV if the cooling output is controlled by varying the air flow. Bypass should be chosen if the capacity is controlled by bypassing a variable fraction of the mixed air around the coil face. VT indicates that cooling coil output is controlled by varying the coil exit temperature while the flow rate is constant. And OnOff means that the cooling output is controlled by cycling the air flow.
+
+An IDF example:
+
+
+
+Sizing:System,
+  VAV Sys 1,               !- AirLoop Name
+  sensible,                !- Type of Load to Size On
+  autosize,                !- Design Outdoor Air Flow Rate {m3/s}
+  0.3,                     !- Minimum System Air Flow Ratio
+  4.5,                     !- Preheat Design Temperature {C}
+  .008,                    !- Preheat Design Humidity Ratio {kgWater/kgDryAir}
+  11.0,                    !- Precool Design Temperature {C}
+  .008,                    !- Precool Design Humidity Ratio {kgWater/kgDryAir}
+  12.8,                    !- Central Cooling Design Supply Air Temperature {C}
+  16.7,                    !- Central Heating Design Supply Air Temperature {C}
+  noncoincident,           !- Sizing Option
+  no,                      !- 100% Outdoor Air in Cooling
+  no,                      !- 100% Outdoor Air in Heating
+  0.008,                   !- Central Cooling Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+  0.008,                   !- Central Heating Design Supply Air Humidity Ratio {kgWater/kgDryAir}
+  designday,               !- Cooling Supply Air Flow Rate Method
+  0,                       !- Cooling Supply Air Flow Rate {m3/s}
+  ,                        !- Cooling Supply Air Flow Rate Per Floor Area {m3/s-m2}
+  ,                        !- Cooling Fraction of Autosized Cooling Supply Air Flow Rate {-}
+  ,                        !- Cooling Supply Air Flow Rate Per Unit Cooling Capacity {m3/s-W}
+  designday,               !- Heating Supply Air Flow Rate Method
+  0,                       !- Heating Supply Air Flow Rate {m3/s}
+  ,                        !- Heating Supply Air Flow Rate Per Floor Area {m3/s-m2}
+  ,                        !- Heating Fraction of Autosized Heating Supply Air Flow Rate {-}
+  ,                        !- Heating Fraction of Autosized Cooling Supply Air Flow Rate {-}
+  ,                        !- Heating Supply Air Flow Rate Per Unit Heating Capacity {m3/s-W}
+  ZoneSum,                 !- System Outdoor Air Method
+  0.5,                     !- Zone Maximum Outdoor Air Fraction
+  CoolingDesignCapacity,   !- Cooling Design Capacity Method
+  autosize,                !- Cooling Design Capacity {W}
+  ,                        !- Cooling Design Capacity Per Floor Area {W/m2}
+  ,                        !- Fraction of Autosized Cooling Design Capacity {-}
+  HeatingDesignCapacity,   !- Heating Design Capacity Method
+  autosize,                !- Heating Design Capacity {W}
+  ,                        !- Heating Design Capacity Per Floor Area {W/m2}
+  ;                        !- Fraction of Autosized Cooling Design Capacity {-}";
+	}
+	public static class SizingPlant
+    { 
+		public static string Name = @"Sizing:Plant";
+		public static string Note = @"The Sizing:Plant object contains the input needed for the program to calculate plant loop flow rates and equipment capacities when autosizing. This information is initially used by components that use water for heating or cooling such as hot or chilled water coils to calculate their maximum water flow rates. These flow rates are then summed for use in calculating the Plant Loop flow rates.
+
+The program will size any number of chilled water, hot water, condenser water and other plant loops. There should be one Sizing:Plant object for each plant loop that is to be autosized.
+";
+	public static string Field_PlantOrCondenserLoopName = @"The name of a Plant Loop or Condenser Loop object corresponding to this Sizing:Plant object. This is the plant loop for which this data will be used for calculating the loop flow rate.";
+		public static string Field_LoopType = @"The possible inputs are {Heating, Steam, Cooling,} or {Condenser}.";
+		public static string Field_DesignLoopExitTemperature = @"The water temperature in degrees Celsius at the exit of the supply side of the plant loop, Thus this is the temperature of the water supplied to the inlet of chilled or hot water coils and other equipment that places loads on a plant loop.";
+		public static string Field_LoopDesignTemperatureDifference = @"The design temperature rise (for cooling or condenser loops) or fall (for heating loops) in degrees Celsius across the demand side of a plant loop.~ This temperature difference is used by component models to determine flow rates required to meet design capacities.~ Larger values lead to smaller design flow rates.";
+		public static string Field_SizingOption = @"This field is optional. This field controls how concurrence issues impact the plant loop design flow rate. If it is not used then the program uses noncoincident method, which is the historical behavior prior to version 8.3. There are two choices, noncoincident and coincident. The use of Coincident sizing option requires that the SimulationControl object be set to YES for the input field called Do HVAC Sizing Simulation for Sizing Periods.";
+		public static string Field_ZoneTimestepsInAveragingWindow = @"This field is optional and is only used if the preceding field is set to Coincident. This is the number of zone timesteps used in a moving average to determine the design flow rate from HVAC Sizing Simulation approach. This allows using a broader average over time when using coincident plant sizing. This is similar in concept to the similar field in Sizing:Parameters which specifies the averaging window for zone loads. The default is 1.";
+		public static string Field_CoincidentSizingFactorMode = @"This field is only used if the sizing option is set to Coincident. This field controls the behavior of coincident sizing with respect to what, if any, sizing factor should be applied to further modify the flow rate measured while running HVAC Sizing Simulations. There are four options. Enter the keword None to use the raw value for flow rate without modification. Enter the keyword GlobalHeatingSizingFactor to modify the flow by the sizing factor entered in the object called Sizing:Parameters for heating. Enter the keyword GlobalCoolingSizingFactor to modify the flow by the sizing factor entered in the object called Sizing:Parameters for cooling. Enter the keyword LoopComponentSizingFactor to modify the flow by a sizing factor determined from the combination of component-level sizing factors in the associated plant loop.
+
+An IDF example:
+
+
+
+Sizing:Plant,
+     Chilled Water Loop, ! name of loop
+     Cooling,            ! type of loop
+     7.22,               ! chilled water supply temperature
+     6.67,               ! chilled water delta T
+  NonCoincident,      !- Sizing Option
+  1,                  !- Zone Timesteps in Averaging Window
+  GlobalCoolingSizingFactor; !- Coincident Sizing Factor Mode";
+	}
 	public static class FanSystemModel
     { 
 		public static string Name = @"Fan:SystemModel";
