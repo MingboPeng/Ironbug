@@ -56,21 +56,31 @@ namespace Ironbug.HVAC
 
             return newObj;
         }
-        
 
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    //Duplicate self;
-        //    var newObj = base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
+        public override IB_HVACObject Duplicate()
+        {
+            //Duplicate self;
+            var newObj = base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
 
-        //    //Duplicate child member;
-        //    var newCtrl = (IB_ControllerOutdoorAir)this.ControllerOutdoorAir.Duplicate();
+            //Duplicate child member;
+            var newCtrl = (IB_ControllerOutdoorAir)this.ControllerOutdoorAir.Duplicate();
 
-        //    //add new child member to new object;
-        //    newObj.SetController(newCtrl);
+            //add new child member to new object;
+            newObj.SetController(newCtrl);
 
-        //    return newObj;
-        //}
+            foreach (var item in this.ReliefStreamObjs)
+            {
+                newObj.ReliefStreamObjs.Add(item.Duplicate());
+            };
+
+            foreach (var item in this.OAStreamObjs)
+            {
+                newObj.OAStreamObjs.Add(item.Duplicate());
+            };
+
+
+            return newObj;
+        }
 
         //public override ModelObject ToOS(Model model)
         //{

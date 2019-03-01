@@ -201,7 +201,7 @@ namespace Ironbug.Grasshopper.Component
                         object value = null;
                         fristData.CastTo(out value);
 
-                        if (dataField.ValidData.Any())
+                        if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
                         {
                             var valueStr = value.ToString();
                             if (!dataField.ValidData.Contains(valueStr))

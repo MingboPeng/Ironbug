@@ -59,7 +59,16 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
                 for (int i = 0; i < amount; i++)
                 {
-                    var puppet = obj.Duplicate();
+                    HVAC.BaseClass.IB_ModelObject puppet = null;
+                    if (obj is HVAC.BaseClass.IB_HVACObject hvacObj)
+                    {
+                        puppet = hvacObj.Duplicate();
+                    }
+                    else
+                    {
+                        puppet = obj.Duplicate();
+                    }
+                     obj.Duplicate();
                     puppet.SetTrackingID();
                     puppets.Add(puppet);
                 }
