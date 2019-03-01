@@ -1,4 +1,5 @@
-﻿using Grasshopper.GUI.Canvas;
+﻿//using Grasshopper.GUI;
+using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Attributes;
 using System.Drawing;
@@ -20,15 +21,11 @@ namespace Ironbug.Grasshopper.Component
                 
                 var mode = Ironbug_HVACComponentBase.DisplayMode;
                 if (mode == 0) return;
-
-
-                if (GH_Canvas.ZoomFadeMedium ==255)
-                {
-                    var name = mode == 1 ? this.Owner.NickName : this.Owner.Name.Replace("Ironbug_", "");
-                    this.DrawComName(graphics, this.Bounds, name);
-                }
+                if (GH_Canvas.ZoomFadeMedium <5) return;
                 
-
+                var name = mode == 1 ? this.Owner.NickName : this.Owner.Name.Replace("Ironbug_", "");
+                this.DrawComName(graphics, this.Bounds, name);
+                
             }
         }
         
@@ -45,11 +42,20 @@ namespace Ironbug.Grasshopper.Component
             Font standardFontAdjust = GH_FontServer.NewFont(GH_FontServer.Standard, sz);
             
             int fontWidth = GH_FontServer.StringWidth(name, standardFontAdjust);
+            int recWidth = (int)bounds.Width - 6;
 
-            graphics.DrawString(name, standardFontAdjust, new SolidBrush(Color.Black), new PointF(bounds.Left + bounds.Width/2 - fontWidth/2, (float)y));
+            recWidth = System.Math.Max(fontWidth + 4, recWidth);
 
-          
+            var rec = new Rectangle((int)(bounds.X+(bounds.Width/2-recWidth/2)), (int)bounds.Y-15, recWidth, 15);
+            
+            graphics.FillRectangle(new SolidBrush(Color.FromArgb(GH_Canvas.ZoomFadeMedium,50, 50,50)),rec);
+            
+            SolidBrush solidBrush = new SolidBrush(Color.FromArgb(GH_Canvas.ZoomFadeMedium, 248, 248, 248));
+            graphics.DrawString(name, standardFontAdjust, solidBrush, new PointF(bounds.Left + bounds.Width/2 - fontWidth/2, (float)y));
 
+            standardFontAdjust.Dispose();
+            solidBrush.Dispose();
+            
         }
         
     }
