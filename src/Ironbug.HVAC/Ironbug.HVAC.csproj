@@ -78,6 +78,9 @@
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantConstFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDesuperheater.cs" />
     <Compile Include="LoopObjs\IB_ControllerMechanicalVentilation.cs" />
+    <Compile Include="LoopObjs\IB_GroundHeatExchangerHorizontalTrench.cs" />
+    <Compile Include="LoopObjs\IB_GroundHeatExchangerVertical.cs" />
+    <Compile Include="LoopObjs\IB_HeatExchangerFluidToFluid.cs" />
     <Compile Include="LoopObjs\IB_PipeOutdoor.cs" />
     <Compile Include="LoopObjs\IB_PipeAdiabatic.cs" />
     <Compile Include="LoopObjs\IB_Duct.cs" />

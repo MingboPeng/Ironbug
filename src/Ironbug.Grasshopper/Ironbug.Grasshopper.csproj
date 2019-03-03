@@ -94,6 +94,8 @@
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
     <Compile Include="Component\Ironbug\Ironbug_NoAirLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerMechanicalVentilation.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACTemplate.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeAdiabatic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeOutdoor.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
@@ -536,6 +539,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SetPointDualScheduled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSHPV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSHPH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HXFluid.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
