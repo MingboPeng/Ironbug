@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACPackagedTerminalAirConditioner : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACPackagedTerminalAirConditioner : Ironbug_HVACComponent
     {
         public Ironbug_ZoneHVACPackagedTerminalAirConditioner()
           : base("Ironbug_ZoneHVACPackagedTerminalAirConditioner", "PTAC",

@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HVACSystem : GH_Component
+    public class Ironbug_HVACSystem : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SaveOSModel class.

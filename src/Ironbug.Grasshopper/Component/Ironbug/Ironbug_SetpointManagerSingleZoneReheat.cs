@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerSingleZoneReheat : GH_Component
+    public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_Component
     {
         public Ironbug_SetpointManagerSingleZoneReheat()
           : base("Ironbug_SetpointManagerSingleZoneReheat", "SpSZReheat",

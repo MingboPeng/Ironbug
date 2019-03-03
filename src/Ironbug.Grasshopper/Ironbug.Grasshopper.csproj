@@ -88,6 +88,7 @@
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
@@ -140,7 +141,7 @@
     <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
-    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_HVACComponentBase.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_HVACComponent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />

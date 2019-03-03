@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerOutdoorAirReset : GH_Component
+    public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.

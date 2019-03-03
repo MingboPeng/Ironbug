@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingLowTempRadiantVarFlow : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingLowTempRadiantVarFlow : Ironbug_HVACComponent
     {
         public Ironbug_CoilHeatingLowTempRadiantVarFlow()
           : base("Ironbug_CoilHeatingLowTempRadiantVarFlow", "CoilHW_LTRV",

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ImportOSM : GH_Component
+    public class Ironbug_ImportOSM : Ironbug_Component
     {
         public Ironbug_ImportOSM()
           : base("Ironbug_ImportOSM", "ImportOSM",

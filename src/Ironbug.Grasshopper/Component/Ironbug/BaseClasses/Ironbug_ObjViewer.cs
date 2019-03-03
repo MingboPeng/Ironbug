@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ObjViewer : GH_Component
+    public class Ironbug_ObjViewer : Ironbug_Component
     {
         protected override System.Drawing.Bitmap Icon => Properties.Resources.ObjViewer;
 

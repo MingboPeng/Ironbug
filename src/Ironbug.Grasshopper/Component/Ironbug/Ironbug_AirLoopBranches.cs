@@ -7,12 +7,11 @@ using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 using Grasshopper;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopBranches : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_AirLoopBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirLoopBranches class.

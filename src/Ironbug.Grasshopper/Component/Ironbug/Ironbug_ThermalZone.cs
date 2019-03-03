@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ThermalZone : Ironbug_HVACComponentBase
+    public class Ironbug_ThermalZone : Ironbug_HVACComponent
     {
         private bool _firstRun = true;
 
@@ -263,7 +263,7 @@ for HBID in HBIDs:
         private void WatchPuppetStates()
         {
             var ATorZE = this.Params.Input.Where(input => input.Name == "AirTerminal" || input.Name == "ZoneEquipments");
-            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_ => _.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponentBase);
+            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_ => _.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponent);
             var ibobjs = sources.Select(
                 _ =>
                 {

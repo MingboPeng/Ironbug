@@ -5,7 +5,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACFourPipeFanCoil : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACFourPipeFanCoil : Ironbug_HVACComponent
     {
         
         public Ironbug_ZoneHVACFourPipeFanCoil()

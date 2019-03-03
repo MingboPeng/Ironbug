@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : GH_Component
+    public class Ironbug_SaveOSModel : Ironbug_Component
     {
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
         public override Guid ComponentGuid => new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1");

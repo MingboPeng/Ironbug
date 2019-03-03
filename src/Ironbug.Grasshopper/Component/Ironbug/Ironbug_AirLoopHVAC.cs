@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopHVAC : GH_Component
+    public class Ironbug_AirLoopHVAC : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirLoopHVAC class.

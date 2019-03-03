@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop_HW : Ironbug_HVACComponentBase
+    public class Ironbug_PlantLoop_HW : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_PlantLoop class.

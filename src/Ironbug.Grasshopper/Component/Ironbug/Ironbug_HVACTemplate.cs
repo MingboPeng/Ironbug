@@ -1,6 +1,5 @@
 ﻿using Grasshopper.Kernel;
 using System;
-using Grasshopper.Kernel.Special;
 using GH = Grasshopper;
 using System.Drawing;
 using System.IO;
@@ -10,7 +9,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HVACTemplate : GH_Component
+    public class Ironbug_HVACTemplate : Ironbug_Component
     {
         List<string> folderList = new List<string>();
         List<List<string>> filesList = new List<List<string>>();

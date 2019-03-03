@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACEnergyRecoveryVentilator : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACEnergyRecoveryVentilator : Ironbug_HVACComponent
     {
         
         public Ironbug_ZoneHVACEnergyRecoveryVentilator()

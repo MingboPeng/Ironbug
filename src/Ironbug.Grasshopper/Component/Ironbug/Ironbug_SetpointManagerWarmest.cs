@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerWarmest : GH_Component
+    public class Ironbug_SetpointManagerWarmest : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.

@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanVariableVolume : Ironbug_HVACComponentBase
+    public class Ironbug_FanVariableVolume : Ironbug_HVACComponent
     {
 
         /// <summary>

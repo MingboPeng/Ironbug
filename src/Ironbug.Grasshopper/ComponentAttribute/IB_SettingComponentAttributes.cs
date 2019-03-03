@@ -1,12 +1,10 @@
 ﻿using Grasshopper.GUI;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Attributes;
-using System.Drawing;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class IB_SettingComponentAttributes : GH_ComponentAttributes
+    public class IB_SettingComponentAttributes : IB_ComponentAttributes
     {
         public IB_SettingComponentAttributes(GH_Component component):base(component)
         {

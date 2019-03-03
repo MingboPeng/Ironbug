@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACComponentBase
+    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACComponent
     {
         public Ironbug_AirTerminalSingleDuctVAVNoReheat()
           : base("Ironbug_AirTerminalSingleDuctVAVNoReheat", "VAVNoReheat",

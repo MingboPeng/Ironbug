@@ -6,11 +6,10 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantBranches : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_PlantBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.

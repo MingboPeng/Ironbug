@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : GH_Component
+    public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.

@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveLinear : Ironbug_HVACComponentBase
+    public class Ironbug_CurveLinear : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.

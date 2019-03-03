@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class IB_ComponentAttributes : GH_ComponentAttributes
     {
-        public IB_ComponentAttributes(Ironbug_HVACComponentBase component):base(component)
+        public IB_ComponentAttributes(GH_Component component) : base(component)
         {
         }
         
@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
             if (channel == GH_CanvasChannel.Objects)
             {
                 
-                var mode = Ironbug_HVACComponentBase.DisplayMode;
+                var mode = Ironbug_HVACComponent.DisplayMode;
                 if (mode == 0) return;
                 if (GH_Canvas.ZoomFadeMedium <5) return;
                 

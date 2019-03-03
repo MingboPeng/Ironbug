@@ -83,9 +83,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             if (this.Params.Input[0].Sources.Count == 0) return;
 
             var refComponent = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
-            if (!(refComponent is Ironbug_HVACComponentBase)) return;
+            if (!(refComponent is Ironbug_HVACComponent)) return;
 
-            var component = refComponent as Ironbug_HVACComponentBase;
+            var component = refComponent as Ironbug_HVACComponent;
             var secondParam = this.Params.Output[1];
 
             if (component.Params.Output.Count > 1)

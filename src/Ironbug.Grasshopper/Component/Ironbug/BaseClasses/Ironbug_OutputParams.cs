@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OutputParams : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_OutputParams : Ironbug_Component, IGH_VariableParameterComponent
     {
         protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
 
@@ -106,7 +106,7 @@ namespace Ironbug.Grasshopper.Component
             var recs = this.Params.Output[0].Recipients;
             if (recs.Count == 0) return;
 
-            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponentBase;
+            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponent;
             //var obj = rec.Params.Output.Last().VolatileData.AllData(true).First();
             var obj = rec.IB_ModelObject;
             if (obj is null) return;

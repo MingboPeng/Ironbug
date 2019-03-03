@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduledDualSetpoint : GH_Component
+    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_Component
     {
         public Ironbug_SetpointManagerScheduledDualSetpoint()
           : base("Ironbug_SetpointManagerScheduledDualSetpoint", "SpDual",
