@@ -68,22 +68,11 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.UnitHeater;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.UnitHeater;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("89682f80-546f-40c0-8b27-c0a8fea7b351"); }
-        }
+        public override Guid ComponentGuid => new Guid("89682f80-546f-40c0-8b27-c0a8fea7b351");
     }
 }

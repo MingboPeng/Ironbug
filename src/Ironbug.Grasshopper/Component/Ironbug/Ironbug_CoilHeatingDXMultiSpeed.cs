@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         /// </summary>
         public Ironbug_CoilHeatingDXMultiSpeed()
-          : base("Ironbug_CoilHeatingDXMultiSpeed", "CoilHDXMtp",
+          : base("Ironbug_CoilHeatingDXMultiSpeed", "CoilHtn_DXM",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingDXMultiSpeed_DataFieldSet))
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingDXMultiSpeed", "CoilHDXMtp", "CoilHeatingDXMultiSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingDXMultiSpeed", "CoilHtn_DXM", "CoilHeatingDXMultiSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

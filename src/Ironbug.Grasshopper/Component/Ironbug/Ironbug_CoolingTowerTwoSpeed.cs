@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         /// </summary>
         public Ironbug_CoolingTowerTwoSpeed()
-          : base("Ironbug_CoolingTowerTwoSpeed", "ClnTower2",
+          : base("Ironbug_CoolingTowerTwoSpeed", "CoolingTower2",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_CoolingTowerTwoSpeed_DataFields))

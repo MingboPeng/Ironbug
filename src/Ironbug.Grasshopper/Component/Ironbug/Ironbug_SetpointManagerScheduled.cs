@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
         public Ironbug_SetpointManagerScheduled()
-          : base("Ironbug_SetpointManagerScheduled", "SpScheduled",
+          : base("Ironbug_SetpointManagerScheduled", "SPM_Scheduled",
               EPDoc.SetpointManagerScheduled.Note,
               "Ironbug", "05:SetpointManager")
         {

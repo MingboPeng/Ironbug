@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_Component
     {
         public Ironbug_SetpointManagerSingleZoneReheat()
-          : base("Ironbug_SetpointManagerSingleZoneReheat", "SpSZReheat",
+          : base("Ironbug_SetpointManagerSingleZoneReheat", "SPM_SZReheat",
               EPDoc.SetpointManagerSingleZoneReheat.Note,
               "Ironbug", "05:SetpointManager")
         {

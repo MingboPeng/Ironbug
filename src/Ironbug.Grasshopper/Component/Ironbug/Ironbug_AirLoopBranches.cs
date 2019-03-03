@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirLoopBranches class.
         /// </summary>
         public Ironbug_AirLoopBranches()
-          : base("AirLoopBranches", "Branches",
+          : base("AirLoopBranches", "AirLoopBranches",
               "Description",
               "Ironbug", "01:Loops")
         {

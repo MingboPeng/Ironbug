@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         /// </summary>
         public Ironbug_BoilerHotWater()
-          : base("Ironbug_BoilerHotWater", "BoilerHW",
+          : base("Ironbug_BoilerHotWater", "Boiler",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_BoilerHotWater_DataFields))

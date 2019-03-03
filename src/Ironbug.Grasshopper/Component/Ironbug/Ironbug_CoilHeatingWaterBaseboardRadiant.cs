@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
         public Ironbug_CoilHeatingWaterBaseboardRadiant()
-          : base("Ironbug_CoilHeatingWaterBaseboardRadiant", "CoilHW_BR",
+          : base("Ironbug_CoilHeatingWaterBaseboardRadiant", "CoilHtn_BaseboardRad",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet))

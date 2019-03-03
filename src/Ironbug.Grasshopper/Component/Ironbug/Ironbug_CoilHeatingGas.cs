@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilCoolingGas class.
         /// </summary>
         public Ironbug_CoilHeatingGas()
-          : base("Ironbug_CoilHeatingGas", "CoilHG",
+          : base("Ironbug_CoilHeatingGas", "CoilHtnGas",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(IB_CoilHeatingGas_DataFieldSet))
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingGas", "CoilHG", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingGas", "CoilHtnG", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>

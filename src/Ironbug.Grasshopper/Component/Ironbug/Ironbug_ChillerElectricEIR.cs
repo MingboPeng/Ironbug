@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         /// </summary>
         public Ironbug_ChillerElectricEIR()
-          : base("Ironbug_ChillerElectricEIR", "ChillerE",
+          : base("Ironbug_ChillerElectricEIR", "ChillerElec",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_ChillerElectricEIR_DataFieldSet))

@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
         public Ironbug_CurveBiquadratic()
-          : base("Ironbug_CurveBiquadratic", "CvBiquadratic",
+          : base("Ironbug_CurveBiquadratic", "CurveBiquadratic",
               "Description",
               "Ironbug", "07:Curve",
               typeof(HVAC.Curves.IB_CurveBiquadratic_DataFieldSet))

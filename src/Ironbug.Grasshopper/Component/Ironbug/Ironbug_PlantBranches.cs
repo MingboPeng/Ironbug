@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public Ironbug_PlantBranches()
-          : base("PlantBranches", "Branches",
+          : base("PlantBranches", "PlantBranches",
                "Description",
               "Ironbug", "01:Loops")
         {
