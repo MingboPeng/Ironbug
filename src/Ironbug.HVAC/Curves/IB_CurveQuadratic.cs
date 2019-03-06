@@ -14,9 +14,9 @@ namespace Ironbug.HVAC.Curves
         public IB_CurveQuadratic():base(NewDefaultOpsObj(new Model()))
         {
         }
-        public override Curve ToOS()
+        public override Curve ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

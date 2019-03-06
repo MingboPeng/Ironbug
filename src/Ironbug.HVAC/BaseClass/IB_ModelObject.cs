@@ -222,10 +222,10 @@ namespace Ironbug.HVAC.BaseClass
             //check types
             if (value is IB_Curve c)
             {
-                realValue = c.ToOS();
+                realValue = c.ToOS(this.GhostOSObject.model());
             }
 
-            this.CustomAttributes.TryAdd(field, realValue);
+            this.CustomAttributes.TryAdd(field, value);
 
             //apply the value to the ghost ops obj.
             //remember this ghost is only for preview purpose

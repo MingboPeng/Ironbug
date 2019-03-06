@@ -193,17 +193,14 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-
-
-        
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-
-            base.AppendAdditionalComponentMenuItems(menu);
-
+            
             Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
                 .ToolTipText = "This will set all HVAC components with IP unit system";
-            Menu_AppendSeparator(menu);
+            //Menu_AppendSeparator(menu);
+
+            base.AppendAdditionalComponentMenuItems(menu);
         }
 
 

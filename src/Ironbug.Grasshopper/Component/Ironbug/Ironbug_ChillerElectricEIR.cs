@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
@@ -30,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ChillerElectricEIR", "ChillerE", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ChillerElectricEIR", "Chiller", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
             pManager.AddGenericParameter("ChillerElectricEIR_CondenserLoop", "ToCondenser", "Connect to condenser loop's demand side.", GH_ParamAccess.item);
         }
 
@@ -45,26 +44,9 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                return Properties.Resources.Chiller;
-
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("9cba9235-6cc3-498e-b653-6eda9870d276"); }
-        }
+        
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Chiller;
+        
+        public override Guid ComponentGuid => new Guid("9cba9235-6cc3-498e-b653-6eda9870d276");
     }
 }
