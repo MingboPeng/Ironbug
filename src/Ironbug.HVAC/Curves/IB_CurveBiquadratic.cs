@@ -46,5 +46,18 @@ namespace Ironbug.HVAC.Curves
 
         public IB_Field Coefficient6xTIMESY { get; }
             = new IB_TopField("Coefficient6xTIMESY", "C6");
+
+
+        public IB_Field MinimumValueofx { get; }
+            = new IB_TopField("MinimumValueofx", "minX");
+
+        public IB_Field MaximumValueofx { get; }
+            = new IB_TopField("MaximumValueofx", "maxX");
+
+        public IB_Field MinimumValueofy { get; }
+            = new IB_TopField("MinimumValueofy", "minY");
+
+        public IB_Field MaximumValueofy { get; }
+            = new IB_TopField("MaximumValueofy", "maxY");
     }
 }

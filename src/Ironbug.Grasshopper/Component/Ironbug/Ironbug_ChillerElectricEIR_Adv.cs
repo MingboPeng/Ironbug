@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ChillerElectricEIR_Adv : Ironbug_HVACComponent
     {
         public Ironbug_ChillerElectricEIR_Adv()
-          : base("Ironbug_ChillerElectricEIR_Adv", "ChillerElec_Adv",
+          : base("Ironbug_ChillerElectricEIR_Advanced", "ChillerElec_Adv",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_ChillerElectricEIR_DataFieldSet))
