@@ -11,12 +11,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CoilCoolingCooledBeam()
           : base("Ironbug_CoilCoolingCooledBeam", "Coil_CooledBeam",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilCoolingCooledBeam_DataFieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         /// <summary>
         /// Registers all the input parameters for this component.

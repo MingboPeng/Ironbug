@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CoilCoolingLowTempRadiantConstFlow()
           : base("Ironbug_CoilCoolingLowTempRadiantConstFlow", "CoilCln_LowTRadC",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_DataFieldSet))
         {
         }
@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("A12E6626-3CD3-4A38-8944-99D5D45C7247");
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {

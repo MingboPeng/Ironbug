@@ -312,37 +312,7 @@
     <None Include="Resources\duct.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\curve_e.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_fan.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\HVAC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bq.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_c.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_l.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_q.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_qt.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_tq.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ChilledBeam.png" />
@@ -540,13 +510,16 @@
     <None Include="Resources\SetPointDualScheduled.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GSHPV.png" />
+    <None Include="Resources\HXFluid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chiller.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\GSHPH.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\HXFluid.png" />
+    <None Include="Resources\GSHPV.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Chiller_adv.png" />
@@ -555,7 +528,34 @@
     <None Include="Resources\Chiller_Air.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Chiller.png" />
+    <None Include="Resources\curve_e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_l.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_qt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_tq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_c.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
