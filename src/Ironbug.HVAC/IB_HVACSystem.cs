@@ -11,11 +11,30 @@ namespace Ironbug.HVAC
         public List<IB_PlantLoop> PlantLoops { get; private set; }
         public List<IB_AirConditionerVariableRefrigerantFlow> VariableRefrigerantFlows { get; private set; }
 
+        private string _existFile = "";
+
         public IB_HVACSystem(List<IB_AirLoopHVAC> airLoops, List<IB_PlantLoop> plantLoops, List<IB_AirConditionerVariableRefrigerantFlow> vrfs)
         {
             this.AirLoops = airLoops;
             this.PlantLoops = plantLoops;
             this.VariableRefrigerantFlows = vrfs;
+
+            
+            var existingA = airLoops.Where(_=>_ is IIB_ExistingLoop).Select(_=>((IIB_ExistingLoop)_).ExistingObj.OsmFile);
+            var existingP = plantLoops.Where(_ => _ is IIB_ExistingLoop).Select(_ => ((IIB_ExistingLoop)_).ExistingObj.OsmFile);
+
+            var existing = existingA.ToList();
+            existing.AddRange(existingP);
+            existing.Distinct();
+            if (existing.Count >1)
+            {
+                throw new ArgumentException("Cannot merge loops from different osm files");
+            }
+            else if (existing.Count==1)
+            {
+                _existFile = existing[0];
+            }
+
         }
 
         /// <summary>
@@ -39,11 +58,20 @@ namespace Ironbug.HVAC
             var plantLoops = this.PlantLoops;
             var vrfs = this.VariableRefrigerantFlows;
 
-            var osmPath = new OpenStudio.Path(filepath);
+            var osmFile = filepath;
+
+            //here means editing current existing file 
+            if (!string.IsNullOrEmpty( this._existFile))
+            {
+                osmFile = this._existFile;
+            }
+
             //get Model from file if exists
-            var model = GetOrNewModel(filepath);
-            
-            
+            var model = GetOrNewModel(osmFile);
+
+            var airlps = model.getAirLoopHVACs().Select(_ => _.nameString()).ToList();
+           
+
             //add loops
             foreach (var airLoop in airLoops)
             {
@@ -63,6 +91,8 @@ namespace Ironbug.HVAC
             CheckInternalSourceConstruction(model);
 
             //save osm file
+
+            var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(filepath);
             return model.save(osmPath, true);
             
         }
@@ -72,7 +102,7 @@ namespace Ironbug.HVAC
             var model =  new OpenStudio.Model();
             if (File.Exists(opsModelFilePath))
             {
-                var osmPath = new OpenStudio.Path(opsModelFilePath);
+                var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(opsModelFilePath);
                 var optionalModel = OpenStudio.Model.load(osmPath);
 
                 if(optionalModel.is_initialized()) model = optionalModel.get();

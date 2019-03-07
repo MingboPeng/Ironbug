@@ -27,7 +27,9 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OsZones", "OsZones", "Connect to Ironbug_ThermalZones", GH_ParamAccess.list);
-            pManager.AddTextParameter("OsZoneNames", "Names", "", GH_ParamAccess.list);
+            //pManager.AddTextParameter("OsZoneNames", "Names", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OsAirloops", "OsAirloops", "", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OsPlantloops", "OsPlantloops", "", GH_ParamAccess.list);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -69,8 +71,18 @@ namespace Ironbug.Grasshopper.Component
 
                 var oszs = names.Select(_ => new OsZone(_));
                 
-                DA.SetDataList(0, oszs);
-                DA.SetDataList(1, names);
+                //DA.SetDataList(0, oszs);
+                DA.SetDataList(0, names);
+
+                var airlps = m.getAirLoopHVACs().Select(_ => _.nameString()).ToList();
+                airlps.Sort();
+
+                DA.SetDataList(1, airlps.Select(_ => new HVAC.BaseClass.IB_ExistingObj(_, file)));
+
+                var plantlps = m.getPlantLoops().Select(_ => _.nameString()).ToList();
+                plantlps.Sort();
+                DA.SetDataList(2, plantlps.Select(_ => new HVAC.BaseClass.IB_ExistingObj(_, file)));
+
             }
             
         }

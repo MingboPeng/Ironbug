@@ -92,6 +92,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ExistAirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_AirCooled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ExistPlantLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_DW.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_CW.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_HW.cs" />
@@ -556,6 +558,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\curve_c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop_Exist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirLoop_Exist.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

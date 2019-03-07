@@ -67,12 +67,14 @@
     <Compile Include="BaseClass\IB_CoilCoolingBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
     <Compile Include="BaseClass\IB_CoilHeatingBasic.cs" />
+    <Compile Include="BaseClass\IB_ExistingObj.cs" />
     <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
     <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingLowTempRadiantVarFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantConstFlow.cs" />
@@ -98,6 +100,8 @@
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
     <Compile Include="LoopObjs\IB_SizingSystem.cs" />
+    <Compile Include="Loops\IB_ExistPlantLoop.cs" />
+    <Compile Include="Loops\IB_ExistAirLoop.cs" />
     <Compile Include="Loops\IB_NoAirLoop.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="BaseClass\IB_Schedule.cs" />

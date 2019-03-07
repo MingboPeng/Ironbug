@@ -85,6 +85,18 @@ namespace Ironbug.HVAC.BaseClass
                         item.remove();
                     }
                 }
+
+                var aloop = newZone.airLoopHVAC();
+                if (aloop.is_initialized())
+                {
+                    aloop.get().removeBranchForZone(newZone);
+                }
+
+                var airT = newZone.airLoopHVACTerminal();
+                if (airT.is_initialized())
+                {
+                    airT.get().remove();
+                }
                 newZone.SetCustomAttributes(this.CustomAttributes);
             }
             else

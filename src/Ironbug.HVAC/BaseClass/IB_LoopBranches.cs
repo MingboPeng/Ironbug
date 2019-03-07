@@ -61,6 +61,6 @@ namespace Ironbug.HVAC.BaseClass
         {
             throw new NotImplementedException();
         }
-        
+
     }
 }
