@@ -27,6 +27,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("OsZones", "OsZones", "Connect to Ironbug_ThermalZones", GH_ParamAccess.list);
+            pManager.AddTextParameter("OsZoneNames", "Names", "", GH_ParamAccess.list);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -67,9 +68,9 @@ namespace Ironbug.Grasshopper.Component
                 names.Sort();
 
                 var oszs = names.Select(_ => new OsZone(_));
-
-
+                
                 DA.SetDataList(0, oszs);
+                DA.SetDataList(1, names);
             }
             
         }

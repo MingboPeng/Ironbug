@@ -38,7 +38,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("HoneybeeZonesOrOsZones", "_HBZonesOrOsZones", "HBZone or OsZones", GH_ParamAccess.list);
+            pManager.AddGenericParameter("HoneybeeZonesOrOsZones", "_HBZonesOrOsZones", "HBZone or OsZones", GH_ParamAccess.list);
             //pManager[0].Optional = true;
 
             //don't forget to change the names in WatchPuppetStates, when change the name here.
@@ -75,7 +75,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var HBZones = new List<GH_Brep>();
+
+            var HBZones = new List<object>();
             if (!DA.GetDataList(0, HBZones)) return;
 
             var airTerminals = new List<IB_AirTerminal>();
@@ -104,34 +105,36 @@ namespace Ironbug.Grasshopper.Component
         //    this.OnPingDocument().NewSolution(false);
         //}
 
-        private List<IB_ThermalZone> CreateZones(List<GH_Brep> HBZones, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments)
+        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments)
         {
             this._zones = null;
             //var HBZones = new List<GH_Brep>();
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = new List<string>();
-            //var hbZoneIn = this.Params.Input[0];
-            //if (hbZoneIn == null) return;
 
-            //var phase = hbZoneIn.Phase;
-            //if (phase == GH_SolutionPhase.Failed) return;
-            //hbZoneIn.CollectData();
-            //HBZones = hbZoneIn.VolatileData.AllData(true).Select(_ => (_ as GH_Brep)).ToList();
+            if (HBZonesOrNames[0] is GH_Brep)
+            {
+                var hbzones = HBZonesOrNames.SkipWhile(_ => _ is null).Select(_=>_ as GH_Brep);
+                zoneNames = CallFromHBHive(hbzones).ToList();
+            }
+            else if (HBZonesOrNames[0] is GH_String)
+            {
+                zoneNames = HBZonesOrNames.Select(_ => (_ as GH_String).Value ).ToList<string>();
+            }
+            
 
-            var hbzones = HBZones.SkipWhile(_ => _ is null);
-            zoneNames = CallFromHBHive(hbzones).ToList();
+            if (!zoneNames.Any())
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid HBZones or zone names!");
+                //return;
+            }
 
             foreach (var name in zoneNames)
             {
                 OSZones.Add(new IB_ThermalZone(name));
             }
 
-            if (!OSZones.Any())
-            {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid HBZones!");
-                //return;
-            }
             //add airTerminal
             var airTerminals = AirTerminals;
             //this.Params.Input[1].CollectData();
@@ -207,10 +210,10 @@ namespace Ironbug.Grasshopper.Component
             foreach (var item in inBreps)
             {
                 if (inBreps is null) continue;
-
-                //todo: check if HBID existed
-                var HBID = item.Value.UserDictionary["HBID"] as string;
-                //string formatedHBID = string.Format("['{0}']['{1}']", HBID[0], HBID[1]);
+                
+                item.Value.UserDictionary.TryGetString("HBID", out string HBID);
+                if (string.IsNullOrEmpty(HBID)) continue;
+               
                 HBIDs.Add(HBID);
             }
 
