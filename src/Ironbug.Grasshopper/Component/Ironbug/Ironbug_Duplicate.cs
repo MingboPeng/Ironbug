@@ -53,34 +53,30 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(0, ref obj);
             DA.GetData(1, ref amount);
 
-            if (obj != null)
-            {
-                var puppets = new List<HVAC.BaseClass.IB_ModelObject>();
+            if (obj == null) return;
+            
+            var dupObjs = new List<HVAC.BaseClass.IB_ModelObject>();
 
-                for (int i = 0; i < amount; i++)
+            for (int i = 0; i < amount; i++)
+            {
+                HVAC.BaseClass.IB_ModelObject dupObj = null;
+                if (obj is HVAC.BaseClass.IB_HVACObject hvacObj)
                 {
-                    HVAC.BaseClass.IB_ModelObject puppet = null;
-                    if (obj is HVAC.BaseClass.IB_HVACObject hvacObj)
-                    {
-                        puppet = hvacObj.Duplicate();
-                    }
-                    else
-                    {
-                        puppet = obj.Duplicate();
-                    }
-                     obj.Duplicate();
-                    puppet.SetTrackingID();
-                    puppets.Add(puppet);
+                    dupObj = hvacObj.Duplicate();
+                }
+                else
+                {
+                    dupObj = obj.Duplicate();
                 }
 
-                DA.SetDataList(0, puppets);
+                dupObj.SetTrackingID();
+                dupObjs.Add(dupObj);
             }
-        }
 
-        protected override void AfterSolveInstance()
-        {
-            base.AfterSolveInstance();
-            if (this.Params.Input[0].Sources.Count == 0) return;
+            DA.SetDataList(0, dupObjs);
+
+
+            
 
             var refComponent = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
             if (!(refComponent is Ironbug_HVACComponent)) return;
@@ -99,7 +95,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 secondParam.ClearData();
                 var data = this.Params.Output[0].VolatileData;
                 data.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
-                
+
                 secondParam.AddVolatileDataList(new GH_Path(0), data.AllData(false));
             }
             else
@@ -109,7 +105,41 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 secondParam.Description = "-";
             }
 
-            //this.Params.OnParametersChanged();
         }
+
+        //protected override void AfterSolveInstance()
+        //{
+        //    base.AfterSolveInstance();
+        //    if (this.Params.Input[0].Sources.Count == 0) return;
+
+        //    var refComponent = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
+        //    if (!(refComponent is Ironbug_HVACComponent)) return;
+
+        //    var component = refComponent as Ironbug_HVACComponent;
+        //    var secondParam = this.Params.Output[1];
+
+        //    if (component.Params.Output.Count > 1)
+        //    {
+        //        var refSecondOutput = component.Params.Output[1];
+
+        //        secondParam.Name = refSecondOutput.Name;
+        //        secondParam.NickName = refSecondOutput.NickName;
+        //        secondParam.Description = refSecondOutput.Description;
+
+        //        secondParam.ClearData();
+        //        var data = this.Params.Output[0].VolatileData;
+        //        data.Simplify(GH_SimplificationMode.CollapseAllOverlaps);
+                
+        //        secondParam.AddVolatileDataList(new GH_Path(0), data.AllData(false));
+        //    }
+        //    else
+        //    {
+        //        secondParam.Name = "-";
+        //        secondParam.NickName = "-";
+        //        secondParam.Description = "-";
+        //    }
+
+        //    //this.Params.OnParametersChanged();
+        //}
     }
 }

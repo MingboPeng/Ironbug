@@ -201,10 +201,9 @@ namespace Ironbug.Grasshopper.Component
                 
 
             }
+            
 
-            var checkedBranch = branches.CheckPuppetsInBranches();
-
-            return checkedBranch;
+            return branches;
         }
 
         private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)

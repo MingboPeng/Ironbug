@@ -12,5 +12,10 @@ namespace Ironbug.HVAC.BaseClass
             this.Name = ExistingAirloopName;
             this.OsmFile = ExistingOsmPath;
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

@@ -70,7 +70,6 @@
     <Compile Include="BaseClass\IB_ExistingObj.cs" />
     <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
-    <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
