@@ -173,12 +173,13 @@ namespace Ironbug.Grasshopper.Component
                 foreach (var eqp in zoneEquipments)
                 {
                     //change state
-                    //var eqpHost = eqp.ToPuppetHost();
+                    var eqpHost = eqp.ToPuppetHost();
                     foreach (var zone in OSZones)
                     {
-                        var eqpPuppet = eqp.Duplicate() as IB_ZoneEquipment;
+                        var eqpPuppet = eqpHost.DuplicateAsPuppet() as IB_ZoneEquipment;
                         zone.AddZoneEquipment(eqpPuppet);
                     }
+                    eqp.PuppetStateUpdated();
                 }
                 
             }
@@ -249,7 +250,9 @@ for HBID in HBIDs:
         {
             var isAirTerminalOrZoneEquipment = e.ParameterIndex == 1 || e.ParameterIndex == 2;
             if (e.ParameterSide == GH_ParameterSide.Output || !isAirTerminalOrZoneEquipment) return;
-            
+
+            //only AirTerminal or ZoneEquipment remains
+            this.WatchPuppetStates();
         }
 
         //private void Params_ParameterChanged(object sender, GH_ParamServerEventArgs e)
@@ -259,6 +262,31 @@ for HBID in HBIDs:
 
         private IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
 
+        //This is really only for trying to cleanup the mass after any input prameter's disconnection
+        private void WatchPuppetStates()
+        {
+            var ATorZE = this.Params.Input.Where(input => input.Name == "AirTerminal" || input.Name == "ZoneEquipments");
+            var sources = ATorZE.SelectMany(_ => _.Sources).Where(_ => _.Attributes.GetTopLevel.DocObject is Ironbug_HVACComponent);
+            var ibobjs = sources.Select(
+                _ =>
+                {
+                    IB_ZoneEquipment eqp = null;
+                    _.VolatileData.AllData(true).First().CastTo(out eqp);
+                    return eqp;
+                }).Where(obj => obj != null);
 
+            var currentConnectedObjs = ibobjs.ToDictionary(_ => _.GetTrackingID());
+
+            //try to get which one in hvacComps is not in currentConnectedObjs
+            var itemNotConnectedAnyMore = hvacComps.Except(currentConnectedObjs);
+            foreach (var item in itemNotConnectedAnyMore)
+            {
+                item.Value.ResetPuppetState();
+                item.Value.PuppetStateUpdated();
+            }
+
+            //replace hvacComps with currentConnectedObjs
+            hvacComps = currentConnectedObjs;
+        }
     }
 }

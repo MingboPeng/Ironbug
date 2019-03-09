@@ -56,7 +56,11 @@ namespace Ironbug.HVAC
         {
             return new IB_Child(this.IB_Obj.Duplicate());
         }
-        
+
+        //public IB_ModelObject DuplicateChild()
+        //{
+        //    return this.IB_Obj.Duplicate();
+        //}
 
         public T To<T>() where T: IB_ModelObject
         {
@@ -67,7 +71,20 @@ namespace Ironbug.HVAC
             return IB_Obj;
         }
 
-        
+
+        public IB_Child DuplicateAsPuppet()
+        {
+            return new IB_Child(this.IB_Obj.DuplicateAsPuppet());
+        }
+
+        public void PuppetStateUpdated()
+        {
+            this.IB_Obj.PuppetStateUpdated();
+        }
+
+
+
+            //public void Invock (IB_ModelObject )
         }
 
     //    public class IB_Child<T>: IIB_Child where T : IB_ModelObject

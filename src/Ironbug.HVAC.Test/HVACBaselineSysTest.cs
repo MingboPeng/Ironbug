@@ -32,7 +32,7 @@ namespace Ironbug.HVACTests
             var coolingCoil = new IB_CoilCoolingDXSingleSpeed();
 
             var ptac = new IB_ZoneHVACPackagedTerminalAirConditioner(fan, heatingCoil, coolingCoil);
-            //var eqpHost = ptac.ToPuppetHost();
+            var eqpHost = ptac.ToPuppetHost();
 
 
             var noAirlp = new IB_NoAirLoop();
@@ -41,7 +41,7 @@ namespace Ironbug.HVACTests
             {
                 var opzone = new HVAC.BaseClass.IB_ThermalZone(name);
                 
-                var eqpPuppet = ptac.Duplicate() as HVAC.BaseClass.IB_ZoneEquipment;
+                var eqpPuppet = eqpHost.DuplicateAsPuppet() as HVAC.BaseClass.IB_ZoneEquipment;
                 opzone.AddZoneEquipment(eqpPuppet);
 
                 noAirlp.AddThermalZones(opzone);

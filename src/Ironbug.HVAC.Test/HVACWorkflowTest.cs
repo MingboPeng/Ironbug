@@ -243,13 +243,13 @@ namespace Ironbug.HVACTests
             coil.SetFieldValue(IB_CoilHeatingWater_DataFieldSet.Value.RatedInletAirTemperature, 15.6);
             reHeat.SetReheatCoil(coil);
 
-            //reHeat.ToPuppetHost();
-            var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
+            reHeat.ToPuppetHost();
+            var reHeatPuppet1 = (IB_AirTerminal)reHeat.DuplicateAsPuppet();
             zone1.SetAirTerminal(reHeatPuppet1);
             var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
             TestContext.WriteLine($"ReheatCoil 1: {firstCoilID}");
 
-            var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
+            var reHeatPuppet2 = (IB_AirTerminal)reHeat.DuplicateAsPuppet();
             zone2.SetAirTerminal(reHeatPuppet2);
             var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
             TestContext.WriteLine($"ReheatCoil 2: {secondCoilID}");
@@ -260,12 +260,12 @@ namespace Ironbug.HVACTests
             var branches = new IB_PlantLoopBranches();
             branches.Add(new List<IB_HVACObject>() { coil });
             hwLp.AddToDemand(branches);
-            //var puppetsInLoop = coil.GetPuppets();
-            //TestContext.WriteLine($"ReheatCoil in Plantloop IsPuppetHost : {coil.IsPuppetHost()} \r\nPuppetCount: {puppetsInLoop.Count}");
-            //foreach (var puppet in puppetsInLoop)
-            //{
-            //    TestContext.WriteLine($"ReheatCoil in loop: {puppet.GetTrackingID()}");
-            //}
+            var puppetsInLoop = coil.GetPuppets();
+            TestContext.WriteLine($"ReheatCoil in Plantloop IsPuppetHost : {coil.IsPuppetHost()} \r\nPuppetCount: {puppetsInLoop.Count}");
+            foreach (var puppet in puppetsInLoop)
+            {
+                TestContext.WriteLine($"ReheatCoil in loop: {puppet.GetTrackingID()}");
+            }
 
 
             var fan = new IB_FanConstantVolume();

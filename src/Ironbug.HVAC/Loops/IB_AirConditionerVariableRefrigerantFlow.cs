@@ -41,8 +41,8 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-
-            var allTerms = this.Terminals;
+            
+            var allTerms = this.Terminals.SelectMany(_ => _.GetPuppetsOrSelf());
             foreach (var terminal in allTerms)
             {
                 
