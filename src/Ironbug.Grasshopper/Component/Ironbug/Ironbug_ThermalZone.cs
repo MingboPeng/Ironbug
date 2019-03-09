@@ -68,14 +68,16 @@ namespace Ironbug.Grasshopper.Component
             var zoneEquipments = new List<IB_ZoneEquipment>();
             DA.GetDataList(2, zoneEquipments);
 
+            IB_SizingZone sizing = null;
+            DA.GetData(3, ref sizing);
 
-            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipments);
+            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipments, sizing);
 
             DA.SetDataList(0, zones);
         }
         
 
-        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments)
+        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments, IB_SizingZone Sizing)
         {
             var OSZones = new List<IB_ThermalZone>();
 
@@ -149,21 +151,14 @@ namespace Ironbug.Grasshopper.Component
             }
 
             //add Sizing
-            var sizing = new IB_SizingZone();
-            this.Params.Input[3].CollectData();
-            var szs = this.Params.Input[3].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_SizingZone).ToList();
-            if (szs.Any())
-            {
-                sizing = szs.ElementAt(0);
-                OSZones.ForEach(_ => _.SetSizingZone(sizing));
-            }
-
+            var sizing = Sizing != null ? Sizing : new IB_SizingZone();
+            
             foreach (var zone in OSZones)
             {
+                zone.SetSizingZone(sizing);
                 this.SetObjParamsTo(zone);
             }
-
-            //this._zones = OSZones;
+            
             return OSZones;
         }
 
