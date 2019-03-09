@@ -11,9 +11,8 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponent
     {
-        private bool _firstRun = true;
 
-        private List<IB_ThermalZone> _zones = null;
+        //private List<IB_ThermalZone> _zones = null;
 
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
 
@@ -55,23 +54,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
 
-        //protected override void BeforeSolveInstance()
-        //{
-        //    var doc = OnPingDocument();
-
-        //    if (doc.SolutionHistory.Count == 0)
-        //    {
-        //        this.CreateZones();
-        //        return;
-        //    }
-
-        //    if (this._firstRun)
-        //    {
-        //        this._firstRun = false;
-        //        doc.SolutionEnd += Doc_SolutionEnd;
-        //        doc?.RequestAbortSolution();
-        //    }
-        //}
+        
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -89,26 +72,11 @@ namespace Ironbug.Grasshopper.Component
             var zones = this.CreateZones(HBZones, airTerminals, zoneEquipments);
 
             DA.SetDataList(0, zones);
-            this._firstRun = true;
         }
-
-        //private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
-        //{
-        //    this.OnPingDocument().SolutionEnd -= Doc_SolutionEnd;
-
-        //    this.CreateZones();
-
-        //    var outp = this.Params.Output[0];
-
-        //    this.ExpireSolution(false);
-
-        //    this.OnPingDocument().NewSolution(false);
-        //}
+        
 
         private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments)
         {
-            this._zones = null;
-            //var HBZones = new List<GH_Brep>();
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = new List<string>();
@@ -137,8 +105,6 @@ namespace Ironbug.Grasshopper.Component
 
             //add airTerminal
             var airTerminals = AirTerminals;
-            //this.Params.Input[1].CollectData();
-            //airTerminals = this.Params.Input[1].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_AirTerminal).ToList();
             if (airTerminals.Any())
             {
                 
@@ -163,8 +129,6 @@ namespace Ironbug.Grasshopper.Component
 
             //add ZoneEquipments
             var zoneEquipments = ZoneEquipments;
-            //this.Params.Input[2].CollectData();
-            //zoneEquipments = this.Params.Input[2].VolatileData.AllData(true).Select(_ => (_ as GH_ObjectWrapper).Value as IB_ZoneEquipment).ToList();
 
             if (zoneEquipments.Any())
             {
@@ -199,8 +163,7 @@ namespace Ironbug.Grasshopper.Component
                 this.SetObjParamsTo(zone);
             }
 
-            this._zones = OSZones;
-            this._firstRun = false;
+            //this._zones = OSZones;
             return OSZones;
         }
 
@@ -254,12 +217,7 @@ for HBID in HBIDs:
             //only AirTerminal or ZoneEquipment remains
             this.WatchPuppetStates();
         }
-
-        //private void Params_ParameterChanged(object sender, GH_ParamServerEventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+        
         private IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
 
         //This is really only for trying to cleanup the mass after any input prameter's disconnection
