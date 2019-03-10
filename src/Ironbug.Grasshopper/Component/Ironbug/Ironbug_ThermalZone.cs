@@ -11,9 +11,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ThermalZone : Ironbug_HVACComponent
     {
-
-        //private List<IB_ThermalZone> _zones = null;
-
+      
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
 
         public override Guid ComponentGuid => new Guid("8aa3ced0-54bb-4cc3-b53b-9b63dbe714a0");
@@ -29,7 +27,6 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "00:Ironbug",
               typeof(IB_ThermalZone_DataFieldSet))
         {
-            this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
         }
 
         /// <summary>
@@ -38,12 +35,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("HoneybeeZonesOrOsZones", "_HBZonesOrOsZones", "HBZone or OsZones", GH_ParamAccess.list);
-            //pManager[0].Optional = true;
 
-            //don't forget to change the names in WatchPuppetStates, when change the name here.
             pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "A list of zone equipments that will be added to each zones.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ZoneEquipment", "Equipment_", "A ZoneEquipment or IB_ZoneEquipmentGroup per zones.", GH_ParamAccess.list);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
@@ -65,19 +60,34 @@ namespace Ironbug.Grasshopper.Component
             var airTerminals = new List<IB_AirTerminal>();
             DA.GetDataList(1, airTerminals);
 
-            var zoneEquipmentGroups = new List<IB_ZoneEquipmentGroup>();
-            DA.GetDataList(2, zoneEquipmentGroups);
-
             IB_SizingZone sizing = null;
             DA.GetData(3, ref sizing);
+            
+            var zones = this.CreateZones(HBZones, airTerminals, sizing);
 
-            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipmentGroups, sizing);
+       
+            var zoneEquipsGoo = new List<GH_Goo<object>>();
+            DA.GetDataList(2, zoneEquipsGoo);
 
+            var zoneEquipObj = zoneEquipsGoo.Select(_ => _.Value);
+            var zoneEquipmentGroups = zoneEquipObj.Where(_ => _ is IB_ZoneEquipmentGroup).Select(_=>_ as IB_ZoneEquipmentGroup);
+            var zoneEquipments = zoneEquipObj.Where(_ => _ is IB_ZoneEquipment).Select(_ => _ as IB_ZoneEquipment);
+
+
+            if (zoneEquipmentGroups.Any())
+            {
+                this.AddZoneEquipmentGroups(zones, zoneEquipmentGroups.ToList());
+            }
+            else if (zoneEquipments.Any())
+            {
+                this.AddZoneEquipments(zones, zoneEquipments.ToList());
+            }
+  
             DA.SetDataList(0, zones);
         }
         
 
-        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipmentGroup> ZoneEquipmentGroups, IB_SizingZone Sizing)
+        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, IB_SizingZone Sizing)
         {
             var OSZones = new List<IB_ThermalZone>();
 
@@ -128,34 +138,8 @@ namespace Ironbug.Grasshopper.Component
                 //set the default one
                 OSZones.ForEach(_ => _.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled()));
             }
-
-            //add ZoneEquipments
-            var eqpGroups = ZoneEquipmentGroups;
-
-            if (eqpGroups.Any())
-            {
-                if (eqpGroups.Count == OSZones.Count)
-                {
-                    for (int i = 0; i < eqpGroups.Count; i++)
-                    {
-                        var equips = eqpGroups[i].ZoneEquipments;
-                        var zone = OSZones[i];
-                        foreach (var equip in equips)
-                        {
-                            zone.AddZoneEquipment(equip);
-                        }
-                        
-                    }
-                }
-                else
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"One zoneEquipmentGroup per zone is needed.\nCurrently you have {OSZones.Count} zones, and {eqpGroups.Count}  equipment groups");
-                    //return;
-                }
-                
-                
-            }
-
+            
+            
             //add Sizing
             var sizing = Sizing != null ? Sizing : new IB_SizingZone();
             
@@ -166,6 +150,53 @@ namespace Ironbug.Grasshopper.Component
             }
             
             return OSZones;
+        }
+
+        private void AddZoneEquipmentGroups(List<IB_ThermalZone> Zones,  List<IB_ZoneEquipmentGroup> ZoneEquipmentGroups)
+        {
+            var OSZones = Zones;
+            var eqpGroups = ZoneEquipmentGroups;
+            var groupCount = ZoneEquipmentGroups.Count;
+
+            if (groupCount == OSZones.Count)
+            {
+                for (int i = 0; i < groupCount; i++)
+                {
+                    var equips = eqpGroups[i].ZoneEquipments;
+                    var zone = OSZones[i];
+                    foreach (var equip in equips)
+                    {
+                        zone.AddZoneEquipment(equip);
+                    }
+
+                }
+            }
+            else
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"One zoneEquipmentGroup or zone equipment per zone is needed.\nCurrently you have {OSZones.Count} zones, and {groupCount} equipment group");
+                return;
+            }
+           
+        }
+        private void AddZoneEquipments(List<IB_ThermalZone> Zones, List<IB_ZoneEquipment> ZoneEquipments)
+        {
+            var OSZones = Zones;
+            var zEquips = ZoneEquipments;
+            var zEquipsCount = ZoneEquipments.Count;
+
+            if (zEquipsCount == OSZones.Count)
+            {
+                for (int i = 0; i < zEquipsCount; i++)
+                {
+                    OSZones[i].AddZoneEquipment(zEquips.ElementAt(i));
+                }
+            }
+            else
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"One zoneEquipmentGroup or zone equipment per zone is needed.\nCurrently you have {OSZones.Count} zones, and {zEquipsCount} equipment");
+                return;
+            }
+            
         }
 
         private static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
@@ -210,12 +241,12 @@ for HBID in HBIDs:
             return PyHBObjects;
         }
 
-        private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        {
-            var isAirTerminalOrZoneEquipment = e.ParameterIndex == 1 || e.ParameterIndex == 2;
-            if (e.ParameterSide == GH_ParameterSide.Output || !isAirTerminalOrZoneEquipment) return;
+        //private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
+        //{
+        //    var isAirTerminalOrZoneEquipment = e.ParameterIndex == 1 || e.ParameterIndex == 2;
+        //    if (e.ParameterSide == GH_ParameterSide.Output || !isAirTerminalOrZoneEquipment) return;
             
-        }
+        //}
         
         private IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
 

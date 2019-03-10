@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("B117A73D-597E-4922-9E34-F93F081EBE2F");
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {

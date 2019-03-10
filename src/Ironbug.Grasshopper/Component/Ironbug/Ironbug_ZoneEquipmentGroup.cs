@@ -6,7 +6,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneEquipmentGroup : GH_Component
+    public class Ironbug_ZoneEquipmentGroup : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_ZoneEquipmentGroup class.
@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_ZoneEquipmentGroup()
           : base("Ironbug_ZoneEquipmentGroup", "ZoneEquipmentGroup",
               "Description",
-              "Ironbug", "00:Ironbug")
+               "Ironbug", "04:ZoneEquipments")
         {
         }
 
@@ -53,7 +53,7 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.zoneEqpGroup;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
