@@ -29,7 +29,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating duplicates", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Amount", "n", "number of duplicates", GH_ParamAccess.item, 2);
+            pManager.AddNumberParameter("Amount", "n", "number of duplicates", GH_ParamAccess.list);
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
         }
 
         /// <summary>
@@ -38,7 +39,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Objects", "objs", "Objects", GH_ParamAccess.list);
+            pManager[0].DataMapping = GH_DataMapping.Graft;
             pManager.AddGenericParameter("-", "-", "-", GH_ParamAccess.list);
+            pManager[1].DataMapping = GH_DataMapping.Graft;
         }
 
         /// <summary>
@@ -48,14 +51,20 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var objs = new List<HVAC.BaseClass.IB_ModelObject>();
-            double amount = 2;
+            var amounts = new List<double>();
             DA.GetDataList(0, objs);
-            DA.GetData(1, ref amount);
+            DA.GetDataList(1, amounts);
 
             if (objs.Count<=0) return;
             
 
             var lis = new List<HVAC.BaseClass.IB_ModelObject>();
+
+            int amount = (int)amounts[0];
+            if (amounts.Count>1)
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"Duplicate amount {amount} is only used!");
+
+
             for (int i = 0; i < amount; i++)
             {
                 var p = new GH_Path(i);
@@ -70,11 +79,13 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                     {
                         dupObj = obj.Duplicate();
                     }
+                    dupObj.SetTrackingID();
                     lis.Add(dupObj);
                 }
                 
             }
 
+            
             DA.SetDataList(0, lis);
 
      

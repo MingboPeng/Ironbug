@@ -176,6 +176,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanZoneExhaust.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneEquipmentGroup.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />

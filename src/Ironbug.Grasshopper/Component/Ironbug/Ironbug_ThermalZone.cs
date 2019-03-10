@@ -65,19 +65,19 @@ namespace Ironbug.Grasshopper.Component
             var airTerminals = new List<IB_AirTerminal>();
             DA.GetDataList(1, airTerminals);
 
-            var zoneEquipments = new List<IB_ZoneEquipment>();
-            DA.GetDataList(2, zoneEquipments);
+            var zoneEquipmentGroups = new List<IB_ZoneEquipmentGroup>();
+            DA.GetDataList(2, zoneEquipmentGroups);
 
             IB_SizingZone sizing = null;
             DA.GetData(3, ref sizing);
 
-            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipments, sizing);
+            var zones = this.CreateZones(HBZones, airTerminals, zoneEquipmentGroups, sizing);
 
             DA.SetDataList(0, zones);
         }
         
 
-        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipment> ZoneEquipments, IB_SizingZone Sizing)
+        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, List<IB_ZoneEquipmentGroup> ZoneEquipmentGroups, IB_SizingZone Sizing)
         {
             var OSZones = new List<IB_ThermalZone>();
 
@@ -119,7 +119,7 @@ namespace Ironbug.Grasshopper.Component
                 }
                 else
                 {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input the same amount of air terminals as zones");
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"One air terminal per zone is needed.\nCurrently you have {OSZones.Count} zones, and {airTerminals.Count}  air terminals");
                     //return;
                 }
             }
@@ -130,22 +130,29 @@ namespace Ironbug.Grasshopper.Component
             }
 
             //add ZoneEquipments
-            var zoneEquipments = ZoneEquipments;
+            var eqpGroups = ZoneEquipmentGroups;
 
-            if (zoneEquipments.Any())
+            if (eqpGroups.Any())
             {
-                
-                //more than one zone
-                foreach (var eqp in zoneEquipments)
+                if (eqpGroups.Count == OSZones.Count)
                 {
-                    //change state
-                    //var eqpHost = eqp.ToPuppetHost();
-                    foreach (var zone in OSZones)
+                    for (int i = 0; i < eqpGroups.Count; i++)
                     {
-                        var eqpPuppet = eqp.Duplicate() as IB_ZoneEquipment;
-                        zone.AddZoneEquipment(eqpPuppet);
+                        var equips = eqpGroups[i].ZoneEquipments;
+                        var zone = OSZones[i];
+                        foreach (var equip in equips)
+                        {
+                            zone.AddZoneEquipment(equip);
+                        }
+                        
                     }
                 }
+                else
+                {
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"One zoneEquipmentGroup per zone is needed.\nCurrently you have {OSZones.Count} zones, and {eqpGroups.Count}  equipment groups");
+                    //return;
+                }
+                
                 
             }
 

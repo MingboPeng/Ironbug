@@ -109,6 +109,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
+    <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_FanZoneExhaust.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantVarFlow.cs" />
