@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_ZoneEquipmentGroup()
           : base("Ironbug_ZoneEquipmentGroup", "ZoneEquipmentGroup",
-              "Description",
+              "Use Ironbug_ZoneEquipmentGroup if you have more than one equipments for one zone",
                "Ironbug", "04:ZoneEquipments")
         {
         }
@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneEquipmentGroup", "EquipGroup", "A list of zone equipment groups that will be added to each zones.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneEquipmentGroup", "EquipGroup", "A list of zone equipment groups that will be added to each zones.Connect to Ironbug_ThermalZone", GH_ParamAccess.item);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
         }
 

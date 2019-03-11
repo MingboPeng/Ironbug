@@ -34,11 +34,11 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HoneybeeZonesOrOsZones", "_HBZonesOrOsZones", "HBZone or OsZones", GH_ParamAccess.list);
+            pManager.AddGenericParameter("HoneybeeZonesOrOsZones", "_HBZones", "HBZone or OsZones", GH_ParamAccess.list);
 
             pManager.AddGenericParameter("AirTerminal", "AirTerminal_", "One air terminal per HBZone, and please provide list of air terminals that matches HBZone amount; \r\nDefault: AirTerminalUncontrolled ", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("ZoneEquipment", "Equipment_", "A ZoneEquipment or IB_ZoneEquipmentGroup per zones.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ZoneEquipment", "Equipment_", "A ZoneEquipment or ZoneEquipmentGroup per zones. \nUse Ironbug_ZoneEquipmentGroup if you have more than one equipments for one zone", GH_ParamAccess.list);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SizingZone", "Sizing_", "Zone sizing", GH_ParamAccess.item);
             pManager[3].Optional = true;
