@@ -113,16 +113,16 @@ namespace Ironbug.Grasshopper.Component
             var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
-            var custAtt = sizing.CustomAttributes;
+            var custAtt = sizing.CustomAttributes.Select(_=>_.Key.FULLNAME);
 
             sizing.SetFieldValue(szFields.LoopType, "Cooling");
             
-            if (!custAtt.ContainsKey(szFields.DesignLoopExitTemperature))
+            if (!custAtt.Any(_=>_ == szFields.DesignLoopExitTemperature.FULLNAME))
             {
                 sizing.SetFieldValue(szFields.DesignLoopExitTemperature, 7.22);
             }
 
-            if (!custAtt.ContainsKey(szFields.LoopDesignTemperatureDifference))
+            if (!custAtt.Any(_ => _ == szFields.LoopDesignTemperatureDifference.FULLNAME))
             {
                 sizing.SetFieldValue(szFields.LoopDesignTemperatureDifference, 6.67);
             }

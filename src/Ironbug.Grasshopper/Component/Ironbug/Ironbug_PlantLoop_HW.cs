@@ -78,7 +78,7 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(plant);
 
             var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
-            if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
+            if (!plant.CustomAttributes.Any(_=>_.Key.FULLNAME == plantFields.Name.FULLNAME))
             {
                 plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
             }
