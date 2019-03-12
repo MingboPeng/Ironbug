@@ -18,10 +18,7 @@ namespace Ironbug.HVAC
                 foreach (var item in branch)
                 {
                     var thermalZone = (IB_ThermalZone)item;
-                    var zone = (ThermalZone)item.ToOS(model);
-                    var airTerminal = (HVACComponent)thermalZone.AirTerminal.ToOS(model);
-                    if (!loop.addBranchForZone(zone, airTerminal))
-                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
+                    thermalZone.ToOS(model, loop);
                 }
             }
         }

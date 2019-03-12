@@ -1,4 +1,5 @@
-﻿using Grasshopper.Kernel;
+﻿using GH_IO.Serialization;
+using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC;
@@ -6,6 +7,7 @@ using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -64,7 +66,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref sizing);
             
             var zones = this.CreateZones(HBZones, airTerminals, sizing);
-
+            
        
             var zoneEquipsGoo = new List<GH_Goo<object>>();
             DA.GetDataList(2, zoneEquipsGoo);
@@ -146,6 +148,7 @@ namespace Ironbug.Grasshopper.Component
             foreach (var zone in OSZones)
             {
                 zone.SetSizingZone(sizing);
+                zone.IsAirTerminalPriorToZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
                 this.SetObjParamsTo(zone);
             }
             
@@ -241,15 +244,35 @@ for HBID in HBIDs:
             return PyHBObjects;
         }
 
-        //private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
-        //{
-        //    var isAirTerminalOrZoneEquipment = e.ParameterIndex == 1 || e.ParameterIndex == 2;
-        //    if (e.ParameterSide == GH_ParameterSide.Output || !isAirTerminalOrZoneEquipment) return;
-            
-        //}
-        
-        private IDictionary<string, IB_ZoneEquipment> hvacComps = new Dictionary<string, IB_ZoneEquipment>();
 
+        private bool IsAirTerminalPriorToZoneEquipments = true;
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            Menu_AppendItem(menu, "Prioritize AirTerminal over ZoneEquipments", PrioritizeAirTerminal, true, this.IsAirTerminalPriorToZoneEquipments)
+                .ToolTipText = "This will set the AirTerminal prior to all zone equipments";
+            Menu_AppendSeparator(menu);
+            base.AppendAdditionalComponentMenuItems(menu);
+        }
+
+        private void PrioritizeAirTerminal(object sender, EventArgs e)
+        {
+            this.IsAirTerminalPriorToZoneEquipments = !this.IsAirTerminalPriorToZoneEquipments;
+            this.ExpireSolution(true);
+        }
+
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("IsAirTerminalPriorToZoneEquipments"))
+                IsAirTerminalPriorToZoneEquipments = reader.GetBoolean("IsAirTerminalPriorToZoneEquipments");
+            
+            return base.Read(reader);
+        }
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetBoolean("IsAirTerminalPriorToZoneEquipments", IsAirTerminalPriorToZoneEquipments);
+            return base.Write(writer);
+        }
 
     }
 }
