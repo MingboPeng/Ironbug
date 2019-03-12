@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerSingleZoneReheat : GH_Component
+    public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_Component
     {
         public Ironbug_SetpointManagerSingleZoneReheat()
-          : base("Ironbug_SetpointManagerSingleZoneReheat", "SpSZReheat",
-              "Description",
+          : base("Ironbug_SetpointManagerSingleZoneReheat", "SPM_SZReheat",
+              EPDoc.SetpointManagerSingleZoneReheat.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -17,10 +17,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("ControlZone", "_zone", "Control Zone", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ControlZone", "_zone", EPDoc.SetpointManagerSingleZoneReheat.Field_ControlZoneName, GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
-            pManager.AddNumberParameter("minTemperature", "_minT_", "MinimumSupplyAirTemperature", GH_ParamAccess.item, 10);
-            pManager.AddNumberParameter("maxTemperature", "_maxT_", "MaximumSupplyAirTemperature", GH_ParamAccess.item, 50);
+            pManager.AddNumberParameter("minTemperature", "_minT_", EPDoc.SetpointManagerSingleZoneReheat.Field_MinimumSupplyAirTemperature, GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("maxTemperature", "_maxT_", EPDoc.SetpointManagerSingleZoneReheat.Field_MaximumSupplyAirTemperature, GH_ParamAccess.item, 50);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
         }

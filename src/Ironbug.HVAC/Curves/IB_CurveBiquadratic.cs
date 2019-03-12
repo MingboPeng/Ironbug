@@ -13,9 +13,9 @@ namespace Ironbug.HVAC.Curves
 
         public IB_CurveBiquadratic():base(NewDefaultOpsObj(new Model())) { }
 
-        public override Curve ToOS()
+        public override Curve ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
         //protected override ModelObject NewOpsObj(Model model)
@@ -46,5 +46,18 @@ namespace Ironbug.HVAC.Curves
 
         public IB_Field Coefficient6xTIMESY { get; }
             = new IB_TopField("Coefficient6xTIMESY", "C6");
+
+
+        public IB_Field MinimumValueofx { get; }
+            = new IB_TopField("MinimumValueofx", "minX");
+
+        public IB_Field MaximumValueofx { get; }
+            = new IB_TopField("MaximumValueofx", "maxX");
+
+        public IB_Field MinimumValueofy { get; }
+            = new IB_TopField("MinimumValueofy", "minY");
+
+        public IB_Field MaximumValueofy { get; }
+            = new IB_TopField("MaximumValueofy", "maxY");
     }
 }

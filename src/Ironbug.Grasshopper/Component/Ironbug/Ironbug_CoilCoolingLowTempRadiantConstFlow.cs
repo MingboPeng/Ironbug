@@ -3,12 +3,12 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingLowTempRadiantConstFlow : Ironbug_HVACComponentBase
+    public class Ironbug_CoilCoolingLowTempRadiantConstFlow : Ironbug_HVACComponent
     {
         public Ironbug_CoilCoolingLowTempRadiantConstFlow()
-          : base("Ironbug_CoilCoolingLowTempRadiantConstFlow", "CoilCW_LTRC",
+          : base("Ironbug_CoilCoolingLowTempRadiantConstFlow", "CoilCln_LowTRadC",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_DataFieldSet))
         {
         }
@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("A12E6626-3CD3-4A38-8944-99D5D45C7247");
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingLowTempRadiantConstFlow", "CoilCW_LTRC", "Add to ZoneHVACLowTempRadiantConstFlow", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingLowTempRadiantConstFlow", "CoilCln_LTRC", "Add to ZoneHVACLowTempRadiantConstFlow", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilCoolingLowTempRadiantConstFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
         
@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref airLoT);
 
             var obj = new HVAC.IB_CoilCoolingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }

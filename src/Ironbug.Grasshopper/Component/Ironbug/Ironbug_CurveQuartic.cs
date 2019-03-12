@@ -4,13 +4,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveQuartic : Ironbug_HVACComponentBase
+    public class Ironbug_CurveQuartic : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
         public Ironbug_CurveQuartic()
-          : base("Ironbug_CurveQuartic", "CvQuartic",
+          : base("Ironbug_CurveQuartic", "CurveQuartic",
               "Description",
               "Ironbug", "07:Curve",
               typeof(HVAC.Curves.IB_CurveQuartic_DataFieldSet))

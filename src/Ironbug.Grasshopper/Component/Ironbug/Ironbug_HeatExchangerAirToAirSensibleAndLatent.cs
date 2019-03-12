@@ -6,10 +6,10 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_HVACComponentBase
+    public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_HVACComponent
     {
         public Ironbug_HeatExchangerAirToAirSensibleAndLatent()
-          : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExg_Air",
+          : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExchanger_Air",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet))

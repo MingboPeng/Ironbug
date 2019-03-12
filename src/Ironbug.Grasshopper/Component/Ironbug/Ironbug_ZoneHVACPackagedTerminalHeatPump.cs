@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACPackagedTerminalHeatPump : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACPackagedTerminalHeatPump : Ironbug_HVACComponent
     {
         public Ironbug_ZoneHVACPackagedTerminalHeatPump()
           : base("Ironbug_ZoneHVACPackagedTerminalHeatPump", "PTHP",
@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PTHP;
 
@@ -52,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref spCoilH);
 
             var obj = new HVAC.IB_ZoneHVACPackagedTerminalHeatPump(fan,coilH,coilC,spCoilH);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

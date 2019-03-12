@@ -17,9 +17,12 @@ namespace Ironbug.HVAC
 
         public ModelObject ToOS(PlantLoop loop)
         {
+            var sz = loop.sizingPlant();
+            sz.SetCustomAttributes(this.CustomAttributes);
+            return sz;
             //create a new sizingPlant to target plant loop
-            var targetModel = loop.model();
-            return base.OnNewOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
+            //var targetModel = loop.model();
+            //return base.OnNewOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
         }
         
     }

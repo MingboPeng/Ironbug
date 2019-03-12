@@ -55,7 +55,7 @@ namespace Ironbug.HVACTests
             obj.SetFieldValues(fDic);
 
             var boiler = new IB_BoilerHotWater();
-            var cv = obj.ToOS();
+            var cv = obj.ToOS(model);
             boiler.SetFieldValue(IB_BoilerHotWater_DataFields.Value.NormalizedBoilerEfficiencyCurve, cv);
 
             boiler.ToOS(model);

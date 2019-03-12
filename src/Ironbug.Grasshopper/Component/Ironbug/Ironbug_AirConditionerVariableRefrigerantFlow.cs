@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirConditionerVariableRefrigerantFlow : Ironbug_HVACComponentBase
+    public class Ironbug_AirConditionerVariableRefrigerantFlow : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow class.

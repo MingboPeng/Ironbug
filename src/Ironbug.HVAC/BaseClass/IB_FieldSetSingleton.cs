@@ -27,6 +27,7 @@ namespace Ironbug.HVAC.BaseClass
         public static T Value { get { return instance.Value; } }
 
         internal override Type RefOpsType => typeof(K);
+        internal override Type RefEpType => typeof(K);
 
         protected IB_FieldSet():base()
         {

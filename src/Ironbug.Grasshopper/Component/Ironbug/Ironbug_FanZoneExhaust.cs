@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanZoneExhaust : Ironbug_HVACComponentBase
+    public class Ironbug_FanZoneExhaust : Ironbug_HVACComponent
     {
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.exFan;
@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
         
         public Ironbug_FanZoneExhaust()
-          : base("Ironbug_FanZoneExhaust", "ExFan",
+          : base("Ironbug_FanZoneExhaust", "ExhaustFan",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_FanZoneExhaust_DataFieldSet))
@@ -34,7 +34,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_FanZoneExhaust();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

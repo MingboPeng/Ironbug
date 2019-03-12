@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.HVAC", "src\Ironbug
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.RhinoOpenStudio", "src\Ironbug.Rhino\Ironbug.RhinoOpenStudio.csproj", "{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.EPDoc", "src\Ironbug.EPDoc\Ironbug.EPDoc.csproj", "{28144FDF-48C8-461B-985B-EACA33AACB7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|x64.ActiveCfg = Release|Any CPU
 		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|x64.Build.0 = Release|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug|x64.Build.0 = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug64|Any CPU.ActiveCfg = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug64|Any CPU.Build.0 = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug64|x64.ActiveCfg = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Debug64|x64.Build.0 = Debug|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Release|x64.ActiveCfg = Release|Any CPU
+		{28144FDF-48C8-461B-985B-EACA33AACB7D}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

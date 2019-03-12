@@ -8,13 +8,13 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop_HW : Ironbug_HVACComponentBase
+    public class Ironbug_PlantLoop_HW : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_HW()
-          : base("Ironbug_HotWaterPlantLoop", "HWLoop",
+          : base("Ironbug_HotWaterPlantLoop", "HotWLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_DataFieldSet))
@@ -78,7 +78,7 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(plant);
 
             var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
-            if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
+            if (!plant.CustomAttributes.Any(_=>_.Key.FULLNAME == plantFields.Name.FULLNAME))
             {
                 plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
             }

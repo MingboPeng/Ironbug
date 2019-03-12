@@ -8,14 +8,14 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop_DW : Ironbug_HVACComponentBase
+    public class Ironbug_PlantLoop_DW : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_DW()
-          : base("Ironbug_CondenserWaterPlantLoop", "DWLoop",
-              "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
+          : base("Ironbug_CondenserWaterPlantLoop", "CondenserWLoop",
+              EPDoc.CondenserLoop.Note,
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_DataFieldSet))
         {
@@ -112,23 +112,21 @@ namespace Ironbug.Grasshopper.Component
             var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
-            var custAtt = sizing.CustomAttributes;
+            var custAtt = sizing.CustomAttributes.Select(_ => _.Key.FULLNAME);
 
             sizing.SetFieldValue(szFields.LoopType, "Condenser");
 
-            
-            
-            if (!custAtt.ContainsKey(szFields.DesignLoopExitTemperature))
+
+            if (!custAtt.Any(_ => _ == szFields.DesignLoopExitTemperature.FULLNAME))
             {
                 sizing.SetFieldValue(szFields.DesignLoopExitTemperature, 29.4);
             }
 
-            if (!custAtt.ContainsKey(szFields.LoopDesignTemperatureDifference))
+            if (!custAtt.Any(_ => _ == szFields.LoopDesignTemperatureDifference.FULLNAME))
             {
                 sizing.SetFieldValue(szFields.LoopDesignTemperatureDifference, 5.6);
             }
-            
-
+           
             return sizing;
         }
 

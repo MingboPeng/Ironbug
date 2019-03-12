@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACComponentBase
+    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACComponent
     {
         public Ironbug_AirTerminalSingleDuctVAVNoReheat()
           : base("Ironbug_AirTerminalSingleDuctVAVNoReheat", "VAVNoReheat",
@@ -40,7 +40,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctVAVNoReheat();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

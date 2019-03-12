@@ -3,13 +3,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingElectric : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingElectric : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingElectric class.
         /// </summary>
         public Ironbug_CoilHeatingElectric()
-          : base("Ironbug_CoilHeatingElectric", "CoilHE",
+          : base("Ironbug_CoilHeatingElectric", "CoilHtnElec",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHE", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHtnE", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -39,31 +39,14 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingElectric();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilHE;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("dc8ed4d8-4435-4134-b1e8-06362bb6d411"); }
-        }
+        
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHE;
+        
+        public override Guid ComponentGuid => new Guid("dc8ed4d8-4435-4134-b1e8-06362bb6d411");
     }
 }

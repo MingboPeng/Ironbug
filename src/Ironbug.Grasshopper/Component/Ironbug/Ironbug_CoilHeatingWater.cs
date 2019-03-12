@@ -3,13 +3,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingWater : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
         public Ironbug_CoilHeatingWater()
-          : base("Ironbug_CoilHeatingWater", "CoilHW",
+          : base("Ironbug_CoilHeatingWater", "CoilHtnWater",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirSide_CoilHeatingWater", "CoilHW", "connect to air loop's supply side or other water heated system.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirSide_CoilHeatingWater", "CoilHtnW", "connect to air loop's supply side or other water heated system.", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingWater();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

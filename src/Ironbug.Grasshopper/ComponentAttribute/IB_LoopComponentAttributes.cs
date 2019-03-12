@@ -1,13 +1,11 @@
 ﻿using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Attributes;
-using Microsoft.Scripting.Utils;
 using System;
 using System.Drawing;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class IB_LoopComponentAttributes : GH_ComponentAttributes
+    public class IB_LoopComponentAttributes : IB_ComponentAttributes
     {
         public IB_LoopComponentAttributes(GH_Component component) : base(component)
         {

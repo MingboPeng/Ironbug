@@ -8,7 +8,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponentBase
+    public class Ironbug_AirTerminalSingleDuctVAVReheat : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
@@ -45,7 +45,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctVAVReheat();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             var coil = (IB_CoilHeatingBasic)null;
             

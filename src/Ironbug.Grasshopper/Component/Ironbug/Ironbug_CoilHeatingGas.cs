@@ -4,13 +4,13 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingGas : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingGas : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilCoolingGas class.
         /// </summary>
         public Ironbug_CoilHeatingGas()
-          : base("Ironbug_CoilHeatingGas", "CoilHG",
+          : base("Ironbug_CoilHeatingGas", "CoilHtnGas",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(IB_CoilHeatingGas_DataFieldSet))
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingGas", "CoilHG", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingGas", "CoilHtnG", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingGas();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

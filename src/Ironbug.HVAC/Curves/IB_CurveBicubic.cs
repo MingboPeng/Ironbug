@@ -1,9 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC.Curves
 {
@@ -18,9 +15,9 @@ namespace Ironbug.HVAC.Curves
         {
         }
 
-        public override Curve ToOS()
+        public override Curve ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, new Model());
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
 

@@ -14,7 +14,8 @@ namespace Ironbug.HVAC.BaseClass
         public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
-        
+        public bool IsAirTerminalPriorToZoneEquipments { get; set; } = false;
+
         public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
         {
             
@@ -53,6 +54,40 @@ namespace Ironbug.HVAC.BaseClass
             this.ZoneEquipments.Add(Equipment);
         }
 
+        public HVACComponent ToOS(Model model, AirLoopHVAC airLoop)
+        {
+            var newZone = (ThermalZone)this.ToOS(model);
+            var airTerminal = this.AirTerminal.ToOS(model);
+
+            if (this.IsAirTerminalPriorToZoneEquipments)
+            {
+                if (!airLoop.addBranchForZone(newZone, airTerminal))
+                    throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
+
+                foreach (var item in this.ZoneEquipments)
+                {
+                    var eqp = (ZoneHVACComponent)item.ToOS(model);
+                    eqp.addToThermalZone(newZone);
+                }
+            }
+            else
+            {
+                foreach (var item in this.ZoneEquipments)
+                {
+                    var eqp = (ZoneHVACComponent)item.ToOS(model);
+                    eqp.addToThermalZone(newZone);
+                }
+
+                if (!airLoop.addBranchForZone(newZone, airTerminal))
+                    throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
+                
+            }
+
+            
+
+            return newZone;
+        }
+
         public override HVACComponent ToOS(Model model)
         {
             //check the model if there's a same named thermal zone
@@ -85,6 +120,19 @@ namespace Ironbug.HVAC.BaseClass
                         item.remove();
                     }
                 }
+                newZone.setUseIdealAirLoads(false);
+
+                var aloop = newZone.airLoopHVAC();
+                if (aloop.is_initialized())
+                {
+                    aloop.get().removeBranchForZone(newZone);
+                }
+
+                var airT = newZone.airLoopHVACTerminal();
+                if (airT.is_initialized())
+                {
+                    airT.get().remove();
+                }
                 newZone.SetCustomAttributes(this.CustomAttributes);
             }
             else
@@ -96,12 +144,11 @@ namespace Ironbug.HVAC.BaseClass
             //add child to newZone
             this.IB_SizingZone.ToOS(newZone);
 
-            foreach (var item in this.ZoneEquipments)
-            {
-                var eqp = (ZoneHVACComponent)item.ToOS(model);
-                eqp.addToThermalZone(newZone);
-                //newZone.addEquipment(eqp);
-            }
+            //foreach (var item in this.ZoneEquipments)
+            //{
+            //    var eqp = (ZoneHVACComponent)item.ToOS(model);
+            //    eqp.addToThermalZone(newZone);
+            //}
 
             //AirTerminal has been added with zone when the zone was added to the loop
             //var newTerminal = this.AirTerminal.ToOS(model);
@@ -116,6 +163,7 @@ namespace Ironbug.HVAC.BaseClass
             
             //Duplicate self;
             var newObj = base.DuplicateIBObj(() => new IB_ThermalZone());
+            newObj.IsAirTerminalPriorToZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
 
             //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());

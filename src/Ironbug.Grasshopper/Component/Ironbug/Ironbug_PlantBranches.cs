@@ -6,24 +6,23 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantBranches : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_PlantBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public Ironbug_PlantBranches()
-          : base("PlantBranches", "Branches",
+          : base("PlantBranches", "PlantBranches",
                "Description",
               "Ironbug", "01:Loops")
         {
             Params.ParameterSourcesChanged += ParamSourcesChanged;
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
@@ -202,10 +201,9 @@ namespace Ironbug.Grasshopper.Component
                 
 
             }
+            
 
-            var checkedBranch = branches.CheckPuppetsInBranches();
-
-            return checkedBranch;
+            return branches;
         }
 
         private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)

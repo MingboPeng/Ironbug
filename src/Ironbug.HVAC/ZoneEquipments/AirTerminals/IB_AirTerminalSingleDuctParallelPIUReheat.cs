@@ -24,7 +24,7 @@ namespace Ironbug.HVAC
         {
             this.SetChild(ReheatCoil);
         }
-        public void SetFan(IB_Fan Fan)
+        public void SetFan(IB_FanConstantVolume Fan)
         {
             this.SetChild(Fan);
         }
@@ -34,7 +34,7 @@ namespace Ironbug.HVAC
             return base.OnNewOpsObj(InitMethodWithChildren, model);
             
             AirTerminalSingleDuctParallelPIUReheat InitMethodWithChildren(Model md) =>
-                new AirTerminalSingleDuctParallelPIUReheat(md, model.alwaysOnDiscreteSchedule(), this.Fan.ToOS(md), this.ReheatCoil.ToOS(md));
+                new AirTerminalSingleDuctParallelPIUReheat(md, md.alwaysOnDiscreteSchedule(), this.Fan.ToOS(md), this.ReheatCoil.ToOS(md));
 
         }
     }

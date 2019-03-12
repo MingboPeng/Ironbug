@@ -5,7 +5,7 @@ using System.IO;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : GH_Component
+    public class Ironbug_SaveOSModel : Ironbug_Component
     {
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
         public override Guid ComponentGuid => new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1");
@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("FilePath", "path", "OSM file path", GH_ParamAccess.item);
+            pManager.AddGenericParameter("NewFilePath", "path", "New OSM file path. This file will be deleted first if it is existed", GH_ParamAccess.item);
             pManager.AddGenericParameter("AirLoops", "AirLoops", "Zone with HVAC system set", GH_ParamAccess.list);
             pManager.AddGenericParameter("PlantLoops", "PlantLoops", "PlantLoops", GH_ParamAccess.list);
             pManager.AddGenericParameter("VRFSystems", "VRFSystems", "VRFSystems", GH_ParamAccess.list);

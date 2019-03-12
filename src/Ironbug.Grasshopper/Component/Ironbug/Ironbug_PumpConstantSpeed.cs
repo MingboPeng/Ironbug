@@ -7,7 +7,7 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PumpConstantSpeed : Ironbug_HVACComponentBase
+    public class Ironbug_PumpConstantSpeed : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_PumpConstantSpeed class.

@@ -83,15 +83,22 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ExistAirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_AirCooled.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
     <Compile Include="Component\Ironbug\Ironbug_NoAirLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctParallelPIUReheat.cs" />
@@ -134,17 +141,19 @@
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerMechanicalVentilation.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACTemplate.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeAdiabatic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeOutdoor.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
-    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_HVACComponentBase.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_HVACComponent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ExistPlantLoop.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_DW.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_CW.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PlantLoop_HW.cs" />
@@ -167,10 +176,12 @@
     <Compile Include="Component\Ironbug\Ironbug_PlantBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanZoneExhaust.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneEquipmentGroup.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACEnergyRecoveryVentilator.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ImportOSM.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
@@ -215,6 +226,10 @@
     <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
       <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
       <Name>Ironbug.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ironbug.EPDoc\Ironbug.EPDoc.csproj">
+      <Project>{28144fdf-48c8-461b-985b-eaca33aacb7d}</Project>
+      <Name>Ironbug.EPDoc</Name>
     </ProjectReference>
     <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj">
       <Project>{de90a239-0907-4196-8a1b-c4c7f78715ca}</Project>
@@ -300,37 +315,7 @@
     <None Include="Resources\duct.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\curve_e.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_fan.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\HVAC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bc.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_bq.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_c.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_l.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_q.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_qt.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_s.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\curve_tq.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ChilledBeam.png" />
@@ -388,9 +373,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Branches_Plant.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Chiller.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoilCDX1.png" />
@@ -529,6 +511,63 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SetPointDualScheduled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HXFluid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chiller.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSHPH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GSHPV.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chiller_adv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chiller_Air.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_fan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_l.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_q.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_qt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_s.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_tq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_bq.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\curve_c.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop_Exist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirLoop_Exist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zoneEqpGroup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

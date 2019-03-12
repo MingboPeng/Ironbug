@@ -5,11 +5,11 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACLowTempRadiantConstFlow : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACLowTempRadiantConstFlow : Ironbug_HVACComponent
     {
         
         public Ironbug_ZoneHVACLowTempRadiantConstFlow()
-          : base("Ironbug_ZoneHVACLowTempRadiantConstFlow", "RadiantCF",
+          : base("Ironbug_ZoneHVACLowTempRadiantConstFlow", "RadiantCFlow",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACLowTempRadiantConstFlow_DataFieldSet))
@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("EF691837-6BEA-46A6-97CC-E97C9574F8AA");
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref tubingLenght);
             
             var obj = new HVAC.IB_ZoneHVACLowTempRadiantConstFlow(coilH,coilC, tubingLenght);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

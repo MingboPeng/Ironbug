@@ -7,25 +7,24 @@ using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 using Grasshopper;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopBranches : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_AirLoopBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirLoopBranches class.
         /// </summary>
         public Ironbug_AirLoopBranches()
-          : base("AirLoopBranches", "Branches",
+          : base("AirLoopBranches", "AirLoopBranches",
               "Description",
               "Ironbug", "01:Loops")
         {
             Params.ParameterSourcesChanged += ParamSourcesChanged;
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>

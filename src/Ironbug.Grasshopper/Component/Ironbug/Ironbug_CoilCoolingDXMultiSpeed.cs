@@ -4,13 +4,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingDXMultiSpeed : Ironbug_HVACComponentBase
+    public class Ironbug_CoilCoolingDXMultiSpeed : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         /// </summary>
         public Ironbug_CoilCoolingDXMultiSpeed()
-          : base("Ironbug_CoilCoolingDXMultiSpeed", "CoilCDXMtp",
+          : base("Ironbug_CoilCoolingDXMultiSpeed", "CoilClnDXM",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilCoolingDXMultiSpeed_DataFieldSet))
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingDXMultiSpeed", "CoilCDXMtp", "CoilCoolingDXMultiSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingDXMultiSpeed", "CoilClnDXM", "CoilCoolingDXMultiSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

@@ -7,25 +7,17 @@ using System.Reflection;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class PuppetEventArg : EventArgs
-    {
-        public IB_PuppetableState State { get; private set; }
-        public PuppetEventArg(IB_PuppetableState state)
-        {
-            this.State = state;
-        }
 
-    }
     public abstract class IB_ModelObject : IIB_ModelObject
     {
         public string Memo { get; set; }
         public IEnumerable<string> SimulationOutputVariables { get; }
         public static bool IPUnit { get; set; } = false;
-        public event EventHandler<PuppetEventArg> PuppetEventHandler;
+        //public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
         public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
 
-        public IB_PuppetableState CurrentState { get; private set; }
+        //public IB_PuppetableState CurrentState { get; private set; }
         public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
         protected ModelObject GhostOSObject { get; private set; }
 
@@ -33,7 +25,6 @@ namespace Ironbug.HVAC.BaseClass
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
-            this.CurrentState = new IB_PuppetableState_None(this);
             this.GhostOSObject = GhostOSObject;
             this.SetTrackingID();
             this.SimulationOutputVariables = GhostOSObject.outputVariableNames();
@@ -71,115 +62,115 @@ namespace Ironbug.HVAC.BaseClass
             }
         }
 
-        public void ChangeState(IB_PuppetableState newState)
-        {
-            this.CurrentState = newState;
-        }
+        //public void ChangeState(IB_PuppetableState newState)
+        //{
+        //    this.CurrentState = newState;
+        //}
         
-        public bool IsPuppetHost()
-        {
-            return this.CurrentState is IB_PuppetableState_Host;
-        }
+        //public bool IsPuppetHost()
+        //{
+        //    return this.CurrentState is IB_PuppetableState_Host;
+        //}
         
-        public IB_ModelObject ToPuppetHost()
-        {
-            this.CurrentState.ToPuppetHost();
-            foreach (var child in this.Children)
-            {
-                child.Get().ToPuppetHost();
-            }
+        //public IB_ModelObject ToPuppetHost()
+        //{
+        //    this.CurrentState.ToPuppetHost();
+        //    foreach (var child in this.Children)
+        //    {
+        //        child.Get().ToPuppetHost();
+        //    }
 
-            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-            return this;
-        }
+        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+        //    return this;
+        //}
 
-        public void ResetPuppetState()
-        {
-            this.CurrentState = new IB_PuppetableState_None(this);
-            foreach (var child in this.Children)
-            {
-                child.Get().ResetPuppetState();
-            }
-            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-        }
+        //public void ResetPuppetState()
+        //{
+        //    this.CurrentState = new IB_PuppetableState_None(this);
+        //    foreach (var child in this.Children)
+        //    {
+        //        child.Get().ResetPuppetState();
+        //    }
+        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+        //}
 
-        public void PuppetStateUpdated()
-        {
-            this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-            foreach (var child in this.Children)
-            {
-                child.PuppetStateUpdated();
-            }
-        }
+        //public void PuppetStateUpdated()
+        //{
+        //    this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+        //    foreach (var child in this.Children)
+        //    {
+        //        child.PuppetStateUpdated();
+        //    }
+        //}
 
 
-        public IB_ModelObject DuplicateAsPuppet()
-        {
+        //public IB_ModelObject DuplicateAsPuppet()
+        //{
 
-            var puppet = DuplicateAsPuppet(IB_InitSelf);
+        //    var puppet = DuplicateAsPuppet(IB_InitSelf);
             
-            puppet.Children.Clear();
-            foreach (var child in this.Children)
-            {
-                var childPuppet = child.DuplicateAsPuppet();
-                puppet.Children.Add(childPuppet);
-            }
+        //    puppet.Children.Clear();
+        //    foreach (var child in this.Children)
+        //    {
+        //        var childPuppet = child.DuplicateAsPuppet();
+        //        puppet.Children.Add(childPuppet);
+        //    }
 
-            //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-            return puppet;
+        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
+        //    return puppet;
 
-            //Local method
-            T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T : IB_ModelObject
-            {
-                T p = null;
-                if (this.CurrentState is IB_PuppetableState_Host stateParent)
-                {
-                    p = this.DuplicateIBObj(DupMethodHandler);
-                    //puppet.ToPuppet();
-                    p.SetTrackingID();
-                    stateParent.AddPuppet(p);
-                }
-                else
-                {
-                    throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
-                                                                                 //currently only two available
-                }
+        //    //Local method
+        //    T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T : IB_ModelObject
+        //    {
+        //        T p = null;
+        //        if (this.CurrentState is IB_PuppetableState_Host stateParent)
+        //        {
+        //            p = this.DuplicateIBObj(DupMethodHandler);
+        //            //puppet.ToPuppet();
+        //            p.SetTrackingID();
+        //            stateParent.AddPuppet(p);
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
+        //                                                                         //currently only two available
+        //        }
 
-                return p;
+        //        return p;
 
 
-            }
-        }
+        //    }
+        //}
         
         
         
 
-        public IList<IIB_ModelObject> GetPuppetsOrSelf()
-        {
+        //public IList<IIB_ModelObject> GetPuppetsOrSelf()
+        //{
 
-            //TODO: move this part to IB_PuppetableState later
-            var puppetsOrSelf = this.GetPuppets();
-            if (!puppetsOrSelf.Any())
-            {
-                puppetsOrSelf.Add(this);
-            }
+        //    //TODO: move this part to IB_PuppetableState later
+        //    var puppetsOrSelf = this.GetPuppets();
+        //    if (!puppetsOrSelf.Any())
+        //    {
+        //        puppetsOrSelf.Add(this);
+        //    }
 
-            return puppetsOrSelf;
-        }
+        //    return puppetsOrSelf;
+        //}
 
-        public IList<IIB_ModelObject> GetPuppets()
-        {
+        //public IList<IIB_ModelObject> GetPuppets()
+        //{
 
-            //TODO: move this part to IB_PuppetableState later
-            var puppets = new List<IIB_ModelObject>();
-            if (this.CurrentState is IB_PuppetableState_Host state)
-            {
-                puppets.AddRange(state.Puppets);
-                //state.ExpireState();
-            }
+        //    //TODO: move this part to IB_PuppetableState later
+        //    var puppets = new List<IIB_ModelObject>();
+        //    if (this.CurrentState is IB_PuppetableState_Host state)
+        //    {
+        //        puppets.AddRange(state.Puppets);
+        //        //state.ExpireState();
+        //    }
 
-            return puppets;
-        }
+        //    return puppets;
+        //}
 
         public string GetTrackingID()
         {
@@ -222,10 +213,10 @@ namespace Ironbug.HVAC.BaseClass
             //check types
             if (value is IB_Curve c)
             {
-                realValue = c.ToOS();
+                realValue = c.ToOS(this.GhostOSObject.model());
             }
 
-            this.CustomAttributes.TryAdd(field, realValue);
+            this.CustomAttributes.TryAdd(field, value);
 
             //apply the value to the ghost ops obj.
             //remember this ghost is only for preview purpose
@@ -438,7 +429,7 @@ namespace Ironbug.HVAC.BaseClass
             //return this.GhostOSObject.__str__();
         }
 
-        public List<string> ToStrings()
+        public virtual List<string> ToStrings()
         {
             var s = new List<string>();
             s.Add(this.GhostOSObject.__str__());

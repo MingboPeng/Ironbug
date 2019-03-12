@@ -3,14 +3,14 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoolingTowerSingleSpeed : Ironbug_HVACComponentBase
+    public class Ironbug_CoolingTowerSingleSpeed : Ironbug_HVACComponent
     {
         
         /// <summary>
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         /// </summary>
         public Ironbug_CoolingTowerSingleSpeed()
-          : base("Ironbug_CoolingTowerSingleSpeed", "ClnTower1",
+          : base("Ironbug_CoolingTowerSingleSpeed", "CoolingTower1",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_CoolingTowerSingleSpeed_DataFields))

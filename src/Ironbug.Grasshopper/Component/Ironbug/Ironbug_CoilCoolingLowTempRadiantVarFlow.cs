@@ -3,12 +3,12 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingLowTempRadiantVarFlow : Ironbug_HVACComponentBase
+    public class Ironbug_CoilCoolingLowTempRadiantVarFlow : Ironbug_HVACComponent
     {
         public Ironbug_CoilCoolingLowTempRadiantVarFlow()
-          : base("Ironbug_CoilCoolingLowTempRadiantVarFlow", "CoilCW_LTRV",
+          : base("Ironbug_CoilCoolingLowTempRadiantVarFlow", "CoilCln_LowTRadV",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_DataFieldSet))
         {
         }
@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("69FD93C0-2DCA-4F61-BF41-7C43C1044101");
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingLowTempRadiantVarFlow", "CoilCW_LTRV", "Add to ZoneHVACLowTempRadiantVarFlow", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingLowTempRadiantVarFlow", "CoilCln_LTRV", "Add to ZoneHVACLowTempRadiantVarFlow", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilCoolingLowTempRadiantVarFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
         
@@ -38,7 +38,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref airHiT);
 
             var obj = new HVAC.IB_CoilCoolingLowTempRadiantVarFlow( airHiT);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }

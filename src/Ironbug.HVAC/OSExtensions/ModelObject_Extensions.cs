@@ -102,7 +102,7 @@ namespace Ironbug.HVAC
             {
                 Monitor.Enter(tempComp,ref lockWasTaken);
                 {
-                    parm = new object[] { CheckBelonging(tempComp, value) };
+                    parm = new object[] { value };
                     invokeResult = method.Invoke(tempComp, parm);
                     if (invokeResult is bool b)
                     {
@@ -128,23 +128,23 @@ namespace Ironbug.HVAC
             return invokeResult;
 
             //belonging check
-            object CheckBelonging(ModelObject c, object v)
-            {
-                object obj = v;
-                if (v is Curve curve)
-                {
-                    //TODO: add supports of Schedule later
-                    //dealing the ghost object
-                    var idf = curve.toIdfObject().clone(true);
-                    obj = c.model().addObject(idf).get().to_Curve().get();
+            //object CheckBelonging(ModelObject c, object v)
+            //{
+            //    object obj = v;
+            //    if (v is Curve curve)
+            //    {
+            //        //TODO: add supports of Schedule later
+            //        //dealing the ghost object
+            //        var idf = curve.toIdfObject().clone(true);
+            //        obj = c.model().addObject(idf).get().to_Curve().get();
 
                     
-                    //obj = ((Curve)v).clone(c.model()).to_Curve().get();
+            //        //obj = ((Curve)v).clone(c.model()).to_Curve().get();
                     
-                }
+            //    }
 
-                return obj;
-            }
+            //    return obj;
+            //}
         }
 
         public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<BaseClass.IB_Field, object> dataField)
@@ -153,8 +153,14 @@ namespace Ironbug.HVAC
             foreach (var item in dataField)
             {
                 var field = item.Key;
+                var value = item.Value;
+                //check types
+                if (value is BaseClass.IB_Curve c)
+                {
+                    value = c.ToOS(component.model());
+                }
 
-                var invokeResult = component.SetFieldValue(field, item.Value);
+                var invokeResult = component.SetFieldValue(field, value);
 
                 invokeResults.Add(field.FullName + " :: " + invokeResult);
             }

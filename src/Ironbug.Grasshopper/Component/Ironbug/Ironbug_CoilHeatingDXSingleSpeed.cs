@@ -3,13 +3,13 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         /// </summary>
         public Ironbug_CoilHeatingDXSingleSpeed()
-          : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHDXSgl",
+          : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingDXSingleSpeed_DataFieldSet))
@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingDXSingleSpeed", "CoilHDXSgl", "CoilHeatingDXSingleSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingDXSingleSpeed", "CoilHtn_DX1", "CoilHeatingDXSingleSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -42,26 +42,9 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
-
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilHDX1;
-            }
-        }
-
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("9C0338B1-C2FE-4AEC-8219-BCF87128BF5D"); }
-        }
+        
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHDX1;
+        
+        public override Guid ComponentGuid => new Guid("9C0338B1-C2FE-4AEC-8219-BCF87128BF5D");
     }
 }

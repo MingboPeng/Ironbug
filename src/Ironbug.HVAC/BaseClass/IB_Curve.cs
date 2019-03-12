@@ -9,6 +9,6 @@ namespace Ironbug.HVAC.BaseClass
         {
         }
 
-        public abstract Curve ToOS();
+        public abstract Curve ToOS(Model model);
     }
 }

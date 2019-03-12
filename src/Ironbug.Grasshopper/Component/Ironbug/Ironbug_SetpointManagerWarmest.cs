@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerWarmest : GH_Component
+    public class Ironbug_SetpointManagerWarmest : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
         public Ironbug_SetpointManagerWarmest()
-          : base("Ironbug_SetpointManagerWarmest", "SpWarmest",
-              "Description",
+          : base("Ironbug_SetpointManagerWarmest", "SPM_Warmest",
+             EPDoc.SetpointManagerWarmest.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -25,8 +23,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("minTemperature", "_minT", "MinimumSetpointTemperature", GH_ParamAccess.item);
-            pManager.AddNumberParameter("maxTemperature", "_maxT", "MaximumSetpointTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("minTemperature", "_minT", EPDoc.SetpointManagerWarmest.Field_MinimumSetpointTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("maxTemperature", "_maxT", EPDoc.SetpointManagerWarmest.Field_MaximumSetpointTemperature, GH_ParamAccess.item);
             
         }
 

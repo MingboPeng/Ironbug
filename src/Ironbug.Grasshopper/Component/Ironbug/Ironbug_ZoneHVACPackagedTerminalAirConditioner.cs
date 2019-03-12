@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACPackagedTerminalAirConditioner : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACPackagedTerminalAirConditioner : Ironbug_HVACComponent
     {
         public Ironbug_ZoneHVACPackagedTerminalAirConditioner()
           : base("Ironbug_ZoneHVACPackagedTerminalAirConditioner", "PTAC",
@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PTAC;
 
@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref fan);
 
             var obj = new HVAC.IB_ZoneHVACPackagedTerminalAirConditioner(fan,coilH,coilC);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

@@ -8,14 +8,14 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_BoilerHotWater : Ironbug_HVACComponentBase
+    public class Ironbug_BoilerHotWater : Ironbug_HVACComponent
     {
         
         /// <summary>
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         /// </summary>
         public Ironbug_BoilerHotWater()
-          : base("Ironbug_BoilerHotWater", "BoilerHW",
+          : base("Ironbug_BoilerHotWater", "Boiler",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_BoilerHotWater_DataFields))

@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACEnergyRecoveryVentilator : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACEnergyRecoveryVentilator : Ironbug_HVACComponent
     {
         
         public Ironbug_ZoneHVACEnergyRecoveryVentilator()
@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("B117A73D-597E-4922-9E34-F93F081EBE2F");
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
 
             
             var obj = new HVAC.IB_ZoneHVACEnergyRecoveryVentilator(heatingEx, spFan, exFan);
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

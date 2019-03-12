@@ -3,20 +3,20 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWaterBaseboard : Ironbug_HVACComponentBase
+    public class Ironbug_CoilHeatingWaterBaseboard : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
         public Ironbug_CoilHeatingWaterBaseboard()
-          : base("Ironbug_CoilHeatingWaterBaseboard", "CoilHW_Bd",
+          : base("Ironbug_CoilHeatingWaterBaseboard", "CoilHtn_Baseboard",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingWaterBaseboard_DataFieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -41,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingWaterBaseboard();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

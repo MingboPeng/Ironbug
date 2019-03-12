@@ -67,17 +67,21 @@
     <Compile Include="BaseClass\IB_CoilCoolingBasic.cs" />
     <Compile Include="BaseClass\IB_CoilDX.cs" />
     <Compile Include="BaseClass\IB_CoilHeatingBasic.cs" />
+    <Compile Include="BaseClass\IB_ExistingObj.cs" />
     <Compile Include="BaseClass\IB_FieldSetSingleton.cs" />
     <Compile Include="BaseClass\IB_OpsTypeOperator.cs" />
-    <Compile Include="BaseClass\IB_PuppetableState.cs" />
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingLowTempRadiantVarFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingLowTempRadiantConstFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDesuperheater.cs" />
     <Compile Include="LoopObjs\IB_ControllerMechanicalVentilation.cs" />
+    <Compile Include="LoopObjs\IB_GroundHeatExchangerHorizontalTrench.cs" />
+    <Compile Include="LoopObjs\IB_GroundHeatExchangerVertical.cs" />
+    <Compile Include="LoopObjs\IB_HeatExchangerFluidToFluid.cs" />
     <Compile Include="LoopObjs\IB_PipeOutdoor.cs" />
     <Compile Include="LoopObjs\IB_PipeAdiabatic.cs" />
     <Compile Include="LoopObjs\IB_Duct.cs" />
@@ -95,6 +99,8 @@
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
     <Compile Include="LoopObjs\IB_SizingSystem.cs" />
+    <Compile Include="Loops\IB_ExistPlantLoop.cs" />
+    <Compile Include="Loops\IB_ExistAirLoop.cs" />
     <Compile Include="Loops\IB_NoAirLoop.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="BaseClass\IB_Schedule.cs" />
@@ -103,6 +109,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
+    <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_FanZoneExhaust.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTempRadiantVarFlow.cs" />
@@ -204,6 +211,10 @@
     <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
       <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
       <Name>Ironbug.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ironbug.EPDoc\Ironbug.EPDoc.csproj">
+      <Project>{28144fdf-48c8-461b-985b-eaca33aacb7d}</Project>
+      <Name>Ironbug.EPDoc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

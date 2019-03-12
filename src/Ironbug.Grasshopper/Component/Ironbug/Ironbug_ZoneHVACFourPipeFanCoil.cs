@@ -5,7 +5,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACFourPipeFanCoil : Ironbug_HVACComponentBase
+    public class Ironbug_ZoneHVACFourPipeFanCoil : Ironbug_HVACComponent
     {
         
         public Ironbug_ZoneHVACFourPipeFanCoil()
@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ZoneHVACFourPipeFanCoil();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             var fan = (IB_Fan)null;
             var coilH = (IB_CoilHeatingWater)null;

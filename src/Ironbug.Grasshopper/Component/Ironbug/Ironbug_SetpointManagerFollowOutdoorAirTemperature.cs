@@ -3,14 +3,14 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : GH_Component
+    public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
         /// </summary>
         public Ironbug_SetpointManagerFollowOutdoorAirTemperature()
-          : base("Ironbug_SetpointManagerFollowOutdoorAirTemperature", "SpFollowOATemp",
-              "Description",
+          : base("Ironbug_SetpointManagerFollowOutdoorAirTemperature", "SPM_FollowOATemp",
+              EPDoc.SetpointManagerFollowOutdoorAirTemperature.Note,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -20,11 +20,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("ControlVariable", "_CtrlVar_", "Default:Temperature", GH_ParamAccess.item);
-            pManager.AddTextParameter("ReferenceTemperatureType", "_RefType_", "Default:OutdoorAirWetBulb", GH_ParamAccess.item);
-            pManager.AddNumberParameter("MaximumSetpointTemperature", "_maxT_", "Default:80C", GH_ParamAccess.item);
-            pManager.AddNumberParameter("MinimumSetpointTemperature", "_minT_", "Default:5C", GH_ParamAccess.item);
-            pManager.AddNumberParameter("OffsetTemperatureDifference", "_diff_", "Default:0", GH_ParamAccess.item);
+            pManager.AddTextParameter("ControlVariable", "_CtrlVar_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_ControlVariable} \r\nDefault:Temperature", GH_ParamAccess.item);
+            pManager.AddTextParameter("ReferenceTemperatureType", "_RefType_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_ReferenceTemperatureType} \r\nDefault:OutdoorAirWetBulb", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MaximumSetpointTemperature", "_maxT_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_MaximumSetpointTemperature}\r\nDefault:80C", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MinimumSetpointTemperature", "_minT_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_MinimumSetpointTemperature}\r\nDefault:5C", GH_ParamAccess.item);
+            pManager.AddNumberParameter("OffsetTemperatureDifference", "_diff_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_OffsetTemperatureDifference}Default:0", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;

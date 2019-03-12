@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ObjParams : GH_Component, IGH_VariableParameterComponent
+    public class Ironbug_ObjParams : Ironbug_Component, IGH_VariableParameterComponent
     {
         public override GH_Exposure Exposure => GH_Exposure.secondary;
 
@@ -110,7 +110,7 @@ namespace Ironbug.Grasshopper.Component
                 this.DataFieldTypes = new Dictionary<IGH_DocumentObject, Type>();
                 foreach (var item in recipients)
                 {
-                    var targetHVACComponent = (Ironbug_HVACComponentBase)item.Attributes.GetTopLevel.DocObject;
+                    var targetHVACComponent = (Ironbug_HVACComponent)item.Attributes.GetTopLevel.DocObject;
 
                     var dataFieldType = targetHVACComponent.DataFieldType;
                     this.DataFieldTypes.Add(targetHVACComponent, dataFieldType);
@@ -201,7 +201,7 @@ namespace Ironbug.Grasshopper.Component
                         object value = null;
                         fristData.CastTo(out value);
 
-                        if (dataField.ValidData.Any())
+                        if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
                         {
                             var valueStr = value.ToString();
                             if (!dataField.ValidData.Contains(valueStr))
@@ -278,7 +278,7 @@ namespace Ironbug.Grasshopper.Component
 
                 newParam.Name = field.FullName;
                 newParam.NickName = field.NickName;
-                newParam.Description = $"{field.DetailedDescription}\r\n{field.Description}";
+                newParam.Description = field.Description;
                 newParam.MutableNickName = false;
                 newParam.Access = GH_ParamAccess.item;
                 newParam.Optional = true;

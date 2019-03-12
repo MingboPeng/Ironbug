@@ -20,7 +20,8 @@ namespace Ironbug.HVAC
             this._thermalZones.Add(ThermalZones);
         }
 
-        public new IB_NoAirLoop Duplicate()
+
+        public override IB_ModelObject Duplicate()
         {
             var newObj = this.DuplicateIBObj(() => new IB_NoAirLoop());
 
@@ -45,6 +46,11 @@ namespace Ironbug.HVAC
         public override string ToString()
         {
             return string.Format("{0} zones in this NoAirLoop", this._thermalZones.Count);
+        }
+
+        public override List<string> ToStrings()
+        {
+            return new List<string>() { this.ToString() };
         }
     }
 }

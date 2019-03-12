@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduled : GH_Component
+    public class Ironbug_SetpointManagerScheduled : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
         public Ironbug_SetpointManagerScheduled()
-          : base("Ironbug_SetpointManagerScheduled", "SpScheduled",
-              "Description",
+          : base("Ironbug_SetpointManagerScheduled", "SPM_Scheduled",
+              EPDoc.SetpointManagerScheduled.Note,
               "Ironbug", "05:SetpointManager")
         {
         }

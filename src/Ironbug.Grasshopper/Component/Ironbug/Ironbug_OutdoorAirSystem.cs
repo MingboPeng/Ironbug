@@ -6,14 +6,14 @@ using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OutdoorAirSystem : GH_Component
+    public class Ironbug_OutdoorAirSystem : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_OutdoorAirSystem class.
         /// </summary>
         public Ironbug_OutdoorAirSystem()
           : base("Ironbug_OutdoorAirSystem", "OASystem",
-              "Description",
+              EPDoc.AirLoopHVACOutdoorAirSystem.Note,
               "Ironbug", "02:LoopComponents")
         {
         }

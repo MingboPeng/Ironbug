@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Grasshopper.Kernel;
+using System;
+using Ironbug.EPDoc;
 
-using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWater : Ironbug_HVACComponentBase
+    public class Ironbug_CoilCoolingWater : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilCoolingWater class.
         /// </summary>
         public Ironbug_CoilCoolingWater()
-          : base("Ironbug_CoilCoolingWater", "CoilCW",
-              "Description",
+          : base("Ironbug_CoilCoolingWater", "CoilClnWater","",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilCoolingWater_DataFieldSet))
         {
-        }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+            this.Description = EPDoc.CoilCoolingWater.Note;
 
+        }
+
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -45,7 +44,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilCoolingWater();
-            obj.PuppetEventHandler += PuppetStateChanged;
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
