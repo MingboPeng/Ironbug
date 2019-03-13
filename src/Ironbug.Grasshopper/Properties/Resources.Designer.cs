@@ -893,9 +893,29 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PumpC_Headered {
+            get {
+                object obj = ResourceManager.GetObject("PumpC_Headered", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PumpV {
             get {
                 object obj = ResourceManager.GetObject("PumpV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PumpV_Headered {
+            get {
+                object obj = ResourceManager.GetObject("PumpV_Headered", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

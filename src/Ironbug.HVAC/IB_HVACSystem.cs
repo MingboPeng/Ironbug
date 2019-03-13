@@ -18,7 +18,6 @@ namespace Ironbug.HVAC
             this.AirLoops = airLoops;
             this.PlantLoops = plantLoops;
             this.VariableRefrigerantFlows = vrfs;
-
             
             var existingA = airLoops.Where(_=>_ is IIB_ExistingLoop).Select(_=>((IIB_ExistingLoop)_).ExistingObj.OsmFile);
             var existingP = plantLoops.Where(_ => _ is IIB_ExistingLoop).Select(_ => ((IIB_ExistingLoop)_).ExistingObj.OsmFile);

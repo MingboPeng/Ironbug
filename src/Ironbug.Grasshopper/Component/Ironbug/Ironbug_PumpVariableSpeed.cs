@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -34,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("PumpVariableSpeed", "Pump", "connect to airloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("PumpVariableSpeed", "Pump", "connect to plantloop's supply side", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -52,22 +48,11 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                return Properties.Resources.PumpV;
-                //return null;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.PumpV;//return null;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("56FFE744-FEFB-42B0-97F0-D79411287DA7"); }
-        }
+        public override Guid ComponentGuid => new Guid("56FFE744-FEFB-42B0-97F0-D79411287DA7");
     }
 }

@@ -81,6 +81,7 @@
     <Compile Include="LoopObjs\IB_ControllerMechanicalVentilation.cs" />
     <Compile Include="LoopObjs\IB_GroundHeatExchangerHorizontalTrench.cs" />
     <Compile Include="LoopObjs\IB_GroundHeatExchangerVertical.cs" />
+    <Compile Include="LoopObjs\IB_HeaderedPumpsVariableSpeed.cs" />
     <Compile Include="LoopObjs\IB_HeatExchangerFluidToFluid.cs" />
     <Compile Include="LoopObjs\IB_PipeOutdoor.cs" />
     <Compile Include="LoopObjs\IB_PipeAdiabatic.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
+    <Compile Include="LoopObjs\IB_HeaderedPumpsConstantSpeed.cs" />
     <Compile Include="LoopObjs\IB_SizingSystem.cs" />
     <Compile Include="Loops\IB_ExistPlantLoop.cs" />
     <Compile Include="Loops\IB_ExistAirLoop.cs" />
