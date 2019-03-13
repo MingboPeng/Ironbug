@@ -89,6 +89,9 @@ namespace Ironbug.HVAC
             }
 
             CheckInternalSourceConstruction(model);
+            var tol = model.getOutputControlReportingTolerances();
+            tol.setToleranceforTimeCoolingSetpointNotMet(1.0);
+            tol.setToleranceforTimeHeatingSetpointNotMet(1.0);
 
             //save osm file
 

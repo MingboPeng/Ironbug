@@ -4,7 +4,6 @@ using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
