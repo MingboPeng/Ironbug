@@ -24,7 +24,18 @@ namespace Ironbug.HVAC
             this.AddChild(new IB_ControllerOutdoorAir());
             
         }
-        
+
+        public void AddToOAStream(IB_HVACObject Obj)
+        {
+            this.OAStreamObjs.Add(Obj);
+        }
+
+        public void AddToReliefStream(IB_HVACObject Obj)
+        {
+            this.ReliefStreamObjs.Add(Obj);
+        }
+
+
         public void SetHeatExchanger(IB_HeatExchangerAirToAirSensibleAndLatent heatExchanger)
         {
             this.OAStreamObjs.Add(heatExchanger);
@@ -46,6 +57,14 @@ namespace Ironbug.HVAC
             {
                 item.ToOS(model).addToNode(oaNode);
             };
+
+            var rfNode = oa.outboardReliefNode().get();
+            var rfObjs = this.ReliefStreamObjs;
+            foreach (var item in rfObjs)
+            {
+                item.ToOS(model).addToNode(rfNode);
+            };
+
             return true;
         }
 
