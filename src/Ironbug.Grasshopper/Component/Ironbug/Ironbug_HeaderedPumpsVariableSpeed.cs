@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_HeaderedPumpsVariableSpeed", "PumpVar_Headered",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_PumpConstantSpeed_DataFields))
+              typeof(HVAC.IB_HeaderedPumpsVariableSpeed_DataFields))
         {
         }
 

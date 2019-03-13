@@ -97,6 +97,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeaderedPumpsVariableSpeed.cs" />
