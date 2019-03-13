@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "00:Ironbug")
         {
         }
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.importOSM;
 
         public override Guid ComponentGuid => new Guid("4BAD4D46-8CCC-41E9-B32A-9D3EAF7F71C2");
 
