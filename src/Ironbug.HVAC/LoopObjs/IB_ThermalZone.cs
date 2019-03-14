@@ -83,7 +83,17 @@ namespace Ironbug.HVAC.BaseClass
                 
             }
 
-            
+            return newZone;
+        }
+
+        public ThermalZone ToOS_NoAirLoop(Model model)
+        {
+            var newZone = (ThermalZone)this.ToOS(model);
+            foreach (var item in this.ZoneEquipments)
+            {
+                var eqp = (ZoneHVACComponent)item.ToOS(model);
+                eqp.addToThermalZone(newZone);
+            }
 
             return newZone;
         }

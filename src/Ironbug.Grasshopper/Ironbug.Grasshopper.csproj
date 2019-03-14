@@ -579,6 +579,9 @@
     <None Include="Resources\PumpC_Headered.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\IdealAirLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\importOSM.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,11 +7,11 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACIdealLoadsAirSystem : Ironbug_HVACComponent
     {
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.exFan;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.IdealAirLoad;
 
         public override Guid ComponentGuid => new Guid("9D9F8E07-254B-45BE-AFD0-B8770438EE2E");
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
         
         public Ironbug_ZoneHVACIdealLoadsAirSystem()
           : base("Ironbug_ZoneHVACIdealLoadsAirSystem", "IdealAirLoad",

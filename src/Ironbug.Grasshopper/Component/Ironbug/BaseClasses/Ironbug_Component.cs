@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
             Menu_AppendItem(t.DropDown, "Icon + FullName", SetMode2, true, DisplayMode == 2);
             menu.Items.Add(t);
             
-            Menu_AppendItem(menu, $"V{IronbugInfo.version}");
+            Menu_AppendItem(menu, $"V {IronbugInfo.version}");
         }
 
         private void SetMode0(object sender, EventArgs e)
