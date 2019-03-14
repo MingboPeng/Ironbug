@@ -23,7 +23,7 @@ namespace Ironbug.HVAC
         {
             this.IB_SizingPlant = sizing;
             //var obj = this.GhostOSObject as PlantLoop;
-            this.IB_SizingPlant.ToOS(this.GhostOSObject as PlantLoop);
+            //this.IB_SizingPlant.ToOS(this.GhostOSObject as PlantLoop);
             
         }
 

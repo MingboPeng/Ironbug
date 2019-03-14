@@ -37,7 +37,7 @@ namespace Ironbug.HVAC
             var tzs = this._thermalZones;
             foreach (var item in tzs)
             {
-                item.ToOS(model);
+                item.ToOS_NoAirLoop(model);
             }
 
             return null;

@@ -24,10 +24,18 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatRecovery", "HeatRecovery_", "HeatRecovery", GH_ParamAccess.item);
+            
+
+            
+            pManager.AddGenericParameter("ExhaustStream", "ExStream_", "add objs to outdoor air exhaust stream", GH_ParamAccess.list);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("Controller", "Controller_", "Controller for OutdoorAirSystem", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatRecovery", "HeatRecovery_", "HeatRecovery", GH_ParamAccess.item);
             pManager[1].Optional = true;
+            pManager.AddGenericParameter("IntakeStream", "OAStream_", "add objs to outdoor air intake stream", GH_ParamAccess.list);
+            pManager[2].Optional = true;
+
+            pManager.AddGenericParameter("Controller", "Controller_", "Controller for OutdoorAirSystem", GH_ParamAccess.item);
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -47,18 +55,38 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_OutdoorAirSystem();
 
             var hx = new HVAC.IB_HeatExchangerAirToAirSensibleAndLatent();
-            if (DA.GetData(0, ref hx))
+            if (DA.GetData(1, ref hx))
             {
                 obj.SetHeatExchanger(hx);
             }
 
             var controller = new HVAC.IB_ControllerOutdoorAir();
-            if (DA.GetData(1, ref controller))
+            if (DA.GetData(3, ref controller))
             {
                 obj.SetController(controller);
             }
 
             
+            var exObjs = new List<HVAC.BaseClass.IB_HVACObject>();
+            if (DA.GetDataList(0, exObjs))
+            {
+                foreach (var item in exObjs)
+                {
+                    obj.AddToReliefStream(item);
+                }
+
+            }
+            var oaObjs = new List<HVAC.BaseClass.IB_HVACObject>();
+            if (DA.GetDataList(2,oaObjs))
+            {
+                foreach (var item in oaObjs)
+                {
+                    obj.AddToOAStream(item);
+                }
+               
+            }
+
+
 
             DA.SetData(0, obj);
         }

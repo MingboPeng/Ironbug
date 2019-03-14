@@ -58,6 +58,7 @@ namespace Ironbug.Grasshopper.Component
 
             var HBZones = new List<object>();
             if (!DA.GetDataList(0, HBZones)) return;
+            if (!HBZones.Any()) return;
 
             var airTerminals = new List<IB_AirTerminal>();
             DA.GetDataList(1, airTerminals);
