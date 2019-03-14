@@ -48,7 +48,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OpenStudio ThermalZone", "OSZones", "connect to airloop's demand side", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OpenStudio ThermalZone", "Zones", "connect to airloop's demand side", GH_ParamAccess.list);
         }
 
         

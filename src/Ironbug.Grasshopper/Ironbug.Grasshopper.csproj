@@ -97,6 +97,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AddPlenumZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
@@ -583,6 +584,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\importOSM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AddPlenum.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
