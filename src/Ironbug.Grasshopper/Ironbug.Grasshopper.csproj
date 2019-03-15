@@ -92,12 +92,14 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ChillerHeaterPerformanceElectricEIR.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ExistAirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_AirCooled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AddPlenumZone.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
@@ -265,18 +267,6 @@
     <None Include="Resources\PFPBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PlantLoop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PlantLoopCW.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PlantLoopDW.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PlantLoopHW.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PumpC.png" />
   </ItemGroup>
   <ItemGroup>
@@ -413,12 +403,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoolingTowerV.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DistricCooling.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DistricHeating.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\VAVBoxNoReheat.png" />
@@ -587,6 +571,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AddPlenum.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DistricHeating.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopCW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopDW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PlantLoopHW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CentralHeatPump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChillerHeater.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DistricCooling.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

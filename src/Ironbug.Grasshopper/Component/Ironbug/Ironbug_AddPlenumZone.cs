@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AddPlenumZone : Ironbug_HVACComponent
+    public class Ironbug_AddPlenumZone : Ironbug_Component
     {
       
         protected override System.Drawing.Bitmap Icon => Resources.AddPlenum;
@@ -23,8 +23,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AddPlenumZone()
           : base("Ironbug_AddPlenumZone", "AddPlenumZone",
               "Description",
-              "Ironbug", "00:Ironbug",
-              typeof(IB_ThermalZone_DataFieldSet))
+              "Ironbug", "00:Ironbug")
         {
         }
 
