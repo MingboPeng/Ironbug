@@ -591,10 +591,10 @@
     <None Include="Resources\CentralHeatPump.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ChillerHeater.png" />
+    <None Include="Resources\DistricCooling.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DistricCooling.png" />
+    <None Include="Resources\ChillerHeater.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
