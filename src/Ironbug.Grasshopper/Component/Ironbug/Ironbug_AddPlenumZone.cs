@@ -21,8 +21,8 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         /// </summary>
         public Ironbug_AddPlenumZone()
-          : base("Ironbug_AddPlenumZone", "AddPlenumZone",
-              "Description",
+          : base("Ironbug_PlenumZone", "PlenumZone",
+              "Attach supply or/and retrun plenum zones to thermal zones in the airloop.",
               "Ironbug", "00:Ironbug")
         {
         }
@@ -34,7 +34,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("HoneybeePlenumZone", "supplyPlenum_", "Use HBZone or OsZones.\nThis plenumZone will be connect to all thermal zones", GH_ParamAccess.list);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("Ironbug_ThermalZones", "_Zones", "Add Ironbug_ThermalZones to here to set their supply and return plenums.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Ironbug_ThermalZones", "_ThermalZones", "Add Ironbug_ThermalZones to here to attach their supply and return plenums.", GH_ParamAccess.list);
             pManager.AddGenericParameter("HoneybeePlenumZone", "returnPlenum_", "Use HBZone or OsZones.\nThis plenumZone will be connect to all thermal zones", GH_ParamAccess.list);
             pManager[2].Optional = true;
      
@@ -42,7 +42,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OpenStudio ThermalZone", "Zones", "connect to airloop's demand side", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OpenStudio ThermalZone", "Zones", "ThermalZones with plenumZones attached,\nconnect to airloop's demand side", GH_ParamAccess.list);
         }
         
 
