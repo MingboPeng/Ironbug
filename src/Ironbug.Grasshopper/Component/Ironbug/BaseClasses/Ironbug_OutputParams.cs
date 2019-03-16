@@ -35,7 +35,15 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            this.Message = "Double click for more details!";
+            if (this.Params.Input.Any())
+            {
+                this.Message = "Right click to retrieve!";
+            }
+            else
+            {
+                this.Message = "Double click to switch!";
+            }
+            
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             DA.SetData(0, settingDatas);
@@ -145,7 +153,7 @@ namespace Ironbug.Grasshopper.Component
                 Params.RegisterInputParam(newParam, index);
             }
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            this.OnDisplayExpired(true);
         }
 
         private void RemoveUnused(object sender, EventArgs e)
@@ -163,7 +171,7 @@ namespace Ironbug.Grasshopper.Component
                 this.Params.UnregisterInputParameter(item);
             }
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            this.OnDisplayExpired(true);
         }
 
         public override void CreateAttributes()

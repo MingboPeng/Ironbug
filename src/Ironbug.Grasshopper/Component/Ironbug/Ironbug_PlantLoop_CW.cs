@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_CW()
-          : base("Ironbug_ChilledWaterPlantLoop", "ChilledWLoop",
+          : base("Ironbug_ChilledWaterPlantLoop", "ChilledWaterLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_DataFieldSet))

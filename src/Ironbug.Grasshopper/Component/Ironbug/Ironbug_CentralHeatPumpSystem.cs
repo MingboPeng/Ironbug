@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Chiller-heaters", "chillerHeater", "use ChillerHeaterPerformanceElectricEIR", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Chiller-heaters", "chillerHeaters", "use ChillerHeaterPerformanceElectricEIR, typically three chillerheaters are needed", GH_ParamAccess.list);
         }
 
         /// <summary>

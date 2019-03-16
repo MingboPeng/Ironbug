@@ -58,7 +58,7 @@ namespace Ironbug.Grasshopper.Component
         {
             if (this.Params.Input.Any())
             {
-                this.Message = "Double click for more details!";
+                this.Message = "Double click to switch!";
             }
 
             var settingDatas = new Dictionary<IB_Field, object>();
@@ -202,7 +202,7 @@ namespace Ironbug.Grasshopper.Component
             this.AddFieldsToParams(fieldTobeAdded);
 
             this.Params.OnParametersChanged();
-            this.OnAttributesChanged();
+            this.OnDisplayExpired(true);
         }
 
         
@@ -222,7 +222,9 @@ namespace Ironbug.Grasshopper.Component
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            //this.ExpireSolution(true);
+
+            this.OnDisplayExpired(true);
         }
 
         private void MasterSetting(object sender, EventArgs e)
@@ -233,6 +235,7 @@ namespace Ironbug.Grasshopper.Component
 
             if (this.IsMasterSetting)
             {
+                this.IsBasicSetting = true;
                 this.AddFieldsToParams(this.basicfieldList);
                 this.AddFieldsToParams(this.masterFieldList);
             }
@@ -242,7 +245,9 @@ namespace Ironbug.Grasshopper.Component
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            //this.ExpireSolution(true);
+
+            this.OnDisplayExpired(true);
         }
 
         private List<IGH_Param> AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
@@ -290,6 +295,11 @@ namespace Ironbug.Grasshopper.Component
                 if (item.SourceCount > 0) continue;
                 tobeRemoved.Add(item);
             }
+            //Do not remove all inputs if there is no connected input source.
+            if (inputParams.Count == tobeRemoved.Count) {
+                this.MasterSetting(this, EventArgs.Empty);
+                return;
+            }
 
             foreach (var item in tobeRemoved)
             {
@@ -298,7 +308,7 @@ namespace Ironbug.Grasshopper.Component
                 this.IsBasicSetting = false;
             }
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            this.OnDisplayExpired(true);
         }
 
         private void RemoveFields(IEnumerable<IB_Field> fieldsTobeRemoved)
@@ -348,20 +358,24 @@ namespace Ironbug.Grasshopper.Component
             var newAttri = new IB_SettingComponentAttributes(this);
             m_attributes = newAttri;
         }
-
-        private bool isCleanInputs = false;
+        
 
         internal void RespondToMouseDoubleClick()
         {
-            isCleanInputs = !isCleanInputs;
-            if (isCleanInputs)
-            {
-                this.RemoveUnused(this, EventArgs.Empty);
-            }
-            else
+            if (!IsMasterSetting)
             {
                 this.MasterSetting(this, EventArgs.Empty);
             }
+            else if (!IsBasicSetting)
+            {
+                this.BasicSetting(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.RemoveUnused(this, EventArgs.Empty);
+            }
+            
+           
         }
 
     }

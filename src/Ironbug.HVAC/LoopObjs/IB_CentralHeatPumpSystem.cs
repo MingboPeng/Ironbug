@@ -53,11 +53,18 @@ namespace Ironbug.HVAC
             var model = node.model();
             var newObj = ToOS(model) as CentralHeatPumpSystem;
 
-            var lpCount = 0;
-            lpCount = newObj.coolingPlantLoop().is_initialized() ? lpCount + 1 : lpCount;
-            lpCount = newObj.heatingPlantLoop().is_initialized() ? lpCount + 1 : lpCount;
-            lpCount = newObj.sourcePlantLoop().is_initialized() ? lpCount + 1 : lpCount;
+            var isInCW = newObj.coolingPlantLoop().is_initialized();
+            var isInHW = newObj.heatingPlantLoop().is_initialized();
+            var isInDW = newObj.sourcePlantLoop().is_initialized();
+          
+            if (isInCW && isInHW && !isInDW)
+                throw new ArgumentException("Failed to add CentralHeatPumpSystem to source plantloop, \nplease move the associated condenser water loop to the first item of HVACsystem's plantloops.");
 
+            var lpCount = 0;
+            lpCount = isInCW ? lpCount + 1 : lpCount;
+            lpCount = isInHW ? lpCount + 1 : lpCount;
+            lpCount = isInDW ? lpCount + 1 : lpCount;
+            
             if (lpCount<2)
             {
                 return newObj.addToNode(node);
