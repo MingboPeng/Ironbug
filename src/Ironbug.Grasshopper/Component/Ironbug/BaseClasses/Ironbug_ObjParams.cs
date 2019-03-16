@@ -1,6 +1,7 @@
 ﻿using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
 using System;
@@ -61,8 +62,38 @@ namespace Ironbug.Grasshopper.Component
             }
 
             var settingDatas = new Dictionary<IB_Field, object>();
-            settingDatas = CollectSettingData();
-            DA.SetData(0, settingDatas);
+
+            var inputCount = this.Params.Input.Count;
+            for (int i = 0; i < inputCount; i++)
+            {
+
+                GH_ObjectWrapper ghObj = null;
+                if (DA.GetData(i, ref ghObj))
+                {
+                    ghObj.CastTo(out object value);
+                   
+                    //value.CastTo(out value);
+                    var fieldName = this.Params.Input[i].Name;
+                    var dataField = this.FieldSet.FirstOrDefault(_ => _.FULLNAME == fieldName.ToUpper());
+                
+                    if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
+                    {
+                        var valueStr = value.ToString();
+                        if (!dataField.ValidData.Contains(valueStr))
+                        {
+                            throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
+                        }
+                    }
+
+                    settingDatas.TryAdd(dataField, value);
+                }
+            }
+
+            if (settingDatas.Any())
+            {
+                DA.SetData(0, settingDatas);
+            }
+    
         }
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
@@ -174,50 +205,7 @@ namespace Ironbug.Grasshopper.Component
             this.OnAttributesChanged();
         }
 
-        private Dictionary<IB_Field, object> CollectSettingData()
-        {
-            if (CurrentDataFieldType == null)
-            {
-                return null;
-            }
-            var dataFieldSet = this.FieldSet;
-            var settingDatas = new Dictionary<IB_Field, object>();
-
-            var allInputParams = this.Params.Input;
-            foreach (var item in allInputParams)
-            {
-                if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
-                {
-                    continue;
-                }
-                else
-                {
-                    var fristData = item.VolatileData.AllData(true).ToList().First();
-
-                    if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
-                    {
-                        var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
-
-                        object value = null;
-                        fristData.CastTo(out value);
-
-                        if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
-                        {
-                            var valueStr = value.ToString();
-                            if (!dataField.ValidData.Contains(valueStr))
-                            {
-                                throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
-                            }
-                        }
-
-                        settingDatas.TryAdd(dataField, value);
-                    }
-                }
-            }
-
-            return settingDatas;
-        }
-
+        
         private void BasicSetting(object sender, EventArgs e)
         {
             if (this.basicfieldList == null) return;

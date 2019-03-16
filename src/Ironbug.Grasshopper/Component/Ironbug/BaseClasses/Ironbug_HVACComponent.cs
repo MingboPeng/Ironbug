@@ -156,7 +156,11 @@ namespace Ironbug.Grasshopper.Component
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
             var paramInput = this.Params.Input.Last();
-            var objParams = paramInput.VolatileData.AllData(true).ToList();
+            //catch the data when it is in branch
+            if (this.Phase != GH_SolutionPhase.Computing) return;
+            if (paramInput.VolatileDataCount == 0) return;
+            var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
+            var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>) null;
             var outputP = (List<IB_OutputVariable>)null;
 

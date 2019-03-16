@@ -74,7 +74,6 @@
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
-    <Compile Include="Interfaces\IIB_TripleLoopObj.cs" />
     <Compile Include="LoopObjs\IB_CentralHeatPumpSystemModule.cs" />
     <Compile Include="LoopObjs\IB_ChillerHeaterPerformanceElectricEIR.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingLowTempRadiantVarFlow.cs" />
