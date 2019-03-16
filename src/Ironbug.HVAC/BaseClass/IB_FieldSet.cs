@@ -56,7 +56,7 @@ namespace Ironbug.HVAC.BaseClass
                 var note = type.GetField("Note").GetValue(null) as string;
                 if (!string.IsNullOrEmpty(note))
                 {
-                    note = note.Length > 3000?note.Substring(0,3000)+"....(Due to the length of content, documentation has been shown partially)":note;
+                    note = note.Length > 1000?note.Substring(0,1000)+"....(Due to the length of content, documentation has been shown partially)":note;
                     note += Environment.NewLine;
                     note += Environment.NewLine;
                     note += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
