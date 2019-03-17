@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWaterBaseboardRadiant", "CoilHW_BR", "Connect to baseboard", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingWaterBaseboardRadiant", "Coil", "Connect to baseboard", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 

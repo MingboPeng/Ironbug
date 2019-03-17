@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveFanPressureRise", "CvFanPrsR", "CurveFanPressureRise", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveFanPressureRise", "Curve", "CurveFanPressureRise", GH_ParamAccess.item);
         }
         
         /// <summary>

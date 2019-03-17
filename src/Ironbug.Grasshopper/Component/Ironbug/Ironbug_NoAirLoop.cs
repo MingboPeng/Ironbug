@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("NoAirLoop", "NoAirLoop", "toSaveOSM", GH_ParamAccess.item);
+            pManager.AddGenericParameter("NoAirLoop", "NoAirLoop", "To HVACsystem", GH_ParamAccess.item);
         }
 
         /// <summary>

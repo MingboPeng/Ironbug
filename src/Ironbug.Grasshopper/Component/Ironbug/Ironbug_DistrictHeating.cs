@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_DistrictHeating class.
         /// </summary>
         public Ironbug_DistrictHeating()
-          : base("Ironbug_DistrictHeating", "DistHeating",
+          : base("Ironbug_DistrictHeating", "DistrictHeating",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_DistrictHeating_DataFieldSet))

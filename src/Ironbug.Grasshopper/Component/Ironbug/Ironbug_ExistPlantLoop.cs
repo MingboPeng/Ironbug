@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_ExistPlantLoop()
-          : base("Ironbug_ExistPlantLoop", "ExistPlantLoop",
+          : base("Ironbug_ExistingPlantLoop", "ExistingPlantLoop",
               EPDoc.PlantLoop.Note,
               "Ironbug", "01:Loops")
         {

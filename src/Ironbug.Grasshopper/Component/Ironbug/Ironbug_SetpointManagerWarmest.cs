@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SetpointManagerWarmest", "SpWarmest", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerWarmest", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>

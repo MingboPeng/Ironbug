@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.
         /// </summary>
         public Ironbug_ZoneHVACUnitVentilator_Heating()
-          : base("Ironbug_ZoneHVACUnitVentilator_Heating", "UnitVentHtn",
+          : base("Ironbug_ZoneHVACUnitVentilator_Heating", "UnitVentHeating",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACUnitVentilator_DataFieldSet))
@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACUnitVentilator_Heating", "UnitVentH", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACUnitVentilator_Heating", "UnitVent", "Connect to zone's equipment", GH_ParamAccess.item);
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatExchangerAirToAirSensibleAndLatent", "HeatExg_Air", "to OutdoorAirSystem", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatExchangerAirToAirSensibleAndLatent", "HX", "to OutdoorAirSystem", GH_ParamAccess.item);
         }
 
         /// <summary>

@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHtnE", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingElectric", "Coil", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>

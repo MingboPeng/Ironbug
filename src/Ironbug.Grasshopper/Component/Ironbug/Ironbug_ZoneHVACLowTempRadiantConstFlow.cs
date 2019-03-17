@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACLowTempRadiantConstFlow", "RadiantCF", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACLowTempRadiantConstFlow", "Radiant", "Connect to zone's equipment", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

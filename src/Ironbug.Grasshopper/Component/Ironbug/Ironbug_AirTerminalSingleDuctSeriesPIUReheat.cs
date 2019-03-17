@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctSeriesPIUReheat class.
         /// </summary>
         public Ironbug_AirTerminalSingleDuctSeriesPIUReheat()
-          : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SFP",
+          : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SeriesPIUReheat",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet))

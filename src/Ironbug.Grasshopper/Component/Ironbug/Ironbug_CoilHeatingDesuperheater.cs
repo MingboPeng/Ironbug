@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingDesuperheater", "CoolingDXwithReheater", "A desuperheater has been added to heating source (CoilCoolingDXSingleSpeed or CoilCoolingDXTwoSpeed).", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingDesuperheater", "Desuperheater", "A desuperheater with a heating source (CoilCoolingDXSingleSpeed or CoilCoolingDXTwoSpeed).", GH_ParamAccess.item);
         }
 
         /// <summary>

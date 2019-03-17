@@ -23,7 +23,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneEquipments", "Equipments_", "A list of zone equipments that will be grouped.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ZoneEquipments", "Equips_", "A list of zone equipments that will be grouped.", GH_ParamAccess.list);
             pManager[0].Optional = true;
         }
 

@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveQuadratic", "CvQuadratic", "CurveQuadratic", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveQuadratic", "Curve", "CurveQuadratic", GH_ParamAccess.item);
         }
         
         /// <summary>

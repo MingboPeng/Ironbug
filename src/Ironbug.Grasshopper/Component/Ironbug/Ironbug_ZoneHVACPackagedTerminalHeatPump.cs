@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACPackagedTerminalHeatPump : Ironbug_HVACComponent
     {
         public Ironbug_ZoneHVACPackagedTerminalHeatPump()
-          : base("Ironbug_ZoneHVACPackagedTerminalHeatPump", "PTHP",
+          : base("Ironbug_ZoneHVACPackagedTerminalHeatPump", "PackagedTerminalHeatPump",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet))
