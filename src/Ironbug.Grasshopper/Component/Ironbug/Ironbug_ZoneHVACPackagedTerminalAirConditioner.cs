@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACPackagedTerminalAirConditioner : Ironbug_HVACComponent
     {
         public Ironbug_ZoneHVACPackagedTerminalAirConditioner()
-          : base("Ironbug_ZoneHVACPackagedTerminalAirConditioner", "PackagedTerminalAirConditioner",
+          : base("Ironbug_ZoneHVACPackagedTerminalAirConditioner", "PT AirConditioner",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet))
