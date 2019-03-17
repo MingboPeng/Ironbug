@@ -170,8 +170,13 @@ namespace Ironbug.HVAC
 
         
     }
-    
 
+    public sealed class IB_AirLoopHVAC_FieldSet
+      : IB_FieldSet<IB_AirLoopHVAC_FieldSet, AirLoopHVAC>
+    {
+        private IB_AirLoopHVAC_FieldSet() { }
+
+    }
 
 
 

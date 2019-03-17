@@ -7,15 +7,16 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopHVAC : Ironbug_Component
+    public class Ironbug_AirLoopHVAC : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_AirLoopHVAC class.
         /// </summary>
         public Ironbug_AirLoopHVAC()
           : base("Ironbug_AirLoopHVAC", "AirLoop",
-              EPDoc.AirLoopHVAC.Note,
-              "Ironbug", "01:Loops")
+              "Description",
+              "Ironbug", "01:Loops",
+              typeof(HVAC.IB_AirLoopHVAC_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -74,8 +75,9 @@ namespace Ironbug.Grasshopper.Component
             {
                 airLoop.AddToDemandSide(item);
             }
-            
-            
+
+
+            this.SetObjParamsTo(airLoop);
             DA.SetData(0, airLoop);
 
         }

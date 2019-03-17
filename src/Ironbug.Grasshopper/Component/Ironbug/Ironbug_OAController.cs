@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -36,7 +32,6 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            
             pManager.AddGenericParameter("OutdoorAirSystemController", "OACtrl", "connect to OutdoorAirSystem", GH_ParamAccess.item);
         }
 
@@ -49,7 +44,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_ControllerOutdoorAir();
             var mechVentCtrl = (HVAC.IB_ControllerMechanicalVentilation)null;
             
-            if (DA.GetData(1, ref mechVentCtrl))
+            if (DA.GetData(0, ref mechVentCtrl))
             {
                 obj.SetMechanicalVentilation(mechVentCtrl);
             }
