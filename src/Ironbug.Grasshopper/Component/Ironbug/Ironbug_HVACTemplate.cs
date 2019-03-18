@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HVACTemplate : Ironbug_Component
+    public class Ironbug_HVACTemplate : GH_Component
     {
         List<string> folderList = new List<string>();
         List<List<string>> filesList = new List<List<string>>();
@@ -36,7 +36,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            this.Message = "Right click";
             this.folderList = new List<string>();
             this.filesList = new List<List<string>>();
 
@@ -81,15 +80,15 @@ namespace Ironbug.Grasshopper.Component
             if (Run && f && isFileExist)
             {
                 var tempStr = File.ReadAllText(FilePath);
-                System.Windows.Forms.Clipboard.Clear();
-                System.Windows.Forms.Clipboard.SetText(tempStr);
+                Clipboard.Clear();
+                Clipboard.SetText(tempStr);
 
                 var io = new GH_DocumentIO();
                 var success = io.Paste(GH_ClipboardType.System);
 
                 if (!success)
                 {
-                    System.Windows.Forms.MessageBox.Show("Failed to add template.");
+                    MessageBox.Show("Failed to add template.");
                     return;
                 }
                 var docTemp = io.Document;
@@ -153,7 +152,15 @@ namespace Ironbug.Grasshopper.Component
             }
 
             return t;
-        } 
+        }
+
+        public override void CreateAttributes()
+        {
+            var att = new IB_ComponentButtonAttributes(this);
+            this.Attributes = att;
+
+        }
+        
     }
     
 }

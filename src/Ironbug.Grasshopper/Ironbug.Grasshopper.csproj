@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\OsZone.cs" />
+    <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
