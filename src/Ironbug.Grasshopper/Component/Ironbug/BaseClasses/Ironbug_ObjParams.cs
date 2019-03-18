@@ -60,6 +60,10 @@ namespace Ironbug.Grasshopper.Component
             {
                 this.Message = "Double click to switch!";
             }
+            else
+            {
+                this.Message = null;
+            }
 
             var settingDatas = new Dictionary<IB_Field, object>();
 
@@ -98,10 +102,51 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
+
+            menu.Items.RemoveAt(1); // remove Preview
+            menu.Items.RemoveAt(2); // remove Bake
+
+            var t = new ToolStripMenuItem("Parameters");
+            var allParams = this.basicfieldList.ToList();
+            allParams.AddRange(this.masterFieldList);
+            var inputParams = this.Params.Input.Select(_ => _.Name);
+            foreach (var item in allParams)
+            {
+                var mitem = Menu_AppendItem(t.DropDown, item.FullName, OnClickParam, true, inputParams.Any(_ => _ == item.FullName));
+                mitem.Tag = item;
+            }
+            menu.Items.Add(t);
+
+            Menu_AppendSeparator(menu);
+
             Menu_AppendItem(menu, "BasicSettings", BasicSetting, this.IsThereBasicSetting, this.IsBasicSetting);
             Menu_AppendItem(menu, "AllSettings", MasterSetting, true, this.IsMasterSetting);
             Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
+
+        }
+
+        private void OnClickParam(object sender, EventArgs e)
+        {
+            var clickedItem = sender as ToolStripMenuItem;
+            if (clickedItem == null) return;
+
+            var field = clickedItem.Tag as IB_Field;
+            if (field == null) return;
+            //var name = clickedItem.Text;
+            if (!clickedItem.Checked)
+            {
+                AddFieldToParam(field);
+            }
+            else
+            {
+                RemoveParamFromField(field);
+            }
+
+            this.Params.OnParametersChanged();
+            this.OnDisplayExpired(true);
+
+
         }
 
         public override bool Write(GH_IWriter writer)
@@ -250,40 +295,50 @@ namespace Ironbug.Grasshopper.Component
             this.OnDisplayExpired(true);
         }
 
-        private List<IGH_Param> AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
+        private void AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
         {
-            var paramList = new List<IGH_Param>();
-
             foreach (var field in fieldTobeAdded)
             {
-                //Don't add those already exist
-                var inputNames = this.Params.Input.Select(_ => _.Name.ToUpper()).ToList();
-                if (inputNames.Contains(field.FULLNAME)) continue;
-
-                //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name.ToUpper() == field.FULLNAME);
-                //if (paramFound != null) continue;
-
-                //Add new Param
-                IGH_Param newParam = new Param_GenericObject();
-                if (field.DataType == typeof(string)) newParam = new Param_String();
-                if (field.DataType == typeof(double)) newParam = new Param_Number();
-                if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
-
-                newParam.Name = field.FullName;
-                newParam.NickName = field.NickName;
-                newParam.Description = field.Description;
-                newParam.MutableNickName = false;
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-
-                paramList.Add(newParam);
-
-                inputNames.Add(field.FULLNAME);
-                inputNames.Sort();
-                var index = inputNames.IndexOf(field.FULLNAME);
-                Params.RegisterInputParam(newParam, index);
+                AddFieldToParam(field);
             }
-            return paramList;
+        }
+
+        private void AddFieldToParam(IB_Field fieldTobeAdded)
+        {
+            var field = fieldTobeAdded;
+            //Don't add those already exist
+            var inputNames = this.Params.Input.Select(_ => _.Name.ToUpper()).ToList();
+            if (inputNames.Contains(field.FULLNAME)) return;
+
+
+            //Add new Param
+            IGH_Param newParam = new Param_GenericObject();
+            if (field.DataType == typeof(string)) newParam = new Param_String();
+            if (field.DataType == typeof(double)) newParam = new Param_Number();
+            if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
+
+            newParam.Name = field.FullName;
+            newParam.NickName = field.NickName;
+            newParam.Description = field.Description;
+            newParam.MutableNickName = false;
+            newParam.Access = GH_ParamAccess.item;
+            newParam.Optional = true;
+            
+            inputNames.Add(field.FULLNAME);
+            inputNames.Sort();
+            var index = inputNames.IndexOf(field.FULLNAME);
+            Params.RegisterInputParam(newParam, index);
+
+            
+        }
+
+        private void RemoveParamFromField(IB_Field field)
+        {
+            var inputParam = this.Params.Input.FirstOrDefault(_ => _.Name == field.FullName);
+            this.Params.UnregisterInputParameter(inputParam);
+            this.IsMasterSetting = false;
+            this.IsBasicSetting = false;
+
         }
 
         private void RemoveUnused(object sender, EventArgs e)
