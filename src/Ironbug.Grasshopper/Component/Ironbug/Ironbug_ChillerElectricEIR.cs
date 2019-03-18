@@ -57,7 +57,7 @@ namespace Ironbug.Grasshopper.Component
         {
             IB_CurveBiquadratic cv = new IB_CurveBiquadratic();
 
-            var fSet = IB_CurveBiquadratic_DataFieldSet.Value;
+            var fSet = IB_CurveBiquadratic_FieldSet.Value;
             var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
             fDic.Add(fSet.Coefficient1Constant, 0.258);
@@ -81,7 +81,7 @@ namespace Ironbug.Grasshopper.Component
         {
             IB_CurveBiquadratic cv = new IB_CurveBiquadratic();
 
-            var fSet = IB_CurveBiquadratic_DataFieldSet.Value;
+            var fSet = IB_CurveBiquadratic_FieldSet.Value;
             var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
             fDic.Add(fSet.Coefficient1Constant, 0.934);
