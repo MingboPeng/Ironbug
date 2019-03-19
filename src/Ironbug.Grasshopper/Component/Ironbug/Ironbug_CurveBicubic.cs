@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CurveBicubic()
           : base("Ironbug_CurveBicubic", "CurveBicubic",
               "Description",
-              "Ironbug", "07:Curve",
+              "Ironbug", "07:Curve & Load",
               typeof(HVAC.Curves.IB_CurveBicubic_DataFieldSet))
         {
         }

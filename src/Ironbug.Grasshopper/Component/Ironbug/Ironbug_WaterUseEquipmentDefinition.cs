@@ -3,26 +3,27 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveTriquadratic : Ironbug_HVACComponent
+    public class Ironbug_WaterUseEquipmentDefinition : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
-        public Ironbug_CurveTriquadratic()
-          : base("Ironbug_CurveTriquadratic", "CurveTriquadratic",
+        public Ironbug_WaterUseEquipmentDefinition()
+          : base("Ironbug_WaterUseEquipmentDefinition", "WaterUseLoad",
               "Description",
-              "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Curves.IB_CurveTriquadratic_DataFieldSet))
+              "Ironbug", "07:Curve & Load")
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.primary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddNumberParameter("peakFlowRate", "flow", "peakFlowRate m3/s", GH_ParamAccess.item);
+
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveTriquadratic", "Curve", "CurveTriquadratic", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterUseLoad", "load", "IB_WaterUseEquipmentDefinition", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -39,31 +40,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.Curves.IB_CurveTriquadratic();
-
-            this.SetObjParamsTo(obj);
+            double peakFlowRate = 0.000063;
+            DA.GetData(0, ref peakFlowRate);
+            var obj = new HVAC.IB_WaterUseEquipmentDefinition(peakFlowRate);
+            
             DA.SetData(0, obj);
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.curve_tq;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterUseLoad;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("A79FB106-F26E-4657-A91B-1C59F1955FA6"); }
-        }
+        public override Guid ComponentGuid => new Guid("4AB12C7F-8799-428B-87F6-62FDEDEE3B2F");
     }
 }

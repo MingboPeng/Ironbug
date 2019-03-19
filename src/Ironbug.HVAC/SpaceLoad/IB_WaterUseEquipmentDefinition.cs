@@ -6,19 +6,30 @@ namespace Ironbug.HVAC
 {
     public class IB_WaterUseEquipmentDefinition : IB_ModelObject
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => throw new NotImplementedException();
-        private double peakFlowRate { get; set; } = 0.000063; // m3s
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterUseEquipmentDefinition(this.peakFlowRate);
+        private double peakFlowRate { get; set; } = 0; // m3s
         private static WaterUseEquipmentDefinition NewDefaultOpsObj(Model model) => new WaterUseEquipmentDefinition(model);
 
-        public IB_WaterUseEquipmentDefinition(double PeakFlowRate) : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterUseEquipmentDefinition(double PeakFlowRate = 0.000063) : base(NewDefaultOpsObj(new Model()))
         {
+            this.peakFlowRate = PeakFlowRate;
         }
 
         public WaterUseEquipmentDefinition ToOS(Model model)
         {
-            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            obj.setPeakFlowRate(peakFlowRate);
-            return obj;
+            var name = $"WaterUseLoad {peakFlowRate} m3/s ({Math.Round(peakFlowRate* 15850.372483753,1)} gpm)";
+            var optionalObj = model.getWaterUseEquipmentDefinitionByName(name);
+            if (optionalObj.is_initialized())
+            {
+                return optionalObj.get();
+            }
+            else
+            {
+                var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+                obj.setPeakFlowRate(peakFlowRate);
+                obj.setName(name);
+                return obj;
+            }
         }
         public override IB_ModelObject Duplicate()
         {

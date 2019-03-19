@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -18,19 +17,15 @@ namespace Ironbug.HVAC
             this.AddChild(waterUseLoad);
             
         }
-        public void SetSpace(IB_ThermalZone Zone)
+        public void SetSpace(string ZoneName)
         {
-            var optionalNames = Zone.CustomAttributes.Where(_ => _.Key.FULLNAME == "NAME");
-            if (optionalNames.Any())
-            {
-                this.spaceName = optionalNames.First().Value.ToString();
-            }
-            
+            this.spaceName = ZoneName;
+
         }
       
         public WaterUseEquipment ToOS(Model model)
         {
-            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var obj = base.OnNewOpsObj(localMethod, model); 
             if (!string.IsNullOrEmpty(spaceName))
             {
                 var optionalSpace = model.getSpaceByName($"{spaceName}_space");
@@ -39,9 +34,14 @@ namespace Ironbug.HVAC
                     obj.setSpace(optionalSpace.get());
                 }
             }
-            obj.setWaterUseEquipmentDefinition(waterUseLoad.ToOS(model));
 
             return obj;
+
+            WaterUseEquipment localMethod(Model m)
+            {
+                return new WaterUseEquipment(this.waterUseLoad.ToOS(m));
+            }
+
         }
         public override IB_ModelObject Duplicate()
         {

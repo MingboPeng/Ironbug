@@ -18,9 +18,9 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_WaterHeaterMixed_DataFields
-        : IB_FieldSet<IB_WaterHeaterMixed_DataFields, WaterHeaterMixed>
+    public sealed class IB_WaterHeaterMixed_FieldSet
+        : IB_FieldSet<IB_WaterHeaterMixed_FieldSet, WaterHeaterMixed>
     {
-        private IB_WaterHeaterMixed_DataFields() { }
+        private IB_WaterHeaterMixed_FieldSet() { }
     }
 }
