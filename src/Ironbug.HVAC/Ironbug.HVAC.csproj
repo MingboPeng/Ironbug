@@ -74,6 +74,8 @@
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
+    <Compile Include="LoopObjs\IB_WaterUseEquipment.cs" />
+    <Compile Include="LoopObjs\IB_WaterHeaterMixed.cs" />
     <Compile Include="LoopObjs\IB_CentralHeatPumpSystemModule.cs" />
     <Compile Include="LoopObjs\IB_ChillerHeaterPerformanceElectricEIR.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingLowTempRadiantVarFlow.cs" />
@@ -107,12 +109,14 @@
     <Compile Include="Loops\IB_ExistPlantLoop.cs" />
     <Compile Include="Loops\IB_ExistAirLoop.cs" />
     <Compile Include="Loops\IB_NoAirLoop.cs" />
+    <Compile Include="LoopObjs\IB_WaterUseConnections.cs" />
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="BaseClass\IB_Schedule.cs" />
     <Compile Include="Schedules\IB_ScheduleRuleset.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
+    <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACIdealLoadsAirSystem.cs" />

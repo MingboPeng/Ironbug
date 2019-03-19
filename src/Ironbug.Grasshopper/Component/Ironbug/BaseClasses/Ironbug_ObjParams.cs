@@ -109,7 +109,10 @@ namespace Ironbug.Grasshopper.Component
             var t = new ToolStripMenuItem("Parameters");
             var allParams = this.basicfieldList.ToList();
             allParams.AddRange(this.masterFieldList);
-            var inputParams = this.Params.Input.Select(_ => _.Name);
+            if (!allParams.Any()) return;
+
+            var inputParams = this.Params.Input.Select(_ => _.Name).ToList();
+            inputParams.Sort();
             foreach (var item in allParams)
             {
                 var mitem = Menu_AppendItem(t.DropDown, item.FullName, OnClickParam, true, inputParams.Any(_ => _ == item.FullName));
