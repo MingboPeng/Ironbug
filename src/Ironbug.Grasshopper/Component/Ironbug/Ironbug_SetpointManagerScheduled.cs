@@ -22,7 +22,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+
             pManager.AddNumberParameter("Temperature", "_Temp", "SetpointTemperature", GH_ParamAccess.item);
+            pManager.AddTextParameter("ControlVariable", "var_", HVAC.IB_SetpointManagerScheduled_FieldSet.Value.ControlVariable.Description, GH_ParamAccess.item);
+            pManager[1].Optional = true;
             
         }
 
@@ -42,11 +45,13 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
 
             double temperature = 12.7778;
-
             DA.GetData(0, ref temperature);
+            string variable = "Temperature";
+            DA.GetData(1, ref variable);
 
             var obj = new HVAC.IB_SetpointManagerScheduled(temperature);
-            
+            var attri = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
+            obj.SetFieldValue(attri.ControlVariable, variable);
             
             DA.SetData(0, obj);
         }
@@ -54,22 +59,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.SetPointScheduled;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointScheduled;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("A2FE343D-A2BA-42C3-B54E-2CBEFDE7DDA1"); }
-        }
+        public override Guid ComponentGuid => new Guid("A2FE343D-A2BA-42C3-B54E-2CBEFDE7DDA1");
     }
 }
