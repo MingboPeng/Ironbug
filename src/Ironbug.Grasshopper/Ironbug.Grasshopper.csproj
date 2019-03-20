@@ -93,6 +93,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerHeaterPerformanceElectricEIR.cs" />

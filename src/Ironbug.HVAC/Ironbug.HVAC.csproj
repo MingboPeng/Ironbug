@@ -114,6 +114,7 @@
     <Compile Include="BaseClass\IB_Schedule.cs" />
     <Compile Include="Schedules\IB_ScheduleRuleset.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
