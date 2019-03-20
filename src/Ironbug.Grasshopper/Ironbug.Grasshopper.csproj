@@ -570,9 +570,6 @@
     <None Include="Resources\PumpC_Headered.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\IdealAirLoad.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\importOSM.png" />
   </ItemGroup>
   <ItemGroup>
@@ -613,6 +610,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WaterUseLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointOARetreat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IdealAirLoad.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
