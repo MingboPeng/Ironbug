@@ -106,22 +106,16 @@ namespace Ironbug.HVAC
         private bool AddSupplyObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var spnd = AirLoopHVAC.supplyOutletNode();
-            var comps = Components.Where(_ => !(_ is IB_SetpointManager));
+            var comps = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
 
             var allcopied = true;
             foreach (var comp in comps)
             {
                 allcopied &= comp.AddToNode(spnd);
-            }
-            //comps.ToList()
-            //    .ForEach(_ => _.AddToNode(spnd));
-
-            //var allcopied = AirLoopHVAC.supplyComponents()
-            //    .Where(_=>!_.IsNode())
-            //    .Count() == comps.Count();
+            } 
 
             allcopied &= this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components);
-
+            allcopied &= this.AddNodeProbe(AirLoopHVAC.supplyInletNode(), Components);
 
             if (!allcopied)
             {
@@ -134,7 +128,7 @@ namespace Ironbug.HVAC
 
         private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
 
             //add objs before branch
@@ -157,6 +151,7 @@ namespace Ironbug.HVAC
 
             //TODO: might need to double check the set point order.
             allcopied &= this.AddSetPoints(dmInNd, Components);
+            allcopied &= this.AddNodeProbe(dmInNd, Components);
 
             if (!allcopied)
             {

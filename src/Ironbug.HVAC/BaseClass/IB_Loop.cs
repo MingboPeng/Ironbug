@@ -112,5 +112,102 @@ namespace Ironbug.HVAC.BaseClass
 
             return allcopied;
         }
+        protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> components)
+        {
+            var Loop = startingNode.loop().get();
+            var currentComps = Loop.components();
+            var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
+
+            var probes = components.Where(_ => _ is IB_Probe).Select(_=>_ as IB_Probe);
+
+            //check if there is probes
+            if (!probes.Any()) return true;
+
+            int added = 0;
+
+            var nodeName = startingNode.nameString();
+            var model = startingNode.model();
+            //check if there is only one component and it is probes.
+            if (probes.Count() == components.Count())
+            {
+                foreach (var item in probes)
+                {
+                    startingNode.SetCustomAttributes(item.CustomAttributes);
+                    nodeName = startingNode.nameString();
+                    AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+              
+                    added++;
+                }
+                return true;
+            }
+
+            //check if probes is at the first
+            IEnumerable<IB_Probe> remainingProbes = null;
+            if (components.First() is IB_Probe)
+            {
+                var item = probes.First();
+                startingNode.SetCustomAttributes(item.CustomAttributes);
+                nodeName = startingNode.nameString();
+                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                added = 1;
+
+                remainingProbes = probes.Skip(1);
+            }
+            else
+            {
+                remainingProbes = probes;
+            }
+
+            //until now, probes can only be at middle or the last
+            foreach (var item in remainingProbes)
+            {
+                var atIndex = components.ToList().IndexOf(item);
+
+                OptionalNode nodeWithProbe = null;
+
+                //Find the component before probes
+                var comBeforeSetPt = components.ElementAt(atIndex - 1);
+                var names = currentComps.Select(_ => _.nameString()).ToList();
+       
+                var indexOfStartingNode = names.IndexOf(nodeName);
+                //TODO: check if there is loop branch
+                if (comBeforeSetPt is IB_LoopBranches)
+                {
+                    //search the first loop mixer after starting node
+                    var searchList = currentComps.Skip(indexOfStartingNode);
+                    var types = searchList.Select(_ => _.iddObjectType().valueName()).ToList();
+                    var mixer = searchList.First(_ => _.iddObjectType().valueName() == "OS_Connector_Mixer").to_Mixer().get();
+
+                    //get the first node after mixer
+                    //var realMixer = mixer as  ConnectorMixer;
+                    nodeWithProbe = mixer.outletModelObject().get().to_Node();
+                }
+                else
+                {
+                    var comBeforeSetPt_ID = comBeforeSetPt.GetTrackingID();
+                    var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt_ID);
+
+                    //Find the node for setPoint
+                    var node_Index = indexOfStartingNode + combeforeSetPt_Index + 1;
+                    nodeWithProbe = currentComps.ElementAt(node_Index).to_Node();
+                }
+
+                //Add to the node
+                var nd = nodeWithProbe.get();
+                nd.SetCustomAttributes(item.CustomAttributes);
+                nodeName = nd.nameString();
+                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                added++;
+            }
+
+            var allcopied = added == probes.Count();
+
+            if (!allcopied)
+            {
+                throw new Exception("Failed to add all node Probes!");
+            }
+
+            return allcopied;
+        }
     }
 }

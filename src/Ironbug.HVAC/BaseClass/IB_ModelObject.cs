@@ -21,7 +21,7 @@ namespace Ironbug.HVAC.BaseClass
         public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
         protected ModelObject GhostOSObject { get; private set; }
 
-        private List<IB_OutputVariable> OutputVariables { get; set; } = new List<IB_OutputVariable>();
+        public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
@@ -36,7 +36,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return;
             }
-            this.OutputVariables.AddRange(outputVariable);
+            this.CustomOutputVariables.AddRange(outputVariable);
         }
 
         internal void AddChild(IB_ModelObject ChildObj)
@@ -297,7 +297,7 @@ namespace Ironbug.HVAC.BaseClass
                 realObj = InitAndSetAttributes();
             }
             var realName = realObj.nameString();
-            AddOutputVariablesToModel(this.OutputVariables,realName, model);
+            AddOutputVariablesToModel(this.CustomOutputVariables, realName, model);
             
             return realObj as T;
 
@@ -313,9 +313,10 @@ namespace Ironbug.HVAC.BaseClass
 
 
         }
+       
 
         
-        private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
+        static internal void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
             var vs = outputVariables;
             foreach (var item in vs)
@@ -365,7 +366,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             newObj.UpdateOSModelObjectWithCustomAttr();
-            newObj.AddOutputVariables(this.OutputVariables);
+            newObj.AddOutputVariables(this.CustomOutputVariables);
             return newObj;
         }
 

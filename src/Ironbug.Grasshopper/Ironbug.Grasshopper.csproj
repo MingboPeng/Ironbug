@@ -96,6 +96,7 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />

@@ -59,7 +59,9 @@ namespace Ironbug.HVAC
             {
                 item.AddToNode(oaNode);
             };
-            AddSetPoints(oaNode, oaObjs);
+            var osComs = oa.oaComponents();
+            AddSetPoints(oaNode, oaObjs, osComs);
+            AddNodeProbe(oaNode, oaObjs, true);
 
             var rfNode = oa.outboardReliefNode().get();
             var rfObjs = this.ReliefStreamObjs;
@@ -67,6 +69,9 @@ namespace Ironbug.HVAC
             {
                 item.ToOS(model).addToNode(rfNode);
             };
+            var reComs = oa.reliefComponents();
+            AddSetPoints(rfNode, rfObjs, reComs);
+            AddNodeProbe(rfNode, rfObjs, false);
 
             return true;
         }
@@ -104,12 +109,12 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components)
+        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components, IEnumerable<ModelObject> currentAddedObj)
         {
 
             var Loop = startingNode.loop().get();
-            
-            var currentComps = Loop.to_AirLoopHVAC().get().airLoopHVACOutdoorAirSystem().get().oaComponents();
+
+            var currentComps = currentAddedObj;
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
             var setPts = components.Where(_ => _ is IB_SetpointManager);
@@ -176,6 +181,99 @@ namespace Ironbug.HVAC
             if (!allcopied)
             {
                 throw new Exception("Failed to add all set point managers!");
+            }
+
+            return allcopied;
+        }
+        protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> components, bool isOAStream)
+        {
+            var Loop = startingNode.loop().get();
+
+            var currentComps = new List<ModelObject>();
+            if (isOAStream)
+            {
+                currentComps = Loop.to_AirLoopHVAC().get().airLoopHVACOutdoorAirSystem().get().oaComponents().ToList();
+                components = components.Reverse();
+            }
+            else
+            {
+                currentComps = Loop.to_AirLoopHVAC().get().airLoopHVACOutdoorAirSystem().get().reliefComponents().ToList();
+            }
+            var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
+            
+            var probes = components.Where(_ => _ is IB_Probe).Select(_ => _ as IB_Probe);
+
+            //check if there is probes
+            if (!probes.Any()) return true;
+
+            int added = 0;
+
+            var nodeName = startingNode.nameString();
+            var model = startingNode.model();
+            //check if there is only one component and it is probes.
+            if (probes.Count() == components.Count())
+            {
+                foreach (var item in probes)
+                {
+                    startingNode.SetCustomAttributes(item.CustomAttributes);
+                    nodeName = startingNode.nameString();
+                    AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+
+                    added++;
+                }
+                return true;
+            }
+
+            //check if probes is at the first
+            IEnumerable<IB_Probe> remainingProbes = null;
+            if (components.First() is IB_Probe)
+            {
+                var item = probes.First();
+                startingNode.SetCustomAttributes(item.CustomAttributes);
+                nodeName = startingNode.nameString();
+                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                added = 1;
+
+                remainingProbes = probes.Skip(1);
+            }
+            else
+            {
+                remainingProbes = probes;
+            }
+
+            //until now, probes can only be at middle or the last
+            foreach (var item in remainingProbes)
+            {
+                var atIndex = components.ToList().IndexOf(item);
+
+                OptionalNode nodeWithProbe = null;
+
+                //Find the component before probes
+                var comBeforeSetPt = components.ElementAt(atIndex - 1);
+                var names = currentComps.Select(_ => _.nameString()).ToList();
+
+                var indexOfStartingNode = names.IndexOf(nodeName);
+
+                var comBeforeSetPt_ID = comBeforeSetPt.GetTrackingID();
+                var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt_ID);
+
+                //Find the node for setPoint
+                var node_Index = combeforeSetPt_Index +1;
+                nodeWithProbe = currentComps.ElementAt(node_Index).to_Node();
+
+                //Add to the node
+                var nd = nodeWithProbe.get();
+                nd.SetCustomAttributes(item.CustomAttributes);
+                nodeName = nd.nameString();
+                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                added++;
+            }
+
+            var allcopied = added == probes.Count();
+
+            if (!allcopied)
+            {
+                throw new Exception("Failed to add all node Probes in OutdoorAirSystem!");
             }
 
             return allcopied;
