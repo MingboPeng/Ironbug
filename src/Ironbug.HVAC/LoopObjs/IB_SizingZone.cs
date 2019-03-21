@@ -20,8 +20,11 @@ namespace Ironbug.HVAC
         public ModelObject ToOS(ThermalZone thermalZone)
         {
             //create a sizingZone to target thermalZone
-            var targetModel = thermalZone.model();
-            return base.OnNewOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
+            var sz = thermalZone.sizingZone();
+            sz.SetCustomAttributes(this.CustomAttributes);
+            return sz;
+            //var targetModel = thermalZone.model();
+            //return base.OnNewOpsObj((Model model)=> new SizingZone(model, thermalZone), targetModel);
         }
         
         
