@@ -313,6 +313,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap CoilCW_adv {
+            get {
+                object obj = ResourceManager.GetObject("CoilCW_adv", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CoilHDX1 {
             get {
                 object obj = ResourceManager.GetObject("CoilHDX1", resourceCulture);
@@ -356,6 +366,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap CoilHW {
             get {
                 object obj = ResourceManager.GetObject("CoilHW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap CoilHW_adv {
+            get {
+                object obj = ResourceManager.GetObject("CoilHW_adv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1216,6 +1236,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap VRFUnit {
             get {
                 object obj = ResourceManager.GetObject("VRFUnit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WaterCoilCtrl {
+            get {
+                object obj = ResourceManager.GetObject("WaterCoilCtrl", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

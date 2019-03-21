@@ -127,7 +127,7 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void DataFieldTypeEpNote_Test()
         {
-            var datafields = IB_CoilCoolingWater_DataFieldSet.Value;
+            var datafields = IB_CoilCoolingWater_FieldSet.Value;
 
             var dec = datafields.ElementAt(0).Description;
             var success = dec.Contains("EnergyPlus is a trademark of the US Department of Energy.");

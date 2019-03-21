@@ -74,6 +74,7 @@
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
+    <Compile Include="LoopObjs\IB_ControllerWaterCoil.cs" />
     <Compile Include="LoopObjs\IB_WaterUseEquipment.cs" />
     <Compile Include="LoopObjs\IB_WaterHeaterMixed.cs" />
     <Compile Include="LoopObjs\IB_CentralHeatPumpSystemModule.cs" />

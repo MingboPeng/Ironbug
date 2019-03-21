@@ -5,13 +5,13 @@ using Ironbug.EPDoc;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWater : Ironbug_HVACComponent
+    public class Ironbug_CoilCoolingWater_Adv : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_CoilCoolingWater class.
         /// </summary>
-        public Ironbug_CoilCoolingWater()
-          : base("Ironbug_CoilCoolingWater", "CoilClnWater","",
+        public Ironbug_CoilCoolingWater_Adv()
+          : base("Ironbug_CoilCoolingWater_Adv", "CoilClnWater_Adv", "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilCoolingWater_FieldSet))
         {
@@ -24,6 +24,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddGenericParameter("ControllerWaterCoil", "_ctrl", "add a customized controller here", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,9 +42,10 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilCoolingWater();
+            HVAC.IB_ControllerWaterCoil ctrl = null;
+            DA.GetData(0, ref ctrl);
+            var obj = new HVAC.IB_CoilCoolingWater(ctrl);
             
-
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
@@ -52,11 +54,11 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW_adv;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("42c0bccb-cb71-40af-83cf-14fa9a01f3ea");
+        public override Guid ComponentGuid => new Guid("371E6816-D142-4599-B691-5F649BD74119");
     }
 }

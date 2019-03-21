@@ -1,19 +1,18 @@
-﻿using Grasshopper.Kernel;
-using System;
-using Ironbug.EPDoc;
-
+﻿using System;
+using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWater : Ironbug_HVACComponent
+    public class Ironbug_ControllerWaterCoil : Ironbug_HVACComponent
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_CoilCoolingWater class.
+        /// Initializes a new instance of the Ironbug_OAController class.
         /// </summary>
-        public Ironbug_CoilCoolingWater()
-          : base("Ironbug_CoilCoolingWater", "CoilClnWater","",
-              "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingWater_FieldSet))
+        public Ironbug_ControllerWaterCoil()
+          : base("Ironbug_ControllerWaterCoil", "ControllerWaterCoil",
+              "Description",
+              "Ironbug", "06:Sizing&Controller",
+              typeof(HVAC.IB_ControllerWaterCoil_FieldSet))
         {
         }
 
@@ -31,8 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirSide_CoilCoolingWater", "Coil", "Connect to air loop's supply side or other water cooled system.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ControllerWaterCoil", "Ctrl", "connect to advanced CoilCoolingWater or CoilHeatingWater", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -41,22 +39,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilCoolingWater();
+            var obj = new HVAC.IB_ControllerWaterCoil();
             
-
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
-            DA.SetData(1, obj);
+
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterCoilCtrl;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("42c0bccb-cb71-40af-83cf-14fa9a01f3ea");
+        public override Guid ComponentGuid => new Guid("ABF078CD-62C6-4820-8B5B-DC715041A32A");
     }
 }

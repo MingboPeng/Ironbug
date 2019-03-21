@@ -93,6 +93,9 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />
@@ -616,6 +619,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IdealAirLoad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilCW_adv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CoilHW_adv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WaterCoilCtrl.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
