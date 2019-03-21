@@ -296,8 +296,8 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realObj = InitAndSetAttributes();
             }
-
-            AddOutputVariablesToModel(this.OutputVariables, model);
+            var realName = realObj.nameString();
+            AddOutputVariablesToModel(this.OutputVariables,realName, model);
             
             return realObj as T;
 
@@ -315,42 +315,15 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         
-        //protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
-        //{
-        //    if (initMethod == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    ModelObject realObj = null;
-        //    if (this is IIB_DualLoopObj)
-        //    {
-        //        var objInModel = this.GhostOSObject.GetIfInModel(model);
-        //        realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
-        //    }
-        //    else
-        //    {
-        //        realObj = initMethod(model);
-        //    }
-
-        //    realObj.SetCustomAttributes(this.CustomAttributes);
-
-        //    AddOutputVariablesToModel(this.OutputVariables, model);
-
-
-        //    return postProcess(realObj);
-
-            
-        //}
-        private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, Model md)
+        private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
             var vs = outputVariables;
             foreach (var item in vs)
             {
                 var outV = new OutputVariable(item.VariableName, md);
                 outV.setReportingFrequency(item.TimeStep);
-                //TODO: add keyname
-                //outV.setKeyValue("keyname");
+             
+                outV.setKeyValue(keyName);
             }
         }
 
