@@ -112,8 +112,8 @@ namespace Ironbug.Grasshopper.Component
             if (!allParams.Any()) return;
 
             var inputParams = this.Params.Input.Select(_ => _.Name).ToList();
-            inputParams.Sort();
-            foreach (var item in allParams)
+            var sortedParams = allParams.OrderBy(_=>_.FullName);
+            foreach (var item in sortedParams)
             {
                 var mitem = Menu_AppendItem(t.DropDown, item.FullName, OnClickParam, true, inputParams.Any(_ => _ == item.FullName));
                 mitem.Tag = item;

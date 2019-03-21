@@ -14,6 +14,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
         public override GH_Exposure Exposure => GH_Exposure.secondary;
+        private IEnumerable<string> OutputVariables { get; set; } = new List<string>();
 
         public Ironbug_OutputParams()
           : base("Ironbug_OutputParams", "OutputParams",
@@ -30,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OutputParams", "OutputParams", "TODO...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("OutputVariables", "vars", "TODO...", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -79,11 +80,13 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanInsertParameter(GH_ParameterSide side, int index)
         {
+            if (side == GH_ParameterSide.Output) return false;
             return true;
         }
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
         {
+            if (side == GH_ParameterSide.Output) return false;
             return true;
         }
 
@@ -104,9 +107,53 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            Menu_AppendItem(menu, "EPOutputVariables", GetEPOutputVariables, true);
+
+            menu.Items.RemoveAt(1); // remove Preview
+            menu.Items.RemoveAt(2); // remove Bake
+
+            var t = new ToolStripMenuItem("OutputVariables");
+            this.GetEPOutputVariables(this, EventArgs.Empty);
+            var allParams = this.OutputVariables.ToList();
+            
+            var inputParams = this.Params.Input.Select(_ => _.Name).ToList();
+            allParams.Sort();
+            foreach (var item in allParams)
+            {
+                var mitem = Menu_AppendItem(t.DropDown, item, OnClickParam, true, inputParams.Any(_ => _ == item));
+            }
+            if (allParams.Any()) {
+                menu.Items.Add(t);
+            }
+
+            Menu_AppendSeparator(menu);
+            Menu_AppendItem(menu, "Get EPOutputVariables", GetEPOutputVariables, true);
             Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
+        }
+
+        private void OnClickParam(object sender, EventArgs e)
+        {
+            var clickedItem = sender as ToolStripMenuItem;
+            if (clickedItem == null) return;
+            
+            //var name = clickedItem.Text;
+            if (!clickedItem.Checked)
+            {
+                AddVariableToParam(clickedItem.Text);
+            }
+            else
+            {
+                RemoveParamFromName(clickedItem.Text);
+            }
+
+            this.Params.OnParametersChanged();
+            this.OnDisplayExpired(true);
+        }
+
+        private void RemoveParamFromName(string text)
+        {
+            var inputParam = this.Params.Input.FirstOrDefault(_ => _.Name == text);
+            this.Params.UnregisterInputParameter(inputParam);
         }
 
         public void GetEPOutputVariables(object sender, EventArgs e)
@@ -115,16 +162,12 @@ namespace Ironbug.Grasshopper.Component
             if (recs.Count == 0) return;
 
             var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponent;
-            //var obj = rec.Params.Output.Last().VolatileData.AllData(true).First();
             var obj = rec.IB_ModelObject;
             if (obj is null) return;
-
-            //object value = null;
-            //obj.CastTo(out value);
+            
             if (obj is IB_ModelObject ibObj)
             {
-                var outvariables = ibObj.SimulationOutputVariables;
-                this.AddVariablesToParams(outvariables);
+                this.OutputVariables = ibObj.SimulationOutputVariables;
             }
         }
 
@@ -132,28 +175,33 @@ namespace Ironbug.Grasshopper.Component
         {
             foreach (var outputV in variablesTobeAdded)
             {
-                //Don't add those already exist
-                var inputNames = this.Params.Input.Select(_ => _.Name).ToList();
-                if (inputNames.Contains(outputV)) continue;
-                //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name == outputV);
-                //if (paramFound != null) continue;
-                //Add new Param
-                IGH_Param newParam = new Param_GenericObject();
-
-                newParam.Name = outputV;
-                newParam.NickName = outputV;
-                newParam.Description = "TODO...";
-                newParam.MutableNickName = false;
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-
-                inputNames.Add(outputV);
-                inputNames.Sort();
-                var index = inputNames.IndexOf(outputV);
-                Params.RegisterInputParam(newParam, index);
+                AddVariableToParam(outputV);
             }
             this.Params.OnParametersChanged();
             this.OnDisplayExpired(true);
+        }
+
+        private void AddVariableToParam(string outputV)
+        {
+            //Don't add those already exist
+            var inputNames = this.Params.Input.Select(_ => _.Name).ToList();
+            if (inputNames.Contains(outputV)) return;
+            //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name == outputV);
+            //if (paramFound != null) continue;
+            //Add new Param
+            IGH_Param newParam = new Param_GenericObject();
+
+            newParam.Name = outputV;
+            newParam.NickName = outputV;
+            newParam.Description = "TODO...";
+            newParam.MutableNickName = false;
+            newParam.Access = GH_ParamAccess.item;
+            newParam.Optional = true;
+
+            inputNames.Add(outputV);
+            inputNames.Sort();
+            var index = inputNames.IndexOf(outputV);
+            Params.RegisterInputParam(newParam, index);
         }
 
         private void RemoveUnused(object sender, EventArgs e)
@@ -192,6 +240,8 @@ namespace Ironbug.Grasshopper.Component
             else
             {
                 this.GetEPOutputVariables(this, EventArgs.Empty);
+
+                this.AddVariablesToParams(this.OutputVariables);
             }
         }
     }
