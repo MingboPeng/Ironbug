@@ -204,7 +204,6 @@
     <Compile Include="Loops\IB_PlantLoop.cs" />
     <Compile Include="LoopObjs\IB_SizingZone.cs" />
     <Compile Include="LoopObjs\IB_ThermalZone.cs" />
-    <Compile Include="OSExtensions\HVACComponent_Extensions.cs" />
     <Compile Include="OSExtensions\PlantLoop_Extensions.cs" />
     <Compile Include="Loops\IB_AirLoopHVAC.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWater.cs" />

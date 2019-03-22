@@ -316,16 +316,17 @@ namespace Ironbug.HVAC.BaseClass
        
 
         
-        static internal void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
+        static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
+            var success = true;
             var vs = outputVariables;
             foreach (var item in vs)
             {
                 var outV = new OutputVariable(item.VariableName, md);
-                outV.setReportingFrequency(item.TimeStep);
-             
-                outV.setKeyValue(keyName);
+                success &= outV.setReportingFrequency(item.TimeStep);
+                success &= outV.setKeyValue(keyName);
             }
+            return success;
         }
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)

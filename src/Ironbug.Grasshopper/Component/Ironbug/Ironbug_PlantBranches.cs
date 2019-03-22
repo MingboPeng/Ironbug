@@ -129,7 +129,15 @@ namespace Ironbug.Grasshopper.Component
             {
                 foreach (var ghBranch in ghBranches)
                 {
-                    loopBranches.Add(ghBranch.ConvertAll(converter));
+                    var branchItems = ghBranch.ConvertAll(converter);
+                    if (branchItems.Any(_=>_ is HVAC.IB_Probe))
+                    {
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Probe cannot be added in PlantBranch yet! Stay tuned!");
+                    }
+                    else
+                    {
+                        loopBranches.Add(branchItems);
+                    }
                 }
 
                 
