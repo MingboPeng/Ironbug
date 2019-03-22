@@ -52,9 +52,10 @@ namespace Ironbug.HVAC.BaseClass
 
         public int Count()
         {
-            var count = 0;
-            this.Branches.ForEach(_ => count += _.Count);
-            return count;
+            //var count = 0;
+            var probeNotCounted = this.Branches.SelectMany(_ => _).Where(_=>!(_ is IB_Probe));
+            //this.Branches.ForEach(_ => count += _.Count);
+            return probeNotCounted.Count();
         }
 
         public override HVACComponent ToOS(Model model)

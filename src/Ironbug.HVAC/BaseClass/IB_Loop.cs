@@ -26,19 +26,19 @@ namespace Ironbug.HVAC.BaseClass
 
         public abstract ModelObject ToOS(Model model);
 
-        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> components)
+        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
+            var components = Components.Where(_ => !(_ is IB_Probe));
+            var setPts = components.Where(_ => _ is IB_SetpointManager).Select(_ => _ as IB_SetpointManager);
+
+            //check if there is set point
+            if (setPts.Count() == 0) return true;
+
             var Loop = startingNode.loop().get();
             var currentComps = Loop.components();
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
-            var setPts = components.Where(_ => _ is IB_SetpointManager);
-
-            //check if there is set point
-            if (setPts.Count() == 0)
-            {
-                return true;
-            }
+           
 
             int added = 0;
 
@@ -112,16 +112,18 @@ namespace Ironbug.HVAC.BaseClass
 
             return allcopied;
         }
-        protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> components)
+        protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
+            var components = Components.Where(_ => !(_ is IB_SetpointManager));
+            var probes = components.Where(_ => _ is IB_Probe).Select(_ => _ as IB_Probe);
+            //check if there is probes
+            if (!probes.Any()) return true;
+
             var Loop = startingNode.loop().get();
             var currentComps = Loop.components();
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
-            var probes = components.Where(_ => _ is IB_Probe).Select(_=>_ as IB_Probe);
-
-            //check if there is probes
-            if (!probes.Any()) return true;
+           
 
             int added = 0;
 
@@ -195,8 +197,8 @@ namespace Ironbug.HVAC.BaseClass
                 //Add to the node
                 var nd = nodeWithProbe.get();
                 nd.SetCustomAttributes(item.CustomAttributes);
-                nodeName = nd.nameString();
-                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                var ndName = nd.nameString();
+                AddOutputVariablesToModel(item.CustomOutputVariables, ndName, model);
                 added++;
             }
 
