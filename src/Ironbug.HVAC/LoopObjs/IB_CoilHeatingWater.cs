@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
             var model = node.model();
             var obj = ToOS(model);
             var success = obj.addToNode(node);
-            if (success)
+            if (success && this.Controller != null)
             {
                 var optionalCtrl = ((CoilHeatingWater)obj).controllerWaterCoil();
                 if (optionalCtrl.is_initialized())

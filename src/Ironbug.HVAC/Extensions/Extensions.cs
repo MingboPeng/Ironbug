@@ -32,7 +32,7 @@ namespace Ironbug.HVAC
 
         public static T Get<T>(this IEnumerable<IB_Child> children) where T:IB_ModelObject
         {
-            return children.FirstOrDefault(_ => _.IsType(typeof(T))).To<T>();
+            return children.FirstOrDefault(_ => _.IsType(typeof(T)))?.To<T>();
         }
 
         public static T Get<T>(this IEnumerable<IB_Child> children, int ChildIndex) where T : IB_ModelObject
