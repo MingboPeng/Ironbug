@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("OSZones", "OSZones", "ThermalZones without airloops", GH_ParamAccess.list);
+            pManager.AddGenericParameter("OSZones", "Zones", "ThermalZones that only have zone equipments. No airloop will be added", GH_ParamAccess.list);
             pManager[0].Optional = true;
         }
 
