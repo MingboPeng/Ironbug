@@ -42,7 +42,7 @@ namespace Ironbug.HVAC.Schedules
         public override ModelObject ToOS(Model model)
         {
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
-            var name = $"Schedule - {trackingId}";
+            var name = $"Schedule - {trackingId.ToString().Substring(12)}";
 
             var sch_o = model.getScheduleRulesetByName(name);
             var obj = (ScheduleRuleset)null;
@@ -69,6 +69,7 @@ namespace Ironbug.HVAC.Schedules
                     else
                     {
                         obj.setScheduleRuleIndex(r.ToOS(obj), (uint)i);
+
                     }
                 
 

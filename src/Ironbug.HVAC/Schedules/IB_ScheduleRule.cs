@@ -2,6 +2,7 @@
 using OpenStudio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -34,7 +35,7 @@ namespace Ironbug.HVAC.Schedules
         {
             var model = Ruleset.model();
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
-            var name = $"ScheduleRule - {trackingId}";
+            var name = $"ScheduleRule - {trackingId.ToString().Substring(12)}";
 
             var sch_o = model.getScheduleRuleByName(name);
             var obj = (ScheduleRule)null;
@@ -44,7 +45,8 @@ namespace Ironbug.HVAC.Schedules
             }
             else
             {
-                var day = this.ScheduleDay.ToOS(model) as ScheduleDay;
+                //There is a bug in ScheduleRule when it is initialized with ScheduleDay, it recreates a new ScheduleDay
+                var day = this.ScheduleDay.ToOS(new Model()) as ScheduleDay;
                 obj = new ScheduleRule(Ruleset, day);
                 obj.setName(name);
             }
@@ -53,15 +55,15 @@ namespace Ironbug.HVAC.Schedules
         }
 
       
-        public ScheduleRule ToOS(ScheduleRule ExistingRule)
-        {
-            var obj = ExistingRule;
-            var model = obj.model();
-            //TODO: copy attributes to existing obj
-            var day = obj.daySchedule();
-            this.ScheduleDay.CopyValuesToExisting(day);
+        //public ScheduleRule ToOS(ScheduleRule ExistingRule)
+        //{
+        //    var obj = ExistingRule;
+        //    var model = obj.model();
+        //    //TODO: copy attributes to existing obj
+        //    var day = obj.daySchedule();
+        //    this.ScheduleDay.CopyValuesToExisting(day);
        
-            return obj;
-        }
+        //    return obj;
+        //}
     }
 }

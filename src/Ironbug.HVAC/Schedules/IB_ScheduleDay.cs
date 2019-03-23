@@ -33,7 +33,7 @@ namespace Ironbug.HVAC.Schedules
         public override ModelObject ToOS(Model model)
         {
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
-            var name = $"ScheduleDay - {trackingId}";
+            var name = $"ScheduleDay - {trackingId.ToString().Substring(12)}";
             var sch_o = model.getScheduleDayByName(name);
             var obj = (ScheduleDay)null;
             if (sch_o.is_initialized())

@@ -1,16 +1,16 @@
 
 OS:Version,
-  {f3368110-4733-43cb-bb11-ab43cda8bda2}, !- Handle
+  {d8679b94-4145-4c54-bed8-85e7a3969765}, !- Handle
   2.4.0;                                  !- Version Identifier
 
 OS:Schedule:Ruleset,
-  {905676d7-5fb0-4472-9e12-bd4ffb7d6e1e}, !- Handle
-  Schedule - TrackingID:#[pfbJfwT0],      !- Name
+  {b9f61985-ad6a-4462-a536-5174b0a7dd50}, !- Handle
+  Schedule - [hWqSNHqy],                  !- Name
   ,                                       !- Schedule Type Limits Name
-  {d44f2771-1e98-4890-912d-d57cc2782d8c}; !- Default Day Schedule Name
+  {4c999375-e746-47ba-a592-f8090ef63192}; !- Default Day Schedule Name
 
 OS:Schedule:Day,
-  {d44f2771-1e98-4890-912d-d57cc2782d8c}, !- Handle
+  {4c999375-e746-47ba-a592-f8090ef63192}, !- Handle
   Schedule Day 1,                         !- Name
   ,                                       !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -51,49 +51,16 @@ OS:Schedule:Day,
   0,                                      !- Minute 12
   0;                                      !- Value Until Time 12
 
-OS:Schedule:Day,
-  {05013408-45c9-465c-adbc-8c6f9122f75c}, !- Handle
-  ScheduleDay - TrackingID:#[mqBH3fXJ],   !- Name
-  ,                                       !- Schedule Type Limits Name
-  ,                                       !- Interpolate to Timestep
-  2,                                      !- Hour 1
-  0,                                      !- Minute 1
-  0,                                      !- Value Until Time 1
-  3,                                      !- Hour 2
-  0,                                      !- Minute 2
-  1,                                      !- Value Until Time 2
-  7,                                      !- Hour 3
-  0,                                      !- Minute 3
-  0,                                      !- Value Until Time 3
-  12,                                     !- Hour 4
-  0,                                      !- Minute 4
-  1,                                      !- Value Until Time 4
-  13,                                     !- Hour 5
-  0,                                      !- Minute 5
-  0.5,                                    !- Value Until Time 5
-  18,                                     !- Hour 6
-  0,                                      !- Minute 6
-  1,                                      !- Value Until Time 6
-  22,                                     !- Hour 7
-  0,                                      !- Minute 7
-  0,                                      !- Value Until Time 7
-  23,                                     !- Hour 8
-  0,                                      !- Minute 8
-  0.8,                                    !- Value Until Time 8
-  24,                                     !- Hour 9
-  0,                                      !- Minute 9
-  0;                                      !- Value Until Time 9
-
 OS:Schedule:Rule,
-  {5159cd60-1224-4fe3-83cd-00d83a668457}, !- Handle
-  ScheduleRule - TrackingID:#[YNcdiyU3],  !- Name
-  {905676d7-5fb0-4472-9e12-bd4ffb7d6e1e}, !- Schedule Ruleset Name
+  {740257d0-ea11-42f8-9292-a6db63cc61fb}, !- Handle
+  ScheduleRule - [K5lHUk1k],              !- Name
+  {b9f61985-ad6a-4462-a536-5174b0a7dd50}, !- Schedule Ruleset Name
   0,                                      !- Rule Order
-  {030b1213-9fbf-4536-b632-b7252fcfbcf4}; !- Day Schedule Name
+  {78c0a25b-dbac-48a0-912a-48f2ee707c2a}; !- Day Schedule Name
 
 OS:Schedule:Day,
-  {030b1213-9fbf-4536-b632-b7252fcfbcf4}, !- Handle
-  ScheduleDay - TrackingID:#[mqBH3fXJ] 1, !- Name
+  {78c0a25b-dbac-48a0-912a-48f2ee707c2a}, !- Handle
+  ScheduleDay - [KMdg7NOu],               !- Name
   ,                                       !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   2,                                      !- Hour 1
