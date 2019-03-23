@@ -25,8 +25,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            //pManager.AddGenericParameter("demand", "demand", "zoneMixer or other HVAC components", GH_ParamAccess.item);
-            //pManager.AddTextParameter("name", "name", "name", GH_ParamAccess.item);
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -36,15 +34,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            if (this.Params.Input.Any())
-            {
-                this.Message = "Right click to retrieve!";
-            }
-            else
-            {
-                this.Message = "Double click to switch!";
-            }
-            
+            this.Message = "Right click to add!";
+           
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             DA.SetData(0, settingDatas);
@@ -80,8 +71,7 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanInsertParameter(GH_ParameterSide side, int index)
         {
-            if (side == GH_ParameterSide.Output) return false;
-            return true;
+            return false ;
         }
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
@@ -92,7 +82,7 @@ namespace Ironbug.Grasshopper.Component
 
         public IGH_Param CreateParameter(GH_ParameterSide side, int index)
         {
-            return new Param_GenericObject();
+            return null;
         }
 
         public bool DestroyParameter(GH_ParameterSide side, int index)
@@ -124,10 +114,7 @@ namespace Ironbug.Grasshopper.Component
             if (allParams.Any()) {
                 menu.Items.Add(t);
             }
-
-            Menu_AppendSeparator(menu);
-            Menu_AppendItem(menu, "Get EPOutputVariables", GetEPOutputVariables, true);
-            Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
+            
             Menu_AppendSeparator(menu);
         }
 
@@ -171,15 +158,7 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        private void AddVariablesToParams(IEnumerable<string> variablesTobeAdded)
-        {
-            foreach (var outputV in variablesTobeAdded)
-            {
-                AddVariableToParam(outputV);
-            }
-            this.Params.OnParametersChanged();
-            this.OnDisplayExpired(true);
-        }
+
 
         private void AddVariableToParam(string outputV)
         {
@@ -204,45 +183,6 @@ namespace Ironbug.Grasshopper.Component
             Params.RegisterInputParam(newParam, index);
         }
 
-        private void RemoveUnused(object sender, EventArgs e)
-        {
-            var inputParams = this.Params.Input;
-            var tobeRemoved = new List<IGH_Param>();
-            foreach (var item in inputParams)
-            {
-                if (item.SourceCount > 0) continue;
-                tobeRemoved.Add(item);
-            }
-
-            foreach (var item in tobeRemoved)
-            {
-                this.Params.UnregisterInputParameter(item);
-            }
-            this.Params.OnParametersChanged();
-            this.OnDisplayExpired(true);
-        }
-
-        public override void CreateAttributes()
-        {
-            var newAttri = new IB_SettingComponentAttributes(this);
-            m_attributes = newAttri;
-        }
-
-        private bool isCleanInputs = false;
-
-        internal void RespondToMouseDoubleClick()
-        {
-            isCleanInputs = !isCleanInputs;
-            if (isCleanInputs)
-            {
-                this.RemoveUnused(this, EventArgs.Empty);
-            }
-            else
-            {
-                this.GetEPOutputVariables(this, EventArgs.Empty);
-
-                this.AddVariablesToParams(this.OutputVariables);
-            }
-        }
+        
     }
 }

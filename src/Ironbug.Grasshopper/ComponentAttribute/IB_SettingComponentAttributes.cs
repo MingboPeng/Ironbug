@@ -16,10 +16,6 @@ namespace Ironbug.Grasshopper.Component
             {
                 objParams.RespondToMouseDoubleClick();
             }
-            else if (this.Owner is Ironbug_OutputParams outputParams)
-            {
-                outputParams.RespondToMouseDoubleClick();
-            }
             return base.RespondToMouseDoubleClick(sender, e);   
         }
 
