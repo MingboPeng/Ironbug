@@ -109,5 +109,33 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(success);
         }
 
+        [TestMethod]
+        public void IB_Schedule24Hrs()
+        {
+
+            var sch = new HVAC.Schedules.IB_ScheduleRuleset();
+
+            var values = new List<double>()
+            {
+                0,0,1,0,0,0,0,1,1,1,1,1,0.5,1,1,1,1,1,0,0,0,0,0.8,0
+            };
+            var values2 = new List<double>()
+            {
+                0,0,0.4,0,0,0,0,0.2,1,1,0,1,0.5,1,1,1,1,1,0,0,0,0,0.1,0
+            };
+            var day = new HVAC.Schedules.IB_ScheduleDay(values);
+            var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
+            sch.AddRule(schRule);
+
+            var day2 = new HVAC.Schedules.IB_ScheduleDay(values2);
+            var schRule2 = new HVAC.Schedules.IB_ScheduleRule(day2);
+            sch.AddRule(schRule2);
+
+            sch.ToOS(md1);
+           
+            var success = md1.Save(saveFile);
+            Assert.IsTrue(success);
+        }
+
     }
 }

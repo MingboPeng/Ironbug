@@ -2,7 +2,7 @@
 {
     public abstract class IB_Schedule : IB_ModelObject
     {
-        public IB_Schedule(OpenStudio.Schedule GhostOSObject) : base(GhostOSObject)
+        public IB_Schedule(OpenStudio.ModelObject GhostOSObject) : base(GhostOSObject)
         {
             //var a = OpenStudio.ScheduleRuleset
         }
