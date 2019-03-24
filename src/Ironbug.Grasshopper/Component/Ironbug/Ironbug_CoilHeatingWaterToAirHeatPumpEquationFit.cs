@@ -3,20 +3,20 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ScheduleTypeLimits : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit : Ironbug_HVACComponent
     {
         /// <summary>
-        /// Initializes a new instance of the Ironbug_SizingZone class.
+        /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
-        public Ironbug_ScheduleTypeLimits()
-          : base("Ironbug_ScheduleTypeLimits", "ScheduleType",
+        public Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit()
+          : base("Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit", "CoilHtn_BaseboardRad",
               "Description",
-              "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet))
+              "Ironbug", "04:ZoneEquipments",
+              typeof(HVAC.IB_CoilHeatingWaterToAirHeatPumpEquationFit_FieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.quinary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -30,30 +30,39 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ScheduleTypeLimits", "schType", "To Ironbug_Schedule", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingWaterToAirHeatPumpEquationFit", "Coil", "Connect to baseboard", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterSide", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
-        
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            var obj = new HVAC.IB_CoilHeatingWaterToAirHeatPumpEquationFit();
             
-            var obj = new HVAC.Schedules.IB_ScheduleTypeLimits();
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
+            DA.SetData(1, obj);
         }
+
+
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.Schedule_Type;
+        protected override System.Drawing.Bitmap Icon => null;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("C090F57C-EC4F-417A-9156-BA1BC4047E75");
+        public override Guid ComponentGuid
+        {
+            get { return new Guid("8DDCC5FD-87AB-481C-ADC2-607840D29AC6"); }
+        }
+        
     }
+    
 }
