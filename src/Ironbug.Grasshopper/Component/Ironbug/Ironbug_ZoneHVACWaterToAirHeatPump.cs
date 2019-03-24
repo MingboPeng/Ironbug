@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.PTHP;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterToAirHeatPump;
 
         public override Guid ComponentGuid => new Guid("F35104CC-614A-4F4D-81AC-236C710E37E2");
 

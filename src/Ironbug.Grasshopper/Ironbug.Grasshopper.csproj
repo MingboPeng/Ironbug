@@ -610,12 +610,6 @@
     <None Include="Resources\ChillerHeater.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WaterUseConnect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\WaterUseEquip.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\WaterHeaterMix.png" />
   </ItemGroup>
   <ItemGroup>
@@ -647,6 +641,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Schedule_Rule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_CoolingWAFit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_HeatingWAFit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WaterUseEquip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WaterToAirHeatPump.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WaterUseConnect.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

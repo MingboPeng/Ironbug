@@ -168,6 +168,16 @@ namespace Ironbug.Grasshopper.Component
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
+                if (this.CurrentDataFieldType == null)
+                {
+                    var typeNames = typeName.Split('_');
+                    if (typeNames.Last() != "FieldSet")
+                    {
+                        var newTypeName = string.Join("_", typeNames.Take(2))+"_FieldSet";
+                        this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(newTypeName);
+                    }
+                    
+                }
                 this.FieldSet = GetFieldSet(CurrentDataFieldType);
                 this.basicfieldList = FieldSet.Where(_ => _ is IB_BasicField).ToList();
                 this.masterFieldList = FieldSet.Where(_ => !((_ is IB_BasicField) || (_ is IB_TopField))).ToList();

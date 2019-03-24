@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         /// </summary>
         public Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit()
-          : base("Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit", "CoilHtn_BaseboardRad",
+          : base("Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit", "CoilHtn_WaterToAir",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingWaterToAirHeatPumpEquationFit_FieldSet))
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWaterToAirHeatPumpEquationFit", "Coil", "Connect to baseboard", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingWaterToAirHeatPumpEquationFit", "Coil", "Connect to ZoneHVACWaterToAirHeatPump", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
@@ -42,7 +42,6 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_CoilHeatingWaterToAirHeatPumpEquationFit();
             
-
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
@@ -53,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Coil_HeatingWAFit;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.

@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.senary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.ChillerHeater;//return null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.ChillerHeater;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
