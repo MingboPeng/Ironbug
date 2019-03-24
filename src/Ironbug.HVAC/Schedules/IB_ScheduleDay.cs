@@ -2,7 +2,6 @@
 using OpenStudio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -55,22 +54,22 @@ namespace Ironbug.HVAC.Schedules
         {
             ScheduleDay.clearValues();
             var values = this.values;
-            int hr = 1;
-            var previousValue = 0.0;
-            for (int i = 0; i < values.Count; i++)
+            //int hr = 1;
+            var previousValue = values[0];
+            var hrCount = values.Count;
+            for (int i = 1; i < hrCount; i++)
             {
-                hr = i+1;
+                //hr = i+1;
                 var value = values[i];
-                if (i ==0 )
-                {
-                    previousValue = value;
-                    ScheduleDay.addValue(new Time(0, i), value);
-                }
-                else if (value != previousValue)
+                if (value != previousValue)
                 {
                     
-                    ScheduleDay.addValue(new Time(0, hr-1), previousValue);
+                    ScheduleDay.addValue(new Time(0, i), previousValue);
                     previousValue = value;
+                    if (i == hrCount - 1)
+                    {
+                        ScheduleDay.addValue(new Time(0, i + 1), value);
+                    }
                 }
 
             }

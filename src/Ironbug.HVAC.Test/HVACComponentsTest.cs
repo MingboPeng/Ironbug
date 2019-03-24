@@ -117,11 +117,11 @@ namespace Ironbug.HVACTests
 
             var values = new List<double>()
             {
-                0,0,1,0,0,0,0,1,1,1,1,1,0.5,1,1,1,1,1,0,0,0,0,0.8,0
+                0.1,0,0,0,0,0,0,0.2,0.5,1,2,2,2,1,1,1,1,0.2,0,0,0,0,0,0
             };
             var values2 = new List<double>()
             {
-                0,0,0.4,0,0,0,0,0.2,1,1,0,1,0.5,1,1,1,1,1,0,0,0,0,0.1,0
+                2,1,1,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1,3
             };
             var day = new HVAC.Schedules.IB_ScheduleDay(values);
             var schRule = new HVAC.Schedules.IB_ScheduleRule(day);

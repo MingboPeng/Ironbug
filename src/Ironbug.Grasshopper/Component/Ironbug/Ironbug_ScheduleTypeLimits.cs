@@ -4,16 +4,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Schedule : Ironbug_HVACComponent
+    public class Ironbug_ScheduleTypeLimits : Ironbug_HVACComponent
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
-        public Ironbug_Schedule()
-          : base("Ironbug_Schedule", "Schedule",
+        public Ironbug_ScheduleTypeLimits()
+          : base("Ironbug_ScheduleTypeLimits", "ScheduleType",
               "Description",
               "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Schedules.IB_ScheduleRuleset_FieldSet))
+              typeof(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet))
         {
         }
 
@@ -24,7 +24,6 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Values", "value", "One value for all day or 24 value for each hour", GH_ParamAccess.list);
         }
 
         /// <summary>
@@ -32,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Schedule", "sch", "TODO..", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ScheduleTypeLimits", "schType", "To Ironbug_Schedule", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -41,32 +40,21 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var values = new List<double>();
-            DA.GetDataList(0, values);
-            if (values.Count ==1)
-            {
-                DA.SetData(0, new HVAC.Schedules.IB_ScheduleRuleset(values[0]));
-                return;
-            }
+            
+            var obj = new HVAC.Schedules.IB_ScheduleTypeLimits();
 
-            if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
-            var day = new HVAC.Schedules.IB_ScheduleDay(values);
-            var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
-            var sch = new HVAC.Schedules.IB_ScheduleRuleset();
-            sch.AddRule(schRule);
-
-            this.SetObjParamsTo(sch);
-            DA.SetData(0, sch);
+            this.SetObjParamsTo(obj);
+            DA.SetData(0, obj);
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.Schedule;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Schedule_Type;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid => new Guid("AB6CC8DE-828F-4413-B52A-B49BE6CEE48C");
+        public override Guid ComponentGuid => new Guid("C090F57C-EC4F-417A-9156-BA1BC4047E75");
     }
 }

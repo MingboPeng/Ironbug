@@ -1,8 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -65,5 +63,11 @@ namespace Ironbug.HVAC.Schedules
        
         //    return obj;
         //}
+    }
+    public sealed class IB_ScheduleRule_FieldSet
+    : IB_FieldSet<IB_ScheduleRule_FieldSet, ScheduleRule>
+    {
+        private IB_ScheduleRule_FieldSet() { }
+        
     }
 }

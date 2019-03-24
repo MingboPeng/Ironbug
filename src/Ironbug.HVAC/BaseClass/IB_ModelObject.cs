@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
-using System.Reflection;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -215,6 +214,10 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realValue = c.ToOS(this.GhostOSObject.model());
             }
+            else if (value is IB_Schedule sch)
+            {
+                realValue = sch.ToOS(this.GhostOSObject.model());
+            }
 
             this.CustomAttributes.TryAdd(field, value);
 
@@ -223,25 +226,7 @@ namespace Ironbug.HVAC.BaseClass
             //meaning it will not be saved in real OpenStudio.Model, 
             //but it should have all the same field values as the real one, except handles.
             this.GhostOSObject.SetFieldValue(field, realValue);
-
             
-            //var type = field.DataType;
-
-            //if (type == typeof(string) || type == typeof(int) || type == typeof(double) || type == typeof(bool))
-            //{
-            //    //execute directly 
-            //    //dealing the ghost object
-            //    this.GhostOSObject.SetFieldValue(field, value);
-            //}
-            //else if(type == typeof(Curve))
-            //{
-            //    //TODO: add supports of Schedule later
-            //    //dealing the ghost object
-            //    var c = ((Curve)value).clone(this.GhostOSObject.model()).to_Curve().get();
-
-            //    this.GhostOSObject.SetFieldValue(field, c);
-            //}
-
 
         }
 

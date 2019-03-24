@@ -159,6 +159,10 @@ namespace Ironbug.HVAC
                 {
                     value = c.ToOS(component.model());
                 }
+                else if(value is BaseClass.IB_Schedule sch)
+                {
+                    value = sch.ToOS(component.model());
+                }
 
                 var invokeResult = component.SetFieldValue(field, value);
 
