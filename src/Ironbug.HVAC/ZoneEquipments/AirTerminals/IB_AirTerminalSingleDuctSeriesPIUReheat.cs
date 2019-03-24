@@ -45,10 +45,10 @@ namespace Ironbug.HVAC
 
         }
     }
-    public sealed class IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet 
-        : IB_FieldSet<IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet, AirTerminalSingleDuctSeriesPIUReheat>
+    public sealed class IB_AirTerminalSingleDuctSeriesPIUReheat_FieldSet 
+        : IB_FieldSet<IB_AirTerminalSingleDuctSeriesPIUReheat_FieldSet, AirTerminalSingleDuctSeriesPIUReheat>
     {
-        private IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet() {}
+        private IB_AirTerminalSingleDuctSeriesPIUReheat_FieldSet() {}
 
     }
 

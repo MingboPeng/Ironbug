@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilCoolingLowTempRadiantConstFlow", "CoilCln_LowTRadC",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_FieldSet))
         {
         }
 

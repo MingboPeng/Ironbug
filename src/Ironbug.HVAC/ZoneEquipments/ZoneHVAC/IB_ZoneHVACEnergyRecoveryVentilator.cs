@@ -38,10 +38,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_ZoneHVACEnergyRecoveryVentilator_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACEnergyRecoveryVentilator_DataFieldSet, ZoneHVACEnergyRecoveryVentilator>
+    public sealed class IB_ZoneHVACEnergyRecoveryVentilator_FieldSet
+        : IB_FieldSet<IB_ZoneHVACEnergyRecoveryVentilator_FieldSet, ZoneHVACEnergyRecoveryVentilator>
     {
-        private IB_ZoneHVACEnergyRecoveryVentilator_DataFieldSet() { }
+        private IB_ZoneHVACEnergyRecoveryVentilator_FieldSet() { }
 
     }
 }

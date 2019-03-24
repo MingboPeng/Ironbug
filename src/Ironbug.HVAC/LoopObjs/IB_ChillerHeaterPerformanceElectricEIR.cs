@@ -21,10 +21,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_ChillerHeaterPerformanceElectricEIR_DataFields
-        : IB_FieldSet<IB_ChillerHeaterPerformanceElectricEIR_DataFields, ChillerHeaterPerformanceElectricEIR>
+    public sealed class IB_ChillerHeaterPerformanceElectricEIR_FieldSet
+        : IB_FieldSet<IB_ChillerHeaterPerformanceElectricEIR_FieldSet, ChillerHeaterPerformanceElectricEIR>
     {
-        private IB_ChillerHeaterPerformanceElectricEIR_DataFields() { }
+        private IB_ChillerHeaterPerformanceElectricEIR_FieldSet() { }
 
     }
 

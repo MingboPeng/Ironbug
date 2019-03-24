@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoolingTowerVariableSpeed", "CoolingTowerV",
               "Description",
               "Ironbug", "02:LoopComponents", 
-              typeof(HVAC.IB_CoolingTowerVariableSpeed_DataFields))
+              typeof(HVAC.IB_CoolingTowerVariableSpeed_FieldSet))
         {
         }
 

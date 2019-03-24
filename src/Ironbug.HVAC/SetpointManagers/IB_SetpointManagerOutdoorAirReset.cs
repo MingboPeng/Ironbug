@@ -24,10 +24,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_SetpointManagerOutdoorAirReset_DataFieldSet
-        : IB_FieldSet<IB_SetpointManagerOutdoorAirReset_DataFieldSet, SetpointManagerOutdoorAirReset>
+    public sealed class IB_SetpointManagerOutdoorAirReset_FieldSet
+        : IB_FieldSet<IB_SetpointManagerOutdoorAirReset_FieldSet, SetpointManagerOutdoorAirReset>
     {
-        private IB_SetpointManagerOutdoorAirReset_DataFieldSet() { }
+        private IB_SetpointManagerOutdoorAirReset_FieldSet() { }
 
         public IB_Field SetpointatOutdoorHighTemperature { get; }
             = new IB_TopField("SetpointatOutdoorHighTemperature", "SpOHTemp");

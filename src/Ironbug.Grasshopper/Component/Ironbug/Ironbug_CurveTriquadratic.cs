@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CurveTriquadratic", "CurveTriquadratic",
               "Description",
               "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Curves.IB_CurveTriquadratic_DataFieldSet))
+              typeof(HVAC.Curves.IB_CurveTriquadratic_FieldSet))
         {
         }
 

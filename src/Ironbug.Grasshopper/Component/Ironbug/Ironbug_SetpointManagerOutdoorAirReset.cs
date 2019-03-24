@@ -54,7 +54,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             
 
 
-            var fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet.Value;
 
             obj.SetFieldValue(fieldSet.SetpointatOutdoorHighTemperature, highT);
             obj.SetFieldValue(fieldSet.OutdoorHighTemperature, highOT);

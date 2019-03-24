@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_OAController", "OAController",
               "Description",
               "Ironbug", "06:Sizing&Controller",
-              typeof(HVAC.IB_ControllerOutdoorAir_DataFieldSet))
+              typeof(HVAC.IB_ControllerOutdoorAir_FieldSet))
         {
         }
 

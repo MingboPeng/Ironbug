@@ -40,10 +40,10 @@ namespace Ironbug.HVAC
         
     }
 
-    public sealed class IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet, ZoneHVACPackagedTerminalAirConditioner>
+    public sealed class IB_ZoneHVACPackagedTerminalAirConditioner_FieldSet
+        : IB_FieldSet<IB_ZoneHVACPackagedTerminalAirConditioner_FieldSet, ZoneHVACPackagedTerminalAirConditioner>
     {
-        private IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet() {}
+        private IB_ZoneHVACPackagedTerminalAirConditioner_FieldSet() {}
 
     }
 }

@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_FanZoneExhaust", "ExhaustFan",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_FanZoneExhaust_DataFieldSet))
+              typeof(IB_FanZoneExhaust_FieldSet))
         {
         }
 

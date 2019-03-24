@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilCoolingDXSingleSpeed", "CoilClnDX1",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingDXSingleSpeed_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingDXSingleSpeed_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.secondary;

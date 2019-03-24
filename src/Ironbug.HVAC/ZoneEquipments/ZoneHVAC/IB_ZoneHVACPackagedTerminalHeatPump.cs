@@ -46,10 +46,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet, ZoneHVACPackagedTerminalHeatPump>
+    public sealed class IB_ZoneHVACPackagedTerminalHeatPump_FieldSet
+        : IB_FieldSet<IB_ZoneHVACPackagedTerminalHeatPump_FieldSet, ZoneHVACPackagedTerminalHeatPump>
     {
-        private IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet() {}
+        private IB_ZoneHVACPackagedTerminalHeatPump_FieldSet() {}
 
     }
 }

@@ -33,10 +33,10 @@ namespace Ironbug.HVAC
             return newObj;
         }
     }
-    public sealed class IB_SetpointManagerSingleZoneReheat_DataFieldSet
-        : IB_FieldSet<IB_SetpointManagerSingleZoneReheat_DataFieldSet, SetpointManagerSingleZoneReheat>
+    public sealed class IB_SetpointManagerSingleZoneReheat_FieldSet
+        : IB_FieldSet<IB_SetpointManagerSingleZoneReheat_FieldSet, SetpointManagerSingleZoneReheat>
     {
-        private IB_SetpointManagerSingleZoneReheat_DataFieldSet() { }
+        private IB_SetpointManagerSingleZoneReheat_FieldSet() { }
 
         public IB_Field MaximumSupplyAirTemperature { get; }
             = new IB_TopField("MaximumSupplyAirTemperature", "maxTemp");

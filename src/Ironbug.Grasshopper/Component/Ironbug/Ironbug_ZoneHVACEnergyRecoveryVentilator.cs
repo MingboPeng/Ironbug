@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACEnergyRecoveryVentilator", "ZoneERV",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACEnergyRecoveryVentilator_DataFieldSet))
+              typeof(IB_ZoneHVACEnergyRecoveryVentilator_FieldSet))
         {
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.zoneERV;

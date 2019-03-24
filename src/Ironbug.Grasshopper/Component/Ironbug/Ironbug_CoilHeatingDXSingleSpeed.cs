@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingDXSingleSpeed_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingDXSingleSpeed_FieldSet))
         {
         }
 

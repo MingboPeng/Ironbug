@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingWaterBaseboardRadiant", "CoilHtn_BaseboardRad",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilHeatingWaterBaseboardRadiant_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingWaterBaseboardRadiant_FieldSet))
         {
         }
 

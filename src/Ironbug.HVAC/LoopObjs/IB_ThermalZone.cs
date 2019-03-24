@@ -25,7 +25,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj(new Model()))
         {
-            base.SetFieldValue(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
+            base.SetFieldValue(IB_ThermalZone_FieldSet.Value.Name, HBZoneName);
 
         }
 
@@ -207,11 +207,11 @@ namespace Ironbug.HVAC.BaseClass
         
     }
 
-    public sealed class IB_ThermalZone_DataFieldSet 
-        : IB_FieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
+    public sealed class IB_ThermalZone_FieldSet 
+        : IB_FieldSet<IB_ThermalZone_FieldSet, ThermalZone>
     {
         
-        private IB_ThermalZone_DataFieldSet() {}
+        private IB_ThermalZone_FieldSet() {}
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name")

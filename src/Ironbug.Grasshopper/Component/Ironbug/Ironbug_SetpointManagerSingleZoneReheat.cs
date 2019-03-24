@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             double minT = 10;
             double maxT = 50;
 
-            var fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet.Value;
 
             if (DA.GetData(1, ref minT)) obj.SetFieldValue(fieldSet.MinimumSupplyAirTemperature, minT);
             if (DA.GetData(2, ref maxT)) obj.SetFieldValue(fieldSet.MaximumSupplyAirTemperature, maxT);

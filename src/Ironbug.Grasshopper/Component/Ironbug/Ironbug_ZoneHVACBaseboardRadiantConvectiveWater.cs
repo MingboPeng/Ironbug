@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACBaseboardRadiantConvectiveWater", "BaseboardWaterRadC",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet))
+              typeof(IB_ZoneHVACBaseboardRadiantConvectiveWater_FieldSet))
         {
         }
 

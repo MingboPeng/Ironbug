@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CurveBicubic", "CurveBicubic",
               "Description",
               "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Curves.IB_CurveBicubic_DataFieldSet))
+              typeof(HVAC.Curves.IB_CurveBicubic_FieldSet))
         {
         }
 
@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     throw new Exception("10 coefficient values is needed!");
                 }
-                var fSet = HVAC.Curves.IB_CurveBicubic_DataFieldSet.Value;
+                var fSet = HVAC.Curves.IB_CurveBicubic_FieldSet.Value;
                 var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
                 fDic.Add(fSet.Coefficient1Constant, coeffs[0]);

@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACPackagedTerminalHeatPump", "PT HeatPump",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet))
+              typeof(IB_ZoneHVACPackagedTerminalHeatPump_FieldSet))
         {
         }
 

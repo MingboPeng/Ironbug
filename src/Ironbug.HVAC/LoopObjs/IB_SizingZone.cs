@@ -30,9 +30,9 @@ namespace Ironbug.HVAC
         
     }
 
-    public sealed class IB_SizingZone_DataFieldSet 
-        : IB_FieldSet<IB_SizingZone_DataFieldSet, SizingZone>
+    public sealed class IB_SizingZone_FieldSet 
+        : IB_FieldSet<IB_SizingZone_FieldSet, SizingZone>
     {
-        private IB_SizingZone_DataFieldSet() { }
+        private IB_SizingZone_FieldSet() { }
     }
 }

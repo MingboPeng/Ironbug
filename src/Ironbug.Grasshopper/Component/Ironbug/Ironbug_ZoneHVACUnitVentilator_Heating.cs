@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACUnitVentilator_Heating", "UnitVentHeating",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACUnitVentilator_DataFieldSet))
+              typeof(IB_ZoneHVACUnitVentilator_FieldSet))
         {
         }
 

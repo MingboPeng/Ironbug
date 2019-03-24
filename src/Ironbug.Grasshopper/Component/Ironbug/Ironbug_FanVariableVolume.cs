@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_FanVariableVolume", "FanVariable",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_FanVariableVolume_DataFields))
+              typeof(HVAC.IB_FanVariableVolume_FieldSet))
         {
         }
         

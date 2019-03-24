@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_DistrictCooling", "DistrictCooling",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_DistrictCooling_DataFieldSet))
+              typeof(HVAC.IB_DistrictCooling_FieldSet))
         {
         }
 

@@ -4,7 +4,7 @@ using System;
 namespace Ironbug.HVAC.BaseClass
 {
     /// <summary>
-    /// Handle the IB_DataFieldSet's children's singleton 
+    /// Handle the IB_FieldSet's children's singleton 
     /// </summary>
     /// <typeparam name="T">T is derived class</typeparam>
     /// <typeparam name="K">K is ParentType from OpenStudio</typeparam>

@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExchanger_Air",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_HeatExchangerAirToAirSensibleAndLatent_DataFieldSet))
+              typeof(HVAC.IB_HeatExchangerAirToAirSensibleAndLatent_FieldSet))
         {
         }
 

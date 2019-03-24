@@ -26,10 +26,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_AirTerminalSingleDuctVAVNoReheat_DataFieldSet
-        : IB_FieldSet<IB_AirTerminalSingleDuctVAVNoReheat_DataFieldSet, AirTerminalSingleDuctVAVNoReheat>
+    public sealed class IB_AirTerminalSingleDuctVAVNoReheat_FieldSet
+        : IB_FieldSet<IB_AirTerminalSingleDuctVAVNoReheat_FieldSet, AirTerminalSingleDuctVAVNoReheat>
     {
-        private IB_AirTerminalSingleDuctVAVNoReheat_DataFieldSet() { }
+        private IB_AirTerminalSingleDuctVAVNoReheat_FieldSet() { }
 
     }
 

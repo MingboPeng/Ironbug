@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_SizingZone", "SizingZone",
               "Description",
               "Ironbug", "06:Sizing&Controller",
-              typeof(HVAC.IB_SizingZone_DataFieldSet))
+              typeof(HVAC.IB_SizingZone_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;

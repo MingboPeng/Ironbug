@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACLowTempRadiantVarFlow", "RadiantVFlow",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACLowTempRadiantVarFlow_DataFieldSet))
+              typeof(IB_ZoneHVACLowTempRadiantVarFlow_FieldSet))
         {
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.RadiantV;

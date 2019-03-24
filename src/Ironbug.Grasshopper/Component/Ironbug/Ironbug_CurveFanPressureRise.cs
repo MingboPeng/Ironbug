@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CurveFanPressureRise", "CurveFanPressure",
               "Description",
               "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Curves.IB_CurveCubic_DataFieldSet))
+              typeof(HVAC.Curves.IB_CurveCubic_FieldSet))
         {
         }
 
@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     throw new Exception("4 coefficient values is needed!");
                 }
-                var fSet = HVAC.Curves.IB_CurveFanPressureRise_DataFieldSet.Value;
+                var fSet = HVAC.Curves.IB_CurveFanPressureRise_FieldSet.Value;
                 var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
                 fDic.Add(fSet.Coefficient1C1, coeffs[0]);

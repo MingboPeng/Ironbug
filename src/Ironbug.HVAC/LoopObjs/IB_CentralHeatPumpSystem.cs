@@ -78,10 +78,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_CentralHeatPumpSystem_DataFields
-        : IB_FieldSet<IB_CentralHeatPumpSystem_DataFields, CentralHeatPumpSystem>
+    public sealed class IB_CentralHeatPumpSystem_FieldSet
+        : IB_FieldSet<IB_CentralHeatPumpSystem_FieldSet, CentralHeatPumpSystem>
     {
-        private IB_CentralHeatPumpSystem_DataFields() {}
+        private IB_CentralHeatPumpSystem_FieldSet() {}
         
     }
 }

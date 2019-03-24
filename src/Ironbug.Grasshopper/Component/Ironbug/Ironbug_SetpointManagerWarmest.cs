@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(1, ref maxT);
 
             
-            var fieldSet = HVAC.IB_SetpointManagerWarmest_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;
 
             obj.SetFieldValue(fieldSet.MinimumSetpointTemperature, minT);
             obj.SetFieldValue(fieldSet.MaximumSetpointTemperature, maxT);

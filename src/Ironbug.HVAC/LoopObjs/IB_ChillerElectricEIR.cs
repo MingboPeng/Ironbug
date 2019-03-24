@@ -78,10 +78,10 @@ namespace Ironbug.HVAC
 
 
 
-    public sealed class IB_ChillerElectricEIR_DataFieldSet
-        : IB_FieldSet<IB_ChillerElectricEIR_DataFieldSet, ChillerElectricEIR>
+    public sealed class IB_ChillerElectricEIR_FieldSet
+        : IB_FieldSet<IB_ChillerElectricEIR_FieldSet, ChillerElectricEIR>
     {
-        private IB_ChillerElectricEIR_DataFieldSet() { }
+        private IB_ChillerElectricEIR_FieldSet() { }
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

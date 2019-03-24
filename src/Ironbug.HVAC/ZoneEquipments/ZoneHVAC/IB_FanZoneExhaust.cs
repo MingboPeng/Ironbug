@@ -24,10 +24,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_FanZoneExhaust_DataFieldSet
-        : IB_FieldSet<IB_FanZoneExhaust_DataFieldSet, FanZoneExhaust>
+    public sealed class IB_FanZoneExhaust_FieldSet
+        : IB_FieldSet<IB_FanZoneExhaust_FieldSet, FanZoneExhaust>
     {
-        private IB_FanZoneExhaust_DataFieldSet() { }
+        private IB_FanZoneExhaust_FieldSet() { }
 
     }
 }

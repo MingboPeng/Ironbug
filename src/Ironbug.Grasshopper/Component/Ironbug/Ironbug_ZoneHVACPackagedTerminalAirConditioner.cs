@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACPackagedTerminalAirConditioner", "PT AirConditioner",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACPackagedTerminalAirConditioner_DataFieldSet))
+              typeof(IB_ZoneHVACPackagedTerminalAirConditioner_FieldSet))
         {
         }
 

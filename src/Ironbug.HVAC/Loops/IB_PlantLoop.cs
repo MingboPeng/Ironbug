@@ -208,10 +208,10 @@ namespace Ironbug.HVAC
     }
 
 
-    public sealed class IB_PlantLoop_DataFieldSet
-        : IB_FieldSet<IB_PlantLoop_DataFieldSet, PlantLoop>
+    public sealed class IB_PlantLoop_FieldSet
+        : IB_FieldSet<IB_PlantLoop_FieldSet, PlantLoop>
     {
-        private IB_PlantLoop_DataFieldSet() { }
+        private IB_PlantLoop_FieldSet() { }
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

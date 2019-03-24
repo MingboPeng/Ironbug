@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_SizingPlant", "SizingPlant",
               "Description",
               "Ironbug", "06:Sizing&Controller",
-              typeof(HVAC.IB_SizingPlant_DataFieldSet))
+              typeof(HVAC.IB_SizingPlant_FieldSet))
         {
         }
 

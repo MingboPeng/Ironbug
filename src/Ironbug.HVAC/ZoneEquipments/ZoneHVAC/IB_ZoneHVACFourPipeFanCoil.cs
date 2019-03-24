@@ -52,10 +52,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_ZoneHVACFourPipeFanCoil_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACFourPipeFanCoil_DataFieldSet, ZoneHVACFourPipeFanCoil>
+    public sealed class IB_ZoneHVACFourPipeFanCoil_FieldSet
+        : IB_FieldSet<IB_ZoneHVACFourPipeFanCoil_FieldSet, ZoneHVACFourPipeFanCoil>
     {
-        private IB_ZoneHVACFourPipeFanCoil_DataFieldSet() {}
+        private IB_ZoneHVACFourPipeFanCoil_FieldSet() {}
         public IB_Field CapacityControlMethod { get; }
             = new IB_BasicField("CapacityControlMethod", "CapacityCtrl");
         

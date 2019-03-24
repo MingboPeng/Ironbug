@@ -21,10 +21,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_ControllerMechanicalVentilation_DataFieldSet
-        : IB_FieldSet<IB_ControllerMechanicalVentilation_DataFieldSet, ControllerMechanicalVentilation>
+    public sealed class IB_ControllerMechanicalVentilation_FieldSet
+        : IB_FieldSet<IB_ControllerMechanicalVentilation_FieldSet, ControllerMechanicalVentilation>
     {
-        private IB_ControllerMechanicalVentilation_DataFieldSet() {}
+        private IB_ControllerMechanicalVentilation_FieldSet() {}
         
         public IB_Field DemandControlledVentilation { get; }
             = new IB_BasicField("DemandControlledVentilation", "DCV");

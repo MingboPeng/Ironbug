@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CondenserWaterPlantLoop", "CondenserWaterLoop",
               EPDoc.CondenserLoop.Note,
               "Ironbug", "01:Loops",
-              typeof(HVAC.IB_PlantLoop_DataFieldSet))
+              typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
 
@@ -59,7 +59,7 @@ namespace Ironbug.Grasshopper.Component
 
 
             var plant = new HVAC.IB_PlantLoop();
-            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
             plant.SetFieldValues(
                new Dictionary<IB_Field, object>() {
                     { plantFields.Name, "Condenser Water Loop" },
@@ -98,7 +98,7 @@ namespace Ironbug.Grasshopper.Component
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
             var custAtt = sizing.CustomAttributes.Select(_ => _.Key.FULLNAME);

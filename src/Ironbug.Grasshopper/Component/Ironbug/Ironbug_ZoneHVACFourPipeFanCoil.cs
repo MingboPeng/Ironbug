@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACFourPipeFanCoil", "4PipeFanCoil",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACFourPipeFanCoil_DataFieldSet))
+              typeof(IB_ZoneHVACFourPipeFanCoil_FieldSet))
         {
         }
 

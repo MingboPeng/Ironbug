@@ -21,10 +21,10 @@ namespace Ironbug.HVAC
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
     }
-    public sealed class IB_DistrictCooling_DataFieldSet
-        : IB_FieldSet<IB_DistrictCooling_DataFieldSet, DistrictCooling>
+    public sealed class IB_DistrictCooling_FieldSet
+        : IB_FieldSet<IB_DistrictCooling_FieldSet, DistrictCooling>
     {
-        private IB_DistrictCooling_DataFieldSet() { }
+        private IB_DistrictCooling_FieldSet() { }
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");
         public IB_Field NominalCapacity { get; }

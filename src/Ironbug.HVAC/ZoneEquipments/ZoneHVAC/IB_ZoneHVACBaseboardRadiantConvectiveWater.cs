@@ -32,10 +32,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet, ZoneHVACBaseboardRadiantConvectiveWater>
+    public sealed class IB_ZoneHVACBaseboardRadiantConvectiveWater_FieldSet
+        : IB_FieldSet<IB_ZoneHVACBaseboardRadiantConvectiveWater_FieldSet, ZoneHVACBaseboardRadiantConvectiveWater>
     {
-        private IB_ZoneHVACBaseboardRadiantConvectiveWater_DataFieldSet() { }
+        private IB_ZoneHVACBaseboardRadiantConvectiveWater_FieldSet() { }
 
     }
 }
