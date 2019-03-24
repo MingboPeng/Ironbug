@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACWaterToAirHeatPump", "WaterAirHeatPump",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACPackagedTerminalHeatPump_FieldSet))
+              typeof(IB_ZoneHVACWaterToAirHeatPump_FieldSet))
         {
         }
 
@@ -22,10 +22,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide heating source. use CoilHeatingWaterToAirHeatPump", GH_ParamAccess.item);
-            pManager[0].Optional = true;
-            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. use CoilCoolingWaterToAirHeatPump", GH_ParamAccess.item);
-            pManager[1].Optional = true;
+            pManager.AddGenericParameter("HeatingCoil", "_coilH", "Heating coil to provide heating source. use CoilHeatingWaterToAirHeatPump", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingCoil", "_coilC", "Cooling coil to provide cooling source. use CoilCoolingWaterToAirHeatPump", GH_ParamAccess.item);
             pManager.AddGenericParameter("Fan", "fan_", "Can be FanOnOff", GH_ParamAccess.item);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SupplementalHeatingCoil", "spCoilH_", "Backup HeatingCoil. CoilHeatingElectric, CoilHeatingGas, or CoilHeatingWater", GH_ParamAccess.item);
@@ -34,16 +32,16 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACWaterToAirHeatPump", "PTHP", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACWaterToAirHeatPump", "WaterAirHP", "Connect to zone's equipment", GH_ParamAccess.item);
         }
 
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            
-            var fan = new IB_FanConstantVolume();
-            var coilH = new IB_CoilHeatingDXSingleSpeed();
-            var coilC = new IB_CoilCoolingDXSingleSpeed();
+
+            var fan = new IB_FanOnOff();
+            IB_CoilHeatingWaterToAirHeatPumpEquationFit coilH = null;
+            IB_CoilCoolingWaterToAirHeatPumpEquationFit coilC = null;
             var spCoilH = new IB_CoilHeatingElectric();
 
             DA.GetData(0, ref coilH);
@@ -51,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref fan);
             DA.GetData(3, ref spCoilH);
 
-            var obj = new HVAC.IB_ZoneHVACPackagedTerminalHeatPump(fan,coilH,coilC,spCoilH);
+            var obj = new HVAC.IB_ZoneHVACWaterToAirHeatPump(fan,coilH,coilC,spCoilH);
             
 
             this.SetObjParamsTo(obj);
