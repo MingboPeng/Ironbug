@@ -27,7 +27,7 @@ ReadAnnualResultsIII has the same function as ReadAnnualResultsII, but 20x faste
 Sort and group the Rhino geometries based on its layer information. It is very useful when modeling a complex simulation scenario with several materials or zone types, etc.
 
 #### 4.Honeybee.HVAC (WIP)
-![Image of Ironbug](https://discourse.ladybug.tools/uploads/default/original/2X/a/af5c68a205d49b57c475b353f86c1b5750f61778.png) 
+![Image of Ironbug](https://raw.githubusercontent.com/MingboPeng/Ironbug/master/doc/Icon/Ironbug.HVAC.PNG) 
 
 A set of 80 components (by Aug 4, 2018) for creating highly customizable HVAC systems including: Air handling unit, Water loops (hot water, chilled water, condensing water), and VRF.
 
