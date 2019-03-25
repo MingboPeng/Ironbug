@@ -24,10 +24,10 @@ namespace Ironbug.HVAC.Curves
         //}
     }
 
-    public sealed class IB_CurveBiquadratic_DataFieldSet
-        : IB_FieldSet<IB_CurveBiquadratic_DataFieldSet, CurveBiquadratic>
+    public sealed class IB_CurveBiquadratic_FieldSet
+        : IB_FieldSet<IB_CurveBiquadratic_FieldSet, CurveBiquadratic>
     {
-        private IB_CurveBiquadratic_DataFieldSet() { }
+        private IB_CurveBiquadratic_FieldSet() { }
 
         public IB_Field Coefficient1Constant { get; }
             = new IB_TopField("Coefficient1Constant", "C1");
@@ -49,15 +49,15 @@ namespace Ironbug.HVAC.Curves
 
 
         public IB_Field MinimumValueofx { get; }
-            = new IB_TopField("MinimumValueofx", "minX");
+            = new IB_BasicField("MinimumValueofx", "minX");
 
         public IB_Field MaximumValueofx { get; }
-            = new IB_TopField("MaximumValueofx", "maxX");
+            = new IB_BasicField("MaximumValueofx", "maxX");
 
         public IB_Field MinimumValueofy { get; }
-            = new IB_TopField("MinimumValueofy", "minY");
+            = new IB_BasicField("MinimumValueofy", "minY");
 
         public IB_Field MaximumValueofy { get; }
-            = new IB_TopField("MaximumValueofy", "maxY");
+            = new IB_BasicField("MaximumValueofy", "maxY");
     }
 }

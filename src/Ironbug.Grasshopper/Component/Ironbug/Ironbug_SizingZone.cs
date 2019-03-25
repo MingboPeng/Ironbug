@@ -13,10 +13,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
         public Ironbug_SizingZone()
-          : base("Ironbug_SizingZone", "SzZone",
+          : base("Ironbug_SizingZone", "SizingZone",
               "Description",
               "Ironbug", "06:Sizing&Controller",
-              typeof(HVAC.IB_SizingZone_DataFieldSet))
+              typeof(HVAC.IB_SizingZone_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SizingZone", "SzZone", "SizingZone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SizingZone", "Sz", "SizingZone", GH_ParamAccess.item);
         }
 
         /// <summary>

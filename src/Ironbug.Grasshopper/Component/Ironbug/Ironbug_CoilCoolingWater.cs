@@ -1,6 +1,5 @@
 ﻿using Grasshopper.Kernel;
 using System;
-using Ironbug.EPDoc;
 
 
 namespace Ironbug.Grasshopper.Component
@@ -13,10 +12,8 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CoilCoolingWater()
           : base("Ironbug_CoilCoolingWater", "CoilClnWater","",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingWater_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingWater_FieldSet))
         {
-            this.Description = EPDoc.CoilCoolingWater.Note;
-
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -33,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirSide_CoilCoolingWater", "CoilCW", "Connect to air loop's supply side or other water cooled system.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirSide_CoilCoolingWater", "Coil", "Connect to air loop's supply side or other water cooled system.", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
@@ -54,22 +51,11 @@ namespace Ironbug.Grasshopper.Component
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilCW;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("42c0bccb-cb71-40af-83cf-14fa9a01f3ea"); }
-        }
+        public override Guid ComponentGuid => new Guid("42c0bccb-cb71-40af-83cf-14fa9a01f3ea");
     }
 }

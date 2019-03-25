@@ -14,6 +14,9 @@ namespace Ironbug.HVAC.BaseClass
         public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
+        public IB_ThermalZone SupplyPlenum { get; private set; }
+        public IB_ThermalZone ReturnPlenum { get; private set; }
+
         public bool IsAirTerminalPriorToZoneEquipments { get; set; } = false;
 
         public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
@@ -22,7 +25,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj(new Model()))
         {
-            base.SetFieldValue(IB_ThermalZone_DataFieldSet.Value.Name, HBZoneName);
+            base.SetFieldValue(IB_ThermalZone_FieldSet.Value.Name, HBZoneName);
 
         }
 
@@ -54,6 +57,15 @@ namespace Ironbug.HVAC.BaseClass
             this.ZoneEquipments.Add(Equipment);
         }
 
+        public void SetSupplyPlenum(IB_ThermalZone Plenum)
+        {
+            if (Plenum != null) this.SupplyPlenum = Plenum;
+        }
+        public void SetReturnPlenum(IB_ThermalZone Plenum)
+        {
+            if (Plenum != null) this.ReturnPlenum = Plenum;
+        }
+
         public HVACComponent ToOS(Model model, AirLoopHVAC airLoop)
         {
             var newZone = (ThermalZone)this.ToOS(model);
@@ -82,6 +94,11 @@ namespace Ironbug.HVAC.BaseClass
                     throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
                 
             }
+
+            
+            //add plenums
+            if (this.SupplyPlenum != null) newZone.setSupplyPlenum((ThermalZone)this.SupplyPlenum.ToOS(model));
+            if (this.ReturnPlenum != null) newZone.setReturnPlenum((ThermalZone)this.ReturnPlenum.ToOS(model));
 
             return newZone;
         }
@@ -154,16 +171,7 @@ namespace Ironbug.HVAC.BaseClass
             //add child to newZone
             this.IB_SizingZone.ToOS(newZone);
 
-            //foreach (var item in this.ZoneEquipments)
-            //{
-            //    var eqp = (ZoneHVACComponent)item.ToOS(model);
-            //    eqp.addToThermalZone(newZone);
-            //}
-
-            //AirTerminal has been added with zone when the zone was added to the loop
-            //var newTerminal = this.AirTerminal.ToOS(model);
-            //newZone.addEquipment(newTerminal);
-
+          
             return newZone;
         }
         
@@ -189,7 +197,9 @@ namespace Ironbug.HVAC.BaseClass
                 newObj.ZoneEquipments.Add(newItem);
             }
 
-            
+            if (this.SupplyPlenum != null) newObj.SetSupplyPlenum((IB_ThermalZone)this.SupplyPlenum.Duplicate());
+            if (this.ReturnPlenum != null) newObj.SetReturnPlenum((IB_ThermalZone)this.ReturnPlenum.Duplicate());
+
             return newObj;
         }
         
@@ -197,11 +207,11 @@ namespace Ironbug.HVAC.BaseClass
         
     }
 
-    public sealed class IB_ThermalZone_DataFieldSet 
-        : IB_FieldSet<IB_ThermalZone_DataFieldSet, ThermalZone>
+    public sealed class IB_ThermalZone_FieldSet 
+        : IB_FieldSet<IB_ThermalZone_FieldSet, ThermalZone>
     {
         
-        private IB_ThermalZone_DataFieldSet() {}
+        private IB_ThermalZone_FieldSet() {}
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name")

@@ -19,10 +19,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_PumpConstantSpeed_DataFields 
-        : IB_FieldSet<IB_PumpConstantSpeed_DataFields, PumpConstantSpeed>
+    public sealed class IB_PumpConstantSpeed_FieldSet 
+        : IB_FieldSet<IB_PumpConstantSpeed_FieldSet, PumpConstantSpeed>
     {
-        private IB_PumpConstantSpeed_DataFields() {}
+        private IB_PumpConstantSpeed_FieldSet() {}
 
 
         public IB_Field RatedPumpHead { get; }

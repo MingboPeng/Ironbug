@@ -6,7 +6,8 @@ namespace Ironbug.HVAC
 {
     public class IB_ZoneHVACPackagedTerminalHeatPump : IB_ZoneEquipment
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACPackagedTerminalHeatPump(_fan, _heatingCoil, _coolingCoil, _supplementalHeatingCoil);
+        protected override Func<IB_ModelObject> IB_InitSelf => () 
+            => new IB_ZoneHVACPackagedTerminalHeatPump(_fan, _heatingCoil, _coolingCoil, _supplementalHeatingCoil);
 
         private static ZoneHVACPackagedTerminalHeatPump NewDefaultOpsObj(Model m, IB_Fan SupplyFan, IB_Coil HeatingCoil, IB_Coil CoolingCoil, IB_Coil SupplementalHeatingCoil) 
             => new ZoneHVACPackagedTerminalHeatPump(m,m.alwaysOnDiscreteSchedule(), SupplyFan.ToOS(m), HeatingCoil.ToOS(m), CoolingCoil.ToOS(m), SupplementalHeatingCoil.ToOS(m));
@@ -45,10 +46,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet, ZoneHVACPackagedTerminalHeatPump>
+    public sealed class IB_ZoneHVACPackagedTerminalHeatPump_FieldSet
+        : IB_FieldSet<IB_ZoneHVACPackagedTerminalHeatPump_FieldSet, ZoneHVACPackagedTerminalHeatPump>
     {
-        private IB_ZoneHVACPackagedTerminalHeatPump_DataFieldSet() {}
+        private IB_ZoneHVACPackagedTerminalHeatPump_FieldSet() {}
 
     }
 }

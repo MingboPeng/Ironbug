@@ -51,10 +51,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_CoilHeatingDesuperheater_DataFieldSet
-        : IB_FieldSet<IB_CoilHeatingDesuperheater_DataFieldSet, CoilHeatingDesuperheater>
+    public sealed class IB_CoilHeatingDesuperheater_FieldSet
+        : IB_FieldSet<IB_CoilHeatingDesuperheater_FieldSet, CoilHeatingDesuperheater>
     {
-        private IB_CoilHeatingDesuperheater_DataFieldSet() { }
+        private IB_CoilHeatingDesuperheater_FieldSet() { }
 
     }
 }

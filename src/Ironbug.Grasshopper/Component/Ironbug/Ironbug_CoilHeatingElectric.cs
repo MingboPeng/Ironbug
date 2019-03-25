@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingElectric", "CoilHtnElec",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingWater_FieldSet))
         {
         }
 
@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingElectric", "CoilHtnE", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingElectric", "Coil", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>

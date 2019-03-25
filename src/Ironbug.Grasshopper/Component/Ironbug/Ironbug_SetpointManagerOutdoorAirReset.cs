@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SetpointManagerOutdoorAirReset", "OAReset", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerOutdoorAirReset", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             
 
 
-            var fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet.Value;
 
             obj.SetFieldValue(fieldSet.SetpointatOutdoorHighTemperature, highT);
             obj.SetFieldValue(fieldSet.OutdoorHighTemperature, highOT);

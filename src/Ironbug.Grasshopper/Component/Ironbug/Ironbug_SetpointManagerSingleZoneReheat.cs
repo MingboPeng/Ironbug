@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SetpointManagerSingleZoneReheat", "SpSZReheat", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerSingleZoneReheat", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             double minT = 10;
             double maxT = 50;
 
-            var fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet.Value;
 
             if (DA.GetData(1, ref minT)) obj.SetFieldValue(fieldSet.MinimumSupplyAirTemperature, minT);
             if (DA.GetData(2, ref maxT)) obj.SetFieldValue(fieldSet.MaximumSupplyAirTemperature, maxT);

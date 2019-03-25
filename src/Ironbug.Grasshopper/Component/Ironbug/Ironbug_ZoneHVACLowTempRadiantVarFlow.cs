@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACLowTempRadiantVarFlow", "RadiantVFlow",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACLowTempRadiantVarFlow_DataFieldSet))
+              typeof(IB_ZoneHVACLowTempRadiantVarFlow_FieldSet))
         {
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.RadiantV;
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACLowTempRadiantVarFlow", "RadiantVF", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACLowTempRadiantVarFlow", "Radiant", "Connect to zone's equipment", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

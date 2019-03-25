@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingWater", "CoilHtnWater",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingWater_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingWater_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirSide_CoilHeatingWater", "CoilHtnW", "connect to air loop's supply side or other water heated system.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirSide_CoilHeatingWater", "Coil", "connect to air loop's supply side or other water heated system.", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
@@ -48,29 +48,18 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(1, obj);
         }
 
-        
+
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.CoilHW;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHW;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("4f849460-bb38-441c-9387-95c5be5830e7"); }
-        }
-        
+        public override Guid ComponentGuid => new Guid("4f849460-bb38-441c-9387-95c5be5830e7");
+
     }
     
 }

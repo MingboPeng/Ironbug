@@ -27,10 +27,10 @@ namespace Ironbug.HVAC
         
     }
 
-    public sealed class IB_SizingPlant_DataFieldSet
-        : IB_FieldSet<IB_SizingPlant_DataFieldSet, SizingPlant>
+    public sealed class IB_SizingPlant_FieldSet
+        : IB_FieldSet<IB_SizingPlant_FieldSet, SizingPlant>
     {
-        private IB_SizingPlant_DataFieldSet()
+        private IB_SizingPlant_FieldSet()
         {
         }
 

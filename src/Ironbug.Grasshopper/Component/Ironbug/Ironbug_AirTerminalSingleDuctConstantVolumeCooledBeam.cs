@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_AirTerminalChilledBeam", "ChilledBeam",
               "Description",
               "Ironbug", "03:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctConstantVolumeCooledBeam_DataFieldSet))
+              typeof(IB_AirTerminalSingleDuctConstantVolumeCooledBeam_FieldSet))
         {
         }
 
@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctConstantVolumeCooledBeam", "ChilledBeam", "connect to Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirTerminalSingleDuctConstantVolumeCooledBeam", "AT", "connect to Zone", GH_ParamAccess.item);
         }
 
         /// <summary>

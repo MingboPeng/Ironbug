@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilCoolingDXTwoSpeed", "CoilClnDX2",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingDXTwoSpeed_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingDXTwoSpeed_FieldSet))
         {
         }
 
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingDXTwoSpeed", "CoilClnDX2", "CoilCoolingDXTwoSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingDXTwoSpeed", "Coil", "CoilCoolingDXTwoSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

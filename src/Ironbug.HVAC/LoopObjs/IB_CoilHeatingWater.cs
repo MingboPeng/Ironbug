@@ -9,41 +9,50 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingWater();
 
         private static CoilHeatingWater NewDefaultOpsObj(Model model) => new CoilHeatingWater(model);
-        
+        private IB_ControllerWaterCoil Controller => this.Children.Get<IB_ControllerWaterCoil>();
         public IB_CoilHeatingWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
+        public IB_CoilHeatingWater(IB_ControllerWaterCoil Controller) : base(NewDefaultOpsObj(new Model()))
+        {
+            AddChild(Controller);
+        }
 
-        
         public override HVACComponent ToOS(Model model)
         {
-            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            return obj;
+            return base.OnNewOpsObj(NewDefaultOpsObj, model);
+        }
+        public override bool AddToNode(Node node)
+        {
+            var model = node.model();
+            var obj = ToOS(model);
+            var success = obj.addToNode(node);
+            if (success && this.Controller != null)
+            {
+                var optionalCtrl = ((CoilHeatingWater)obj).controllerWaterCoil();
+                if (optionalCtrl.is_initialized())
+                {
+                    optionalCtrl.get().SetCustomAttributes(this.Controller.CustomAttributes);
+                }
+            }
+            return success;
         }
 
 
     }
 
-    public sealed class IB_CoilHeatingWater_DataFieldSet
-        : IB_FieldSet<IB_CoilHeatingWater_DataFieldSet, CoilHeatingWater>
+    public sealed class IB_CoilHeatingWater_FieldSet
+        : IB_FieldSet<IB_CoilHeatingWater_FieldSet, CoilHeatingWater>
     {
-        private IB_CoilHeatingWater_DataFieldSet() {}
+        private IB_CoilHeatingWater_FieldSet() {}
 
-
-        //https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-042.html#coilheatingwater
-        public IB_Field Name { get; }
-            = new IB_BasicField("Name", "Name")
-            {
-                DetailedDescription = "A unique identifying name for each coil."
-            };
         
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
+
 
         public IB_Field RatedInletWaterTemperature { get; }
-            = new IB_BasicField("RatedInletWaterTemperature", "InWaterTemp")
-            {
-                DetailedDescription = "The inlet water temperature (degrees C) corresponding to the rated heating capacity. " +
-                "The default is 82.2 degrees C (180 degrees F)."
-            };
+            = new IB_BasicField("RatedInletWaterTemperature", "InWaterTemp");
 
         public IB_Field RatedInletAirTemperature { get; }
             = new IB_BasicField("RatedInletAirTemperature", "InAirTemp");
@@ -59,13 +68,7 @@ namespace Ironbug.HVAC
             = new IB_BasicField("UFactorTimesAreaValue", "UFactor");
 
         public IB_Field MaximumWaterFlowRate { get; }
-            = new IB_BasicField("MaximumWaterFlowRate", "MaxFlow")
-            {
-                DetailedDescription = "The maximum possible water flow rate (m3/sec) through the coil. " +
-                "This field is used when Coil Performance Input Method = UFactorTimesAreaAndDesignWaterFlowRate. " +
-                "This field is autosizable.",
-
-            };
+            = new IB_BasicField("MaximumWaterFlowRate", "MaxFlow");
 
         public IB_Field RatedRatioForAirAndWaterConvection { get; }
             = new IB_BasicField("RatedRatioForAirAndWaterConvection", "AirWaterRatio");

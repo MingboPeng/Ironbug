@@ -23,10 +23,10 @@ namespace Ironbug.HVAC
 
 
 
-    public sealed class IB_FanConstantVolume_DataFields 
-        : IB_FieldSet<IB_FanConstantVolume_DataFields, FanConstantVolume>
+    public sealed class IB_FanConstantVolume_FieldSet 
+        : IB_FieldSet<IB_FanConstantVolume_FieldSet, FanConstantVolume>
     {
-        private IB_FanConstantVolume_DataFields() {}
+        private IB_FanConstantVolume_FieldSet() {}
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

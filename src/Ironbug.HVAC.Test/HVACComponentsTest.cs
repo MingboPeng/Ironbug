@@ -44,7 +44,7 @@ namespace Ironbug.HVACTests
             {
                 throw new Exception("4 coefficient values is needed!");
             }
-            var fSet = HVAC.Curves.IB_CurveCubic_DataFieldSet.Value;
+            var fSet = HVAC.Curves.IB_CurveCubic_FieldSet.Value;
             var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
             fDic.Add(fSet.Coefficient1Constant, coeffs[0]);
@@ -56,7 +56,7 @@ namespace Ironbug.HVACTests
 
             var boiler = new IB_BoilerHotWater();
             var cv = obj.ToOS(model);
-            boiler.SetFieldValue(IB_BoilerHotWater_DataFields.Value.NormalizedBoilerEfficiencyCurve, cv);
+            boiler.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.NormalizedBoilerEfficiencyCurve, cv);
 
             boiler.ToOS(model);
             
@@ -106,6 +106,34 @@ namespace Ironbug.HVACTests
 
             var success = fanChild is IB_FanOnOff;
             success &= !hcChild.Equals(ccChild);
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void IB_Schedule24Hrs()
+        {
+
+            var sch = new HVAC.Schedules.IB_ScheduleRuleset();
+
+            var values = new List<double>()
+            {
+                0.1,0,0,0,0,0,0,0.2,0.5,1,2,2,2,1,1,1,1,0.2,0,0,0,0,0,0
+            };
+            var values2 = new List<double>()
+            {
+                2,1,1,0,0,0,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,1,3
+            };
+            var day = new HVAC.Schedules.IB_ScheduleDay(values);
+            var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
+            sch.AddRule(schRule);
+
+            var day2 = new HVAC.Schedules.IB_ScheduleDay(values2);
+            var schRule2 = new HVAC.Schedules.IB_ScheduleRule(day2);
+            sch.AddRule(schRule2);
+
+            sch.ToOS(md1);
+           
+            var success = md1.Save(saveFile);
             Assert.IsTrue(success);
         }
 

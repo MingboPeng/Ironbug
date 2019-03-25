@@ -4,7 +4,6 @@ using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -14,10 +13,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_DW()
-          : base("Ironbug_CondenserWaterPlantLoop", "CondenserWLoop",
+          : base("Ironbug_CondenserWaterPlantLoop", "CondenserWaterLoop",
               EPDoc.CondenserLoop.Note,
               "Ironbug", "01:Loops",
-              typeof(HVAC.IB_PlantLoop_DataFieldSet))
+              typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
 
@@ -60,6 +59,14 @@ namespace Ironbug.Grasshopper.Component
 
 
             var plant = new HVAC.IB_PlantLoop();
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
+            plant.SetFieldValues(
+               new Dictionary<IB_Field, object>() {
+                    { plantFields.Name, "Condenser Water Loop" },
+                    { plantFields.FluidType, "Water" }
+               });
+
+
             foreach (var item in supplyComs)
             {
                 var newItem = (IB_HVACObject)item.Duplicate();
@@ -76,40 +83,22 @@ namespace Ironbug.Grasshopper.Component
             
             base.SetObjParamsTo(plant);
             
-
-            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
-            if (!plant.CustomAttributes.Any(_ => _.Key.FullName == "Name"))
-            {
-                plant.SetFieldValue(plantFields.Name, "Condenser Water Loop");
-            }
-            plant.SetFieldValue(plantFields.FluidType, "Water");
             DA.SetData(0, plant);
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.PlantLoopDW;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Resources.PlantLoopDW;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("599496DE-2192-4790-9C47-A8FC8F3F9913"); }
-        }
+        public override Guid ComponentGuid => new Guid("599496DE-2192-4790-9C47-A8FC8F3F9913");
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
             var custAtt = sizing.CustomAttributes.Select(_ => _.Key.FULLNAME);

@@ -20,9 +20,9 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_CoilHeatingElectric_DataFieldSet 
-        : IB_FieldSet<IB_CoilHeatingElectric_DataFieldSet , CoilHeatingElectric>
+    public sealed class IB_CoilHeatingElectric_FieldSet 
+        : IB_FieldSet<IB_CoilHeatingElectric_FieldSet , CoilHeatingElectric>
     {
-        private IB_CoilHeatingElectric_DataFieldSet() {}
+        private IB_CoilHeatingElectric_FieldSet() {}
     }
 }

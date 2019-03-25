@@ -38,7 +38,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SetpointManagerFollowOutdoorAirTemperature", "SpFollowOATemp", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerFollowOutdoorAirTemperature", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(4, ref diff);
 
 
-            var fieldSet = HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet.Value;
 
             obj.SetFieldValue(fieldSet.ControlVariable, ctrlVar);
             obj.SetFieldValue(fieldSet.ReferenceTemperatureType, refType);

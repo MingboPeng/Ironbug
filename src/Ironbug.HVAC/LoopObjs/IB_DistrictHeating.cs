@@ -22,10 +22,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_DistrictHeating_DataFieldSet
-        : IB_FieldSet<IB_DistrictHeating_DataFieldSet, DistrictHeating>
+    public sealed class IB_DistrictHeating_FieldSet
+        : IB_FieldSet<IB_DistrictHeating_FieldSet, DistrictHeating>
     {
-        private IB_DistrictHeating_DataFieldSet() { }
+        private IB_DistrictHeating_FieldSet() { }
         
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

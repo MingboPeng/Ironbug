@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingDesuperheater", "Desuperheater",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilHeatingDesuperheater_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingDesuperheater_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingDesuperheater", "CoolingDXwithReheater", "A desuperheater has been added to heating source (CoilCoolingDXSingleSpeed or CoilCoolingDXTwoSpeed).", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingDesuperheater", "Desuperheater", "A desuperheater with a heating source (CoilCoolingDXSingleSpeed or CoilCoolingDXTwoSpeed).", GH_ParamAccess.item);
         }
 
         /// <summary>

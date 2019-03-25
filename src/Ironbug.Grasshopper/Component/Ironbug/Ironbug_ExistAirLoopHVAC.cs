@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirLoopHVAC class.
         /// </summary>
         public Ironbug_ExistAirLoopHVAC()
-          : base("Ironbug_AirLoopHVAC", "ExistAirLoop",
+          : base("Ironbug_ExistingAirLoop", "ExistingAirLoop",
               EPDoc.AirLoopHVAC.Note,
               "Ironbug", "01:Loops")
         {

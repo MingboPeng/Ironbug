@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -17,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_PlantLoop", "PlantLoop",
               EPDoc.PlantLoop.Note,
               "Ironbug", "01:Loops",
-              typeof(HVAC.IB_PlantLoop_DataFieldSet))
+              typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
 

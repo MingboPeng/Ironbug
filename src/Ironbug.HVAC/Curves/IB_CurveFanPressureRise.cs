@@ -20,10 +20,10 @@ namespace Ironbug.HVAC.Curves
         }
     }
 
-    public sealed class IB_CurveFanPressureRise_DataFieldSet
-        : IB_FieldSet<IB_CurveFanPressureRise_DataFieldSet, CurveFanPressureRise>
+    public sealed class IB_CurveFanPressureRise_FieldSet
+        : IB_FieldSet<IB_CurveFanPressureRise_FieldSet, CurveFanPressureRise>
     {
-        private IB_CurveFanPressureRise_DataFieldSet() { }
+        private IB_CurveFanPressureRise_FieldSet() { }
         public IB_Field Coefficient1C1 { get; }
             = new IB_TopField("Coefficient1C1", "C1");
 

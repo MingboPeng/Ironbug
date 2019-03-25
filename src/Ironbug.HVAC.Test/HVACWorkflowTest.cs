@@ -20,7 +20,7 @@ namespace Ironbug.HVACTests
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
         
             sizing.SetFieldValue(szFields.LoopType, "Cooling");
@@ -80,7 +80,7 @@ namespace Ironbug.HVACTests
             var plantloop = new IB_PlantLoop();
 
             //var boiler0 = new IB_BoilerHotWater();
-            //boiler0.SetAttribute(IB_BoilerHotWater_DataFields.Name, "boiler00");
+            //boiler0.SetAttribute(IB_BoilerHotWater_FieldSet.Name, "boiler00");
             //plantloop.AddToSupply(boiler0);
 
             var branches = new IB_PlantLoopBranches();
@@ -88,7 +88,7 @@ namespace Ironbug.HVACTests
 
 
             var boiler1 = new IB_BoilerHotWater();
-            boiler1.SetFieldValue(IB_BoilerHotWater_DataFields.Value.Name, "boiler1");
+            boiler1.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.Name, "boiler1");
             branch.Add(boiler1);
             branch.Add(new IB_PumpConstantSpeed());
 
@@ -99,7 +99,7 @@ namespace Ironbug.HVACTests
 
             var branch2 = new List<IB_HVACObject>();
             var boiler2 = new IB_BoilerHotWater();
-            boiler2.SetFieldValue(IB_BoilerHotWater_DataFields.Value.Name, "boiler2");
+            boiler2.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.Name, "boiler2");
             branch2.Add(boiler2);
             branch2.Add(new IB_PumpVariableSpeed());
             branches.Add(branch2);
@@ -182,14 +182,14 @@ namespace Ironbug.HVACTests
             var plant = new HVAC.IB_PlantLoop();
 
             HVAC.IB_SizingPlant sizingPlant = new HVAC.IB_SizingPlant();
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             sizingPlant.SetFieldValue(szFields.LoopType, "Heating");
 
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
             
             plant.SetSizingPlant(sizing);
 
-            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
             if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
             {
                 plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
@@ -240,7 +240,7 @@ namespace Ironbug.HVACTests
 
             var reHeat = new IB_AirTerminalSingleDuctVAVReheat();
             var coil = new IB_CoilHeatingWater();
-            coil.SetFieldValue(IB_CoilHeatingWater_DataFieldSet.Value.RatedInletAirTemperature, 15.6);
+            coil.SetFieldValue(IB_CoilHeatingWater_FieldSet.Value.RatedInletAirTemperature, 15.6);
             reHeat.SetReheatCoil(coil);
 
             //reHeat.ToPuppetHost();
@@ -296,7 +296,7 @@ namespace Ironbug.HVACTests
         {
             var oa = new IB_OutdoorAirSystem();
             var oac = new IB_ControllerOutdoorAir();
-            oac.SetFieldValue(IB_ControllerOutdoorAir_DataFieldSet.Value.EconomizerControlType, "DifferentialDryBulb");
+            oac.SetFieldValue(IB_ControllerOutdoorAir_FieldSet.Value.EconomizerControlType, "DifferentialDryBulb");
             oa.SetController(oac);
 
             var newOa = oa.Duplicate() as IB_OutdoorAirSystem;

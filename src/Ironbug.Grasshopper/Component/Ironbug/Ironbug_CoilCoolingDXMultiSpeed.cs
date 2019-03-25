@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilCoolingDXMultiSpeed", "CoilClnDXM",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingDXMultiSpeed_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingDXMultiSpeed_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingDXMultiSpeed", "CoilClnDXM", "CoilCoolingDXMultiSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingDXMultiSpeed", "Coil", "CoilCoolingDXMultiSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

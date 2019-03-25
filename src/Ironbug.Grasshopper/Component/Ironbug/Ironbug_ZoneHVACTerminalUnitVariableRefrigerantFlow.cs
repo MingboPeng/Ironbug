@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
           : base("Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFTerminal",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet))
+              typeof(HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet))
         {
         }
 

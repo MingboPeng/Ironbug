@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating duplicates", GH_ParamAccess.list);
             pManager.AddNumberParameter("Amount", "n", "number of duplicates", GH_ParamAccess.list);
-            pManager[1].DataMapping = GH_DataMapping.Flatten;
+        
         }
 
         /// <summary>
@@ -39,7 +39,6 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Objects", "objs", "Objects", GH_ParamAccess.list);
-            pManager[0].DataMapping = GH_DataMapping.Graft;
             pManager.AddGenericParameter("-", "-", "-", GH_ParamAccess.list);
             pManager[1].DataMapping = GH_DataMapping.Graft;
         }

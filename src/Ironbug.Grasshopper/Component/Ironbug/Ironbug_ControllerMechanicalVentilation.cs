@@ -13,10 +13,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_OAController class.
         /// </summary>
         public Ironbug_ControllerMechanicalVentilation()
-          : base("Ironbug_ControllerMechanicalVentilation", "MechVentCtrl",
+          : base("Ironbug_ControllerMechanicalVentilation", "MechVentController",
               "Description",
               "Ironbug", "06:Sizing&Controller",
-              typeof(HVAC.IB_ControllerMechanicalVentilation_DataFieldSet))
+              typeof(HVAC.IB_ControllerMechanicalVentilation_FieldSet))
         {
         }
 
@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             
-            pManager.AddGenericParameter("ControllerMechanicalVentilation", "MechVentCtrl", "connect to OAController", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ControllerMechanicalVentilation", "Ctrl", "connect to OAController", GH_ParamAccess.item);
         }
 
         /// <summary>

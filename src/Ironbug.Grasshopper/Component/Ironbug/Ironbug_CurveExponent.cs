@@ -12,8 +12,8 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CurveExponent()
           : base("Ironbug_CurveExponent", "CurveExponent",
               "Description",
-              "Ironbug", "07:Curve",
-              typeof(HVAC.Curves.IB_CurveLinear_DataFieldSet))
+              "Ironbug", "07:Curve & Load",
+              typeof(HVAC.Curves.IB_CurveLinear_FieldSet))
         {
         }
 
@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveExponent", "CvExponent", "CurveExponent", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveExponent", "Curve", "CurveExponent", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -51,7 +51,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     throw new Exception("3 coefficient values is needed!");
                 }
-                var fSet = HVAC.Curves.IB_CurveExponent_DataFieldSet.Value;
+                var fSet = HVAC.Curves.IB_CurveExponent_FieldSet.Value;
                 var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
                 fDic.Add(fSet.Coefficient1Constant, coeffs[0]);

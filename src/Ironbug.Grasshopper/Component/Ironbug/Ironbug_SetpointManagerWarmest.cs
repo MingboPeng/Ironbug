@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("SetpointManagerWarmest", "SpWarmest", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("SetpointManagerWarmest", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(1, ref maxT);
 
             
-            var fieldSet = HVAC.IB_SetpointManagerWarmest_DataFieldSet.Value;
+            var fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;
 
             obj.SetFieldValue(fieldSet.MinimumSetpointTemperature, minT);
             obj.SetFieldValue(fieldSet.MaximumSetpointTemperature, maxT);

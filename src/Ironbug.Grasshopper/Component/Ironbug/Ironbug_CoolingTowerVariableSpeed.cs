@@ -13,11 +13,11 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoolingTowerVariableSpeed", "CoolingTowerV",
               "Description",
               "Ironbug", "02:LoopComponents", 
-              typeof(HVAC.IB_CoolingTowerVariableSpeed_DataFields))
+              typeof(HVAC.IB_CoolingTowerVariableSpeed_FieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.senary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
         /// <summary>
         /// Registers all the input parameters for this component.
@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoolingTowerVariableSpeed", "ClnTowerV", "CoolingTowerVariableSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingTowerVariableSpeed", "ClnTower", "CoolingTowerVariableSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

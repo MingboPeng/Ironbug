@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -14,10 +12,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_HW()
-          : base("Ironbug_HotWaterPlantLoop", "HotWLoop",
+          : base("Ironbug_HotWaterPlantLoop", "HotWaterLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
-              typeof(HVAC.IB_PlantLoop_DataFieldSet))
+              typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
 
@@ -60,6 +58,12 @@ namespace Ironbug.Grasshopper.Component
 
 
             var plant = new HVAC.IB_PlantLoop();
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
+            plant.SetFieldValues(
+               new Dictionary<IB_Field, object>() {
+                    { plantFields.Name, "Hot Water Loop" },
+                    { plantFields.FluidType, "Water" }
+               });
             foreach (var item in supplyComs)
             {
                 var newItem = item.Duplicate();
@@ -76,41 +80,24 @@ namespace Ironbug.Grasshopper.Component
             plant.SetSizingPlant(sizingChecked);
             
             this.SetObjParamsTo(plant);
-
-            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
-            if (!plant.CustomAttributes.Any(_=>_.Key.FULLNAME == plantFields.Name.FULLNAME))
-            {
-                plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
-            }
-            plant.SetFieldValue(plantFields.FluidType, "Water");
+            
             DA.SetData(0, plant);
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.PlantLoopHW;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Resources.PlantLoopHW;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("DD9899C2-04C6-4AFA-8046-4BA7DD8E4C38"); }
-        }
+        public override Guid ComponentGuid => new Guid("DD9899C2-04C6-4AFA-8046-4BA7DD8E4C38");
 
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
             var custAtt = sizing.CustomAttributes;

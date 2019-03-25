@@ -31,10 +31,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_ControllerOutdoorAir_DataFieldSet 
-        : IB_FieldSet<IB_ControllerOutdoorAir_DataFieldSet, ControllerOutdoorAir>
+    public sealed class IB_ControllerOutdoorAir_FieldSet 
+        : IB_FieldSet<IB_ControllerOutdoorAir_FieldSet, ControllerOutdoorAir>
     {
-        private IB_ControllerOutdoorAir_DataFieldSet() {}
+        private IB_ControllerOutdoorAir_FieldSet() {}
         
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

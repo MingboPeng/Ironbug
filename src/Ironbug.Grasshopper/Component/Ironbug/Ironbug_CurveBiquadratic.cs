@@ -12,8 +12,8 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CurveBiquadratic()
           : base("Ironbug_CurveBiquadratic", "CurveBiquadratic",
               "Description",
-              "Ironbug", "07:Curve",
-              typeof(HVAC.Curves.IB_CurveBiquadratic_DataFieldSet))
+              "Ironbug", "07:Curve & Load",
+              typeof(HVAC.Curves.IB_CurveBiquadratic_FieldSet))
         {
         }
 
@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveBiquadratic", "CvBiquadratic", "CurveBiquadratic", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveBiquadratic", "Curve", "CurveBiquadratic", GH_ParamAccess.item);
         }
         
         /// <summary>
@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     throw new Exception("6 coefficient values is needed!");
                 }
-                var fSet = HVAC.Curves.IB_CurveBiquadratic_DataFieldSet.Value;
+                var fSet = HVAC.Curves.IB_CurveBiquadratic_FieldSet.Value;
                 var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
                 fDic.Add(fSet.Coefficient1Constant, coeffs[0]);

@@ -69,18 +69,21 @@ namespace Ironbug.HVAC
             var model = GetOrNewModel(osmFile);
 
             var airlps = model.getAirLoopHVACs().Select(_ => _.nameString()).ToList();
-           
+
 
             //add loops
+            //added plantLoops first, as the controllerWaterCoil of CoilCoolingWater or CoilHeatingWater only exists after the coil is added to PlantLoop
+            foreach (var plant in plantLoops)
+            {
+                plant.ToOS(model);
+            }
+            //don't add airloop before the plantLoops
             foreach (var airLoop in airLoops)
             {
                 airLoop.ToOS(model);
             }
 
-            foreach (var plant in plantLoops)
-            {
-                plant.ToOS(model);
-            }
+
 
             foreach (var vrf in vrfs)
             {

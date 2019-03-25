@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilCoolingDXSingleSpeed", "CoilClnDX1",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingDXSingleSpeed_DataFieldSet))
+              typeof(HVAC.IB_CoilCoolingDXSingleSpeed_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.secondary;
@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingDXSingleSpeed", "CoilClnDX1", "CoilCoolingDXSingleSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilCoolingDXSingleSpeed", "Coil", "CoilCoolingDXSingleSpeed", GH_ParamAccess.item);
         }
 
         /// <summary>

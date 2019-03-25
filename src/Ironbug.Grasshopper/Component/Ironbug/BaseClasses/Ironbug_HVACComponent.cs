@@ -57,62 +57,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        //public string PuppetableStateMsg { get; set; } 
-        //protected void PuppetStateChanged(object sender, PuppetEventArg e)
-        //{
-        //    if (e.State is IB_PuppetableState_Host state)
-        //    {
-        //        this.PuppetableStateMsg = state.ToString();
-        //    }
-        //    else
-        //    {
-        //        this.PuppetableStateMsg = string.Empty;
-        //    }
-        //    this.TellPuppetReceivers();
-        //    this.Attributes.ExpireLayout();
-        //    this.Attributes.PerformLayout();
-        //}
-
-        //loop branches and vrf system are puppet receivers
-        //private void TellPuppetReceivers()
-        //{
-        //    var puppetReceivers = this.Params.Output.SelectMany(_ => _.Recipients).Where(CheckIfReceiver);
-        //    foreach (var reciever in puppetReceivers)
-        //    {
-        //        var recompute = this.OnPingDocument().SolutionHistory.Count == 0;
-        //        reciever.ExpireSolution(recompute);
-
-        //    }
-
-        //    //local function
-        //    bool CheckIfReceiver(IGH_Param gh_Param)
-        //    {
-        //        var owner = gh_Param.Attributes.GetTopLevel.DocObject;
-                
-        //        if (owner is Ironbug_AirLoopBranches || 
-        //            owner is Ironbug_PlantBranches || 
-        //            owner is Ironbug_AirConditionerVariableRefrigerantFlow)
-        //        {
-        //            return true;
-        //        }
-        //        //in case of user uses any gh_param, instated of connect to puppet receiver directly.
-        //        else if (owner is IGH_Param)
-        //        {
-        //            return true;
-        //        }
-        //        else 
-        //        {
-        //            return false;
-        //        }
-        //    }
-
-        //}
-
-        //protected override void BeforeSolveInstance()
-        //{
-        //    this.PuppetableStateMsg = string.Empty;
-        //    base.BeforeSolveInstance();
-        //}
+       
 
         protected override void AfterSolveInstance()
         {
@@ -127,7 +72,20 @@ namespace Ironbug.Grasshopper.Component
         
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
-            return UsersDescription == "Description"? (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote : UsersDescription;
+            var description = "There is no component description available now! \nPlease stay tuned or contribute :>\nSource code: https://github.com/MingboPeng/Ironbug";
+            if (UsersDescription == "Description")
+            {
+                var epdoc = (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote;
+                if (!string.IsNullOrEmpty( epdoc))
+                {
+                    description = epdoc;
+                }
+            }
+            else
+            {
+                description = UsersDescription;
+            }
+            return description;
         }
 
         public Ironbug_HVACComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
@@ -156,12 +114,17 @@ namespace Ironbug.Grasshopper.Component
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
             var paramInput = this.Params.Input.Last();
-            var objParams = paramInput.VolatileData.AllData(true).ToList();
+            //catch the data when it is in branch
+            if (this.Phase != GH_SolutionPhase.Computing) return;
+            if (paramInput.VolatileDataCount == 0) return;
+            var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
+            var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>) null;
             var outputP = (List<IB_OutputVariable>)null;
 
             foreach (var ghitem in objParams)
             {
+                if (ghitem == null) continue;
                 var item = ghitem as GH_ObjectWrapper;
                 
 

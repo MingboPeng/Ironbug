@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingWaterBaseboard", "CoilHtn_Baseboard",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilHeatingWaterBaseboard_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingWaterBaseboard_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingWaterBaseboard", "CoilHW_Bd", "connect to baseboard", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingWaterBaseboard", "Coil", "connect to baseboard", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 

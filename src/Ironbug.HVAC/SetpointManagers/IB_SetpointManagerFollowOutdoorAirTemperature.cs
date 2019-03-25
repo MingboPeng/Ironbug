@@ -21,10 +21,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_SetpointManagerFollowOutdoorAirTemperature_DataFieldSet
-        : IB_FieldSet<IB_SetpointManagerFollowOutdoorAirTemperature_DataFieldSet, SetpointManagerFollowOutdoorAirTemperature>
+    public sealed class IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet
+        : IB_FieldSet<IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet, SetpointManagerFollowOutdoorAirTemperature>
     {
-        private IB_SetpointManagerFollowOutdoorAirTemperature_DataFieldSet() { }
+        private IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet() { }
 
         public IB_Field ControlVariable { get; }
             = new IB_TopField("ControlVariable", "CtrlVar");

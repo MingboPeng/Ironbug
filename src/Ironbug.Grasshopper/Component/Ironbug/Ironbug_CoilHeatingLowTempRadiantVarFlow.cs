@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingLowTempRadiantVarFlow", "CoilHtn_LowTRadV",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_DataFieldSet))
+              typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_FieldSet))
         {
         }
 
@@ -26,7 +26,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingLowTempRadiantVarFlow", "CoilHtn_LTRV", "Add to ZoneHVACLowTempRadiantVarFlow", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingLowTempRadiantVarFlow", "Coil", "Add to ZoneHVACLowTempRadiantVarFlow", GH_ParamAccess.item);
             pManager.AddGenericParameter("WaterSide_CoilHeatingLowTempRadiantVarFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
         

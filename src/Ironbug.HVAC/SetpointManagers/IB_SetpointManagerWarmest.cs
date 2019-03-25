@@ -20,10 +20,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_SetpointManagerWarmest_DataFieldSet
-        : IB_FieldSet<IB_SetpointManagerWarmest_DataFieldSet, SetpointManagerWarmest>
+    public sealed class IB_SetpointManagerWarmest_FieldSet
+        : IB_FieldSet<IB_SetpointManagerWarmest_FieldSet, SetpointManagerWarmest>
     {
-        private IB_SetpointManagerWarmest_DataFieldSet() { }
+        private IB_SetpointManagerWarmest_FieldSet() { }
 
         public IB_Field MaximumSetpointTemperature { get; }
             = new IB_TopField("MaximumSetpointTemperature", "maxTemp");

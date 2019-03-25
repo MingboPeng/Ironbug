@@ -13,10 +13,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_PlantLoop class.
         /// </summary>
         public Ironbug_PlantLoop_CW()
-          : base("Ironbug_ChilledWaterPlantLoop", "ChilledWLoop",
+          : base("Ironbug_ChilledWaterPlantLoop", "ChilledWaterLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
-              typeof(HVAC.IB_PlantLoop_DataFieldSet))
+              typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
 
@@ -59,14 +59,22 @@ namespace Ironbug.Grasshopper.Component
 
 
             var plant = new HVAC.IB_PlantLoop();
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
+            plant.SetFieldValues(
+                new Dictionary<IB_Field, object>() {
+                    { plantFields.Name, "Chilled Water Loop" },
+                    { plantFields.FluidType, "Water" }
+                });
+     
+
             foreach (var item in supplyComs)
             {
-                var newItem = (IB_HVACObject)item.Duplicate();
+                var newItem = item.Duplicate();
                 plant.AddToSupply(newItem);
             }
             foreach (var item in demandComs)
             {
-                var newItem = (IB_HVACObject)item.Duplicate();
+                var newItem = item.Duplicate();
                 plant.AddToDemand(newItem);
             }
             
@@ -74,42 +82,24 @@ namespace Ironbug.Grasshopper.Component
             plant.SetSizingPlant(sizingChecked);
             
             base.SetObjParamsTo(plant);
-
-
-            var plantFields = HVAC.IB_PlantLoop_DataFieldSet.Value;
-            if (!plant.CustomAttributes.Any(_=>_.Key.FULLNAME == "NAME"))
-            {
-                plant.SetFieldValue(plantFields.Name, "Chilled Water Loop");
-            }
-            plant.SetFieldValue(plantFields.FluidType, "Water");
+            
             DA.SetData(0, plant);
         }
 
         /// <summary>
         /// Provides an Icon for the component.
         /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Resources.PlantLoopCW;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Resources.PlantLoopCW;
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
         /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("1A540675-358F-45EB-A73C-FB7C4BFC9541"); }
-        }
+        public override Guid ComponentGuid => new Guid("1A540675-358F-45EB-A73C-FB7C4BFC9541");
 
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
-            var szFields = HVAC.IB_SizingPlant_DataFieldSet.Value;
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
             var custAtt = sizing.CustomAttributes.Select(_=>_.Key.FULLNAME);

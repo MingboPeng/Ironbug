@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ChillerElectricEIR_AirCooled", "Chiller_AirCooled",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_ChillerElectricEIR_DataFieldSet))
+              typeof(HVAC.IB_ChillerElectricEIR_FieldSet))
         {
         }
 

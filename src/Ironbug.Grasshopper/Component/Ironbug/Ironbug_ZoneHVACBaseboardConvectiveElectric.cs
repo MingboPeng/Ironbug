@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_ZoneHVACBaseboardConvectiveElectric", "BaseboardElecC",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(IB_ZoneHVACBaseboardConvectiveElectric_DataFieldSet))
+              typeof(IB_ZoneHVACBaseboardConvectiveElectric_FieldSet))
         {
         }
 
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ZoneHVACBaseboardConvectiveElectric", "BaseboardEC", "Connect to zone's equipment", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ZoneHVACBaseboardConvectiveElectric", "Baseboard", "Connect to zone's equipment", GH_ParamAccess.item);
         }
 
         /// <summary>

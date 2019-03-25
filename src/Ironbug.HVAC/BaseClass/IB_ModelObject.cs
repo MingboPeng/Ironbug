@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
-using System.Reflection;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -21,7 +20,7 @@ namespace Ironbug.HVAC.BaseClass
         public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
         protected ModelObject GhostOSObject { get; private set; }
 
-        private List<IB_OutputVariable> OutputVariables { get; set; } = new List<IB_OutputVariable>();
+        public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
@@ -36,7 +35,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return;
             }
-            this.OutputVariables.AddRange(outputVariable);
+            this.CustomOutputVariables.AddRange(outputVariable);
         }
 
         internal void AddChild(IB_ModelObject ChildObj)
@@ -215,6 +214,10 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realValue = c.ToOS(this.GhostOSObject.model());
             }
+            else if (value is IB_Schedule sch)
+            {
+                realValue = sch.ToOS(this.GhostOSObject.model());
+            }
 
             this.CustomAttributes.TryAdd(field, value);
 
@@ -223,25 +226,7 @@ namespace Ironbug.HVAC.BaseClass
             //meaning it will not be saved in real OpenStudio.Model, 
             //but it should have all the same field values as the real one, except handles.
             this.GhostOSObject.SetFieldValue(field, realValue);
-
             
-            //var type = field.DataType;
-
-            //if (type == typeof(string) || type == typeof(int) || type == typeof(double) || type == typeof(bool))
-            //{
-            //    //execute directly 
-            //    //dealing the ghost object
-            //    this.GhostOSObject.SetFieldValue(field, value);
-            //}
-            //else if(type == typeof(Curve))
-            //{
-            //    //TODO: add supports of Schedule later
-            //    //dealing the ghost object
-            //    var c = ((Curve)value).clone(this.GhostOSObject.model()).to_Curve().get();
-
-            //    this.GhostOSObject.SetFieldValue(field, c);
-            //}
-
 
         }
 
@@ -296,8 +281,8 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realObj = InitAndSetAttributes();
             }
-
-            AddOutputVariablesToModel(this.OutputVariables, model);
+            var realName = realObj.nameString();
+            AddOutputVariablesToModel(this.CustomOutputVariables, realName, model);
             
             return realObj as T;
 
@@ -313,45 +298,20 @@ namespace Ironbug.HVAC.BaseClass
 
 
         }
+       
 
         
-        //protected T OnInitOpsObj<T>(Func<Model, T> initMethod, Model model, Func<ModelObject, T> postProcess) where T : ModelObject
-        //{
-        //    if (initMethod == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    ModelObject realObj = null;
-        //    if (this is IIB_DualLoopObj)
-        //    {
-        //        var objInModel = this.GhostOSObject.GetIfInModel(model);
-        //        realObj = objInModel.isNull() ? initMethod(model) : objInModel.get() as ModelObject;
-        //    }
-        //    else
-        //    {
-        //        realObj = initMethod(model);
-        //    }
-
-        //    realObj.SetCustomAttributes(this.CustomAttributes);
-
-        //    AddOutputVariablesToModel(this.OutputVariables, model);
-
-
-        //    return postProcess(realObj);
-
-            
-        //}
-        private void AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, Model md)
+        static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
+            var success = true;
             var vs = outputVariables;
             foreach (var item in vs)
             {
                 var outV = new OutputVariable(item.VariableName, md);
-                outV.setReportingFrequency(item.TimeStep);
-                //TODO: add keyname
-                //outV.setKeyValue("keyname");
+                success &= outV.setReportingFrequency(item.TimeStep);
+                success &= outV.setKeyValue(keyName);
             }
+            return success;
         }
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
@@ -392,7 +352,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             newObj.UpdateOSModelObjectWithCustomAttr();
-            newObj.AddOutputVariables(this.OutputVariables);
+            newObj.AddOutputVariables(this.CustomOutputVariables);
             return newObj;
         }
 

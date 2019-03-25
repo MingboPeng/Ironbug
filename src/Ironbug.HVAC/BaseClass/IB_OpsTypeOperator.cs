@@ -17,12 +17,14 @@ namespace Ironbug.HVAC.BaseClass
 
         public static IEnumerable<MethodInfo> GetOSSetters(Type OSType)
         {
-            return OSType
+
+            var setterMethods =  OSType
                         .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                             .Where(_ =>
                             {
                                 //get all setting methods
                                 if (!_.Name.StartsWith("set")) return false;
+                                if (_.Name.Contains("NodeName")) return false;
                                 if (_.GetParameters().Count() != 1) return false;
 
                                 var paramType = _.GetParameters().First().ParameterType;
@@ -31,7 +33,8 @@ namespace Ironbug.HVAC.BaseClass
                                 paramType == typeof(double) ||
                                 paramType == typeof(bool) ||
                                 paramType == typeof(int) ||
-                                paramType == typeof(Curve);
+                                paramType == typeof(Curve) ||
+                                paramType == typeof(Schedule);
                                 //TODO: add supports of Schedule later
 
                                 //if (!isValidType) return false;
@@ -39,7 +42,13 @@ namespace Ironbug.HVAC.BaseClass
                                 return isValidType;
 
                             }
-                            );
+                            ).ToList();
+
+            var nameSetter = OSType.GetMethod("setName");
+            if (nameSetter != null)
+                setterMethods.Add(nameSetter);
+          
+            return setterMethods;
 
         }
     }

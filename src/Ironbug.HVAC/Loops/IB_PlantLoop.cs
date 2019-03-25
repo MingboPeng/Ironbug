@@ -106,7 +106,7 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverce the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
             
             var spInletNode = plant.supplyInletNode();
@@ -139,6 +139,7 @@ namespace Ironbug.HVAC
             
             //TODO: might need to double check the set point order.
             allcopied &= this.AddSetPoints(spInletNode, Components);
+            allcopied &= this.AddNodeProbe(spInletNode, Components);
 
             if (!allcopied)
             {
@@ -156,7 +157,7 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverce the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(Components);
             //var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
 
@@ -181,6 +182,7 @@ namespace Ironbug.HVAC
 
             //TODO: might need to double check the setpoint order.
             var allcopied = this.AddSetPoints(deInletNode, Components);
+            allcopied &= this.AddNodeProbe(deInletNode, Components);
 
             if (!allcopied)
             {
@@ -206,10 +208,10 @@ namespace Ironbug.HVAC
     }
 
 
-    public sealed class IB_PlantLoop_DataFieldSet
-        : IB_FieldSet<IB_PlantLoop_DataFieldSet, PlantLoop>
+    public sealed class IB_PlantLoop_FieldSet
+        : IB_FieldSet<IB_PlantLoop_FieldSet, PlantLoop>
     {
-        private IB_PlantLoop_DataFieldSet() { }
+        private IB_PlantLoop_FieldSet() { }
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name");

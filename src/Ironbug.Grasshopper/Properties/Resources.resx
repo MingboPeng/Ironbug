@@ -460,4 +460,58 @@
   <data name="IdealAirLoad" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\IdealAirLoad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AddPlenum" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AddPlenum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CentralHeatPump" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CentralHeatPump.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ChillerHeater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ChillerHeater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterHeaterMix" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterHeaterMix.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterUseConnect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterUseConnect.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterUseEquip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterUseEquip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterUseLoad" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterUseLoad.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SetPointOARetreat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SetPointOARetreat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilCW_adv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilCW_adv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilHW_adv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilHW_adv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterCoilCtrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterCoilCtrl.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="probe" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\probe.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Schedule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Schedule.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Schedule_Rule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Schedule_Rule.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Schedule_Type" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Schedule_Type.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_CoolingWAFit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_CoolingWAFit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_HeatingWAFit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_HeatingWAFit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WaterToAirHeatPump" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WaterToAirHeatPump.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

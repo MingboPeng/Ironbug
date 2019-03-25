@@ -33,10 +33,29 @@ namespace Ironbug.HVAC
 
             SetpointManagerScheduled NewDefaultOpsObj(Model m)
             {
-                var sch = new ScheduleRuleset(m, this.temperature);
-                sch.setName("Constant value at " + this.temperature);
-                return new SetpointManagerScheduled(m, sch);
+                var name = $"Constant value {this.temperature} C ({Math.Round(this.temperature * 9 / 5 + 32, 1)} F) ";
+                var optionalObj = m.getScheduleRulesetByName(name);
+                if (optionalObj.is_initialized())
+                {
+                    var sch = optionalObj.get();
+                    return new SetpointManagerScheduled(m, sch);
+                }
+                else
+                {
+                    var sch = new ScheduleRuleset(m, this.temperature);
+                    sch.setName(name);
+                    return new SetpointManagerScheduled(m, sch);
+                }
             }
         }
+    }
+    public sealed class IB_SetpointManagerScheduled_FieldSet
+      : IB_FieldSet<IB_SetpointManagerScheduled_FieldSet, SetpointManagerScheduled>
+    {
+        private IB_SetpointManagerScheduled_FieldSet() { }
+
+        public IB_Field ControlVariable { get; }
+            = new IB_BasicField("ControlVariable", "ControlVariable");
+
     }
 }

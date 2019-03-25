@@ -11,8 +11,8 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CurveTriquadratic()
           : base("Ironbug_CurveTriquadratic", "CurveTriquadratic",
               "Description",
-              "Ironbug", "07:Curve",
-              typeof(HVAC.Curves.IB_CurveTriquadratic_DataFieldSet))
+              "Ironbug", "07:Curve & Load",
+              typeof(HVAC.Curves.IB_CurveTriquadratic_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CurveTriquadratic", "CvTriquadratic", "CurveTriquadratic", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CurveTriquadratic", "Curve", "CurveTriquadratic", GH_ParamAccess.item);
         }
         
         /// <summary>

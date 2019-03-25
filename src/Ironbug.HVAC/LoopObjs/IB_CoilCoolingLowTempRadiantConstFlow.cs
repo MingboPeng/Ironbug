@@ -36,10 +36,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_CoilCoolingLowTempRadiantConstFlow_DataFieldSet
-        : IB_FieldSet<IB_CoilCoolingLowTempRadiantConstFlow_DataFieldSet, CoilCoolingLowTempRadiantConstFlow>
+    public sealed class IB_CoilCoolingLowTempRadiantConstFlow_FieldSet
+        : IB_FieldSet<IB_CoilCoolingLowTempRadiantConstFlow_FieldSet, CoilCoolingLowTempRadiantConstFlow>
     {
-        private IB_CoilCoolingLowTempRadiantConstFlow_DataFieldSet() { }
+        private IB_CoilCoolingLowTempRadiantConstFlow_FieldSet() { }
 
     }
 

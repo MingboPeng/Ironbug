@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -18,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_BoilerHotWater", "Boiler",
               "Description",
               "Ironbug", "02:LoopComponents", 
-              typeof(HVAC.IB_BoilerHotWater_DataFields))
+              typeof(HVAC.IB_BoilerHotWater_FieldSet))
         {
         }
 

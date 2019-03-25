@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -14,10 +12,10 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctSeriesPIUReheat class.
         /// </summary>
         public Ironbug_AirTerminalSingleDuctSeriesPIUReheat()
-          : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SFP",
+          : base("Ironbug_AirTerminalSingleDuctSeriesPIUReheat", "SeriesPIUReheat",
               "Description",
               "Ironbug", "03:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctSeriesPIUReheat_DataFieldSet))
+              typeof(IB_AirTerminalSingleDuctSeriesPIUReheat_FieldSet))
         {
         }
 

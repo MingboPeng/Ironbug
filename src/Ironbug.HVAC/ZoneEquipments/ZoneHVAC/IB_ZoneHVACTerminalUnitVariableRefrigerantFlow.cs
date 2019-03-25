@@ -31,10 +31,10 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet
-        : IB_FieldSet<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet, ZoneHVACTerminalUnitVariableRefrigerantFlow>
+    public sealed class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet
+        : IB_FieldSet<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet, ZoneHVACTerminalUnitVariableRefrigerantFlow>
     {
-        private IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_DataFieldSet() { }
+        private IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet() { }
         
         //public IB_DataField Name { get; }
         //    = new IB_BasicDataField("Name", "Name");

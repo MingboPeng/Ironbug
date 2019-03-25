@@ -20,10 +20,10 @@ namespace Ironbug.HVAC.Curves
         }
     }
 
-    public sealed class IB_CurveCubic_DataFieldSet
-        : IB_FieldSet<IB_CurveCubic_DataFieldSet, CurveCubic>
+    public sealed class IB_CurveCubic_FieldSet
+        : IB_FieldSet<IB_CurveCubic_FieldSet, CurveCubic>
     {
-        private IB_CurveCubic_DataFieldSet() { }
+        private IB_CurveCubic_FieldSet() { }
 
         public IB_Field Coefficient1Constant { get; }
             = new IB_TopField("Coefficient1Constant", "C1");

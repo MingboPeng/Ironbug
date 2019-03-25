@@ -19,10 +19,10 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_HeaderedPumpsVariableSpeed_DataFields
-        : IB_FieldSet<IB_HeaderedPumpsVariableSpeed_DataFields, HeaderedPumpsVariableSpeed>
+    public sealed class IB_HeaderedPumpsVariableSpeed_FieldSet
+        : IB_FieldSet<IB_HeaderedPumpsVariableSpeed_FieldSet, HeaderedPumpsVariableSpeed>
     {
-        private IB_HeaderedPumpsVariableSpeed_DataFields() {}
+        private IB_HeaderedPumpsVariableSpeed_FieldSet() {}
 
 
         public IB_Field RatedPumpHead { get; }

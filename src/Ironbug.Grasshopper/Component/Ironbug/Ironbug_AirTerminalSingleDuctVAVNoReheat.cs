@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -14,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_AirTerminalSingleDuctVAVNoReheat", "VAVNoReheat",
               "Description",
               "Ironbug", "03:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctVAVNoReheat_DataFieldSet))
+              typeof(IB_AirTerminalSingleDuctVAVNoReheat_FieldSet))
         {
         }
 
@@ -30,7 +27,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctVAVNoReheat", "VAVNoReheat", "connect to Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirTerminalSingleDuctVAVNoReheat", "AT", "connect to Zone", GH_ParamAccess.item);
         }
 
         /// <summary>

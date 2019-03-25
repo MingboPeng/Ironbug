@@ -113,7 +113,15 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException ?? e.Message);
+                if (e.Message.Contains("Attempted to read or write protected memory"))
+                {
+                    throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.Message);
+                }
+                else
+                {
+                    throw new ArgumentException($"{e.Message}");
+                }
+                
                 //invokeResult = e.ToString();
             }
             finally
@@ -158,6 +166,10 @@ namespace Ironbug.HVAC
                 if (value is BaseClass.IB_Curve c)
                 {
                     value = c.ToOS(component.model());
+                }
+                else if(value is BaseClass.IB_Schedule sch)
+                {
+                    value = sch.ToOS(component.model());
                 }
 
                 var invokeResult = component.SetFieldValue(field, value);

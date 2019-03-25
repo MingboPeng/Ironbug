@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenStudio;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Ironbug.HVACTests
@@ -9,6 +10,61 @@ namespace Ironbug.HVACTests
     [TestClass]
     public class OpsTest
     {
+        [TestMethod]
+        public void OS_ScheduleImport_Test()
+        {
+
+            var epStrings = new List<string>() {
+@"
+Schedule:Day:Interval,
+	SchName Day Schedule - Constant, !- Name
+	TEMPERATURE 1, !- Schedule Type Limits Name
+	No,        !- Interpolate to Timestep
+	24:00,   !- Time 1 {hh:mm}
+	16.0;     !- Value Until Time 1
+",
+@"Schedule:Week:Daily,
+	SchName Week Schedule, !- Name
+	SchName Day Schedule - Constant,  !- Sunday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Monday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Tuesday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Wednesday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Thursday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Friday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Saturday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- Holiday Schedule:Day Name
+	SchName Day Schedule - Constant,  !- SummerDesignDay Schedule:Day Name
+	SchName Day Schedule - Constant,  !- WinterDesignDay Schedule:Day Name
+	SchName Day Schedule - Constant,  !- CustomDay1 Schedule:Day Name
+	SchName Day Schedule - Constant;  !- CustomDay2 Schedule:Day Name
+",
+@"
+Schedule:Year,
+	SchName, !- Name
+	TEMPERATURE 1, !- Schedule Type Limits Name
+	SchName Week Schedule,  !- Schedule:Week Name
+	1,  !- Start Month 1
+	1,  !- Start Day 1
+	12,  !- End Month
+	31;  !- End Day
+
+" };
+            var model = new Model();
+
+            foreach (var item in epStrings)
+            {
+                var c = IdfObject.load(item);
+                if (c.is_initialized())
+                {
+                    var sch = c.get().__str__();
+                    var idftype = c.get().iddObject().type().valueDescription();
+               
+                }
+            }
+         
+            var success = true;
+            Assert.IsTrue(success);
+        }
         [TestMethod]
         public void OS_Curve_Clone_Test()
         {

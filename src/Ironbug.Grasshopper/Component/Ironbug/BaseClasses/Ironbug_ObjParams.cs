@@ -1,6 +1,7 @@
 ﻿using GH_IO.Serialization;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
+using Grasshopper.Kernel.Types;
 using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
 using System;
@@ -33,7 +34,7 @@ namespace Ironbug.Grasshopper.Component
         private IB_FieldSet FieldSet { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the Ironbug_DataFields class.
+        /// Initializes a new instance of the Ironbug_FieldSet class.
         /// </summary>
         public Ironbug_ObjParams()
           : base("Ironbug_ObjParams", "ObjParams",
@@ -50,27 +51,105 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HVACObjParams", "ObjParams", "HVACObjParams", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACObjParams", "params", "HVACObjParams", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             if (this.Params.Input.Any())
             {
-                this.Message = "Double click for more details!";
+                this.Message = "Double click to switch!";
+            }
+            else
+            {
+                this.Message = null;
             }
 
             var settingDatas = new Dictionary<IB_Field, object>();
-            settingDatas = CollectSettingData();
-            DA.SetData(0, settingDatas);
+
+            var inputCount = this.Params.Input.Count;
+            for (int i = 0; i < inputCount; i++)
+            {
+
+                GH_ObjectWrapper ghObj = null;
+                if (DA.GetData(i, ref ghObj))
+                {
+                    ghObj.CastTo(out object value);
+                   
+                    //value.CastTo(out value);
+                    var fieldName = this.Params.Input[i].Name;
+                    var dataField = this.FieldSet.FirstOrDefault(_ => _.FULLNAME == fieldName.ToUpper());
+                
+                    if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
+                    {
+                        var valueStr = value.ToString();
+                        if (!dataField.ValidData.Contains(valueStr))
+                        {
+                            throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
+                        }
+                    }
+
+                    settingDatas.TryAdd(dataField, value);
+                }
+            }
+
+            if (settingDatas.Any())
+            {
+                DA.SetData(0, settingDatas);
+            }
+    
         }
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
+
+            menu.Items.RemoveAt(1); // remove Preview
+            menu.Items.RemoveAt(2); // remove Bake
+
+            var t = new ToolStripMenuItem("Parameters");
+            var allParams = this.basicfieldList.ToList();
+            allParams.AddRange(this.masterFieldList);
+            if (!allParams.Any()) return;
+
+            var inputParams = this.Params.Input.Select(_ => _.Name).ToList();
+            var sortedParams = allParams.OrderBy(_=>_.FullName);
+            foreach (var item in sortedParams)
+            {
+                var mitem = Menu_AppendItem(t.DropDown, item.FullName, OnClickParam, true, inputParams.Any(_ => _ == item.FullName));
+                mitem.Tag = item;
+            }
+            menu.Items.Add(t);
+
+            Menu_AppendSeparator(menu);
+
             Menu_AppendItem(menu, "BasicSettings", BasicSetting, this.IsThereBasicSetting, this.IsBasicSetting);
             Menu_AppendItem(menu, "AllSettings", MasterSetting, true, this.IsMasterSetting);
             Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
+
+        }
+
+        private void OnClickParam(object sender, EventArgs e)
+        {
+            var clickedItem = sender as ToolStripMenuItem;
+            if (clickedItem == null) return;
+
+            var field = clickedItem.Tag as IB_Field;
+            if (field == null) return;
+            //var name = clickedItem.Text;
+            if (!clickedItem.Checked)
+            {
+                AddFieldToParam(field);
+            }
+            else
+            {
+                RemoveParamFromField(field);
+            }
+
+            this.Params.OnParametersChanged();
+            this.OnDisplayExpired(true);
+
+
         }
 
         public override bool Write(GH_IWriter writer)
@@ -89,6 +168,16 @@ namespace Ironbug.Grasshopper.Component
             {
                 var typeName = reader.GetString("DataFieldSetType");
                 this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(typeName);
+                if (this.CurrentDataFieldType == null)
+                {
+                    var typeNames = typeName.Split('_');
+                    if (typeNames.Last() != "FieldSet")
+                    {
+                        var newTypeName = string.Join("_", typeNames.Take(2))+"_FieldSet";
+                        this.CurrentDataFieldType = typeof(IB_FieldSet).Assembly.GetType(newTypeName);
+                    }
+                    
+                }
                 this.FieldSet = GetFieldSet(CurrentDataFieldType);
                 this.basicfieldList = FieldSet.Where(_ => _ is IB_BasicField).ToList();
                 this.masterFieldList = FieldSet.Where(_ => !((_ is IB_BasicField) || (_ is IB_TopField))).ToList();
@@ -171,53 +260,10 @@ namespace Ironbug.Grasshopper.Component
             this.AddFieldsToParams(fieldTobeAdded);
 
             this.Params.OnParametersChanged();
-            this.OnAttributesChanged();
+            this.OnDisplayExpired(true);
         }
 
-        private Dictionary<IB_Field, object> CollectSettingData()
-        {
-            if (CurrentDataFieldType == null)
-            {
-                return null;
-            }
-            var dataFieldSet = this.FieldSet;
-            var settingDatas = new Dictionary<IB_Field, object>();
-
-            var allInputParams = this.Params.Input;
-            foreach (var item in allInputParams)
-            {
-                if (item.SourceCount <= 0 || item.VolatileData.IsEmpty)
-                {
-                    continue;
-                }
-                else
-                {
-                    var fristData = item.VolatileData.AllData(true).ToList().First();
-
-                    if (!((fristData == null) || String.IsNullOrWhiteSpace(fristData.ToString())))
-                    {
-                        var dataField = dataFieldSet.FirstOrDefault(_ => _.FULLNAME == item.Name.ToUpper());
-
-                        object value = null;
-                        fristData.CastTo(out value);
-
-                        if (dataField.ValidData.Any() && (dataField.DataType != typeof(bool)))
-                        {
-                            var valueStr = value.ToString();
-                            if (!dataField.ValidData.Contains(valueStr))
-                            {
-                                throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
-                            }
-                        }
-
-                        settingDatas.TryAdd(dataField, value);
-                    }
-                }
-            }
-
-            return settingDatas;
-        }
-
+        
         private void BasicSetting(object sender, EventArgs e)
         {
             if (this.basicfieldList == null) return;
@@ -234,7 +280,9 @@ namespace Ironbug.Grasshopper.Component
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            //this.ExpireSolution(true);
+
+            this.OnDisplayExpired(true);
         }
 
         private void MasterSetting(object sender, EventArgs e)
@@ -245,6 +293,7 @@ namespace Ironbug.Grasshopper.Component
 
             if (this.IsMasterSetting)
             {
+                this.IsBasicSetting = true;
                 this.AddFieldsToParams(this.basicfieldList);
                 this.AddFieldsToParams(this.masterFieldList);
             }
@@ -254,43 +303,55 @@ namespace Ironbug.Grasshopper.Component
             }
             //VariableParameterMaintenance();
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            //this.ExpireSolution(true);
+
+            this.OnDisplayExpired(true);
         }
 
-        private List<IGH_Param> AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
+        private void AddFieldsToParams(IEnumerable<IB_Field> fieldTobeAdded)
         {
-            var paramList = new List<IGH_Param>();
-
             foreach (var field in fieldTobeAdded)
             {
-                //Don't add those already exist
-                var inputNames = this.Params.Input.Select(_ => _.Name.ToUpper()).ToList();
-                if (inputNames.Contains(field.FULLNAME)) continue;
-
-                //var paramFound = this.Params.Input.FirstOrDefault(_ => _.Name.ToUpper() == field.FULLNAME);
-                //if (paramFound != null) continue;
-
-                //Add new Param
-                IGH_Param newParam = new Param_GenericObject();
-                if (field.DataType == typeof(string)) newParam = new Param_String();
-                if (field.DataType == typeof(double)) newParam = new Param_Number();
-                if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
-
-                newParam.Name = field.FullName;
-                newParam.NickName = field.NickName;
-                newParam.Description = field.Description;
-                newParam.MutableNickName = false;
-                newParam.Access = GH_ParamAccess.item;
-                newParam.Optional = true;
-
-                paramList.Add(newParam);
-
-                inputNames.Add(field.FULLNAME);
-                inputNames.Sort();
-                var index = inputNames.IndexOf(field.FULLNAME);
-                Params.RegisterInputParam(newParam, index);
+                AddFieldToParam(field);
             }
-            return paramList;
+        }
+
+        private void AddFieldToParam(IB_Field fieldTobeAdded)
+        {
+            var field = fieldTobeAdded;
+            //Don't add those already exist
+            var inputNames = this.Params.Input.Select(_ => _.Name.ToUpper()).ToList();
+            if (inputNames.Contains(field.FULLNAME)) return;
+
+
+            //Add new Param
+            IGH_Param newParam = new Param_GenericObject();
+            if (field.DataType == typeof(string)) newParam = new Param_String();
+            if (field.DataType == typeof(double)) newParam = new Param_Number();
+            if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
+
+            newParam.Name = field.FullName;
+            newParam.NickName = field.NickName;
+            newParam.Description = field.Description;
+            newParam.MutableNickName = false;
+            newParam.Access = GH_ParamAccess.item;
+            newParam.Optional = true;
+            
+            inputNames.Add(field.FULLNAME);
+            inputNames.Sort();
+            var index = inputNames.IndexOf(field.FULLNAME);
+            Params.RegisterInputParam(newParam, index);
+
+            
+        }
+
+        private void RemoveParamFromField(IB_Field field)
+        {
+            var inputParam = this.Params.Input.FirstOrDefault(_ => _.Name == field.FullName);
+            this.Params.UnregisterInputParameter(inputParam);
+            this.IsMasterSetting = false;
+            this.IsBasicSetting = false;
+
         }
 
         private void RemoveUnused(object sender, EventArgs e)
@@ -302,6 +363,11 @@ namespace Ironbug.Grasshopper.Component
                 if (item.SourceCount > 0) continue;
                 tobeRemoved.Add(item);
             }
+            //Do not remove all inputs if there is no connected input source.
+            if (inputParams.Count == tobeRemoved.Count) {
+                this.MasterSetting(this, EventArgs.Empty);
+                return;
+            }
 
             foreach (var item in tobeRemoved)
             {
@@ -310,7 +376,7 @@ namespace Ironbug.Grasshopper.Component
                 this.IsBasicSetting = false;
             }
             this.Params.OnParametersChanged();
-            this.ExpireSolution(true);
+            this.OnDisplayExpired(true);
         }
 
         private void RemoveFields(IEnumerable<IB_Field> fieldsTobeRemoved)
@@ -360,20 +426,24 @@ namespace Ironbug.Grasshopper.Component
             var newAttri = new IB_SettingComponentAttributes(this);
             m_attributes = newAttri;
         }
-
-        private bool isCleanInputs = false;
+        
 
         internal void RespondToMouseDoubleClick()
         {
-            isCleanInputs = !isCleanInputs;
-            if (isCleanInputs)
-            {
-                this.RemoveUnused(this, EventArgs.Empty);
-            }
-            else
+            if (!IsMasterSetting)
             {
                 this.MasterSetting(this, EventArgs.Empty);
             }
+            else if (!IsBasicSetting)
+            {
+                this.BasicSetting(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.RemoveUnused(this, EventArgs.Empty);
+            }
+            
+           
         }
 
     }

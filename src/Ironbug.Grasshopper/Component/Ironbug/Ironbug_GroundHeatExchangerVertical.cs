@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("GroundHeatExchangerVertical", "GroundHXVert", "GroundHeatExchangerVertical", GH_ParamAccess.item);
+            pManager.AddGenericParameter("GroundHeatExchangerVertical", "GroundHX", "GroundHeatExchangerVertical", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

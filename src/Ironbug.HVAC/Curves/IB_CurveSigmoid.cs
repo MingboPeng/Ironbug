@@ -20,10 +20,10 @@ namespace Ironbug.HVAC.Curves
         }
     }
 
-    public sealed class IB_CurveSigmoid_DataFieldSet
-        : IB_FieldSet<IB_CurveSigmoid_DataFieldSet, CurveSigmoid>
+    public sealed class IB_CurveSigmoid_FieldSet
+        : IB_FieldSet<IB_CurveSigmoid_FieldSet, CurveSigmoid>
     {
-        private IB_CurveSigmoid_DataFieldSet() { }
+        private IB_CurveSigmoid_FieldSet() { }
 
         public IB_Field Coefficient1C1 { get; }
             = new IB_TopField("Coefficient1C1", "C1");

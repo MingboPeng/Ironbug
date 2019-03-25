@@ -18,11 +18,11 @@ namespace Ironbug.HVAC
         }
     }
 
-    public sealed class IB_BoilerHotWater_DataFields 
-        : IB_FieldSet<IB_BoilerHotWater_DataFields, BoilerHotWater>
+    public sealed class IB_BoilerHotWater_FieldSet 
+        : IB_FieldSet<IB_BoilerHotWater_FieldSet, BoilerHotWater>
     {
 
-        private IB_BoilerHotWater_DataFields() { }
+        private IB_BoilerHotWater_FieldSet() { }
 
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name") {
