@@ -44,7 +44,7 @@ namespace Ironbug.HVACTests
             {
                 throw new Exception("4 coefficient values is needed!");
             }
-            var fSet = HVAC.Curves.IB_CurveCubic_DataFieldSet.Value;
+            var fSet = HVAC.Curves.IB_CurveCubic_FieldSet.Value;
             var fDic = new Dictionary<HVAC.BaseClass.IB_Field, object>();
 
             fDic.Add(fSet.Coefficient1Constant, coeffs[0]);
@@ -56,7 +56,7 @@ namespace Ironbug.HVACTests
 
             var boiler = new IB_BoilerHotWater();
             var cv = obj.ToOS(model);
-            boiler.SetFieldValue(IB_BoilerHotWater_DataFields.Value.NormalizedBoilerEfficiencyCurve, cv);
+            boiler.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.NormalizedBoilerEfficiencyCurve, cv);
 
             boiler.ToOS(model);
             

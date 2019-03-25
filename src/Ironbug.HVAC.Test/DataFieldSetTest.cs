@@ -48,7 +48,7 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void GetCustomizedDataFields_Test()
         {
-            var datafields = IB_PumpVariableSpeed_DataFields.Value;
+            var datafields = IB_PumpVariableSpeed_FieldSet.Value;
             var customizedDataFields = datafields.GetSelfPreperties();
 
             var success = customizedDataFields.Count() == 8;
@@ -83,7 +83,7 @@ namespace Ironbug.HVACTests
         //public void UpdateFromOpenStudioMethod_Test()
         //{
 
-        //    var instance = IB_PumpVariableSpeed_DataFields.Value;
+        //    var instance = IB_PumpVariableSpeed_FieldSet.Value;
         //    var field = instance.FirstOrDefault(item => item.FULLNAME == "Coefficient1ofthePartLoadPerformanceCurve".ToUpper()) as IB_IddField;
         //    field.UpdateFromOpenStudioMethod("Coefficient1ofthePartLoadPerformanceCurve", typeof(double));
         //    var success = field.SetterMethodName == "setCoefficient1ofthePartLoadPerformanceCurve";
@@ -96,8 +96,8 @@ namespace Ironbug.HVACTests
         //public void MapOpsSettings3_Test()
         //{
 
-        //    var instance = IB_PumpVariableSpeed_DataFields.Value;
-        //    //var instance = IB_FanVariableVolume_DataFields.Value;
+        //    var instance = IB_PumpVariableSpeed_FieldSet.Value;
+        //    //var instance = IB_FanVariableVolume_FieldSet.Value;
         //    //check each customized data field if can be found in IddObject,
         //    //mainly for checking the name's spelling or formatting.
         //    //and check the customized data field fullname if matches OpenStudion setter's name.
@@ -139,14 +139,14 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void DataFieldType_Test()
         {
-            var datafields = IB_PumpVariableSpeed_DataFields.Value;
+            var datafields = IB_PumpVariableSpeed_FieldSet.Value;
 
-            var type = typeof(IB_PumpVariableSpeed_DataFields);
+            var type = typeof(IB_PumpVariableSpeed_FieldSet);
             IB_FieldSet datafields2 = Convert.ChangeType( Activator.CreateInstance(type,true),type) as IB_FieldSet;
 
             ////Old way
             //var basetype = datafields.GetType().BaseType;
-            //var success = (basetype.IsGenericType? basetype.GetGenericTypeDefinition(): basetype.GetType()) == typeof(IB_DataFieldSet<,>);
+            //var success = (basetype.IsGenericType? basetype.GetGenericTypeDefinition(): basetype.GetType()) == typeof(IB_FieldSet<,>);
 
             //New way
             var success = datafields is IB_FieldSet;
@@ -160,7 +160,7 @@ namespace Ironbug.HVACTests
         {
             var logs = new List<string>();
 
-            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
                 .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
@@ -181,7 +181,7 @@ namespace Ironbug.HVACTests
         {
             var logs = new List<string>();
 
-            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
                 .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
@@ -206,7 +206,7 @@ namespace Ironbug.HVACTests
         {
             var logs = new List<string>();
 
-            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
                 .Where(_ => (!_.IsAbstract) && _.IsSubclassOf(typeof(IB_FieldSet)))
                 .ToList();
 
@@ -229,7 +229,7 @@ namespace Ironbug.HVACTests
         [TestMethod]
         public void AllCustomizedDataFields_Test()
         {
-            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_DataFields).Assembly.GetTypes()
+            var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
                 .Where(_ => (!_.IsAbstract) && _.IsSealed && _.IsSubclassOf(typeof(IB_FieldSet)));
 
             var logs = new List<List<string>>();
