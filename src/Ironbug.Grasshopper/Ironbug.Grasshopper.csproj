@@ -634,15 +634,6 @@
     <None Include="Resources\probe.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Schedule_Type.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Schedule.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Schedule_Rule.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Coil_CoolingWAFit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -656,6 +647,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WaterUseConnect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule_Type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule_Rule.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
