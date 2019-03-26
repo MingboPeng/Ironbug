@@ -106,7 +106,7 @@ namespace Ironbug.HVAC
                     invokeResult = method.Invoke(tempComp, parm);
                     if (invokeResult is bool b)
                     {
-                        if(!b) throw new ArgumentException($"Failed to set {value} to {tempComp.GetType()}!");
+                        if(!b) throw new ArgumentException($"Failed to {method.Name} with {value} to {tempComp.GetType()}!");
                     }
                 }
                 

@@ -45,17 +45,23 @@ namespace Ironbug.Grasshopper.Component
             DA.GetDataList(0, values);
             if (values.Count ==1)
             {
-                DA.SetData(0, new HVAC.Schedules.IB_ScheduleRuleset(values[0]));
-                return;
+                var day = new HVAC.Schedules.IB_ScheduleDay(values[0]);
+                var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
+
+                this.SetObjParamsTo(schRule);
+                DA.SetData(0, schRule);
+            }
+            else
+            {
+                if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
+                var day = new HVAC.Schedules.IB_ScheduleDay(values);
+                var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
+                
+                this.SetObjParamsTo(schRule);
+                DA.SetData(0, schRule);
             }
 
-            if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
-            var day = new HVAC.Schedules.IB_ScheduleDay(values);
-            var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
-
-
-            this.SetObjParamsTo(schRule);
-            DA.SetData(0, schRule);
+           
         }
 
         /// <summary>

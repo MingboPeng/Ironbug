@@ -49,6 +49,7 @@ namespace Ironbug.HVAC.Schedules
                 obj.setName(name);
             }
 
+            obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
         }
 
@@ -68,6 +69,20 @@ namespace Ironbug.HVAC.Schedules
     : IB_FieldSet<IB_ScheduleRule_FieldSet, ScheduleRule>
     {
         private IB_ScheduleRule_FieldSet() { }
-        
+        public IB_Field ApplyFriday { get; }
+    = new IB_BasicField("ApplyFriday", "Fri") { };
+        public IB_Field ApplyMonday { get; }
+    = new IB_BasicField("ApplyMonday", "Mon") { };
+        public IB_Field ApplySaturday { get; }
+    = new IB_BasicField("ApplySaturday", "Sat") { };
+        public IB_Field ApplySunday { get; }
+    = new IB_BasicField("ApplySunday", "Sun") { };
+        public IB_Field ApplyThursday { get; }
+    = new IB_BasicField("ApplyThursday", "Thu") { };
+        public IB_Field ApplyTuesday { get; }
+    = new IB_BasicField("ApplyTuesday", "Tue") { };
+        public IB_Field ApplyWednesday { get; }
+= new IB_BasicField("ApplyWednesday", "Wed") { };
+
     }
 }

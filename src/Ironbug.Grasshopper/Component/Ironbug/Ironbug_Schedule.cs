@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
+using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Schedule : Ironbug_HVACComponent
+    public class Ironbug_Schedule : Ironbug_Component
     {
         /// <summary>
         /// Initializes a new instance of the Ironbug_SizingZone class.
         /// </summary>
         public Ironbug_Schedule()
           : base("Ironbug_Schedule", "Schedule",
-              "Description",
-              "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Schedules.IB_ScheduleRuleset_FieldSet))
+              HVAC.Schedules.IB_ScheduleRuleset_FieldSet.Value.OwnerEpNote,
+              "Ironbug", "07:Curve & Load")
         {
         }
 
@@ -24,7 +26,11 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Values", "value", "One value for all day or 24 value for each hour", GH_ParamAccess.list);
+            pManager.AddTextParameter("ScheduleName", "name_", "Name for this schedule", GH_ParamAccess.item);
+            pManager[0].Optional = true;
+            pManager.AddGenericParameter("ValuesOrRules", "_rules", "One value for all day or 24 value for each hour, or use a list of scheduleRules from Ironbug_ScheduleRules.\nThe last ScheduleRule will be set to the default (base) schedule.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ScheduleType", "type_", "Use Ironbug_ScheduleType", GH_ParamAccess.item);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -41,21 +47,58 @@ namespace Ironbug.Grasshopper.Component
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var values = new List<double>();
-            DA.GetDataList(0, values);
-            if (values.Count ==1)
+           
+            var attributes = HVAC.Schedules.IB_ScheduleRuleset_FieldSet.Value;
+            var objAttris = new Dictionary<IB_Field, object>() { };
+            var name = string.Empty;
+            if (DA.GetData(0, ref name))
             {
-                DA.SetData(0, new HVAC.Schedules.IB_ScheduleRuleset(values[0]));
-                return;
+                objAttris.Add(attributes.Name, name);
             }
 
-            if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
-            var day = new HVAC.Schedules.IB_ScheduleDay(values);
-            var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
-            var sch = new HVAC.Schedules.IB_ScheduleRuleset();
-            sch.AddRule(schRule);
+            HVAC.Schedules.IB_ScheduleTypeLimits scheduleType = null;
+            if (DA.GetData(2, ref scheduleType))
+            {
+                objAttris.Add(attributes.ScheduleTypeLimits, scheduleType);
+            }
 
-            this.SetObjParamsTo(sch);
+
+            var ghObjs = new List<GH_ObjectWrapper>();
+            DA.GetDataList(1, ghObjs);
+            var sch = new HVAC.Schedules.IB_ScheduleRuleset();
+
+            if (ghObjs[0].Value is GH_Number)
+            {
+                var values = ghObjs.Select(_ => Double.Parse(_.Value.ToString())).ToList();
+                if (values.Count == 1)
+                {
+                    DA.SetData(0, new HVAC.Schedules.IB_ScheduleRuleset(values[0]));
+                    return;
+                }
+
+                if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
+                var day = new HVAC.Schedules.IB_ScheduleDay(values);
+                var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
+                
+                sch.AddRule(schRule);
+
+            }
+            else if (ghObjs[0].Value is HVAC.Schedules.IB_ScheduleRule)
+            {
+                var values = ghObjs.Select(_ => _.Value as HVAC.Schedules.IB_ScheduleRule);
+
+                foreach (var item in values)
+                {
+                    sch.AddRule(item);
+                }
+                
+            }
+            else
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Unknown input value. Use 24 numbers for a typical day schedule or a list of ScheduleRules");
+            }
+
+            sch.SetFieldValues(objAttris);
             DA.SetData(0, sch);
         }
 
