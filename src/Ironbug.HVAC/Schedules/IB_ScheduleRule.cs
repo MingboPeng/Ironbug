@@ -23,7 +23,7 @@ namespace Ironbug.HVAC.Schedules
         {
             AddChild(SchDay);
         }
-
+        
         public override ModelObject ToOS(Model model)
         {
             throw new ArgumentException(@"Use 'public ScheduleRule ToOS(ScheduleRuleset Ruleset)' instead!");
@@ -35,35 +35,15 @@ namespace Ironbug.HVAC.Schedules
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
             var name = $"ScheduleRule - {trackingId.ToString().Substring(12)}";
 
-            var sch_o = model.getScheduleRuleByName(name);
-            var obj = (ScheduleRule)null;
-            if (sch_o.is_initialized())
-            {
-                obj = sch_o.get();
-            }
-            else
-            {
-                //There is a bug in ScheduleRule when it is initialized with ScheduleDay, it recreates a new ScheduleDay
-                var day = this.ScheduleDay.ToOS(new Model()) as ScheduleDay;
-                obj = new ScheduleRule(Ruleset, day);
-                obj.setName(name);
-            }
-
+           
+            //There is a bug in ScheduleRule when it is initialized with ScheduleDay, it recreates a new ScheduleDay
+            var day = this.ScheduleDay.ToOS(new Model()) as ScheduleDay;
+            var obj = new ScheduleRule(Ruleset, day);
+            obj.setName(name);
             obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
         }
-
-      
-        //public ScheduleRule ToOS(ScheduleRule ExistingRule)
-        //{
-        //    var obj = ExistingRule;
-        //    var model = obj.model();
-        //    //TODO: copy attributes to existing obj
-        //    var day = obj.daySchedule();
-        //    this.ScheduleDay.CopyValuesToExisting(day);
-       
-        //    return obj;
-        //}
+        
     }
     public sealed class IB_ScheduleRule_FieldSet
     : IB_FieldSet<IB_ScheduleRule_FieldSet, ScheduleRule>
