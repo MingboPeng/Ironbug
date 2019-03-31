@@ -25,7 +25,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilHeatingWaterBaseboard", "coil_", "Heating coil to provide heating source. Only CoilHeatingWaterBaseboard is accepted.", GH_ParamAccess.item);
-            pManager[0].Optional = true;
+            //pManager[0].Optional = true;
         }
 
         /// <summary>
