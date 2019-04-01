@@ -72,7 +72,7 @@ namespace Ironbug.Grasshopper.Component
         
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
-            var description = "There is no component description available now! \nPlease stay tuned or contribute :>\nSource code: https://github.com/MingboPeng/Ironbug";
+            var description = "There is no component description available now! \nPlease stay tuned or contribute :>\n\nSource code: https://github.com/MingboPeng/Ironbug";
             if (UsersDescription == "Description")
             {
                 var epdoc = (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote;

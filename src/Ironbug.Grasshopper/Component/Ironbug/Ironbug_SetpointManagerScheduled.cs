@@ -5,12 +5,13 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_SetpointManagerScheduled : Ironbug_Component
     {
+        private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
         public Ironbug_SetpointManagerScheduled()
           : base("Ironbug_SetpointManagerScheduled", "SPM_Scheduled",
-              EPDoc.SetpointManagerScheduled.Note,
+              _fieldSet.OwnerEpNote,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -24,7 +25,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
 
             pManager.AddNumberParameter("Temperature", "_Temp", "SetpointTemperature", GH_ParamAccess.item);
-            pManager.AddTextParameter("ControlVariable", "var_", HVAC.IB_SetpointManagerScheduled_FieldSet.Value.ControlVariable.Description, GH_ParamAccess.item);
+            pManager.AddTextParameter("ControlVariable", "var_", _fieldSet.ControlVariable.Description, GH_ParamAccess.item);
             pManager[1].Optional = true;
             
         }
@@ -50,8 +51,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(1, ref variable);
 
             var obj = new HVAC.IB_SetpointManagerScheduled(temperature);
-            var attri = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
-            obj.SetFieldValue(attri.ControlVariable, variable);
+            obj.SetFieldValue(_fieldSet.ControlVariable, variable);
             
             DA.SetData(0, obj);
         }

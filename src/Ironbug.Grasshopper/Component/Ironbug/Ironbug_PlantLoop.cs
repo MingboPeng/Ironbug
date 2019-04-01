@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_PlantLoop()
           : base("Ironbug_PlantLoop", "PlantLoop",
-              EPDoc.PlantLoop.Note,
+              "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))
         {

@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// </summary>
         public Ironbug_ExistPlantLoop()
           : base("Ironbug_ExistingPlantLoop", "ExistingPlantLoop",
-              EPDoc.PlantLoop.Note,
+              HVAC.IB_PlantLoop_FieldSet.Value.OwnerEpNote,
               "Ironbug", "01:Loops")
         {
         }

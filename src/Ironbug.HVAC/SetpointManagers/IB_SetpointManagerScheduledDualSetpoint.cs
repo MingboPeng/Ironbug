@@ -65,4 +65,10 @@ namespace Ironbug.HVAC
             }
         }
     }
+    public sealed class IB_SetpointManagerScheduledDualSetpoint_FieldSet
+     : IB_FieldSet<IB_SetpointManagerScheduledDualSetpoint_FieldSet, SetpointManagerScheduledDualSetpoint>
+    {
+        private IB_SetpointManagerScheduledDualSetpoint_FieldSet() { }
+        
+    }
 }

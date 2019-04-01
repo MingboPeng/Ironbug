@@ -1,6 +1,5 @@
 ﻿using Grasshopper.Kernel;
 using System;
-using Ironbug.EPDoc;
 
 
 namespace Ironbug.Grasshopper.Component

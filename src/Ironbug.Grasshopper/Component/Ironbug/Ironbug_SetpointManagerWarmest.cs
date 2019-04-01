@@ -6,12 +6,14 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_SetpointManagerWarmest : Ironbug_Component
     {
+
+        private static HVAC.IB_SetpointManagerWarmest_FieldSet _fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;
         /// <summary>
         /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
         /// </summary>
         public Ironbug_SetpointManagerWarmest()
           : base("Ironbug_SetpointManagerWarmest", "SPM_Warmest",
-             EPDoc.SetpointManagerWarmest.Note,
+             _fieldSet.OwnerEpNote,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -23,8 +25,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("minTemperature", "_minT", EPDoc.SetpointManagerWarmest.Field_MinimumSetpointTemperature, GH_ParamAccess.item);
-            pManager.AddNumberParameter("maxTemperature", "_maxT", EPDoc.SetpointManagerWarmest.Field_MaximumSetpointTemperature, GH_ParamAccess.item);
+            pManager.AddNumberParameter("minTemperature", "_minT", _fieldSet.MinimumSetpointTemperature.Description, GH_ParamAccess.item);
+            pManager.AddNumberParameter("maxTemperature", "_maxT", _fieldSet.MaximumSetpointTemperature.Description, GH_ParamAccess.item);
             
         }
 
@@ -47,12 +49,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             double maxT = 0;
             DA.GetData(0, ref minT);
             DA.GetData(1, ref maxT);
-
             
-            var fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;
-
-            obj.SetFieldValue(fieldSet.MinimumSetpointTemperature, minT);
-            obj.SetFieldValue(fieldSet.MaximumSetpointTemperature, maxT);
+            obj.SetFieldValue(_fieldSet.MinimumSetpointTemperature, minT);
+            obj.SetFieldValue(_fieldSet.MaximumSetpointTemperature, maxT);
             
             DA.SetData(0, obj);
         }
