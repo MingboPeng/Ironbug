@@ -4,14 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    
+
     public abstract class IB_FieldSet: ICollection<IB_Field>
     {
-        public string OwnerEpNote = string.Empty;
+        public string OwnerEpNote { get; private set; } = string.Empty;
 
         private ICollection<IB_Field> _items { get; set; } = new List<IB_Field>();
 

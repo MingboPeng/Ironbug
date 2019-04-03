@@ -243,10 +243,10 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     this.SetFieldValue(item.Key, item.Value);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
-                    throw e;
+                    throw;
                 }
             }
             
