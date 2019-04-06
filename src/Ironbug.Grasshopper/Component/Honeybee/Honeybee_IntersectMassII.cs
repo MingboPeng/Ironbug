@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component.Honeybee
     public class Honeybee_IntersectMassII : GH_Component
     {
         public Honeybee_IntersectMassII()
-            :base("Honeybee_IntersectMassII","IntersectMass","Intersect closed Breps with adjacent Breps","Honeybee", "00 | Honeybee")
+            :base("Honeybee_IntersectMassII","IntersectMass", "Intersect closed Breps with adjacent Breps a couple times faster than old Honeybee_IntersectMass", "Honeybee", "00 | Honeybee")
         {
         }
         public override Guid ComponentGuid => new Guid("{1AB1248B-4531-4270-9A0B-DB3EBC2581A6}");
