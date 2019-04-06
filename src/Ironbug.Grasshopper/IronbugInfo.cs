@@ -27,16 +27,13 @@ namespace Ironbug.Grasshopper.Component
         {
             try
             {
-                var osmVersion = "2.5.0";
                 Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine(message);
-                Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger, osmVersion);
+                Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger);
                 
             }
             catch (System.IO.FileNotFoundException loadError)
             {
                 System.Windows.Forms.MessageBox.Show(loadError.Message);
-                //throw new ArgumentException(loadError.Message);
-
             }
 
             GH.Instances.ComponentServer.AddCategoryIcon("Ladybug", Properties.Resources.Ladybug);
