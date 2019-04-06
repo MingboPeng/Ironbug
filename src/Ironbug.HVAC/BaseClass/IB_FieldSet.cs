@@ -179,7 +179,16 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in iB_fields)
             {
                 var fieldNameInEpDoc = string.Format("FIELD_{0}", item.FULLNAME);
-                var found = EpDocType.GetFields().FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                var founds = EpDocType.GetFields().Where(_ => _.Name.ToUpper().StartsWith(fieldNameInEpDoc));
+                FieldInfo found = null;
+                if (founds.Count()>1)
+                {
+                    found = founds.FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                }
+                else
+                {
+                    found = founds.FirstOrDefault();
+                }
                 if (found is null) continue;
 
                 string fieldNote = found.GetValue(null) as string;
