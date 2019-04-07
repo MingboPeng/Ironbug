@@ -6,9 +6,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_Component
     {
         private static HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet _fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet.Value;
-        /// <summary>
+        
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
-        /// </summary>
+        
         public Ironbug_SetpointManagerOutdoorAirReset()
           : base("Ironbug_SetpointManagerOutdoorAirReset", "SPM_OAReset",
               _fieldSet.OwnerEpNote,
@@ -16,9 +16,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("SetpointatOutdoorHighTemperature", "_SpOHTemp", _fieldSet.SetpointatOutdoorHighTemperature.Description, GH_ParamAccess.item);
@@ -26,19 +24,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             pManager.AddNumberParameter("SetpointatOutdoorLowTemperature", "_SpOLTemp", _fieldSet.SetpointatOutdoorLowTemperature.Description, GH_ParamAccess.item);
             pManager.AddNumberParameter("OutdoorLowTemperature", "_OLTemp", _fieldSet.OutdoorLowTemperature.Description, GH_ParamAccess.item);
         }
-
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("SetpointManagerOutdoorAirReset", "SPM", "TODO:...", GH_ParamAccess.item);
         }
-
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_SetpointManagerOutdoorAirReset();
@@ -63,14 +52,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetpointOAReset;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
         public override Guid ComponentGuid => new Guid("f251c255-bb89-4a16-8339-d7adbbdc474a");
     }
 }

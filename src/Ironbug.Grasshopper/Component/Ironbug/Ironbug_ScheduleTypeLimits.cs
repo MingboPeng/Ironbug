@@ -7,9 +7,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ScheduleTypeLimits : Ironbug_Component
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SizingZone class.
-        /// </summary>
+        
         public Ironbug_ScheduleTypeLimits()
           : base("Ironbug_ScheduleTypeLimits", "ScheduleType",
               HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.OwnerEpNote,
@@ -19,9 +17,6 @@ namespace Ironbug.Grasshopper.Component
         
         public override GH_Exposure Exposure => GH_Exposure.secondary;
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("LowerLimitValue", "LowLimit", HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.LowerLimitValue.Description, GH_ParamAccess.item, 0);
@@ -34,18 +29,11 @@ namespace Ironbug.Grasshopper.Component
             pManager[3].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("ScheduleTypeLimits", "schType", "To Ironbug_Schedule", GH_ParamAccess.item);
         }
         
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
@@ -89,14 +77,9 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Schedule_Type;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
+        
         public override Guid ComponentGuid => new Guid("C090F57C-EC4F-417A-9156-BA1BC4047E75");
     }
 }

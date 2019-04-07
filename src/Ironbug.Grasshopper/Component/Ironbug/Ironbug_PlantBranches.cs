@@ -11,9 +11,6 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_PlantBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
-        /// <summary>
-        /// Initializes a new instance of the MyComponent1 class.
-        /// </summary>
         public Ironbug_PlantBranches()
           : base("PlantBranches", "PlantBranches",
                "Description",
@@ -23,9 +20,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
@@ -33,18 +28,12 @@ namespace Ironbug.Grasshopper.Component
             pManager[0].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("PlantLoopBranches", "Branches", "use this in plantloop", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             
@@ -52,8 +41,6 @@ namespace Ironbug.Grasshopper.Component
             this.Message = this.CountBranches(branches);
 
             DA.SetData(0, branches);
-
-
 
         }
 
@@ -95,26 +82,9 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.Branches_Plant;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Branches_Plant;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c"); }
-        }
+        public override Guid ComponentGuid => new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c");
 
 
         public List<List<IB_HVACObject>> MapToLoopBranches(GH_Structure<IGH_Goo> ghTrees)
@@ -152,21 +122,6 @@ namespace Ironbug.Grasshopper.Component
 
             return loopBranches;
         }
-
-        //public List<List<IB_HVACObject>> CheckPuppets(List<List<IB_HVACObject>> Branches)
-        //{
-        //    var loopBranches = new List<List<IB_HVACObject>>();
-        //    foreach (var branch in Branches)
-        //    {
-        //        if (branch.)
-        //        {
-
-        //        }
-        //    }
-
-
-        //    return loopBranches;
-        //}
 
         private string CountBranches(HVAC.IB_PlantLoopBranches branches)
         {

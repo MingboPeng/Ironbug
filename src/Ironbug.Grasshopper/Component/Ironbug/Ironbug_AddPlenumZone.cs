@@ -17,19 +17,14 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_ThermalZone class.
-        /// </summary>
+        
         public Ironbug_AddPlenumZone()
           : base("Ironbug_PlenumZone", "PlenumZone",
               "Attach supply or/and retrun plenum zones to thermal zones in the airloop.",
               "Ironbug", "00:Ironbug")
         {
         }
-
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("HoneybeePlenumZone", "supplyPlenum_", "Use HBZone or OsZones.\nThis plenumZone will be connect to all thermal zones", GH_ParamAccess.list);

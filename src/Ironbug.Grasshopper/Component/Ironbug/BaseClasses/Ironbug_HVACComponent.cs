@@ -13,9 +13,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public abstract class Ironbug_HVACComponent : Ironbug_Component
     {
-        //private Ironbug_ObjParams settingParams { get; set; }
         public Type DataFieldType { get; private set; }
-        //public IB_FieldSet DataField { get; private set; }
 
         public IB_ModelObject IB_ModelObject  => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;

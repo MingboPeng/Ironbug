@@ -20,9 +20,9 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        /// <summary>
+        
         /// Initializes a new instance of the Ironbug_ThermalZone class.
-        /// </summary>
+        
         public Ironbug_ThermalZone()
           : base("Ironbug_ThermalZone", "ThermalZone",
               "Description",
@@ -31,9 +31,9 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
+        
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("HoneybeeZonesOrOsZones", "_HBZones", "HBZone or OsZones", GH_ParamAccess.list);

@@ -14,10 +14,9 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        public override GH_Exposure Exposure => GH_Exposure.quarternary | GH_Exposure.obscure;
+        
+        
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Cooling Capacity Function of Temperature Curve", "CCFofT", 
@@ -30,19 +29,14 @@ namespace Ironbug.Grasshopper.Component
                 EPDoc.ChillerElectricEIR.Field_ElectricInputToCoolingOutputRatioFunctionOfPartLoadRatioCurveName, GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
+
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("ChillerElectricEIR", "Chiller", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
             pManager.AddGenericParameter("ChillerElectricEIR_CondenserLoop", "ToCondenser", "Connect to condenser loop's demand side.", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             IB_CurveBiquadratic CCFofT = null;

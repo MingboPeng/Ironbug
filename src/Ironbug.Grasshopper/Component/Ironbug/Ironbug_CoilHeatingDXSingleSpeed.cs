@@ -5,9 +5,6 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_HVACComponent
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
-        /// </summary>
         public Ironbug_CoilHeatingDXSingleSpeed()
           : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
               "Description",
@@ -17,25 +14,17 @@ namespace Ironbug.Grasshopper.Component
         }
 
         public override GH_Exposure Exposure => GH_Exposure.secondary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilHeatingDXSingleSpeed", "Coil", "CoilHeatingDXSingleSpeed", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingDXSingleSpeed();

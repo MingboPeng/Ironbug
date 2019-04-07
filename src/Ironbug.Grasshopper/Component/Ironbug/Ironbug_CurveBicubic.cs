@@ -6,9 +6,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_CurveBicubic : Ironbug_HVACComponent
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SizingZone class.
-        /// </summary>
+        
         public Ironbug_CurveBicubic()
           : base("Ironbug_CurveBicubic", "CurveBicubic",
               "Description",
@@ -19,26 +17,17 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("Coefficients", "_coeffs", "A list of coefficients for a bicubic curve from C1 to C10.", GH_ParamAccess.list);
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CurveBicubic", "Curve", "CurveBicubic", GH_ParamAccess.item);
         }
         
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.Curves.IB_CurveBicubic();
@@ -71,25 +60,9 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.curve_bc;
-            }
-        }
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("1D429D0B-AC3A-408B-8074-87EDCB655981"); }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.curve_bc;
+
+        public override Guid ComponentGuid => new Guid("1D429D0B-AC3A-408B-8074-87EDCB655981");
     }
 }

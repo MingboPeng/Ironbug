@@ -6,19 +6,14 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : Ironbug_Component
     {
         private static HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet _fieldSet = HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet.Value;
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
-        /// </summary>
+        
         public Ironbug_SetpointManagerFollowOutdoorAirTemperature()
           : base("Ironbug_SetpointManagerFollowOutdoorAirTemperature", "SPM_FollowOATemp",
               _fieldSet.OwnerEpNote,
               "Ironbug", "05:SetpointManager")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        public override GH_Exposure Exposure => GH_Exposure.primary ;
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("ControlVariable", "_CtrlVar_", $"{_fieldSet.ControlVariable.Description} \r\nDefault:Temperature", GH_ParamAccess.item);
@@ -34,18 +29,12 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             pManager[4].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("SetpointManagerFollowOutdoorAirTemperature", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_SetpointManagerFollowOutdoorAirTemperature();
@@ -72,14 +61,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointFlowOA;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
         public override Guid ComponentGuid => new Guid("FF3EEF96-60FF-4D6E-B29D-204D16AF6DBD");
     }
 }

@@ -6,9 +6,6 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_HVACSystem : Ironbug_Component
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SaveOSModel class.
-        /// </summary>
         public Ironbug_HVACSystem()
           : base("Ironbug_HVACSystem", "HVACSystem",
               "Description",
@@ -16,9 +13,6 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("AirLoops", "AirLoops", "AirLoops", GH_ParamAccess.list);
@@ -33,19 +27,11 @@ namespace Ironbug.Grasshopper.Component
             pManager[2].DataMapping = GH_DataMapping.Flatten;
 
         }
-
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("HVACSystem", "HVACSystem", "A fully detailed HVAC system for ExportToOpenStudio component.", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var airLoops = new List<HVAC.IB_AirLoopHVAC>();
@@ -62,27 +48,10 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.HVAC;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.HVAC;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("330C6DCC-EC73-49C7-96CB-B0EB522A1585"); }
-        }
+        public override Guid ComponentGuid => new Guid("330C6DCC-EC73-49C7-96CB-B0EB522A1585");
 
-        
+
     }
 }
