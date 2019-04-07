@@ -1,5 +1,4 @@
-﻿using Grasshopper;
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using System;
 using System.Collections.Generic;
@@ -13,19 +12,14 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         public override Guid ComponentGuid => new Guid("cb1cb9d6-e29e-4d26-9133-82b47c0e6d8d");
 
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_CreatePuppets class.
-        /// </summary>
+        
         public Ironbug_Duplicate()
           : base("Ironbug_Duplicate", "Duplicate",
               "Description",
               "Ironbug", "00:Ironbug")
         {
         }
-
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Reference", "ref", "a reference obj for creating duplicates", GH_ParamAccess.list);
@@ -33,9 +27,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
+        
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("Objects", "objs", "Objects", GH_ParamAccess.list);
@@ -43,10 +35,6 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             pManager[1].DataMapping = GH_DataMapping.Graft;
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var objs = new List<HVAC.BaseClass.IB_ModelObject>();

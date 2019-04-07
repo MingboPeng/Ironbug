@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => Properties.Resources.ObjViewer;
 
         public override Guid ComponentGuid => new Guid("ACA051EE-C66B-484A-A127-8A373D6F5A57");
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         public Ironbug_ObjViewer()
           : base("Ironbug_ObjViewer", "ObjViewer",

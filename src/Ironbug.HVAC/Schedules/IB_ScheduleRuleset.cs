@@ -43,9 +43,11 @@ namespace Ironbug.HVAC.Schedules
 
         public override ModelObject ToOS(Model model)
         {
+            this.CustomAttributes.TryGetValue(IB_ScheduleRuleset_FieldSet.Value.Name, out object custName);
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
-            var name = $"Schedule - {trackingId.ToString().Substring(12)}";
+            var name = custName!= null? custName.ToString():$"Schedule - {trackingId.ToString().Substring(12)}";
 
+            
             var sch_o = model.getScheduleRulesetByName(name);
             var obj = (ScheduleRuleset)null;
             if (sch_o.is_initialized())
@@ -54,12 +56,12 @@ namespace Ironbug.HVAC.Schedules
             }
             else if (this.Rules.Count>0)
             {
-                obj = new ScheduleRuleset(model, this.constantNumber);
+                obj = new ScheduleRuleset(model);
                 obj.setName(name);
                 var c = this.Rules.Count; 
 
                 var defaultDay = obj.defaultDaySchedule();
-             
+                
                 for (int i = 0; i < c; i++)
                 {
                     var r = this.Rules[i];
@@ -84,6 +86,8 @@ namespace Ironbug.HVAC.Schedules
                 obj = new ScheduleRuleset(model, this.constantNumber);
                 obj.setName(name);
             }
+           
+            obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
         }
     }
@@ -91,10 +95,11 @@ namespace Ironbug.HVAC.Schedules
         : IB_FieldSet<IB_ScheduleRuleset_FieldSet, ScheduleRuleset>
     {
         private IB_ScheduleRuleset_FieldSet() { }
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name") { };
+
         public IB_Field ScheduleTypeLimits { get; }
-            = new IB_BasicField("ScheduleTypeLimits", "ScheduleTypeLimits")
-            {
-            };
+            = new IB_BasicField("ScheduleTypeLimits", "ScheduleTypeLimits") { };
 
     }
 }

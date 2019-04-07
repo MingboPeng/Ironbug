@@ -18,9 +18,9 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
+        
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGeometryParameter("K", "K", "A list of Rhino objects that associated with sortable layers", GH_ParamAccess.list);
@@ -28,9 +28,9 @@ namespace Ironbug.Grasshopper.Component
             pManager[1].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
+        
+        
+        
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGeometryParameter("K", "K", "Sorted objects by layers", GH_ParamAccess.tree);
@@ -38,10 +38,10 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddTextParameter("n", "n", "Grouped layer names", GH_ParamAccess.tree);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        
+        
+        
+        
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 

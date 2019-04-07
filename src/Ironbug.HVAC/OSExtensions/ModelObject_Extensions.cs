@@ -20,25 +20,6 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
-        //public static OptionalParentObject GetIfInModel(this ModelObject component, Model model)
-        //{
-        //    var uid = component.comment();
-        //    var type = component.iddObject().type();
-        //    var objs = model.getObjectsByType(type);
-        //    var optionObj = new OptionalParentObject();
-        //    foreach (var item in objs)
-        //    {
-        //        if (item.comment().Equals(uid))
-        //        {
-        //            var h = item.handle();
-        //            optionObj = model.getParentObject(h);
-                    
-        //            //optionObj.set(model.getParentObject(h).get());
-        //        }
-        //    }
-        //    return optionObj;
-        //}
-
         public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
         {
 
@@ -106,16 +87,16 @@ namespace Ironbug.HVAC
                     invokeResult = method.Invoke(tempComp, parm);
                     if (invokeResult is bool b)
                     {
-                        if(!b) throw new ArgumentException($"Failed to set {value} to {tempComp.GetType()}!");
+                        if(!b) throw new ArgumentException($"Failed to {method.Name} with {value} to {tempComp.GetType()}!");
                     }
                 }
                 
             }
             catch (Exception e)
             {
-                if (e.Message.Contains("Attempted to read or write protected memory"))
+                if (e.InnerException.Message.Contains("Attempted to read or write protected memory"))
                 {
-                    throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.Message);
+                    throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException.Message);
                 }
                 else
                 {
@@ -135,24 +116,6 @@ namespace Ironbug.HVAC
 
             return invokeResult;
 
-            //belonging check
-            //object CheckBelonging(ModelObject c, object v)
-            //{
-            //    object obj = v;
-            //    if (v is Curve curve)
-            //    {
-            //        //TODO: add supports of Schedule later
-            //        //dealing the ghost object
-            //        var idf = curve.toIdfObject().clone(true);
-            //        obj = c.model().addObject(idf).get().to_Curve().get();
-
-                    
-            //        //obj = ((Curve)v).clone(c.model()).to_Curve().get();
-                    
-            //    }
-
-            //    return obj;
-            //}
         }
 
         public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<BaseClass.IB_Field, object> dataField)

@@ -28,6 +28,13 @@ namespace Ironbug.HVAC.Schedules
     : IB_FieldSet<IB_ScheduleTypeLimits_FieldSet, ScheduleTypeLimits>
     {
         private IB_ScheduleTypeLimits_FieldSet() { }
+        //public IB_Field Name { get; } = new IB_TopField("Name", "Name") { };
+        public IB_Field LowerLimitValue { get; } = new IB_TopField("LowerLimitValue", "LowLimit") { };
+        public IB_Field UpperLimitValue { get; } = new IB_TopField("UpperLimitValue", "UpLimit") { };
+
+        public IB_Field UnitType { get; } = new IB_TopField("UnitType", "Type") { };
+        public IB_Field NumericType { get; } = new IB_TopField("NumericType", "Numeric") { };
+
 
     }
 }

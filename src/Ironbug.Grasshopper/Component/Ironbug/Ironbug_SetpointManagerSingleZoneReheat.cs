@@ -6,9 +6,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_Component
     {
+
+        private static HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet _fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet.Value;
         public Ironbug_SetpointManagerSingleZoneReheat()
           : base("Ironbug_SetpointManagerSingleZoneReheat", "SPM_SZReheat",
-              EPDoc.SetpointManagerSingleZoneReheat.Note,
+              _fieldSet.OwnerEpNote,
               "Ironbug", "05:SetpointManager")
         {
         }
@@ -19,8 +21,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             pManager.AddGenericParameter("ControlZone", "_zone", EPDoc.SetpointManagerSingleZoneReheat.Field_ControlZoneName, GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
-            pManager.AddNumberParameter("minTemperature", "_minT_", EPDoc.SetpointManagerSingleZoneReheat.Field_MinimumSupplyAirTemperature, GH_ParamAccess.item, 10);
-            pManager.AddNumberParameter("maxTemperature", "_maxT_", EPDoc.SetpointManagerSingleZoneReheat.Field_MaximumSupplyAirTemperature, GH_ParamAccess.item, 50);
+            pManager.AddNumberParameter("minTemperature", "_minT_", _fieldSet.MinimumSupplyAirTemperature.Description, GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("maxTemperature", "_maxT_", _fieldSet.MaximumSupplyAirTemperature.Description, GH_ParamAccess.item, 50);
             pManager[1].Optional = true;
             pManager[2].Optional = true;
         }
@@ -42,11 +44,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             var obj = new HVAC.IB_SetpointManagerSingleZoneReheat(zone);
             double minT = 10;
             double maxT = 50;
+            
 
-            var fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet.Value;
-
-            if (DA.GetData(1, ref minT)) obj.SetFieldValue(fieldSet.MinimumSupplyAirTemperature, minT);
-            if (DA.GetData(2, ref maxT)) obj.SetFieldValue(fieldSet.MaximumSupplyAirTemperature, maxT);
+            if (DA.GetData(1, ref minT)) obj.SetFieldValue(_fieldSet.MinimumSupplyAirTemperature, minT);
+            if (DA.GetData(2, ref maxT)) obj.SetFieldValue(_fieldSet.MaximumSupplyAirTemperature, maxT);
 
             DA.SetData(0, obj);
         }

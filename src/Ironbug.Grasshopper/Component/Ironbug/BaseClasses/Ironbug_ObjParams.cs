@@ -33,9 +33,9 @@ namespace Ironbug.Grasshopper.Component
 
         private IB_FieldSet FieldSet { get; set; }
 
-        /// <summary>
+        
         /// Initializes a new instance of the Ironbug_FieldSet class.
-        /// </summary>
+        
         public Ironbug_ObjParams()
           : base("Ironbug_ObjParams", "ObjParams",
               "Description",

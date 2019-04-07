@@ -5,26 +5,22 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_SetpointManagerFollowOutdoorAirTemperature : Ironbug_Component
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
-        /// </summary>
+        private static HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet _fieldSet = HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet.Value;
+        
         public Ironbug_SetpointManagerFollowOutdoorAirTemperature()
           : base("Ironbug_SetpointManagerFollowOutdoorAirTemperature", "SPM_FollowOATemp",
-              EPDoc.SetpointManagerFollowOutdoorAirTemperature.Note,
+              _fieldSet.OwnerEpNote,
               "Ironbug", "05:SetpointManager")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.primary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        public override GH_Exposure Exposure => GH_Exposure.primary ;
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("ControlVariable", "_CtrlVar_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_ControlVariable} \r\nDefault:Temperature", GH_ParamAccess.item);
-            pManager.AddTextParameter("ReferenceTemperatureType", "_RefType_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_ReferenceTemperatureType} \r\nDefault:OutdoorAirWetBulb", GH_ParamAccess.item);
-            pManager.AddNumberParameter("MaximumSetpointTemperature", "_maxT_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_MaximumSetpointTemperature}\r\nDefault:80C", GH_ParamAccess.item);
-            pManager.AddNumberParameter("MinimumSetpointTemperature", "_minT_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_MinimumSetpointTemperature}\r\nDefault:5C", GH_ParamAccess.item);
-            pManager.AddNumberParameter("OffsetTemperatureDifference", "_diff_", $"{EPDoc.SetpointManagerFollowOutdoorAirTemperature.Field_OffsetTemperatureDifference}Default:0", GH_ParamAccess.item);
+            pManager.AddTextParameter("ControlVariable", "_CtrlVar_", $"{_fieldSet.ControlVariable.Description} \r\nDefault:Temperature", GH_ParamAccess.item);
+            pManager.AddTextParameter("ReferenceTemperatureType", "_RefType_", $"{_fieldSet.ReferenceTemperatureType.Description} \r\nDefault:OutdoorAirWetBulb", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MaximumSetpointTemperature", "_maxT_", $"{_fieldSet.MaximumSetpointTemperature.Description}\r\nDefault:80C", GH_ParamAccess.item);
+            pManager.AddNumberParameter("MinimumSetpointTemperature", "_minT_", $"{_fieldSet.MinimumSetpointTemperature.Description}\r\nDefault:5C", GH_ParamAccess.item);
+            pManager.AddNumberParameter("OffsetTemperatureDifference", "_diff_", $"{_fieldSet.OffsetTemperatureDifference.Description}Default:0", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
@@ -33,18 +29,12 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             pManager[4].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("SetpointManagerFollowOutdoorAirTemperature", "SPM", "TODO:...", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_SetpointManagerFollowOutdoorAirTemperature();
@@ -60,38 +50,19 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(2, ref maxT);
             DA.GetData(3, ref minT);
             DA.GetData(4, ref diff);
+            
 
-
-            var fieldSet = HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet.Value;
-
-            obj.SetFieldValue(fieldSet.ControlVariable, ctrlVar);
-            obj.SetFieldValue(fieldSet.ReferenceTemperatureType, refType);
-            obj.SetFieldValue(fieldSet.MaximumSetpointTemperature, maxT);
-            obj.SetFieldValue(fieldSet.MinimumSetpointTemperature, minT);
-            obj.SetFieldValue(fieldSet.OffsetTemperatureDifference, diff);
+            obj.SetFieldValue(_fieldSet.ControlVariable, ctrlVar);
+            obj.SetFieldValue(_fieldSet.ReferenceTemperatureType, refType);
+            obj.SetFieldValue(_fieldSet.MaximumSetpointTemperature, maxT);
+            obj.SetFieldValue(_fieldSet.MinimumSetpointTemperature, minT);
+            obj.SetFieldValue(_fieldSet.OffsetTemperatureDifference, diff);
 
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.SetPointFlowOA;
-            }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointFlowOA;
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("FF3EEF96-60FF-4D6E-B29D-204D16AF6DBD"); }
-        }
+        public override Guid ComponentGuid => new Guid("FF3EEF96-60FF-4D6E-B29D-204D16AF6DBD");
     }
 }

@@ -86,6 +86,7 @@
     <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
+    <Compile Include="Component\Honeybee\Honeybee_IntersectMassII.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
@@ -656,6 +657,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Schedule_Rule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IntersectMass.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,9 +5,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_DistrictHeating : Ironbug_HVACComponent
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_DistrictHeating class.
-        /// </summary>
+        
         public Ironbug_DistrictHeating()
           : base("Ironbug_DistrictHeating", "DistrictHeating",
               "Description",
@@ -17,25 +15,16 @@ namespace Ironbug.Grasshopper.Component
         }
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("DistrictHeating", "DistHeating", "DistrictHeating for plant loop's supply.", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_DistrictHeating();
@@ -44,25 +33,10 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
         }
 
-        /// <summary>
-        /// Provides an Icon for the component.
-        /// </summary>
-        protected override System.Drawing.Bitmap Icon
-        {
-            get
-            {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return Properties.Resources.DistricHeating;
-            }
-        }
 
-        /// <summary>
-        /// Gets the unique ID for this component. Do not change this ID after release.
-        /// </summary>
-        public override Guid ComponentGuid
-        {
-            get { return new Guid("393db8da-b414-4e96-844d-a1a5ec9d6d51"); }
-        }
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.DistricHeating;
+
+
+        public override Guid ComponentGuid => new Guid("393db8da-b414-4e96-844d-a1a5ec9d6d51");
     }
 }

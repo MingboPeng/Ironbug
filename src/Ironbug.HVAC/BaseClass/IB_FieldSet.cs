@@ -4,14 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    
+
     public abstract class IB_FieldSet: ICollection<IB_Field>
     {
-        public string OwnerEpNote = string.Empty;
+        public string OwnerEpNote { get; private set; } = string.Empty;
 
         private ICollection<IB_Field> _items { get; set; } = new List<IB_Field>();
 
@@ -56,7 +55,7 @@ namespace Ironbug.HVAC.BaseClass
                 var note = type.GetField("Note").GetValue(null) as string;
                 if (!string.IsNullOrEmpty(note))
                 {
-                    note = note.Length > 1000?note.Substring(0,1000)+"....(Due to the length of content, documentation has been shown partially)":note;
+                    note = note.Length > 1000?note.Substring(0,1000)+"....\n(Due to the length of content, documentation has been shown partially)":note;
                     note += Environment.NewLine;
                     note += Environment.NewLine;
                     note += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
@@ -180,7 +179,16 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in iB_fields)
             {
                 var fieldNameInEpDoc = string.Format("FIELD_{0}", item.FULLNAME);
-                var found = EpDocType.GetFields().FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                var founds = EpDocType.GetFields().Where(_ => _.Name.ToUpper().StartsWith(fieldNameInEpDoc));
+                FieldInfo found = null;
+                if (founds.Count()>1)
+                {
+                    found = founds.FirstOrDefault(_ => _.Name.ToUpper() == fieldNameInEpDoc);
+                }
+                else
+                {
+                    found = founds.FirstOrDefault();
+                }
                 if (found is null) continue;
 
                 string fieldNote = found.GetValue(null) as string;

@@ -9,9 +9,6 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_NoAirLoop : Ironbug_Component
     {
-        /// <summary>
-        /// Initializes a new instance of the Ironbug_AirLoopHVAC class.
-        /// </summary>
         public Ironbug_NoAirLoop()
           : base("Ironbug_NoAirLoop", "NoAirLoop",
               "An void loop for zones don't need an airloop, but only with ZoneEquipments",
@@ -25,27 +22,17 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        /// <summary>
-        /// Registers all the input parameters for this component.
-        /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("OSZones", "Zones", "ThermalZones that only have zone equipments. No airloop will be added", GH_ParamAccess.list);
             pManager[0].Optional = true;
         }
 
-        /// <summary>
-        /// Registers all the output parameters for this component.
-        /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("NoAirLoop", "NoAirLoop", "To HVACsystem", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var zones = new List<IB_ThermalZone>();
@@ -64,6 +51,5 @@ namespace Ironbug.Grasshopper.Component
         }
         
 
-        
     }
 }
