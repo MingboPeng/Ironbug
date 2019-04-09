@@ -37,7 +37,7 @@ namespace Ironbug.HVAC
 
             double GetValue(string strValue)
             {
-                var value = strValue.Split(',')[0];
+                var value = strValue.Split(',')[0].Split(';')[0].Trim().Split(' ')[0];
                 return double.Parse(value.Trim());
             }
         }
