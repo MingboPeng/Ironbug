@@ -67,13 +67,9 @@ namespace Ironbug.HVAC.BaseClass
             //until now, set point can only be at middle or the last
             foreach (var item in remainingSetPts)
             {
-                //var setPt = (IB_SetpointManager)item;
-                var atIndex = components.ToList().IndexOf(item);
-
                 OptionalNode nodeWithSetPt = null;
-
                 //Find the component before setpoint
-                var comBeforeSetPt = components.ElementAt(atIndex - 1);
+                var comBeforeSetPt = FindPreComponent(components, item);
                 var names = currentComps.Select(_ => _.nameString()).ToList();
                 var nodeName = startingNode.nameString();
                 var indexOfStartingNode = names.IndexOf(nodeName);
@@ -96,6 +92,7 @@ namespace Ironbug.HVAC.BaseClass
 
                     //Find the node for setPoint
                     var node_Index = indexOfStartingNode + combeforeSetPt_Index + 1;
+                    
                     nodeWithSetPt = currentComps.ElementAt(node_Index).to_Node();
                 }
 
@@ -111,6 +108,21 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             return allcopied;
+
+            IB_HVACObject FindPreComponent(IEnumerable<IB_HVACObject> Coms, IB_HVACObject currentItem)
+            {
+                var atIndex = Coms.ToList().IndexOf(currentItem);
+                var preCom = Coms.ElementAt(atIndex - 1);
+                if (preCom is IB_SetpointManager)
+                {
+                    return FindPreComponent(Coms, preCom);
+                }
+                else
+                {
+                    return preCom;
+                }
+            }
+
         }
         protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {

@@ -104,6 +104,8 @@
     <Compile Include="Component\Ironbug\Ironbug_ScheduleRule.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Schedule.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneHumidityMinimum.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneHumidityMaximum.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerHeaterPerformanceElectricEIR.cs" />
@@ -660,6 +662,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IntersectMass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointHumidityMax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointHumidityMin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

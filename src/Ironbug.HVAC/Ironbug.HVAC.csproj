@@ -123,6 +123,8 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMaximum.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
