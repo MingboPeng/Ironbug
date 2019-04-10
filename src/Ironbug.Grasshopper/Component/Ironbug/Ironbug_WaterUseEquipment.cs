@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_WaterUseEquipment : Ironbug_Component
+    public class Ironbug_WaterUseEquipment : Ironbug_HVACComponent
     {
         
         /// Initializes a new instance of the Ironbug_ZoneEquipmentGroup class.
@@ -15,7 +14,8 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_WaterUseEquipment()
           : base("Ironbug_WaterUseEquipment", "WaterUseEquipment",
               "Description",
-               "Ironbug", "02:LoopComponents")
+               "Ironbug", "02:LoopComponents",
+               typeof(HVAC.IB_WaterUseEquipment_FieldSet))
         {
         }
 
@@ -52,6 +52,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_WaterUseEquipment(load);
             obj.SetSpace(spaceName);
 
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
 
         }
