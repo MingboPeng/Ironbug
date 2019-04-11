@@ -94,6 +94,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
@@ -678,6 +679,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Humidifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalMixer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -95,6 +95,22 @@ namespace Ironbug.HVAC.BaseClass
                 
             }
 
+            //check if it is Mixer
+            if (AirTerminal is IB_AirTerminalSingleDuctInletSideMixer mixer)
+            {
+                var nd = ((AirTerminalSingleDuctInletSideMixer)airTerminal).outletModelObject().get().to_Node().get();
+
+                var eqp = mixer.MixedZoneEquip.GetOsmObjInModel(model);
+                if (eqp is ZoneHVACComponent zc)
+                {
+                    zc.addToNode(nd);
+                }
+                else
+                {
+                    throw new ArgumentException($"Failed to add {airTerminal.nameString()} with {mixer.MixedZoneEquip.GetType()} in thermal zone!");
+                }
+            }
+
             
             //add plenums
             if (this.SupplyPlenum != null) newZone.setSupplyPlenum((ThermalZone)this.SupplyPlenum.ToOS(model));

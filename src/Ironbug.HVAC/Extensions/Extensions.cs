@@ -13,13 +13,25 @@ namespace Ironbug.HVAC
             var count = 0;
             foreach (var item in enumerable)
             {
-                if (item is IB_PlantLoopBranches)
+                if (item is IB_PlantLoopBranches pb)
                 {
-                    count += ((IB_PlantLoopBranches)item).Count();
+                    count += pb.Count();
                 }
-                else if (item is IB_AirLoopBranches)
+                else if (item is IB_AirLoopBranches ab)
                 {
-                    count += ((IB_AirLoopBranches)item).Count() * 2; // because added air terminal with each zone
+                    foreach (var zb in ab.Branches)
+                    {
+                        var zone = zb[0] as IB_ThermalZone;
+                        if (zone.AirTerminal is IB_AirTerminalSingleDuctInletSideMixer)
+                        {
+                            count += 3; // because added air terminal with each zone
+                        }
+                        else
+                        {
+                            count += 2; // because added air terminal with each zone
+                        }
+                    }
+                    
                 }
                 else
                 {
