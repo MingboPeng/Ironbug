@@ -103,6 +103,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AirTerminalMixer {
+            get {
+                object obj = ResourceManager.GetObject("AirTerminalMixer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AirTerminalUncontrolled {
             get {
                 object obj = ResourceManager.GetObject("AirTerminalUncontrolled", resourceCulture);
@@ -693,6 +703,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Humidifier {
+            get {
+                object obj = ResourceManager.GetObject("Humidifier", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap HVAC {
             get {
                 object obj = ResourceManager.GetObject("HVAC", resourceCulture);
@@ -1116,6 +1136,36 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap SetPointFlowOA {
             get {
                 object obj = ResourceManager.GetObject("SetPointFlowOA", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointHumidityAvg {
+            get {
+                object obj = ResourceManager.GetObject("SetPointHumidityAvg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointHumidityMax {
+            get {
+                object obj = ResourceManager.GetObject("SetPointHumidityMax", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointHumidityMin {
+            get {
+                object obj = ResourceManager.GetObject("SetPointHumidityMin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

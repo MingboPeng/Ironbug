@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HVACTemplate : GH_Component
+    public class Ironbug_HVACTemplate : Ironbug_Component
     {
         List<string> folderList = new List<string>();
         List<List<string>> filesList = new List<List<string>>();
@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var dir in dirs)
             {
-                var fs = Directory.GetFiles(dir, "*.txt", SearchOption.AllDirectories).ToList();
+                var fs = Directory.GetFiles(dir, "*.gh*", SearchOption.AllDirectories).ToList();
                 if (fs.Any())
                 {
                     this.folderList.Add(Path.GetDirectoryName(Path.Combine(dir, "test.txt")));
@@ -79,12 +79,9 @@ namespace Ironbug.Grasshopper.Component
 
             if (Run && f && isFileExist)
             {
-                var tempStr = File.ReadAllText(FilePath);
-                Clipboard.Clear();
-                Clipboard.SetText(tempStr);
-
                 var io = new GH_DocumentIO();
-                var success = io.Paste(GH_ClipboardType.System);
+
+                var success = io.Open(FilePath);
 
                 if (!success)
                 {
@@ -102,9 +99,7 @@ namespace Ironbug.Grasshopper.Component
                 docTemp.TranslateObjects(vec ,true);
 
                 docTemp.ExpireSolution();
-                var objects = docTemp.Objects;
                 
-
                 var docCurrent = canvasCurrent.Document;
                 docCurrent.DeselectAll();
                 docCurrent.MergeDocument(docTemp);

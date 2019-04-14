@@ -94,16 +94,23 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleTypeLimits.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleRule.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerMultiZoneHeatingAverage.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerMultiZoneHumidityMinimum.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Schedule.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneHumidityMinimum.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerSingleZoneHumidityMaximum.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SetpointManagerMultiZoneHumidityMaximum.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerHeaterPerformanceElectricEIR.cs" />
@@ -660,6 +667,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\IntersectMass.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointHumidityMax.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointHumidityMin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointHumidityAvg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Humidifier.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalMixer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

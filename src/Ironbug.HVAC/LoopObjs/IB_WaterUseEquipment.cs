@@ -51,4 +51,9 @@ namespace Ironbug.HVAC
             return obj;
         }
     }
+    public sealed class IB_WaterUseEquipment_FieldSet
+        : IB_FieldSet<IB_WaterUseEquipment_FieldSet, WaterUseEquipment>
+    {
+        private IB_WaterUseEquipment_FieldSet() { }
+    }
 }

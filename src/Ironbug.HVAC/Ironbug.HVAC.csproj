@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
+    <Compile Include="LoopObjs\IB_HumidifierSteamElectric.cs" />
     <Compile Include="LoopObjs\IB_Probe.cs" />
     <Compile Include="LoopObjs\IB_ControllerWaterCoil.cs" />
     <Compile Include="LoopObjs\IB_WaterUseEquipment.cs" />
@@ -121,10 +122,16 @@
     <Compile Include="Schedules\IB_ScheduleRule.cs" />
     <Compile Include="Schedules\IB_ScheduleRuleset.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerFollowOutdoorAirTemperature.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerMultiZoneHeatingAverage.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerMultiZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerMultiZoneHumidityMaximum.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMaximum.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACWaterToAirHeatPump.cs" />

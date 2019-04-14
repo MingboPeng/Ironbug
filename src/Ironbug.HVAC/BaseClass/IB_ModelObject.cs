@@ -256,6 +256,11 @@ namespace Ironbug.HVAC.BaseClass
         {
             return !(this.GhostOSObject.GetIfInModel(model) is null);
         }
+
+        public ModelObject GetOsmObjInModel(Model model)
+        {
+            return this.GhostOSObject.GetIfInModel(model);
+        }
         //this is for override
         //public abstract ModelObject ToOS(Model model);
         //protected abstract ModelObject NewOpsObj(Model model);

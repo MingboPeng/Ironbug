@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("ControlZone", "_zone", EPDoc.SetpointManagerSingleZoneReheat.Field_ControlZoneName, GH_ParamAccess.list);
+            pManager.AddGenericParameter("ControlZone", "_Ctrlzone", EPDoc.SetpointManagerSingleZoneReheat.Field_ControlZoneName, GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager.AddNumberParameter("minTemperature", "_minT_", _fieldSet.MinimumSupplyAirTemperature.Description, GH_ParamAccess.item, 10);
             pManager.AddNumberParameter("maxTemperature", "_maxT_", _fieldSet.MaximumSupplyAirTemperature.Description, GH_ParamAccess.item, 50);
