@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
@@ -44,14 +44,25 @@ namespace Ironbug.Grasshopper.Component
             var demandComs = new List<IB_HVACObject>();
             DA.GetDataList(1, demandComs);
 
+            //check if there is a dual loop object that cannot be duplicated.
+            var supplyPathCount = this.Params.Input[0].VolatileData.PathCount;
+            var demandPathCount = this.Params.Input[1].VolatileData.PathCount;
+            var dualLoopObjs = supplyComs.Where(_ => _ is HVAC.IIB_DualLoopObj);
+            if (supplyPathCount != demandPathCount & dualLoopObjs.Any())
+            {
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Dual loop object [{dualLoopObjs.First().GetType().Name}] in supply side cannot be auto-duplicated. \nIt is because the data structure of supply side doesn't match demand side's. \nPlease use Ironbug_duplicate to duplicate {demandPathCount} objects, and match demand input's data structure.");
+                return;
+            }
+
+
             HVAC.IB_SizingSystem sizing = null;
            
-            
             var airLoop = new HVAC.IB_AirLoopHVAC();
             if (DA.GetData(2, ref sizing))
             {
                 airLoop.SetSizingSystem(sizing);
             }
+
             
 
             //TODO: need to check nulls
