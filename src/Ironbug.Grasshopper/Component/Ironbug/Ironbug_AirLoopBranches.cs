@@ -103,7 +103,7 @@ namespace Ironbug.Grasshopper.Component
             }
             
             if (totalB > 0) messages = $"{totalB} branches";
-            if (loops.BranchCount>1) messages += $"/{loops.BranchCount} trees";
+            if (loops.BranchCount>1) messages += $"/{loops.BranchCount} Loops";
 
             return messages;
 
