@@ -311,7 +311,7 @@ Schedule:Year,
         {
             string sFile = @"..\..\..\..\doc\osmFile\Sys_7.osm";
 
-            var sModel = OpenStudio.Model.load(new OpenStudio.Path(sFile)).get();
+            var sModel = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(sFile)).get();
             var tModel = new OpenStudio.Model();
 
             var oa = sModel.getAirLoopHVACOutdoorAirSystems().First();
@@ -327,7 +327,7 @@ Schedule:Year,
         {
             string sFile = @"..\..\..\..\doc\osmFile\Sys_7.osm";
 
-            var sModel = OpenStudio.Model.load(new OpenStudio.Path(sFile)).get();
+            var sModel = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(sFile)).get();
             var tModel = new OpenStudio.Model();
 
             var oa = sModel.getAirLoopHVACOutdoorAirSystems().First();
