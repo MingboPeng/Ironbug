@@ -10,7 +10,7 @@ namespace Ironbug.HVAC.BaseClass
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ThermalZone();
         private static ThermalZone NewDefaultOpsObj(Model model) => new ThermalZone(model);
 
-        public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctUncontrolled();
+        public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
         public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 

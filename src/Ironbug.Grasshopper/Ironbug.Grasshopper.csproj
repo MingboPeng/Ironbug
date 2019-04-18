@@ -69,10 +69,8 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="OpenStudio, Version=2.5.0.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="OpenStudio">
+      <HintPath>..\..\..\OpenStudio\build\Products\csharp\Debug\OpenStudio.dll</HintPath>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>
@@ -133,7 +131,7 @@
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVNoReheat.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctUncontrolled.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeNoReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDesuperheater.cs" />
