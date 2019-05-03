@@ -100,6 +100,8 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitCooling.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleTypeLimits.cs" />
@@ -682,6 +684,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AirTerminalMixer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatPumpW2W_Cooling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatPumpW2W_Heating.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

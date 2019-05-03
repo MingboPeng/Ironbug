@@ -693,6 +693,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap HeatPumpW2W_Cooling {
+            get {
+                object obj = ResourceManager.GetObject("HeatPumpW2W_Cooling", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap HeatPumpW2W_Heating {
+            get {
+                object obj = ResourceManager.GetObject("HeatPumpW2W_Heating", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Honeybee {
             get {
                 object obj = ResourceManager.GetObject("Honeybee", resourceCulture);
