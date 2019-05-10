@@ -140,15 +140,48 @@ namespace Ironbug.HVAC
                 opC.setName(tempC.nameString());
                 opC.setLayers(newLayers);
                 opC.setSourcePresentAfterLayerNumber(index);
+                var opC_rev = opC.reverseConstructionWithInternalSource();
 
-                //assign to surfaces 
-                foreach (var i in tempC.sources())
+                //assign to surfaces and their adjacent surfaces
+                var surfacesWithConstr = tempC.sources().Where(_ => _.to_Surface().is_initialized()).Select(_ => _.to_Surface().get());
+                foreach (var srf in surfacesWithConstr)
                 {
-                    if (i.to_PlanarSurface().isNull()) continue;
-                    var srf = i.to_PlanarSurface().get();
                     srf.setConstruction(opC);
+                    if (srf.adjacentSurface().is_initialized())
+                    {
+                        srf.adjacentSurface().get().setConstruction(opC_rev);
+                    }
                 }
 
+                //in case that construction is set to default construction set
+                var defconstrs = tempC.sources().Where(_=> _.to_DefaultSurfaceConstructions().is_initialized()).Select(_ => _.to_DefaultSurfaceConstructions().get());
+                foreach (var defcon in defconstrs)
+                {
+                    if (defcon.wallConstruction().is_initialized())
+                    {
+                        if (defcon.wallConstruction().get().nameString() == tempC.nameString())
+                        {
+                            defcon.setWallConstruction(opC);
+                        }
+
+                    }
+                    else if (defcon.floorConstruction().is_initialized())
+                    {
+                        if (defcon.floorConstruction().get().nameString() == tempC.nameString())
+                        {
+                            defcon.setFloorConstruction(opC);
+                        }
+                    }
+                    else if (defcon.roofCeilingConstruction().is_initialized())
+                    {
+                        if (defcon.roofCeilingConstruction().get().nameString() == tempC.nameString())
+                        {
+                            defcon.setRoofCeilingConstruction(opC);
+                        }
+                    }
+
+
+                }
                 tempC.remove();
             }
             
