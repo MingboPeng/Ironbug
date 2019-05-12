@@ -90,6 +90,22 @@ namespace Ironbug.HVAC.Schedules
             obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
         }
+
+        public static ScheduleRuleset GetOrNewSchedule(Model m, double temperature)
+        {
+            var name = $"Constant value {Math.Round(temperature, 1)} C ({Math.Round(temperature * 9 / 5 + 32, 1)} F) ";
+            var optionalObj = m.getScheduleRulesetByName(name);
+            if (optionalObj.is_initialized())
+            {
+                return optionalObj.get();
+            }
+            else
+            {
+                var sch = new ScheduleRuleset(m, temperature);
+                sch.setName(name);
+                return sch;
+            }
+        }
     }
     public sealed class IB_ScheduleRuleset_FieldSet
         : IB_FieldSet<IB_ScheduleRuleset_FieldSet, ScheduleRuleset>
