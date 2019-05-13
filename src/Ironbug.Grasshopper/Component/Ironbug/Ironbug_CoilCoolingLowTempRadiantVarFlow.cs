@@ -21,7 +21,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("High Air Temperature", "airHiT", "High control air temperature, below which the cooling will be turned on", GH_ParamAccess.item, 50);
+            pManager.AddNumberParameter("High Air Temperature", "airHiT", "High control air temperature, above which the cooling will be turned on", GH_ParamAccess.item, 24);
 
         }
         
@@ -33,12 +33,12 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double airHiT = 50;
+            double airHiT = 24;
             
             DA.GetData(0, ref airHiT);
 
             var obj = new HVAC.IB_CoilCoolingLowTempRadiantVarFlow( airHiT);
-            
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }

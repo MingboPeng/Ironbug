@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref airLoT);
 
             var obj = new HVAC.IB_CoilHeatingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
-            
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }
