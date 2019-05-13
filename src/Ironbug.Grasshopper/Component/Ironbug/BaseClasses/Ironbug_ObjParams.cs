@@ -88,6 +88,15 @@ namespace Ironbug.Grasshopper.Component
                             throw new ArgumentException($"Input \"{valueStr}\" is not a valid option, please double check the typo!");
                         }
                     }
+                    //if (dataField.DataType == typeof(int))
+                    //{
+                    //    value = Convert.ToInt32(value);
+                    //}
+                    //else if (dataField.DataType == typeof(double))
+                    //{
+                    //    value = Convert.ToDouble(value);
+                    //}
+
 
                     settingDatas.TryAdd(dataField, value);
                 }
