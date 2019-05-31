@@ -49,28 +49,23 @@ namespace Ironbug.HVAC
             {
                 return base.OnNewOpsObj(InitMethodWithChildren, model);
 
-                //Local Method
-                ChillerElectricEIR InitMethodWithChildren(Model md)
-                {
-
-                    //var c1 = md.addObject(_CCFofT.ToOS().toIdfObject().clone(true)).get().to_CurveBiquadratic().get();
-                    //var c2 = md.addObject(_EItoCORFofT.ToOS().toIdfObject().clone(true)).get().to_CurveBiquadratic().get();
-                    //var c3 = md.addObject(_EItoCORFofPLR.ToOS().toIdfObject().clone(true)).get().to_CurveQuadratic().get();
-                    //var c3 = _EItoCORFofPLR.ToOS().to_CurveQuadratic().get();
-
-                    //return new ChillerElectricEIR(md, c1 , c2 , c3);
-                    return new ChillerElectricEIR(md,
-                        _CCFofT.ToOS(model) as CurveBiquadratic,
-                        _EItoCORFofT.ToOS(model) as CurveBiquadratic,
-                        _EItoCORFofPLR.ToOS(model) as CurveQuadratic);
-
-                }
             }
             else
             {
                 return base.OnNewOpsObj(NewDefaultOpsObj, model);
             }
-             
+
+
+            //Local Method
+            ChillerElectricEIR InitMethodWithChildren(Model md)
+            {
+
+                return new ChillerElectricEIR(md,
+                    _CCFofT.ToOS(model) as CurveBiquadratic,
+                    _EItoCORFofT.ToOS(model) as CurveBiquadratic,
+                    _EItoCORFofPLR.ToOS(model) as CurveQuadratic);
+
+            }
 
         }
         
