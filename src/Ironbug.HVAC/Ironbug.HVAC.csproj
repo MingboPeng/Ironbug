@@ -138,6 +138,7 @@
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
+    <Compile Include="LoopObjs\IB_AirLoopHVACUnitarySystem.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACWaterToAirHeatPump.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />
