@@ -8,23 +8,56 @@ namespace Ironbug.HVAC
         : IB_ZoneEquipment, IIB_DualLoopObj
         
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
+        protected override Func<IB_ModelObject> IB_InitSelf => delegate ()
+        {
+            if (this.Children.Count > 0)
+            {
+                return new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(this._coolingCoil, this._heatingCoil, this._fan);
+            }
+            else
+            {
+                return new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
+            }
+        };
 
         private static ZoneHVACTerminalUnitVariableRefrigerantFlow NewDefaultOpsObj(Model model) 
             => new ZoneHVACTerminalUnitVariableRefrigerantFlow(model);
-        
+
+        private IB_CoilCoolingDXVariableRefrigerantFlow _coolingCoil => this.Children.Get<IB_CoilCoolingDXVariableRefrigerantFlow>();
+        private IB_CoilHeatingDXVariableRefrigerantFlow _heatingCoil => this.Children.Get<IB_CoilHeatingDXVariableRefrigerantFlow>();
+        private IB_FanOnOff _fan => this.Children.Get<IB_FanOnOff>();
+
         public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(NewDefaultOpsObj(new Model()))
-        { 
+        {
         }
-        
-        //public override ZoneHVACTerminalUnitVariableRefrigerantFlow ToOS(Model model)
-        //{
-        //    return base.OnNewOpsObj(NewDefaultOpsObj, model);
-        //}
+
+        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(IB_CoilCoolingDXVariableRefrigerantFlow CoolingCoil, IB_CoilHeatingDXVariableRefrigerantFlow HeatingCoil, IB_FanOnOff Fan) : base(NewDefaultOpsObj(new Model()))
+        {
+            this.AddChild(CoolingCoil);
+            this.AddChild(HeatingCoil);
+            this.AddChild(Fan);
+        }
+
 
         public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model);
+            if (this.Children.Count == 0)
+            {
+                return base.OnNewOpsObj(NewDefaultOpsObj, model);
+            }
+            else
+            {
+                return base.OnNewOpsObj(NewOpsObj, model);
+            }
+
+            //Local Method
+            ZoneHVACTerminalUnitVariableRefrigerantFlow NewOpsObj(Model m)
+            {
+                return new ZoneHVACTerminalUnitVariableRefrigerantFlow(m, 
+                    this._coolingCoil.ToOS(m) as CoilCoolingDXVariableRefrigerantFlow, 
+                    this._heatingCoil.ToOS(m) as CoilHeatingDXVariableRefrigerantFlow, 
+                    this._fan.ToOS(m));
+            }
         }
 
 
@@ -35,12 +68,8 @@ namespace Ironbug.HVAC
         : IB_FieldSet<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet, ZoneHVACTerminalUnitVariableRefrigerantFlow>
     {
         private IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet() { }
-        
-        //public IB_DataField Name { get; }
-        //    = new IB_BasicDataField("Name", "Name");
-        //public IB_DataField RatedCoolingCOP { get; }
-        //    = new IB_BasicDataField("RatedCoolingCOP", "CoCOP");
-        //public IB_DataField RatedHeatingCOP { get; }
-        //    = new IB_BasicDataField("RatedHeatingCOP", "HeCOP");
+
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
     }
 }
