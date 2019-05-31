@@ -44,6 +44,7 @@ namespace Ironbug.HVAC
 
         internal bool IsType(Type type)
         {
+            if (this.IB_Obj is null) return true;
             return type.IsInstanceOfType(this.IB_Obj);
         }
 
@@ -54,6 +55,7 @@ namespace Ironbug.HVAC
 
         public IB_Child Duplicate()
         {
+            if (this.IB_Obj is null) return null;
             return new IB_Child(this.IB_Obj.Duplicate());
         }
         
