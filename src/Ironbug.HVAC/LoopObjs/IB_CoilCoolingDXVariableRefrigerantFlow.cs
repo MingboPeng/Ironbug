@@ -3,7 +3,7 @@ using OpenStudio;
 using System;
 namespace Ironbug.HVAC
 {
-    public class IB_CoilCoolingDXVariableRefrigerantFlow : IB_CoilHeatingBasic
+    public class IB_CoilCoolingDXVariableRefrigerantFlow : IB_CoilCoolingBasic
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilCoolingDXVariableRefrigerantFlow();
         private static CoilCoolingDXVariableRefrigerantFlow NewDefaultOpsObj(Model model) 
