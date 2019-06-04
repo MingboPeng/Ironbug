@@ -55,7 +55,10 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-       
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            
+        }
 
         protected override void AfterSolveInstance()
         {
@@ -64,7 +67,6 @@ namespace Ironbug.Grasshopper.Component
                 var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
                 this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
-            
             base.AfterSolveInstance();  
         }
         
@@ -109,23 +111,24 @@ namespace Ironbug.Grasshopper.Component
             return newParam;
         }
 
-        protected void SetObjParamsTo(IB_ModelObject IB_obj)
+        protected IEnumerable<IB_ModelObject> SetObjParamsTo(IB_ModelObject IB_obj)
         {
             var paramInput = this.Params.Input.Last();
             //catch the data when it is in branch
-            if (this.Phase != GH_SolutionPhase.Computing) return;
-            if (paramInput.VolatileDataCount == 0) return;
+            if (this.Phase != GH_SolutionPhase.Computing) return null;
+            if (paramInput.VolatileDataCount == 0) return new List<IB_ModelObject>() { IB_obj };
             var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
             var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>) null;
             var outputP = (List<IB_OutputVariable>)null;
 
+            var dupCounts = 1;
             foreach (var ghitem in objParams)
             {
                 if (ghitem == null) continue;
+
                 var item = ghitem as GH_ObjectWrapper;
                 
-
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
                     if (inputParams.Count == 0) continue;
@@ -143,14 +146,34 @@ namespace Ironbug.Grasshopper.Component
                     }
 
                 }
-                
+                else if (item.Value is DupParam dP)
+                {
+                    dupCounts = dP.Amount;
+                }
                 
             }
             
 
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
-            
+
+            var objs = new List<IB_ModelObject>();
+            for (int i = 0; i < dupCounts; i++)
+            {
+                IB_ModelObject dupObj = null;
+                if (IB_obj is IB_HVACObject hvacObj)
+                {
+                    dupObj = hvacObj.Duplicate();
+                }
+                else
+                {
+                    dupObj = IB_obj.Duplicate();
+                }
+                dupObj.SetTrackingID();
+                objs.Add(dupObj);
+            }
+
+            return objs;
         }
 
 
