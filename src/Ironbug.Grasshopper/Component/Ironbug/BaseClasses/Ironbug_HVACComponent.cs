@@ -122,9 +122,8 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var ghitem in objParams)
             {
-                if (ghitem == null) continue;
                 var item = ghitem as GH_ObjectWrapper;
-                
+                if (item == null) throw new ArgumentException("\"params_\" has invalid inputs");
 
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
@@ -142,6 +141,10 @@ namespace Ironbug.Grasshopper.Component
                         outputP = outputParams;
                     }
 
+                }
+                else
+                {
+                    throw new ArgumentException("\"params_\" has invalid inputs");
                 }
                 
                 
