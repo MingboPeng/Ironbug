@@ -21,7 +21,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Low Air Temperature", "airLoT", "Low control air temperature, above which the heating will be turned on", GH_ParamAccess.item, 15);
+            pManager.AddNumberParameter("Low Air Temperature", "airLoT", "Low control air temperature, below which the heating will be turned on", GH_ParamAccess.item, 15);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -37,7 +37,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref airLoT);
 
             var obj = new HVAC.IB_CoilHeatingLowTempRadiantVarFlow(airLoT);
-            
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }

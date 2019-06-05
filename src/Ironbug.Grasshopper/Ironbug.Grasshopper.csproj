@@ -95,11 +95,15 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitCooling.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleTypeLimits.cs" />
@@ -214,6 +218,8 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirLoopHVACUnitarySystem.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACWaterToAirHeatPump.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACUnitVentilator_Cooling.cs" />
@@ -657,15 +663,6 @@
     <None Include="Resources\WaterUseConnect.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Schedule_Type.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Schedule.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Schedule_Rule.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\IntersectMass.png" />
   </ItemGroup>
   <ItemGroup>
@@ -682,6 +679,33 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AirTerminalMixer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatPumpW2W_Cooling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HeatPumpW2W_Heating.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule_Rule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule_Type.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VRFUnit_adv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Schedule.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_HeatingVRF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_CoolingVRF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnitarySys.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

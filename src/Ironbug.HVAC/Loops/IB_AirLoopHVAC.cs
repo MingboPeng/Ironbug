@@ -91,7 +91,7 @@ namespace Ironbug.HVAC
 
         private bool CheckSupplySide(IEnumerable<IB_HVACObject> Components)
         {
-            var fanCount = Components.Count(_ => _ is IB_Fan);
+            var fanCount = Components.Count(_ => (_ is IB_Fan)| (_ is IB_AirLoopHVACUnitarySystem));
             if (fanCount == 0)
             {
                 throw new Exception("Airloop needs at least one fan!");
