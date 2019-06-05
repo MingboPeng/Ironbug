@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
     {
         public Type DataFieldType { get; private set; }
 
-        public IB_ModelObject IB_ModelObject  => iB_ModelObject;
+        public IB_ModelObject IB_ModelObject => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;
 
 
@@ -39,15 +39,10 @@ namespace Ironbug.Grasshopper.Component
                     if (docObj is Ironbug_ObjParams objParams)
                     {
                         objParams.CheckRecipients();
-                        //settingParams = objParams;
                     }
                     else if (docObj is Ironbug_OutputParams outputParams)
                     {
                         //outputParams.GetEPOutputVariables(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
                     }
                 }
             }
@@ -55,8 +50,8 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-       
 
+        //save ib object for Ironbug_OutputParams
         protected override void AfterSolveInstance()
         {
             if (this.iB_ModelObject is null)
@@ -64,10 +59,10 @@ namespace Ironbug.Grasshopper.Component
                 var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
                 this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
-            
-            base.AfterSolveInstance();  
+
+            base.AfterSolveInstance();
         }
-        
+
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
             var description = "There is no component description available now! \nPlease stay tuned or contribute :>\n\nSource code: https://github.com/MingboPeng/Ironbug";
@@ -98,15 +93,16 @@ namespace Ironbug.Grasshopper.Component
         
         private static IGH_Param CreateParamInput()
         {
-            IGH_Param newParam = new Param_GenericObject();
-            newParam.Name = "Parameters_";
-            newParam.NickName = "params_";
-            newParam.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
-            newParam.MutableNickName = false;
-            newParam.Access = GH_ParamAccess.list;
-            newParam.Optional = true;
+            IGH_Param param = new Param_GenericObject();
+            param.Name = "Parameters_";
+            param.NickName = "params_";
+            param.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
+            param.MutableNickName = false;
+            param.Access = GH_ParamAccess.list;
+            param.Optional = true;
+            param.WireDisplay = GH_ParamWireDisplay.faint;
 
-            return newParam;
+            return param;
         }
 
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
@@ -123,7 +119,8 @@ namespace Ironbug.Grasshopper.Component
             foreach (var ghitem in objParams)
             {
                 var item = ghitem as GH_ObjectWrapper;
-                if (item == null) throw new ArgumentException("\"params_\" has invalid inputs");
+                if (item == null)
+                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
 
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
@@ -144,7 +141,7 @@ namespace Ironbug.Grasshopper.Component
                 }
                 else
                 {
-                    throw new ArgumentException("\"params_\" has invalid inputs");
+                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
                 }
                 
                 
