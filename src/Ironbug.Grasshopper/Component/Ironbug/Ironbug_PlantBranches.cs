@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
-            
+            pManager[0].WireDisplay = GH_ParamWireDisplay.faint;
             pManager[0].Optional = true;
         }
 
@@ -61,6 +61,7 @@ namespace Ironbug.Grasshopper.Component
             param.Name = "Branch";
             param.Description = "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.";
             param.Access = GH_ParamAccess.tree;
+            param.WireDisplay = GH_ParamWireDisplay.faint;
             param.Optional = true;
             return param;
         }
@@ -178,6 +179,7 @@ namespace Ironbug.Grasshopper.Component
             if (Params.Input.Last().Sources.Any())
             {
                 IGH_Param newParam = CreateParameter(GH_ParameterSide.Input, Params.Input.Count);
+               
                 Params.RegisterInputParam(newParam, Params.Input.Count);
                 VariableParameterMaintenance();
                 Params.OnParametersChanged();
