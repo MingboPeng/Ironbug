@@ -34,8 +34,8 @@ namespace Ironbug.Grasshopper.Component
             if (DA.GetData(0, ref eqp))
             {
                 var obj = new IB_AirTerminalSingleDuctInletSideMixer(eqp);
-                this.SetObjParamsTo(obj);
-                DA.SetData(0, obj);
+                var objs = this.SetObjParamsTo(obj);
+                DA.SetDataList(0, objs);
             }
 
 

@@ -32,9 +32,9 @@ namespace Ironbug.Grasshopper.Component
             int n = 1;
             if (DA.GetData(0, ref n))
             {
-                var obj = new DupParam();
-                obj.Amount = n;
-                DA.SetData(0, obj);
+                var dupobj = new DupParam();
+                dupobj.Amount = n;
+                DA.SetData(0, dupobj);
             }
             
             

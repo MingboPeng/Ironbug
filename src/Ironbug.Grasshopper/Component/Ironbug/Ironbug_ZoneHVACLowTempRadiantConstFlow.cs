@@ -49,8 +49,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_ZoneHVACLowTempRadiantConstFlow(coilH,coilC, tubingLenght);
             
 
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         

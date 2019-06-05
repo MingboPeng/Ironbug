@@ -35,8 +35,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_FanVariableVolume();
             
 
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.FanV;

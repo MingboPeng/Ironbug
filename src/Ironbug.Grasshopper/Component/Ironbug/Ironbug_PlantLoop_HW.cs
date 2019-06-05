@@ -69,9 +69,9 @@ namespace Ironbug.Grasshopper.Component
             var sizingChecked = this.setSizingDefault(sizing);
             plant.SetSizingPlant(sizingChecked);
             
-            this.SetObjParamsTo(plant);
+            var objs = this.SetObjParamsTo(plant);
             
-            DA.SetData(0, plant);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoopHW;

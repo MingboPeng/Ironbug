@@ -49,8 +49,8 @@ namespace Ironbug.Grasshopper.Component
 
             
 
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PFPBox;

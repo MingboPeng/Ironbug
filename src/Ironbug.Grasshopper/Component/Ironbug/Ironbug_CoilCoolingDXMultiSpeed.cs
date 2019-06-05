@@ -32,8 +32,8 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilCoolingDXMultiSpeed();
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
             this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This obj is not fully finished by OpenStudio, stay tuned!");
         }
 

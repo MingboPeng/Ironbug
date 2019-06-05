@@ -39,8 +39,8 @@ namespace Ironbug.Grasshopper.Component
                 obj.AddGFuncs(gfuncs);
             }
             
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

@@ -56,8 +56,8 @@ namespace Ironbug.Grasshopper.Component
                 obj.SetFieldValues(fDic);
             }
 
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

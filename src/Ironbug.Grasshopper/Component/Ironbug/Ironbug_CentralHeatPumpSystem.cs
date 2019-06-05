@@ -46,10 +46,10 @@ namespace Ironbug.Grasshopper.Component
                 obj.AddModule(module);
             }
 
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
-            DA.SetData(2, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
+            DA.SetDataList(2, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CentralHeatPump;//return null;

@@ -63,8 +63,8 @@ namespace Ironbug.Grasshopper.Component
             }
 
 
-            this.SetObjParamsTo(plant);
-            DA.SetData(0, plant);
+            var objs = this.SetObjParamsTo(plant);
+            DA.SetDataList(0, objs);
         }
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoop;
 

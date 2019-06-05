@@ -31,9 +31,9 @@ namespace Ironbug.Grasshopper.Component
         {
             double peakFlowRate = 0.000063;
             DA.GetData(0, ref peakFlowRate);
-            var obj = new HVAC.IB_WaterUseEquipmentDefinition(peakFlowRate);
-            
-            DA.SetData(0, obj);
+            var wEqp = new HVAC.IB_WaterUseEquipmentDefinition(peakFlowRate);
+
+            DA.SetData(0, wEqp);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterUseLoad;

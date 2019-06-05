@@ -38,8 +38,8 @@ namespace Ironbug.Grasshopper.Component
                 var day = new HVAC.Schedules.IB_ScheduleDay(values[0]);
                 var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
 
-                this.SetObjParamsTo(schRule);
-                DA.SetData(0, schRule);
+                var objs = this.SetObjParamsTo(schRule);
+                DA.SetDataList(0, objs);
             }
             else
             {
@@ -47,8 +47,8 @@ namespace Ironbug.Grasshopper.Component
                 var day = new HVAC.Schedules.IB_ScheduleDay(values);
                 var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
                 
-                this.SetObjParamsTo(schRule);
-                DA.SetData(0, schRule);
+                var objs = this.SetObjParamsTo(schRule);
+                DA.SetDataList(0, objs);
             }
 
            

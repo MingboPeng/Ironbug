@@ -57,10 +57,10 @@ namespace Ironbug.Grasshopper.Component
 
             HVAC.IB_SizingSystem sizing = null;
            
-            var airLoop = new HVAC.IB_AirLoopHVAC();
+            var obj = new HVAC.IB_AirLoopHVAC();
             if (DA.GetData(2, ref sizing))
             {
-                airLoop.SetSizingSystem(sizing);
+                obj.SetSizingSystem(sizing);
             }
 
             
@@ -68,17 +68,17 @@ namespace Ironbug.Grasshopper.Component
             //TODO: need to check nulls
             foreach (var item in supplyComs)
             {
-                airLoop.AddToSupplySide(item);
+                obj.AddToSupplySide(item);
             }
 
             foreach (var item in demandComs)
             {
-                airLoop.AddToDemandSide(item);
+                obj.AddToDemandSide(item);
             }
 
 
-            this.SetObjParamsTo(airLoop);
-            DA.SetData(0, airLoop);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetData(0, obj);
 
         }
 

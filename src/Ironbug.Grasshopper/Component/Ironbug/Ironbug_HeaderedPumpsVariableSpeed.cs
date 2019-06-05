@@ -29,8 +29,8 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_HeaderedPumpsVariableSpeed();
             
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PumpV_Headered;//return null;

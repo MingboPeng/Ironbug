@@ -44,8 +44,8 @@ namespace Ironbug.Grasshopper.Component
                 obj.SetHeatingCoil(coilH);
             }
             
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.BaseboardWRC;
         public override Guid ComponentGuid => new Guid("D2206BDE-F49B-40FB-B4FC-4D5C5663D842");

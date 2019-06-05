@@ -28,9 +28,9 @@ namespace Ironbug.Grasshopper.Component
         {
            
             var obj = new HVAC.IB_ChillerHeaterPerformanceElectricEIR();
-            this.SetObjParamsTo(obj);
+            var objs = this.SetObjParamsTo(obj);
             
-            DA.SetData(0, obj);
+            DA.SetDataList(0, objs);
         }
 
         

@@ -48,9 +48,9 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref EItoCORFofPLR);
 
             var obj = new HVAC.IB_ChillerElectricEIR(CCFofT, EItoCORFofT, EItoCORFofPLR);
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Chiller_adv;

@@ -31,8 +31,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new IB_AirTerminalSingleDuctVAVNoReheat();
             
             
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
 
         }
 

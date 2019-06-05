@@ -41,8 +41,8 @@ namespace Ironbug.Grasshopper.Component
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This desuperheater is not supported in OpenStudio App interface, which means you will not be able to edit the loop this desuperhater belongs to in OpenStudio App.\n\rMeanwhile, there is a bug in OpenStudio API:https://unmethours.com/question/23669/coilwaterheatingdesuperheater-methods-not-executing-correctly/. You will need an EnergyPlus measure to make this work!");
             }
             
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => null;

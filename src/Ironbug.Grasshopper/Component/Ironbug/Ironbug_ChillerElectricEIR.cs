@@ -37,9 +37,9 @@ namespace Ironbug.Grasshopper.Component
             IB_CurveQuadratic EItoCORFofPLR = WaterCooledCurve3();
 
             var obj = new HVAC.IB_ChillerElectricEIR(CCFofT, EItoCORFofT, EItoCORFofPLR);
-            this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
 
         IB_CurveBiquadratic WaterCooledCurve1()
