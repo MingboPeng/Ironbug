@@ -118,38 +118,43 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var ghitem in objParams)
             {
-                var item = ghitem as GH_ObjectWrapper;
-                if (item == null)
-                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
+                if (ghitem is GH_String st)
+                {
+                    IB_obj.TemplateSource.Add(st.Value);
+                }
 
-                if (item.Value is Dictionary<IB_Field, object> inputParams)
-                {
-                    if (inputParams.Count == 0) continue;
-                    if (inputP is null)
-                    {
-                        inputP = inputParams;
-                    }
-                }
-                else if(item.Value is List<IB_OutputVariable> outputParams)
-                {
-                    if (outputParams.Count == 0) continue;
-                    if (outputP is null)
-                    {
-                        outputP = outputParams;
-                    }
+                //var item = ghitem as GH_ObjectWrapper;
+                //if (item == null)
+                //    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
 
-                }
-                else
-                {
-                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
-                }
+                //if (item.Value is Dictionary<IB_Field, object> inputParams)
+                //{
+                //    if (inputParams.Count == 0) continue;
+                //    if (inputP is null)
+                //    {
+                //        inputP = inputParams;
+                //    }
+                //}
+                //else if(item.Value is List<IB_OutputVariable> outputParams)
+                //{
+                //    if (outputParams.Count == 0) continue;
+                //    if (outputP is null)
+                //    {
+                //        outputP = outputParams;
+                //    }
+
+                //}
+                //else
+                //{
+                //    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
+                //}
                 
                 
             }
             
 
-            IB_obj.SetFieldValues(inputP);
-            IB_obj.AddOutputVariables(outputP);
+            //IB_obj.SetFieldValues(inputP);
+            //IB_obj.AddOutputVariables(outputP);
             
         }
 

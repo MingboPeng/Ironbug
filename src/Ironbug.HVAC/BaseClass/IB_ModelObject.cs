@@ -22,6 +22,8 @@ namespace Ironbug.HVAC.BaseClass
 
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
+        public IList<string> TemplateSource { get; set; } = new List<string>();
+
         public IB_ModelObject(ModelObject GhostOSObject)
         {
             this.GhostOSObject = GhostOSObject;
@@ -295,11 +297,42 @@ namespace Ironbug.HVAC.BaseClass
             ModelObject InitAndSetAttributes()
             {
                 
-                var obj = InitMethodHandler(model);
+                var obj = this.TemplateSource.Any()?InitFromTemplateSource(): InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
-            
+
+            ModelObject InitFromTemplateSource()
+            {
+                var idfs = new IdfObjectVector();
+                var idfobjs = this.TemplateSource
+                    .Select(_ => IdfObject.load(_))
+                    .Where(_=>_.is_initialized())
+                    .Select(_=>_.get());
+
+                foreach (var item in idfobjs)
+                {
+                    idfs.Add(item);
+                }
+
+                //model.addObjects(idfs,true);
+                var addedObjs = model.insertObjects(idfs);
+                //get the main object if it has children
+                var mainObj = addedObjs.FirstOrDefault(_ => _.iddObject().name() == this.GhostOSObject.iddObject().name());
+
+                var tp = this.GhostOSObject.GetType();
+                if (mainObj == null) throw new ArgumentException($"Failed to initiate {tp.Name} from template source string! Double check if it includes its children.");
+              
+                var methodInfo = mainObj.GetType().GetMethod($"to_{tp.Name}");
+                var optionalObj = methodInfo.Invoke(mainObj, null);
+
+                var getterMethodInfo = optionalObj.GetType().GetMethod("get");
+                var obj = getterMethodInfo.Invoke(optionalObj, null) as ModelObject;
+
+                var clonedObj = obj.clone(model);
+                obj.remove();
+                return clonedObj;
+            }
 
 
         }
@@ -358,6 +391,7 @@ namespace Ironbug.HVAC.BaseClass
 
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
+            newObj.TemplateSource = this.TemplateSource;
             return newObj;
         }
 
