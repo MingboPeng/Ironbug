@@ -91,6 +91,7 @@
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ParameterSource.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />

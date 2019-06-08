@@ -22,7 +22,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
-        public IList<string> TemplateSource { get; set; } = new List<string>();
+        private IList<string> ParameterSource { get; set; } = new List<string>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
@@ -208,6 +208,12 @@ namespace Ironbug.HVAC.BaseClass
         //    this.SetTrackingID();
         //}
 
+        public void SetParamSource(IList<string> ParamSourceData)
+        {
+            GhostOSObject = this.InitFromParameterSource(GhostOSObject.model(), ParamSourceData);
+            this.ParameterSource = ParamSourceData;
+        }
+
         public void SetFieldValue(IB_Field field, object value)
         {
             var realValue = value;
@@ -296,19 +302,24 @@ namespace Ironbug.HVAC.BaseClass
 
             ModelObject InitAndSetAttributes()
             {
-                
-                var obj = this.TemplateSource.Any()?InitFromTemplateSource(): InitMethodHandler(model);
+
+                var obj = this.ParameterSource.Any() ? InitFromParameterSource(model, this.ParameterSource) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
 
-            ModelObject InitFromTemplateSource()
+           
+        }
+
+        ModelObject InitFromParameterSource(Model model, IList<string> ParamSource)
+        {
+            try
             {
                 var idfs = new IdfObjectVector();
-                var idfobjs = this.TemplateSource
+                var idfobjs = ParamSource
                     .Select(_ => IdfObject.load(_))
-                    .Where(_=>_.is_initialized())
-                    .Select(_=>_.get());
+                    .Where(_ => _.is_initialized())
+                    .Select(_ => _.get());
 
                 foreach (var item in idfobjs)
                 {
@@ -321,8 +332,8 @@ namespace Ironbug.HVAC.BaseClass
                 var mainObj = addedObjs.FirstOrDefault(_ => _.iddObject().name() == this.GhostOSObject.iddObject().name());
 
                 var tp = this.GhostOSObject.GetType();
-                if (mainObj == null) throw new ArgumentException($"Failed to initiate {tp.Name} from template source string! Double check if it includes its children.");
-              
+                if (mainObj == null) throw new ArgumentException($"Failed to initiate {tp.Name} from parameter source! Double check if it includes its children.");
+
                 var methodInfo = mainObj.GetType().GetMethod($"to_{tp.Name}");
                 var optionalObj = methodInfo.Invoke(mainObj, null);
 
@@ -330,15 +341,21 @@ namespace Ironbug.HVAC.BaseClass
                 var obj = getterMethodInfo.Invoke(optionalObj, null) as ModelObject;
 
                 var clonedObj = obj.clone(model);
-                obj.remove();
-                return clonedObj;
+                //obj.remove();
+                return obj;
             }
+            catch (Exception e)
+            {
 
-
+                throw e;
+            }
+         
         }
-       
 
-        
+
+
+
+
         static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
             var success = true;
@@ -391,7 +408,7 @@ namespace Ironbug.HVAC.BaseClass
 
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
-            newObj.TemplateSource = this.TemplateSource;
+            newObj.ParameterSource = this.ParameterSource;
             return newObj;
         }
 
