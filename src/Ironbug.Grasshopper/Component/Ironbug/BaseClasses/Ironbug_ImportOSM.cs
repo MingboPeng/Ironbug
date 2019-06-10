@@ -41,30 +41,38 @@ namespace Ironbug.Grasshopper.Component
             {
                 var p = OpenStudio.OpenStudioUtilitiesCore.toPath(file);
                
-                var ov = OpenStudio.IdfFile.loadVersionOnly(p);
-                if (ov.is_initialized())
-                {
-                    var v = ov.get();
+                //var ov = OpenStudio.IdfFile.loadVersionOnly(p);
+                //if (ov.is_initialized())
+                //{
+                //    var v = ov.get();
+
+                //    //var supportedVv = this.v;
+
+                //    var supportedV = OpenStudio.OpenStudioUtilitiesCore.openStudioVersion();
+
+                //    var ifNewerVersion = v.GreaterThan(new OpenStudio.VersionString(supportedV));
+                //    if (ifNewerVersion)
+                //    {
+
+                //        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Cannot open a newer version of file ({v.str()}). \r\nThis only supports up to {supportedV}!");
+                //        return;
+                //    }
+                //}
+                //else
+                //{
                     
-                    //var supportedVv = this.v;
+                //}
 
-                    var supportedV = "2.5.0";
-
-                    var ifNewerVersion = v.GreaterThan(new OpenStudio.VersionString(supportedV));
-                    if (ifNewerVersion)
-                    {
-
-                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Cannot open a newer version of file ({v.str()}). \r\nThis only supports up to {supportedV}!");
-                        return;
-                    }
-                }
-                else
+                var trans = new OpenStudio.VersionTranslator();
+                trans.setAllowNewerVersions(false);
+                var tempModel = trans.loadModel(p);
+                if (!tempModel.is_initialized())
                 {
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to open this file, and I don't know why!");
                     return;
                 }
 
-                var m = OpenStudio.Model.load(p).get();
+                var m = tempModel.get();
                 var zs = m.getThermalZones();
                 var names = zs.Select(_ => _.nameString()).ToList();
                 names.Sort();

@@ -91,6 +91,7 @@
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoadObjects.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ParameterSource.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
@@ -215,7 +216,7 @@
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardConvectiveElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACBaseboardRadiantConvectiveWater.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACEnergyRecoveryVentilator.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_ImportOSM.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ImportOSM.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACLowTempRadiantConstFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ZoneHVACPackagedTerminalAirConditioner.cs" />
