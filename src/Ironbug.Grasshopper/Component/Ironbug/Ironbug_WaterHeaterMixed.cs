@@ -20,7 +20,6 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("WaterHeaterMixed", "WaterHeater", "Connect to hot water loop's supply side.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterHeaterMixed_DeamanSide", "ToDemandSide", "Connect to other plant loop's demand side.", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -28,7 +27,6 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_WaterHeaterMixed();
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
-            DA.SetData(1, obj);
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
