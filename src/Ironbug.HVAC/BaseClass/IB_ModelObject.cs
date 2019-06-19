@@ -23,7 +23,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
-        private IList<string> ParameterSource { get; set; } = new List<string>();
+        private IList<string> RefObjects { get; set; } = new List<string>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
@@ -209,11 +209,11 @@ namespace Ironbug.HVAC.BaseClass
         //    this.SetTrackingID();
         //}
 
-        public void SetParamSource(IList<string> ParamSourceData)
+        public void SetRefObject(IList<string> RefObjectStrs)
         {
-            if (!ParamSourceData.Any()) return;
-            GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), ParamSourceData);
-            this.ParameterSource = ParamSourceData;
+            if (RefObjectStrs is null) return;
+            GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), RefObjectStrs);
+            this.RefObjects = RefObjectStrs;
         }
 
         public void SetFieldValue(IB_Field field, object value)
@@ -305,7 +305,7 @@ namespace Ironbug.HVAC.BaseClass
             ModelObject InitAndSetAttributes()
             {
 
-                var obj = this.ParameterSource.Any() ? InitFromRefObj(model, this.ParameterSource) : InitMethodHandler(model);
+                var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
@@ -403,7 +403,7 @@ namespace Ironbug.HVAC.BaseClass
 
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
-            newObj.ParameterSource = this.ParameterSource;
+            newObj.RefObjects = this.RefObjects;
             return newObj;
         }
 

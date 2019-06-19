@@ -115,7 +115,7 @@ namespace Ironbug.Grasshopper.Component
             var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>) null;
             var outputP = (List<IB_OutputVariable>)null;
-            var paramSource = new List<string>();
+            var paramSource = (List<string>)null;
 
             foreach (var ghitem in objParams)
             {
@@ -144,8 +144,9 @@ namespace Ironbug.Grasshopper.Component
                 else if (item.Value is RefObject refObj)
                 {
                     
-                    if (paramSource.Count == 0)
+                    if (paramSource is null)
                     {
+                        paramSource = new List<string>();
                         paramSource.Add(refObj.OsString);
                         paramSource.AddRange(refObj.ChildrenString);
 
@@ -159,7 +160,7 @@ namespace Ironbug.Grasshopper.Component
 
             }
 
-            IB_obj.SetParamSource(paramSource);
+            IB_obj.SetRefObject(paramSource);
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
 
