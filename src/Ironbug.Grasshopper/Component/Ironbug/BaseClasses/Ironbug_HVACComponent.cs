@@ -141,12 +141,14 @@ namespace Ironbug.Grasshopper.Component
                     }
 
                 }
-                else if (item.Value is ParamSource sourceObj)
+                else if (item.Value is RefObject refObj)
                 {
-                    if (sourceObj.SourceData.Count == 0) continue;
+                    
                     if (paramSource.Count == 0)
                     {
-                        paramSource = sourceObj.SourceData;
+                        paramSource.Add(refObj.OsString);
+                        paramSource.AddRange(refObj.ChildrenString);
+
                     }
                 }
                 else

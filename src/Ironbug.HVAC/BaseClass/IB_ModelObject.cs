@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
+using Ironbug.HVAC;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -210,7 +211,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public void SetParamSource(IList<string> ParamSourceData)
         {
-            GhostOSObject = this.InitFromParameterSource(GhostOSObject.model(), ParamSourceData);
+            GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), ParamSourceData);
             this.ParameterSource = ParamSourceData;
         }
 
@@ -303,7 +304,7 @@ namespace Ironbug.HVAC.BaseClass
             ModelObject InitAndSetAttributes()
             {
 
-                var obj = this.ParameterSource.Any() ? InitFromParameterSource(model, this.ParameterSource) : InitMethodHandler(model);
+                var obj = this.ParameterSource.Any() ? InitFromRefObj(model, this.ParameterSource) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
@@ -311,10 +312,11 @@ namespace Ironbug.HVAC.BaseClass
            
         }
 
-        ModelObject InitFromParameterSource(Model model, IList<string> ParamSource)
+        ModelObject InitFromRefObj(Model model, IList<string> ParamSource)
         {
             try
             {
+                var tempModel = new OpenStudio.Model();
                 var idfs = new IdfObjectVector();
                 var idfobjs = ParamSource
                     .Select(_ => IdfObject.load(_))
@@ -327,34 +329,26 @@ namespace Ironbug.HVAC.BaseClass
                 }
 
                 //model.addObjects(idfs,true);
-                var addedObjs = model.insertObjects(idfs);
+                var addedObjs = tempModel.insertObjects(idfs);
+                var counts = addedObjs.Count;
                 //get the main object if it has children
-                var mainObj = addedObjs.FirstOrDefault(_ => _.iddObject().name() == this.GhostOSObject.iddObject().name());
+                WorkspaceObject mainObj = addedObjs.FirstOrDefault(_ => _.iddObject().name() == this.GhostOSObject.iddObject().name());
+                ModelObject obj = mainObj.CastToOsType();
 
-                var tp = this.GhostOSObject.GetType();
-                if (mainObj == null) throw new ArgumentException($"Failed to initiate {tp.Name} from parameter source! Double check if it includes its children.");
-
-                var methodInfo = mainObj.GetType().GetMethod($"to_{tp.Name}");
-                var optionalObj = methodInfo.Invoke(mainObj, null);
-
-                var getterMethodInfo = optionalObj.GetType().GetMethod("get");
-                var obj = getterMethodInfo.Invoke(optionalObj, null) as ModelObject;
-
-                var clonedObj = obj.clone(model);
+                var clonedObj = obj.clone(model).CastToOsType();
                 //obj.remove();
-                return obj;
+                return clonedObj;
             }
             catch (Exception e)
             {
 
-                throw e;
+                throw new ArgumentException($"Error at InitFromRefObj. {e.Message}");
             }
-         
+
+
         }
 
-
-
-
+        
 
         static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
@@ -448,7 +442,16 @@ namespace Ironbug.HVAC.BaseClass
         public virtual List<string> ToStrings()
         {
             var s = new List<string>();
-            s.Add(this.GhostOSObject.__str__());
+            var selfString = this.GhostOSObject.__str__();
+            s.Add(selfString);
+
+            //if (GhostOSObject is ParentObject pObj)
+            //{
+            //    var copiedObj = pObj.clone().to_ParentObject().get();
+            //    var childrenStrs = copiedObj.children().Select(_=>_.__str__());
+            //    s.AddRange(childrenStrs);
+            //}
+
 
             var parentObj = this.Duplicate().GhostOSObject.to_ParentObject();
             if (parentObj.is_initialized())

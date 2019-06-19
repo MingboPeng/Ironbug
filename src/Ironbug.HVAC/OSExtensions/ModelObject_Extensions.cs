@@ -264,5 +264,26 @@ namespace Ironbug.HVAC
             }
         }
 
+
+        public static ModelObject CastToOsType(this IdfObject modelObject)
+        {
+            try
+            {
+                var tp = modelObject.iddObject().type().valueDescription().Replace("OS:", "").Replace(":", "");
+                if (modelObject == null) throw new ArgumentException($"Failed to initiate {tp} from parameter source! Double check if it includes its children.");
+
+                var methodInfo = modelObject.GetType().GetMethod($"to_{tp}");
+                var optionalObj = methodInfo.Invoke(modelObject, null);
+
+                var getterMethodInfo = optionalObj.GetType().GetMethod("get");
+                var obj = getterMethodInfo.Invoke(optionalObj, null) as ModelObject;
+                return obj;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+           
+        }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.IO;
 using Grasshopper.Kernel;
-using System.Linq;
 using System.Collections.Generic;
 
+using Ironbug.HVAC;
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_LoadObjects : Ironbug_Component
+    public class Ironbug_LoadRefObjects : Ironbug_Component
     {
-        public Ironbug_LoadObjects()
-          : base("Ironbug_LoadObjects", "LoadObject",
-              "Description",
+        public Ironbug_LoadRefObjects()
+          : base("Ironbug_LoadRefObjects", "LoadRefObject",
+              "Import the reference objects from osm file. Reference object can only be used for quick setting up HVAC object without specifying its parameters.",
               "Ironbug", "00:Ironbug")
         {
         }
@@ -28,7 +28,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Objects", "obj", "Todo..", GH_ParamAccess.list);
+            pManager[pManager.AddGenericParameter("Objects", "obj", "Todo..", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Flatten;
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -50,18 +50,21 @@ namespace Ironbug.Grasshopper.Component
                 }
 
                 var tp = string.Empty;
-                DA.GetData(1, ref tp);
+                DA.GetData(1, ref tp); //OS:AirConditioner:VariableRefrigerantFlow
                 var iddTp = new OpenStudio.IddObjectType(tp);
                
 
                 var m = tempModel.get();
-                //var objs = m.getObjectsByType(iddTp);
-                var objs = m.getBoilerHotWaters();
-                var osObjs = new List<OsObject>();
+                var objs = m.getObjectsByType(iddTp);
+                
+                var osObjs = new List<RefObject>();
                 foreach (var item in objs)
                 {
-                    var osObj = new OsObject(item.nameString(), item.__str__());
-                    if (item is OpenStudio.ParentObject parentObj)
+                    var osObj = new RefObject(item.nameString(), item.__str__());
+
+                    var obj = item.CastToOsType();
+                    
+                    if (obj is OpenStudio.ParentObject parentObj)
                     {
                         foreach (var child in parentObj.children())
                         {
@@ -70,7 +73,6 @@ namespace Ironbug.Grasshopper.Component
                     }
                     osObjs.Add(osObj);
                 }
-                //var children = ((OpenStudio.ParentObject)objs[0]).children().Select(_ => _.nameString());
 
                 DA.SetDataList(0, osObjs);
 

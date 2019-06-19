@@ -83,6 +83,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\RefObject.cs" />
     <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
@@ -91,8 +92,8 @@
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
-    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoadObjects.cs" />
-    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ParameterSource.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoadRefObjects.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_RefObject.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
