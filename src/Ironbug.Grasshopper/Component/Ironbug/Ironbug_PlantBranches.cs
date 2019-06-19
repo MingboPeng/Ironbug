@@ -213,7 +213,7 @@ namespace Ironbug.Grasshopper.Component
 
             Menu_AppendItem(menu, "Map branch to Loop", ChangeMapping, true, this.mapBranchToLoop)
                 .ToolTipText = "This will create a loop per input branch, items in each branch will be add to plant loop branches individually.";
-            //Menu_AppendSeparator(menu);
+            Menu_AppendSeparator(menu);
 
             base.AppendAdditionalComponentMenuItems(menu);
         }

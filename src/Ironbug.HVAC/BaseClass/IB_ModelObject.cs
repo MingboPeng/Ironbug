@@ -211,6 +211,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public void SetParamSource(IList<string> ParamSourceData)
         {
+            if (!ParamSourceData.Any()) return;
             GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), ParamSourceData);
             this.ParameterSource = ParamSourceData;
         }

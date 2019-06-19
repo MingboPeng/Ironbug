@@ -335,13 +335,15 @@ namespace Ironbug.Grasshopper.Component
 
             //Add new Param
             IGH_Param newParam = new Param_GenericObject();
+            if (field.DataType == typeof(int)) newParam = new Param_Integer();
             if (field.DataType == typeof(string)) newParam = new Param_String();
             if (field.DataType == typeof(double)) newParam = new Param_Number();
             if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
+            
 
             newParam.Name = field.FullName;
             newParam.NickName = field.NickName;
-            newParam.Description = field.Description;
+            newParam.Description = $"Data type: {field.DataType.Name}\n\n{field.Description}";
             newParam.MutableNickName = false;
             newParam.Access = GH_ParamAccess.item;
             newParam.Optional = true;
