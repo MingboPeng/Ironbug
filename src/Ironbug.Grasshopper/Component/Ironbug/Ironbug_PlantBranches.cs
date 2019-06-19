@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Parameters;
@@ -11,6 +12,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_PlantBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
+        private bool mapBranchToLoop = false;
         public Ironbug_PlantBranches()
           : base("PlantBranches", "PlantBranches",
                "Description",
@@ -30,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("PlantLoopBranches", "Branches", "use this in plantloop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("PlantLoopBranches", "Branches", "use this in plantloop", GH_ParamAccess.tree);
         }
 
         
@@ -40,7 +42,7 @@ namespace Ironbug.Grasshopper.Component
             var branches = this.CollectBranches();
             this.Message = this.CountBranches(branches);
 
-            DA.SetData(0, branches);
+            DA.SetDataTree(0, branches);
 
         }
 
@@ -88,60 +90,30 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid => new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c");
 
 
-        public List<List<IB_HVACObject>> MapToLoopBranches(GH_Structure<IGH_Goo> ghTrees)
-        {
-            var loopBranches = new List<List<IB_HVACObject>>();
+        
 
-            var ghBranches = ghTrees.Branches;
-            
-            var converter = new Converter<IGH_Goo, IB_HVACObject>((_) => (IB_HVACObject)((GH_ObjectWrapper)_).Value);
-
-            if (ghBranches.Count > 0)
-            {
-                foreach (var ghBranch in ghBranches)
-                {
-                    var branchItems = ghBranch.ConvertAll(converter);
-                    if (branchItems.Any(_=>_ is HVAC.IB_Probe))
-                    {
-                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Probe cannot be added in PlantBranch yet! Stay tuned!");
-                    }
-                    else
-                    {
-                        loopBranches.Add(branchItems);
-                    }
-                }
-
-                
-            }
-            else
-            {
-                
-                
-            }
-
-
-
-            return loopBranches;
-        }
-
-        private string CountBranches(HVAC.IB_PlantLoopBranches branches)
+        private string CountBranches(DataTree<HVAC.IB_PlantLoopBranches> TreeLoops)
         {
             string messages = string.Empty;
-            var b = branches.Branches.Count;
+            if (TreeLoops.DataCount == 0) return messages;
 
-            if (b > 0)
+            var totalB = 0;
+
+            foreach (var loop in TreeLoops.Branches)
             {
-                messages = $"{b} branches";
+                totalB += loop.First().Branches.Count;
             }
+
+            if (totalB > 0) messages = $"{totalB} branches";
+            if (TreeLoops.BranchCount > 1) messages += $"/{TreeLoops.BranchCount} Loops";
 
             return messages;
 
         }
 
-        private HVAC.IB_PlantLoopBranches CollectBranches()
+        private DataTree<HVAC.IB_PlantLoopBranches> CollectBranches()
         {
-
-            var branches = new HVAC.IB_PlantLoopBranches();
+            DataTree<HVAC.IB_PlantLoopBranches> treeLoops = new DataTree<HVAC.IB_PlantLoopBranches>();
 
             var allParams = this.Params.Input;
             foreach (var param in allParams)
@@ -155,19 +127,53 @@ namespace Ironbug.Grasshopper.Component
                 
                 if (!param.VolatileData.IsEmpty)
                 {
-                    tree = MapToLoopBranches((GH_Structure<IGH_Goo>)param.VolatileData);
+                    treeLoops = MapBranchToBranch((GH_Structure<IGH_Goo>)param.VolatileData);
                 }
-
-                foreach (var branch in tree)
-                {
-                    branches.Add(branch);
-                }
-                
 
             }
-            
 
-            return branches;
+            return treeLoops;
+
+            DataTree<HVAC.IB_PlantLoopBranches> MapBranchToBranch(GH_Structure<IGH_Goo> ghTrees)
+            {
+                DataTree<HVAC.IB_PlantLoopBranches> loops = new DataTree<HVAC.IB_PlantLoopBranches>();
+                var tempLoop = new HVAC.IB_PlantLoopBranches();
+
+                var ghBranches = ghTrees.Branches;
+                var converter = new Converter<IGH_Goo, IB_HVACObject>((_) => (IB_HVACObject)((GH_ObjectWrapper)_).Value);
+                int index = 0;
+                foreach (var ghBranch in ghBranches)
+                {
+                    var branchItems = ghBranch.ConvertAll(converter);
+                    if (branchItems.Any(_ => _ is HVAC.IB_Probe))
+                    {
+                        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Probe cannot be added in PlantBranch yet! Stay tuned!");
+                    }
+                    else if (this.mapBranchToLoop)
+                    {
+                        var loop = new HVAC.IB_PlantLoopBranches();
+                        foreach (var item in branchItems)
+                        {
+                            loop.Add(new List<IB_HVACObject>() { item });
+                        }
+                        loops.Add(loop, new GH_Path(index));
+                        index++;
+                    }
+                    else
+                    {
+                        tempLoop.Add(branchItems);
+                    }
+                }
+
+                if (!this.mapBranchToLoop)
+                {
+                    loops.Add(tempLoop, new GH_Path(index));
+                }
+
+
+
+                return loops;
+            }
         }
 
         private void ParamSourcesChanged(Object sender, GH_ParamServerEventArgs e)
@@ -188,5 +194,34 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
+        public override bool Write(GH_IO.Serialization.GH_IWriter writer)
+        {
+            writer.SetBoolean("mapBranchToLoop", mapBranchToLoop);
+            return base.Write(writer);
+        }
+        public override bool Read(GH_IO.Serialization.GH_IReader reader)
+        {
+            if (reader.ItemExists("mapBranchToLoop"))
+            {
+                mapBranchToLoop = reader.GetBoolean("mapBranchToLoop");
+            }
+            return base.Read(reader);
+        }
+
+        protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
+        {
+
+            Menu_AppendItem(menu, "Map branch to Loop", ChangeMapping, true, this.mapBranchToLoop)
+                .ToolTipText = "This will create a loop per input branch, items in each branch will be add to plant loop branches individually.";
+            //Menu_AppendSeparator(menu);
+
+            base.AppendAdditionalComponentMenuItems(menu);
+        }
+
+        private void ChangeMapping(object sender, EventArgs e)
+        {
+            this.mapBranchToLoop = !this.mapBranchToLoop;
+            this.ExpireSolution(true);
+        }
     }
 }

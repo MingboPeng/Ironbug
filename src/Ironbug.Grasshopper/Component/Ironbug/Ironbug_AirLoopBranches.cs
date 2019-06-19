@@ -90,20 +90,20 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid => new Guid("cdfeb7d7-63cc-4e0a-b77b-553026f30803");
 
 
-        private string CountBranches(DataTree<IB_AirLoopBranches> loops)
+        private string CountBranches(DataTree<IB_AirLoopBranches> TreeLoops)
         {
             string messages = string.Empty;
-            if (loops.DataCount == 0) return messages;
+            if (TreeLoops.DataCount == 0) return messages;
 
             var totalB = 0;
 
-            foreach (var tree in loops.Branches)
+            foreach (var loop in TreeLoops.Branches)
             {
-                totalB += tree.First().Branches.Count;
+                totalB += loop.First().Branches.Count;
             }
             
             if (totalB > 0) messages = $"{totalB} branches";
-            if (loops.BranchCount>1) messages += $"/{loops.BranchCount} Loops";
+            if (TreeLoops.BranchCount>1) messages += $"/{TreeLoops.BranchCount} Loops";
 
             return messages;
 

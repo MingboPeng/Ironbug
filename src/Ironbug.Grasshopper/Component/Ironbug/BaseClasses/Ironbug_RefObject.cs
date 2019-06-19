@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         public Ironbug_RefObject()
-          : base("Ironbug_RefObject", "RefObj",
+          : base("Ironbug_RefObject(WIP)", "RefObj",
               "Description",
               "Ironbug", "00:Ironbug")
         {

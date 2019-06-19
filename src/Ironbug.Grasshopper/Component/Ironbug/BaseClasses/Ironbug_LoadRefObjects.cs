@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_LoadRefObjects : Ironbug_Component
     {
         public Ironbug_LoadRefObjects()
-          : base("Ironbug_LoadRefObjects", "LoadRefObject",
+          : base("Ironbug_LoadRefObjects(WIP)", "LoadRefObject",
               "Import the reference objects from osm file. Reference object can only be used for quick setting up HVAC object without specifying its parameters.",
               "Ironbug", "00:Ironbug")
         {
