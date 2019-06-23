@@ -75,6 +75,10 @@
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeCoolerIndirectResearchSpecial.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeCoolerDirectResearchSpecial.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeFluidCoolerTwoSpeed.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeFluidCoolerSingleSpeed.cs" />
     <Compile Include="LoopObjs\IB_HeatPumpWaterToWaterEquationFitHeating.cs" />
     <Compile Include="LoopObjs\IB_HeatPumpWaterToWaterEquationFitCooling.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
