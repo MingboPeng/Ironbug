@@ -127,21 +127,22 @@ namespace Ironbug.Grasshopper.Component
                 
                 if (!param.VolatileData.IsEmpty)
                 {
-                    treeLoops = MapBranchToBranch((GH_Structure<IGH_Goo>)param.VolatileData);
+                    MapBranchToBranch(ref treeLoops, (GH_Structure<IGH_Goo>)param.VolatileData);
+                    
                 }
 
             }
 
             return treeLoops;
 
-            DataTree<HVAC.IB_PlantLoopBranches> MapBranchToBranch(GH_Structure<IGH_Goo> ghTrees)
+            void MapBranchToBranch(ref DataTree<HVAC.IB_PlantLoopBranches> loops, GH_Structure< IGH_Goo> ghTrees)
             {
-                DataTree<HVAC.IB_PlantLoopBranches> loops = new DataTree<HVAC.IB_PlantLoopBranches>();
-                var tempLoop = new HVAC.IB_PlantLoopBranches();
+                //DataTree<HVAC.IB_PlantLoopBranches> loops = new DataTree<HVAC.IB_PlantLoopBranches>();
+                //var tempLoop = new HVAC.IB_PlantLoopBranches();
 
                 var ghBranches = ghTrees.Branches;
                 var converter = new Converter<IGH_Goo, IB_HVACObject>((_) => (IB_HVACObject)((GH_ObjectWrapper)_).Value);
-                int index = 0;
+                int index = loops.BranchCount;
                 foreach (var ghBranch in ghBranches)
                 {
                     var branchItems = ghBranch.ConvertAll(converter);
@@ -161,18 +162,23 @@ namespace Ironbug.Grasshopper.Component
                     }
                     else
                     {
-                        tempLoop.Add(branchItems);
+                        if (loops.BranchCount ==0)
+                        {
+                            loops.Add(new HVAC.IB_PlantLoopBranches());
+                        }
+                        loops.Branch(0)[0].Add(branchItems);
+                        //tempLoop.Add(branchItems);
                     }
                 }
 
-                if (!this.mapBranchToLoop)
-                {
-                    loops.Add(tempLoop, new GH_Path(index));
-                }
+                //if (!this.mapBranchToLoop)
+                //{
+                //    loops.Add(tempLoop, new GH_Path(index));
+                //}
 
 
 
-                return loops;
+                //return loops;
             }
         }
 
