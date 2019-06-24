@@ -550,4 +550,16 @@
   <data name="UnitarySys" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\UnitarySys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="EvapCoolerDir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EvapCoolerDir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EvapCoolerIndir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EvapCoolerIndir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FluidCooler1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluidCooler1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FluidCooler2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluidCooler2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

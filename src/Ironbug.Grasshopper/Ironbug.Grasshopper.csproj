@@ -105,6 +105,10 @@
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerIndirectResearchSpecial.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerDirectResearchSpecial.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_EvaporativeFluidCoolerTwoSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_EvaporativeFluidCoolerSingleSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
@@ -709,6 +713,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UnitarySys.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EvapCoolerIndir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FluidCooler1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FluidCooler2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\EvapCoolerDir.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

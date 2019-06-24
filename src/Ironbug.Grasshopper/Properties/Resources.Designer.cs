@@ -643,6 +643,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap EvapCoolerDir {
+            get {
+                object obj = ResourceManager.GetObject("EvapCoolerDir", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EvapCoolerIndir {
+            get {
+                object obj = ResourceManager.GetObject("EvapCoolerIndir", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap exFan {
             get {
                 object obj = ResourceManager.GetObject("exFan", resourceCulture);
@@ -676,6 +696,26 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap FanV {
             get {
                 object obj = ResourceManager.GetObject("FanV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FluidCooler1 {
+            get {
+                object obj = ResourceManager.GetObject("FluidCooler1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FluidCooler2 {
+            get {
+                object obj = ResourceManager.GetObject("FluidCooler2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
