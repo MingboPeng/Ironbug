@@ -33,8 +33,8 @@ namespace Ironbug.HVAC.BaseClass
                                 paramType == typeof(double) ||
                                 paramType == typeof(bool) ||
                                 paramType == typeof(int) ||
-                                paramType.BaseType == typeof(Curve) ||
-                                paramType.BaseType == typeof(Schedule);
+                                typeof(Curve).IsAssignableFrom(paramType) ||
+                                typeof(Schedule).IsAssignableFrom(paramType);
 
                                 //if (!isValidType) return false;
 
