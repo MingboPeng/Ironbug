@@ -1,4 +1,5 @@
-﻿using Grasshopper.Kernel;
+﻿using GH_IO.Serialization;
+using Grasshopper.Kernel;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,11 +11,13 @@ namespace Ironbug.Grasshopper.Component
     {
 
         public static int DisplayMode = 1;
+        public string InstanceVersion = string.Empty;
 
         public Ironbug_Component(string name, string nickname, string description, string category, string subCategory)
             : base(name, nickname, description, category, subCategory)
         {
             this.IconDisplayMode = DisplayMode == 0 ? GH_IconDisplayMode.application : GH_IconDisplayMode.icon;
+            this.InstanceVersion = IronbugInfo.version;
         }
         public override void CreateAttributes()
         {
@@ -35,7 +38,7 @@ namespace Ironbug.Grasshopper.Component
             Menu_AppendItem(t.DropDown, "Icon + FullName", SetMode2, true, DisplayMode == 2);
             menu.Items.Add(t);
             
-            Menu_AppendItem(menu, $"VER {IronbugInfo.version}").ToolTipText= "Source: https://github.com/MingboPeng/Ironbug";
+            Menu_AppendItem(menu, $"VER {InstanceVersion}").ToolTipText= "Source: https://github.com/MingboPeng/Ironbug";
         }
 
         private void SetMode0(object sender, EventArgs e)
@@ -66,6 +69,27 @@ namespace Ironbug.Grasshopper.Component
             GH.Instances.RedrawCanvas();
 
 
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetString("InstanceVersion", InstanceVersion);
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("InstanceVersion"))
+            {
+                InstanceVersion = reader.GetString("InstanceVersion");
+            }
+            else
+            {
+                InstanceVersion = "[unknown version]";
+            }
+                
+
+            return base.Read(reader);
         }
     }
 }
