@@ -14,9 +14,10 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary | GH_Exposure.obscure;
-        
-        
+        public override GH_Exposure Exposure => GH_Exposure.quarternary | GH_Exposure.obscure ;
+
+        public override bool Obsolete => true;
+
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Cooling Capacity Function of Temperature Curve", "CCFofT", 
@@ -39,6 +40,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "The basic ChillerElectricEIR now supports setting up the performance curves, please use the basic version instead!\nThis component will be removed in the future version.");
             IB_CurveBiquadratic CCFofT = null;
             IB_CurveBiquadratic EItoCORFofT = null;
             IB_CurveQuadratic EItoCORFofPLR = null;

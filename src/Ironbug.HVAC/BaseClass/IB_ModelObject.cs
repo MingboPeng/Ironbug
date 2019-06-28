@@ -256,7 +256,7 @@ namespace Ironbug.HVAC.BaseClass
                 catch (Exception)
                 {
 
-                    throw;
+                    throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or typo!");
                 }
             }
             
