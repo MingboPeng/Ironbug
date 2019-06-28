@@ -44,6 +44,12 @@ namespace Ironbug.Grasshopper.Component
             int fontWidth = GH_FontServer.StringWidth(name, standardFontAdjust);
             int recWidth = (int)bounds.Width - 6;
 
+            if (recWidth< fontWidth)
+            {
+                standardFontAdjust = GH_FontServer.NewFont(GH_FontServer.Standard, sz* recWidth/fontWidth);
+                fontWidth = GH_FontServer.StringWidth(name, standardFontAdjust);
+            }
+
             recWidth = System.Math.Max(fontWidth + 4, recWidth);
 
             var rec = new Rectangle((int)(bounds.X+(bounds.Width/2-recWidth/2)), (int)bounds.Y-15, recWidth, 15);

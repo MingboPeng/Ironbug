@@ -410,7 +410,7 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
         {
-            if (this.IsMasterSetting && side == GH_ParameterSide.Input)
+            if (side == GH_ParameterSide.Input)
             {
                 return true;
             }
