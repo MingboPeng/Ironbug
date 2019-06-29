@@ -71,6 +71,7 @@
     </Reference>
     <Reference Include="OpenStudio">
       <HintPath>C:\openstudio-2.8.1\CSharp\openstudio\OpenStudio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RhinoCommon.5.12.50810.13095\lib\net35\RhinoCommon.dll</HintPath>

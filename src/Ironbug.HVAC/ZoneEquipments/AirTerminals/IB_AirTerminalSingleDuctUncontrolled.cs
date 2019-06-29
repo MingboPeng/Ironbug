@@ -23,12 +23,14 @@ namespace Ironbug.HVAC
 
             if (isOldVersion)
             {
-                return typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctUncontrolled");
+                _refOsType = typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctUncontrolled");
+                
             }
             else
             {
-                return typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctConstantVolumeNoReheat");
+                _refOsType = typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctConstantVolumeNoReheat");
             }
+            return _refOsType;
 
         }
         
@@ -55,7 +57,7 @@ namespace Ironbug.HVAC
 
 
     public sealed class IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet
-        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet, AirTerminalSingleDuctConstantVolumeNoReheat>
+        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet>
     {
         internal override Type RefOpsType => IB_AirTerminalSingleDuctConstantVolumeNoReheat.GetRefOsType();
         internal override Type RefEpType => RefOpsType;
