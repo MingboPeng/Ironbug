@@ -8,7 +8,7 @@ namespace Ironbug.Core.OpenStudio
 {
     public static class OpenStudioHelper
     {
-        public static string SupportedVersion { get; set; } = "2.5.0";
+        public static string SupportedVersion { get; set; } = "2.8.1";
 
         public static bool LoadAssemblies(Action<string> MessageLogger)
         {

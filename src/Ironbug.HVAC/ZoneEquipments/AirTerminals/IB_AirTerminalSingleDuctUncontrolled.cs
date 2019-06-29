@@ -1,19 +1,47 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using System;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirTerminalSingleDuctUncontrolled: IB_AirTerminal
+    public class IB_AirTerminalSingleDuctConstantVolumeNoReheat: IB_AirTerminal
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctUncontrolled();
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
 
-        private static AirTerminalSingleDuctUncontrolled NewDefaultOpsObj(Model model) => new AirTerminalSingleDuctUncontrolled(model,model.alwaysOnDiscreteSchedule());
+        private static Type _refOsType;
+       
+        public static Type GetRefOsType()
+        {
+            if (_refOsType != null) return _refOsType;
 
-        public IB_AirTerminalSingleDuctUncontrolled():base(NewDefaultOpsObj(new Model()))
+            var v0 = typeof(Model).Assembly.GetName().Version;
+            var v1 = new System.Version("2.7.0");
+            var isOldVersion = v0.CompareTo(v1) < 0;
+            //AirTerminalSingleDuctUncontrolled
+            //AirTerminalSingleDuctConstantVolumeNoReheat
+
+            if (isOldVersion)
+            {
+                return typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctUncontrolled");
+            }
+            else
+            {
+                return typeof(Model).Assembly.GetType("OpenStudio.AirTerminalSingleDuctConstantVolumeNoReheat");
+            }
+
+        }
+        
+        private static StraightComponent NewDefaultOpsObj(Model model) {
+            
+            var tp = GetRefOsType();
+
+            var instance = (StraightComponent)Activator.CreateInstance(tp, new Object[] { model, model.alwaysOnDiscreteSchedule()});
+            return instance;
+          
+        } 
+
+        public IB_AirTerminalSingleDuctConstantVolumeNoReheat():base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -25,10 +53,13 @@ namespace Ironbug.HVAC
         
     }
 
-    public sealed class IB_AirTerminalSingleDuctUncontrolled_FieldSet
-        : IB_FieldSet<IB_AirTerminalSingleDuctUncontrolled_FieldSet, AirTerminalSingleDuctUncontrolled>
+
+    public sealed class IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet
+        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet, AirTerminalSingleDuctConstantVolumeNoReheat>
     {
-        private IB_AirTerminalSingleDuctUncontrolled_FieldSet() { }
+        internal override Type RefOpsType => IB_AirTerminalSingleDuctConstantVolumeNoReheat.GetRefOsType();
+        internal override Type RefEpType => RefOpsType;
+        private IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet() { }
 
     }
 

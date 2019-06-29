@@ -29,10 +29,31 @@ namespace Ironbug.HVAC.BaseClass
         internal override Type RefOpsType => typeof(K);
         internal override Type RefEpType => typeof(K);
 
-        protected IB_FieldSet():base()
+        protected IB_FieldSet() : base()
         {
 
         }
     }
-    
+
+    //public abstract class IB_FieldSetT<T, K> : IB_FieldSet
+    //   where T : IB_FieldSetT<T, K>
+    //   where K : Type
+    //{
+    //    private static readonly Lazy<T> instance = new Lazy<T>(() => Activator.CreateInstance(typeof(T), true) as T);
+
+
+    //    /// <summary>
+    //    /// Value contains a single instance.
+    //    /// </summary>
+    //    public static T Value { get { return instance.Value; } }
+
+    //    internal override Type RefOpsType => K;
+    //    internal override Type RefEpType => k;
+
+    //    protected IB_FieldSet() : base()
+    //    {
+
+    //    }
+    //}
+
 }

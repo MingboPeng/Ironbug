@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_AirTerminalSingleDuctUncontrolled", "Diffuser",
               "Description",
               "Ironbug", "03:AirTerminals",
-              typeof(IB_AirTerminalSingleDuctUncontrolled_FieldSet))
+              typeof(IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet))
         {
         }
 
@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new IB_AirTerminalSingleDuctUncontrolled();
+            var obj = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
             
             
             this.SetObjParamsTo(obj);

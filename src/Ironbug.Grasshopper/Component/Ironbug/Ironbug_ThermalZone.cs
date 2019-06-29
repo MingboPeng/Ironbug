@@ -139,7 +139,7 @@ namespace Ironbug.Grasshopper.Component
             else
             {
                 //set the default one
-                OSZones.ForEach(_ => _.SetAirTerminal(new IB_AirTerminalSingleDuctUncontrolled()));
+                OSZones.ForEach(_ => _.SetAirTerminal(new IB_AirTerminalSingleDuctConstantVolumeNoReheat()));
             }
             
             

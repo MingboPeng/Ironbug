@@ -52,7 +52,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenStudio">
-      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
+      <HintPath>C:\openstudio-2.8.1\CSharp\openstudio\OpenStudio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
