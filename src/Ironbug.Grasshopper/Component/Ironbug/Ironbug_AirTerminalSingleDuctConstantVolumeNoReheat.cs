@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
         
         public Ironbug_AirTerminalSingleDuctUncontrolled()
-          : base("Ironbug_AirTerminalSingleDuctUncontrolled", "Diffuser",
+          : base("Ironbug_AirTerminalSingleDuctConstantVolumeNoReheat", "Diffuser",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet))
@@ -25,13 +25,12 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirTerminalSingleDuctUncontrolled", "AT", "connect to Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AirTerminalSingleDuctConstantVolumeNoReheat", "AT", "connect to Zone", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
-            
             
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

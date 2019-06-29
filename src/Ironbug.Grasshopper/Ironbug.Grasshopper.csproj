@@ -143,7 +143,7 @@
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctSeriesPIUReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVNoReheat.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctUncontrolled.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeNoReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDesuperheater.cs" />

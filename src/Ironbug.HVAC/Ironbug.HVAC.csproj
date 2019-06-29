@@ -140,6 +140,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctInletSideMixer.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeNoReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="LoopObjs\IB_AirLoopHVACUnitarySystem.cs" />
@@ -214,7 +215,6 @@
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingOnly.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />
-    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="LoopObjs\IB_BoilerHotWater.cs" />
     <Compile Include="LoopObjs\IB_ControllerOutdoorAir.cs" />
     <Compile Include="LoopObjs\IB_FanConstantVolume.cs" />
