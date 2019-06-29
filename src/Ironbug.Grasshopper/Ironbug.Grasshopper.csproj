@@ -112,6 +112,7 @@
     <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitHeating.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleTypeLimits.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleRule.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerMultiZoneHeatingAverage.cs" />
@@ -200,7 +201,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PumpVariableSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PumpConstantSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACSystem.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_SaveOSModel_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerFollowOutdoorAirTemperature.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerOutdoorAirReset.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerScheduledDualSetpoint.cs" />
