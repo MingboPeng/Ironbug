@@ -60,7 +60,9 @@ namespace Ironbug.Grasshopper.Component
                 var values = ghObjs.Select(_ => Double.Parse(_.Value.ToString())).ToList();
                 if (values.Count == 1)
                 {
-                    DA.SetData(0, new HVAC.Schedules.IB_ScheduleRuleset(values[0]));
+                    sch = new HVAC.Schedules.IB_ScheduleRuleset(values[0]);
+                    sch.SetFieldValues(objAttris);
+                    DA.SetData(0, sch);
                     return;
                 }
 
