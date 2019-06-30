@@ -113,6 +113,7 @@
     <Compile Include="Component\Ironbug\Ironbug_HumidifierSteamElectric.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Probe.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SaveOSModel.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_ScheduleFile.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleTypeLimits.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ScheduleRule.cs" />
     <Compile Include="Component\Ironbug\Ironbug_SetpointManagerMultiZoneHeatingAverage.cs" />

@@ -1,0 +1,76 @@
+﻿using Ironbug.HVAC.BaseClass;
+using OpenStudio;
+using System;
+using System.IO;
+
+namespace Ironbug.HVAC.Schedules
+{
+    public class IB_ScheduleFile : IB_Schedule
+    {
+        protected override Func<IB_ModelObject> IB_InitSelf
+            => () => new IB_ScheduleFile(this._FilePath);
+
+        private static Type _refOsType;
+
+        public static Type GetRefOsType()
+        {
+            if (_refOsType != null) return _refOsType;
+
+            var v0 = typeof(Model).Assembly.GetName().Version;
+            var v1 = new System.Version("2.8.0");
+            var isOldVersion = v0.CompareTo(v1) < 0;
+
+            if (!isOldVersion)
+            {
+                _refOsType = typeof(Model).Assembly.GetType("OpenStudio.ScheduleFile");
+                return _refOsType;
+            }
+            else
+            {
+                throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
+            }
+            
+        }
+        private static ScheduleFile InitMethod(Model model, string path)
+        {
+            var extFile = ExternalFile.getExternalFile(model, path);
+            if (extFile.is_initialized())
+            {
+                var obj = new ScheduleFile(extFile.get());
+                return obj;
+            }
+            throw new ArgumentException("Invalid file path!");
+        }
+        //private static ScheduleInterval InitMethod(Model model, string path)
+        //    => (ScheduleInterval)Activator.CreateInstance(GetRefOsType(), new Object[] { ExternalFile.getExternalFile(model, path).get() }); 
+
+        private string _FilePath;
+
+        public IB_ScheduleFile(string FilePath) : base(InitMethod(new Model(), FilePath))
+        {
+            if (!File.Exists(FilePath))
+            {
+                throw new ArgumentException($"{this._FilePath} does not exit!");
+            }
+            this._FilePath = FilePath;
+        }
+
+        
+        public override ModelObject ToOS(Model model)
+        {
+            return base.OnNewOpsObj((m)=>new ScheduleFile(ExternalFile.getExternalFile(m, this._FilePath).get()), model);
+
+        }
+
+        
+    }
+    public sealed class IB_ScheduleFile_FieldSet
+    : IB_FieldSet<IB_ScheduleFile_FieldSet>
+    {
+        internal override Type RefOpsType => IB_ScheduleFile.GetRefOsType();
+        internal override Type RefEpType => RefOpsType;
+
+        private IB_ScheduleFile_FieldSet() { }
+
+    }
+}
