@@ -126,6 +126,7 @@
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="BaseClass\IB_Schedule.cs" />
     <Compile Include="Schedules\IB_ScheduleDay.cs" />
+    <Compile Include="Schedules\IB_ScheduleRule - Copy.cs" />
     <Compile Include="Schedules\IB_ScheduleTypeLimits.cs" />
     <Compile Include="Schedules\IB_ScheduleRule.cs" />
     <Compile Include="Schedules\IB_ScheduleRuleset.cs" />

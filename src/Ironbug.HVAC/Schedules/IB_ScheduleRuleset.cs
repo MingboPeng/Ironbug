@@ -15,7 +15,7 @@ namespace Ironbug.HVAC.Schedules
         private static ScheduleRuleset InitMethod(Model model)
             => new ScheduleRuleset(model);
 
-        public IB_ScheduleDay ScheduleTypeLimits => this.Children.Get<IB_ScheduleDay>();
+        //public IB_ScheduleDay ScheduleTypeLimits => this.Children.Get<IB_ScheduleDay>();
 
         private List<IB_ScheduleRule> Rules { get; set; } = new List<IB_ScheduleRule>();
         public IB_ScheduleRuleset() : base(InitMethod(new Model()))
