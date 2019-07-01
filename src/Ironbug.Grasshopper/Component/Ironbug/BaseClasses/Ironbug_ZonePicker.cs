@@ -111,10 +111,11 @@ namespace Ironbug.Grasshopper.Component
             var selectedZones = new List<GH_Brep>();
             foreach (var item in allBps)
             {
-                ((IGH_GeometricGoo)item).LoadGeometry();
+                var sBp = item.DuplicateBrep();
+                //((IGH_GeometricGoo)item).LoadGeometry();
                 foreach (var b in outBx)
                 {
-                    var inz = b.Value.GetBoundingBox(false).Contains(item.Value.GetBoundingBox(false).Center);
+                    var inz = b.Value.GetBoundingBox(false).Contains(sBp.Value.GetBoundingBox(false).Center);
                     if (inz)
                     {
                         selectedZones.Add(item);
@@ -173,13 +174,15 @@ namespace Ironbug.Grasshopper.Component
             doc.Views.Redraw();
 
             GH.Instances.DocumentEditor.FadeOut();
+            //GH.Instances.DocumentEditor.lo
             var a = GH.Getters.GH_BrepGetter.GetBreps();
             GH.Instances.DocumentEditor.FadeIn();
 
             var outBx2 = new List<GH_Brep>();
             var scopeParm = this.Params.Input[1] as GH.Kernel.GH_PersistentGeometryParam<GH.Kernel.Types.GH_Brep>;
             scopeParm.ClearData();
-
+            scopeParm.PersistentData.Clear();
+            //scopeParm.SetPersistentData(a);
             foreach (var item in a)
             {
                 ((IGH_GeometricGoo)item).LoadGeometry();
@@ -189,15 +192,18 @@ namespace Ironbug.Grasshopper.Component
                 outBx2.Add(newitem);
                 //outBx.Add(new3);
             }
+            
             //scopeParm.ExpireSolution(false);
             scopeParm.CollectData();
             
             var selectedZones = GetZoneFromNode(allBps, outBx2);
             
             var outParm = this.Params.Output[0] as GH.Kernel.GH_PersistentGeometryParam<GH.Kernel.Types.GH_Brep>;
-            outParm.ClearData();
-            outParm.PersistentData.AppendRange(selectedZones);
+            outParm.PersistentData.Clear();
+            outParm.SetPersistentData(selectedZones);
+            //outParm.PersistentData.AppendRange(selectedZones);
             outParm.CollectData();
+            outParm.ComputeData();
             //outParm.AddVolatileDataList(new GH.Kernel.Data.GH_Path(), selectedZones);
             doc.Objects.Delete(nodeIds, true);
             //return selectedZones;
