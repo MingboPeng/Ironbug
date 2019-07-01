@@ -119,10 +119,10 @@ namespace Ironbug.Grasshopper.Component
                 menu.Items.Add(menuItem);
                 count++;
             }
-            
-            
-        }
+            templateMenu = newMenu;
 
+        }
+        ToolStripDropDown templateMenu;
         private ToolStripMenuItem addFromFolder(string rootFolder , List<string> filesPerFolder)
         {
             var folderName = new DirectoryInfo(rootFolder).Name;
@@ -145,13 +145,15 @@ namespace Ironbug.Grasshopper.Component
 
                 Menu_AppendItem(t.DropDown, showName, ev, null, item);
             }
-
+           
             return t;
         }
 
         public override void CreateAttributes()
         {
             var att = new IB_ComponentButtonAttributes(this);
+            att.ButtonText = "Pick a system";
+            att.MouseDownEvent += (object loc) => this.templateMenu.Show((GH.GUI.Canvas.GH_Canvas)loc,(loc as GH.GUI.Canvas.GH_Canvas).CursorControlPosition);
             this.Attributes = att;
 
         }

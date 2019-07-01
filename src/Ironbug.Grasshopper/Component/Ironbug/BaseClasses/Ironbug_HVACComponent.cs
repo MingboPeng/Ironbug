@@ -119,7 +119,7 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var ghitem in objParams)
             {
-               
+                if (ghitem == null) continue;
                 var item = ghitem as GH_ObjectWrapper;
                 if (item == null)
                     throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
