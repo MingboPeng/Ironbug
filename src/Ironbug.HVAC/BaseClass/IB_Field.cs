@@ -28,8 +28,8 @@ namespace Ironbug.HVAC.BaseClass
         ////Description added manually
         public string DetailedDescription { get; set; }
 
-        //public string Unit { get; set; }
-        
+        public string UnitSI { get; set; }
+        public string UnitIP { get; set; }
         internal IB_Field(MethodInfo opsSetterMethod)
             : this(opsSetterMethod.Name.Substring(3), string.Empty)
         {
@@ -78,8 +78,8 @@ namespace Ironbug.HVAC.BaseClass
 
 
             //var description = prop.note;
-            var description = GetDefaultFromIDD(prop);
-            description += GetUnitsFromIDD(field);
+            var description = GetUnitsFromIDD(field);
+            description += GetDefaultFromIDD(prop);
             description += validDataStr;
 
             this.Description = description;
@@ -117,15 +117,17 @@ namespace Ironbug.HVAC.BaseClass
                 var numDef = properties.numericDefault;
                 var strDef = properties.stringDefault;
 
-
-                var strTobeShown =
-                    strDef.isNull() ?
-                    numDef.isNull() ? string.Empty : numDef.get().ToString() :
+                
+                var strTobeShown = strDef.isNull() ? 
+                    numDef.isNull() ? 
+                    string.Empty : numDef.get().ToString() : 
                     strDef.get();
 
+          
                 if (!string.IsNullOrWhiteSpace(strTobeShown))
                 {
-                    return "\r\nDefault: " + strTobeShown;
+                    var unit = string.IsNullOrWhiteSpace(this.UnitSI) ? string.Empty : $"[{this.UnitSI}]";
+                    return $"\r\nDefault: {strTobeShown} {unit}";
                 }
                 else
                 {
@@ -136,20 +138,42 @@ namespace Ironbug.HVAC.BaseClass
 
             string GetUnitsFromIDD(IddField f)
             {
-                var unit = f.getUnits();
-
-                var strTobeShown = unit.isNull() ? string.Empty : unit.get().standardString();
-                var prettyStr = unit.isNull() ? string.Empty : unit.get().prettyString();
-
-
-                if (!string.IsNullOrWhiteSpace(prettyStr))
+                if (!f.IsRealType())
                 {
-                    return "\r\nUnit: " + prettyStr;
+                    return string.Empty;
+                }
+                var unit = f.getUnits();
+                var unitIP = f.getUnits(true);
+                if (unit.isNull())
+                {
+                    return string.Empty;
+                }
+
+                var strTobeShown = unit.get().standardString();
+                var prettyStr =unit.get().prettyString();
+
+                var strTobeShownIP = unitIP.get().standardString();
+                var prettyStrIP = unitIP.get().prettyString();
+
+                this.UnitSI = string.IsNullOrEmpty(prettyStr) ? strTobeShown : prettyStr;
+                this.UnitIP = string.IsNullOrEmpty(prettyStrIP) ? strTobeShownIP : prettyStrIP;
+                this.UnitIP = string.IsNullOrEmpty(UnitIP) ? UnitSI : UnitIP;
+
+                if (string.IsNullOrEmpty(UnitSI))
+                {
+                    return string.Empty;
+                }
+                else if (UnitSI == UnitIP)
+                {
+                    return $"\r\nUnit: {UnitSI}";
                 }
                 else
                 {
-                    return strTobeShown;
+                    return $"\r\nUnit: {UnitSI} [IP: {UnitIP}]";
                 }
+                
+
+
             }
         }
 
@@ -190,10 +214,23 @@ namespace Ironbug.HVAC.BaseClass
             return r.Replace(LongName, " ");
         }
 
-        //public string Unit(bool IP = false)
-        //{
-        //    return "ddd";
-        //}
+        public double ConvertToSI(double ValueIP)
+        {
+            if ((this.UnitIP == this.UnitSI)|| string.IsNullOrEmpty(this.UnitSI))
+            {
+                return ValueIP;
+            }
+            var valueOp = OpenStudioUtilitiesUnits.convert(ValueIP, this.UnitIP, this.UnitSI);
+            if (valueOp.is_initialized())
+            {
+                return valueOp.get();
+            }
+            else
+            {
+                throw new ArgumentException($"Failed to convert {ValueIP} from {this.UnitIP} to {UnitSI}");
+            }
+            
+        }
 
         public bool Equals(IB_Field x, IB_Field y)
         {

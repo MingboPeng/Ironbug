@@ -30,7 +30,8 @@ namespace Ironbug.Grasshopper.Component
         {
             menu.Items.RemoveAt(1); // remove Preview
             menu.Items.RemoveAt(2); // remove Bake
-
+            Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true, HVAC.BaseClass.IB_ModelObject.IPUnit)
+                .ToolTipText = "This will set all HVAC components with IP unit system";
             var t = new ToolStripMenuItem("Icon Display Mode");
             Menu_AppendItem(t.DropDown, "Application", SetMode0, true, DisplayMode == 0)
                 .ToolTipText = "Based on Grasshopper's global setting";
@@ -39,6 +40,8 @@ namespace Ironbug.Grasshopper.Component
             menu.Items.Add(t);
             
             Menu_AppendItem(menu, $"VER {InstanceVersion}").ToolTipText= "Source: https://github.com/MingboPeng/Ironbug";
+
+            
         }
 
         private void SetMode0(object sender, EventArgs e)
@@ -74,6 +77,8 @@ namespace Ironbug.Grasshopper.Component
         public override bool Write(GH_IWriter writer)
         {
             writer.SetString("InstanceVersion", InstanceVersion);
+            writer.SetInt32("IconDisplayMode", DisplayMode);
+            //this.IconDisplayMode = DisplayMode == 0 ? GH_IconDisplayMode.application : GH_IconDisplayMode.icon;
             return base.Write(writer);
         }
 
@@ -87,9 +92,33 @@ namespace Ironbug.Grasshopper.Component
             {
                 InstanceVersion = "[unknown version]";
             }
-                
+
+            if (reader.ItemExists("IconDisplayMode"))
+            {
+                DisplayMode = reader.GetInt32("IconDisplayMode");
+            }
+
+
+
 
             return base.Read(reader);
         }
+        private void ChangeUnit(object sender, EventArgs e)
+        {
+            HVAC.BaseClass.IB_ModelObject.IPUnit = !HVAC.BaseClass.IB_ModelObject.IPUnit;
+
+            MessageBox.Show("This only applies to ObjParams component for unit conversions for your convenience!\rKeep in mind, the rest of world is still using SI unit, such as in setpointmanagers, and all Ladybug/Honeybee components!");
+            //TODO: maybe need recompute all??
+            //Only Panel
+            //But is it necessary, the unit is only for representation
+            var allComs = GH.Instances.ActiveCanvas.Document.Objects.Where(_ => _ is Ironbug_ObjParams);
+            foreach (var item in allComs)
+            {
+                item.ExpireSolution(false);
+            }
+            GH.Instances.RedrawCanvas();
+            this.ExpireSolution(true);
+        }
+
     }
 }

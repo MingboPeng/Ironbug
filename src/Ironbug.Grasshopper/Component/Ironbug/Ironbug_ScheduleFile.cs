@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
         public Ironbug_ScheduleFile()
-          : base("Ironbug_ScheduleFile", "ScheduleFile(WIP)",
+          : base("Ironbug_ScheduleFile(WIP)", "ScheduleFile",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Schedules.IB_ScheduleFile_FieldSet))
