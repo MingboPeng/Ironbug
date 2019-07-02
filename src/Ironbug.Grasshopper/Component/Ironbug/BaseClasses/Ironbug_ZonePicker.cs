@@ -1,13 +1,13 @@
 ﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using Ironbug.HVAC.BaseClass;
 using GH = Grasshopper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZonePicker : Ironbug_Component
+    public class Ironbug_ZonePicker : GH_Component
     {
         protected override System.Drawing.Bitmap Icon => null;
 
@@ -24,12 +24,15 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddBrepParameter("Zones", "_zones", "objects to be picked", GH_ParamAccess.list);
-            pManager[pManager.AddBrepParameter("Scopes", "scopes", "Scope objects for picking", GH_ParamAccess.list)].Optional = true;
+            pManager[pManager.AddBoxParameter("Scopes", "scopes", "Scope boxes for picking zone breps.", GH_ParamAccess.list)].Optional = true;
+            
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Zones", "zones", "Picked objects", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Selected Zones", "zones", "Picked objects", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Unselected Zones", "unselected", "Unselected objects", GH_ParamAccess.list);
+            (pManager[1] as GH.Kernel.Parameters.Param_Brep).Hidden = true;
         }
 
         List<GH_Brep> AllInputBreps = new List<GH_Brep>();
@@ -40,96 +43,55 @@ namespace Ironbug.Grasshopper.Component
             DA.GetDataList(0, allBps);
             AllInputBreps = allBps;
 
-            var nodes = new List<GH_Brep>();
+            var nodes = new List<GH_Box>();
             DA.GetDataList(1, nodes);
 
+            var unselectedZones = new List<GH_Brep>();
             if (nodes.Count > 0)
             {
-                var selectedZs = GetZoneFromNode(allBps, nodes);
-
+                var selectedZs = GetZoneFromNode(allBps, nodes, out unselectedZones);
                 DA.SetDataList(0, selectedZs);
-                return;
             }
             else
             {
                 DA.SetDataList(0, allBps);
             }
 
-
-            
-
-            //var selectedZones = PickZones(allBps);
-           
-            //var outBx = new List<Rhino.Geometry.Brep>();
-
-
-            //scopeParm..PersistentData.AppendRange(outBx2);
-
-
-            //DA.SetDataList(0, selectedZones);
-            //DA.SetDataList(0, a);
-
-            //Rhino.DocObjects.ObjRef[] selbxs;
-            //var rc = Rhino.Input.RhinoGet.GetMultipleObjects("Select zone nodes",true, Rhino.DocObjects.ObjectType.Brep, out selbxs);
-
-            //if (rc == Rhino.Commands.Result.Success)
-            //{
-            //    var outBx = new List<Rhino.Geometry.Brep>();
-            //    foreach (var item in selbxs)
-            //    {
-            //        outBx.Add(item.Brep().DuplicateBrep());
-            //    }
-            //    doc.Objects.Delete(nodeIds, false);
-            //    //foreach (var item in nodeIds)
-            //    //{
-            //    //    var foundObj = Rhino.RhinoDoc.ActiveDoc.Objects.Find(item);
-
-            //    //}
-            //    var selectedZones = new List<GH_Brep>();
-
-            //    foreach (var item in allBps)
-            //    {
-            //        foreach (var b in outBx)
-            //        {
-            //            var inz = b.GetBoundingBox(false).Contains(item.Value.GetBoundingBox(false).Center);
-            //            if (inz)
-            //            {
-            //                selectedZones.Add(item);
-            //            }
-            //        }
-            //    }
-
-            //    DA.SetDataList(0, selectedZones);
-            //}
-
-            //var go = new Rhino.Input.Custom.GetObject();
+            DA.SetDataList(1, unselectedZones);
 
         }
 
-        private static List<GH_Brep> GetZoneFromNode(List<GH_Brep> allBps, List<GH_Brep> outBx)
+        private static List<GH_Brep> GetZoneFromNode(List<GH_Brep> allBps, IEnumerable<GH_Box> outBx, out List<GH_Brep> Unselected)
         {
             var selectedZones = new List<GH_Brep>();
+            var unselectedZones = new List<GH_Brep>();
             foreach (var item in allBps)
             {
                 var sBp = item.DuplicateBrep();
-                //((IGH_GeometricGoo)item).LoadGeometry();
+                var isSelected = false;
                 foreach (var b in outBx)
                 {
-                    var inz = b.Value.GetBoundingBox(false).Contains(sBp.Value.GetBoundingBox(false).Center);
-                    if (inz)
+                    isSelected = b.Value.Contains(sBp.Boundingbox.Center);
+                    if (isSelected)
                     {
                         selectedZones.Add(item);
+                        break;
                     }
                 }
-            }
 
+                if (!isSelected)
+                {
+                    unselectedZones.Add(item);
+                }
+            }
+            Unselected = unselectedZones;
             return selectedZones;
         }
 
         public override void CreateAttributes()
         {
             var att = new IB_ComponentButtonAttributes(this);
-            att.ButtonText = "Pick zones";
+            att.ButtonText = "Pick nodes";
             att.MouseDownEvent += (object obj) => this.PickZones();
             this.Attributes = att;
         }
@@ -138,75 +100,73 @@ namespace Ironbug.Grasshopper.Component
         {
             var doc = Rhino.RhinoDoc.ActiveDoc;
             var att = new Rhino.DocObjects.ObjectAttributes();
-            var sz = 0.5;
+            
             var allBps = this.AllInputBreps;
 
             if (allBps.Count==0)
             {
                 return;
             }
-
+            var zParm = this.Params.Input[0] as GH.Kernel.Parameters.Param_Brep;
+            zParm.Hidden = false;
             var nodeIds = new List<Guid>();
             foreach (var item in allBps)
             {
-                //var c = Rhino.Geometry.AreaMassProperties.Compute(item.Value).Centroid;
-                var bdBox = item.Value.GetBoundingBox(false);
-                var cc = bdBox.Center;
-                Rhino.Geometry.Point3d pt0 = new Rhino.Geometry.Point3d(-sz, -sz, -sz);
-                Rhino.Geometry.Point3d pt1 = new Rhino.Geometry.Point3d(sz, sz, sz);
-
-                Rhino.Geometry.BoundingBox box = new Rhino.Geometry.BoundingBox(pt0, pt1);
-                var trans = Rhino.Geometry.Transform.Translation(new Rhino.Geometry.Vector3d(cc));
-                box.Transform(trans);
-                var bbox = new GH_Box(box);
-                var id = new Guid();
-
-                if (bbox.BakeGeometry(doc, att, ref id))
-                {
-                    nodeIds.Add(id);
-                }
-                //DA.SetData(0, box);
-
-                //var go = new GetObject();
-
+                var cc = item.Value.GetBoundingBox(false).Center;
+                var bbox = GenZoneNode(cc);
+                nodeIds.Add(doc.Objects.AddBrep(bbox.ToBrep()));
+                
             }
             doc.Objects.UnselectAll();
             doc.Views.Redraw();
 
             GH.Instances.DocumentEditor.FadeOut();
             //GH.Instances.DocumentEditor.lo
-            var a = GH.Getters.GH_BrepGetter.GetBreps();
+            var pickedZoneNodes = GH.Getters.GH_BrepGetter.GetBreps();
             GH.Instances.DocumentEditor.FadeIn();
+            doc.Objects.Delete(nodeIds, true);
+            if (pickedZoneNodes == null || pickedZoneNodes.Count==0)
+            {
+                doc.Views.Redraw();
+                return;
+            }
 
-            var outBx2 = new List<GH_Brep>();
-            var scopeParm = this.Params.Input[1] as GH.Kernel.GH_PersistentGeometryParam<GH.Kernel.Types.GH_Brep>;
+            //var outBx2 = new List<GH_Brep>();
+
+            var scopeParm = this.Params.Input[1] as GH.Kernel.Parameters.Param_Box;
+            scopeParm.Hidden = true;
+   
+            scopeParm.RemoveAllSources();
             scopeParm.ClearData();
             scopeParm.PersistentData.Clear();
-            //scopeParm.SetPersistentData(a);
-            foreach (var item in a)
+
+            foreach (var item in pickedZoneNodes)
             {
-                ((IGH_GeometricGoo)item).LoadGeometry();
-                var newitem = new GH_Brep(item.Value.DuplicateBrep());
-                //var new2 = item.DuplicateBrep(); 
-                scopeParm.PersistentData.Append(newitem);
-                outBx2.Add(newitem);
-                //outBx.Add(new3);
+                item.LoadGeometry(doc);
+                
             }
+
+            //var nds = pickedZoneNodes.Select(_ => new GH_Brep( GenZoneNode(_.Boundingbox.Center)));
+            var nds = pickedZoneNodes.Select(_ => new GH_Box(GenZoneNode(_.Boundingbox.Center)));
+
+
+            scopeParm.SetPersistentData(nds);
+            ExpireSolution(true);
+
+        }
+
+        private Rhino.Geometry.BoundingBox GenZoneNode(Rhino.Geometry.Point3d LocPt)
+        {
+            var sz = 0.5;
+
+            Rhino.Geometry.Point3d pt0 = new Rhino.Geometry.Point3d(-sz, -sz, -sz);
+            Rhino.Geometry.Point3d pt1 = new Rhino.Geometry.Point3d(sz, sz, sz);
+
+            Rhino.Geometry.BoundingBox box = new Rhino.Geometry.BoundingBox(pt0, pt1);
+            var trans = Rhino.Geometry.Transform.Translation(new Rhino.Geometry.Vector3d(LocPt));
+            box.Transform(trans);
             
-            //scopeParm.ExpireSolution(false);
-            scopeParm.CollectData();
-            
-            var selectedZones = GetZoneFromNode(allBps, outBx2);
-            
-            var outParm = this.Params.Output[0] as GH.Kernel.GH_PersistentGeometryParam<GH.Kernel.Types.GH_Brep>;
-            outParm.PersistentData.Clear();
-            outParm.SetPersistentData(selectedZones);
-            //outParm.PersistentData.AppendRange(selectedZones);
-            outParm.CollectData();
-            outParm.ComputeData();
-            //outParm.AddVolatileDataList(new GH.Kernel.Data.GH_Path(), selectedZones);
-            doc.Objects.Delete(nodeIds, true);
-            //return selectedZones;
+            return box;
         }
 
     }
