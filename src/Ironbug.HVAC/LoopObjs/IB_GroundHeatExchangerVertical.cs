@@ -52,6 +52,7 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            obj.removeAllGFunctions();
             var gf = this.GFuncs;
             foreach (var item in gf)
             {
