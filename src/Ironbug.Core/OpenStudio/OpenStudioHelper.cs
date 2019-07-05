@@ -62,8 +62,8 @@ namespace Ironbug.Core.OpenStudio
 
         public static Version CheckOpsVersionIfValid(string Path)
         {
-            var v1 = new System.Version("2.5.0");
-            var v2 = new System.Version("2.8.0");
+            var v1 = new System.Version("2.5.0.0");
+            var v2 = new System.Version("2.8.0.0");
             var versionFound = AssemblyName.GetAssemblyName(Path).Version;
 
             //2.5.0
