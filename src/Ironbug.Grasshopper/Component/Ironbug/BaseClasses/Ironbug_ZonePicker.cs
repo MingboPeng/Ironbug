@@ -124,7 +124,7 @@ namespace Ironbug.Grasshopper.Component
             //GH.Instances.DocumentEditor.lo
             var pickedZoneNodes = GH.Getters.GH_BrepGetter.GetBreps();
             GH.Instances.DocumentEditor.FadeIn();
-            doc.Objects.Delete(nodeIds, true);
+           
             if (pickedZoneNodes == null || pickedZoneNodes.Count==0)
             {
                 doc.Views.Redraw();
@@ -145,7 +145,8 @@ namespace Ironbug.Grasshopper.Component
                 item.LoadGeometry(doc);
                 
             }
-
+            doc.Objects.Delete(nodeIds, true);
+          
             //var nds = pickedZoneNodes.Select(_ => new GH_Brep( GenZoneNode(_.Boundingbox.Center)));
             var nds = pickedZoneNodes.Select(_ => new GH_Box(GenZoneNode(_.Boundingbox.Center)));
 
