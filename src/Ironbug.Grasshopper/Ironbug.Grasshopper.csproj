@@ -107,6 +107,8 @@
     <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerIndirectResearchSpecial.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerDirectResearchSpecial.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FluidCoolerTwoSpeed.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_FluidCoolerSingleSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeFluidCoolerTwoSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeFluidCoolerSingleSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatPumpWaterToWaterEquationFitCooling.cs" />

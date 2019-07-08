@@ -3,17 +3,17 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EvaporativeFluidCoolerTwoSpeed : Ironbug_HVACComponent
+    public class Ironbug_FluidCoolerSingleSpeed : Ironbug_HVACComponent
     {
         
         
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         
-        public Ironbug_EvaporativeFluidCoolerTwoSpeed()
-          : base("Ironbug_EvaporativeFluidCoolerTwoSpeed", "EvapFluidCooler2",
+        public Ironbug_FluidCoolerSingleSpeed()
+          : base("Ironbug_FluidCoolerSingleSpeed", "FluidCooler",
               "Description",
               "Ironbug", "02:LoopComponents", 
-              typeof(HVAC.IB_EvaporativeFluidCoolerTwoSpeed_FieldSet))
+              typeof(HVAC.IB_FluidCoolerSingleSpeed_FieldSet))
         {
         }
 
@@ -25,12 +25,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("EvaporativeFluidCoolerTwoSpeed", "FluidCooler2", "EvaporativeFluidCoolerTwoSpeed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("FluidCoolerSingleSpeed", "FluidCooler", "FluidCoolerSingleSpeed", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_EvaporativeFluidCoolerTwoSpeed();
+            var obj = new HVAC.IB_FluidCoolerSingleSpeed();
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
@@ -38,6 +38,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.FluidCooler2;
 
-        public override Guid ComponentGuid => new Guid("{19F7EF16-4D32-44DA-B686-EA1807F1303D}");
+        public override Guid ComponentGuid => new Guid("{CF12CB91-E9D8-4E78-B4CD-01EB6A61DF6D}");
     }
 }
