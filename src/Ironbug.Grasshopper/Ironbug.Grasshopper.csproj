@@ -70,7 +70,7 @@
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="OpenStudio">
-      <HintPath>C:\openstudio-2.8.1\CSharp\openstudio\OpenStudio.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\openstudio-2.8.1\CSharp\openstudio\OpenStudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
