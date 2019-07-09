@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -11,8 +10,9 @@ namespace Ironbug.HVAC.BaseClass
     {
         public static IddObject GetIddObject(Type OSType)
         {
-            var iddType = OSType.GetMethod("iddObjectType", BindingFlags.Public | BindingFlags.Static).Invoke(null, null) as IddObjectType;
+            var iddType = OSType?.GetMethod("iddObjectType", BindingFlags.Public | BindingFlags.Static)?.Invoke(null, null) as IddObjectType;
             return new IdfObject(iddType).iddObject();
+
         }
 
         public static IEnumerable<MethodInfo> GetOSSetters(Type OSType)

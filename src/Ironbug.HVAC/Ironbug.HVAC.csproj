@@ -52,7 +52,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="OpenStudio">
-      <HintPath>C:\openstudio-2.8.1\CSharp\openstudio\OpenStudio.dll</HintPath>
+      <HintPath>..\..\lib\OpenStudio\2.8.1\OpenStudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

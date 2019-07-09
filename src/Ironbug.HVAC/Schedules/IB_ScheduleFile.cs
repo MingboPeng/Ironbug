@@ -27,7 +27,8 @@ namespace Ironbug.HVAC.Schedules
             }
             else
             {
-                throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
+                return typeof(Node);
+                //throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
             }
             
         }
@@ -48,6 +49,10 @@ namespace Ironbug.HVAC.Schedules
 
         public IB_ScheduleFile(string FilePath) : base(InitMethod(new Model(), FilePath))
         {
+            if (_refOsType == typeof(Node))
+            {
+                throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
+            }
             if (!File.Exists(FilePath))
             {
                 throw new ArgumentException($"{this._FilePath} does not exit!");
