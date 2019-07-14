@@ -53,5 +53,12 @@ namespace Ironbug.HVAC
         }
     }
 
+    public sealed class IB_CentralHeatPumpSystemModule_FieldSet
+      : IB_FieldSet<IB_CentralHeatPumpSystemModule_FieldSet, CentralHeatPumpSystemModule>
+    {
+        private IB_CentralHeatPumpSystemModule_FieldSet() { }
+
+    }
+
 
 }
