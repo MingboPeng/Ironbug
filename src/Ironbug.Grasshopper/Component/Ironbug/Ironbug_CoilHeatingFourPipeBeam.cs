@@ -3,16 +3,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingCooledBeam : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingFourPipeBeam : Ironbug_HVACComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         
-        public Ironbug_CoilCoolingCooledBeam()
-          : base("Ironbug_CoilCoolingCooledBeam", "Coil_CooledBeam",
+        public Ironbug_CoilHeatingFourPipeBeam()
+          : base("Ironbug_CoilHeatingFourPipeBeam", "Coil_Htn4PipBeam",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_CoilCoolingCooledBeam_FieldSet))
+              typeof(HVAC.IB_CoilHeatingFourPipeBeam_FieldSet))
         {
         }
 
@@ -25,25 +25,24 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingCooledBeam", "Coil_CB", "Connect to chilled beam", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingFourPipeBeam", "CoilH", "Connect to chilled beam", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterSide_Coil", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
         }
 
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilCoolingCooledBeam();
+            var obj = new HVAC.IB_CoilHeatingFourPipeBeam();
             
-
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.Coil_CB;
+        protected override System.Drawing.Bitmap Icon => null;
 
 
-        public override Guid ComponentGuid => new Guid("BDFFF56A-C2A0-4392-850B-8BE299CCD6F2");
+        public override Guid ComponentGuid => new Guid("{838A3E2A-3FFA-4859-A024-15F9BA8FF4FC}");
 
     }
     
