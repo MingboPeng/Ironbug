@@ -23,11 +23,14 @@ namespace Ironbug.HVAC.BaseClass
                             .Where(_ =>
                             {
                                 //get all setting methods
-                                if (!_.Name.StartsWith("set")) return false;
-                                if (_.Name.Contains("NodeName")) return false;
-                                if (_.GetParameters().Count() != 1) return false;
+                                var name = _.Name;
+                                var ps = _.GetParameters();
+                                if (!name.StartsWith("set")) return false;
+                                if (name.Contains("NodeName")) return false;
+                                if (ps.Count() != 1) return false;
 
-                                var paramType = _.GetParameters().First().ParameterType;
+                                //Check types
+                                var paramType = ps.First().ParameterType;
                                 var isValidType =
                                 paramType == typeof(string) ||
                                 paramType == typeof(double) ||
@@ -35,8 +38,6 @@ namespace Ironbug.HVAC.BaseClass
                                 paramType == typeof(int) ||
                                 typeof(Curve).IsAssignableFrom(paramType) ||
                                 typeof(Schedule).IsAssignableFrom(paramType);
-
-                                //if (!isValidType) return false;
 
                                 return isValidType;
 
