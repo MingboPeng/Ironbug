@@ -74,6 +74,8 @@
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingFourPipeBeam.cs" />
+    <Compile Include="LoopObjs\IB_CoilCoolingFourPipeBeam.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDXVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_EvaporativeCoolerIndirectResearchSpecial.cs" />
@@ -142,6 +144,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeNoReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />

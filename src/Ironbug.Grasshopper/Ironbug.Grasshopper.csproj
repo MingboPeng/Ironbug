@@ -97,8 +97,11 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystemModule.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingFourPipeBeam.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
