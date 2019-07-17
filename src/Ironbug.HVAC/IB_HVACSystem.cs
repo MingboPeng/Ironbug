@@ -62,7 +62,11 @@ namespace Ironbug.HVAC
             //here means editing current existing file 
             if (!string.IsNullOrEmpty( this._existFile))
             {
-                osmFile = this._existFile;
+                if (this._existFile != filepath)
+                {
+                    throw new ArgumentException("File path is different than osm file contains existing loops!\nPlease input the existing osm file path.");
+                }
+                //osmFile = this._existFile;
             }
 
             //get Model from file if exists

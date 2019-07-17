@@ -1,6 +1,8 @@
 ﻿using System;
 using Grasshopper.Kernel;
 using System.IO;
+using System.Windows.Forms;
+using GH_IO.Serialization;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -8,7 +10,8 @@ namespace Ironbug.Grasshopper.Component
     {
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
         public override Guid ComponentGuid => new Guid("{2B473359-4DFC-4DE7-BD3E-79C119C64250}");
-        
+
+        bool _overrideMode = true;
         public Ironbug_SaveOSModel()
           : base("Ironbug_SaveToFile", "SaveToFile",
               "Description",
@@ -34,6 +37,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            this.Message = this._overrideMode ? "Override" : "";
             string filepath = string.Empty;
             HVAC.IB_HVACSystem hvac = null;
             bool write = false;
@@ -45,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
             if (!write) return;
             
             if (string.IsNullOrEmpty(filepath)) return;
-            if (File.Exists(filepath))
+            if (File.Exists(filepath) && this._overrideMode)
             {
                 File.Delete(filepath);
             } 
@@ -60,6 +64,37 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        {
+            
+            Menu_AppendItem(menu, "Override", ChangeOverrideModel, true, _overrideMode)
+               .ToolTipText = "This will remove the osm file first if exists.";
+            Menu_AppendSeparator(menu);
 
+            base.AppendAdditionalComponentMenuItems(menu);
+        }
+
+        private void ChangeOverrideModel(object sender, EventArgs e)
+        {
+            this._overrideMode = !_overrideMode;
+            this.ExpireSolution(true);
+        }
+
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetBoolean ("OverrideMode", this._overrideMode);
+            return base.Write(writer);
+        }
+
+        public override bool Read(GH_IReader reader)
+        {
+
+            if (reader.ItemExists("OverrideMode"))
+            {
+                this._overrideMode = reader.GetBoolean("OverrideMode");
+            }
+
+            return base.Read(reader);
+        }
     }
 }
