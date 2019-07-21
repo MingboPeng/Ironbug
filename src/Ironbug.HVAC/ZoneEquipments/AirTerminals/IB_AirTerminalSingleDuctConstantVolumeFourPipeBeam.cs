@@ -7,7 +7,7 @@ namespace Ironbug.HVAC
     public class IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam : IB_AirTerminal
     {
         //this is for self duplication and duplication as Puppet
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctVAVReheat();
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam();
         //this is for OpenStudio object initialization
         private static AirTerminalSingleDuctConstantVolumeFourPipeBeam NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctConstantVolumeFourPipeBeam(model);

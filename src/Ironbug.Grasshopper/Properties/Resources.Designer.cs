@@ -123,6 +123,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AirTerminalUncontrolledReheat {
+            get {
+                object obj = ResourceManager.GetObject("AirTerminalUncontrolledReheat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap BaseboardEC {
             get {
                 object obj = ResourceManager.GetObject("BaseboardEC", resourceCulture);
@@ -746,6 +756,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap FourPipeBeam {
             get {
                 object obj = ResourceManager.GetObject("FourPipeBeam", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FourPipeInduction {
+            get {
+                object obj = ResourceManager.GetObject("FourPipeInduction", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1453,9 +1473,29 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap VAVBoxHtnClnNoReheat {
+            get {
+                object obj = ResourceManager.GetObject("VAVBoxHtnClnNoReheat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap VAVBoxNoReheat {
             get {
                 object obj = ResourceManager.GetObject("VAVBoxNoReheat", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap VAVHtnClnBox {
+            get {
+                object obj = ResourceManager.GetObject("VAVHtnClnBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

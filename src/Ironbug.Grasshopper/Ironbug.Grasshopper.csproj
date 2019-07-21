@@ -97,6 +97,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystemModule.cs" />
@@ -142,6 +143,9 @@
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipment.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseConnections.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctVAVHeatAndCoolReheat.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctVAVHeatAndCoolNoReheat.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeReheat.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerHorizontalTrench.cs" />
     <Compile Include="Component\Ironbug\Ironbug_GroundHeatExchangerVertical.cs" />
@@ -742,6 +746,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Coil_Cooling4PB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FourPipeInduction.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVHtnClnBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBoxHtnClnNoReheat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalUncontrolledReheat.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
