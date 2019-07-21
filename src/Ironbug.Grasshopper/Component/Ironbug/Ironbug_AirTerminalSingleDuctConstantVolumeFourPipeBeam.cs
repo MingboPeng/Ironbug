@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.FourPipeBeam;
 
         public override Guid ComponentGuid => new Guid("{6214EE92-ECCC-4247-A3F5-486FE90ABECD}");
     }

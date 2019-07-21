@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(1, obj);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.Coil_Cooling4PB;
 
 
         public override Guid ComponentGuid => new Guid("{A71EB4F1-EB32-4CC1-A729-C3E4A6DB3616}");

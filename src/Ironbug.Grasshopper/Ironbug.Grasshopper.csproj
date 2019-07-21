@@ -309,9 +309,6 @@
     <None Include="Resources\OutdoorAir.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PFPBox.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\PumpC.png" />
   </ItemGroup>
   <ItemGroup>
@@ -330,9 +327,6 @@
     <None Include="Resources\SetPointWarmest.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\SFPBox.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\SizingPlant.png" />
   </ItemGroup>
   <ItemGroup>
@@ -348,16 +342,10 @@
     <None Include="Resources\UnitHeater.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\VAVBox.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\duct.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\HVAC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ChilledBeam.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Coil_CB.png" />
@@ -367,9 +355,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoilHWBR.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\AirTerminalUncontrolled.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\BaseboardEC.png" />
@@ -448,9 +433,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CoolingTowerV.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\VAVBoxNoReheat.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\MechVentCtrl.png" />
@@ -693,9 +675,6 @@
     <None Include="Resources\Humidifier.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AirTerminalMixer.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\HeatPumpW2W_Cooling.png" />
   </ItemGroup>
   <ItemGroup>
@@ -733,6 +712,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\EvapCoolerDir.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FourPipeBeam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalMixer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AirTerminalUncontrolled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChilledBeam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBoxNoReheat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\VAVBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SFPBox.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_Heating4PB.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Coil_Cooling4PB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

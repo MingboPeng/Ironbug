@@ -263,6 +263,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Coil_Cooling4PB {
+            get {
+                object obj = ResourceManager.GetObject("Coil_Cooling4PB", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Coil_CoolingVRF {
             get {
                 object obj = ResourceManager.GetObject("Coil_CoolingVRF", resourceCulture);
@@ -276,6 +286,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap Coil_CoolingWAFit {
             get {
                 object obj = ResourceManager.GetObject("Coil_CoolingWAFit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Coil_Heating4PB {
+            get {
+                object obj = ResourceManager.GetObject("Coil_Heating4PB", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -716,6 +736,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap FluidCooler2 {
             get {
                 object obj = ResourceManager.GetObject("FluidCooler2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FourPipeBeam {
+            get {
+                object obj = ResourceManager.GetObject("FourPipeBeam", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
