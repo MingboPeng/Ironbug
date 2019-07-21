@@ -44,7 +44,7 @@ namespace Ironbug.HVAC
     }
 
     public sealed class IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam_FieldSet
-        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam_FieldSet, AirTerminalSingleDuctConstantVolumeFourPipeBeam>
+        : IB_FieldSet<IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam_FieldSet>
     {
         private IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam_FieldSet() { }
 

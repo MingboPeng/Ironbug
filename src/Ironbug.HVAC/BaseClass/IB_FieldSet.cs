@@ -25,6 +25,10 @@ namespace Ironbug.HVAC.BaseClass
 
         protected IB_FieldSet()
         {
+            if (this.RefEpType == null)
+            {
+                throw new ArgumentException($"{this.GetType().Name.Split('_')[1]} is not supported in the version of OpenStudio installed.");
+            }
             //First, get all self properties such as IB_TopField, IB_BasicField, IB_ProField, etc
             //and put it to _items
             this._items = this.GetSelfPreperties().ToList();

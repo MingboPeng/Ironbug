@@ -12,26 +12,26 @@ namespace Ironbug.HVAC.Schedules
 
         private static Type _refOsType;
 
-        public static Type GetRefOsType()
-        {
-            if (_refOsType != null) return _refOsType;
+        //public static Type GetRefOsType()
+        //{
+        //    if (_refOsType != null) return _refOsType;
 
-            var v0 = typeof(Model).Assembly.GetName().Version;
-            var v1 = new System.Version("2.8.0");
-            var isOldVersion = v0.CompareTo(v1) < 0;
+        //    var v0 = typeof(Model).Assembly.GetName().Version;
+        //    var v1 = new System.Version("2.8.0");
+        //    var isOldVersion = v0.CompareTo(v1) < 0;
 
-            if (!isOldVersion)
-            {
-                _refOsType = typeof(Model).Assembly.GetType("OpenStudio.ScheduleFile");
-                return _refOsType;
-            }
-            else
-            {
-                return typeof(Node);
-                //throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
-            }
+        //    if (!isOldVersion)
+        //    {
+        //        _refOsType = typeof(Model).Assembly.GetType("OpenStudio.ScheduleFile");
+        //        return _refOsType;
+        //    }
+        //    else
+        //    {
+        //        return typeof(Node);
+        //        //throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
+        //    }
             
-        }
+        //}
         private static ScheduleFile InitMethod(Model model, string path)
         {
             var extFile = ExternalFile.getExternalFile(model, path);
@@ -49,10 +49,10 @@ namespace Ironbug.HVAC.Schedules
 
         public IB_ScheduleFile(string FilePath) : base(InitMethod(new Model(), FilePath))
         {
-            if (_refOsType == typeof(Node))
-            {
-                throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
-            }
+            //if (_refOsType == typeof(Node))
+            //{
+            //    throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
+            //}
             if (!File.Exists(FilePath))
             {
                 throw new ArgumentException($"{this._FilePath} does not exit!");
@@ -72,9 +72,6 @@ namespace Ironbug.HVAC.Schedules
     public sealed class IB_ScheduleFile_FieldSet
     : IB_FieldSet<IB_ScheduleFile_FieldSet>
     {
-        internal override Type RefOpsType => IB_ScheduleFile.GetRefOsType();
-        internal override Type RefEpType => RefOpsType;
-
         private IB_ScheduleFile_FieldSet() { }
 
     }

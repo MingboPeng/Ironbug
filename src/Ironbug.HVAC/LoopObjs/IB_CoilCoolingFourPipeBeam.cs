@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         
     }
     public sealed class IB_CoilCoolingFourPipeBeam_FieldSet
-        : IB_FieldSet<IB_CoilCoolingFourPipeBeam_FieldSet, CoilCoolingFourPipeBeam>
+        : IB_FieldSet<IB_CoilCoolingFourPipeBeam_FieldSet>
     {
         private IB_CoilCoolingFourPipeBeam_FieldSet() { }
         
