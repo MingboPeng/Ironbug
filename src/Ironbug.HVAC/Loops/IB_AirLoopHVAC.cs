@@ -170,6 +170,10 @@ namespace Ironbug.HVAC
       : IB_FieldSet<IB_AirLoopHVAC_FieldSet, AirLoopHVAC>
     {
         private IB_AirLoopHVAC_FieldSet() { }
+        public IB_Field NightCycleControlType { get; }
+            = new IB_BasicField("NightCycleControlType", "NightCycle") { DetailedDescription = "Valid inputs are: StayOff, CycleOnAny, and CycleOnAnyZoneFansOnly."};
+
+        
 
     }
 

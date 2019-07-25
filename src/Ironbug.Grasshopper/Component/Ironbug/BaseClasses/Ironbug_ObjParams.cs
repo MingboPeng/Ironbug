@@ -370,7 +370,8 @@ namespace Ironbug.Grasshopper.Component
 
             newParam.Name = field.FullName;
             newParam.NickName = field.NickName;
-            newParam.Description = $"Data type: {field.DataType.Name}\n\n{field.Description}";
+            var description = string.Join(Environment.NewLine,new string[] { field.DetailedDescription, field.Description });
+            newParam.Description = $"Data type: {field.DataType.Name}\n\n{description}";
             newParam.MutableNickName = false;
             newParam.Access = GH_ParamAccess.item;
             newParam.Optional = true;

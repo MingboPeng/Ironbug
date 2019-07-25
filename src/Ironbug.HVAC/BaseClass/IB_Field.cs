@@ -82,7 +82,7 @@ namespace Ironbug.HVAC.BaseClass
             description += GetDefaultFromIDD(prop);
             description += validDataStr;
 
-            this.Description = description;
+            this.Description = string.IsNullOrEmpty(description)? DetailedDescription: description;
 
             this.SetValidData(validDataItems);
 
@@ -126,8 +126,9 @@ namespace Ironbug.HVAC.BaseClass
           
                 if (!string.IsNullOrWhiteSpace(strTobeShown))
                 {
-                    var unit = string.IsNullOrWhiteSpace(this.UnitSI) ? string.Empty : $"[{this.UnitSI}]";
-                    return $"\r\nDefault: {strTobeShown} {unit}";
+                    var unit = string.IsNullOrWhiteSpace(this.UnitSI) ? string.Empty : $" {this.UnitSI}";
+                    strTobeShown = strTobeShown.ToLower().StartsWith("autosize") ? strTobeShown : $"{strTobeShown} {unit}";
+                    return $"\r\nDefault: {strTobeShown}";
                 }
                 else
                 {
