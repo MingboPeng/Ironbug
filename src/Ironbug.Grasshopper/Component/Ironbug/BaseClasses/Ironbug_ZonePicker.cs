@@ -4,6 +4,7 @@ using GH = Grasshopper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -40,7 +41,7 @@ namespace Ironbug.Grasshopper.Component
         {
 
             var allBps = new List<GH_Brep>();
-            DA.GetDataList(0, allBps);
+            if (!DA.GetDataList(0, allBps)) return;
             AllInputBreps = allBps;
 
             var nodes = new List<GH_Box>();
@@ -67,11 +68,14 @@ namespace Ironbug.Grasshopper.Component
             var unselectedZones = new List<GH_Brep>();
             foreach (var item in allBps)
             {
+
                 var sBp = item.DuplicateBrep();
+               
                 var isSelected = false;
                 foreach (var b in outBx)
                 {
-                    isSelected = b.Value.Contains(sBp.Boundingbox.Center);
+                    var ct = VolumeMassProperties.Compute(sBp.Value);
+                    isSelected = b.Value.Contains(ct.Centroid);
                     if (isSelected)
                     {
                         selectedZones.Add(item);
@@ -91,7 +95,7 @@ namespace Ironbug.Grasshopper.Component
         public override void CreateAttributes()
         {
             var att = new IB_ComponentButtonAttributes(this);
-            att.ButtonText = "Pick nodes";
+            att.ButtonText = "Pick ZNodes";
             att.MouseDownEvent += (object obj) => this.PickZones();
             this.Attributes = att;
         }
@@ -112,8 +116,9 @@ namespace Ironbug.Grasshopper.Component
             var nodeIds = new List<Guid>();
             foreach (var item in allBps)
             {
-                var cc = item.Value.GetBoundingBox(false).Center;
-                var bbox = GenZoneNode(cc);
+                var cc = VolumeMassProperties.Compute(item.Value);
+                //var cc = item.Value.GetBoundingBox(false).Center;
+                var bbox = GenZoneNode(cc.Centroid);
                 nodeIds.Add(doc.Objects.AddBrep(bbox.ToBrep()));
                 
             }
