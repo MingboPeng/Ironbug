@@ -97,6 +97,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
+    <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
