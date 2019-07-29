@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_ZonePicker : GH_Component
     {
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.ZonePicker;
 
         public override Guid ComponentGuid => new Guid("{C7B8CDA1-4C8C-4236-A7CF-C573A2258984}");
         public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
