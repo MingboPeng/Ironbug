@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
@@ -20,7 +21,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Chiller-heaters", "chillerHeaters", "use ChillerHeaterPerformanceElectricEIR, typically three chillerheaters are needed", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Chiller-heaters", "chillerHeaters", "use ChillerHeaterPerformanceElectricEIR or CentralHeatPumpSystemModules. Typically three chillerheaters are needed", GH_ParamAccess.list);
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
@@ -33,17 +34,28 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var chillers = new List<HVAC.IB_ChillerHeaterPerformanceElectricEIR>();
-            DA.GetDataList(0, chillers);
-            
+            var chillersOrChillerModules  = new List<HVAC.BaseClass.IB_ModelObject>();
+            DA.GetDataList(0, chillersOrChillerModules);
+
+
+
+            var chillers = chillersOrChillerModules.OfType<HVAC.IB_ChillerHeaterPerformanceElectricEIR>();
+            var modules = chillersOrChillerModules.OfType<HVAC.IB_CentralHeatPumpSystemModule>();
+
             var obj = new HVAC.IB_CentralHeatPumpSystem();
+            //Add chillers
             foreach (var item in chillers)
             {
                 var module = new HVAC.IB_CentralHeatPumpSystemModule();
                 module.SetChillerHeater(item);
-
-                module.SetNumberOfChillerHeaterModules(chillers.Count);
+                //module.SetNumberOfChillerHeaterModules(chillers.Count);
                 obj.AddModule(module);
+            }
+
+            //Add modules
+            foreach (var item in modules)
+            {
+                obj.AddModule(item);
             }
 
             this.SetObjParamsTo(obj);

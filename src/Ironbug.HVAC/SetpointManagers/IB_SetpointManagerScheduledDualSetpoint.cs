@@ -40,29 +40,14 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var hiSch = GetScheduleRuleset(model, this.highT);
+            var hiSch = Schedules.IB_ScheduleRuleset.GetOrNewSchedule(model, this.highT);
             obj.setHighSetpointSchedule(hiSch);
 
-            var loSch = GetScheduleRuleset(model, this.lowT);
+            var loSch = Schedules.IB_ScheduleRuleset.GetOrNewSchedule(model, this.lowT);
             obj.setLowSetpointSchedule(loSch);
 
             return obj;
 
-            ScheduleRuleset GetScheduleRuleset(Model m, double temp)
-            {
-                var name = $"Constant value {temp} C ({Math.Round(temp * 9 / 5 + 32, 1)} F) ";
-                var optionalObj = m.getScheduleRulesetByName(name);
-                if (optionalObj.is_initialized())
-                {
-                    return optionalObj.get();
-                }
-                else
-                {
-                    var sch = new ScheduleRuleset(m, temp);
-                    sch.setName(name);
-                    return sch;
-                }
-            }
         }
     }
     public sealed class IB_SetpointManagerScheduledDualSetpoint_FieldSet

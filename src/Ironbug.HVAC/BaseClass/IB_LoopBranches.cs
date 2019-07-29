@@ -53,7 +53,7 @@ namespace Ironbug.HVAC.BaseClass
         public int Count()
         {
             //var count = 0;
-            var probeNotCounted = this.Branches.SelectMany(_ => _).Where(_=>!(_ is IB_Probe));
+            var probeNotCounted = this.Branches.SelectMany(_ => _).Where(_=>!(_ is IB_Probe)).Where(_ => !(_ is IB_SetpointManager));
             //this.Branches.ForEach(_ => count += _.Count);
             return probeNotCounted.Count();
         }

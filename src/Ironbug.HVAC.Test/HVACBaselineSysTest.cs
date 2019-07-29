@@ -24,7 +24,7 @@ namespace Ironbug.HVACTests
             string saveFile = @"..\..\..\..\doc\osmFile\HVACBaseline\sys01_PTAC.osm";
             File.Copy(exampleBuildingFile, saveFile, true);
 
-            var m = OpenStudio.Model.load(new OpenStudio.Path(saveFile)).get();
+            var m = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(saveFile)).get();
             var zoneNames = m.getThermalZones().Select(_=>_.nameString());
 
             var fan = new IB_FanConstantVolume();
@@ -76,7 +76,7 @@ namespace Ironbug.HVACTests
             var s = hvac.SaveHVAC(saveFile);
 
             //check the results
-            m = OpenStudio.Model.load(new OpenStudio.Path(saveFile)).get();
+            m = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(saveFile)).get();
             var countOfeqps = m.getZoneHVACPackagedTerminalAirConditioners().Where(_ => _.thermalZone().is_initialized()).Count();
             s &= countOfeqps == zoneNames.Count();
 

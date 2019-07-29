@@ -38,16 +38,20 @@ namespace Ironbug.Grasshopper.Component
             if (DA.GetData(0, ref heatingSource))
             {
                 obj = new HVAC.IB_CoilHeatingDesuperheater(heatingSource);
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This desuperheater is not supported in OpenStudio App interface, which means you will not be able to edit the loop this desuperhater belongs to in OpenStudio App.\n\rMeanwhile, there is a bug in OpenStudio API:https://unmethours.com/question/23669/coilwaterheatingdesuperheater-methods-not-executing-correctly/. You will need an EnergyPlus measure to make this work!");
+
             }
-            
+
+            var v0 = typeof(OpenStudio.Model).Assembly.GetName().Version;
+            var isOldVersion = v0.CompareTo(new Version("2.8.0")) < 0;
+            if (isOldVersion)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, $"This desuperheater is not supported until OpenStudio 2.8.\nYou have OpenStudio {v0}.");
+            }
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
-
-
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.DesuperHeater;
 
 
         public override Guid ComponentGuid => new Guid("44EA1323-99CE-4D03-A7EC-8A58A7652906");

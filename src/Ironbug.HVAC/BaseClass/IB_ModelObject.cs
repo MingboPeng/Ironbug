@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
+using Ironbug.HVAC;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -21,6 +22,8 @@ namespace Ironbug.HVAC.BaseClass
         protected ModelObject GhostOSObject { get; private set; }
 
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
+
+        private IList<string> RefObjects { get; set; } = new List<string>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
         {
@@ -206,6 +209,13 @@ namespace Ironbug.HVAC.BaseClass
         //    this.SetTrackingID();
         //}
 
+        public void SetRefObject(IList<string> RefObjectStrs)
+        {
+            if (RefObjectStrs is null) return;
+            GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), RefObjectStrs);
+            this.RefObjects = RefObjectStrs;
+        }
+
         public void SetFieldValue(IB_Field field, object value)
         {
             var realValue = value;
@@ -246,7 +256,7 @@ namespace Ironbug.HVAC.BaseClass
                 catch (Exception)
                 {
 
-                    throw;
+                    throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or typo!");
                 }
             }
             
@@ -294,18 +304,53 @@ namespace Ironbug.HVAC.BaseClass
 
             ModelObject InitAndSetAttributes()
             {
-                
-                var obj = InitMethodHandler(model);
+
+                var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 return obj;
             }
-            
+
+           
+        }
+
+        ModelObject InitFromRefObj(Model model, IList<string> ParamSource)
+        {
+            try
+            {
+                var tempModel = new OpenStudio.Model();
+                var idfs = new IdfObjectVector();
+                var idfobjs = ParamSource
+                    .Select(_ => IdfObject.load(_))
+                    .Where(_ => _.is_initialized())
+                    .Select(_ => _.get());
+
+                foreach (var item in idfobjs)
+                {
+                    idfs.Add(item);
+                }
+
+                //model.addObjects(idfs,true);
+                var addedObjs = tempModel.insertObjects(idfs);
+                var counts = addedObjs.Count;
+                //get the main object if it has children
+                WorkspaceObject mainObj = addedObjs.FirstOrDefault(_ => _.iddObject().name() == this.GhostOSObject.iddObject().name());
+                ModelObject obj = mainObj.CastToOsType();
+
+                var clonedObj = obj.clone(model).CastToOsType();
+                //obj.remove();
+                return clonedObj;
+            }
+            catch (Exception e)
+            {
+
+                throw new ArgumentException($"Error at InitFromRefObj. {e.Message}");
+            }
 
 
         }
-       
 
         
+
         static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
         {
             var success = true;
@@ -358,6 +403,7 @@ namespace Ironbug.HVAC.BaseClass
 
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
+            newObj.RefObjects = this.RefObjects;
             return newObj;
         }
 
@@ -397,7 +443,16 @@ namespace Ironbug.HVAC.BaseClass
         public virtual List<string> ToStrings()
         {
             var s = new List<string>();
-            s.Add(this.GhostOSObject.__str__());
+            var selfString = this.GhostOSObject.__str__();
+            s.Add(selfString);
+
+            //if (GhostOSObject is ParentObject pObj)
+            //{
+            //    var copiedObj = pObj.clone().to_ParentObject().get();
+            //    var childrenStrs = copiedObj.children().Select(_=>_.__str__());
+            //    s.AddRange(childrenStrs);
+            //}
+
 
             var parentObj = this.Duplicate().GhostOSObject.to_ParentObject();
             if (parentObj.is_initialized())

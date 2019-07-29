@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
     {
         public Type DataFieldType { get; private set; }
 
-        public IB_ModelObject IB_ModelObject  => iB_ModelObject;
+        public IB_ModelObject IB_ModelObject => iB_ModelObject;
         private IB_ModelObject iB_ModelObject;
 
 
@@ -39,15 +39,10 @@ namespace Ironbug.Grasshopper.Component
                     if (docObj is Ironbug_ObjParams objParams)
                     {
                         objParams.CheckRecipients();
-                        //settingParams = objParams;
                     }
                     else if (docObj is Ironbug_OutputParams outputParams)
                     {
                         //outputParams.GetEPOutputVariables(this, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
                     }
                 }
             }
@@ -55,8 +50,8 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-       
 
+        //save ib object for Ironbug_OutputParams
         protected override void AfterSolveInstance()
         {
             if (this.iB_ModelObject is null)
@@ -64,19 +59,28 @@ namespace Ironbug.Grasshopper.Component
                 var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
                 this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
-            
-            base.AfterSolveInstance();  
+
+            base.AfterSolveInstance();
         }
-        
+
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
+            var thereIsNoDescription = UsersDescription == "Description";
             var description = "There is no component description available now! \nPlease stay tuned or contribute :>\n\nSource code: https://github.com/MingboPeng/Ironbug";
-            if (UsersDescription == "Description")
+            //var epDoc = string.Empty;
+            if (thereIsNoDescription)
             {
-                var epdoc = (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet).OwnerEpNote;
-                if (!string.IsNullOrEmpty( epdoc))
+                try
                 {
-                    description = epdoc;
+                    var epdoc = (Activator.CreateInstance(DataFieldType, true) as IB_FieldSet)?.OwnerEpNote;
+                    if (!string.IsNullOrEmpty(epdoc))
+                    {
+                        description = epdoc;
+                    }
+                }
+                catch (Exception)
+                {
+                    //throw new ArgumentException($"{e.InnerException}");
                 }
             }
             else
@@ -98,15 +102,16 @@ namespace Ironbug.Grasshopper.Component
         
         private static IGH_Param CreateParamInput()
         {
-            IGH_Param newParam = new Param_GenericObject();
-            newParam.Name = "Parameters_";
-            newParam.NickName = "params_";
-            newParam.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
-            newParam.MutableNickName = false;
-            newParam.Access = GH_ParamAccess.list;
-            newParam.Optional = true;
+            IGH_Param param = new Param_GenericObject();
+            param.Name = "Parameters_";
+            param.NickName = "params_";
+            param.Description = "Detail settings for this HVAC object. Use Ironbug_ObjParams to set input parameters, or use Ironbug_OutputParams to set output variables.";
+            param.MutableNickName = false;
+            param.Access = GH_ParamAccess.list;
+            param.Optional = true;
+            param.WireDisplay = GH_ParamWireDisplay.faint;
 
-            return newParam;
+            return param;
         }
 
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
@@ -119,12 +124,14 @@ namespace Ironbug.Grasshopper.Component
             var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>) null;
             var outputP = (List<IB_OutputVariable>)null;
+            var paramSource = (List<string>)null;
 
             foreach (var ghitem in objParams)
             {
                 if (ghitem == null) continue;
                 var item = ghitem as GH_ObjectWrapper;
-                
+                if (item == null)
+                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
 
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
@@ -134,7 +141,7 @@ namespace Ironbug.Grasshopper.Component
                         inputP = inputParams;
                     }
                 }
-                else if(item.Value is List<IB_OutputVariable> outputParams)
+                else if (item.Value is List<IB_OutputVariable> outputParams)
                 {
                     if (outputParams.Count == 0) continue;
                     if (outputP is null)
@@ -143,53 +150,61 @@ namespace Ironbug.Grasshopper.Component
                     }
 
                 }
-                
-                
-            }
-            
+                else if (item.Value is RefObject refObj)
+                {
+                    
+                    if (paramSource is null)
+                    {
+                        paramSource = new List<string>();
+                        paramSource.Add(refObj.OsString);
+                        paramSource.AddRange(refObj.ChildrenString);
 
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("params_ only accepts Ironbug_ObjParams or Ironbug_OutputParams!");
+                }
+
+
+            }
+
+            IB_obj.SetRefObject(paramSource);
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
+
+        }
+
+
+        //protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
+        //{
             
-        }
+        //    Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
+        //        .ToolTipText = "This will set all HVAC components with IP unit system";
+        //    //Menu_AppendSeparator(menu);
+
+        //    base.AppendAdditionalComponentMenuItems(menu);
+        //}
 
 
-        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
-        {
+        //public override bool Read(GH_IReader reader)
+        //{
+        //    if (reader.ItemExists("IconDisplayMode"))
+        //    {
+        //        DisplayMode = reader.GetInt32("IconDisplayMode");
+        //    }
             
-            Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
-                .ToolTipText = "This will set all HVAC components with IP unit system";
-            //Menu_AppendSeparator(menu);
-
-            base.AppendAdditionalComponentMenuItems(menu);
-        }
-
-
-        public override bool Read(GH_IReader reader)
-        {
-            if (reader.ItemExists("IconDisplayMode"))
-            {
-                DisplayMode = reader.GetInt32("IconDisplayMode");
-            }
-            
-            return base.Read(reader);
-        }
-        public override bool Write(GH_IWriter writer)
-        {
-            writer.SetInt32("IconDisplayMode", DisplayMode);
-            this.IconDisplayMode = DisplayMode == 0? GH_IconDisplayMode.application: GH_IconDisplayMode.icon;
-            return base.Write(writer);
-        }
+        //    return base.Read(reader);
+        //}
+        //public override bool Write(GH_IWriter writer)
+        //{
+        //    writer.SetInt32("IconDisplayMode", DisplayMode);
+        //    this.IconDisplayMode = DisplayMode == 0? GH_IconDisplayMode.application: GH_IconDisplayMode.icon;
+        //    return base.Write(writer);
+        //}
 
 
-        private void ChangeUnit(object sender, EventArgs e)
-        {
-            IB_ModelObject.IPUnit = !IB_ModelObject.IPUnit;
-            //TODO: maybe need recompute all??
-            //Only Panel
-            //But is it necessary, the unit is only for representation
-            this.ExpireSolution(true);
-        }
+       
     }
     
 }

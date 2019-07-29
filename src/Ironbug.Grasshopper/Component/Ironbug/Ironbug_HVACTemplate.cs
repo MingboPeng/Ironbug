@@ -59,7 +59,7 @@ namespace Ironbug.Grasshopper.Component
             }
             DA.SetDataList(0, this.filesList.SelectMany(_=>_));
 
-
+            this.templateMenu = GetHVACMenu();
         }
 
         private Size GetMoveVector(PointF FromLocation)
@@ -106,11 +106,20 @@ namespace Ironbug.Grasshopper.Component
             }
         }
 
-        
+
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            var newMenu = menu;
-            newMenu.Items.Clear();
+            //var newMenu = menu;
+            //newMenu.Items.Clear();
+
+            //newMenu.Items.AddRange(GetHVACMenu().Items);
+            //templateMenu = newMenu;
+
+        }
+
+        private ToolStripDropDownMenu GetHVACMenu()
+        {
+            var menu = new ToolStripDropDownMenu();
 
             var count = 0;
             foreach (var filesPerFolder in this.filesList)
@@ -119,10 +128,10 @@ namespace Ironbug.Grasshopper.Component
                 menu.Items.Add(menuItem);
                 count++;
             }
-            
-            
+            return menu;
         }
 
+        ToolStripDropDownMenu templateMenu = new ToolStripDropDownMenu();
         private ToolStripMenuItem addFromFolder(string rootFolder , List<string> filesPerFolder)
         {
             var folderName = new DirectoryInfo(rootFolder).Name;
@@ -145,13 +154,16 @@ namespace Ironbug.Grasshopper.Component
 
                 Menu_AppendItem(t.DropDown, showName, ev, null, item);
             }
-
+           
             return t;
         }
 
         public override void CreateAttributes()
         {
             var att = new IB_ComponentButtonAttributes(this);
+            att.ButtonText = "Pick a system";
+
+            att.MouseDownEvent += (object loc) => this.templateMenu.Show((GH.GUI.Canvas.GH_Canvas)loc,(loc as GH.GUI.Canvas.GH_Canvas).CursorControlPosition);
             this.Attributes = att;
 
         }

@@ -24,15 +24,30 @@ namespace Ironbug.HVAC.BaseClass
         /// <summary>
         /// Value contains a single instance.
         /// </summary>
-        public static T Value { get { return instance.Value; } }
+        public static T Value { get { return instance.Value;} }
 
         internal override Type RefOpsType => typeof(K);
         internal override Type RefEpType => typeof(K);
 
-        protected IB_FieldSet():base()
+        protected IB_FieldSet() : base()
         {
 
         }
     }
-    
+
+    public abstract class IB_FieldSet<T> : IB_FieldSet
+       where T : IB_FieldSet<T>
+    {
+        private static readonly Lazy<T> instance = new Lazy<T>(() => Activator.CreateInstance(typeof(T), true) as T);
+
+        public static T Value { get { return instance.Value; } }
+
+        internal override Type RefOpsType => typeof(Model).Assembly.GetType($"OpenStudio.{typeof(T).Name.Split('_')[1]}");
+        internal override Type RefEpType => RefOpsType;
+
+        protected IB_FieldSet() : base()
+        {
+        }
+    }
+
 }

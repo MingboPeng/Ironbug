@@ -33,6 +33,8 @@ namespace Ironbug.Grasshopper.Component
 
         private IB_FieldSet FieldSet { get; set; }
 
+        //private bool IsIPUnit = false;
+
         
         /// Initializes a new instance of the Ironbug_FieldSet class.
         
@@ -41,6 +43,7 @@ namespace Ironbug.Grasshopper.Component
               "Description",
               "Ironbug", "00:Ironbug")
         {
+            this.MutableNickName = false;
         }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -51,11 +54,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HVACObjParams", "params", "HVACObjParams", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACObjParams", "P", "HVACObjParams", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            ChangeNameWithUnitSystem();
             if (this.Params.Input.Any())
             {
                 this.Message = "Double click to switch!";
@@ -89,22 +93,26 @@ namespace Ironbug.Grasshopper.Component
                         }
                     }
 
+                  
+
+                    if (IB_ModelObject.IPUnit && !string.IsNullOrEmpty( dataField.UnitSI))
+                    {
+                        value = dataField.ConvertToSI((double)value);
+                    }
+
                     settingDatas.TryAdd(dataField, value);
                 }
             }
-
-            if (settingDatas.Any())
-            {
-                DA.SetData(0, settingDatas);
-            }
+            DA.SetData(0, settingDatas);
+           
     
         }
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-
-            menu.Items.RemoveAt(1); // remove Preview
-            menu.Items.RemoveAt(2); // remove Bake
+            
+            //menu.Items.RemoveAt(1); // remove Preview
+            //menu.Items.RemoveAt(2); // remove Bake
 
             var t = new ToolStripMenuItem("Parameters");
             var allParams = this.basicfieldList.ToList();
@@ -127,6 +135,14 @@ namespace Ironbug.Grasshopper.Component
             Menu_AppendItem(menu, "RemoveUnused", RemoveUnused, true);
             Menu_AppendSeparator(menu);
 
+            base.AppendAdditionalComponentMenuItems(menu);
+        }
+
+        private void ChangeUnitSystem(object sender, EventArgs e)
+        {
+            IB_ModelObject.IPUnit = !IB_ModelObject.IPUnit;
+
+            this.ExpireSolution(true);
         }
 
         private void OnClickParam(object sender, EventArgs e)
@@ -158,7 +174,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 writer.SetString("DataFieldSetType", this.CurrentDataFieldType.ToString());
             }
-
+            //writer.SetBoolean("IsIPUnit", this.IsIPUnit);
             return base.Write(writer);
         }
 
@@ -182,9 +198,14 @@ namespace Ironbug.Grasshopper.Component
                 this.basicfieldList = FieldSet.Where(_ => _ is IB_BasicField).ToList();
                 this.masterFieldList = FieldSet.Where(_ => !((_ is IB_BasicField) || (_ is IB_TopField))).ToList();
             }
+
+            //if (reader.ItemExists("IsIPUnit"))
+            //{
+            //    this.IsIPUnit = reader.GetBoolean("IsIPUnit");
+            //}
             return base.Read(reader);
         }
-
+       
         public void CheckRecipients()
         {
             //var outputs = this.Params.Output;
@@ -215,10 +236,24 @@ namespace Ironbug.Grasshopper.Component
                 {
                     this.IsBasicSetting = false;
                     this.IsMasterSetting = false;
-                    AddParamsByType(typeTobeShown);
-
+                    AddParamsByType(typeTobeShown); 
                     this.Message = "Double click for more details!";
                 }
+                
+            }
+        }
+
+        private void ChangeNameWithUnitSystem()
+        {
+            if (IB_ModelObject.IPUnit)
+            {
+                this.Name = "Ironbug_ObjParams [IP]";
+                this.NickName = "ObjParams [IP]";
+            }
+            else
+            {
+                this.Name = "Ironbug_ObjParams";
+                this.NickName = "ObjParams";
             }
         }
 
@@ -260,6 +295,7 @@ namespace Ironbug.Grasshopper.Component
             this.AddFieldsToParams(fieldTobeAdded);
 
             this.Params.OnParametersChanged();
+            var outp = this.Params.Output.Last();
             this.OnDisplayExpired(true);
         }
 
@@ -326,13 +362,16 @@ namespace Ironbug.Grasshopper.Component
 
             //Add new Param
             IGH_Param newParam = new Param_GenericObject();
+            if (field.DataType == typeof(int)) newParam = new Param_Integer();
             if (field.DataType == typeof(string)) newParam = new Param_String();
             if (field.DataType == typeof(double)) newParam = new Param_Number();
             if (field.DataType == typeof(bool)) newParam = new Param_Boolean();
+            
 
             newParam.Name = field.FullName;
             newParam.NickName = field.NickName;
-            newParam.Description = field.Description;
+            var description = string.Join(Environment.NewLine,new string[] { field.DetailedDescription, field.Description });
+            newParam.Description = $"Data type: {field.DataType.Name}\n\n{description}";
             newParam.MutableNickName = false;
             newParam.Access = GH_ParamAccess.item;
             newParam.Optional = true;
@@ -399,7 +438,7 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
         {
-            if (this.IsMasterSetting && side == GH_ParameterSide.Input)
+            if (side == GH_ParameterSide.Input)
             {
                 return true;
             }

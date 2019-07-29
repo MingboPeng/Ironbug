@@ -15,8 +15,6 @@ namespace Ironbug.HVAC.Schedules
         private static ScheduleRuleset InitMethod(Model model)
             => new ScheduleRuleset(model);
 
-        public IB_ScheduleDay ScheduleTypeLimits => this.Children.Get<IB_ScheduleDay>();
-
         private List<IB_ScheduleRule> Rules { get; set; } = new List<IB_ScheduleRule>();
         public IB_ScheduleRuleset() : base(InitMethod(new Model()))
         {
@@ -30,6 +28,7 @@ namespace Ironbug.HVAC.Schedules
         {
             this.Rules.Add(Rule);
         }
+
         public override IB_ModelObject Duplicate()
         {
             var obj = base.Duplicate() as IB_ScheduleRuleset;
@@ -89,6 +88,22 @@ namespace Ironbug.HVAC.Schedules
            
             obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
+        }
+
+        public static ScheduleRuleset GetOrNewSchedule(Model m, double temperature)
+        {
+            var name = $"Constant value {Math.Round(temperature, 1)} C ({Math.Round(temperature * 9 / 5 + 32, 1)} F) ";
+            var optionalObj = m.getScheduleRulesetByName(name);
+            if (optionalObj.is_initialized())
+            {
+                return optionalObj.get();
+            }
+            else
+            {
+                var sch = new ScheduleRuleset(m, temperature);
+                sch.setName(name);
+                return sch;
+            }
         }
     }
     public sealed class IB_ScheduleRuleset_FieldSet

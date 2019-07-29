@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -11,8 +10,9 @@ namespace Ironbug.HVAC.BaseClass
     {
         public static IddObject GetIddObject(Type OSType)
         {
-            var iddType = OSType.GetMethod("iddObjectType", BindingFlags.Public | BindingFlags.Static).Invoke(null, null) as IddObjectType;
+            var iddType = OSType?.GetMethod("iddObjectType", BindingFlags.Public | BindingFlags.Static)?.Invoke(null, null) as IddObjectType;
             return new IdfObject(iddType).iddObject();
+
         }
 
         public static IEnumerable<MethodInfo> GetOSSetters(Type OSType)
@@ -23,21 +23,21 @@ namespace Ironbug.HVAC.BaseClass
                             .Where(_ =>
                             {
                                 //get all setting methods
-                                if (!_.Name.StartsWith("set")) return false;
-                                if (_.Name.Contains("NodeName")) return false;
-                                if (_.GetParameters().Count() != 1) return false;
+                                var name = _.Name;
+                                var ps = _.GetParameters();
+                                if (!name.StartsWith("set")) return false;
+                                if (name.Contains("NodeName")) return false;
+                                if (ps.Count() != 1) return false;
 
-                                var paramType = _.GetParameters().First().ParameterType;
+                                //Check types
+                                var paramType = ps.First().ParameterType;
                                 var isValidType =
                                 paramType == typeof(string) ||
                                 paramType == typeof(double) ||
                                 paramType == typeof(bool) ||
                                 paramType == typeof(int) ||
-                                paramType == typeof(Curve) ||
-                                paramType == typeof(Schedule);
-                                //TODO: add supports of Schedule later
-
-                                //if (!isValidType) return false;
+                                typeof(Curve).IsAssignableFrom(paramType) ||
+                                typeof(Schedule).IsAssignableFrom(paramType);
 
                                 return isValidType;
 

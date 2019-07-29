@@ -51,9 +51,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenStudio, Version=2.5.0.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\openstudio-2.5.0\CSharp\openstudio\OpenStudio.dll</HintPath>
+    <Reference Include="OpenStudio">
+      <HintPath>..\..\lib\OpenStudio\2.8.1\OpenStudio.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -74,6 +74,18 @@
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingFourPipeBeam.cs" />
+    <Compile Include="LoopObjs\IB_CoilCoolingFourPipeBeam.cs" />
+    <Compile Include="LoopObjs\IB_CoilCoolingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="LoopObjs\IB_CoilHeatingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeCoolerIndirectResearchSpecial.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeCoolerDirectResearchSpecial.cs" />
+    <Compile Include="LoopObjs\IB_FluidCoolerSingleSpeed.cs" />
+    <Compile Include="LoopObjs\IB_FluidCoolerTwoSpeed.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeFluidCoolerTwoSpeed.cs" />
+    <Compile Include="LoopObjs\IB_EvaporativeFluidCoolerSingleSpeed.cs" />
+    <Compile Include="LoopObjs\IB_HeatPumpWaterToWaterEquationFitHeating.cs" />
+    <Compile Include="LoopObjs\IB_HeatPumpWaterToWaterEquationFitCooling.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="LoopObjs\IB_HumidifierSteamElectric.cs" />
@@ -118,6 +130,7 @@
     <Compile Include="OSExtensions\IddObject_Extensions.cs" />
     <Compile Include="BaseClass\IB_Schedule.cs" />
     <Compile Include="Schedules\IB_ScheduleDay.cs" />
+    <Compile Include="Schedules\IB_ScheduleFile.cs" />
     <Compile Include="Schedules\IB_ScheduleTypeLimits.cs" />
     <Compile Include="Schedules\IB_ScheduleRule.cs" />
     <Compile Include="Schedules\IB_ScheduleRuleset.cs" />
@@ -131,9 +144,16 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVHeatAndCoolReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctInletSideMixer.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeNoReheat.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVHeatAndCoolNoReheat.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctVAVNoReheat.cs" />
+    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
+    <Compile Include="LoopObjs\IB_AirLoopHVACUnitarySystem.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACWaterToAirHeatPump.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />
@@ -205,7 +225,6 @@
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACUnitVentilator_CoolingOnly.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctSeriesPIUReheat.cs" />
-    <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctUncontrolled.cs" />
     <Compile Include="LoopObjs\IB_BoilerHotWater.cs" />
     <Compile Include="LoopObjs\IB_ControllerOutdoorAir.cs" />
     <Compile Include="LoopObjs\IB_FanConstantVolume.cs" />

@@ -532,4 +532,61 @@
   <data name="AirTerminalMixer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AirTerminalMixer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HeatPumpW2W_Cooling" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HeatPumpW2W_Cooling.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HeatPumpW2W_Heating" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\HeatPumpW2W_Heating.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VRFUnit_adv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VRFUnit_adv.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_CoolingVRF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_CoolingVRF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_HeatingVRF" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_HeatingVRF.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitarySys" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitarySys.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EvapCoolerDir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EvapCoolerDir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="EvapCoolerIndir" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EvapCoolerIndir.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FluidCooler1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluidCooler1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FluidCooler2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FluidCooler2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FourPipeBeam" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FourPipeBeam.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_Cooling4PB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_Cooling4PB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_Heating4PB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_Heating4PB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FourPipeInduction" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FourPipeInduction.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAVBoxHtnClnNoReheat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VAVBoxHtnClnNoReheat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VAVHtnClnBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VAVHtnClnBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AirTerminalUncontrolledReheat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AirTerminalUncontrolledReheat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DesuperHeater" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DesuperHeater.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ZonePicker" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ZonePicker.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

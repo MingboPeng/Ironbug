@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
           : base("Ironbug_CoilHeatingLowTempRadiantConstFlow", "CoilHtn_LowTRadC",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilHeatingLowTempRadiantVarFlow_FieldSet))
+              typeof(HVAC.IB_CoilHeatingLowTempRadiantConstFlow_FieldSet))
         {
         }
 
@@ -47,7 +47,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref airLoT);
 
             var obj = new HVAC.IB_CoilHeatingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
-            
+            this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
             DA.SetData(1, obj);
         }

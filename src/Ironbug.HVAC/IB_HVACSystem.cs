@@ -62,7 +62,11 @@ namespace Ironbug.HVAC
             //here means editing current existing file 
             if (!string.IsNullOrEmpty( this._existFile))
             {
-                osmFile = this._existFile;
+                if (this._existFile != filepath)
+                {
+                    throw new ArgumentException("File path is different than osm file contains existing loops!\nPlease input the existing osm file path.");
+                }
+                //osmFile = this._existFile;
             }
 
             //get Model from file if exists
@@ -124,11 +128,14 @@ namespace Ironbug.HVAC
             var tempM = tempM_o.get();
             var handle = tempM.handle().__str__();
 
+            var tempCName = string.Empty;
+
             foreach (var item in tempM.sources())
             {
                 if (item.to_Construction().isNull()) continue;
 
                 var tempC = item.to_Construction().get();
+                tempCName = tempC.nameString();
                 var mLayers = tempC.layers();
 
                 var newLayers = new OpenStudio.MaterialVector(mLayers);
@@ -137,18 +144,55 @@ namespace Ironbug.HVAC
 
                 //create ConstructionWithInternalSource
                 var opC = new OpenStudio.ConstructionWithInternalSource(model);
-                opC.setName(tempC.nameString());
+                opC.setName(tempCName);
                 opC.setLayers(newLayers);
                 opC.setSourcePresentAfterLayerNumber(index);
+                var opC_rev = opC.reverseConstructionWithInternalSource();
+                var opCname = opC.nameString();
 
-                //assign to surfaces 
-                foreach (var i in tempC.sources())
+                //assign to surfaces and their adjacent surfaces
+                var surfacesWithConstr = tempC.sources().Where(_ => _.to_Surface().is_initialized()).Select(_ => _.to_Surface().get());
+                foreach (var srf in surfacesWithConstr)
                 {
-                    if (i.to_PlanarSurface().isNull()) continue;
-                    var srf = i.to_PlanarSurface().get();
                     srf.setConstruction(opC);
+                    if (srf.adjacentSurface().is_initialized())
+                    {
+                        srf.adjacentSurface().get().setConstruction(opC_rev);
+                    }
                 }
 
+                //in case that construction is set to default construction set
+                var defconstrs = tempC.sources().Where(_=> _.to_DefaultSurfaceConstructions().is_initialized()).Select(_ => _.to_DefaultSurfaceConstructions().get());
+                //var names = defconstrs.SelectMany(_ => _.children().Select(c => c.nameString()));
+                foreach (var defcon in defconstrs)
+                {
+                    if (defcon.wallConstruction().is_initialized())
+                    {
+                        if (defcon.wallConstruction().get().nameString() == tempCName)
+                        {
+                            defcon.setWallConstruction(opC);
+                        }
+
+                    }
+
+                    if (defcon.floorConstruction().is_initialized())
+                    {
+                        if (defcon.floorConstruction().get().nameString() == tempCName)
+                        {
+                            defcon.setFloorConstruction(opC);
+                        }
+                    }
+
+                    if (defcon.roofCeilingConstruction().is_initialized())
+                    {
+                        if (defcon.roofCeilingConstruction().get().nameString() == tempCName)
+                        {
+                            defcon.setRoofCeilingConstruction(opC);
+                        }
+                    }
+
+
+                }
                 tempC.remove();
             }
             
