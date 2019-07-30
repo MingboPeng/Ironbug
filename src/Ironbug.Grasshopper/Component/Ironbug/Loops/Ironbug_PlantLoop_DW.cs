@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
+using Ironbug.Core;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
 
@@ -47,13 +48,10 @@ namespace Ironbug.Grasshopper.Component
 
 
             var plant = new HVAC.IB_PlantLoop();
-            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
-            plant.SetFieldValues(
-               new Dictionary<IB_Field, object>() {
-                    { plantFields.Name, "Condenser Water Loop" },
-                    { plantFields.FluidType, "Water" }
-               });
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value; 
 
+            plant.CustomAttributes.TryAdd(plantFields.Name, "Condenser Water Loop");
+            plant.CustomAttributes.TryAdd(plantFields.FluidType, "Water");
 
             foreach (var item in supplyComs)
             {
