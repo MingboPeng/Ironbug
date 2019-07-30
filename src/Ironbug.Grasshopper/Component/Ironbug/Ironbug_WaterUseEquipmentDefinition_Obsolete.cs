@@ -3,20 +3,20 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_WaterUseEquipmentDefinition : Ironbug_HVACComponent
+    public class Ironbug_WaterUseEquipmentDefinition_Obsolete : Ironbug_Component
     {
         
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
-        public Ironbug_WaterUseEquipmentDefinition()
+        public Ironbug_WaterUseEquipmentDefinition_Obsolete()
           : base("Ironbug_WaterUseEquipmentDefinition", "WaterUseLoad",
               "Description",
-              "Ironbug", "07:Curve & Load",
-              typeof(HVAC.IB_WaterUseEquipmentDefinition_FieldSet))
+              "Ironbug", "07:Curve & Load")
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.hidden;
+        public override bool Obsolete => true;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -33,14 +33,12 @@ namespace Ironbug.Grasshopper.Component
             double peakFlowRate = 0.000063;
             DA.GetData(0, ref peakFlowRate);
             var obj = new HVAC.IB_WaterUseEquipmentDefinition(peakFlowRate);
-
-            obj.SetFieldValue(HVAC.IB_WaterUseEquipmentDefinition_FieldSet.Value.PeakFlowRate, peakFlowRate);
-            this.SetObjParamsTo(obj);
+            
             DA.SetData(0, obj);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterUseLoad;
 
-        public override Guid ComponentGuid => new Guid("{F8B38B50-1737-4A79-878F-F3B51312AE9A}");
+        public override Guid ComponentGuid => new Guid("4AB12C7F-8799-428B-87F6-62FDEDEE3B2F");
     }
 }
