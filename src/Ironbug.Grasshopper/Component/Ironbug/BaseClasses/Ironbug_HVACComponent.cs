@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
         private void Params_ParameterSourcesChanged(object sender, GH_ParamServerEventArgs e)
         {
             var pName = e.Parameter.NickName;
-            var isParam = pName == "params_" || pName == "Parameters_";
+            var isParam = pName == "params_" || pName.StartsWith("Parameters");
             if (e.ParameterSide == GH_ParameterSide.Input && isParam )
             {
                 ParamSettingChanged(e);
@@ -70,7 +70,7 @@ namespace Ironbug.Grasshopper.Component
         {
             if (this.iB_ModelObject is null)
             {
-                var data = this.Params.Input.First(_ => _.Name == "Parameters_").VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
+                var data = this.Params.Input.First(_ => _.Name.StartsWith("Parameters")).VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
                 this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
 
@@ -130,7 +130,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
-            var paramInput = this.Params.Input.First(_ => _.Name == "Parameters_");
+            var paramInput = this.Params.Input.First(_ => _.Name.StartsWith("Parameters"));
             //catch the data when it is in branch
             if (this.Phase != GH_SolutionPhase.Computing) return;
             if (paramInput.VolatileDataCount == 0) return;

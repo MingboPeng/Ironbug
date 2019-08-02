@@ -93,7 +93,7 @@
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoadRefObjects.cs" />
-    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoopComponent.cs" />
+    <Compile Include="Component\Ironbug\BaseClasses\Ironbug_LoopObjectComponent.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ZonePicker.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_RefObject.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />

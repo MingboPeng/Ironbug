@@ -2,6 +2,7 @@
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
+using Grasshopper.Kernel.Undo;
 using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
@@ -22,47 +23,64 @@ namespace Ironbug.Grasshopper.Component
         {
             var objs = new List<IB_ModelObject>();
             var num = 1;
-            var paramInput = this.Params.Input.FirstOrDefault(_ => _.Name == "DuplicateNumber_");
-            if (paramInput is Param_Integer intP)
+            var paramInput = this.Params.Input.FirstOrDefault(_ => _.Name == "DuplicateNumber_"); 
+            if (paramInput is Param_Integer intP) // check if is null
             {
-
-                var numO = intP.VolatileData.AllData(true).FirstOrDefault();
-                if (numO is GH_Integer ghInt)
+                if (paramInput.VolatileDataCount > 0)
                 {
-                    num = Math.Max(ghInt.Value, 1);
+                    var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
+                    var numO = intP.VolatileData.get_Branch(branchIndex - 1)[0];
+                    if (numO is GH_Integer ghInt)
+                    {
+                        num = Math.Max(ghInt.Value, 1);
+                    }
                 }
+             
             }
 
-            for (int i = 0; i < num; i++)
+            if (num == 1)
             {
-                var newobj = IB_obj.Duplicate();
-                newobj.SetTrackingID();
-                objs.Add(newobj);
+                return new List<IB_ModelObject>() { IB_obj };
+            }
+            else
+            {
+
+                for (int i = 0; i < num; i++)
+                {
+                    var newobj = IB_obj.Duplicate();
+                    newobj.SetTrackingID();
+                    objs.Add(newobj);
+                }
+
+                return objs;
             }
 
-            return objs;
         }
 
         private bool _dupNum;
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
             Menu_AppendItem(menu, "Duplicate Number", AddDupParam, true, this._dupNum)
-                .ToolTipText = "This will set all HVAC components with IP unit system";
+                .ToolTipText = "Add or remove the DuplicateNumber input parameter.";
             Menu_AppendSeparator(menu);
 
             base.AppendAdditionalComponentMenuItems(menu);
         }
         private void AddDupParam(object sender, EventArgs e)
         {
+            
             this._dupNum = !_dupNum;
+
             //Don't add if already exist
             var lastP = this.Params.Input.Last();
             if (lastP.Name == "DuplicateNumber_")
             {
+                //this.RecordUndoEvent("AddDupParam", new GH_ExpressionUndoAction(this, ""));
                 Params.UnregisterInputParameter(lastP);
             }
             else
             {
+                //this.RecordUndoEvent("AddDupParam", new GH_ExpressionUndoAction(this,""));
                 //Add new Param
                 IGH_Param newParam = new Param_Integer();
 
@@ -70,15 +88,15 @@ namespace Ironbug.Grasshopper.Component
                 newParam.NickName = "n_";
                 newParam.Description = $"Number of duplicates";
                 newParam.MutableNickName = false;
-                newParam.Access = GH_ParamAccess.item;
+                newParam.Access = GH_ParamAccess.list;
                 newParam.Optional = true;
-
+                newParam.WireDisplay = GH_ParamWireDisplay.faint;
                 Params.RegisterInputParam(newParam);
             }
 
-
             this.Params.OnParametersChanged();
-            this.OnDisplayExpired(true);
+            //this.OnDisplayExpired(true);
+            this.ExpireSolution(true);
         }
 
         public override bool Read(GH_IReader reader)
