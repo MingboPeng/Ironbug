@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingLowTempRadiantVarFlow : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingLowTempRadiantVarFlow : Ironbug_LoopObjectComponent
     {
         public Ironbug_CoilHeatingLowTempRadiantVarFlow()
           : base("Ironbug_CoilHeatingLowTempRadiantVarFlow", "CoilHtn_LowTRadV",
@@ -37,9 +37,11 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref airLoT);
 
             var obj = new HVAC.IB_CoilHeatingLowTempRadiantVarFlow(airLoT);
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
         
 

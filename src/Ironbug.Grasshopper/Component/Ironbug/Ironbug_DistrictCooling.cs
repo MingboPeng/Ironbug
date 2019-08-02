@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_DistrictCooling : Ironbug_HVACComponent
+    public class Ironbug_DistrictCooling : Ironbug_LoopObjectComponent
     {
         public Ironbug_DistrictCooling()
           : base("Ironbug_DistrictCooling", "DistrictCooling",
@@ -29,9 +29,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_DistrictCooling();
-            
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.DistricCooling;

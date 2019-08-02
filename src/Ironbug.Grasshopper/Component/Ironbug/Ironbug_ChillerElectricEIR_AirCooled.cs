@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ChillerElectricEIR_Air : Ironbug_HVACComponent
+    public class Ironbug_ChillerElectricEIR_Air : Ironbug_LoopObjectComponent
     {
         public Ironbug_ChillerElectricEIR_Air()
           : base("Ironbug_ChillerElectricEIR_AirCooled", "Chiller_AirCooled",
@@ -28,10 +28,11 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ChillerElectricEIR();
-            
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Chiller_Air;

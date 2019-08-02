@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingGas : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingGas : Ironbug_LoopObjectComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilCoolingGas class.
@@ -31,10 +31,11 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingGas();
-            
+
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

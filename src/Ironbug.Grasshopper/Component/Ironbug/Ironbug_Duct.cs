@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Duct : Ironbug_HVACComponent
+    public class Ironbug_Duct : Ironbug_LoopObjectComponent
     {
         public Ironbug_Duct()
           : base("Ironbug_Duct", "Duct",
@@ -33,7 +33,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_Duct();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

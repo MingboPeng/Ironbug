@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HeatPumpWaterToWaterEquationFitHeating : Ironbug_HVACComponent
+    public class Ironbug_HeatPumpWaterToWaterEquationFitHeating : Ironbug_LoopObjectComponent
     {
         public Ironbug_HeatPumpWaterToWaterEquationFitHeating()
           : base("Ironbug_HeatPumpWaterToWaterEquationFitHeating", "HeatPumpHeating",
@@ -31,8 +31,9 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_HeatPumpWaterToWaterEquationFitHeating();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
 
 

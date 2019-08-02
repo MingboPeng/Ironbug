@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_GroundHeatExchangerVertical : Ironbug_HVACComponent
+    public class Ironbug_GroundHeatExchangerVertical : Ironbug_LoopObjectComponent
     {
         
         public Ironbug_GroundHeatExchangerVertical()
@@ -40,7 +40,8 @@ namespace Ironbug.Grasshopper.Component
             }
             
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

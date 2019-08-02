@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PipeOutdoor : Ironbug_HVACComponent
+    public class Ironbug_PipeOutdoor : Ironbug_LoopObjectComponent
     {
         public Ironbug_PipeOutdoor()
           : base("Ironbug_PipeOutdoor", "PipeOutdoor",
@@ -31,7 +31,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_PipeOutdoor();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.PipeOutdoor;

@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanVariableVolume : Ironbug_HVACComponent
+    public class Ironbug_FanVariableVolume : Ironbug_LoopObjectComponent
     {
         public Ironbug_FanVariableVolume()
           : base("Ironbug_FanVariableVolume", "FanVariable",
@@ -33,10 +33,11 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_FanVariableVolume();
-            
+
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.FanV;

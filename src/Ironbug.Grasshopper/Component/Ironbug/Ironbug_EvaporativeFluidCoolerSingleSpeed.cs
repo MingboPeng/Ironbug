@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EvaporativeFluidCoolerSingleSpeed : Ironbug_HVACComponent
+    public class Ironbug_EvaporativeFluidCoolerSingleSpeed : Ironbug_LoopObjectComponent
     {
         
         
@@ -33,7 +33,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_EvaporativeFluidCoolerSingleSpeed();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.FluidCooler1;

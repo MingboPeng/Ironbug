@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit : Ironbug_HVACComponent
+    public class Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit : Ironbug_LoopObjectComponent
     {
 
         public Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit()
@@ -29,11 +29,12 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilCoolingWaterToAirHeatPumpEquationFit();
-            
+
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Coil_CoolingWAFit;

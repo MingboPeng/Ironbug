@@ -1,16 +1,30 @@
-﻿using GH_IO.Serialization;
-using Grasshopper.Kernel;
+﻿using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Grasshopper.Kernel.Types;
 using Ironbug.HVAC.BaseClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
 
 
 namespace Ironbug.Grasshopper.Component
 {
+    //public abstract class Ironbug_CurveComponent : Ironbug_HVACComponent
+    //{
+    //    public Ironbug_CurveComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
+    //        : base(name, nickname, description, category, subCategory, DataFieldType)
+    //    {
+    //    }
+    //}
+
+
+    //public abstract class Ironbug_SetpointComponent : Ironbug_Component
+    //{
+    //    public Ironbug_SetpointComponent(string name, string nickname, string description, string category, string subCategory) 
+    //        : base(name, nickname, description, category, subCategory)
+    //    {
+    //    }
+    //}
     public abstract class Ironbug_HVACComponent : Ironbug_Component
     {
         public Type DataFieldType { get; private set; }
@@ -56,7 +70,7 @@ namespace Ironbug.Grasshopper.Component
         {
             if (this.iB_ModelObject is null)
             {
-                var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
+                var data = this.Params.Input.First(_ => _.Name == "Parameters_").VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
                 this.iB_ModelObject = data?.Value as IB_ModelObject;
             }
 
@@ -116,7 +130,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
-            var paramInput = this.Params.Input.Last();
+            var paramInput = this.Params.Input.First(_ => _.Name == "Parameters_");
             //catch the data when it is in branch
             if (this.Phase != GH_SolutionPhase.Computing) return;
             if (paramInput.VolatileDataCount == 0) return;
@@ -174,37 +188,10 @@ namespace Ironbug.Grasshopper.Component
             IB_obj.AddOutputVariables(outputP);
 
         }
+        
 
 
-        //protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
-        //{
-            
-        //    Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
-        //        .ToolTipText = "This will set all HVAC components with IP unit system";
-        //    //Menu_AppendSeparator(menu);
 
-        //    base.AppendAdditionalComponentMenuItems(menu);
-        //}
-
-
-        //public override bool Read(GH_IReader reader)
-        //{
-        //    if (reader.ItemExists("IconDisplayMode"))
-        //    {
-        //        DisplayMode = reader.GetInt32("IconDisplayMode");
-        //    }
-            
-        //    return base.Read(reader);
-        //}
-        //public override bool Write(GH_IWriter writer)
-        //{
-        //    writer.SetInt32("IconDisplayMode", DisplayMode);
-        //    this.IconDisplayMode = DisplayMode == 0? GH_IconDisplayMode.application: GH_IconDisplayMode.icon;
-        //    return base.Write(writer);
-        //}
-
-
-       
     }
     
 }

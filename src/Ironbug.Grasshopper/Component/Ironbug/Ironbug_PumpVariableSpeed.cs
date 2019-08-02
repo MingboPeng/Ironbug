@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PumpVariableSpeed : Ironbug_HVACComponent
+    public class Ironbug_PumpVariableSpeed : Ironbug_LoopObjectComponent
     {
         public Ironbug_PumpVariableSpeed()
           : base("Ironbug_PumpVariableSpeed", "PumpVariable",
@@ -29,7 +29,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_PumpVariableSpeed();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PumpV;//return null;

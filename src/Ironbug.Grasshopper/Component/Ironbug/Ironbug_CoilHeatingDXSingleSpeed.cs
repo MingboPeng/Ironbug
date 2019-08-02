@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_LoopObjectComponent
     {
         public Ironbug_CoilHeatingDXSingleSpeed()
           : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
@@ -28,8 +28,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingDXSingleSpeed();
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHDX1;
