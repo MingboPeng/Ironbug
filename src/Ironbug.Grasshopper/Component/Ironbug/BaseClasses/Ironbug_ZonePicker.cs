@@ -66,28 +66,24 @@ namespace Ironbug.Grasshopper.Component
         {
             var selectedZones = new List<GH_Brep>();
             var unselectedZones = new List<GH_Brep>();
-            foreach (var item in allBps)
+
+            var inputBrpsCenterPts = allBps.AsParallel().AsOrdered().Select(_ => VolumeMassProperties.Compute(_.Value).Centroid);
+            var num = 0;
+            foreach (var pt in inputBrpsCenterPts)
             {
-
-                var sBp = item.DuplicateBrep();
-               
-                var isSelected = false;
-                foreach (var b in outBx)
+                var isSel = outBx.AsParallel().FirstOrDefault(_ => _.Value.Contains(pt)) != null;
+                var currentItem = allBps[num];
+                if (isSel)
                 {
-                    var ct = VolumeMassProperties.Compute(sBp.Value);
-                    isSelected = b.Value.Contains(ct.Centroid);
-                    if (isSelected)
-                    {
-                        selectedZones.Add(item);
-                        break;
-                    }
+                    selectedZones.Add(currentItem);
                 }
-
-                if (!isSelected)
+                else
                 {
-                    unselectedZones.Add(item);
+                    unselectedZones.Add(currentItem);
                 }
+                num++;
             }
+
             Unselected = unselectedZones;
             return selectedZones;
         }
@@ -107,20 +103,19 @@ namespace Ironbug.Grasshopper.Component
             
             var allBps = this.AllInputBreps;
 
-            if (allBps.Count==0)
+            if (!allBps.Any())
             {
                 return;
             }
             var zParm = this.Params.Input[0] as GH.Kernel.Parameters.Param_Brep;
             zParm.Hidden = false;
             var nodeIds = new List<Guid>();
-            foreach (var item in allBps)
+            var centers = allBps.AsParallel().Select(_ => VolumeMassProperties.Compute(_.Value).Centroid);
+
+            foreach (var item in centers)
             {
-                var cc = VolumeMassProperties.Compute(item.Value);
-                //var cc = item.Value.GetBoundingBox(false).Center;
-                var bbox = GenZoneNode(cc.Centroid);
+                var bbox = GenZoneNode(item);
                 nodeIds.Add(doc.Objects.AddBrep(bbox.ToBrep()));
-                
             }
             doc.Objects.UnselectAll();
             doc.Views.Redraw();
@@ -132,6 +127,7 @@ namespace Ironbug.Grasshopper.Component
            
             if (pickedZoneNodes == null || pickedZoneNodes.Count==0)
             {
+                doc.Objects.Delete(nodeIds, true);
                 doc.Views.Redraw();
                 return;
             }
