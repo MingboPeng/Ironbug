@@ -29,7 +29,7 @@ namespace Ironbug.HVAC
             this.lowT = Temperature;
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             var newobj = base.Duplicate() as IB_SetpointManagerScheduledDualSetpoint;
             newobj.lowT = this.lowT;

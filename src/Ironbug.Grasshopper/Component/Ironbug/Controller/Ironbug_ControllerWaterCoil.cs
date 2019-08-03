@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ControllerWaterCoil : Ironbug_HVACComponent
+    public class Ironbug_ControllerWaterCoil : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ControllerWaterCoil()
           : base("Ironbug_ControllerWaterCoil", "ControllerWaterCoil",
@@ -27,9 +27,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_ControllerWaterCoil();
-            
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
 
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterCoilCtrl;

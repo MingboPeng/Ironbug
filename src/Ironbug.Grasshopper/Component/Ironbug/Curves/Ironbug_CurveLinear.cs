@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveLinear : Ironbug_HVACComponent
+    public class Ironbug_CurveLinear : Ironbug_HVACWithParamComponent
     {
         public Ironbug_CurveLinear()
           : base("Ironbug_CurveLinear", "CurveLinear",

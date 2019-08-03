@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CurveBicubic : Ironbug_HVACComponent
+    public class Ironbug_CurveBicubic : Ironbug_HVACWithParamComponent
     {
         
         public Ironbug_CurveBicubic()

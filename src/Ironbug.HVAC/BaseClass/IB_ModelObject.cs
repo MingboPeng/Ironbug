@@ -375,19 +375,11 @@ namespace Ironbug.HVAC.BaseClass
         //TODO: need to revisit this. this method has been overridden, but not used.
         public virtual IB_ModelObject Duplicate()
         {
-            var newObj = this.DuplicateIBObj(IB_InitSelf);
-            newObj.Children.Clear();
-            foreach (var child in this.Children)
-            {
-                newObj.Children.Add(child.Duplicate());
-            }
-
-            
-            return newObj;
+            return this.Duplicate(IB_InitSelf);
         }
 
         
-        protected IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
+        protected T Duplicate<T>(Func<T> func) where T : IB_ModelObject
         {
             if (func == null)
             {
@@ -404,25 +396,12 @@ namespace Ironbug.HVAC.BaseClass
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
             newObj.RefObjects = this.RefObjects;
-            return newObj;
-        }
 
-        protected T DuplicateIBObj<T>(Func<T> func) where T : IB_ModelObject
-        {
-            if (func == null)
+            newObj.Children.Clear();
+            foreach (var child in this.Children)
             {
-                return null;
+                newObj.Children.Add(child.Duplicate());
             }
-
-            var newObj = func.Invoke();
-
-            foreach (var item in this.CustomAttributes)
-            {
-                newObj.CustomAttributes.TryAdd(item.Key, item.Value);
-            }
-
-            newObj.UpdateOSModelObjectWithCustomAttr();
-
             return newObj;
         }
 

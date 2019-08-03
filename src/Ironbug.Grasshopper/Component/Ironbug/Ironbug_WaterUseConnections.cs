@@ -6,7 +6,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_WaterUseConnections : Ironbug_HVACComponent
+    public class Ironbug_WaterUseConnections : Ironbug_HVACWithParamComponent
     {
         
         public Ironbug_WaterUseConnections()

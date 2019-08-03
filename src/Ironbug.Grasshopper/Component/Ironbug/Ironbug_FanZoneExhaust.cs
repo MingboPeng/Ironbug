@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanZoneExhaust : Ironbug_HVACComponent
+    public class Ironbug_FanZoneExhaust : Ironbug_DuplicableHVACWithParamComponent
     {
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.exFan;
@@ -34,10 +34,11 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_FanZoneExhaust();
-            
-            
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+
         }
         
     }

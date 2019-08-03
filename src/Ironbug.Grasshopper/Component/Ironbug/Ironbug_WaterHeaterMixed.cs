@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_WaterHeaterMixed : Ironbug_HVACComponent
+    public class Ironbug_WaterHeaterMixed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_WaterHeaterMixed()
           : base("Ironbug_WaterHeaterMixed", "WaterHeaterMixed",
@@ -26,7 +26,8 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_WaterHeaterMixed();
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;

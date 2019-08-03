@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_Component
+    public class Ironbug_SetpointManagerSingleZoneReheat : Ironbug_HVACComponent
     {
 
         private static HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet _fieldSet = HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet.Value;
         public Ironbug_SetpointManagerSingleZoneReheat()
           : base("Ironbug_SetpointManagerSingleZoneReheat", "SPM_SZReheat",
-              _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+              "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerSingleZoneReheat_FieldSet))
         {
         }
 
@@ -48,6 +49,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
             if (DA.GetData(1, ref minT)) obj.SetFieldValue(_fieldSet.MinimumSupplyAirTemperature, minT);
             if (DA.GetData(2, ref maxT)) obj.SetFieldValue(_fieldSet.MaximumSupplyAirTemperature, maxT);
+
 
             DA.SetData(0, obj);
         }

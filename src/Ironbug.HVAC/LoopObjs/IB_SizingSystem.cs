@@ -14,10 +14,6 @@ namespace Ironbug.HVAC
         {
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            return base.DuplicateIBObj(IB_InitSelf);
-        }
 
         public ModelObject ToOS(AirLoopHVAC loop)
         {
@@ -30,12 +26,6 @@ namespace Ironbug.HVAC
             //old.remove();
             return old;
         }
-
-        ////this is replaced by above method
-        //protected override ModelObject NewOpsObj(Model model)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 
     public sealed class IB_SizingSystem_FieldSet

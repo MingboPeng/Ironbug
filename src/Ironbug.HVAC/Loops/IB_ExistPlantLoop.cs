@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            var newObj = this.DuplicateIBObj(() => new IB_ExistPlantLoop(ExistingObj));
+            var newObj = this.Duplicate(() => new IB_ExistPlantLoop(ExistingObj));
 
             newObj.AddBranches((IB_PlantLoopBranches)this._demandBranchGroup.Duplicate());
 

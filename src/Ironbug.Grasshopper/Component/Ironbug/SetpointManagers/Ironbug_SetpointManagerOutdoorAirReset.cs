@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_Component
+    public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_DuplicableHVACComponent
     {
         private static HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet _fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet.Value;
         
@@ -11,8 +11,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         public Ironbug_SetpointManagerOutdoorAirReset()
           : base("Ironbug_SetpointManagerOutdoorAirReset", "SPM_OAReset",
-              _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+              "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -49,7 +50,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             obj.SetFieldValue(_fieldSet.OutdoorLowTemperature, lowOT);
 
 
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetpointOAReset;

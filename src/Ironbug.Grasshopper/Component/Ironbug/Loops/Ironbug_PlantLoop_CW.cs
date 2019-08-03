@@ -8,7 +8,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop_CW : Ironbug_HVACComponent
+    public class Ironbug_PlantLoop_CW : Ironbug_HVACWithParamComponent
     {
         
         public Ironbug_PlantLoop_CW()
@@ -57,12 +57,12 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var item in supplyComs)
             {
-                var newItem = item.Duplicate();
+                var newItem = item.Duplicate() as IB_HVACObject;
                 plant.AddToSupply(newItem);
             }
             foreach (var item in demandComs)
             {
-                var newItem = item.Duplicate();
+                var newItem = item.Duplicate() as IB_HVACObject;
                 plant.AddToDemand(newItem);
             }
             

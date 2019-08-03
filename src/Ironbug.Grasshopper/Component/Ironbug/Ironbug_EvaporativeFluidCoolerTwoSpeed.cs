@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EvaporativeFluidCoolerTwoSpeed : Ironbug_HVACComponent
+    public class Ironbug_EvaporativeFluidCoolerTwoSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         
         
@@ -33,7 +33,9 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_EvaporativeFluidCoolerTwoSpeed();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.FluidCooler2;

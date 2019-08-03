@@ -148,7 +148,7 @@ namespace Ironbug.Grasshopper.Component
             var recs = this.Params.Output[0].Recipients;
             if (recs.Count == 0) return;
 
-            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponent;
+            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACWithParamComponent;
             var obj = rec.IB_ModelObject;
             if (obj is null) return;
             

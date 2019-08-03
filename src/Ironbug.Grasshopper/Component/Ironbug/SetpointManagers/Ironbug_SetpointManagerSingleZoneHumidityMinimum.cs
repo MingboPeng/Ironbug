@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerSingleZoneHumidityMinimum : Ironbug_Component
+    public class Ironbug_SetpointManagerSingleZoneHumidityMinimum : Ironbug_HVACComponent
     {
 
-        private static HVAC.IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet _fieldSet = HVAC.IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet.Value;
+        //private static HVAC.IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet _fieldSet = HVAC.IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet.Value;
         public Ironbug_SetpointManagerSingleZoneHumidityMinimum()
           : base("Ironbug_SetpointManagerSingleZoneHumidityMinimum", "SPM_SZHumidityMin",
-              _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+              "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet))
         {
         }
 
@@ -38,6 +39,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             if (zones.Count > 1) this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This is the setpointManager for the single zone, you have more than one zone as input. So it takes the first zone as the control zone.");
             zone = zones[0];
             var obj = new HVAC.IB_SetpointManagerSingleZoneHumidityMinimum(zone);
+
 
             DA.SetData(0, obj);
         }

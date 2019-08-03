@@ -35,7 +35,7 @@ namespace Ironbug.HVAC
         }
         
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
 
             var newObj = base.Duplicate() as IB_WaterUseConnections;

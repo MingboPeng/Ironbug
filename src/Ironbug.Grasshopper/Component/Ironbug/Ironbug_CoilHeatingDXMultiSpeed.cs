@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingDXMultiSpeed : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingDXMultiSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoilHeatingDXMultiSpeed()
           : base("Ironbug_CoilHeatingDXMultiSpeed", "CoilHtn_DXM",
@@ -30,8 +30,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingDXMultiSpeed();
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
             this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This obj is not fully finished by OpenStudio, stay tuned!");
         }
 

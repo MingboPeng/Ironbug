@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PumpConstantSpeed : Ironbug_HVACComponent
+    public class Ironbug_PumpConstantSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PumpConstantSpeed()
           : base("Ironbug_PumpConstantSpeed", "PumpConstant",
@@ -28,9 +28,9 @@ namespace Ironbug.Grasshopper.Component
         {
             var obj = new HVAC.IB_PumpConstantSpeed();
 
-            
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.PumpC;

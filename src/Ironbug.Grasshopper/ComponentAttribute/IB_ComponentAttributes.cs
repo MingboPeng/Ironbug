@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
             if (channel == GH_CanvasChannel.Objects)
             {
                 
-                var mode = Ironbug_HVACComponent.DisplayMode;
+                var mode = Ironbug_HVACWithParamComponent.DisplayMode;
                 if (mode == 0) return;
                 if (GH_Canvas.ZoomFadeMedium <5) return;
                 

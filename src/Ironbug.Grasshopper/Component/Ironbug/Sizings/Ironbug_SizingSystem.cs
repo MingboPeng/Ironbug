@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SizingSystem : Ironbug_HVACComponent
+    public class Ironbug_SizingSystem : Ironbug_HVACWithParamComponent
     {
         public Ironbug_SizingSystem()
           : base("Ironbug_SizingSystem", "SizingSystem",

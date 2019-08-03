@@ -3,15 +3,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerMultiZoneHeatingAverage : Ironbug_Component
+    public class Ironbug_SetpointManagerMultiZoneHeatingAverage : Ironbug_DuplicableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet.Value;
         
         public Ironbug_SetpointManagerMultiZoneHeatingAverage()
           : base("Ironbug_SetpointManagerMultiZoneHeatingAverage", "SPM_HumidityAvg",
-             _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+               "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -45,8 +46,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 obj.SetFieldValue(_fieldSet.MaximumSetpointTemperature, max);
             }
 
-
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointHumidityAvg;

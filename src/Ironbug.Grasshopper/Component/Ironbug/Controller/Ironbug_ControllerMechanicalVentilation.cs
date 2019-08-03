@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Grasshopper.Kernel;
-using Ironbug.HVAC.BaseClass;
-using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ControllerMechanicalVentilation : Ironbug_HVACComponent
+    public class Ironbug_ControllerMechanicalVentilation : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ControllerMechanicalVentilation()
           : base("Ironbug_ControllerMechanicalVentilation", "MechVentController",
@@ -34,7 +30,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_ControllerMechanicalVentilation();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
 
         }
 

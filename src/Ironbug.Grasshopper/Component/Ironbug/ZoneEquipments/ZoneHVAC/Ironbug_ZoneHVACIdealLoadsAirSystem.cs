@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACIdealLoadsAirSystem : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACIdealLoadsAirSystem : Ironbug_HVACWithParamComponent
     {
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.IdealAirLoad;

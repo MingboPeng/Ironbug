@@ -192,11 +192,11 @@ namespace Ironbug.HVAC.BaseClass
         }
         
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             
             //Duplicate self;
-            var newObj = base.DuplicateIBObj(() => new IB_ThermalZone());
+            var newObj = base.Duplicate(() => new IB_ThermalZone());
             newObj.IsAirTerminalPriorToZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
 
             //Duplicate child member; //add new child member to new object;
