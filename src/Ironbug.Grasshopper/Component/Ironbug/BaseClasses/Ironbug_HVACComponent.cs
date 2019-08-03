@@ -52,16 +52,16 @@ namespace Ironbug.Grasshopper.Component
 
 
         //save ib object for Ironbug_OutputParams
-        protected override void AfterSolveInstance()
-        {
-            if (this.iB_ModelObject is null)
-            {
-                var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
-                this.iB_ModelObject = data?.Value as IB_ModelObject;
-            }
+        //protected override void AfterSolveInstance()
+        //{
+        //    if (this.iB_ModelObject is null)
+        //    {
+        //        var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
+        //        this.iB_ModelObject = data?.Value as IB_ModelObject;
+        //    }
 
-            base.AfterSolveInstance();
-        }
+        //    base.AfterSolveInstance();
+        //}
 
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
@@ -173,35 +173,9 @@ namespace Ironbug.Grasshopper.Component
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
 
+            this.iB_ModelObject = IB_obj;
+
         }
-
-
-        //protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
-        //{
-            
-        //    Menu_AppendItem(menu, "IP-Unit", ChangeUnit, true , IB_ModelObject.IPUnit)
-        //        .ToolTipText = "This will set all HVAC components with IP unit system";
-        //    //Menu_AppendSeparator(menu);
-
-        //    base.AppendAdditionalComponentMenuItems(menu);
-        //}
-
-
-        //public override bool Read(GH_IReader reader)
-        //{
-        //    if (reader.ItemExists("IconDisplayMode"))
-        //    {
-        //        DisplayMode = reader.GetInt32("IconDisplayMode");
-        //    }
-            
-        //    return base.Read(reader);
-        //}
-        //public override bool Write(GH_IWriter writer)
-        //{
-        //    writer.SetInt32("IconDisplayMode", DisplayMode);
-        //    this.IconDisplayMode = DisplayMode == 0? GH_IconDisplayMode.application: GH_IconDisplayMode.icon;
-        //    return base.Write(writer);
-        //}
 
 
        
