@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using Grasshopper.GUI.Canvas;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class IB_DuplicatableComponentAttributes : IB_ComponentAttributes
+    public class IB_DuplicableComponentAttributes : IB_ComponentAttributes
     {
-        public IB_DuplicatableComponentAttributes(GH_Component component) : base(component)
+        public IB_DuplicableComponentAttributes(GH_Component component) : base(component)
         {
         }
 

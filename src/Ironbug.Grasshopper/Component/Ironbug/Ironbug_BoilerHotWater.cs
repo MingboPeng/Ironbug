@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_BoilerHotWater : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_BoilerHotWater : Ironbug_DuplicableHVACWithParamComponent
     {
         
         public Ironbug_BoilerHotWater()

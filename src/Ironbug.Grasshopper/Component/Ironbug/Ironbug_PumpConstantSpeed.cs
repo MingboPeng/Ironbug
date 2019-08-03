@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PumpConstantSpeed : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_PumpConstantSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PumpConstantSpeed()
           : base("Ironbug_PumpConstantSpeed", "PumpConstant",

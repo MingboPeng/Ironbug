@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerOutdoorAirPretreat : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_SetpointManagerOutdoorAirPretreat : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_SetpointManagerOutdoorAirPretreat()
           : base("Ironbug_SetpointManagerOutdoorAirPretreat", "SPM_OAPretreat",

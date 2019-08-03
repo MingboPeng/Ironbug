@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerMultiZoneHumidityMinimum : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_SetpointManagerMultiZoneHumidityMinimum : Ironbug_DuplicableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerMultiZoneHumidityMinimum_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHumidityMinimum_FieldSet.Value;

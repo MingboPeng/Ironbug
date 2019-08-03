@@ -5,7 +5,7 @@ using Ironbug.HVAC.Curves;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ChillerElectricEIR : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_ChillerElectricEIR : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ChillerElectricEIR()
           : base("Ironbug_ChillerElectricEIR_WaterCooled", "Chiller_WaterCooled",

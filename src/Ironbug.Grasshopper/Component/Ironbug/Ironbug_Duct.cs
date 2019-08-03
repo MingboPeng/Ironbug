@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Duct : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_Duct : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_Duct()
           : base("Ironbug_Duct", "Duct",

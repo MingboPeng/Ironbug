@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FluidCoolerSingleSpeed : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_FluidCoolerSingleSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         
         

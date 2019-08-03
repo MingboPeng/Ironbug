@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_SetpointManagerOutdoorAirReset : Ironbug_DuplicableHVACComponent
     {
         private static HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet _fieldSet = HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet.Value;
         

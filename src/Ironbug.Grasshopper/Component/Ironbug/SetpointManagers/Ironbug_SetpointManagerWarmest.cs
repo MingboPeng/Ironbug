@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerWarmest : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_SetpointManagerWarmest : Ironbug_DuplicableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerWarmest_FieldSet _fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;

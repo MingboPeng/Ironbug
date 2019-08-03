@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerMultiZoneHumidityMaximum : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_SetpointManagerMultiZoneHumidityMaximum : Ironbug_DuplicableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet.Value;

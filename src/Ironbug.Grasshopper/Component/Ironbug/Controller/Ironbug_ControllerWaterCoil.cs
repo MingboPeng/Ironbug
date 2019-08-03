@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ControllerWaterCoil : Ironbug_DuplicatableHVACWithParamComponent
+    public class Ironbug_ControllerWaterCoil : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ControllerWaterCoil()
           : base("Ironbug_ControllerWaterCoil", "ControllerWaterCoil",

@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_DuplicableHVACComponent
     {
         //private static HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet.Value;
         public Ironbug_SetpointManagerScheduledDualSetpoint()

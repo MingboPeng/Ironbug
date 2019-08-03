@@ -311,9 +311,9 @@ namespace Ironbug.Grasshopper.Component
         }
         
     }
-    public abstract class Ironbug_DuplicatableHVACComponent : Ironbug_HVACComponent
+    public abstract class Ironbug_DuplicableHVACComponent : Ironbug_HVACComponent
     {
-        public Ironbug_DuplicatableHVACComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
+        public Ironbug_DuplicableHVACComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
             : base(name, nickname, description, category, subCategory, DataFieldType,
                   hasParam: false,
                   hasDup: true)
@@ -321,14 +321,14 @@ namespace Ironbug.Grasshopper.Component
         }
         public override void CreateAttributes()
         {
-            m_attributes = new IB_DuplicatableComponentAttributes(this);
+            m_attributes = new IB_DuplicableComponentAttributes(this);
         }
 
     }
 
-    public abstract class Ironbug_DuplicatableHVACWithParamComponent : Ironbug_HVACComponent
+    public abstract class Ironbug_DuplicableHVACWithParamComponent : Ironbug_HVACComponent
     {
-        public Ironbug_DuplicatableHVACWithParamComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
+        public Ironbug_DuplicableHVACWithParamComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
             : base(name, nickname, description, category, subCategory, DataFieldType, 
                   hasParam: true, 
                   hasDup:true)
@@ -336,7 +336,7 @@ namespace Ironbug.Grasshopper.Component
         }
         public override void CreateAttributes()
         {
-            m_attributes = new IB_DuplicatableComponentAttributes(this);
+            m_attributes = new IB_DuplicableComponentAttributes(this);
         }
     }
 
