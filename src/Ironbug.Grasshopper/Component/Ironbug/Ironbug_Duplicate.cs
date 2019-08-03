@@ -76,27 +76,30 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.SetDataList(0, lis);
 
      
-            var secondParam = this.Params.Output[1];
-            secondParam.Name = "-";
-            secondParam.NickName = "-";
-            secondParam.Description = "-";
 
             var refComponent = this.Params.Input[0].Sources[0].Attributes.GetTopLevel.DocObject;
 
-            if (!(refComponent is Ironbug_HVACWithParamComponent)) return;
-
-            var component = refComponent as Ironbug_HVACWithParamComponent;
-
-            if (component.Params.Output.Count > 1)
+            if (refComponent is Ironbug_HVACComponent component)
             {
-                var refSecondOutput = component.Params.Output[1];
+                if (component.Params.Output.Count > 1)
+                {
 
-                secondParam.Name = refSecondOutput.Name;
-                secondParam.NickName = refSecondOutput.NickName;
-                secondParam.Description = refSecondOutput.Description;
+                    var secondParam = this.Params.Output[1];
+                    secondParam.Name = "-";
+                    secondParam.NickName = "-";
+                    secondParam.Description = "-";
 
-                DA.SetDataList(1, lis);
+                    var refSecondOutput = component.Params.Output[1];
+
+                    secondParam.Name = refSecondOutput.Name;
+                    secondParam.NickName = refSecondOutput.NickName;
+                    secondParam.Description = refSecondOutput.Description;
+
+                    DA.SetDataList(1, lis);
+                }
             }
+
+
 
         }
 
