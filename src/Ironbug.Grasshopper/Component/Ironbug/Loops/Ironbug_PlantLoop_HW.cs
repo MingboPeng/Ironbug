@@ -72,6 +72,8 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(plant);
             
             DA.SetData(0, plant);
+
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoopHW;

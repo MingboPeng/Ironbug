@@ -72,6 +72,8 @@ namespace Ironbug.Grasshopper.Component
             base.SetObjParamsTo(plant);
             
             DA.SetData(0, plant);
+
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
 
         

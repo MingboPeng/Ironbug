@@ -102,7 +102,7 @@ namespace Ironbug.Grasshopper.Component
                 totalB += loop.First().Branches.Count;
             }
             
-            if (totalB > 0) messages = $"{totalB} branches";
+            if (totalB > 0) messages = totalB == 1 ? $"{totalB} branch" : $"{totalB} branches";
             if (TreeLoops.BranchCount>1) messages += $"/{TreeLoops.BranchCount} Loops";
 
             return messages;

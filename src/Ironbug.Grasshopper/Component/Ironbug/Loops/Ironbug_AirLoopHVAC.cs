@@ -80,6 +80,7 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(airLoop);
             DA.SetData(0, airLoop);
 
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
 
 
