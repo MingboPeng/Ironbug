@@ -57,15 +57,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 var p = new GH_Path(i);
                 foreach (var obj in objs)
                 {
-                    HVAC.BaseClass.IB_ModelObject dupObj = null;
-                    if (obj is HVAC.BaseClass.IB_HVACObject hvacObj)
-                    {
-                        dupObj = hvacObj.Duplicate();
-                    }
-                    else
-                    {
-                        dupObj = obj.Duplicate();
-                    }
+                    var dupObj = obj.Duplicate();
                     dupObj.SetTrackingID();
                     lis.Add(dupObj);
                 }

@@ -33,7 +33,7 @@ namespace Ironbug.HVAC.BaseClass
             return new List<string>() { this.ToString() };
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             //var newBranches = new List<List<IB_HVACObject>>();
             var loopBranches = new IB_PlantLoopBranches();
@@ -42,7 +42,7 @@ namespace Ironbug.HVAC.BaseClass
                 var newBranch = new List<IB_HVACObject>();
                 foreach (var item in branch)
                 {
-                    newBranch.Add(item.Duplicate());
+                    newBranch.Add(item.Duplicate() as IB_HVACObject);
                 }
                 loopBranches.Add(newBranch);
             }

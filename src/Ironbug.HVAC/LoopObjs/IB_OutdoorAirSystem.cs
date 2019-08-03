@@ -96,10 +96,10 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             //Duplicate self;
-            var newObj = base.DuplicateIBObj(() => new IB_OutdoorAirSystem());
+            var newObj = base.Duplicate(() => new IB_OutdoorAirSystem());
 
             //Duplicate child member;
             var newCtrl = (IB_ControllerOutdoorAir)this.ControllerOutdoorAir.Duplicate();
@@ -109,12 +109,12 @@ namespace Ironbug.HVAC
 
             foreach (var item in this.ReliefStreamObjs)
             {
-                newObj.ReliefStreamObjs.Add(item.Duplicate());
+                newObj.ReliefStreamObjs.Add(item.Duplicate() as IB_HVACObject);
             };
 
             foreach (var item in this.OAStreamObjs)
             {
-                newObj.OAStreamObjs.Add(item.Duplicate());
+                newObj.OAStreamObjs.Add(item.Duplicate() as IB_HVACObject);
             };
 
 

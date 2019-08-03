@@ -19,7 +19,7 @@ namespace Ironbug.HVAC
 
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             var newobj = base.Duplicate() as IB_SetpointManagerScheduled;
             newobj.temperature = this.temperature;
