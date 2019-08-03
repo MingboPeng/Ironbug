@@ -27,6 +27,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
             pManager[0].WireDisplay = GH_ParamWireDisplay.faint;
+            pManager[0].DataMapping = GH_DataMapping.Graft;
             pManager[0].Optional = true;
         }
 

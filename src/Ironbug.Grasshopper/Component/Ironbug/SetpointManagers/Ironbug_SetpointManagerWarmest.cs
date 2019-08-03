@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
@@ -43,7 +43,15 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
 
             var objs = this.SetObjDupParamsTo(obj);
-            DA.SetDataList(0, objs);
+            if (objs.Count() == 1)
+            {
+                DA.SetData(0, obj);
+            }
+            else
+            {
+                DA.SetDataList(0, objs);
+            }
+           
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointWarmest;
