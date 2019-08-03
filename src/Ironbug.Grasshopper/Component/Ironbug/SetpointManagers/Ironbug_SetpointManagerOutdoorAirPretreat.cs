@@ -3,7 +3,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerOutdoorAirPretreat : Ironbug_HVACWithParamComponent
+    public class Ironbug_SetpointManagerOutdoorAirPretreat : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_SetpointManagerOutdoorAirPretreat()
           : base("Ironbug_SetpointManagerOutdoorAirPretreat", "SPM_OAPretreat",
@@ -28,7 +28,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             var obj = new HVAC.IB_SetpointManagerOutdoorAirPretreat();
             
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointOARetreat;

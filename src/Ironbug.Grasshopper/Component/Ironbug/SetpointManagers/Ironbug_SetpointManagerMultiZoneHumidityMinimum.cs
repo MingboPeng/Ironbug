@@ -3,15 +3,16 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerMultiZoneHumidityMinimum : Ironbug_Component
+    public class Ironbug_SetpointManagerMultiZoneHumidityMinimum : Ironbug_DuplicatableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerMultiZoneHumidityMinimum_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHumidityMinimum_FieldSet.Value;
         
         public Ironbug_SetpointManagerMultiZoneHumidityMinimum()
           : base("Ironbug_SetpointManagerMultiZoneHumidityMinimum", "SPM_HumidityMin",
-             _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+                "Description",
+                "Ironbug", "05:SetpointManager",
+                typeof(HVAC.IB_SetpointManagerMultiZoneHumidityMinimum_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -45,7 +46,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             }
 
 
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointHumidityMin;

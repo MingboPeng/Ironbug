@@ -3,15 +3,17 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerMultiZoneHumidityMaximum : Ironbug_Component
+    public class Ironbug_SetpointManagerMultiZoneHumidityMaximum : Ironbug_DuplicatableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet.Value;
         
         public Ironbug_SetpointManagerMultiZoneHumidityMaximum()
-          : base("Ironbug_SetpointManagerMultiZoneHumidityMaximum", "SPM_HumidityMax",
-             _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+          : base("Ironbug_SetpointManagerMultiZoneHumidityMaximum", 
+                "SPM_HumidityMax",
+                "Description",
+                "Ironbug", "05:SetpointManager",
+                typeof(HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -44,7 +46,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 obj.SetFieldValue(_fieldSet.MaximumSetpointHumidityRatio, max);
             }
 
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointHumidityMax;
