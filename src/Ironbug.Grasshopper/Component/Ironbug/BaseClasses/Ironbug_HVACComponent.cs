@@ -51,16 +51,16 @@ namespace Ironbug.Grasshopper.Component
 
 
         //save ib object for Ironbug_OutputParams
-        protected override void AfterSolveInstance()
-        {
-            if (this.iB_ModelObject is null)
-            {
-                var data = this.Params.Input.First(_ => _.Name.StartsWith("Parameters")).VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
-                this.iB_ModelObject = data?.Value as IB_ModelObject;
-            }
+        //protected override void AfterSolveInstance()
+        //{
+        //    if (this.iB_ModelObject is null)
+        //    {
+        //        var data = this.Params.Output.Last().VolatileData.AllData(true).FirstOrDefault() as GH_ObjectWrapper;
+        //        this.iB_ModelObject = data?.Value as IB_ModelObject;
+        //    }
 
-            base.AfterSolveInstance();
-        }
+        //    base.AfterSolveInstance();
+        //}
 
         private static string FindComDescription(string UsersDescription, Type DataFieldType)
         {
@@ -172,9 +172,9 @@ namespace Ironbug.Grasshopper.Component
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
 
-        }
-        
+            this.iB_ModelObject = IB_obj;
 
+        }
 
 
     }
