@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACWaterToAirHeatPump : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACWaterToAirHeatPump : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ZoneHVACWaterToAirHeatPump()
           : base("Ironbug_ZoneHVACWaterToAirHeatPump", "WaterAirHeatPump",

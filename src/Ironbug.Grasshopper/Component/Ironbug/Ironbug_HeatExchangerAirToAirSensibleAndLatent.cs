@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_HeatExchangerAirToAirSensibleAndLatent()
           : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExchanger_Air",

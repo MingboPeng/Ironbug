@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingFourPipeBeam : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_CoilHeatingFourPipeBeam : Ironbug_DuplicatableHVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.

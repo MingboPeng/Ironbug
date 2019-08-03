@@ -5,7 +5,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction()
           : base("Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction", "4PipeInduction",

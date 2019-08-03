@@ -4,7 +4,7 @@ using Ironbug.HVAC.Curves;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ChillerElectricEIR_Adv : Ironbug_HVACComponent
+    public class Ironbug_ChillerElectricEIR_Adv : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ChillerElectricEIR_Adv()
           : base("Ironbug_ChillerElectricEIR_Advanced", "ChillerElec_Adv",

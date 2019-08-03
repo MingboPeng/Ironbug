@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ThermalZone : Ironbug_HVACComponent
+    public class Ironbug_ThermalZone : Ironbug_HVACWithParamComponent
     {
       
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;

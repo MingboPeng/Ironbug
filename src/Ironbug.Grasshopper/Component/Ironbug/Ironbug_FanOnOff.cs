@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanOnOff : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_FanOnOff : Ironbug_DuplicatableHVACWithParamComponent
     {
         
         public Ironbug_FanOnOff()

@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACBaseboardRadiantConvectiveWater : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACBaseboardRadiantConvectiveWater : Ironbug_HVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.

@@ -2,7 +2,7 @@
 using Grasshopper.Kernel;
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_WaterHeaterMixed : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_WaterHeaterMixed : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_WaterHeaterMixed()
           : base("Ironbug_WaterHeaterMixed", "WaterHeaterMixed",

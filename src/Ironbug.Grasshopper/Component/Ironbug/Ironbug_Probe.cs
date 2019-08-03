@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Probe : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_Probe : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_Probe()
           : base("Ironbug_Probe", "Probe",

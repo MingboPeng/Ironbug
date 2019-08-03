@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ScheduleRule_Obsolete : Ironbug_HVACComponent
+    public class Ironbug_ScheduleRule_Obsolete : Ironbug_HVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_SizingZone class.

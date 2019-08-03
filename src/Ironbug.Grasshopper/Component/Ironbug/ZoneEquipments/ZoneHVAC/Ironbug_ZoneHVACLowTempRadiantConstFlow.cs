@@ -5,7 +5,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACLowTempRadiantConstFlow : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACLowTempRadiantConstFlow : Ironbug_HVACWithParamComponent
     {
         
         public Ironbug_ZoneHVACLowTempRadiantConstFlow()

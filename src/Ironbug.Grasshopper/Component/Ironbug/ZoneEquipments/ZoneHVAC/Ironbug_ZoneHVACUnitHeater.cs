@@ -5,7 +5,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACUnitHeater : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACUnitHeater : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ZoneHVACUnitHeater()
           : base("Ironbug_ZoneHVACUnitHeater", "UnitHeater",

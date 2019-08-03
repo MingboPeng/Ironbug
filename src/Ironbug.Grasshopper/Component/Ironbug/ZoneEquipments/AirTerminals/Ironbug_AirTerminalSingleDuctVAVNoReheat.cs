@@ -5,7 +5,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctVAVNoReheat : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctVAVNoReheat()
           : base("Ironbug_AirTerminalSingleDuctVAVNoReheat", "VAVNoReheat",

@@ -5,7 +5,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctUncontrolled : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctUncontrolled : Ironbug_HVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.

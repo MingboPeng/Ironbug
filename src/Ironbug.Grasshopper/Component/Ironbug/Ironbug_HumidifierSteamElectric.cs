@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HumidifierSteamElectric : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_HumidifierSteamElectric : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_HumidifierSteamElectric()
           : base("Ironbug_HumidifierSteamElectric", "Humidifier",

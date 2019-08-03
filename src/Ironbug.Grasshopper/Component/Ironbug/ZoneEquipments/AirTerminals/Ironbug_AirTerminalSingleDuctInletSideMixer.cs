@@ -5,7 +5,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctInletSideMixer : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctInletSideMixer : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctInletSideMixer()
           : base("Ironbug_AirTerminalSingleDuctInletSideMixer", "InletMixer",

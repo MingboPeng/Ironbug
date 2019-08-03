@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanVariableVolume : Ironbug_DuplicatableHVACComponent
+    public class Ironbug_FanVariableVolume : Ironbug_DuplicatableHVACWithParamComponent
     {
         public Ironbug_FanVariableVolume()
           : base("Ironbug_FanVariableVolume", "FanVariable",
