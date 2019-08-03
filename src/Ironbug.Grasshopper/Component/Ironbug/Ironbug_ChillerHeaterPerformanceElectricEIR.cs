@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ChillerHeaterPerformanceElectricEIR : Ironbug_LoopObjectComponent
+    public class Ironbug_ChillerHeaterPerformanceElectricEIR : Ironbug_DuplicatableHVACComponent
     {
         
         public Ironbug_ChillerHeaterPerformanceElectricEIR()

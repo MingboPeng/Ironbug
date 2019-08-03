@@ -9,22 +9,7 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    //public abstract class Ironbug_CurveComponent : Ironbug_HVACComponent
-    //{
-    //    public Ironbug_CurveComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
-    //        : base(name, nickname, description, category, subCategory, DataFieldType)
-    //    {
-    //    }
-    //}
 
-
-    //public abstract class Ironbug_SetpointComponent : Ironbug_Component
-    //{
-    //    public Ironbug_SetpointComponent(string name, string nickname, string description, string category, string subCategory) 
-    //        : base(name, nickname, description, category, subCategory)
-    //    {
-    //    }
-    //}
     public abstract class Ironbug_HVACComponent : Ironbug_Component
     {
         public Type DataFieldType { get; private set; }

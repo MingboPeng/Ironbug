@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow : Ironbug_LoopObjectComponent
+    public class Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow : Ironbug_DuplicatableHVACComponent
     {
         
         /// Initializes a new instance of the Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow class.

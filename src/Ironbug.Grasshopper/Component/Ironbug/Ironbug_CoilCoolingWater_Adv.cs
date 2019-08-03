@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWater_Adv : Ironbug_LoopObjectComponent
+    public class Ironbug_CoilCoolingWater_Adv : Ironbug_DuplicatableHVACComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilCoolingWater class.

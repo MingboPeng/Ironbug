@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PipeAdiabatic : Ironbug_LoopObjectComponent
+    public class Ironbug_PipeAdiabatic : Ironbug_DuplicatableHVACComponent
     {
         public Ironbug_PipeAdiabatic()
           : base("Ironbug_PipeAdiabatic", "PipeAdiabatic",

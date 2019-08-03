@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HeatExchangerFluidToFluid : Ironbug_LoopObjectComponent
+    public class Ironbug_HeatExchangerFluidToFluid : Ironbug_DuplicatableHVACComponent
     {
         public Ironbug_HeatExchangerFluidToFluid()
           : base("Ironbug_HeatExchangerFluidToFluid", "HeatExchangerFluid",

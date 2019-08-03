@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EvaporativeCoolerIndirectResearchSpecial : Ironbug_LoopObjectComponent
+    public class Ironbug_EvaporativeCoolerIndirectResearchSpecial : Ironbug_DuplicatableHVACComponent
     {
         
         

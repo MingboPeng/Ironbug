@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingElectric : Ironbug_LoopObjectComponent
+    public class Ironbug_CoilHeatingElectric : Ironbug_DuplicatableHVACComponent
     {
         public Ironbug_CoilHeatingElectric()
           : base("Ironbug_CoilHeatingElectric", "CoilHtnElec",

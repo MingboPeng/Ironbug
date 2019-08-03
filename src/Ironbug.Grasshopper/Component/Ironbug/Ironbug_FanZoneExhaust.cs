@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_FanZoneExhaust : Ironbug_LoopObjectComponent
+    public class Ironbug_FanZoneExhaust : Ironbug_DuplicatableHVACComponent
     {
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.exFan;

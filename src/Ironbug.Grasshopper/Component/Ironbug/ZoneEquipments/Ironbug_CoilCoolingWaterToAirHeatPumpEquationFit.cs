@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit : Ironbug_LoopObjectComponent
+    public class Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit : Ironbug_DuplicatableHVACComponent
     {
 
         public Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit()

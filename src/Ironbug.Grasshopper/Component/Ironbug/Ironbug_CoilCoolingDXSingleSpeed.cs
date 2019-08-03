@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingDXSingleSpeed : Ironbug_LoopObjectComponent
+    public class Ironbug_CoilCoolingDXSingleSpeed : Ironbug_DuplicatableHVACComponent
     {
         
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
