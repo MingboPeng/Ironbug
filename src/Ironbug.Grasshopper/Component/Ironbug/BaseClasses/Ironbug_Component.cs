@@ -12,6 +12,7 @@ namespace Ironbug.Grasshopper.Component
 
         public static int DisplayMode = 1;
         public string InstanceVersion = string.Empty;
+        private bool _isOldVersion = false;
 
         public Ironbug_Component(string name, string nickname, string description, string category, string subCategory)
             : base(name, nickname, description, category, subCategory)
@@ -81,7 +82,16 @@ namespace Ironbug.Grasshopper.Component
             //this.IconDisplayMode = DisplayMode == 0 ? GH_IconDisplayMode.application : GH_IconDisplayMode.icon;
             return base.Write(writer);
         }
+        //public override bool Obsolete => _isOldVersion;
+        private bool IsOldVersion()
+        {
+            var v1 = new Version(IronbugInfo.version); //0.0.0.13
+            var v0 = this.InstanceVersion == "[unknown version]"? new Version(): new Version(this.InstanceVersion);
 
+            var isOldVersion = v1.Build - v0.Build > 2;
+
+            return isOldVersion;
+        }
         public override bool Read(GH_IReader reader)
         {
             if (reader.ItemExists("InstanceVersion"))
@@ -92,13 +102,12 @@ namespace Ironbug.Grasshopper.Component
             {
                 InstanceVersion = "[unknown version]";
             }
+            this._isOldVersion = this.IsOldVersion();
 
             if (reader.ItemExists("IconDisplayMode"))
             {
                 DisplayMode = reader.GetInt32("IconDisplayMode");
             }
-
-
 
 
             return base.Read(reader);
