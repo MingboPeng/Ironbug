@@ -66,6 +66,7 @@ namespace Ironbug.Grasshopper.Component
             param.Access = GH_ParamAccess.tree;
             param.WireDisplay = GH_ParamWireDisplay.faint;
             param.Optional = true;
+            param.DataMapping = GH_DataMapping.Graft;
             return param;
         }
 

@@ -10,7 +10,7 @@ namespace Ironbug.HVAC.Schedules
         protected override Func<IB_ModelObject> IB_InitSelf
             => () => new IB_ScheduleFile(this._FilePath);
 
-        private static Type _refOsType;
+        //private static Type _refOsType;
 
         //public static Type GetRefOsType()
         //{
