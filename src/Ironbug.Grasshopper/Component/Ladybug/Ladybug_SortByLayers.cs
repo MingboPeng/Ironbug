@@ -48,7 +48,7 @@ namespace Ironbug.Grasshopper.Component
             //var RefList = Component.Params.Input[0].VolatileData.AllData(true);
             var refList = new List<IGH_GeometricGoo>();
             var secondList = new List<IGH_GeometricGoo>();
-            if (DA.GetDataList(0, refList))
+            if (!DA.GetDataList(0, refList))
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid Rhino objects!");
                 return;
