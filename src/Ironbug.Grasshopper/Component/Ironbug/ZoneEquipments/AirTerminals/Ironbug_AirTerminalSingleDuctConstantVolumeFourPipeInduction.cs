@@ -19,8 +19,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Optional input, but use CoilCoolingWater only. By default, this 4PipeInduction will become a heating only 2PipeInduction, if its cooling coil is left empty.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("HeatingCoil", "coilH_", "CoilHeatingWater only.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingCoil", "coilC", "Optional input, but use CoilCoolingWater only. By default, this 4PipeInduction will become a heating only 2PipeInduction, if its cooling coil is left empty.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "_coilH", "CoilHeatingWater only.", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
         }

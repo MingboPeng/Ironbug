@@ -125,6 +125,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected void SetObjParamsTo(IB_ModelObject IB_obj)
         {
+            //save it for outputParams
+            this.iB_ModelObject = IB_obj;
             var paramInput = this.Params.Input.First(_ => _.Name.StartsWith("Parameters"));
             //catch the data when it is in branch
             if (this.Phase != GH_SolutionPhase.Computing) return;
@@ -182,7 +184,6 @@ namespace Ironbug.Grasshopper.Component
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
 
-            this.iB_ModelObject = IB_obj;
 
         }
 

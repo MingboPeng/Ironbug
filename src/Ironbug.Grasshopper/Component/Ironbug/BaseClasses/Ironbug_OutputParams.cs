@@ -148,7 +148,8 @@ namespace Ironbug.Grasshopper.Component
             var recs = this.Params.Output[0].Recipients;
             if (recs.Count == 0) return;
 
-            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACWithParamComponent;
+            var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponent;
+            if (rec is null) AddRuntimeMessage( GH_RuntimeMessageLevel.Error, $"{recs[0].Attributes.GetTopLevel.DocObject.Name} is not a valid Ironbug HVAC component.");
             var obj = rec.IB_ModelObject;
             if (obj is null) return;
             
