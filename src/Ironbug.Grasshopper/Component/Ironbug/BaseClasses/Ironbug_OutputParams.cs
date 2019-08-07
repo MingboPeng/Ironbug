@@ -1,4 +1,5 @@
-﻿using Grasshopper.Kernel;
+﻿using GH_IO.Serialization;
+using Grasshopper.Kernel;
 using Grasshopper.Kernel.Parameters;
 using Ironbug.HVAC.BaseClass;
 using System;
@@ -10,6 +11,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_OutputParams : Ironbug_Component, IGH_VariableParameterComponent
     {
+        private IB_OutputVariable.TimeSteps _outputFrequency = IB_OutputVariable.TimeSteps.Hourly; 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
 
         public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
@@ -34,11 +36,20 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            this.Message = "Right click to add!";
+            if (this.Params.Input.Any())
+            {
+                this.Message = $"Report: {this._outputFrequency}";
+            }
+            else
+            {
+                this.Message = "Right click to add!";
+            }
+            
            
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             DA.SetData(0, settingDatas);
+
         }
 
         private List<IB_OutputVariable> CollectOutputVariable()
@@ -61,7 +72,7 @@ namespace Ironbug.Grasshopper.Component
                         fristData.CastTo(out value);
                         if (value)
                         {
-                            outputVariables.Add(new IB_OutputVariable(item.Name, IB_OutputVariable.TimeSteps.Hourly));
+                            outputVariables.Add(new IB_OutputVariable(item.Name, this._outputFrequency));
                         }
                     }
                 }
@@ -116,8 +127,53 @@ namespace Ironbug.Grasshopper.Component
             }
             
             Menu_AppendSeparator(menu);
+            Menu_AppendItem(menu, "Hourly", ChangeReportRrequencyHourly, true, this._outputFrequency == IB_OutputVariable.TimeSteps.Hourly)
+                    .ToolTipText = "Report selected variables hourly";
+            Menu_AppendItem(menu, "Daily", ChangeReportRrequencyDaily, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.Daily)
+                    .ToolTipText = "Report selected variables daily";
+            Menu_AppendItem(menu, "Monthly", ChangeReportRrequencyMonthly, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.Monthly)
+                    .ToolTipText = "Report selected variables monthly";
+            Menu_AppendItem(menu, "RunPeriod", ChangeReportRrequencyAnnually, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.RunPeriod)
+                    .ToolTipText = "Report selected variables for entire run period";
+            Menu_AppendSeparator(menu);
         }
 
+        private void ChangeReportRrequencyDaily(object sender, EventArgs e)
+        {
+            this._outputFrequency =  IB_OutputVariable.TimeSteps.Daily;
+            this.ExpireSolution(true);
+        }
+
+        private void ChangeReportRrequencyAnnually(object sender, EventArgs e)
+        {
+            this._outputFrequency =  IB_OutputVariable.TimeSteps.RunPeriod;
+            this.ExpireSolution(true);
+        }
+
+        private void ChangeReportRrequencyMonthly(object sender, EventArgs e)
+        {
+            this._outputFrequency = IB_OutputVariable.TimeSteps.Monthly;
+            this.ExpireSolution(true);
+        }
+
+        private void ChangeReportRrequencyHourly(object sender, EventArgs e)
+        {
+            this._outputFrequency = IB_OutputVariable.TimeSteps.Hourly;
+            this.ExpireSolution(true);
+        }
+        public override bool Read(GH_IReader reader)
+        {
+            if (reader.ItemExists("_outputFrequency"))
+            {
+                _outputFrequency = (IB_OutputVariable.TimeSteps)reader.GetInt32("_outputFrequency");
+            }
+            return base.Read(reader);
+        }
+        public override bool Write(GH_IWriter writer)
+        {
+            writer.SetInt32("_outputFrequency", (int)_outputFrequency);
+            return base.Write(writer);
+        }
         private void OnClickParam(object sender, EventArgs e)
         {
             var clickedItem = sender as ToolStripMenuItem;

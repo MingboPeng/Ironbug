@@ -8,31 +8,17 @@
         public IB_OutputVariable(string variableName, TimeSteps timeStep)
         {
             this.VariableName = variableName;
-            switch (timeStep)
-            {
-                case TimeSteps.Detail:
-                    this.TimeStep = "Detail";
-                    break;
+            this.TimeStep = timeStep.ToString();
 
-                case TimeSteps.Hourly:
-                    this.TimeStep = "Hourly";
-                    break;
-
-                case TimeSteps.Monthly:
-                    this.TimeStep = "Monthly";
-                    break;
-
-                default:
-                    this.TimeStep = "Monthly";
-                    break;
-            }
         }
 
         public enum TimeSteps
         {
             Detail,
             Hourly,
-            Monthly
+            Daily,
+            Monthly,
+            RunPeriod
         }
     }
 }
