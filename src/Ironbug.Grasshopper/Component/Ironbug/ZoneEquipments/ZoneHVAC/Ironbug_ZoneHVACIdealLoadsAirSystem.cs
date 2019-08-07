@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACIdealLoadsAirSystem : Ironbug_HVACWithParamComponent
+    public class Ironbug_ZoneHVACIdealLoadsAirSystem : Ironbug_DuplicableHVACWithParamComponent
     {
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.IdealAirLoad;
@@ -36,7 +36,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_ZoneHVACIdealLoadsAirSystem();
             
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
         
     }
