@@ -82,6 +82,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\OpenStudio_Extensions.cs" />
     <Compile Include="Classes\RefObject.cs" />
     <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
