@@ -147,8 +147,7 @@ namespace Ironbug.HVAC.BaseClass
                 foreach (var item in probes)
                 {
                     startingNode.SetCustomAttributes(item.CustomAttributes);
-                    nodeName = startingNode.nameString();
-                    AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                    startingNode.SetOutputVariables(item.CustomOutputVariables);
               
                     added++;
                 }
@@ -161,8 +160,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 var item = probes.First();
                 startingNode.SetCustomAttributes(item.CustomAttributes);
-                nodeName = startingNode.nameString();
-                AddOutputVariablesToModel(item.CustomOutputVariables, nodeName, model);
+                startingNode.SetOutputVariables(item.CustomOutputVariables);
                 added = 1;
 
                 remainingProbes = probes.Skip(1);
@@ -209,8 +207,9 @@ namespace Ironbug.HVAC.BaseClass
                 //Add to the node
                 var nd = nodeWithProbe.get();
                 nd.SetCustomAttributes(item.CustomAttributes);
-                var ndName = nd.nameString();
-                AddOutputVariablesToModel(item.CustomOutputVariables, ndName, model);
+                nd.SetOutputVariables(item.CustomOutputVariables);
+                //var ndName = nd.nameString();
+                //AddOutputVariablesToModel(item.CustomOutputVariables, nd, model);
                 added++;
             }
 

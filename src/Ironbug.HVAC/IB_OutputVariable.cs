@@ -12,6 +12,14 @@
 
         }
 
+        public bool ToOS(OpenStudio.Model model, string keyName)
+        {
+            var outV = new OpenStudio.OutputVariable(this.VariableName, model);
+            var success = outV.setReportingFrequency(this.TimeStep);
+            success &= outV.setKeyValue(keyName);
+            return success;
+        }
+
         public enum TimeSteps
         {
             Detail,

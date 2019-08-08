@@ -296,8 +296,6 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realObj = InitAndSetAttributes();
             }
-            var realName = realObj.nameString();
-            AddOutputVariablesToModel(this.CustomOutputVariables, realName, model);
             
             return realObj as T;
 
@@ -307,6 +305,7 @@ namespace Ironbug.HVAC.BaseClass
 
                 var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
+                obj.SetOutputVariables(this.CustomOutputVariables);
                 return obj;
             }
 
@@ -351,18 +350,7 @@ namespace Ironbug.HVAC.BaseClass
 
         
 
-        static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
-        {
-            var success = true;
-            var vs = outputVariables;
-            foreach (var item in vs)
-            {
-                var outV = new OutputVariable(item.VariableName, md);
-                success &= outV.setReportingFrequency(item.TimeStep);
-                success &= outV.setKeyValue(keyName);
-            }
-            return success;
-        }
+     
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
         //{

@@ -72,8 +72,9 @@ namespace Ironbug.HVAC
             //get Model from file if exists
             var model = GetOrNewModel(osmFile);
 
-            var airlps = model.getAirLoopHVACs().Select(_ => _.nameString()).ToList();
-
+            //Add outdoor air temperature output variable
+            var outT = new OpenStudio.OutputVariable("Site Outdoor Air Drybulb Temperature", model);
+            outT.setReportingFrequency("Hourly");
 
             //add loops
             //added plantLoops first, as the controllerWaterCoil of CoilCoolingWater or CoilHeatingWater only exists after the coil is added to PlantLoop

@@ -270,9 +270,8 @@ namespace Ironbug.HVAC
             bool AddProbeToNode(Node Node, Dictionary<IB_Field, object> CustomAttributes, List<IB_OutputVariable> CustomOutputVariables)
             {
                 Node.SetCustomAttributes(CustomAttributes);
-                var nodeName = Node.nameString();
-                return AddOutputVariablesToModel(CustomOutputVariables, nodeName, Node.model());
-                
+                return Node.SetOutputVariables(this.CustomOutputVariables);
+
             }
         }
     }
