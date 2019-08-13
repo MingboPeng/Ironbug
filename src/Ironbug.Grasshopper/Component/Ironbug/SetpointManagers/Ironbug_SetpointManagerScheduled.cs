@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             string variable = "Temperature";
             DA.GetData(1, ref variable);
 
-            var obj = new HVAC.IB_SetpointManagerScheduled(temperature);
+            var obj = new HVAC.IB_SetpointManagerScheduled(temperature, variable.Contains("Temperature"));
             obj.SetFieldValue(_fieldSet.ControlVariable, variable);
 
 

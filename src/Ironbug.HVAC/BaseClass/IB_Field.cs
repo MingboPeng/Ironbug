@@ -280,9 +280,21 @@ namespace Ironbug.HVAC.BaseClass
         private static readonly Lazy<IB_Field> lazy =
             new Lazy<IB_Field>(() => new IB_Field("Comment", "Comment"));
 
-        public static IB_Field Instance { get { return lazy.Value; } }
+        public static IB_Field Instance => lazy.Value;
 
         private IB_Field_Comment()
+        {
+        }
+    }
+
+    public sealed class IB_Field_Name
+    {
+        private static readonly Lazy<IB_Field> lazy =
+            new Lazy<IB_Field>(() => new IB_Field("Name", "Name"));
+
+        public static IB_Field Instance => lazy.Value;
+
+        private IB_Field_Name()
         {
         }
     }

@@ -24,10 +24,10 @@ namespace Ironbug.HVAC
 
             CoilHeatingLowTempRadiantConstFlow NewDefaultOpsObj(Model m)
             => new CoilHeatingLowTempRadiantConstFlow(m, 
-            Schedules.IB_ScheduleRuleset.GetOrNewSchedule(m, waterHiT),
-            Schedules.IB_ScheduleRuleset.GetOrNewSchedule(m, waterLoT),
-            Schedules.IB_ScheduleRuleset.GetOrNewSchedule(m, airHiT),
-            Schedules.IB_ScheduleRuleset.GetOrNewSchedule(m, airLoT));
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, waterHiT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, waterLoT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airHiT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airLoT));
       
         }
 
