@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("HeatExchangerFluidToFluid", "AtDemand", "HeatExchangerFluidToFluid connects to source plantloop demand side.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("HeatExchangerFluidToFluid", "AtSupply", "HeatExchangerFluidToFluid connects to another plantloop supply side.", GH_ParamAccess.item);
+            pManager[pManager.AddGenericParameter("HeatExchangerFluidToFluid", "AtSupply", "HeatExchangerFluidToFluid connects to another plantloop supply side.", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Graft;
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {

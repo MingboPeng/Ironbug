@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilCoolingLowTempRadiantConstFlow", "Coil", "Add to ZoneHVACLowTempRadiantConstFlow", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilCoolingLowTempRadiantConstFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
+            pManager[pManager.AddGenericParameter("WaterSide_CoilCoolingLowTempRadiantConstFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Graft;
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
