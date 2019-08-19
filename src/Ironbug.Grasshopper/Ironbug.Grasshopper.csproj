@@ -82,9 +82,11 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\OpenStudio_Extensions.cs" />
     <Compile Include="Classes\RefObject.cs" />
     <Compile Include="Classes\OsZone.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
+    <Compile Include="ComponentAttribute\IB_DuplicatableComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
     <Compile Include="Component\Honeybee\Honeybee_IntersectMassII.cs" />
     <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
@@ -96,6 +98,8 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_RefObject.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
+    <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
@@ -104,13 +108,13 @@
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystemModule.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingFourPipeBeam.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWater_Adv.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_ControllerWaterCoil.cs" />
+    <Compile Include="Component\Ironbug\Controller\Ironbug_ControllerWaterCoil.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerIndirectResearchSpecial.cs" />
     <Compile Include="Component\Ironbug\Ironbug_EvaporativeCoolerDirectResearchSpecial.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FluidCoolerTwoSpeed.cs" />
@@ -132,14 +136,14 @@
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneHumidityMaximum.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerMultiZoneHumidityMaximum.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipmentDefinition.cs" />
+    <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterHeaterMixed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerHeaterPerformanceElectricEIR.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_ExistAirLoopHVAC.cs" />
+    <Compile Include="Component\Ironbug\Loops\Ironbug_ExistAirLoopHVAC.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_AirCooled.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ChillerElectricEIR_Adv_Obsolete.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingLowTempRadiantVarFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingLowTempRadiantVarFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_AddPlenumZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystem.cs" />
     <Compile Include="Component\Ironbug\Ironbug_WaterUseEquipment.cs" />
@@ -161,10 +165,10 @@
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctVAVReheat.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingCooledBeam.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilHeatingDesuperheater.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingLowTempRadiantConstFlow.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingLowTempRadiantConstFlow.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboardRadiant.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingWaterBaseboard.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingLowTempRadiantConstFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingLowTempRadiantConstFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingWaterBaseboardRadiant.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingWaterBaseboard.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerVariableSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerTwoSpeed.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoolingTowerSingleSpeed.cs" />
@@ -191,21 +195,21 @@
     <Compile Include="Component\Ironbug\Curves\Ironbug_CurveTriquadratic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictCooling.cs" />
     <Compile Include="Component\Ironbug\Ironbug_DistrictHeating.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_ControllerMechanicalVentilation.cs" />
+    <Compile Include="Component\Ironbug\Controller\Ironbug_ControllerMechanicalVentilation.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HVACTemplate.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeAdiabatic.cs" />
     <Compile Include="Component\Ironbug\Ironbug_PipeOutdoor.cs" />
     <Compile Include="Component\Ironbug\Ironbug_Duct.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanOnOff.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanVariableVolume.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_HVACComponent.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_OAController.cs" />
+    <Compile Include="Component\Ironbug\Controller\Ironbug_OAController.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjParams.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanConstantVolume.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatExchangerAirToAirSensibleAndLatent.cs" />
     <Compile Include="Component\Ironbug\Ironbug_OutdoorAirSystem.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_ExistPlantLoop.cs" />
+    <Compile Include="Component\Ironbug\Loops\Ironbug_ExistPlantLoop.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_PlantLoop_DW.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_PlantLoop_CW.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_PlantLoop_HW.cs" />
@@ -222,12 +226,12 @@
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerWarmest.cs" />
     <Compile Include="Component\Ironbug\Curves\Ironbug_CurveBicubic.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_SizingSystem.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_SizingPlant.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_SizingZone.cs" />
+    <Compile Include="Component\Ironbug\Sizings\Ironbug_SizingSystem.cs" />
+    <Compile Include="Component\Ironbug\Sizings\Ironbug_SizingPlant.cs" />
+    <Compile Include="Component\Ironbug\Sizings\Ironbug_SizingZone.cs" />
     <Compile Include="Component\Ironbug\Ironbug_ThermalZone.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_PlantBranches.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\Loops\Ironbug_AirConditionerVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\Ironbug_FanZoneExhaust.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneEquipmentGroup.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACBaseboardRadiantConvectiveElectric.cs" />
@@ -766,6 +770,7 @@
   <ItemGroup>
     <None Include="Resources\DesuperHeater.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

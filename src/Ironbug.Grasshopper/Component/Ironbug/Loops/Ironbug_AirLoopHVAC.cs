@@ -7,7 +7,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopHVAC : Ironbug_HVACComponent
+    public class Ironbug_AirLoopHVAC : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirLoopHVAC()
           : base("Ironbug_AirLoopHVAC", "AirLoop",
@@ -80,6 +80,7 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(airLoop);
             DA.SetData(0, airLoop);
 
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
 
 

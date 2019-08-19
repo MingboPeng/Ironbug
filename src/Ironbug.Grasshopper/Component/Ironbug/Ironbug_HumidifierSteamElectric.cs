@@ -4,7 +4,7 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_HumidifierSteamElectric : Ironbug_HVACComponent
+    public class Ironbug_HumidifierSteamElectric : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HumidifierSteamElectric()
           : base("Ironbug_HumidifierSteamElectric", "Humidifier",
@@ -28,9 +28,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_HumidifierSteamElectric();
-            
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

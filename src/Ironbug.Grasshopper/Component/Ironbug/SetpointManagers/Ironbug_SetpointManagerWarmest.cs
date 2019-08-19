@@ -1,18 +1,19 @@
 ﻿using System;
-
+using System.Linq;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerWarmest : Ironbug_Component
+    public class Ironbug_SetpointManagerWarmest : Ironbug_DuplicableHVACComponent
     {
 
         private static HVAC.IB_SetpointManagerWarmest_FieldSet _fieldSet = HVAC.IB_SetpointManagerWarmest_FieldSet.Value;
         
         public Ironbug_SetpointManagerWarmest()
           : base("Ironbug_SetpointManagerWarmest", "SPM_Warmest",
-             _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+             "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerWarmest_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -39,8 +40,18 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             
             obj.SetFieldValue(_fieldSet.MinimumSetpointTemperature, minT);
             obj.SetFieldValue(_fieldSet.MaximumSetpointTemperature, maxT);
-            
-            DA.SetData(0, obj);
+
+
+            var objs = this.SetObjDupParamsTo(obj);
+            if (objs.Count() == 1)
+            {
+                DA.SetData(0, obj);
+            }
+            else
+            {
+                DA.SetDataList(0, objs);
+            }
+           
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointWarmest;

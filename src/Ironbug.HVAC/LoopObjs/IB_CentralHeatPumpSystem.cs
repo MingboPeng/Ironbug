@@ -36,7 +36,7 @@ namespace Ironbug.HVAC
             
             return newObj;
         }
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             //Duplicate self;
             var newObj = base.Duplicate() as IB_CentralHeatPumpSystem;

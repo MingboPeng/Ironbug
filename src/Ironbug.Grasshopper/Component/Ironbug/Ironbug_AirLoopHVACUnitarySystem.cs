@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirLoopHVACUnitarySystem : Ironbug_HVACComponent
+    public class Ironbug_AirLoopHVACUnitarySystem : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirLoopHVACUnitarySystem()
           : base("Ironbug_AirLoopHVACUnitarySystem", "UnitarySystem",

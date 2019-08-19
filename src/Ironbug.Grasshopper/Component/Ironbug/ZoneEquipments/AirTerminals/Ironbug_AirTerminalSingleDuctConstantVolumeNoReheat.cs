@@ -5,7 +5,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctUncontrolled : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctUncontrolled : Ironbug_DuplicableHVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
@@ -33,7 +33,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
             
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
 
         }
 

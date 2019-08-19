@@ -3,6 +3,7 @@ using Grasshopper.Kernel;
 using System.IO;
 using System.Windows.Forms;
 using GH_IO.Serialization;
+using System.Diagnostics;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -12,6 +13,7 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid => new Guid("{2B473359-4DFC-4DE7-BD3E-79C119C64250}");
 
         bool _overrideMode = true;
+        int _writeMode = 0;
         public Ironbug_SaveOSModel()
           : base("Ironbug_SaveToFile", "SaveToFile",
               "Description",
@@ -59,8 +61,32 @@ namespace Ironbug.Grasshopper.Component
             {
                 DA.SetData(0, filepath);
             }
-            
-            
+
+            if (this._writeMode == 1)
+            {
+                try
+                {
+                    OpenOPS(filepath);
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+               
+            }
+
+            void OpenOPS(string FilePath)
+            {
+                var OpsPath = OpenStudio.OpenStudioUtilitiesCore.getOpenStudioModuleDirectory().__str__().Remove(20) + @"bin";
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.Arguments = " \"" + FilePath + "\"";
+                startInfo.FileName = Path.Combine(OpsPath, "OpenStudioApp.exe");
+                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                startInfo.UseShellExecute = false;
+                Process.Start(startInfo);
+            }
+
         }
 
 
@@ -69,9 +95,30 @@ namespace Ironbug.Grasshopper.Component
             
             Menu_AppendItem(menu, "Override", ChangeOverrideModel, true, _overrideMode)
                .ToolTipText = "This will remove the osm file first if exists.";
+            Menu_AppendItem(menu, "Write&Open", ChangeWriteMode, true, _writeMode == 1)
+              .ToolTipText = "Open the OpenStudio App after saved the osm file.";
+            //Menu_AppendItem(menu, "Write&Run", ChangeOverrideModel, true, _overrideMode)
+            //  .ToolTipText = "This will remove the osm file first if exists.";
             Menu_AppendSeparator(menu);
 
             base.AppendAdditionalComponentMenuItems(menu);
+        }
+
+        private void ChangeWriteMode(object sender, EventArgs e)
+        {
+            var writeParm = this.Params.Input[2];
+            if (this._writeMode != 1)
+            {
+                this._writeMode = 1;
+                writeParm.NickName = "_write&Open";
+            }
+            else
+            {
+                this._writeMode = 0;
+                writeParm.NickName = "_write";
+            }
+            this.ExpireSolution(true);
+
         }
 
         private void ChangeOverrideModel(object sender, EventArgs e)
@@ -83,6 +130,7 @@ namespace Ironbug.Grasshopper.Component
         public override bool Write(GH_IWriter writer)
         {
             writer.SetBoolean ("OverrideMode", this._overrideMode);
+            writer.SetInt32("_writeMode", this._writeMode);
             return base.Write(writer);
         }
 
@@ -93,7 +141,10 @@ namespace Ironbug.Grasshopper.Component
             {
                 this._overrideMode = reader.GetBoolean("OverrideMode");
             }
-
+            if (reader.ItemExists("_writeMode"))
+            {
+                this._writeMode = reader.GetInt32("_writeMode");
+            }
             return base.Read(reader);
         }
     }

@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            var newObj = this.DuplicateIBObj(() => new IB_ExistAirLoop(ExistingObj));
+            var newObj = this.Duplicate(() => new IB_ExistAirLoop(ExistingObj));
 
             this._thermalZones.ForEach(
                 _ => newObj.AddThermalZones(_.Duplicate() as IB_ThermalZone)

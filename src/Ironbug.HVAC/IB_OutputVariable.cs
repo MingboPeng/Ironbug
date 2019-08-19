@@ -8,31 +8,25 @@
         public IB_OutputVariable(string variableName, TimeSteps timeStep)
         {
             this.VariableName = variableName;
-            switch (timeStep)
-            {
-                case TimeSteps.Detail:
-                    this.TimeStep = "Detail";
-                    break;
+            this.TimeStep = timeStep.ToString();
 
-                case TimeSteps.Hourly:
-                    this.TimeStep = "Hourly";
-                    break;
+        }
 
-                case TimeSteps.Monthly:
-                    this.TimeStep = "Monthly";
-                    break;
-
-                default:
-                    this.TimeStep = "Monthly";
-                    break;
-            }
+        public bool ToOS(OpenStudio.Model model, string keyName)
+        {
+            var outV = new OpenStudio.OutputVariable(this.VariableName, model);
+            var success = outV.setReportingFrequency(this.TimeStep);
+            success &= outV.setKeyValue(keyName);
+            return success;
         }
 
         public enum TimeSteps
         {
             Detail,
             Hourly,
-            Monthly
+            Daily,
+            Monthly,
+            RunPeriod
         }
     }
 }

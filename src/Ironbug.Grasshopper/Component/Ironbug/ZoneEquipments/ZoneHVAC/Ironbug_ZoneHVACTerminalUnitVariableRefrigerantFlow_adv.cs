@@ -4,7 +4,7 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv : Ironbug_HVACComponent
+    public class Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv : Ironbug_HVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow class.

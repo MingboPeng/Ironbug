@@ -5,7 +5,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CentralHeatPumpSystem : Ironbug_HVACComponent
+    public class Ironbug_CentralHeatPumpSystem : Ironbug_HVACWithParamComponent
     {
         
         public Ironbug_CentralHeatPumpSystem()

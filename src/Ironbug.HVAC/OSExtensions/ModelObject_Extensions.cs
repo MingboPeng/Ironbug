@@ -117,10 +117,23 @@ namespace Ironbug.HVAC
             return invokeResult;
 
         }
+        public static bool SetOutputVariables(this ModelObject component, ICollection<BaseClass.IB_OutputVariable> outputVariables)
+        {
+            var success = true;
+            var vs = outputVariables;
+            var keyName = component.nameString();
+            var md = component.model();
+            foreach (var item in vs)
+            {
+                success &= item.ToOS(md, keyName);
+            }
+            return success;
 
+        }
         public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<BaseClass.IB_Field, object> dataField)
         {
             var invokeResults = new List<string>();
+            var md = component.model();
             foreach (var item in dataField)
             {
                 var field = item.Key;
@@ -128,11 +141,11 @@ namespace Ironbug.HVAC
                 //check types
                 if (value is BaseClass.IB_Curve c)
                 {
-                    value = c.ToOS(component.model());
+                    value = c.ToOS(md);
                 }
                 else if(value is BaseClass.IB_Schedule sch)
                 {
-                    value = sch.ToOS(component.model());
+                    value = sch.ToOS(md);
                 }
 
                 var invokeResult = component.SetFieldValue(field, value);

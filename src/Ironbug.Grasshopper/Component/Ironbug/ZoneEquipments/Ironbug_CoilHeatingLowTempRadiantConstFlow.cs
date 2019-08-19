@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingLowTempRadiantConstFlow : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingLowTempRadiantConstFlow : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoilHeatingLowTempRadiantConstFlow()
           : base("Ironbug_CoilHeatingLowTempRadiantConstFlow", "CoilHtn_LowTRadC",
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilHeatingLowTempRadiantConstFlow", "Coil", "Add to ZoneHVACLowTempRadiantConstFlow", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilHeatingLowTempRadiantConstFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
+           pManager[ pManager.AddGenericParameter("WaterSide_CoilHeatingLowTempRadiantConstFlow", "ToWaterLoop", "Connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Graft; 
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -47,9 +47,12 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(3, ref airLoT);
 
             var obj = new HVAC.IB_CoilHeatingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
+
+
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
         
 

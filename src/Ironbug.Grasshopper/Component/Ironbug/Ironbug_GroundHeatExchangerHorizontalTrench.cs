@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_GroundHeatExchangerHorizontalTrench : Ironbug_HVACComponent
+    public class Ironbug_GroundHeatExchangerHorizontalTrench : Ironbug_DuplicableHVACWithParamComponent
     {
         
         public Ironbug_GroundHeatExchangerHorizontalTrench()
@@ -32,7 +32,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_GroundHeatExchangerHorizontalTrench();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
 

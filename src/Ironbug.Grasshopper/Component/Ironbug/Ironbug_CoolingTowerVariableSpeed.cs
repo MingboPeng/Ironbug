@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoolingTowerVariableSpeed : Ironbug_HVACComponent
+    public class Ironbug_CoolingTowerVariableSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoolingTowerVariableSpeed()
           : base("Ironbug_CoolingTowerVariableSpeed", "CoolingTowerV",
@@ -29,7 +29,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_CoolingTowerVariableSpeed();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoolingTowerV;

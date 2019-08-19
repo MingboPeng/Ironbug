@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingWaterBaseboard : Ironbug_HVACComponent
+    public class Ironbug_CoilHeatingWaterBaseboard : Ironbug_DuplicableHVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
@@ -26,17 +26,18 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("CoilHeatingWaterBaseboard", "Coil", "connect to baseboard", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item);
+            pManager[ pManager.AddGenericParameter("WaterSide_CoilHeatingWater", "ToWaterLoop", "connect to hot water loop's demand side via plantBranches", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Graft; ;
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_CoilHeatingWaterBaseboard();
-            
+
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
 
 

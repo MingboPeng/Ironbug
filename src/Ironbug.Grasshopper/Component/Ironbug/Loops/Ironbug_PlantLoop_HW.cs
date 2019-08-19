@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
+using Ironbug.Core;
 using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop_HW : Ironbug_HVACComponent
+    public class Ironbug_PlantLoop_HW : Ironbug_HVACWithParamComponent
     {
         public Ironbug_PlantLoop_HW()
           : base("Ironbug_HotWaterPlantLoop", "HotWaterLoop",
@@ -49,19 +50,18 @@ namespace Ironbug.Grasshopper.Component
 
             var plant = new HVAC.IB_PlantLoop();
             var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
-            plant.SetFieldValues(
-               new Dictionary<IB_Field, object>() {
-                    { plantFields.Name, "Hot Water Loop" },
-                    { plantFields.FluidType, "Water" }
-               });
+
+            plant.CustomAttributes.TryAdd(plantFields.Name, "Hot Water Loop");
+            plant.CustomAttributes.TryAdd(plantFields.FluidType, "Water");
+
             foreach (var item in supplyComs)
             {
-                var newItem = item.Duplicate();
+                var newItem = item.Duplicate() as IB_HVACObject;
                 plant.AddToSupply(newItem);
             }
             foreach (var item in demandComs)
             {
-                var newItem = item.Duplicate();
+                var newItem = item.Duplicate() as IB_HVACObject;
                 plant.AddToDemand(newItem);
             }
 
@@ -72,6 +72,8 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(plant);
             
             DA.SetData(0, plant);
+
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
 
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoopHW;

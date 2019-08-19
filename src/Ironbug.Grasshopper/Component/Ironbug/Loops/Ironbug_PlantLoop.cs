@@ -7,7 +7,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop : Ironbug_HVACComponent
+    public class Ironbug_PlantLoop : Ironbug_HVACWithParamComponent
     {
         public Ironbug_PlantLoop()
           : base("Ironbug_PlantLoop", "PlantLoop",
@@ -65,6 +65,8 @@ namespace Ironbug.Grasshopper.Component
 
             this.SetObjParamsTo(plant);
             DA.SetData(0, plant);
+
+            this.Message = this.RunCount == 1 ? $"{this.RunCount} Loop" : $"{this.RunCount} Loops";
         }
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoop;
 

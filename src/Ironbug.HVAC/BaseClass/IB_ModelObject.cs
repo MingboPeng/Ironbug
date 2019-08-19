@@ -296,8 +296,6 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realObj = InitAndSetAttributes();
             }
-            var realName = realObj.nameString();
-            AddOutputVariablesToModel(this.CustomOutputVariables, realName, model);
             
             return realObj as T;
 
@@ -307,6 +305,7 @@ namespace Ironbug.HVAC.BaseClass
 
                 var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
+                obj.SetOutputVariables(this.CustomOutputVariables);
                 return obj;
             }
 
@@ -351,18 +350,7 @@ namespace Ironbug.HVAC.BaseClass
 
         
 
-        static internal bool AddOutputVariablesToModel(ICollection<IB_OutputVariable> outputVariables, string keyName, Model md)
-        {
-            var success = true;
-            var vs = outputVariables;
-            foreach (var item in vs)
-            {
-                var outV = new OutputVariable(item.VariableName, md);
-                success &= outV.setReportingFrequency(item.TimeStep);
-                success &= outV.setKeyValue(keyName);
-            }
-            return success;
-        }
+     
 
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
         //{
@@ -375,19 +363,11 @@ namespace Ironbug.HVAC.BaseClass
         //TODO: need to revisit this. this method has been overridden, but not used.
         public virtual IB_ModelObject Duplicate()
         {
-            var newObj = this.DuplicateIBObj(IB_InitSelf);
-            newObj.Children.Clear();
-            foreach (var child in this.Children)
-            {
-                newObj.Children.Add(child.Duplicate());
-            }
-
-            
-            return newObj;
+            return this.Duplicate(IB_InitSelf);
         }
 
         
-        protected IB_ModelObject DuplicateIBObj(Func<IB_ModelObject> func)
+        protected T Duplicate<T>(Func<T> func) where T : IB_ModelObject
         {
             if (func == null)
             {
@@ -404,25 +384,12 @@ namespace Ironbug.HVAC.BaseClass
             newObj.UpdateOSModelObjectWithCustomAttr();
             newObj.AddOutputVariables(this.CustomOutputVariables);
             newObj.RefObjects = this.RefObjects;
-            return newObj;
-        }
 
-        protected T DuplicateIBObj<T>(Func<T> func) where T : IB_ModelObject
-        {
-            if (func == null)
+            newObj.Children.Clear();
+            foreach (var child in this.Children)
             {
-                return null;
+                newObj.Children.Add(child.Duplicate());
             }
-
-            var newObj = func.Invoke();
-
-            foreach (var item in this.CustomAttributes)
-            {
-                newObj.CustomAttributes.TryAdd(item.Key, item.Value);
-            }
-
-            newObj.UpdateOSModelObjectWithCustomAttr();
-
             return newObj;
         }
 

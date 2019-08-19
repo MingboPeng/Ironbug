@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            var newObj = (IB_AirConditionerVariableRefrigerantFlow)base.DuplicateIBObj(IB_InitSelf);
+            var newObj = base.Duplicate(() => new IB_AirConditionerVariableRefrigerantFlow());
             foreach (var item in this.Terminals)
             {
                 newObj.AddTerminal((IB_ZoneHVACTerminalUnitVariableRefrigerantFlow)item.Duplicate());

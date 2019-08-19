@@ -4,7 +4,7 @@ using System;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingWater : Ironbug_HVACComponent
+    public class Ironbug_CoilCoolingWater : Ironbug_DuplicableHVACWithParamComponent
     {
         
         /// Initializes a new instance of the Ironbug_CoilCoolingWater class.
@@ -26,7 +26,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("AirSide_CoilCoolingWater", "Coil", "Connect to air loop's supply side or other water cooled system.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item);
+            pManager[pManager.AddGenericParameter("WaterSide_CoilCoolingWater", "ToWaterLoop", "Connect to chilled water loop's demand side via plantBranches", GH_ParamAccess.item)].DataMapping = GH_DataMapping.Graft;
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -35,8 +35,9 @@ namespace Ironbug.Grasshopper.Component
             
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
-            DA.SetData(1, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
+            DA.SetDataList(1, objs);
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW;

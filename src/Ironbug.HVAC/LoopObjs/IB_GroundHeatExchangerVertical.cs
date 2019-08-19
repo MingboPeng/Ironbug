@@ -42,7 +42,7 @@ namespace Ironbug.HVAC
             }
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             var obj = base.Duplicate() as IB_GroundHeatExchangerVertical;
             obj.GFuncs = this.GFuncs;

@@ -1,4 +1,5 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using Ironbug.Core;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Ironbug.HVAC.Schedules
 
         public override ModelObject ToOS(Model model)
         {
-            this.CustomAttributes.TryGetValue(IB_ScheduleRuleset_FieldSet.Value.Name, out object custName);
+            this.CustomAttributes.TryGetValue(IB_Field_Name.Instance, out object custName);
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
             var name = custName!= null? custName.ToString():$"Schedule - {trackingId.ToString().Substring(12)}";
 
@@ -81,18 +82,55 @@ namespace Ironbug.HVAC.Schedules
             }
             else
             {
-                name = $"Constant Schedule {this.constantNumber}";
-                obj = new ScheduleRuleset(model, this.constantNumber);
-                obj.setName(name);
+                if (name.StartsWith("Constant Temperature"))
+                {
+                    obj = new ScheduleRuleset(model, this.constantNumber);
+                }
+                else 
+                {
+                    obj = new ScheduleRuleset(model);
+                    name = name.StartsWith("Constant Temperature") ? name : $"Constant value {this.constantNumber}";
+                    var defaultDay = obj.defaultDaySchedule();
+
+                    //Check Schedule type
+                    var optionalType = model.getScheduleTypeLimitsByName($"Dimensionless max {Math.Round(constantNumber) + 1}");
+                    if (optionalType.isNull())
+                    {
+                        var type = new ScheduleTypeLimits(model);
+                        type.setUnitType("Dimensionless");
+                        type.setNumericType("Continuous");
+                        type.setName($"Dimensionless max {Math.Round(constantNumber) + 1}");
+                        type.setLowerLimitValue(0);
+                        type.setUpperLimitValue(Math.Round(constantNumber) + 1);
+                        obj.setScheduleTypeLimits(type);
+                    }
+                    else
+                    {
+                        obj.setScheduleTypeLimits(optionalType.get());
+                    }
+
+
+                    defaultDay.addValue(new Time(0, 24), this.constantNumber);
+                }
+
+                //obj = new ScheduleRuleset(model);
+               
+             
+              
+                //obj.setName(name);
             }
            
             obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
+
+
         }
 
-        public static ScheduleRuleset GetOrNewSchedule(Model m, double temperature)
+        public static ScheduleRuleset GetOrNewConstantSchedule(Model m, double value, bool isTemperature = true)
         {
-            var name = $"Constant value {Math.Round(temperature, 1)} C ({Math.Round(temperature * 9 / 5 + 32, 1)} F) ";
+            var name = isTemperature? 
+                $"Constant Temperature {Math.Round(value, 1)} C ({Math.Round(value * 9 / 5 + 32, 1)} F) " : 
+                $"Constant value {value}";
             var optionalObj = m.getScheduleRulesetByName(name);
             if (optionalObj.is_initialized())
             {
@@ -100,11 +138,27 @@ namespace Ironbug.HVAC.Schedules
             }
             else
             {
-                var sch = new ScheduleRuleset(m, temperature);
-                sch.setName(name);
-                return sch;
+                var sch = new IB_ScheduleRuleset(value);
+                sch.CustomAttributes.TryAdd(IB_Field_Name.Instance, name);
+                return sch.ToOS(m) as ScheduleRuleset;
             }
         }
+
+        //public static ScheduleRuleset GetOrNewSchedule(Model m, double temperature)
+        //{
+        //    var name = $"Constant value {Math.Round(temperature, 1)} C ({Math.Round(temperature * 9 / 5 + 32, 1)} F) ";
+        //    var optionalObj = m.getScheduleRulesetByName(name);
+        //    if (optionalObj.is_initialized())
+        //    {
+        //        return optionalObj.get();
+        //    }
+        //    else
+        //    {
+        //        var sch = new ScheduleRuleset(m, temperature);
+        //        sch.setName(name);
+        //        return sch;
+        //    }
+        //}
     }
     public sealed class IB_ScheduleRuleset_FieldSet
         : IB_FieldSet<IB_ScheduleRuleset_FieldSet, ScheduleRuleset>

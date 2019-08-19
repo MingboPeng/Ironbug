@@ -84,14 +84,14 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
 
-            var newObj = this.DuplicateIBObj(() => new IB_PlantLoop());
+            var newObj = this.Duplicate(() => new IB_PlantLoop());
 
             this.supplyComponents.ForEach(d =>
-                newObj.AddToSupply(d.Duplicate())
+                newObj.AddToSupply(d.Duplicate() as IB_HVACObject)
                 );
 
             this.demandComponents.ForEach(d =>
-                newObj.AddToDemand(d.Duplicate())
+                newObj.AddToDemand(d.Duplicate() as IB_HVACObject)
                 );
 
             newObj.SetSizingPlant((IB_SizingPlant)this.IB_SizingPlant.Duplicate());

@@ -39,4 +39,16 @@ namespace Ironbug.HVAC
             return obj;
         }
     }
+
+    public sealed class IB_WaterUseEquipmentDefinition_FieldSet
+      : IB_FieldSet<IB_WaterUseEquipmentDefinition_FieldSet>
+    {
+        private IB_WaterUseEquipmentDefinition_FieldSet()
+        {
+        }
+
+        public IB_Field PeakFlowRate { get; }
+            = new IB_TopField("PeakFlowRate", "PeakFlowRate");
+
+    }
 }

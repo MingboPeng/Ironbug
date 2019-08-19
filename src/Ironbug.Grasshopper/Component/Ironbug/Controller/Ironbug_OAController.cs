@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_OAController : Ironbug_HVACComponent
+    public class Ironbug_OAController : Ironbug_HVACWithParamComponent
     {
         public Ironbug_OAController()
           : base("Ironbug_OAController", "OAController",

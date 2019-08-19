@@ -2,6 +2,8 @@
 using System.IO;
 using Grasshopper.Kernel;
 using System.Linq;
+using System.Collections.Generic;
+using Rhino.Geometry;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -41,28 +43,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 var p = OpenStudio.OpenStudioUtilitiesCore.toPath(file);
                
-                //var ov = OpenStudio.IdfFile.loadVersionOnly(p);
-                //if (ov.is_initialized())
-                //{
-                //    var v = ov.get();
-
-                //    //var supportedVv = this.v;
-
-                //    var supportedV = OpenStudio.OpenStudioUtilitiesCore.openStudioVersion();
-
-                //    var ifNewerVersion = v.GreaterThan(new OpenStudio.VersionString(supportedV));
-                //    if (ifNewerVersion)
-                //    {
-
-                //        AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"Cannot open a newer version of file ({v.str()}). \r\nThis only supports up to {supportedV}!");
-                //        return;
-                //    }
-                //}
-                //else
-                //{
-                    
-                //}
-
+               
                 var trans = new OpenStudio.VersionTranslator();
                 trans.setAllowNewerVersions(false);
                 var tempModel = trans.loadModel(p);
@@ -77,10 +58,10 @@ namespace Ironbug.Grasshopper.Component
                 var names = zs.Select(_ => _.nameString()).ToList();
                 names.Sort();
 
-                var oszs = names.Select(_ => new OsZone(_));
                 
+                var osZones = zs.AsParallel().Select(_ => _.ToOsZone(out List<Brep> glzs));
                 //DA.SetDataList(0, oszs);
-                DA.SetDataList(0, names);
+                DA.SetDataList(0, osZones);
 
                 var airlps = m.getAirLoopHVACs().Select(_ => _.nameString()).ToList();
                 airlps.Sort();

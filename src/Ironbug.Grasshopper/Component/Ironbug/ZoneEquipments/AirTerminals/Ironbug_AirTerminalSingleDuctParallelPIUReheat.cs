@@ -6,7 +6,7 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_AirTerminalSingleDuctParallelPIUReheat : Ironbug_HVACComponent
+    public class Ironbug_AirTerminalSingleDuctParallelPIUReheat : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctParallelPIUReheat()
           : base("Ironbug_AirTerminalSingleDuctParallelPIUReheat", "ParallelPIUReheat",

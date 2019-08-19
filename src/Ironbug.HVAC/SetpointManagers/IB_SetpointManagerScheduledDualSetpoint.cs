@@ -29,7 +29,7 @@ namespace Ironbug.HVAC
             this.lowT = Temperature;
         }
 
-        public override IB_HVACObject Duplicate()
+        public override IB_ModelObject Duplicate()
         {
             var newobj = base.Duplicate() as IB_SetpointManagerScheduledDualSetpoint;
             newobj.lowT = this.lowT;
@@ -40,10 +40,10 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var hiSch = Schedules.IB_ScheduleRuleset.GetOrNewSchedule(model, this.highT);
+            var hiSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this.highT);
             obj.setHighSetpointSchedule(hiSch);
 
-            var loSch = Schedules.IB_ScheduleRuleset.GetOrNewSchedule(model, this.lowT);
+            var loSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this.lowT);
             obj.setLowSetpointSchedule(loSch);
 
             return obj;

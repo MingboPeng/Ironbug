@@ -1,15 +1,17 @@
 ﻿using Grasshopper.Kernel;
 using System;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_Component
+    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_DuplicableHVACComponent
     {
-        private static HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet.Value;
+        //private static HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet.Value;
         public Ironbug_SetpointManagerScheduledDualSetpoint()
           : base("Ironbug_SetpointManagerScheduledDualSetpoint", "SPM_Dual",
-              _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+              "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet))
         {
         }
 
@@ -39,7 +41,16 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             obj.SetHighTemperature(hiT);
             obj.SetLowTemperature(lowT);
 
-            DA.SetData(0, obj);
+
+            var objs = this.SetObjDupParamsTo(obj);
+            if (objs.Count() == 1)
+            {
+                DA.SetData(0, obj);
+            }
+            else
+            {
+                DA.SetDataList(0, objs);
+            }
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointDualScheduled;

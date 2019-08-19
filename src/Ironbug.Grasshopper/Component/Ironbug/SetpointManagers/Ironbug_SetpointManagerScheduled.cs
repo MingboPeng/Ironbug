@@ -1,18 +1,18 @@
 ﻿using System;
+using System.Linq;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduled : Ironbug_Component
+    public class Ironbug_SetpointManagerScheduled : Ironbug_DuplicableHVACComponent
     {
         private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
         
-        /// Initializes a new instance of the Ironbug_SetpointManagerWarmest class.
-        
         public Ironbug_SetpointManagerScheduled()
           : base("Ironbug_SetpointManagerScheduled", "SPM_Scheduled",
-              _fieldSet.OwnerEpNote,
-              "Ironbug", "05:SetpointManager")
+              "Description",
+              "Ironbug", "05:SetpointManager",
+              typeof(HVAC.IB_SetpointManagerScheduled_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.primary;
@@ -39,10 +39,19 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             string variable = "Temperature";
             DA.GetData(1, ref variable);
 
-            var obj = new HVAC.IB_SetpointManagerScheduled(temperature);
+            var obj = new HVAC.IB_SetpointManagerScheduled(temperature, variable.Contains("Temperature"));
             obj.SetFieldValue(_fieldSet.ControlVariable, variable);
-            
-            DA.SetData(0, obj);
+
+
+            var objs = this.SetObjDupParamsTo(obj);
+            if (objs.Count() == 1)
+            {
+                DA.SetData(0, obj);
+            }
+            else
+            {
+                DA.SetDataList(0, objs);
+            }
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointScheduled;

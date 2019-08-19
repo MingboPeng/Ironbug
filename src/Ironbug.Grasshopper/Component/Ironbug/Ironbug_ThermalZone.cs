@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ThermalZone : Ironbug_HVACComponent
+    public class Ironbug_ThermalZone : Ironbug_HVACWithParamComponent
     {
       
         protected override System.Drawing.Bitmap Icon => Resources.ThermalZone;
@@ -96,9 +96,13 @@ namespace Ironbug.Grasshopper.Component
 
             var zoneNames = new List<string>();
 
-            if (HBZonesOrNames[0] is GH_Brep)
+            if (HBZonesOrNames[0] is Types.OsZone)
             {
-                var hbzones = HBZonesOrNames.SkipWhile(_ => _ is null).Select(_=>_ as GH_Brep);
+                zoneNames = HBZonesOrNames.Where(_=>_ is Types.OsZone).Select(_ => (_ as Types.OsZone).ZoneName).ToList<string>();
+            }
+            else if (HBZonesOrNames[0] is GH_Brep)
+            {
+                var hbzones = HBZonesOrNames.SkipWhile(_ => _ is null || _ is Types.OsZone).Select(_=>_ as GH_Brep);
                 zoneNames = CallFromHBHive(hbzones).ToList();
             }
             else if (HBZonesOrNames[0] is GH_String)
@@ -109,7 +113,7 @@ namespace Ironbug.Grasshopper.Component
 
             if (!zoneNames.Any())
             {
-                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid HBZones or zone names!");
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No valid HBZones, or OsZones or text zone names!");
                 //return;
             }
 

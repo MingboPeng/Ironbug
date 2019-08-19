@@ -3,7 +3,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Probe : Ironbug_HVACComponent
+    public class Ironbug_Probe : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_Probe()
           : base("Ironbug_Probe", "Probe",
@@ -31,7 +31,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_Probe();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+            var objs = this.SetObjDupParamsTo(obj);
+            DA.SetDataList(0, objs);
         }
 
         
