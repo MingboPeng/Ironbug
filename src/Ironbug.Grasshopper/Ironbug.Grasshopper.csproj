@@ -106,8 +106,8 @@
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CentralHeatPumpSystemModule.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilHeatingFourPipeBeam.cs" />
-    <Compile Include="Component\Ironbug\Ironbug_CoilCoolingFourPipeBeam.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingFourPipeBeam.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
