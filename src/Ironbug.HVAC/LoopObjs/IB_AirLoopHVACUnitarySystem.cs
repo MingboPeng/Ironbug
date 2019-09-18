@@ -23,7 +23,7 @@ namespace Ironbug.HVAC
         {
             this.AddChild(null);
             this.AddChild(null);
-            this.AddChild(new IB_FanOnOff());
+            this.AddChild(null);
             this.AddChild(null);
             this.AddChild(ControllingZone);
         }

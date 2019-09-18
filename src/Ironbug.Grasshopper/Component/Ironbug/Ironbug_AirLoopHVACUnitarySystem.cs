@@ -26,7 +26,7 @@ namespace Ironbug.Grasshopper.Component
             pManager[0].Optional = true;
             pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. By default, no cooling coil is included. ", GH_ParamAccess.item);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("Fan", "fan_", "Supply fan. By default, FanOnOff is included.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Fan", "fan_", "Supply fan. By default, no fan is included.", GH_ParamAccess.item);
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SupplementalHeatingCoil", "spCoilH_", "SupplementalHeatingCoil. By default, no supplemental heating coil is included.", GH_ParamAccess.item);
             pManager[3].Optional = true;
