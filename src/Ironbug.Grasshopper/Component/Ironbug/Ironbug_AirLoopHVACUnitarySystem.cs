@@ -30,8 +30,9 @@ namespace Ironbug.Grasshopper.Component
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SupplementalHeatingCoil", "spCoilH_", "SupplementalHeatingCoil. By default, no supplemental heating coil is included.", GH_ParamAccess.item);
             pManager[3].Optional = true;
-            pManager.AddGenericParameter("ControllingZone", "_zone", "One thermal zone per unitary system.", GH_ParamAccess.item);
-        
+            pManager.AddGenericParameter("ControllingZone", "zone_", "The controlling zone for thermostat location", GH_ParamAccess.item);
+            pManager[4].Optional = true;
+
         }
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
@@ -49,9 +50,12 @@ namespace Ironbug.Grasshopper.Component
             HVAC.BaseClass.IB_Coil spCoilH = null;
             HVAC.BaseClass.IB_ThermalZone zone = null;
 
-            if (!DA.GetData(4, ref zone)) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to get IB_ThermalZone");
+            var obj = new HVAC.IB_AirLoopHVACUnitarySystem();
+            if (DA.GetData(4, ref zone))
+            {
+                obj = new IB_AirLoopHVACUnitarySystem(zone);
+            }
 
-            var obj = new HVAC.IB_AirLoopHVACUnitarySystem(zone);
 
             if (DA.GetData(0, ref coilH)) obj.SetHeatingCoil(coilH);
             if (DA.GetData(1, ref coilC)) obj.SetCoolingCoil(coilC);

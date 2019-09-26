@@ -28,6 +28,12 @@ namespace Ironbug.HVAC
             this.AddChild(ControllingZone);
         }
 
+        //constructor for no controlling zone option
+        public IB_AirLoopHVACUnitarySystem()
+            : this(null)
+        {
+        }
+
         public void SetCoolingCoil(IB_Coil CoolingCoil)
         {
             this.SetChild(0, CoolingCoil);
@@ -61,7 +67,9 @@ namespace Ironbug.HVAC
             if (this._fan != null) opsObj.setSupplyFan(this._fan.ToOS(model));
             if (this._supplementalHeatingCoil != null) opsObj.setSupplementalHeatingCoil(this._supplementalHeatingCoil.ToOS(model));
 
-            opsObj.setControllingZoneorThermostatLocation(this._Zone.ToOS(model) as ThermalZone);
+            if (this._Zone != null)
+                opsObj.setControllingZoneorThermostatLocation(this._Zone.ToOS(model) as ThermalZone);
+
             return opsObj;
 
         }
