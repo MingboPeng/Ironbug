@@ -11,12 +11,12 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_CoilCoolingFourPipeBeam()
           : base("Ironbug_CoilCoolingFourPipeBeam", "Coil_Cln4PipBeam",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilCoolingFourPipeBeam_FieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
+        public override GH_Exposure Exposure => GH_Exposure.quinary | GH_Exposure.obscure;
 
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
