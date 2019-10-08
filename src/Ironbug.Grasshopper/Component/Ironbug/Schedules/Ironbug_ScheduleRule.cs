@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddNumberParameter("Values", "_value", "One value for all day or 24 values for each hour", GH_ParamAccess.list);
             pManager[pManager.AddTextParameter("Date Range", "dateR_", "Use Ladybug_AnaysisPeriod to create a date range that applies this schedule rule. By default, this rule applies to the entire year.", GH_ParamAccess.list)].Optional =true;
-
+            pManager[1].DataMapping = GH_DataMapping.Flatten;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
