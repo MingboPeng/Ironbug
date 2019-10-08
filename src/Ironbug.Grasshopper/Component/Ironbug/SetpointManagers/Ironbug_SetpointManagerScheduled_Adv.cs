@@ -34,24 +34,44 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-            double temperature = 12.7778;
-            DA.GetData(0, ref temperature);
+            HVAC.Schedules.IB_ScheduleRuleset sch = null;
+            DA.GetData(0, ref sch);
             string variable = "Temperature";
             DA.GetData(1, ref variable);
 
-            var obj = new HVAC.IB_SetpointManagerScheduled(temperature, variable.Contains("Temperature"));
-            obj.SetFieldValue(_fieldSet.ControlVariable, variable);
+            try
+            {
+                var obj = new HVAC.IB_SetpointManagerScheduled(sch);
+                obj.SetFieldValue(_fieldSet.ControlVariable, variable);
+
+                var objs = this.SetObjDupParamsTo(obj);
+                if (objs.Count() == 1)
+                {
+                    DA.SetData(0, obj);
+                }
+                else
+                {
+                    DA.SetDataList(0, objs);
+                }
 
 
-            var objs = this.SetObjDupParamsTo(obj);
-            if (objs.Count() == 1)
-            {
-                DA.SetData(0, obj);
             }
-            else
+            catch (Exception ex)
             {
-                DA.SetDataList(0, objs);
+                if (ex.Message.Contains("Unable to set Object of type 'OS:Schedule:Ruleset'"))
+                {
+                    throw new ArgumentException("It seems the type of schedule does not match this setpoint manager control variable, please double check if it is 'Temperature', 'Fraction', or 'Dimensionless', etc. \n\nHere are error message:" + ex.Message);
+
+                }
+                else
+                {
+                    throw ex;
+                }
+               
             }
+            
+
+
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointScheduled;

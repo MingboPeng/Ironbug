@@ -10,21 +10,19 @@ namespace Ironbug.HVAC
         private double _value = 12.7778; //55F
         private bool _isTemperature = true;
 
-        private Schedules.IB_ScheduleRuleset _schedule => this.Children.Get<Schedules.IB_ScheduleRuleset>();
+        private IB_ScheduleRuleset _schedule => this.Children.Get<IB_ScheduleRuleset>();
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this._value);
 
-        private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp) 
+        private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp)
             => new SetpointManagerScheduled(model, new ScheduleRuleset(model, temp));
 
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, IB_ScheduleRuleset schedule)
             => new SetpointManagerScheduled(model, schedule.ToOS(model) as ScheduleRuleset);
 
-        //TODO: this need to be merged to public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) 
         public IB_SetpointManagerScheduled(double value) : base(NewDefaultOpsObj(new Model(), value))
         {
             this._value = value;
         }
-        //TODO: this need to be merged to public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) 
         public IB_SetpointManagerScheduled(double value, bool isTemperature) : base(NewDefaultOpsObj(new Model(), value))
         {
             this._value = value;
@@ -33,7 +31,7 @@ namespace Ironbug.HVAC
 
         public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) : base(NewDefaultOpsObj(new Model(), schedule))
         {
-            this.SetChild(schedule);
+            this.AddChild(schedule);
         }
 
         public override IB_ModelObject Duplicate()
@@ -51,15 +49,19 @@ namespace Ironbug.HVAC
 
             SetpointManagerScheduled NewDefaultOpsObj(Model m)
             {
-                if (this._isTemperature)
+                if (this._schedule != null)
                 {
-                    return new SetpointManagerScheduled(m, Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, this._value, this._isTemperature));
+                    return new SetpointManagerScheduled(m, this._schedule.ToOS(m) as Schedule);
+
+                }
+                else if (this._isTemperature)
+                {
+                    return new SetpointManagerScheduled(m, IB_ScheduleRuleset.GetOrNewConstantSchedule(m, this._value, this._isTemperature));
                 }
                 else
                 {
                     this.CustomAttributes.TryGetValue(IB_SetpointManagerScheduled_FieldSet.Value.ControlVariable, out object controlV);
-                    var spm = new SetpointManagerScheduled(m, controlV.ToString(), Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, this._value, this._isTemperature));
-                    //spm.setControlVariableAndSchedule(controlV.ToString(), Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, this._value, this._isTemperature));
+                    var spm = new SetpointManagerScheduled(m, controlV.ToString(), IB_ScheduleRuleset.GetOrNewConstantSchedule(m, this._value, this._isTemperature));
                     return spm;
                 }
                 

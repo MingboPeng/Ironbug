@@ -55,7 +55,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetDataList(1, ghObjs);
             var sch = new HVAC.Schedules.IB_ScheduleRuleset();
 
-            if (ghObjs[0].Value is GH_Number)
+            if (ghObjs[0].Value is GH_Number || ghObjs[0].Value is GH_String)
             {
                 var values = ghObjs.Select(_ => Double.Parse(_.Value.ToString())).ToList();
                 if (values.Count == 1)
