@@ -24,9 +24,10 @@ namespace Ironbug.HVAC.BaseClass
                             {
                                 //get all setting methods
                                 var name = _.Name;
-                                var ps = _.GetParameters();
                                 if (!name.StartsWith("set")) return false;
                                 if (name.Contains("NodeName")) return false;
+
+                                var ps = _.GetParameters();
                                 if (ps.Count() != 1) return false;
 
                                 //Check types
@@ -37,7 +38,8 @@ namespace Ironbug.HVAC.BaseClass
                                 paramType == typeof(bool) ||
                                 paramType == typeof(int) ||
                                 typeof(Curve).IsAssignableFrom(paramType) ||
-                                typeof(Schedule).IsAssignableFrom(paramType);
+                                typeof(Schedule).IsAssignableFrom(paramType) ||
+                                typeof(ScheduleTypeLimits).IsAssignableFrom(paramType);
 
                                 return isValidType;
 

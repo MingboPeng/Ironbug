@@ -16,16 +16,18 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.hidden;
+        public override GH_Exposure Exposure => GH_Exposure.secondary ;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("csvFile", "_csvFile", "CSV file for schedule", GH_ParamAccess.item);
+            //pManager.AddGenericParameter("ScheduleType", "type_", "Use Ironbug_ScheduleType", GH_ParamAccess.item);
+            //pManager[1].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("ScheduleFile", "sch", "TODO..", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Schedule", "sch", "TODO..", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)

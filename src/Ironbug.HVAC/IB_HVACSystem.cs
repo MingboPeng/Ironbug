@@ -116,8 +116,17 @@ namespace Ironbug.HVAC
                 var optionalModel = OpenStudio.Model.load(osmPath);
 
                 if(optionalModel.is_initialized()) model = optionalModel.get();
+
+                
+
+
             }
-            
+            //add osw file for solving the external csv file issue
+            var companionDir = OpenStudio.OpenStudioUtilitiesCore.getCompanionFolder(OpenStudio.OpenStudioUtilitiesCore.toPath(opsModelFilePath));
+            var oswPath = OpenStudio.OpenStudioUtilitiesCore.toPath(Path.Combine(companionDir.__str__(), "workflow.osw"));
+
+            var w = model.workflowJSON();
+            w.saveAs(oswPath);
             return model;
         }
 
