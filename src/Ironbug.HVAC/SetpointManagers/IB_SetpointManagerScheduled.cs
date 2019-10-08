@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Ironbug.HVAC.Schedules;
 using OpenStudio;
 using System;
 
@@ -9,19 +10,30 @@ namespace Ironbug.HVAC
         private double _value = 12.7778; //55F
         private bool _isTemperature = true;
 
+        private Schedules.IB_ScheduleRuleset _schedule => this.Children.Get<Schedules.IB_ScheduleRuleset>();
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this._value);
 
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp) 
             => new SetpointManagerScheduled(model, new ScheduleRuleset(model, temp));
 
+        private static SetpointManagerScheduled NewDefaultOpsObj(Model model, IB_ScheduleRuleset schedule)
+            => new SetpointManagerScheduled(model, schedule.ToOS(model) as ScheduleRuleset);
+
+        //TODO: this need to be merged to public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) 
         public IB_SetpointManagerScheduled(double value) : base(NewDefaultOpsObj(new Model(), value))
         {
             this._value = value;
         }
+        //TODO: this need to be merged to public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) 
         public IB_SetpointManagerScheduled(double value, bool isTemperature) : base(NewDefaultOpsObj(new Model(), value))
         {
             this._value = value;
             this._isTemperature = isTemperature;
+        }
+
+        public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) : base(NewDefaultOpsObj(new Model(), schedule))
+        {
+            this.SetChild(schedule);
         }
 
         public override IB_ModelObject Duplicate()
