@@ -34,13 +34,22 @@ namespace Ironbug.HVAC.Schedules
         //}
         private static ScheduleFile InitMethod(Model model, string path)
         {
+            var w = model.workflowJSON();
+            if (w.oswDir().__str__().EndsWith(@"System"))
+            {
+                var tempPath = System.IO.Path.GetTempPath() + @"\Ladybug\HVAC";
+                Directory.CreateDirectory(tempPath);
+                w.setOswDir(OpenStudioUtilitiesCore.toPath(tempPath));
+            }
+
             var extFile = ExternalFile.getExternalFile(model, path);
             if (extFile.is_initialized())
             {
                 var obj = new ScheduleFile(extFile.get());
                 return obj;
             }
-            throw new ArgumentException("Invalid file path!");
+           
+            throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}\n{w.oswDir().__str__()}");
         }
         //private static ScheduleInterval InitMethod(Model model, string path)
         //    => (ScheduleInterval)Activator.CreateInstance(GetRefOsType(), new Object[] { ExternalFile.getExternalFile(model, path).get() }); 
@@ -63,7 +72,8 @@ namespace Ironbug.HVAC.Schedules
         
         public override ModelObject ToOS(Model model)
         {
-            return base.OnNewOpsObj((m)=>new ScheduleFile(ExternalFile.getExternalFile(m, this._FilePath).get()), model);
+            return InitMethod(model, this._FilePath);
+            //return base.OnNewOpsObj((m) => new ScheduleFile(ExternalFile.getExternalFile(m, this._FilePath).get()), model);
 
         }
 
