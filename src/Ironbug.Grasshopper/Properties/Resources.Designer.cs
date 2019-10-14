@@ -1263,6 +1263,26 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ScheduleFile {
+            get {
+                object obj = ResourceManager.GetObject("ScheduleFile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointColdest {
+            get {
+                object obj = ResourceManager.GetObject("SetPointColdest", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SetPointDualScheduled {
             get {
                 object obj = ResourceManager.GetObject("SetPointDualScheduled", resourceCulture);
@@ -1336,6 +1356,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap SetPointScheduled {
             get {
                 object obj = ResourceManager.GetObject("SetPointScheduled", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SetPointScheduled_adv {
+            get {
+                object obj = ResourceManager.GetObject("SetPointScheduled_adv", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

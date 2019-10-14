@@ -143,6 +143,7 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMaximum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerColdest.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />

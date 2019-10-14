@@ -62,10 +62,7 @@ namespace Ironbug.HVAC.Schedules
             //{
             //    throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
             //}
-            //if (!File.Exists(FilePath))
-            //{
-            //    throw new ArgumentException($"{this._FilePath} does not exit!");
-            //}
+         
             this._FilePath = FilePath;
         }
 

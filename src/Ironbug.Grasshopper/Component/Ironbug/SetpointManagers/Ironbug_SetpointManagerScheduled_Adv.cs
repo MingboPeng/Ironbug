@@ -74,7 +74,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         }
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointScheduled;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointScheduled_adv;
 
         public override Guid ComponentGuid => new Guid("{AA4743D1-BDEE-4F00-94E1-E3A5B15A7F1C}");
     }

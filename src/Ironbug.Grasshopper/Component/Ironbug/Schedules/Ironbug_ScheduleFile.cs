@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
@@ -21,8 +22,6 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("csvFile", "_csvFile", "CSV file for schedule", GH_ParamAccess.item);
-            //pManager.AddGenericParameter("ScheduleType", "type_", "Use Ironbug_ScheduleType", GH_ParamAccess.item);
-            //pManager[1].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -35,6 +34,10 @@ namespace Ironbug.Grasshopper.Component
             var file = string.Empty;
 
             DA.GetData(0, ref file);
+            if (!File.Exists(file))
+            {
+                throw new ArgumentException($"{this.file} does not exit!");
+            }
             var obj = new HVAC.Schedules.IB_ScheduleFile(file);
             this.SetObjParamsTo(obj);
 
@@ -42,7 +45,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.ScheduleFile;
 
         public override Guid ComponentGuid => new Guid("{C1AFE176-EA12-4E68-917F-6BA237AA752D}");
     }

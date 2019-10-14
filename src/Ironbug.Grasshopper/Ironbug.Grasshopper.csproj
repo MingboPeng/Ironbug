@@ -103,6 +103,7 @@
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduled_Adv.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerColdest.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
@@ -771,7 +772,15 @@
   <ItemGroup>
     <None Include="Resources\DesuperHeater.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\ScheduleFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointScheduled_adv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointColdest.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
