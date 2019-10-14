@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(0, ref file);
             if (!File.Exists(file))
             {
-                throw new ArgumentException($"{this.file} does not exit!");
+                throw new ArgumentException($"{file} does not exit!");
             }
             var obj = new HVAC.Schedules.IB_ScheduleFile(file);
             this.SetObjParamsTo(obj);
