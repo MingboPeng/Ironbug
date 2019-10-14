@@ -39,7 +39,7 @@ namespace Ironbug.Core.OpenStudio
                 var path = possiblePath.FirstOrDefault(_ => File.Exists(Path.Combine(_, file)));
                 if (string.IsNullOrEmpty(path))
                 {
-                    throw new FileNotFoundException($"Cannot find OpenStudio 2.8 or newer version installed!\n\nIronbug works with this specific version of OpenStudio.");
+                    throw new FileNotFoundException($"Cannot find OpenStudio 2.8 or newer version installed in C drive!");
                 }
 
                 var asmFile = Path.Combine(path, file);
@@ -77,7 +77,7 @@ namespace Ironbug.Core.OpenStudio
             }
             else
             {
-                throw new FileNotFoundException($"Cannot find OpenStudio (2.8 or newer) installed!");
+                throw new FileNotFoundException($"Cannot find OpenStudio (2.8 or newer) installed!\n{versionFound} is found at {Path}");
                 //return v2;
             }
             
