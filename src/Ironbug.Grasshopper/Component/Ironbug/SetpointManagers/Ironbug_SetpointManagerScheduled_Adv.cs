@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduled_Adv : Ironbug_HVACWithParamComponent
+    public class Ironbug_SetpointManagerScheduled_Adv : Ironbug_DuplicableHVACWithParamComponent
     {
         //private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
         
@@ -32,7 +32,16 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             var obj = new HVAC.IB_SetpointManagerScheduled();
 
             this.SetObjParamsTo(obj);
-            DA.SetData(0, obj);
+
+            var objs = this.SetObjDupParamsTo(obj);
+            if (objs.Count() == 1)
+            {
+                DA.SetData(0, obj);
+            }
+            else
+            {
+                DA.SetDataList(0, objs);
+            }
 
         }
 

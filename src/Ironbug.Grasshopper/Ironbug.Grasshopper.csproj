@@ -105,6 +105,7 @@
     <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduledDualSetpoint_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduled_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerColdest.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />

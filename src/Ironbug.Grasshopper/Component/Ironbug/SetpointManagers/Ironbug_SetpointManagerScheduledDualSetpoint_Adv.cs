@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduledDualSetpoint : Ironbug_DuplicableHVACComponent
+    public class Ironbug_SetpointManagerScheduledDualSetpoint_Adv : Ironbug_DuplicableHVACWithParamComponent
     {
-        //private static HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet.Value;
-        public Ironbug_SetpointManagerScheduledDualSetpoint()
-          : base("Ironbug_SetpointManagerScheduledDualSetpoint", "SPM_Dual",
+        //private static HVAC.IB_SetpointManagerScheduledDualSetpoint_Adv_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_Adv_FieldSet.Value;
+        public Ironbug_SetpointManagerScheduledDualSetpoint_Adv()
+          : base("Ironbug_SetpointManagerScheduledDualSetpoint_Adv", "SPM_Dual_Adv",
               "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet))
@@ -19,8 +19,6 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("HighTemperature", "_hiT", "High SetpointTemperature", GH_ParamAccess.item, 21.1);
-            pManager.AddNumberParameter("LowTemperature", "_lowT", "Low SetpointTemperature", GH_ParamAccess.item, 12.7778);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -30,15 +28,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            double hiT = 21.1;
-            double lowT = 12.7778;
 
-            DA.GetData(0, ref hiT);
-            DA.GetData(1, ref lowT);
+            var obj = new HVAC.IB_SetpointManagerScheduledDualSetpoint();
 
 
-            var obj = new HVAC.IB_SetpointManagerScheduledDualSetpoint(lowT, hiT);
-
+            this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
             if (objs.Count() == 1)
             {
@@ -52,6 +46,6 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SetPointDualScheduled;
 
-        public override Guid ComponentGuid => new Guid("56015792-7A2B-4C40-9421-027032B71BAA");
+        public override Guid ComponentGuid => new Guid("{D88478BD-AE89-4D6E-B2C4-E67F504B5656}");
     }
 }
