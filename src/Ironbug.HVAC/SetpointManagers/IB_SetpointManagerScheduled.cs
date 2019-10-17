@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         private double _value = 12.7778; //55F
         private bool _isTemperature = true;
 
-        private IB_ScheduleRuleset _schedule => this.Children.Get<IB_ScheduleRuleset>();
+        //private IB_ScheduleRuleset _schedule => this.Children.Get<IB_ScheduleRuleset>();
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this._value);
 
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp)
@@ -29,9 +29,9 @@ namespace Ironbug.HVAC
             this._isTemperature = isTemperature;
         }
 
-        public IB_SetpointManagerScheduled(IB_ScheduleRuleset schedule) : base(NewDefaultOpsObj(new Model(), schedule))
+        public IB_SetpointManagerScheduled() : base(NewDefaultOpsObj(new Model(), -999))
         {
-            this.AddChild(schedule);
+            this._value = -999;
         }
 
         public override IB_ModelObject Duplicate()
@@ -49,9 +49,11 @@ namespace Ironbug.HVAC
 
             SetpointManagerScheduled NewDefaultOpsObj(Model m)
             {
-                if (this._schedule != null)
+                if (this._value == -999)
                 {
-                    return new SetpointManagerScheduled(m, this._schedule.ToOS(m) as Schedule);
+                    //add a placeholder to init SetpointManagerScheduled. 
+                    //users can set their own custom attributes
+                    return new SetpointManagerScheduled(m, new ScheduleRuleset(m,-999));
 
                 }
                 else if (this._isTemperature)

@@ -253,10 +253,20 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     this.SetFieldValue(item.Key, item.Value);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
-                    throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or typo!");
+                    if (ex.Message.Contains("Schedule"))
+                    {
+                        throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or schedule type! \n" +
+                            $"In most cases, some components only accepts \"Temperature\" schedule type instead of default \"Dimensionless\". \n" +
+                            $"If this is the case, please use ScheduleTypeLimits to set \"UnitType\" to an appropriate value.\n" +
+                            $"Detail error message:\n{ex.Message}");
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or typo! \nDetail error message:\n{ex.Message}");
+                    }
+                    
                 }
             }
             
