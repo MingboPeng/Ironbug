@@ -84,7 +84,7 @@ namespace Ironbug.Honeybee.Radiance.Command
 
             if (!string.IsNullOrEmpty(err))
             {
-                new Exception(err);
+                throw new ArgumentException($"{ err }\n{this.ToRadString()}");
             }
             
             return outputs;
