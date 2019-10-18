@@ -335,9 +335,9 @@ namespace Ironbug.Grasshopper
                 {
                     //check image size
                     var hdrSize = new FileInfo(filePath).Length;
-                    if (hdrSize <=1)
+                    if (hdrSize <1000)
                     {
-                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Input image is not a valid image!");
+                        this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Image file size is less than 1 KB, this image is probably not a valid image!");
                         return null;
                     }
                     
