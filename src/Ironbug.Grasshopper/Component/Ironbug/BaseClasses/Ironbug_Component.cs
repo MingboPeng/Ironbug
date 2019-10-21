@@ -83,13 +83,16 @@ namespace Ironbug.Grasshopper.Component
             return base.Write(writer);
         }
         //public override bool Obsolete => _isOldVersion;
-        private bool IsOldVersion()
+        private bool IsVersionCheckOk()
         {
             var v1 = new Version(IronbugInfo.version); //0.0.0.13
             var v0 = this.InstanceVersion == "[unknown version]"? new Version(): new Version(this.InstanceVersion);
 
             var isOldVersion = v1.Build - v0.Build > 2;
-
+            if (v0>v1)
+            {
+                throw new ArgumentException($"This component is from a newer version {v0}, but you have installed Ironbug {v1}, which might cause issues. Please update to the most updated Ironbug");
+            }
             return isOldVersion;
         }
         public override bool Read(GH_IReader reader)
@@ -102,7 +105,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 InstanceVersion = "[unknown version]";
             }
-            this._isOldVersion = this.IsOldVersion();
+            this._isOldVersion = this.IsVersionCheckOk();
 
             if (reader.ItemExists("IconDisplayMode"))
             {
