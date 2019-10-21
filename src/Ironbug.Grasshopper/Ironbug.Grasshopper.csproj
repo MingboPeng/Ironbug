@@ -108,6 +108,8 @@
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduledDualSetpoint_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduled_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerColdest.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneHeating.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneCooling.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
@@ -784,6 +786,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SetPointColdest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointSZCooling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointSZHeaing.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

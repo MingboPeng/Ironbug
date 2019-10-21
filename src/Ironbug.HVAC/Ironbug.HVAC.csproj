@@ -140,8 +140,10 @@
     <Compile Include="SetpointManagers\IB_SetpointManagerOutdoorAirPretreat.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerScheduledDualSetpoint.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerMultiZoneHumidityMaximum.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHeating.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMaximum.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneHumidityMinimum.cs" />
+    <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneCooling.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerSingleZoneReheat.cs" />
     <Compile Include="SetpointManagers\IB_SetpointManagerColdest.cs" />
     <Compile Include="SpaceLoad\IB_WaterUseEquipmentDefinition.cs" />
