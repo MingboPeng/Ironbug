@@ -91,7 +91,8 @@ namespace Ironbug.Grasshopper.Component
             var isOldVersion = v1.Build - v0.Build > 2;
             if (v0>v1)
             {
-                throw new ArgumentException($"This component is from a newer version {v0}, but you have installed Ironbug {v1}, which might cause issues. Please update to the most updated Ironbug");
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"This component is from a newer version {v0}, but you have installed Ironbug {v1}, which might cause issues. \nPlease update to the most updated Ironbug");
+        
             }
             return isOldVersion;
         }
