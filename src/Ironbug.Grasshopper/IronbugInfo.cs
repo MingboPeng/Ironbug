@@ -27,9 +27,8 @@ namespace Ironbug.Grasshopper.Component
         {
             try
             {
-                Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine(message);
+                Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine($"Ironbug {IronbugInfo.version} is loaded with {message}");
                 Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger);
-                
             }
             catch (System.IO.FileNotFoundException loadError)
             {

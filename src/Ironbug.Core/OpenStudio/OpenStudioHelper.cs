@@ -49,7 +49,7 @@ namespace Ironbug.Core.OpenStudio
                 {
                     Assembly.LoadFile(asmFile);
                     isLoaded = true;
-                    MessageLogger($"OpenStudio library {versionFound} loaded from {path}");
+                    MessageLogger($"OpenStudio library {versionFound} from {path}.");
                 }
                 catch (Exception)
                 {
