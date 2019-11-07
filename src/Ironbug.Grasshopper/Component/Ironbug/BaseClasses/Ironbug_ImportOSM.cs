@@ -41,19 +41,7 @@ namespace Ironbug.Grasshopper.Component
 
             if (File.Exists(file) && Path.GetExtension(file).ToLower() == ".osm")
             {
-                var p = OpenStudio.OpenStudioUtilitiesCore.toPath(file);
-               
-               
-                var trans = new OpenStudio.VersionTranslator();
-                trans.setAllowNewerVersions(false);
-                var tempModel = trans.loadModel(p);
-                if (!tempModel.is_initialized())
-                {
-                    AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to open this file, and I don't know why!");
-                    return;
-                }
-
-                var m = tempModel.get();
+                var m = Model_Extensions.LoadOpsModel(file);
                 var zs = m.getThermalZones();
                 var names = zs.Select(_ => _.nameString()).ToList();
                 names.Sort();

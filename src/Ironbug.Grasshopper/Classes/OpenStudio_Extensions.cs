@@ -8,6 +8,20 @@ namespace Ironbug.Grasshopper
 {
     public static class Model_Extensions
     {
+        public static OPS.Model LoadOpsModel(string OsmPath)
+        {
+            var p = OpenStudio.OpenStudioUtilitiesCore.toPath(OsmPath);
+
+            var trans = new OpenStudio.VersionTranslator();
+            trans.setAllowNewerVersions(false);
+            var tempModel = trans.loadModel(p);
+            if (!tempModel.is_initialized())
+            {
+                throw new System.ArgumentException("Failed to open this file, and I don't know why!");
+            }
+
+            return tempModel.get();
+        }
         public static Brep ToBrep(this OPS.PlanarSurface planarSurface)
         {
             var pts = planarSurface.vertices().Select(pt => new Rhino.Geometry.Point3d(pt.x(), pt.y(), pt.z())).ToList();
