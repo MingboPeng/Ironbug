@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.EPDoc", "src\Ironbu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ironbug.Core.Tests", "src\Ironbug.Core.Tests\Ironbug.Core.Tests.csproj", "{45CF1A80-8AF6-4275-92F0-3C7B474E8B68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ironbug.RhinoOSM", "src\Ironbug.Rhino\Ironbug.RhinoOSM.csproj", "{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,18 @@ Global
 		{45CF1A80-8AF6-4275-92F0-3C7B474E8B68}.Release|Any CPU.Build.0 = Release|Any CPU
 		{45CF1A80-8AF6-4275-92F0-3C7B474E8B68}.Release|x64.ActiveCfg = Release|Any CPU
 		{45CF1A80-8AF6-4275-92F0-3C7B474E8B68}.Release|x64.Build.0 = Release|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug|x64.Build.0 = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug64|Any CPU.ActiveCfg = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug64|Any CPU.Build.0 = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug64|x64.ActiveCfg = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Debug64|x64.Build.0 = Debug|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|x64.ActiveCfg = Release|Any CPU
+		{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

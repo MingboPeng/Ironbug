@@ -78,7 +78,7 @@ namespace Ironbug.RhinoOpenStudio.Commands
                 catch (System.Exception ex)
                 {
 
-                    Rhino.UI.Dialogs.ShowMessage(ex.Message,"error");
+                    Rhino.UI.Dialogs.ShowMessageBox(ex.Message,"error");
                 }
                 
             }

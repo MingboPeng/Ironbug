@@ -151,14 +151,18 @@ namespace Ironbug.RhinoOpenStudio
 
             if (filename.Contains(".osm"))
             {
-                var p = OPS.OpenStudioUtilitiesCore.toPath(filename);
-                var tempModel = OPS.Model.load(p);
+                var p = OpenStudio.OpenStudioUtilitiesCore.toPath(filename);
+
+                var trans = new OpenStudio.VersionTranslator();
+                trans.setAllowNewerVersions(false);
+                var tempModel = trans.loadModel(p);
                 if (!tempModel.is_initialized())
                 {
-                    return false;
+                    throw new System.ArgumentException("Failed to open this file, and I don't know why!");
                 }
+
                 //this.OsmFilePath = filename;
-                ReadOsmStringToDoc(filename);
+                //ReadOsmStringToDoc(filename);
                 var model = tempModel.get();
                 this.OsmModel = model;
 
@@ -181,20 +185,25 @@ namespace Ironbug.RhinoOpenStudio
             var glzLayerIdx = doc.Layers.Add("OS:Glazing", System.Drawing.Color.Blue);
 
             var sps = model.getSpaces();
+            
+
             var spaceAddedCount = 0;
             foreach (OPS.Space sp in sps)
             {
-                var (space, glzs) = RHIB_Space.FromOpsSpace(sp);
+                var space = new RHIB_Space(sp);
 
                 //add glz surfaces to rhino doc.
-                foreach (var glz in glzs)
-                {
-                    doc.Objects.AddRhinoObject(glz);
-                }
-
+                //foreach (var glz in glzs)
+                //{
+                //    doc.Objects.AddRhinoObject(glz);
+                //}
+                //if (space.IsValid)
+                //{
                 doc.Objects.AddRhinoObject(space);
-                space.Attributes.LayerIndex = layerIndex;
-                space.CommitChanges();
+                //space.Attributes.LayerIndex = layerIndex;
+                //space.CommitChanges();
+                //}
+
                 spaceAddedCount++;
             }
 
