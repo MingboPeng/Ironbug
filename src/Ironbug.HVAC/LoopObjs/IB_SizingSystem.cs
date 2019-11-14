@@ -41,7 +41,5 @@ namespace Ironbug.HVAC
         public IB_Field DesignOutdoorAirFlowRate { get; }
             = new IB_BasicField("DesignOutdoorAirFlowRate", "OAFlowRate");
 
-        public IB_Field MinimumSystemAirFlowRatio { get; }
-            = new IB_BasicField("MinimumSystemAirFlowRatio", "MinFlowRatio");
     }
 }
