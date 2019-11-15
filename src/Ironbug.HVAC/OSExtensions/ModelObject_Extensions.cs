@@ -94,9 +94,16 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                if (e.InnerException.Message.Contains("Attempted to read or write protected memory"))
+                if (e.InnerException != null)
                 {
-                    throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException.Message);
+                    if (e.InnerException.Message.Contains("Attempted to read or write protected memory"))
+                    {
+                        throw new ArgumentException($"Something went wrong! \r\n\r\nUsually rerun this component would fix it. But you should save the file first!\r\n\r\n" + e.InnerException.Message);
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"{e.InnerException.Message}");
+                    }
                 }
                 else
                 {

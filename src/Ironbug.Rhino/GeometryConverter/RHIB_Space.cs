@@ -12,25 +12,53 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 {
     public class RHIB_Space : CustomBrepObject,IRHIB_GeometryBase
     {
+        public RHIB_Space()
+        {
+
+        }
         public RHIB_Space(Brep m)
             : base(m)
         {
         }
         
-        public RHIB_Space()
+        public RHIB_Space(Space Space) : this(FromOps(Space))
         {
         }
         
         public override string ToString() => "OS_Space";
 
         public override string ShortDescription(bool plural) => "OS_Space";
-        public static RHIB_Space ToRHIB_Space(Brep brep, Rhino.Collections.ArchivableDictionary IdfData)
-        {
-            var space = new RHIB_Space(brep);
-            space.Attributes.UserDictionary.Set("OpenStudioData", IdfData);
-            return space;
-        }
+        //public static RHIB_Space ToRHIB_Space(Brep brep, Rhino.Collections.ArchivableDictionary IdfData)
+        //{
+        //    var space = new RHIB_Space(brep);
+        //    space.Attributes.UserDictionary.Set("OpenStudioData", IdfData);
+        //    return space;
+        //}
 
+        
+
+
+        private static Brep FromOps(Space sp)
+        {
+            var ospace = sp;
+            var tol = Rhino.RhinoDoc.ActiveDoc.ModelAbsoluteTolerance;
+
+
+            var srfs = ospace.surfaces;
+
+            var zonefaces = new List<Brep>();
+            foreach (var srf in srfs)
+            {
+                zonefaces.Add(OpenStudioExtension.OpsSurfToSurf(srf));
+            }
+
+            var closedBrep = Brep.JoinBreps(zonefaces, tol)[0];
+           
+            closedBrep.SetUserString("SpaceData", ospace.__str__());
+            //var space = new RHIB_Space(closedBrep);
+
+            return closedBrep;
+        }
         public static (RHIB_Space space, List<RHIB_SubSurface> glzs) FromOpsSpace(Space OpenStudioSpace)
         {
             var ospace = OpenStudioSpace;
@@ -40,15 +68,16 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             var zonefaces = new List<Brep>();
             var glzs = new List<RHIB_SubSurface>();
             var zoneBrep3 = new Brep();
-            
+
             var userDataDic = new Rhino.Collections.ArchivableDictionary();
-            
+
             foreach (OpenStudio.Surface sf in sfs)
             {
                 //Surface
                 var rhBrep = sf.ToBrep();
                 zonefaces.Add(rhBrep.SrfBrep);
                 zoneBrep3.Append(rhBrep.SrfBrep);
+
                 var srfID = rhBrep.SrfBrep.GetCentorAreaForID();
                 if (srfID == "")
                 {
@@ -72,8 +101,8 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
             }
             userDataDic.Set("SpaceData", ospace.__str__());
 
-            var space =  RHIB_Space.ToRHIB_Space(closedBrep, userDataDic);
-            space.Name = ospace.nameString();
+            var space =  new RHIB_Space(closedBrep);
+            //space.Name = ospace.nameString();
 
             return (space, glzs);
         }

@@ -22,6 +22,29 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
         //    return b;
         //}
 
+        public static Rhino.Geometry.Brep OpsSurfToSurf(this PlanarSurface planarSurface)
+        {
+            var pts = planarSurface.vertices().Select(pt => new Rhino.Geometry.Point3d(pt.x(), pt.y(), pt.z())).ToList();
+            pts.Add(pts[0]);
+
+            var crv = new PolylineCurve(pts);
+
+            var plannarBrep = Brep.CreatePlanarBreps(crv)[0];
+
+            if (!plannarBrep.IsValid)
+            {
+                throw new System.Exception(string.Format("Failed to import {0}!", planarSurface.nameString()));
+            }
+
+            //add osm data as user data
+            Rhino.Geometry.Surface srf = plannarBrep.Surfaces[0];
+           
+            var IDFString = planarSurface.__str__();
+            srf.UserDictionary.Set("IDFString", IDFString);
+
+            return plannarBrep;
+        }
+
         public static (Brep SrfBrep, string IDFString) ToBrep(this PlanarSurface planarSurface)
         {
             var pts = planarSurface.vertices().Select(pt => new Rhino.Geometry.Point3d(pt.x(), pt.y(), pt.z())).ToList();
@@ -29,7 +52,7 @@ namespace Ironbug.RhinoOpenStudio.GeometryConverter
 
             var crv = new PolylineCurve(pts);
 
-            var plannarBrep = Brep.CreatePlanarBreps(crv, 0.000001)[0];
+            var plannarBrep = Brep.CreatePlanarBreps(crv)[0];
 
             if (!plannarBrep.IsValid)
             {

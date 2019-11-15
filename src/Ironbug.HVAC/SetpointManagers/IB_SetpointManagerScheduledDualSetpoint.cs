@@ -6,45 +6,48 @@ namespace Ironbug.HVAC
 {
     public class IB_SetpointManagerScheduledDualSetpoint : IB_SetpointManager
     {
-        private double lowT = 12.7778; //55F
-        private double highT = 21.1; //70F
+        private double _lowT = 12.7778; //55F
+        private double _highT = 21.1; //70F
 
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduledDualSetpoint();
 
         private static SetpointManagerScheduledDualSetpoint NewDefaultOpsObj(Model model) 
             => new SetpointManagerScheduledDualSetpoint(model);
 
-        public IB_SetpointManagerScheduledDualSetpoint() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerScheduledDualSetpoint(double lowTemperature, double highTemperature) : base(NewDefaultOpsObj(new Model()))
         {
             (this.GhostOSObject as SetpointManagerScheduledDualSetpoint).setControlVariable("Temperature");
+            this._lowT = lowTemperature;
+            this._highT = highTemperature;
         }
 
-        public void SetHighTemperature(double Temperature)
+        public IB_SetpointManagerScheduledDualSetpoint() : base(NewDefaultOpsObj(new Model()))
         {
-            this.highT = Temperature;
-        }
-
-        public void SetLowTemperature(double Temperature)
-        {
-            this.lowT = Temperature;
+            this._lowT = -999;
+            this._highT = -999;
         }
 
         public override IB_ModelObject Duplicate()
         {
             var newobj = base.Duplicate() as IB_SetpointManagerScheduledDualSetpoint;
-            newobj.lowT = this.lowT;
-            newobj.highT = this.highT;
+            newobj._lowT = this._lowT;
+            newobj._highT = this._highT;
             return newobj;
         }
 
         public override HVACComponent ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var hiSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this.highT);
-            obj.setHighSetpointSchedule(hiSch);
 
-            var loSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this.lowT);
-            obj.setLowSetpointSchedule(loSch);
+            if (this._lowT !=-999)
+            {
+                var loSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this._lowT);
+                obj.setLowSetpointSchedule(loSch);
+
+                var hiSch = Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(model, this._highT);
+                obj.setHighSetpointSchedule(hiSch);
+            }
+
 
             return obj;
 

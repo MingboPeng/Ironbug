@@ -37,10 +37,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             DA.GetData(1, ref lowT);
 
 
-            var obj = new HVAC.IB_SetpointManagerScheduledDualSetpoint();
-            obj.SetHighTemperature(hiT);
-            obj.SetLowTemperature(lowT);
-
+            var obj = new HVAC.IB_SetpointManagerScheduledDualSetpoint(lowT, hiT);
 
             var objs = this.SetObjDupParamsTo(obj);
             if (objs.Count() == 1)

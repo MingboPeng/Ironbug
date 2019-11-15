@@ -4,9 +4,9 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerScheduled_Adv : Ironbug_DuplicableHVACComponent
+    public class Ironbug_SetpointManagerScheduled_Adv : Ironbug_DuplicableHVACWithParamComponent
     {
-        private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
+        //private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
         
         public Ironbug_SetpointManagerScheduled_Adv()
           : base("Ironbug_SetpointManagerScheduled_Adv", "SPM_Scheduled_Adv",
@@ -20,10 +20,6 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
 
-            pManager.AddGenericParameter("Schedule", "_Sch", "A schedule for setpoint", GH_ParamAccess.item);
-            pManager.AddTextParameter("ControlVariable", "var_", _fieldSet.ControlVariable.Description, GH_ParamAccess.item);
-            pManager[1].Optional = true;
-            
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -33,44 +29,19 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            var obj = new HVAC.IB_SetpointManagerScheduled();
 
-            HVAC.Schedules.IB_ScheduleRuleset sch = null;
-            DA.GetData(0, ref sch);
-            string variable = "Temperature";
-            DA.GetData(1, ref variable);
+            this.SetObjParamsTo(obj);
 
-            try
+            var objs = this.SetObjDupParamsTo(obj);
+            if (objs.Count() == 1)
             {
-                var obj = new HVAC.IB_SetpointManagerScheduled(sch);
-                obj.SetFieldValue(_fieldSet.ControlVariable, variable);
-
-                var objs = this.SetObjDupParamsTo(obj);
-                if (objs.Count() == 1)
-                {
-                    DA.SetData(0, obj);
-                }
-                else
-                {
-                    DA.SetDataList(0, objs);
-                }
-
-
+                DA.SetData(0, obj);
             }
-            catch (Exception ex)
+            else
             {
-                if (ex.Message.Contains("Unable to set Object of type 'OS:Schedule:Ruleset'"))
-                {
-                    throw new ArgumentException("It seems the type of schedule does not match this setpoint manager control variable, please double check if it is 'Temperature', 'Fraction', or 'Dimensionless', etc. \n\nHere are error message:" + ex.Message);
-
-                }
-                else
-                {
-                    throw ex;
-                }
-               
+                DA.SetDataList(0, objs);
             }
-            
-
 
         }
 

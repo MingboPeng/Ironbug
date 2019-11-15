@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{73ECDD37-0C09-479F-ADBC-6178D3A1FAAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ironbug.RhinoOpenStudio</RootNamespace>
+    <AssemblyName>Ironbug.RhinoOpenStudio</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RhinoCommon.6.18.19266.14201\lib\net45\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenStudio, Version=2.9.0.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenStudio.2.9.0\lib\OpenStudio.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Rhino.UI, Version=6.18.19266.14200, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RhinoCommon.6.18.19266.14201\lib\net45\Rhino.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=6.18.19266.14200, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RhinoCommon.6.18.19266.14201\lib\net45\RhinoCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ValueTuple.4.5.0\lib\portable-net40+sl4+win8+wp8\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\IntersectMass.cs" />
+    <Compile Include="Commands\OsmObjectDisplayCommand.cs" />
+    <Compile Include="GeometryConverter\CustomBrepObjectExtension.cs" />
+    <Compile Include="GeometryConverter\OpenStudioExtension.cs" />
+    <Compile Include="GeometryConverter\RHIB_GeometryBase.cs" />
+    <Compile Include="GeometryConverter\RHIB_ShadingSurface.cs" />
+    <Compile Include="GeometryConverter\RHIB_Space.cs" />
+    <Compile Include="Commands\IronbugRhinoCommand.cs" />
+    <Compile Include="GeometryConverter\RHIB_SubSurface.cs" />
+    <Compile Include="IronbugRhinoPlugIn.cs" />
+    <Compile Include="Commands\osmInfo.cs" />
+    <Compile Include="OsmData.cs" />
+    <Compile Include="OsmDisplay.cs" />
+    <Compile Include="OsmDocumentData.cs" />
+    <Compile Include="OsmPropertyPanel.cs" />
+    <Compile Include="OsmPropertyPanelUC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="OsmPropertyPanelUC.Designer.cs">
+      <DependentUpon>OsmPropertyPanelUC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OsmPropertyPanelUI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EmbeddedResources\plugin-import.ico" />
+    <EmbeddedResource Include="OsmPropertyPanelUC.resx">
+      <DependentUpon>OsmPropertyPanelUC.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj">
+      <Project>{cac20b15-712f-4860-9563-d102969689a2}</Project>
+      <Name>Ironbug.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(ProjectName).rhp"
+Erase "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FallbackCulture>en-US</FallbackCulture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <StartAction>Program</StartAction>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="..\..\packages\RhinoCommon.6.18.19266.14201\build\net45\RhinoCommon.targets" Condition="Exists('..\..\packages\RhinoCommon.6.18.19266.14201\build\net45\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\RhinoCommon.6.18.19266.14201\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RhinoCommon.6.18.19266.14201\build\net45\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets')" />
+</Project>

@@ -71,8 +71,8 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>..\..\packages\DynamicLanguageRuntime.1.1.2\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="OpenStudio">
-      <HintPath>..\..\lib\OpenStudio\2.9.0\OpenStudio.dll</HintPath>
+    <Reference Include="OpenStudio, Version=2.9.0.0, Culture=neutral, PublicKeyToken=e86b6217592bda30, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenStudio.2.9.0\lib\OpenStudio.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RhinoCommon, Version=5.1.30000.16, Culture=neutral, PublicKeyToken=552281e97c755530, processorArchitecture=MSIL">
@@ -105,8 +105,11 @@
     <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduledDualSetpoint_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduled_Adv.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerColdest.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneHeating.cs" />
+    <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerSingleZoneCooling.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\AirTerminals\Ironbug_AirTerminalSingleDuctInletSideMixer.cs" />
@@ -784,6 +787,12 @@
   <ItemGroup>
     <None Include="Resources\SetPointColdest.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointSZCooling.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SetPointSZHeaing.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -811,6 +820,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RhinoCommon.5.12.50810.13095\build\net35\RhinoCommon.targets'))" />
     <Error Condition="!Exists('..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets'))" />
+    <Error Condition="!Exists('..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets'))" />
   </Target>
   <Import Project="..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets" Condition="Exists('..\..\packages\Grasshopper.0.9.76\build\net35\Grasshopper.targets')" />
+  <Import Project="..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets" Condition="Exists('..\..\packages\OpenStudio.2.9.0\build\OpenStudio.targets')" />
 </Project>
