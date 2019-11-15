@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.BaseClass
         private static ThermalZone NewDefaultOpsObj(Model model) => new ThermalZone(model);
 
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
-        public List<IB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IB_ZoneEquipment>();
+        public List<IIB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IIB_ZoneEquipment>();
         private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
 
         public IB_ThermalZone SupplyPlenum { get; private set; }
@@ -52,7 +52,7 @@ namespace Ironbug.HVAC.BaseClass
             this.AirTerminal = AirTerminal;
         }
 
-        public void AddZoneEquipment(IB_ZoneEquipment Equipment)
+        public void AddZoneEquipment(IIB_ZoneEquipment Equipment)
         {
             this.ZoneEquipments.Add(Equipment);
         }
@@ -80,6 +80,7 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     var eqp = (ZoneHVACComponent)item.ToOS(model);
                     eqp.addToThermalZone(newZone);
+                    var u = new AirLoopHVACUnitarySystem(model);
                 }
             }
             else
