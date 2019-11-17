@@ -1,12 +1,28 @@
 ﻿using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Ironbug.HVACTests.Loop
 {
     public class IB_ThermalZone_Test
     {
-        
+        ITestOutputHelper output;
+        public IB_ThermalZone_Test(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+        [Fact]
+        public void OpenStudioDll_Test()
+        {
+
+            var m = new Model();
+            var v = m.version().str();
+            output.WriteLine($"Loaded version: {v}");
+            Assert.Equal(v, "2.9.0");
+        }
+
         [Fact]
         public void IB_ThermalZone_Sizing_Test()
         {
