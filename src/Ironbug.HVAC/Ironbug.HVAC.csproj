@@ -73,6 +73,7 @@
     <Compile Include="BaseClass\IB_Curve.cs" />
     <Compile Include="Curves\IB_CurveFanPressureRise.cs" />
     <Compile Include="Curves\IB_CurveExponent.cs" />
+    <Compile Include="Interfaces\IIB_HVACObject.cs" />
     <Compile Include="Interfaces\IIB_ExistingLoop.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingFourPipeBeam.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingFourPipeBeam.cs" />

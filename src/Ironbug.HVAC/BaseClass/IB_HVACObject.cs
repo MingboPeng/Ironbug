@@ -2,7 +2,7 @@
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_HVACObject : IB_ModelObject
+    public abstract class IB_HVACObject : IB_ModelObject, IIB_HVACObject
     {
         public IB_HVACObject(HVACComponent GhostOSObject) : base(GhostOSObject)
         {

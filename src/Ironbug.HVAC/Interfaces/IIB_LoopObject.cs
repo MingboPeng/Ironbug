@@ -1,9 +1,8 @@
-﻿using OpenStudio;
-
+﻿
 namespace Ironbug.HVAC
 {
-    public interface IIB_LoopObject
+    public interface IIB_LoopObject: IIB_HVACObject
     {
-        bool AddToNode(Node node);
+        //bool AddToNode(Node node);
     }
 }
