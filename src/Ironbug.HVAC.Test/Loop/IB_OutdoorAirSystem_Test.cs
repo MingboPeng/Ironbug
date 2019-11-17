@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Xunit;
 
 namespace Ironbug.HVACTests.Loop
 {
-    [TestClass]
     public class IB_OutdoorAirSystem_Test
     {
         
-        [TestMethod]
+        [Fact]
         public void IB_OutdoorAirSystem_SetController_Test()
         {
             var model = new OpenStudio.Model();
@@ -25,7 +23,7 @@ namespace Ironbug.HVACTests.Loop
             var inSysCtrl = model.getAirLoopHVACOutdoorAirSystems().First().getControllerOutdoorAir();
             var att = inSysCtrl.minimumOutdoorAirFlowRate();
 
-            Assert.IsTrue(att.get() == testValue);
+            Assert.True(att.get() == testValue);
         }
     }
 }

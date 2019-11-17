@@ -4,21 +4,22 @@ using System.IO;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Ironbug.HVACTests
 {
 
-    [TestClass]
     public class HVACBaselineSysTest
     {
-        public TestContext TestContext { get; set; }
+
+        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string exampleBuildingFile = @"..\..\..\..\doc\osmFile\BuildingForTest.osm";
         
 
-        [TestMethod]
+        [Fact]
         public void Sys01_PTAC()
         {
             string saveFile = @"..\..\..\..\doc\osmFile\HVACBaseline\sys01_PTAC.osm";
@@ -83,7 +84,7 @@ namespace Ironbug.HVACTests
             var countOfCoils = m.getCoilHeatingWaters().Where(_ => _.plantLoop().is_initialized()).Count();
             s &= countOfCoils == zoneNames.Count();
 
-            Assert.IsTrue(s);
+            Assert.True(s);
         }
     }
 }

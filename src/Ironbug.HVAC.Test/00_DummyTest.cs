@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Ironbug.HVAC;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,30 +7,30 @@ using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System.IO;
 using Newtonsoft.Json;
+using Xunit;
 
 namespace Ironbug.HVACTests
 {
-    [TestClass]
     public class DummyTest
     {
-        [TestMethod]
+        [Fact]
         public void DummyTest_OS_Coil_Heating_WaterFields()
         {
             var tp = typeof(OpenStudio.OS_Coil_Heating_WaterFields);
             var meths = tp.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
             var membs = tp.GetMembers(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly);
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void IB_TypeTest()
         {
             var coil = new IB_CoilCoolingDXMultiSpeed();
             var success = typeof(IB_Coil).IsInstanceOfType(coil);
         }
 
-        [TestMethod]
+        [Fact]
         public void CoolingPlantLoop_Test()
         {
             var lp = new IB_PlantLoop();
@@ -47,10 +46,10 @@ namespace Ironbug.HVACTests
 
             success &= md1.getPlantLoops().First().sizingPlant().loopType() == "Cooling";
 
-            Assert.IsTrue(true);
+            Assert.True(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ThermalZoneAndSizingZone_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -67,10 +66,10 @@ namespace Ironbug.HVACTests
             var success = md1.Save(saveFile);
             
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void RetrunIfInModel_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -79,10 +78,10 @@ namespace Ironbug.HVACTests
 
             var optional = airflow.GetIfInModel(md1);
             
-            Assert.IsTrue(!(optional is null));
+            Assert.True(!(optional is null));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetEPDoc_Test()
         {
             var refType = typeof(CoilCoolingWater);
@@ -101,10 +100,10 @@ namespace Ironbug.HVACTests
             var note = type.GetProperty("Note").GetValue(null,null) as string;
             string temp = type.GetProperty("Field_DesignInletWaterTemperature").GetValue(null, null) as string;
 
-            Assert.IsTrue(!string.IsNullOrEmpty(temp));
+            Assert.True(!string.IsNullOrEmpty(temp));
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadJson()
         {
 
@@ -122,7 +121,7 @@ namespace Ironbug.HVACTests
 
             //var list = arr.Children().ToList();
 
-            Assert.IsTrue(true);
+            Assert.True(true);
 
         }
 

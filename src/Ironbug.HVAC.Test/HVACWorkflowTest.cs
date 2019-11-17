@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Ironbug.HVACTests
 {
-   
-
-
-    [TestClass]
     public class HVACWorkflowTest
     {
-        public TestContext TestContext { get; set; }
+        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
@@ -30,7 +27,7 @@ namespace Ironbug.HVACTests
             return sizing;
         }
         
-        [TestMethod]
+        [Fact]
         public void IBChiller_Loop_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -68,11 +65,11 @@ namespace Ironbug.HVACTests
 
             var cwloopSz = chillers.First().plantLoop().get().sizingPlant();
             var isCooling = cwloopSz.loopType() == "Cooling";
-            Assert.IsTrue(findChiller & isCooling);
+            Assert.True(findChiller & isCooling);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void PlantBranches_Test()
         {
             
@@ -132,11 +129,11 @@ namespace Ironbug.HVACTests
             success &= md1.Save(saveFile);
 
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void AirloopWorkflow_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -172,11 +169,11 @@ namespace Ironbug.HVACTests
 
             var success = success1;
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void HWloopWorkflow_Test()
         {
             var plant = new HVAC.IB_PlantLoop();
@@ -204,9 +201,9 @@ namespace Ironbug.HVACTests
             var success3 = md1.Save(saveFile);
             var success = success1 && success3;
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
-        [TestMethod]
+        [Fact]
         public void VRF_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -226,10 +223,10 @@ namespace Ironbug.HVACTests
 
             success &= md1.Save(saveFile);
             
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void VAVReheat_Puppet_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -247,12 +244,12 @@ namespace Ironbug.HVACTests
             var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
             zone1.SetAirTerminal(reHeatPuppet1);
             var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
-            TestContext.WriteLine($"ReheatCoil 1: {firstCoilID}");
+            output.WriteLine($"ReheatCoil 1: {firstCoilID}");
 
             var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
             zone2.SetAirTerminal(reHeatPuppet2);
             var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
-            TestContext.WriteLine($"ReheatCoil 2: {secondCoilID}");
+            output.WriteLine($"ReheatCoil 2: {secondCoilID}");
 
             var airBranches = new IB_AirLoopBranches();
             airBranches.Add(new List<IB_HVACObject>() { zone1, zone2 });
@@ -288,10 +285,10 @@ namespace Ironbug.HVACTests
             success &= reheatTerminals.First().nameString().EndsWith("1") && reheatTerminals.First().reheatCoil().nameString().EndsWith("1");
             success &= md1.Save(saveFile);
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void DuplicateWithChild()
         {
             var oa = new IB_OutdoorAirSystem();
@@ -307,7 +304,7 @@ namespace Ironbug.HVACTests
                 .Where(_=>_.Value.ToString() == "DifferentialDryBulb")
                 .Any();
 
-            Assert.IsTrue(s);
+            Assert.True(s);
         }
     }
 }

@@ -4,16 +4,21 @@ using System.Linq;
 using System.Reflection;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Ironbug.HVACTests
 {
-    [TestClass]
     public class DataFieldSetTest
     {
-        public TestContext TestContext { get; set; }
+        ITestOutputHelper output;
 
-        [TestMethod]
+        public DataFieldSetTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
+        [Fact]
         public void DataFieldNames_Test()
         {
             var testNames = new List<string>(){
@@ -36,23 +41,23 @@ namespace Ironbug.HVACTests
                 var testedName = datafields.FULLNAME;
                 if (testedName != expected)
                 {
-                    TestContext.WriteLine(name + "\r\n >> " + testedName);
+                    output.WriteLine(name + "\r\n >> " + testedName);
                     success = false;
                 }
             }
             
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void GetCustomizedDataFields_Test()
         {
             var datafields = IB_PumpVariableSpeed_FieldSet.Value;
             var customizedDataFields = datafields.GetSelfPreperties();
 
             var success = customizedDataFields.Count() == 8;
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
 
@@ -124,7 +129,7 @@ namespace Ironbug.HVACTests
         //    Assert.IsTrue(success);
 
         //}
-        [TestMethod]
+        [Fact]
         public void DataFieldTypeEpNote_Test()
         {
             var datafields = IB_CoilCoolingWater_FieldSet.Value;
@@ -132,11 +137,11 @@ namespace Ironbug.HVACTests
             var dec = datafields.ElementAt(0).Description;
             var success = dec.Contains("EnergyPlus is a trademark of the US Department of Energy.");
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void DataFieldType_Test()
         {
             var datafields = IB_PumpVariableSpeed_FieldSet.Value;
@@ -152,10 +157,10 @@ namespace Ironbug.HVACTests
             var success = datafields is IB_FieldSet;
             success &= datafields2 is IB_FieldSet;
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
-        [TestMethod]
+        [Fact]
         public void AllDataFieldClass_ifSealed_Test()
         {
             var logs = new List<string>();
@@ -169,14 +174,14 @@ namespace Ironbug.HVACTests
                     logs.Add(_.Name + " is not sealed!");
             });
 
-            TestContext.WriteLine(string.Join("\r\n", logs));
+            output.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void AllDataFieldClass_hasPrivateConstructor_Test()
         {
             var logs = new List<string>();
@@ -194,10 +199,10 @@ namespace Ironbug.HVACTests
 
             });
 
-            TestContext.WriteLine(string.Join("\r\n", logs));
+            output.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
 
@@ -219,14 +224,14 @@ namespace Ironbug.HVACTests
 
             });
 
-            TestContext.WriteLine(string.Join("\r\n", logs));
+            output.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
-
-            Assert.IsTrue(success);
+                    
+            Assert.True(success);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void AllCustomizedDataFields_Test()
         {
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
@@ -269,7 +274,7 @@ namespace Ironbug.HVACTests
                 if (log.Any())
                 {
                     logs.Add(log);
-                    TestContext.WriteLine(string.Join("\r\n",log));
+                    output.WriteLine(string.Join("\r\n",log));
                 }
 
 
@@ -279,7 +284,7 @@ namespace Ironbug.HVACTests
 
             var success = !logs.Any();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
 
         }
     }

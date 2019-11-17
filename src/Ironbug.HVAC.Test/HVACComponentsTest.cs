@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit.Abstractions;
+using Xunit;
 
 namespace Ironbug.HVACTests
 {
     
 
-    [TestClass]
     public class HVACComponentsTest
     {
-        public TestContext TestContext { get; set; }
+        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
 
-        [TestMethod]
+        [Fact]
         public void IB_Curve_GetMethodTest()
         {
             var c = new OpenStudio.CurveCubic(md1);
             ////c.GetType().get
             var value = 0.5;
             var methodInfo = c.GetType().GetMethod("setCoefficient2x", new[] { value.GetType() });
-            Assert.IsTrue(methodInfo !=null);
+            Assert.True(methodInfo !=null);
         }
 
-        [TestMethod]
+        [Fact]
         public void IB_Curve_Test()
         {
 
@@ -61,11 +61,11 @@ namespace Ironbug.HVACTests
             boiler.ToOS(model);
             
             var findChiller = model.getCurveCubics().First().to_CurveCubic().get().coefficient1Constant() == 0.5;
-            Assert.IsTrue(findChiller);
+            Assert.True(findChiller);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void IB_OutputVariables_Test()
         {
 
@@ -79,11 +79,11 @@ namespace Ironbug.HVACTests
 
             model.Save(saveFile);
             var findChiller = model.getOutputVariables().Any();
-            Assert.IsTrue(findChiller);
+            Assert.True(findChiller);
 
         }
 
-        [TestMethod]
+        [Fact]
         public void IB_ZoneHVACUnitVentilator_CoolingHeating_Test()
         {
             var model = new OpenStudio.Model();
@@ -106,10 +106,10 @@ namespace Ironbug.HVACTests
 
             var success = fanChild is IB_FanOnOff;
             success &= !hcChild.Equals(ccChild);
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void IB_Schedule24Hrs()
         {
 
@@ -134,7 +134,7 @@ namespace Ironbug.HVACTests
             sch.ToOS(md1);
            
             var success = md1.Save(saveFile);
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
     }

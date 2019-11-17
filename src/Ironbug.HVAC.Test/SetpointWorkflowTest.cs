@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Ironbug.HVACTests
 {
-    [TestClass]
     public class SetpointWorkflowTest
     {
-        [TestMethod]
+        [Fact]
         public void SpInAirloopFirst_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -32,10 +30,10 @@ namespace Ironbug.HVACTests
             var objAfterSetp = addedSetPt.setpointNode().get().outletModelObject().get();
             success &= objAfterSetp.comment() == coil.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInAirloopLast_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -59,10 +57,10 @@ namespace Ironbug.HVACTests
             var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
             success &= objAfterSetp.comment() == fan.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInPlantloopOnly_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -80,10 +78,10 @@ namespace Ironbug.HVACTests
             var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInPlantloopAtFirst_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -107,10 +105,10 @@ namespace Ironbug.HVACTests
             var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInPlantloopAtFirstWithPump_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -135,10 +133,10 @@ namespace Ironbug.HVACTests
             var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInPlantloopAfterPump_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -163,10 +161,10 @@ namespace Ironbug.HVACTests
             var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
             success &= objAfterSetp.comment() == pump.GetTrackingID();
             
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
 
-        [TestMethod]
+        [Fact]
         public void SpInPlantloopAfterBranch_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -191,7 +189,7 @@ namespace Ironbug.HVACTests
             var addedSetPt = md1.getPlantLoops()[0].supplyOutletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
-            Assert.IsTrue(success);
+            Assert.True(success);
         }
     }
 }
