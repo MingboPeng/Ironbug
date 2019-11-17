@@ -116,8 +116,7 @@
     <Compile Include="Curves\IB_CurveCubic.cs" />
     <Compile Include="Curves\IB_CurveBiquadratic.cs" />
     <Compile Include="Curves\IB_CurveBicubic.cs" />
-    <Compile Include="Delegates\IIB_Child1.cs" />
-    <Compile Include="Delegates\RelationWithChild.cs" />
+    <Compile Include="BaseClass\IB_Child.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="IB_HVACSystem.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingCooledBeam.cs" />
@@ -188,14 +187,12 @@
     <Compile Include="BaseClass\IB_Pump.cs" />
     <Compile Include="BaseClass\IB_SetpointManager.cs" />
     <Compile Include="Interfaces\IIB_ModelObject.cs" />
-    <Compile Include="Interfaces\IIB_Puppetable.cs" />
     <Compile Include="Interfaces\IIB_ZoneEquipment.cs" />
     <Compile Include="Interfaces\IIB_AirLoopObject.cs" />
     <Compile Include="BaseClass\IB_AirTerminal.cs" />
     <Compile Include="Interfaces\IIB_LoopObject.cs" />
     <Compile Include="Interfaces\IIB_PlantLoopObject.cs" />
     <Compile Include="Interfaces\IIB_DualLoopObj.cs" />
-    <Compile Include="Interfaces\IIB_ToOPSable.cs" />
     <Compile Include="BaseClass\IB_ZoneEquipment.cs" />
     <Compile Include="IB_OutputVariable.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXMultiSpeed.cs" />
