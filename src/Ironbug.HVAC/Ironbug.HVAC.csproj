@@ -157,6 +157,8 @@
     <Compile Include="ZoneEquipments\AirTerminals\IB_AirTerminalSingleDuctConstantVolumeReheat.cs" />
     <Compile Include="ZoneEquipments\IB_ZoneEquipmentGroup.cs" />
     <Compile Include="LoopObjs\IB_AirLoopHVACUnitarySystem.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACHighTemperatureRadiant.cs" />
+    <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACLowTemperatureRadiantElectric.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACWaterToAirHeatPump.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACIdealLoadsAirSystem.cs" />
     <Compile Include="ZoneEquipments\ZoneHVAC\IB_ZoneHVACEnergyRecoveryVentilator.cs" />

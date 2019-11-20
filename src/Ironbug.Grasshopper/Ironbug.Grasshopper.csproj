@@ -118,6 +118,8 @@
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingFourPipeBeam.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACLowTemperatureRadiantElectric.cs" />
+    <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACHighTemperatureRadiant.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit.cs" />
     <Compile Include="Component\Ironbug\Ironbug_CoilCoolingWater_Adv.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit.cs" />
@@ -792,6 +794,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SetPointSZHeaing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiantElec.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RadiantHigh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
