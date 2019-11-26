@@ -190,28 +190,23 @@ namespace Ironbug.Grasshopper.Component
         protected IEnumerable<IB_ModelObject> SetObjDupParamsTo(IB_ModelObject IB_obj)
         {
             var objs = new List<IB_ModelObject>();
-            var num = 1;
+            var num = 0;
             var paramInput = this.Params.Input.FirstOrDefault(_ => _.Name == "DuplicateNumber_");
             if (paramInput is Param_Integer intP) // check if is null
             {
-                if (paramInput.VolatileDataCount > 0)
+                //user has no input value.
+                if (paramInput.VolatileDataCount == 0)
                 {
-                    var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
-                    var numO = intP.VolatileData.get_Branch(branchIndex - 1)[0];
-                    if (numO is GH_Integer ghInt)
-                    {
-                        num = Math.Max(ghInt.Value, 1);
-                    }
+                    return new List<IB_ModelObject>() { IB_obj };
                 }
 
-            }
-
-            if (num == 1)
-            {
-                return new List<IB_ModelObject>() { IB_obj };
-            }
-            else
-            {
+                //user has an input value here, can be 0, 1, 2 or more 
+                var branchIndex = Math.Min(this.RunCount, paramInput.VolatileData.PathCount);
+                var numO = intP.VolatileData.get_Branch(branchIndex - 1)[0];
+                if (numO is GH_Integer ghInt)
+                {
+                    num = Math.Max(ghInt.Value, 0);
+                }
 
                 for (int i = 0; i < num; i++)
                 {
@@ -221,7 +216,15 @@ namespace Ironbug.Grasshopper.Component
                 }
 
                 return objs;
+
             }
+            else
+            {
+                //There is no duplicate input param, so just return the existing IB_object
+                return new List<IB_ModelObject>() { IB_obj };
+            }
+
+            
 
         }
 
