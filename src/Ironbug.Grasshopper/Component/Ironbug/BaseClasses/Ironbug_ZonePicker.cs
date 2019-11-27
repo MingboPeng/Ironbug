@@ -135,7 +135,7 @@ namespace Ironbug.Grasshopper.Component
 
             //var outBx2 = new List<GH_Brep>();
 
-            var scopeParm = this.Params.Input[1] as GH.Kernel.Parameters.Param_Box;
+            var scopeParm = this.Params.Input[1] as GH.Kernel.Parameters.Param_Brep;
             scopeParm.Hidden = true;
    
             scopeParm.RemoveAllSources();
@@ -150,9 +150,9 @@ namespace Ironbug.Grasshopper.Component
             doc.Objects.Delete(nodeIds, true);
           
             //var nds = pickedZoneNodes.Select(_ => new GH_Brep( GenZoneNode(_.Boundingbox.Center)));
-            var nds = pickedZoneNodes.Select(_ => new GH_Box(GenZoneNode(_.Boundingbox.Center)));
+            var nds = pickedZoneNodes.Select(_ => new GH_Brep(GenZoneNode(_.Boundingbox.Center).ToBrep()));
 
-
+            
             scopeParm.SetPersistentData(nds);
             ExpireSolution(true);
 
