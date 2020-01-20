@@ -25,14 +25,14 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddBrepParameter("Zones", "_zones", "objects to be picked", GH_ParamAccess.list);
-            pManager[pManager.AddBoxParameter("Scopes", "scopes", "Scope boxes for picking zone breps.", GH_ParamAccess.list)].Optional = true;
+            pManager[pManager.AddBrepParameter("Scopes", "scopes", "Scope breps for picking zone breps based on its centroid location.", GH_ParamAccess.list)].Optional = true;
             
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddBrepParameter("Selected Zones", "zones", "Picked objects", GH_ParamAccess.list);
-            pManager.AddBrepParameter("Unselected Zones", "unselected", "Unselected objects", GH_ParamAccess.list);
+            pManager.AddBrepParameter("Unselected Zones", "unSelected", "Unselected objects", GH_ParamAccess.list);
             (pManager[1] as GH.Kernel.Parameters.Param_Brep).Hidden = true;
         }
 
@@ -44,7 +44,7 @@ namespace Ironbug.Grasshopper.Component
             if (!DA.GetDataList(0, allBps)) return;
             AllInputBreps = allBps;
 
-            var nodes = new List<GH_Box>();
+            var nodes = new List<GH_Brep>();
             DA.GetDataList(1, nodes);
 
             var unselectedZones = new List<GH_Brep>();
@@ -62,16 +62,17 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        private static List<GH_Brep> GetZoneFromNode(List<GH_Brep> allBps, IEnumerable<GH_Box> outBx, out List<GH_Brep> Unselected)
+        private static List<GH_Brep> GetZoneFromNode(List<GH_Brep> allBps, IEnumerable<GH_Brep> outBx, out List<GH_Brep> Unselected)
         {
             var selectedZones = new List<GH_Brep>();
             var unselectedZones = new List<GH_Brep>();
+            
 
             var inputBrpsCenterPts = allBps.AsParallel().AsOrdered().Select(_ => VolumeMassProperties.Compute(_.Value).Centroid);
             var num = 0;
             foreach (var pt in inputBrpsCenterPts)
             {
-                var isSel = outBx.AsParallel().FirstOrDefault(_ => _.Value.Contains(pt)) != null;
+                var isSel = outBx.AsParallel().FirstOrDefault(_ =>  _.Value.IsPointInside(pt,0.0001,true)) != null;
                 var currentItem = allBps[num];
                 if (isSel)
                 {
@@ -134,7 +135,7 @@ namespace Ironbug.Grasshopper.Component
 
             //var outBx2 = new List<GH_Brep>();
 
-            var scopeParm = this.Params.Input[1] as GH.Kernel.Parameters.Param_Box;
+            var scopeParm = this.Params.Input[1] as GH.Kernel.Parameters.Param_Brep;
             scopeParm.Hidden = true;
    
             scopeParm.RemoveAllSources();
@@ -149,9 +150,9 @@ namespace Ironbug.Grasshopper.Component
             doc.Objects.Delete(nodeIds, true);
           
             //var nds = pickedZoneNodes.Select(_ => new GH_Brep( GenZoneNode(_.Boundingbox.Center)));
-            var nds = pickedZoneNodes.Select(_ => new GH_Box(GenZoneNode(_.Boundingbox.Center)));
+            var nds = pickedZoneNodes.Select(_ => new GH_Brep(GenZoneNode(_.Boundingbox.Center).ToBrep()));
 
-
+            
             scopeParm.SetPersistentData(nds);
             ExpireSolution(true);
 
