@@ -60,7 +60,7 @@ namespace Ironbug.HVAC.BaseClass
                 dec += Description;
                 dec += Environment.NewLine;
                 dec += Environment.NewLine;
-                dec += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
+                dec += "Above content copyright © 1996-2020 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
                 
             }
             else
@@ -79,6 +79,7 @@ namespace Ironbug.HVAC.BaseClass
 
             //var description = prop.note;
             var description = GetUnitsFromIDD(field);
+            description += prop.autosizable ? "\nSet this parameter to -9999 for autosizing." : "";
             description += GetDefaultFromIDD(prop);
             description += validDataStr;
 

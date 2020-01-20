@@ -48,6 +48,15 @@ namespace Ironbug.HVAC
         
         public static object SetFieldValue(this ModelObject component, BaseClass.IB_Field iB_Field, object value)
         {
+            //Autosize 
+            if (value is double v)
+            {
+                if (v == -9999)
+                {
+                    return AutosizeFieldValue(component, iB_Field.FullName);
+                }
+            }
+            //Set to value
             if (iB_Field.SetterMethod is null)
             {
                 return SetFieldValue(component, $"set{iB_Field.FullName}" , value);
@@ -68,12 +77,19 @@ namespace Ironbug.HVAC
             
         }
 
+        private static object AutosizeFieldValue(this ModelObject component, string FieldName)
+        {
+            var methodInfo = component.GetType().GetMethod($"autosize{FieldName}");
+            if (methodInfo is null) throw new Exception($"{FieldName} cannot be autosized!");
+            return InvokeMethod(component, methodInfo, null);
+
+        }
+
 
 
         [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
         private static object InvokeMethod(ModelObject component, MethodInfo methodInfo, object value)
         {
-            object[] parm = new object[] { };
             var method = methodInfo;
             
             bool lockWasTaken = false;
@@ -83,7 +99,7 @@ namespace Ironbug.HVAC
             {
                 Monitor.Enter(tempComp,ref lockWasTaken);
                 {
-                    parm = new object[] { value };
+                    var parm = value is null? null: new object[] { value };
                     invokeResult = method.Invoke(tempComp, parm);
                     if (invokeResult is bool b)
                     {
