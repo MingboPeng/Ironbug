@@ -100,8 +100,16 @@ namespace Ironbug.HVAC
             tol.setToleranceforTimeCoolingSetpointNotMet(1.11);
             tol.setToleranceforTimeHeatingSetpointNotMet(1.11);
 
-            //save osm file
+            //save workflow 
+            var osw = Path.Combine(Path.GetDirectoryName(filepath), Path.GetFileNameWithoutExtension(filepath), "workflow.osw");
+            var wf = model.workflowJSON();
+            wf.setSeedFile(OpenStudio.OpenStudioUtilitiesCore.toPath(Path.Combine("..", Path.GetFileName(filepath))));
+            wf.saveAs(OpenStudio.OpenStudioUtilitiesCore.toPath(osw));
+            if (!File.Exists(osw))
+                throw new ArgumentException($"Failed to create workflowJSON file: {osw}");
 
+
+            //save osm file
             var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(filepath);
             return model.save(osmPath, true);
             
@@ -117,16 +125,7 @@ namespace Ironbug.HVAC
 
                 if(optionalModel.is_initialized()) model = optionalModel.get();
 
-                
-
-
             }
-            //add osw file for solving the external csv file issue
-            var companionDir = OpenStudio.OpenStudioUtilitiesCore.getCompanionFolder(OpenStudio.OpenStudioUtilitiesCore.toPath(opsModelFilePath));
-            var oswPath = OpenStudio.OpenStudioUtilitiesCore.toPath(Path.Combine(companionDir.__str__(), "workflow.osw"));
-
-            var w = model.workflowJSON();
-            w.saveAs(oswPath);
             return model;
         }
 

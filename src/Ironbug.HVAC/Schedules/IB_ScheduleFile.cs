@@ -2,6 +2,7 @@
 using OpenStudio;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -34,15 +35,26 @@ namespace Ironbug.HVAC.Schedules
         //}
         private static ScheduleFile InitMethod(Model model, string path)
         {
-            var w = model.workflowJSON();
-            if (w.oswDir().__str__().EndsWith(@"System"))
+            var tempFolder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Ironbug", "files");
+            if (File.Exists(path))
+            { 
+                //Copy to temp folder
+                var targetFile =  System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetFileName(path));
+                File.Copy(path, targetFile, true);
+            }
+
+            // Check if temp folder exist in current workflow paths
+            var workflow = model.workflowJSON();
+            var Paths = workflow.absoluteFilePaths().Select(_=>_.__str__());
+            if (!Paths.Contains(tempFolder))
             {
-                var tempPath = System.IO.Path.GetTempPath() + @"\Ladybug\HVAC";
-                Directory.CreateDirectory(tempPath);
-                w.setOswDir(OpenStudioUtilitiesCore.toPath(tempPath));
+                workflow.addFilePath(OpenStudioUtilitiesCore.toPath(tempFolder));
             }
 
             var extFile = ExternalFile.getExternalFile(model, path);
+
+            var paths = model.workflowJSON().filePaths()[0].__str__();
+
             if (extFile.is_initialized())
             {
                 var obj = new ScheduleFile(extFile.get());
@@ -69,7 +81,6 @@ namespace Ironbug.HVAC.Schedules
         
         public override ModelObject ToOS(Model model)
         {
-            //return InitMethod(model, this._FilePath);
             return base.OnNewOpsObj((m) => InitMethod(m, this._FilePath), model);
 
         }
