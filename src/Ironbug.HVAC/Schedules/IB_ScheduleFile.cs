@@ -61,7 +61,7 @@ namespace Ironbug.HVAC.Schedules
                 return obj;
             }
            
-            throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}\n{w.oswDir().__str__()}");
+            throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}\n{workflow.oswDir().__str__()}");
         }
         //private static ScheduleInterval InitMethod(Model model, string path)
         //    => (ScheduleInterval)Activator.CreateInstance(GetRefOsType(), new Object[] { ExternalFile.getExternalFile(model, path).get() }); 
