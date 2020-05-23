@@ -79,8 +79,8 @@ namespace Ironbug.HVAC.BaseClass
                 foreach (var item in this.ZoneEquipments)
                 {
                     var eqp = (ZoneHVACComponent)item.ToOS(model);
-                    eqp.addToThermalZone(newZone);
-                    var u = new AirLoopHVACUnitarySystem(model);
+                    if (!eqp.addToThermalZone(newZone))
+                        throw new ArgumentException($"Failed to add {eqp.nameString()} to thermal zone {newZone.nameString()}!");
                 }
             }
             else
