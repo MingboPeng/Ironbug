@@ -66,24 +66,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Honeybee\Radiance\Command\CommandBase.cs" />
-    <Compile Include="Honeybee\Radiance\Command\CommandExecuteBase.cs" />
-    <Compile Include="Honeybee\Radiance\Command\Falsecolor.cs" />
-    <Compile Include="Honeybee\Radiance\Command\RadianceCommand_.cs" />
-    <Compile Include="Honeybee\Radiance\Command\RValue_Legacy.cs" />
-    <Compile Include="Honeybee\Radiance\Command\RaTiff_Legacy.cs" />
-    <Compile Include="Honeybee\Radiance\Command\RaTiff.cs" />
-    <Compile Include="Ladybug\IronbugBase.cs" />
-    <Compile Include="Ladybug\Wea.cs" />
     <Compile Include="OpenStudio\OpenStudioHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Extensions.cs" />
-    <Compile Include="Utilities\_HoneybeePlusRun.cs" />
-    <Compile Include="Utilities\PythonEngine.cs" />
-    <Compile Include="Utilities\_PythonRun.cs" />
-    <Compile Include="Utilities\_RadianceRun.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

@@ -91,8 +91,6 @@
     <Compile Include="ComponentAttribute\IB_ComponentButtonAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_DuplicatableComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_SettingComponentAttributes.cs" />
-    <Compile Include="Component\Honeybee\Honeybee_IntersectMassII.cs" />
-    <Compile Include="Component\Honeybee\Honeybee_ReadAnnualResultsIII.cs" />
     <Compile Include="ComponentAttribute\IB_ComponentAttributes.cs" />
     <Compile Include="ComponentAttribute\IB_LoopComponentAttributes.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_Component.cs" />
@@ -263,18 +261,11 @@
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACUnitVentilator_Heating.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACUnitVentilator_CoolingHeating.cs" />
     <Compile Include="Component\Ironbug\ZoneEquipments\ZoneHVAC\Ironbug_ZoneHVACUnitHeater.cs" />
-    <Compile Include="Component\Ladybug\Ladybug_SortByLayers.cs" />
-    <Compile Include="Component\MyComponent1.cs" />
-    <Compile Include="Component\readPyObj.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\Extension.cs" />
-    <Compile Include="Utilities\GifEncoder.cs" />
-    <Compile Include="ComponentAttribute\ViewAttr.cs" />
-    <Compile Include="Component\Ladybug\Ladybug_ImageViewer.cs" />
     <Compile Include="IronbugInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -800,6 +791,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\RadiantHigh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
