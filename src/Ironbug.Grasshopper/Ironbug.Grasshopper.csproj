@@ -99,6 +99,7 @@
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_RefObject.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_ObjViewer.cs" />
     <Compile Include="Component\Ironbug\BaseClasses\Ironbug_OutputParams.cs" />
+    <Compile Include="Component\Ironbug\Ironbug_PlantComponentTemperatureSource.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
     <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition_Obsolete.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
