@@ -79,6 +79,7 @@
     <Compile Include="LoopObjs\IB_CoilCoolingFourPipeBeam.cs" />
     <Compile Include="LoopObjs\IB_CoilCoolingDXVariableRefrigerantFlow.cs" />
     <Compile Include="LoopObjs\IB_CoilHeatingDXVariableRefrigerantFlow.cs" />
+    <Compile Include="LoopObjs\IB_PlantComponentTemperatureSource.cs" />
     <Compile Include="LoopObjs\IB_EvaporativeCoolerIndirectResearchSpecial.cs" />
     <Compile Include="LoopObjs\IB_EvaporativeCoolerDirectResearchSpecial.cs" />
     <Compile Include="LoopObjs\IB_FluidCoolerSingleSpeed.cs" />
