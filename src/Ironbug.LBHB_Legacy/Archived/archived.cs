@@ -23,6 +23,12 @@ namespace Ironbug.LBHB_Legacy.Archived
         public override GH_Exposure Exposure => GH_Exposure.hidden;
 
     }
+    public class Ladybug_FalseStartToggle_OBSOLETE : Ladybug_FalseStartToggle
+    {
+        public override Guid ComponentGuid => new Guid("{843FAD0D-8404-4AD3-961A-37A210182F70}");
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
+
+    }
 
     public class Honeybee_ReadAnnualResultsIII_OBSOLETE : Honeybee_ReadAnnualResultsIII
     {
