@@ -55,7 +55,7 @@ namespace Ironbug.LBHB_Legacy
         
         public Ladybug_ImageViewer()
           : base("Ladybug_ImageViewer", "ImageViewer",
-              "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug/src/Ironbug.Grasshopper",
+              "Preview image files\n\nPlease find the source code from:\nhttps://github.com/MingboPeng/Ironbug/",
               "LB-Legacy", "5 | Extra")
         {
             this.Params.ParameterSourcesChanged += Params_ParameterSourcesChanged;
