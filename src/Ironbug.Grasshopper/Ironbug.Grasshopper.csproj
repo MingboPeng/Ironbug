@@ -102,6 +102,7 @@
     <Compile Include="Component\Ironbug\Ironbug_PlantComponentTemperatureSource.cs" />
     <Compile Include="Component\Ironbug\Ironbug_HeatExchangerFluidToFluid.cs" />
     <Compile Include="Component\Ironbug\Loads\Ironbug_WaterUseEquipmentDefinition_Obsolete.cs" />
+    <Compile Include="Component\Ironbug\Loops\Ironbug_AirConditionerVariableRefrigerantFlow_WaterCooled.cs" />
     <Compile Include="Component\Ironbug\Loops\Ironbug_AirLoopBranches.cs" />
     <Compile Include="Component\Ironbug\Schedules\Ironbug_ScheduleRule_Obsolete.cs" />
     <Compile Include="Component\Ironbug\SetpointManagers\Ironbug_SetpointManagerScheduledDualSetpoint_Adv.cs" />

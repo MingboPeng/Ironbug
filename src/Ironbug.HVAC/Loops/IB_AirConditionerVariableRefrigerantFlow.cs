@@ -40,6 +40,9 @@ namespace Ironbug.HVAC
         }
         public override HVACComponent ToOS(Model model)
         {
+            var existObj = model.getAirConditionerVariableRefrigerantFlows().FirstOrDefault(_ => _.comment() == this.GetTrackingID());
+            if (existObj != null) return existObj;
+            
             var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
             var allTerms = this.Terminals;
