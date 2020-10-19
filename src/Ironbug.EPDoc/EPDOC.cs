@@ -3,7 +3,7 @@
 namespace Ironbug.EPDoc
 {
 	public static class AirTerminalSingleDuctUncontrolled
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:Uncontrolled";
 		public static string Note = @"Central system air is usually supplied to a zone through a terminal unit such as a single duct VAV reheat box. Sometimes, however, it is desirable to supply central system air directly to a zone without any zone level control or tempering. An example would be a single zone reheat system.
 
@@ -11,7 +11,7 @@ The control zone receives supply air directly from the central system since the 
 
 For the objects to work correctly, it is important in any systems including Direct Air objects for the sum of the maximum zone air flow rates to be equal to the maximum central system flow rate. The zone maximum flow rates are specified in the zone terminal unit or direct air inputs. The central air system flow rate is specified in the AirLoopHVAC input and also in the air loop branch and central fan inputs.
 ";
-	public static string Field_Name = @"A unique user assigned name for each AirTerminal:SingleDuct:Uncontrolled component. Any other component that needs to use this direct air component will refer to it by this name.";
+		public static string Field_Name = @"A unique user assigned name for each AirTerminal:SingleDuct:Uncontrolled component. Any other component that needs to use this direct air component will refer to it by this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the component can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_ZoneSupplyAirNodeName = @"The name of the node to which the component is supplying air. This should be one of the supply air nodes for the zone the component is serving. This node should also be an outlet node of a AirLoopHVAC:ZoneSplitter component.";
 		public static string Field_MaximumAirFlowRate = @"The design maximum volume flow rate~ (m^{3}/sec) specified for the AirTerminal:SingleDuct:Uncontrolled object.~ This field is autosizable.";
@@ -42,11 +42,11 @@ AirTerminal:SingleDuct:Uncontrolled,
       CurrentOccupancy;";
 	}
 	public static class AirTerminalSingleDuctConstantVolumeReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ConstantVolume:Reheat";
 		public static string Note = @"The AirTerminal:SingleDuct:ConstantVolume:Reheat or terminal reheat system is a constant volume reheat system. The systems cooling capabilities are provided by way of cooling coil that supplies cooling to the entire supply air volume. The cooling coil is controlled by a controller setpoint specified for the cooling coil. Zone control is accomplished by heating (reheating) the airflow into each zone as determined by the zone thermostat. Currently the reheat can be supplied by a electric, gas, or hot water coil that tries to meet the zone demand.
 ";
-	public static string Field_Name = @"Unique name for the terminal reheat Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique name for the terminal reheat Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"The outlet node from the ADU to the zone. This is the same node as the reheat component air outlet node.";
 		public static string Field_AirInletNodeName = @"The air-inlet node name that connects the air splitter to the individual zone ADU. This is the same node as the reheat component air inlet node.";
@@ -85,13 +85,13 @@ AirTerminal:SingleDuct:ConstantVolume:Reheat,
       0.001;  !- Convergence Tolerance";
 	}
 	public static class AirTerminalSingleDuctConstantVolumeNoReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ConstantVolume:NoReheat";
 		public static string Note = @"The AirTerminal:SingleDuct:ConstantVolume:NoReheat object creates the capability of supplying central system air directly to a zone without any zone level thermostat control. The supply air temperature is controlled by the central system controller. It is typically used with a unitary system and furnaces which controls the system supply temperature and flow rate with continuous or cycling fan. When used without the Design Specification Outdoor Air Object Name, the terminal unit is passive and accepts any flow rate supplied by the central system, but will never exceed the maximum air flow rate. 
 
 This object allows the program to know what zone this branch of the air system is attached to, and input fields for availability schedule, air inlet and outlet nodes, the maximum air flow rate, and other two optional input fields. The air inlet node should be the same as one of the {AirLoopHVAC:ZoneSplitter} or {AirLoopHVAC:SupplyPlenum} component  outlet nodes. The air outlet node name should be same as zone air inlet node name and the air distribution unit air outlet node name. The last two optional input fields: {Design Specification Outdoor Air Object Name}, and {Per Person Ventilation Rate Mode} are used for modulating the outdoor air requirement of an air terminal unit depending on the method.
 ";
-	public static string Field_Name = @"A unique user assigned name for the single duct constant volume no reheat air terminal unit.";
+		public static string Field_Name = @"A unique user assigned name for the single duct constant volume no reheat air terminal unit.";
 		public static string Field_AvailabilityScheduleName = @"Availability schedule name for this system. Schedule value > 0 means the system is available or else the system is off. If this field is blank, the system is always available.";
 		public static string Field_AirInletNodeName = @"The air inlet node name that connects the air splitter to the individual zone air distribution unit. This node should also be one of the outlet air node of an AirLoopHVAC:ZoneSplitter or AirLoopHVAC:SupplyPlenum component.";
 		public static string Field_AirOutletNodeName = @"This is an air outlet node from the air distribution unit. This node name should be one of the supply air inlet node names of the zone served by this component.";
@@ -113,13 +113,13 @@ AirTerminal:SingleDuct:ConstantVolume:NoReheat,
       ;                               !- Per Person Ventilation Rate Mode";
 	}
 	public static class AirTerminalSingleDuctVAVReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:VAV:Reheat";
 		public static string Note = @"AirTerminal:SingleDuct:VAV:Reheat - Variable air volume (VAV) systems control the dry-bulb temperature inside a zone by varying the supply air volume instead of the air temperature. At full cooling the VAV damper is fully open supplying the specified maximum air flow rate. As the cooling load decreases, the damper closes until it reaches the minimum stop specified by the zone minimum air flow fraction.
 
 VAV systems can be used for interior or perimeter zones with a common fan system, air temperature control, and reheating devices. The VAV concept may vary according to the VAV box locations, air temperature controls and types of heating elements. Heating can usually be provided by use of reheat coils or thermostatic baseboard.
 ";
-	public static string Field_Name = @"Unique name for the AirTerminal:SingleDuct:VAV:Reheat Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique name for the AirTerminal:SingleDuct:VAV:Reheat Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_DamperAirOutletNodeName = @"The VAV damper outlet node. This is the outlet node of the damper and the inlet node of the reheat coil.";
 		public static string Field_AirInletNodeName = @"The air inlet node name that connects the air splitter to the individual zone ADU. This is {not} the same as the air inlet node of the reheat component: it is upstream of that node. This is the inlet node to the terminal unit and the damper";
@@ -232,7 +232,7 @@ An IDF example:
       SPACE1-1 In Node;  !- Coil_Air_Outlet_Node";
 	}
 	public static class AirTerminalSingleDuctVAVReheatVariableSpeedFan
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan";
 		public static string Note = @"The VAV terminal unit with variable-speed fan and reheat coil is an air system terminal unit consisting of a variable speed fan in series with a heating coil. These units are usually employed in underfloor air distribution (UFAD) systems where the air is supplied at low static pressure through an underfloor plenum. The fan is used to control the flow of conditioned air that enters the space. When the fan is off the plenum pressure drives the minimum air flow through the terminal unit. At maximum cooling the fan runs at its maximum speed. At full heating the fan runs at its heating maximum -- usually less than the cooling maximum flow rate. Thus this unit has two separate maximum flow rates -- one for heating and one for cooling.
 
@@ -240,7 +240,7 @@ For cooling, control is maintained simply by varying the fan speed. For heating,
 
 This unit is modeled in EnergyPlus as a compound component -- a variable speed fan and a heating coil in series in the air stream. The unit is blow through -- the fan is upstream of the heating coil.
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular VS fan VAV reheat terminal unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular VS fan VAV reheat terminal unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumCoolingAirFlowRate = @"The maximum volumetric air flow rate through the unit in cubic meters per second when the thermostat is calling for cooling. Normally this is the same as the unit's fan maximum volumetric flow rate.";
 		public static string Field_MaximumHeatingAirFlowRate = @"The maximum volumetric air flow rate through the unit in cubic meters per second when the thermostat is calling for heating.";
@@ -323,7 +323,7 @@ Fan:VariableVolume,
   SPACE2-1 Zone Coil AirIn Node;        !- Fan_Outlet_Node";
 	}
 	public static class AirTerminalSingleDuctVAVHeatAndCoolReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat";
 		public static string Note = @"Variable air volume (VAV) systems typically control the dry-bulb temperature inside a zone by varying the supply air volume instead of the supply air temperature (ref: AirTerminal:SingleDuct:VAV:NoReheat). Reheat coils may be required to avoid overcooling (ref: AirTerminal:SingleDuct:VAV:Reheat).
 
@@ -337,7 +337,7 @@ This terminal unit model was originally developed and tested for use with the ch
 \caption{Single Duct VAV Heat and Cool Reheat Schematic \protect \label{fig:single-duct-vav-heat-and-cool-reheat}}
 \end{figure}
 ";
-	public static string Field_Name = @"Unique user-defined name for this Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique user-defined name for this Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether or not this component is available to operate during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_DamperAirOutletNodeName = @"This alpha field defines the name of the VAV damper air outlet node. This is the outlet node of the damper and the inlet node of the reheat coil.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the air inlet node that connects the air splitter to the individual zone ADU. This is {not} the same as the air inlet node of the reheat component: it is upstream of that node. This is the inlet node to the terminal unit and the damper.";
@@ -391,13 +391,13 @@ AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat,
       Zone 1 Reheat Air Outlet Node; !- Coil_Air_Outlet_Node";
 	}
 	public static class AirTerminalSingleDuctVAVNoReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:VAV:NoReheat";
 		public static string Note = @"Variable air volume (VAV) systems control the dry-bulb temperature inside a zone by varying the supply air volume instead of the air temperature. At full cooling the VAV damper is fully open supplying the specified maximum air flow rate. As the cooling load decreases, the damper closes until it reaches the minimum stop specified by the zone minimum air flow fraction.
 
 VAV systems can be used for interior or perimeter zones with a common fan system and air temperature control. The VAV concept may vary according to the VAV box locations and air temperature controls. Heating can be provided if necessary by use of baseboard.
 ";
-	public static string Field_Name = @"Unique name for the VAV Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique name for the VAV Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"The VAV damper and Unit outlet node.";
 		public static string Field_AirInletNodeName = @"The air inlet node name that connects the air splitter to the individual zone ADU.";
@@ -447,7 +447,7 @@ An IDF example:
       Until: 24:00, 0.5;       !- Field 7";
 	}
 	public static class AirTerminalSingleDuctVAVHeatAndCoolNoReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat";
 		public static string Note = @"Variable air volume (VAV) systems typically control the dry-bulb temperature inside a zone by varying the supply air volume instead of the supply air temperature (ref: AirTerminal:SingleDuct:VAV:NoReheat). Reheat coils may be required to avoid overcooling (ref: AirTerminal:SingleDuct:VAV:Reheat).
 
@@ -461,7 +461,7 @@ This terminal unit model was originally developed and tested for use with the ch
 \caption{Single Duct VAV Heat and Cool NoReheat Schematic \protect \label{fig:single-duct-vav-heat-and-cool-noreheat}}
 \end{figure}
 ";
-	public static string Field_Name = @"Unique user-defined name for this Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique user-defined name for this Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether or not this component is available to operate during a given time period. If a schedule value is greater than zero then the system is available to operate; otherwise, the system is unavailable for that time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"This alpha field defines the name of the VAV damper air outlet node.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the air inlet node that connects the air splitter to the individual zone ADU.";
@@ -481,7 +481,7 @@ AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat,
       0.25;                    !- Zone Minimum Air Flow Fraction";
 	}
 	public static class AirTerminalSingleDuctSeriesPIUReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:SeriesPIU:Reheat";
 		public static string Note = @"The series powered induction unit is an air system terminal unit that mixes varying amounts of secondary (recirculated) air and primary (conditioned supply) air to produce a fixed flow of air to a zone. The unit contains a small fan that acts to induce the secondary air and a heating coil for heating the mixed secondary and primary air. The fan runs at a constant volume flow rate whenever the unit is on (and the fan's availability schedule is on or it is activated by an availability manager). The fan is downstream of the primary and secondary air inlets. The variable mixing is accomplished by a damper in the unit's primary air supply inlet duct. This damper can move from fully open (100% primary air. 0% secondary air) to a minimum stop that is specified in the input description. At full cooling the damper will be fully open. At minimum cooling and for heating the damper will be at the minimum stop and the secondary air flow will be at its maximum. During night cycle operation, if the availability manager status is CycleOnZoneFansOnly, then the fan will run only if there is a heating load.  If the status is CycleOn, then the fan will run according to the normal controls.
 
@@ -494,7 +494,7 @@ The EnergyPlus model of the series PIU terminal unit is composed of three compon
 \caption{Series PIU Terminal Unit \protect \label{fig:series-piu-terminal-unit}}
 \end{figure}
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular series powered induction terminal unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular series powered induction terminal unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumAirFlowRate = @"The maximum volumetric air flow rate through the unit in cubic meters per second. Since this is a constant air volume unit, this is also the design, rated air flow rate of the unit.";
 		public static string Field_MaximumPrimaryAirFlowRate = @"The maximum volumetric air flow rate of primary air through the unit in cubic meters per second. This is the primary air flow rate at full cooling load when the primary air damper is fully open. Usually this quantity is the same as the total unit flow rate, but it can be less.";
@@ -553,7 +553,7 @@ AirTerminal:SingleDuct:SeriesPIU:Reheat,
            0.001;                           ! Convergence tolerance";
 	}
 	public static class AirTerminalSingleDuctParallelPIUReheat
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ParallelPIU:Reheat";
 		public static string Note = @"The parallel powered induction unit is an air system terminal unit that mixes varying amounts of secondary (recirculated) air and primary (conditioned supply) air to produce a variable total flow of air to a zone. The unit contains a small fan that acts to induce the secondary air and a heating coil for heating the mixed secondary and primary air. The secondary and primary air streams enter the unit in parallel. The fan sits in the secondary air stream and runs only when the primary air flow is below the Fan On Flow Fraction and the fan's availability schedule is on or it is activated by an availability manager. The primary air inlet contains a damper that can move from fully open (maximum primary air) to a minimum stop (minimum primary air).
 
@@ -567,7 +567,7 @@ The EnergyPlus model of the parallel PIU terminal unit is composed of three comp
 \caption{Parallel PIU Terminal Unit \protect \label{fig:parallel-piu-terminal-unit}}
 \end{figure}
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular~ parallel powered induction terminal unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular~ parallel powered induction terminal unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumPrimaryAirFlowRate = @"The maximum volumetric air flow rate of primary air through the unit in cubic meters per second. This is the primary air flow rate at full cooling load when the primary air damper is fully open.";
 		public static string Field_MaximumSecondaryAirFlowRate = @"The maximum volumetric air flow rate of secondary air through the unit in cubic meters per second. This flow rate can be any amount but is commonly less than the maximum primary air flow rate.";
@@ -628,13 +628,13 @@ AirTerminal:SingleDuct:ParallelPIU:Reheat,
             0.001;                           ! Convergence tolerance";
 	}
 	public static class AirTerminalSingleDuctConstantVolumeFourPipeInduction
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction";
 		public static string Note = @"The four pipe induction terminal unit provides local hot water heating or chilled water cooling of induced zone air which then mixes with centrally conditioned supply air. An air conditioning system consisting of these terminal units is effectively a mixed cental air / local hydronic system. The centrally conditioned air supplied to the induction terminal units is constant volume at quite high pressure. The central air is discharged through a nozzle in the terminal unit, inducing a flow of room air over a hydronic heating/cooling coil. The coil is connected either to a single inlet and outlet pipe (2 pipe unit) or to 2 inlets and 2 outlets (4 pipe unit). The heated or cooled induced air mixes with the centrally conditioned air before being discharged into the zone. The terminal units are usually expected to do only sensible cooling -- any dehumidification is done by the central air conditioning system.
 
 The EnergyPlus model of the four pipe induction terminal unit is a compound component consisting of a hot water heating coil, a chilled water cooling coil, and an air mixer. The unit has two inlet air streams: the centrally conditioned supply air and the induced air from the zone. The induced air passes first through the heating coil, then through the cooling coil and finally through the mixer. The central supply air goes directly into the mixer. The water flow through the hot or cold water coil is varied to meet the zone air conditioning requirement. Note that EnergyPlus models the four pipe induction terminal unit as having separate heating and cooling coils whereas real units have only a single coil used for both heating and cooling. Note also that the four pipe induction unit model can be used to model a two pipe unit by simply adjusting the heating and cooling coil schedules so that the heating coil is off when the cooling coil is on and vice versa.
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular~ four pipe induction terminal unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular~ four pipe induction terminal unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumTotalAirFlowRate = @"The maximum volumetric air flow rate discharged from the unit in cubic meters per second. Since this is a constant air volume unit, this is also the design, rated air flow rate of the unit. Note that this is the total discharge flow rate -- including both central supply and induced air.";
 		public static string Field_InductionRatio = @"The ratio of induced air flow rate to primary supply air flow rate. The default is 2.5 the supply air induces zone air flow at 2.5 times the primary supply air flow rate.";
@@ -734,7 +734,7 @@ AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction,
       SPACE2-1 CW Coil Air Out Node;   !- Inlet_Node_2";
 	}
 	public static class AirTerminalSingleDuctConstantVolumeFourPipeBeam
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ConstantVolume:FourPipeBeam";
 		public static string Note = @"The four-pipe beam air terminal system is a mixed air-hydronic system. A central, single-duct forced-air system that supplies conditioned air to the zones. Chilled water circulates through ceiling-mounted fin-tube convector units to provide sensible cooling. Hot water circulates through the same convectors to provide heating. Water flow rate through the beam unit is varied to meet the zone sensible cooling or heating load. Any dehumidification is done by the central forced-air system. Thermodynamically, the cooled beam system resembles the four-pipe induction unit ({AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction}).
 
@@ -746,7 +746,7 @@ If needed, the program (in its sizing calculation for the system) determines the
 
 The model includes two different types of inputs for flow rates, ``design'' and ``rated \ldots{} per-meter.'' The design values are the actual sizes of the flow rates as viewed from the zone and central air handler (but before zone multipliers). The design values include all the individual beam units and their lengths. The rated per-meter values are used to characterize product performance at nominal rating conditions in such a way that it can be scaled to match the size of a zone. The performance characteristics at the rating point are not fixed in the program and can be entered by the user when they differ from default values. The rated per meter values are normalized by the linear dimensions of the beam and are generally obtained from product catalog data by dividing by the length of the beam. The rated primary air flow rate is assumed to be for sea level conditions while the design primary air flow rate is modeled for the location elevation above sea level.
 ";
-	public static string Field_Name = @"A unique user-assigned name for a particular beam unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for a particular beam unit. Any reference to this unit by another object will use this name.";
 		public static string Field_PrimaryAirAvailabilityScheduleName = @"The name of the schedule that denotes whether the terminal unit is operating to provide primary air during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit is on and requesting primary air flow during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_CoolingAvailabilityScheduleName = @"The name of the schedule that denotes whether the terminal unit is operating to provide cooling during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit is on and available for beam cooling during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods. The primary air availability schedule named in the previous input field must have a value that is ``on'' during times that cooling is available.";
 		public static string Field_HeatingAvailabilityScheduleName = @"The name of the schedule that denotes whether the terminal unit can operate to provide heating during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit is on and available for beam heating during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods. The primary air availability schedule named in the input field above must have a value that is ``on'' during times that heating is available.";
@@ -870,7 +870,7 @@ An example input follows:
     1.2857,   1.0778;";
 	}
 	public static class AirTerminalSingleDuctConstantVolumeCooledBeam
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:ConstantVolume:CooledBeam";
 		public static string Note = @"The Cooled Beam system is a mixed air-hydronic system. A central, single-duct forced-air system supplies conditioned ventilation air to the zones. Sensible cooling is done by chilled water circulating through ceiling mounted cooled beam units. Chilled water flow rate through the cooled beam units is varied to meet the zone sensible cooling load. Any dehumidification is done by the central ventilation air system. Heating is usually accomplished with hot water radiators. Thermodynamically, the cooled beam system resembles the four-pipe induction unit.
 
@@ -878,7 +878,7 @@ To model a typical cooled beam system the user will need to define a conventiona
 
 Although the cooled beam equipment in a zone is treated by the program as a single terminal unit, the actual installation will have multiple beams in each zone. The program (in its sizing calculation for the system) figures out how many beams of what length are needed to meet the zone design load.
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular chilled beam unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular chilled beam unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_CooledBeamType = @"Two types of units are modeled: {Active} or {Passive}. In the active unit, primary air is supplied through the beam, inducing some secondary zone air into contact with the coil. This unit acts as an active convector. The passive unit is simply a passive, finned convector. Primary air is supplied through a normal diffuser.";
 		public static string Field_SupplyAirInletNodeName = @"The name of the HVAC system node from which the unit draws its primary or supply air. Note that this field should be specified for both types of unit, even though supply air does not pass through the passive unit.";
@@ -950,7 +950,7 @@ An example input is:
       ;                        !- Leaving Pipe Inside Diameter";
 	}
 	public static class AirTerminalSingleDuctMixer
-    { 
+	{
 		public static string Name = @"AirTerminal:SingleDuct:Mixer";
 		public static string Note = @"The air terminal mixer provides a means of supplying central system air either to air inlet or supply side of a ZoneHVAC equipment such as a four pipe fan coil. Normally the central air would be ventilation air from a dedicated outside air system (DOAS).
 
@@ -984,7 +984,7 @@ The AirLoopHVAC:UnitarySystem object must be specified as a ZoneHVAC equipment. 
 
 
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular terminal mixer unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular terminal mixer unit. Any reference to this unit by another object will use this name.";
 		public static string Field_ZoneHVACUnitObjectType = @"The type of ZoneHVAC equipment to which this terminal mixer will be connected. This is a choice input field. 
 Valid ZoneHVAC choices are:
 
@@ -1031,11 +1031,11 @@ AirTerminal:SingleDuct:Mixer,
       SupplySide;                 !- Mixer Connection Type";
 	}
 	public static class AirTerminalDualDuctConstantVolume
-    { 
+	{
 		public static string Name = @"AirTerminal:DualDuct:ConstantVolume";
 		public static string Note = @"The AirTerminal:DualDuct:ConstantVolume simulation or the typical Multizone is described by this Air Distribution Unit (ADU). Multizone systems condition all the air in a central apparatus and distribute it to the conditioned zones through two parallel ducts. One duct carries cold air and the other warm air, providing air sources for both heating and cooling at all times. In each conditioned zone, a mixing valve responsive to a room thermostat mixes the warm and cold air in proper proportions to satisfy the prevailing heating or cooling load of the space. The Multizone ADU is the specific component that leads to the zone containing the mixer and the mixing damper and then connecting to the zone. The total airflow to each room is kept constant while the proportion of hot air to cold air is adjusted to maintain the temperature in each zone at the desired level.
 ";
-	public static string Field_Name = @"Unique name for the Multizone ADU.";
+		public static string Field_Name = @"Unique name for the Multizone ADU.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate for a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"The outlet node from the ADU to the zone.";
 		public static string Field_HotAirInletNodeName = @"The air-inlet node name that connects the hot air splitter to the individual zone ADU.";
@@ -1055,11 +1055,11 @@ AirTerminal:DualDuct:ConstantVolume,
       0.36;  !- Max Air Flow Rate {m3/s}";
 	}
 	public static class AirTerminalDualDuctVAV
-    { 
+	{
 		public static string Name = @"AirTerminal:DualDuct:VAV";
 		public static string Note = @"AirTerminal:DualDuct:VAV (i.e., Dual duct variable air volume (DDVAV)) systems are used to obtain zone temperature control by mixing the cold and warm air in various volume combinations. The fan is sized for the anticipated maximum coincident hot or cold volume, not the sum of the instantaneous peaks. This system has an advantage of a true single path VAV system, except for warm port leakage. When cold air is modulated for control before mixing, it operates similar to the VAV induction when mixing occurs without hot deck reheat. It is similar to a reheat system when mixing occurs while the hot deck is using the reheat coil. It uses more energy than a true VAV system, but less than a constant volume dual duct system.
 ";
-	public static string Field_Name = @"Unique name for the AirTerminal:DualDuct:VAV Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique name for the AirTerminal:DualDuct:VAV Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate for a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"The outlet node from the ADU to the zone.";
 		public static string Field_HotAirInletNodeName = @"The air-inlet node name that connects the hot air splitter to the individual zone ADU.";
@@ -1102,7 +1102,7 @@ An IDF example:
       Until: 24:00,0.25;         !- Field 10";
 	}
 	public static class AirTerminalDualDuctVAVOutdoorAir
-    { 
+	{
 		public static string Name = @"AirTerminal:DualDuct:VAV:OutdoorAir";
 		public static string Note = @"AirTerminal:DualDuct:VAV:OutdoorAir provides a model for a type of dual duct air system in which one duct provides outdoor air ventilation and the other provides VAV cooling.~ The Outdoor Air stream and the Recirculated Air stream are conditioned and supplied through separate air streams as part of a centralized dedicated outdoor air~ (DOAS) distribution system. The dual duct arrangement allows the ventilation air to be controlled separately using schedules or occupancy demand while the recirculated air is controlled to meet the dry-bulb zone temperature setpoint. The two airstreams remain decoupled until the terminal box where they are mixed. The terminal unit is meant for systems regulating outdoor air based only on demand control or code minimum settings and not on economizer operation.
 
@@ -1110,7 +1110,7 @@ This air terminal does not have heating coils and is not configured for conditio
 
 Although this air terminal is primarily for dual duct system, it is allowed to use just the outdoor air side in a single duct system. This can be useful for modeling single duct DOAS when the required volume of outdoor air varies over time.
 ";
-	public static string Field_Name = @"Unique name for the AirTerminal:DualDuct:VAV:OutdoorAir Air Distribution Unit (ADU).";
+		public static string Field_Name = @"Unique name for the AirTerminal:DualDuct:VAV:OutdoorAir Air Distribution Unit (ADU).";
 		public static string Field_AvailabilityScheduleName = @"Schedule that this component will operate or is available to operate for a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirOutletNodeName = @"The outlet node of the terminal unit.~ This is the node leaving the unit and serving as the inlet to the zone. It is for the mixed flow leaving from both of the inlet node.";
 		public static string Field_OutdoorAirInletNodeName = @"The inlet node of the Outdoor Air (OA) stream deck of the Dual Duct system.";
@@ -1144,7 +1144,7 @@ An example input object follows.
       MinOA_Sched;             !- Outdoor Air Flow Rate Fraction Schedule Name";
 	}
 	public static class AirLoopHVAC
-    { 
+	{
 		public static string Name = @"AirLoopHVAC";
 		public static string Note = @"Air loops along with zone equipment form the entire forced air heating and cooling system (air side). The main statement for defining an air loop is the {AirLoopHVAC} object described here. As with the main plant and condenser statements, several of the items in the AirLoopHVAC object definition are actually names that refer to other objects in the input file. After the AirLoopHVAC object name, four such list pointers are encountered: for controllers, system availability, branches, and connectors. The Controller List defines how the air loop will respond due to various inputs (control signals). The Availability Manager List refers to methods for controlling when a system is operational. This may be as simple as a schedule to define when the system is shutdown. The Branch List lists the branches that comprise the primary air system. Finally, the Connector List lists the connections between the branches. The branches and connections together define the primary air system topology.
 
@@ -1152,7 +1152,7 @@ The only numeric input is the design primary air flow rate. This item is input j
 
 The next series of names refer to nodes for the various inlet and outlet points of the air loop. The air loop starts where the zone equipment ends. This is a single point consisting of the return air duct once all of the zone return air streams have been collected (if the loop has a return path). While in reality, there is really only one point, for clarity within the simulation components and consistency with the other HVAC loop sections, this point in the systems is defined as two points: one that resides with the zone equipment simulation and one that is acted upon by the air loop simulation. Both node names must be entered into the input file (if the loop has a return path), and both nodes must have unique names. Similarly, the end points of the air loop that also correspond to the beginning points of the zone equipment loop must also be defined. These consist of names referencing lists of up to three pairs of node names as shown below. Up to three air loop outlets are allowed to accommodate the simulation of three deck systems.
 ";
-	public static string Field_Name = @"This field is a unique, user assigned name for a single instance of an AirLoopHVAC object. Any other object referencing this AirLoopHVAC will use this name.";
+		public static string Field_Name = @"This field is a unique, user assigned name for a single instance of an AirLoopHVAC object. Any other object referencing this AirLoopHVAC will use this name.";
 		public static string Field_ControllerListName = @"This field is the name of a ControllerList object. A Controller List is simply a list of controllers giving both controller name and type. This Controller List specifies all the controllers that will act on this primary air loop. The order of the controllers in the list is significant: controllers are simulated sequentially in the order given in the Controller List.";
 		public static string Field_AvailabilityManagerListName = @"This field is the name of a AvailabilityManagerList object. A Availability Manager List is a list of Availability Managers giving both Availability Manager type and name. The availability managers in the list apply to this primary air loop. That is, they determine when and if this air loop is on or off, overriding the control provided by the central fan on/off schedule.";
 		public static string Field_DesignSupplyAirFlowRate = @"This is the system primary air design volumetric flow rate in cubic meters per second.";
@@ -1182,7 +1182,7 @@ AirLoopHVAC,
     1.0;                               !- Design Return Air Flow Fraction of Supply Air Flow";
 	}
 	public static class SystemsLevelReporting
-    { 
+	{
 		public static string Name = @"Systems Level Reporting";
 		public static string Note = @"Most output variables are a single entity reporting. Meters are a combination of like variables -- specifically for Energy Consumption. This section introduces a slightly different concept -- where output variables described herein are a combination of several similar items -- specifically targeted at HVAC/System level reporting. This reporting is coupled with an Air Loop (ref: AirLoopHVAC)
 
@@ -1196,21 +1196,21 @@ Or, as is shown by example here, perhaps a more readable form is to generate the
 \caption{View of System Level Reporting \protect \label{fig:view-of-system-level-reporting}}
 \end{figure}
 ";
-}
+	}
 	public static class SystemLoadsOutputs
-    { 
+	{
 		public static string Name = @"System Loads Outputs";
 		public static string Note = @"In this category, the total system load is reported. Two aspects are reported here: Heating and Cooling. The following two variables report the heat energy that system components (including packaged equipment, fans, main coils, reheat coils, humidifiers, desiccant dehumidifiers, evaporative coolers and heat exchangers) add or remove from the air loop. Each variable within these grouping wil
 ";
-}
+	}
 	public static class SystemEnergyUseOutputs
-    { 
+	{
 		public static string Name = @"System Energy Use Outputs";
 		public static string Note = @"System Energy Use consists of six output variables that report the total energy (in Joules) and water consumption (in m^{3}) for all system components and including packaged equipment, fans, main coils, reheat coils, humidifiers, desiccant dehumidifiers, and evaporative coolers. The output variables shown below show hot and cold water, steam, electric and gas energy. Hot and cold water energy includes all `district cooling' and `district heating' energy.
 ";
-}
+	}
 	public static class SystemComponentLoadsOutputs
-    { 
+	{
 		public static string Name = @"System Component Loads Outputs";
 		public static string Note = @"Reporting System Component Loads shows the energy transferred to or extracted from the air loop by system component type. Fans, Cooling Coils, Heating Coils, Heat exchangers, humidifiers, evaporative coolers, and desiccant dehumidifiers show heat transfer rates in Joules. The components may be located in outdoor air systems bundled with packaged equipment or specified as stand-alone components. The reporting accounts for both main branch and reheat coils.
 
@@ -1234,15 +1234,15 @@ The Standard reports file includes these variables reporting in the Tabular repo
       Air System Desiccant Dehumidifier Total Cooling Energy,  SumOrAverage;
 
 ";
-}
+	}
 	public static class SystemComponentEnergyUseOutputs
-    { 
+	{
 		public static string Name = @"System Component Energy Use Outputs";
 		public static string Note = @"Reporting System Component Energy Use consists of eleven output variables that report the total energy consumption (in Joules) of system components by energy type and coil type. Electric energy consumption is reported for fans, heating and cooling coils in packaged (DX) systems, electric resistance heating coils, humidifiers, evaporative coolers and desiccant dehumidifiers.
 ";
-}
+	}
 	public static class OverallAirLoopSyntax
-    { 
+	{
 		public static string Name = @"Overall Air Loop Syntax";
 		public static string Note = @"A map for Air Loop input syntax is shown in the following diagram.
 
@@ -1252,13 +1252,13 @@ The Standard reports file includes these variables reporting in the Tabular repo
 \caption{Air Loop Input Syntax Map \protect \label{fig:air-loop-input-syntax-map}}
 \end{figure}
 ";
-}
+	}
 	public static class AirLoopHVACControllerList
-    { 
+	{
 		public static string Name = @"AirLoopHVAC:ControllerList";
 		public static string Note = @"The syntax for the AirLoopHVAC:ControllerList definition is shown below. As with other lists in EnergyPlus input, the object title and identifying name are followed by type-name pairs. In this case, the types are controller types. The order in which controllers appear on this list also define the priority as described below. The identifying name refers back to the name recorded in the AirLoopHVAC statement.
 ";
-	public static string Field_Name = @"The user designated unique name of an instance of a Controller List. Any object referencing this Controller List will do so using this name.";
+		public static string Field_Name = @"The user designated unique name of an instance of a Controller List. Any object referencing this Controller List will do so using this name.";
 		public static string Field_SetObjectTypeControllerNameUpTo8 = @"After the identifying name, input for the controller list consists of up to 8 pairs of data items: a controller type and a controller name. The first controller listed has the highest priority, the second the second highest priority, and so forth.";
 		public static string Field_ControllerXObjectType = @"The type of~ controller. This should be a key word defining a class of controllers such as Controller:WaterCoil.";
 		public static string Field_ControllerXName = @"The name of a controller object (such as a Controller:WaterCoil) defined elsewhere in the input file.
@@ -1273,13 +1273,13 @@ AirLoopHVAC:ControllerList,
              Controller:WaterCoil, Main Heating Coil Controller;";
 	}
 	public static class AvailabilityManagerAssignmentList
-    { 
+	{
 		public static string Name = @"AvailabilityManagerAssignmentList";
 		public static string Note = @"The AvailabilityManagerAssignmentList defines the applicable managers used for an AirLoopHVAC or PlantLoop. The priority of availability managers is based on a set of rules and are specific to the type of loop. The output from each Availability Manager is an availability status flag. This flag can have the values {NoAction}, {ForceOff}, {CycleOn}, or {CycleOnZoneFansOnly} (used only for air loops). The availability status flags for the Availability Managers referenced by an air or plant loop are used to set the availability status flag for each loop. For the air loops, {ForceOff} takes precedence: if any of the loop's availability managers are showing status {ForceOff}, the loop status will be {ForceOff}. Next in precedence is {CycleOnZoneFansOnly,} followed by {CycleOn}, and {NoAction}. For the plant loops, there is no precedence among the Availability Manager status flag values. Instead, the first availability manager giving a status flag value other than {NoAction} sets the status for the loop. The Availability Managers are executed in Availability Manager List order.
 
 Special rules also apply for which managers may be listed in a Availability Manager list. The Hybrid Ventilation Control Manager (object: AvailabilityManager:HybridVentilation) is a special type of manager and is never specified in a Availability Manager List (it is used stand-alone for a specific air loop). All other types of availability managers may be listed in the Availability Manager List used for AirLoopHVACs. For Plant Loops, the Night Cycle and Night Ventilation managers (objects: AvailabilityManager:NightCycle ~and AvailabilityManager:NightVentilation) are not allowed in the Availability Manager List.
 ";
-	public static string Field_Name = @"The name of the AvailabilityManagerAssignmentList ~object. This is referenced by AirLoopHVAC and PlantLoop objects.";
+		public static string Field_Name = @"The name of the AvailabilityManagerAssignmentList ~object. This is referenced by AirLoopHVAC and PlantLoop objects.";
 		public static string Field_SetAvailabilityManagerObjectTypeName = @"Managers are listed by pairs of data items:~ {Availability Manager Object Type} and {Availability Manager Name}. The managers are simulated down the list and calculate a control status for use by the AirLoopHVAC or PlantLoop. The priority of each manager used for a specific loop is based on the rules described above. Availability managers are not currently used for condenser loops. The availability managers, along with the AirLoopHVAC and PlantLoop object, report the control status calculated each simulation timestep. These output variables can be used to prioritize the managers according to the required control strategy. Six managers are accomodated in the list by default, however, this IDD specification is extensible. Additional pairs may be added by directly editing the IDD.";
 		public static string Field_AvailabilityManagerXObjectType = @"The key word defining the type of manager, e.g.~AvailabilityManager:NightCycle.";
 		public static string Field_AvailabilityManagerXName = @"The name of a AvailabilityManager object defined elsewhere in the input file.
@@ -1298,7 +1298,7 @@ AvailabilityManagerAssignmentList,
     Differential Thermostat Availability Manager;  !- System Availability Manager Name 3";
 	}
 	public static class AirLoopHVACOutdoorAirSystem
-    { 
+	{
 		public static string Name = @"AirLoopHVAC:OutdoorAirSystem";
 		public static string Note = @"The Outside Air System (object AirLoopHVAC:OutdoorAirSystem) is a subsystem of an AirLoopHVAC. It handles the mixed air portion of the primary air system: the system relief air, the outside air inlet, and any components and controllers associated with the system relief air and outside air streams. From the perspective of the primary air loop the Outside Air System is treated as a single component. As a subsystem, it can contain one or more components and controllers.
 
@@ -1306,7 +1306,7 @@ The input for the Outside Air System consists of a system name, a controller lis
 
 The equipment inlet/outlet must be sequential with no loops - the simulation can only handle a straight-through air path, both on the primary air side and on the secondary air side, if any. Heat exchanger secondary air inlets need to be independent of the primary air stream -- usually relief air is used.
 ";
-	public static string Field_Name = @"The unique, user assigned name for a single instance of an Outside Air System. Any other object referencing this Outside Air System will use this name.";
+		public static string Field_Name = @"The unique, user assigned name for a single instance of an Outside Air System. Any other object referencing this Outside Air System will use this name.";
 		public static string Field_NameControllerListName = @"This field is the name of a AirLoopHVAC:ControllerList object. A AirLoopHVAC:ControllerList is simply a list of controllers giving both controller name and type. This Controller List specifies all the controllers that will act on this outside air system. The order of the controllers in the list is significant: controllers are simulated sequentially in the order given in the Controller List. Typically the Controller List would contain a Controller:OutdoorAir. If there are chilled water or hot water coils in the outdoor air system, each such coil will need a Controller:WaterCoil.";
 		public static string Field_OutdoorAirEquipmentListName = @"This field is the name of an AirLoopHVAC:OutdoorAirSystem:EquipmentList object. An AirLoopHVAC:OutdoorAirSystem:EquipmentList is simply a list of components giving both component name and type. This Outdoor Air Equipment List specifies all the components that will be simulated in this outside air system. The order of the components in the list is significant: components are simulated sequentially in the order given in the Outdoor Air Equipment List. Typically the equipment list would contain at least an OutdoorAir:Mixer. If there is more than one component, the components must be listed in order from the outside air to the OutdoorAir:Mixer (the OutdoorAir:Mixer is last).";
 		public static string Field_AvailabilityManagerListName = @"This field is the name of a AvailabilityManagerAssignmentList object. An Availability Manager List is a list of Availability Managers giving both Availability Manager Object Type and Name. {Use of this input is optional.} This field may be omitted; it is not currently used by the program.
@@ -1360,7 +1360,7 @@ AirLoopHVAC,Typical Terminal Reheat 1,
              OutdoorAir:Mixer, OA Mixing Box 1;";
 	}
 	public static class AirLoopHVACOutdoorAirSystemEquipmentList
-    { 
+	{
 		public static string Name = @"AirLoopHVAC:OutdoorAirSystem:EquipmentList";
 		public static string Note = @"Used to specify the components in the outdoor air system. The components will be simulated in the order in which they occur in the list.
 
@@ -1372,7 +1372,7 @@ The following HVAC equipment types are allowed as outdoor air system equipment. 
 \caption{}
 \end{figure}
 ";
-	public static string Field_Name = @"The user designated unique name of an instance of an Air Loop Equipment List. Any object referencing this Air Loop Equipment List will do so using this name.";
+		public static string Field_Name = @"The user designated unique name of an instance of an Air Loop Equipment List. Any object referencing this Air Loop Equipment List will do so using this name.";
 		public static string Field_SetComponentObjectTypeComponentNameUpTo8 = @"After the identifying name, the list consists of up to 8 pairs of data items:";
 		public static string Field_ComponentXObjectType = @"This field specifies the keyword for the type of component used.";
 		public static string Field_ComponentXName = @"This field is the unique name of the component specified in the previous field. This named object must appear in the IDF.
@@ -1387,7 +1387,7 @@ AirLoopHVAC:OutdoorAirSystem:EquipmentList,
              OutdoorAir:Mixer, OA Mixing Box 1;";
 	}
 	public static class OutdoorAirNode
-    { 
+	{
 		public static string Name = @"OutdoorAir:Node";
 		public static string Note = @"The OutdoorAir:Node object declares an HVAC system node for outdoor air conditions. The program automatically sets the air conditions at these nodes to correspond to the ambient environmental conditions at the beginning of every timestep. The outdoor air node is typically used as the inlet air node to an HVAC component such as the OutdoorAir:Mixer object. Multiple OutdoorAir:Node objects can be used in an input file, however, duplicate node names are not allowed.
 
@@ -1413,7 +1413,7 @@ When used in the airflow network for wind pressure calculation, global environme
 
 When used in these cases, optional schedule inputs of local ambient air conditions, including dry-bulb temperature, wet-bulb temperature, wind velocity, and wind direction, can be defined in the optional fields. When used in the airflow network for wind pressure calculation, the wind pressure coefficient curve name and calculation details should also be defined.
 ";
-	public static string Field_Name = @"The unique name for this outdoor air node.";
+		public static string Field_Name = @"The unique name for this outdoor air node.";
 		public static string Field_HeightAboveGround = @"The height [m] of the node above ground level. A value greater than zero allows the weather file conditions, e.g., outdoor dry-bulb and wet-bulb air temperatures, to be adjusted according to atmospheric variation with height.
 
 A blank entry or value less than zero indicates that the height will be ignored and the weather file conditions will be used.";
@@ -1448,7 +1448,7 @@ OutdoorAir:Node,
   Absolute;                     !- Wind Angle Type";
 	}
 	public static class OutdoorAirNodeOutputs
-    { 
+	{
 		public static string Name = @"Outdoor Air Node outputs:";
 		public static string Note = @"The ambient dry-bulb, wet-bulb air temperature, wind speed and direction, and flow rate at the outdoor air node can be monitored using the system node output variables:
 
@@ -1476,9 +1476,9 @@ Output:Variable,
 
 
 ";
-}
+	}
 	public static class OutdoorAirNodeList
-    { 
+	{
 		public static string Name = @"OutdoorAir:NodeList";
 		public static string Note = @"The program needs to know which HVAC system nodes are inlets for outdoor air. Knowing this, the program can set the conditions at these nodes to the outdoor conditions at the start of each major timestep. The OutdoorAir:NodeList provides the means for specifying which nodes are outdoor air nodes.
 
@@ -1486,7 +1486,7 @@ The input is flexible: there may be one or more OutdoorAir:NodeList in each inpu
 
 {OutdoorAir:Node} and {OutdoorAir:NodeList} both set a node to outdoor air conditions. {OutdoorAir:Node} modifies the weather file conditions if a height has been specified. {OutdoorAir:NodeList} does not have a height input and always uses the weather file conditions without modification. The same node name may not be used with both of these objects.
 ";
-	public static string Field_NodeOrNodeListName = @"The name of an HVAC system node or of a NodeList object. There can be up to 25 names.
+		public static string Field_NodeOrNodeListName = @"The name of an HVAC system node or of a NodeList object. There can be up to 25 names.
 
 An example IDF:
 
@@ -1499,13 +1499,13 @@ OutdoorAir:NodeList,
       Outdoor air Inlet Node;";
 	}
 	public static class OutdoorAirMixer
-    { 
+	{
 		public static string Name = @"OutdoorAir:Mixer";
 		public static string Note = @"The OutdoorAir:Mixer is the most common component used in an outdoor air system. The outdoor air mixer has 2 inlet air streams: the system return air and the outdoor air. It has 2 outlet air streams: the system relief air and the mixed air. This is a passive component. It takes the inlet mass flows and conditions plus the relief air mass flow and calculates the mixed air flow rate and conditions (as well as the relief air conditions). The inlet and relief mass flow must be set outside the component -- most commonly by an outdoor air controller. The OutdoorAir:Mixer can also be used in compound components such as a fan coil unit.
 
 Input for this object is very simple: a unique name plus the node names of the 2 inlet nodes and the 2 outlet nodes.
 ";
-	public static string Field_Name = @"A unique user assigned name for a particular outdoor air mixer component. Any reference to this component by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for a particular outdoor air mixer component. Any reference to this component by another object will use this name.";
 		public static string Field_MixedAirNodeName = @"The name of the HVAC system node which is the outlet for the mixed air stream.";
 		public static string Field_OutdoorAirStreamNodeName = @"The name of the HVAC system node which is the inlet for the outdoor air stream.";
 		public static string Field_ReliefAirStreamNodeName = @"The name of the HVAC system node which is the outlet for the system relief air.";
@@ -1523,13 +1523,13 @@ OutdoorAir:Mixer,
       Zone1WindACAirInletNode;      ! mixer inlet node";
 	}
 	public static class EquipmentTypes
-    { 
+	{
 		public static string Name = @"Equipment Types";
 		public static string Note = @"In each CondenserEquipmentList, various equipment types and names must be given. Each type-name pair must then have a corresponding equipment definition. This subsection lists the various equipment types that are available and examples from an IDF. Where appropriate, notes and comments on the input structure are provided.
 ";
-}
+	}
 	public static class CoolingTowerSingleSpeed
-    { 
+	{
 		public static string Name = @"CoolingTower:SingleSpeed";
 		public static string Note = @"Cooling towers are components that may be assigned to condenser loops. The cooling tower is modeled as a counterflow heat exchanger with a single-speed fan (induced draft configuration) based on Merkel's theory. The user must define tower performance via one of two methods: design heat transfer coefficient-area product (UA) and design water flow rate, or nominal tower capacity at a specific rating point. Regardless of which method is chosen, the design airflow rate and corresponding fan power must be specified. The model will also account for tower performance in the ``free convection'' regime, when the tower fan is off but the water pump remains on and heat transfer still occurs (albeit at a low level). If the user wants the model to account for ``free convection'', they must specify the corresponding airflow rate and heat transfer coefficient-area product (UA), or the nominal tower capacity during this mode of operation.
 
@@ -1550,7 +1550,7 @@ For multi-cell towers, the following inputs are assumed to be for the entire tow
   BASIN HEATER (we assume that there is a common basin)
 
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the cooling tower.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the cooling tower.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the cooling tower's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the cooling tower's water outlet node.";
 		public static string Field_DesignWaterFlowRate = @"This numeric field contains the design water flow rate through the tower in m^{3}/s. This value is the flow rate of the condenser loop water being cooled by the tower (not the flow rate of water being sprayed on the outside of the heat exchange coil). If the input field ``Performance Input Method'' is specified as ``UFactorTimesAreaAndDesignWaterFlowRate'', then a water flow rate greater than zero must be defined or the field can be autosized. If autosized, a Plant Sizing object must be defined and the design water flow rate is derived from the design load to be rejected by the condenser loop and the design loop delta T (Ref. Sizing and Input for Design Calculations and Component Autosizing sections). If ``Performance Input Method'' is specified as ``NominalCapacity'', then this field must be left blank since the model automatically assumes a water flow rate of 5.382E-8 m3/s per watt (3 gpm/ton) of tower capacity specified in the field ``Nominal Capacity''.";
@@ -1711,7 +1711,7 @@ CoolingTower:SingleSpeed,
       1.0000;                  !- Sizing Factor";
 	}
 	public static class CoolingTowerTwoSpeed
-    { 
+	{
 		public static string Name = @"CoolingTower:TwoSpeed";
 		public static string Note = @"The two-speed cooling tower is modeled in a similar fashion to the single-speed tower. The cooling tower is modeled as a counterflow heat exchanger with a two-speed fan (induced draft configuration) based on Merkel's theory. The user must define tower performance via one of two methods: heat transfer coefficient-area product (UA) and design water flow rate, or nominal tower capacity at a specific rating point. Regardless of which method is chosen, the airflow rate and corresponding fan power at both high and low fan speed must be specified. The model will also account for tower performance in the ``free convection'' regime, when the tower fan is off but the water pump remains on and heat transfer still occurs (albeit at a low level). If the user wants the model to account for ``free convection'', they must specify the corresponding air flow rate and heat transfer coefficient-area product (UA), or the nominal tower capacity during this mode of operation.
 
@@ -1738,7 +1738,7 @@ For multi-cell towers, the following inputs are assumed to be for the entire tow
 
 This alpha field contains the identifying name for the cooling tower.
 ";
-	public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the cooling tower's water inlet node.";
+		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the cooling tower's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the cooling tower's water outlet node.";
 		public static string Field_DesignWaterFlowRate = @"This numeric field contains the design water flow rate through the tower in m^{3}/s. This value is the flow rate of the condenser loop water being cooled by the tower (not the flow rate of water being sprayed on the outside of the heat exchange coil). If the input field ``Performance Input Method'' is specified as ``UFactorTimesAreaAndDesignWaterFlowRate'', then a water flow rate greater than zero must be defined or the field can be autosized. If autosized, a Plant Sizing object must be defined and the design water flow rate is derived from the design load to be rejected by the condenser loop and the design loop delta T (Ref. Sizing and Input for Design Calculations and Component Autosizing sections). If ``Performance Input Method'' is specified as ``NominalCapacity'', then this field must be left blank since the model automatically assumes a design water flow rate of 5.382E-8 m3/s per watt (3 gpm/ton) of tower capacity specified in the field ``Tower High-Speed Nominal Capacity''.";
 		public static string Field_HighFanSpeedAirFlowRate = @"This numeric field contains the tower air flow rate at high fan speed in m^{3}/s. A value greater than zero must be defined regardless of the tower performance input method. Alternately, this field can be autosized. If autosized, the design air flow rate is calculated as follows:
@@ -1932,7 +1932,7 @@ CoolingTower:TwoSpeed,
       1.0000;  !- Sizing Factor";
 	}
 	public static class CoolingTowerVariableSpeedMerkel
-    { 
+	{
 		public static string Name = @"CoolingTower:VariableSpeed:Merkel";
 		public static string Note = @"This variable speed tower model is based on Merkel's theory and is similar to the single-speed and two-speed tower models.~ The open wet cooling tower is modeled as a counter flow heat exchanger with a variable-speed fan drawing air through the tower (induced-draft configuration). The model also includes a ``free convection'' regime where cooling tower performance modeled with the fan off.
 
@@ -1940,7 +1940,7 @@ For this model, Merkel's theory is modified to include adjustments developed by 
 
 For a multi-cell tower, the capacity and air/water flow rate inputs are for the entire tower.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the cooling tower.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the cooling tower.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the cooling tower's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the cooling tower's water outlet node.";
 		public static string Field_PerformanceInputMethod = @"This alpha field contains the method by which the user will specify tower performance: ``{UFactorTimesAreaAndDesignWaterFlowRate}'' or ``{NominalCapacity}''. If this field is left blank in the input data file, the default input method is assumed to be ``{NominalCapacity}''. If the method ``'' is selected, then the user must enter design UA values, design water flow rates and air flow rates as described for the previous input fields. If the method ``NominalCapacity'' is selected then the fields ``Design Water Flow Rate'', ``U-Factor Times Area Value at Design Air Flow Rate'' and ``U-Factor Times Area Value at Free Convection Air Flow Rate'' must be left blank, but the fields ``Nominal Capacity'' and ``Free Convection Capacity'' must be entered as described below.";
@@ -2069,7 +2069,7 @@ An example IDF specification follows.
       Dimensionless;  !- Output Unit Type";
 	}
 	public static class CoolingTowerVariableSpeed
-    { 
+	{
 		public static string Name = @"CoolingTower:VariableSpeed";
 		public static string Note = @"The variable speed tower model is based on empirical curve fits of manufacturer's performance data or field measurements. The user specifies tower performance at design conditions, and empirical curves are used to determine the approach temperature and fan power at off-design conditions. The user defines tower performance by entering the inlet air wet-bulb temperature, tower range, and tower approach temperature at the design conditions. The corresponding water flow rate (within ??25% of the tower's rated water mass flow rate), air flow rate, and fan power must also be specified. The model will account for tower performance in the ``free convection'' regime, when the tower fan is off but the water pump remains on and heat transfer still occurs (albeit at a low level). Basin heater operation and makeup water usage (due to evaporation, drift, and blowdown) are also modeled.
 
@@ -2090,7 +2090,7 @@ For multi-cell towers, the following inputs are assumed to be for the entire tow
   BASIN HEATER (we assume that there is a common basin)
 
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the cooling tower's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the cooling tower's water outlet node.";
 		public static string Field_ModelType = @"This alpha field contains the type of empirical model used to simulate the tower's thermal performance (approach temperature). Valid choices for this field are ``CoolToolsCrossFlow'', ``CoolToolsUserDefined'', ``YorkCalc'', or ``YorkCalcUserDefined''. ``CoolToolsCrossFlow'' and ``YorkCalc'' are empirical models with the equation form and model coefficients already defined within EnergyPlus. If ``CoolToolsUserDefined'' or ``YorkCalcUserDefined'' is selected, the user must specify a valid Model Coefficient Name in the next input field to reference an appropriate CoolingTowerPerformance:CoolTools or CoolingTowerPerformance:YorkCalc object. If a user-defined model type is selected and the specified Model Coefficient Name is not found in the input data file (idf), then a severe message is issued and the simulation will terminate.";
@@ -2176,7 +2176,7 @@ CoolingTower:VariableSpeed,
     1.000 ;  !- Sizing Factor";
 	}
 	public static class CoolingTowerPerformanceCoolTools
-    { 
+	{
 		public static string Name = @"CoolingTowerPerformance:CoolTools";
 		public static string Note = @"Variable speed cooling towers can be modeled by EnergyPlus with user-selectable performance based on the CoolTools correlation, YorkCalc correlation, or user-defined coefficients for either the CoolTools or YorkCalc correlations.The empirical CoolTools tower correlation uses a set of 35 coefficients to model the thermal performance (approach temperature) of a cooling tower based on four independent variables. If the user specifies Model Type = CoolToolsCrossFlow in the CoolingTower:VariableSpeed object, then the 35 coefficients derived for the CoolTools simulation model are used and these coefficients are already defined within EnergyPlus. If the user specifies Model Type = CoolToolsUserDefined, then the user must enter a CoolingTowerPerformance:CoolTools object to define the 35 coefficients that will be used by the CoolTools correlation.
 
@@ -2216,7 +2216,7 @@ Coeff(33)???FRwater???(Tr)^{2} +~ Coeff(34)???Twb???(Tr)^{2} +~ Coeff(35)???(Tr)
 
 This object allows the user to specify model coefficients for use with the CoolTools correlation shown above. It is recommended that a broad set of cooling tower performance data be used to generate these model coefficients. The data set used to create the model coefficients should cover the entire range of water and air flow rate ratios and inlet air wet-bulb, range, and approach temperatures expected during the simulation.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower model coefficients.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower model coefficients.";
 		public static string Field_MinimumInletAirWetBulbTemperature = @"This numeric field contains the minimum inlet air wet-bulb temperature to be used by the model (approach temperature correlation). Inlet air wet-bulb temperatures less than this value will not be used; instead, the minimum inlet air wet-bulb temperature specified here will be used by the correlation and a warning will be issued.";
 		public static string Field_MaximumInletAirWetBulbTemperature = @"This numeric field contains the maximum inlet air wet-bulb temperature to be used by the model (approach temperature correlation). Inlet air wet-bulb temperatures greater than this value will not be used; instead, the maximum inlet air wet-bulb temperature specified here will be used by the correlation and a warning will be issued.";
 		public static string Field_MinimumRangeTemperature = @"This numeric field contains the minimum range temperature (inlet water temperature minus outlet water temperature) to be used by the empirical model. If the range temperature is less than this value the actual range temperature is still passed to the empirical model but a warning will be issued.";
@@ -2278,7 +2278,7 @@ CoolingTowerPerformance:CoolTools,
        0.000807370664460284;            !- Coefficient 35";
 	}
 	public static class CoolingTowerPerformanceYorkCalc
-    { 
+	{
 		public static string Name = @"CoolingTowerPerformance:YorkCalc";
 		public static string Note = @"Variable speed cooling towers can be modeled by EnergyPlus with user-selectable performance based on the CoolTools correlation, YorkCalc correlation, or user-defined coefficients for either the CoolTools or YorkCalc correlations.The empirical YorkCalc tower correlation uses a set of 27 coefficients to model the thermal performance (approach temperature) of a variable speed cooling tower based on three independent variables. If the user specifies Tower Model Type = YorkCalc in the CoolingTower:VariableSpeed object, then the 27 coefficients derived for the YorkCalc simulation model are used and these coefficients are already defined within EnergyPlus. If the user specifies Tower Model Type = YorkCalcUserDefined, then the user must enter a CoolingTowerPerformance:YorkCalc object to define the 27 coefficients that will be used by the YorkCalc correlation.
 
@@ -2312,7 +2312,7 @@ Coeff(27)???Twb^{2}???Tr^{2}???LGRatio^{2}
 
 This object allows the user to specify model coefficients for use with the YorkCalc correlation shown above. It is recommended that a broad set of cooling tower performance data be used to generate these model coefficients. The data set used to create the model coefficients should cover the entire range of water and air flow rate ratios and inlet air wet-bulb, range, and approach temperatures expected during the simulation.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower model coefficients.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling tower model coefficients.";
 		public static string Field_MinimumInletAirWetBulbTemperature = @"This numeric field contains the minimum inlet air wet-bulb temperature to be used by the model (approach temperature correlation). Inlet air wet-bulb temperatures less than this value will not be used; instead, the minimum inlet air wet-bulb temperature specified here will be used by the correlation and a warning will be issued.";
 		public static string Field_MaximumInletAirWetBulbTemperature = @"This numeric field contains the maximum inlet air wet-bulb temperature to be used by the model (approach temperature correlation). Inlet air wet-bulb temperatures greater than this value will not be used; instead, the maximum inlet air wet-bulb temperature specified here will be used by the model and a warning will be issued.";
 		public static string Field_MinimumRangeTemperature = @"This numeric field contains the minimum range temperature (inlet water temperature minus outlet water temperature) to be used by the empirical model. If the range temperature is less than this value the actual range temperature is still passed to the empirical model but a warning will be issued.";
@@ -2368,7 +2368,7 @@ CoolingTowerPerformance:YorkCalc
       -0.000001516821552;               !- Coefficient 27";
 	}
 	public static class EvaporativeFluidCoolerSingleSpeed
-    { 
+	{
 		public static string Name = @"EvaporativeFluidCooler:SingleSpeed";
 		public static string Note = @"Evaporative fluid coolers are components that may be assigned to condenser loops. The Evaporative fluid cooler is modeled as a counter flow heat exchanger with single-speed fans (induced draft configuration). The user must define fluid cooler performance via one of three methods: design heat transfer coefficient-area product (UA) and design water flow rate, or standard fluid cooler design capacity at a specific rating point or design capacity at non standard conditions. Regardless of which method is chosen, the design airflow rate and corresponding fan power must be specified.
 
@@ -2403,7 +2403,7 @@ Where,
   out = outlet
 
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water outlet node.";
 		public static string Field_DesignAirFlowRate = @"This numeric field contains the design air flow rate induced by the fluid cooler fan in m^{3}/s. The field must contain a value greater than zero regardless of the fluid cooler performance input method. Alternately, this field can be autosized. See Engineering Reference document for autosizing calculations.";
@@ -2462,7 +2462,7 @@ EvaporativeFluidCooler:SingleSpeed,
       25.6;                    !- Design Entering Air Wet-bulb Temperature {C}";
 	}
 	public static class EvaporativeFluidCoolerTwoSpeed
-    { 
+	{
 		public static string Name = @"EvaporativeFluidCooler:TwoSpeed";
 		public static string Note = @"The two-speed evaporative fluid cooler is modeled in a similar fashion to the single-speed evaporative fluid cooler. The evaporative fluid cooler is modeled as a counter flow heat exchanger with two-speed fan (induced draft configuration. See schematic diagram in EvaporativeFluidCooler:SingleSpeed section). The user must define fluid cooler performance via one of the three methods: design heat transfer coefficient-area product (UA) and design water flow rate, or standard fluid cooler design capacity at a specific rating point or design capacity at non standard conditions. Regardless of which method is chosen, the design airflow rate and corresponding fan power must be specified.
 
@@ -2472,7 +2472,7 @@ The model assumes that part-load operation is represented by a simple linear int
 
 Evaporative fluid coolers consume water through evaporation, drift, and blowdown. The model can be used to predict water consumed by the evaporative fluid coolers. For this purpose, the last seven input fields can either be provided in the input or if nothing is specified then the default values for these fields will be used. These fields provide methods of controlling details of the water consumption calculations. The user can specify connections to the rest of the buildings water system by providing the name of a water storage tanks (i.e.~WaterUse:Storage objects).
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water outlet node.";
 		public static string Field_HighFanSpeedAirFlowRate = @"This numeric field contains the fluid cooler air flow rate at high fan speed in m^{3}/s. A value greater than zero must be defined regardless of fluid cooler performance input method. Alternately, this field can be autosized. See Engineering Reference document for fluid cooler autosizing.";
@@ -2556,13 +2556,13 @@ EvaporativeFluidCooler:TwoSpeed,
       25.6;                    !- Design Entering Air Wet-bulb Temperature {C}";
 	}
 	public static class FluidCoolerSingleSpeed
-    { 
+	{
 		public static string Name = @"FluidCooler:SingleSpeed";
 		public static string Note = @"Fluid coolers are components that may be assigned to condenser loops. The Fluid cooler is modeled as a cross flow heat exchanger (both streams unmixed) with single-speed fans (induced draft configuration). The user must define fluid cooler performance via one of the two methods: design heat transfer coefficient-area product (UA) and design water flow rate, or nominal fluid cooler capacity at a specific rating point. Regardless of which method is chosen, the design airflow rate and corresponding fan power must be specified.
 
 The fluid cooler seeks to maintain the temperature of the water exiting the fluid cooler at (or below) a set point. The set point schedule value is defined by the field ``Condenser Loop Temperature Setpoint Node Name or Reference'' for the CondenserLoop object. The model assumes that part-load operation is represented by a simple linear interpolation between two steady-state regimes (i.e., fluid cooler fan on for the entire simulation timestep and fluid cooler fan off for the entire simulation timestep). Cyclic losses are not taken into account.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the Fluid Cooler.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the Fluid Cooler.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the Fluid Cooler's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the Fluid Cooler's water outlet node.";
 		public static string Field_PerformanceInputMethod = @"This alpha field contains the method by which the user will specify fluid cooler performance: ``UFactorTimesAreaAndDesignWaterFlowRate'' or ``NominalCapacity''.";
@@ -2595,13 +2595,13 @@ FluidCooler:SingleSpeed,
       Autosize;               !- Design Air Flow Rate Fan Power {W}";
 	}
 	public static class FluidCoolerTwoSpeed
-    { 
+	{
 		public static string Name = @"FluidCooler:TwoSpeed";
 		public static string Note = @"The two-speed fluid cooler is modeled in a similar fashion to the single-speed fluid cooler. The fluid cooler is modeled as a cross flow heat exchanger (both stream unmixed) with~ two-speed fans (induced draft configuration). The user must define fluid cooler performance via one of two methods: heat transfer coefficient-area product (UA) and design water flow rate, or nominal fluid cooler capacity at a specific rating point. Regardless of which method is chosen, the airflow rate and corresponding fan power at both high and low fan speed must be specified. The Fluid Cooler seeks to maintain the temperature of the water exiting the Fluid Cooler at (or below) a set point. The set point schedule is defined by the field ``Condenser Loop Temperature Setpoint Node Name or Reference'' for the CondenserLoop object. The model first runs at low speed and calculates the fluid cooler exiting water temperature. If the exiting water temperature based on ``low speed'' is at or below the set point, then the fluid cooler fan runs at this speed or below this speed. If the exiting water temperature remains above the set point after ``low speed'' is modeled, then the fluid cooler fan runs at high speed to reduce the exiting water temperature.
 
 The model assumes that part-load operation is represented by a simple linear interpolation between two steady-state regimes (i.e., fluid cooler fan at high speed for the entire simulation timestep and fluid cooler fan at low speed for the entire simulation timestep,). Cyclic losses are not taken into account.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the fluid cooler.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water inlet node.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the identifying name for the fluid cooler's water outlet node.";
 		public static string Field_PerformanceInputMethod = @"This alpha field contains the method by which the user will specify fluid cooler performance: ``UFactorTimesAreaAndDesignWaterFlowRate'' or ``NominalCapacity''.";
@@ -2650,7 +2650,7 @@ FluidCooler:TwoSpeed,
       0.16;                    !- Low Fan Speed Fan Power Sizing Factor";
 	}
 	public static class GroundHeatExchangerSystem
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:System";
 		public static string Note = @"The EnergyPlus ground loop heat exchanger is a condenser component which serves the condenser supply side in addition to the cooling towers and other condensing components. Figure \ref{fig:schematic-of-energyplus-ground-loop-heat} shows the Ground Heat Exchanger in the simulation environment.
 
@@ -2681,7 +2681,7 @@ A small number of reference datasets containing example input data for 1 $\times
 
 Definitions for the input fields are provided below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground heat exchanger (GHE).";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground heat exchanger (GHE).";
 		public static string Field_InletNodeName = @"This alpha field contains the ground heat exchanger inlet node name.";
 		public static string Field_OutletNodeName = @"This alpha field contains the ground heat exchanger outlet node name.";
 		public static string Field_DesignFlowRate = @"This numeric field contains the GHE design flow rate in cubic meters per second \{m^{3}/s\}. The flow rate specified is the total flow rate for the entire borehole field. Flow will be assumed to be evenly distributed across all boreholes.";
@@ -2835,11 +2835,11 @@ The final example uses the ResponseFactors object to provide third-party g-funct
     1.679000;                !- G-Function Ln(T/Ts) Value 73";
 	}
 	public static class GroundHeatExchangerVerticalProperties
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Vertical:Properties";
 		public static string Note = @"This object defines several borehole parameters.
 ";
-	public static string Field_Name = @"This alpha field indicates the unique name of the object.";
+		public static string Field_Name = @"This alpha field indicates the unique name of the object.";
 		public static string Field_DepthOfTopOfBorehole = @"This numeric field indicates the depth of the top of the borehole below the ground surface, in meters. The depth measured from the ground surface downward is positive.";
 		public static string Field_BoreholeLength = @"This numeric field indicates the active length of the borehole, referenced from the starting location (potentially below the ground surface), to the end of the borehole, in meters.";
 		public static string Field_GroutThermalConductivity = @"This numeric field contains the thermal conductivity of the filler material in W/m-K.";
@@ -2867,17 +2867,17 @@ An example object is shown below.
     0.04913;            !- U-Tube Distance {m}";
 	}
 	public static class GroundHeatExchangerVerticalArray
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Vertical:Array";
 		public static string Note = @"This object defines the borehole locations for a rectangular array of boreholes.
 ";
-}
+	}
 	public static class GroundHeatExchangerVerticalSingle
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Vertical:Single";
 		public static string Note = @"This object defines a single borehole heat exchanger.
 ";
-	public static string Field_Name = @"This alpha field indicates the unique name of the object.";
+		public static string Field_Name = @"This alpha field indicates the unique name of the object.";
 		public static string Field_Properties = @"This alpha field indicates the name of the GroundHeatExchanger:Vertical:Properties object referenced by the borehole.";
 		public static string Field_XLocation = @"This numeric field indicates the x-location of this borehole.";
 		public static string Field_YLocation = @"This numeric field indicates the y-location of this borehole.
@@ -2890,11 +2890,11 @@ An example object is shown below.
     0;                  !- Y Location {m}";
 	}
 	public static class GroundHeatExchangerResponseFactors
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:ResponseFactors";
 		public static string Note = @"This object is used to provide third-party g-functions which are generated by other tools.
 ";
-	public static string Field_Name = @"This alpha field indicates the unique name of the object.";
+		public static string Field_Name = @"This alpha field indicates the unique name of the object.";
 		public static string Field_Properties = @"This alpha field indicates the name of the GroundHeatExchanger:Vertical:Properties object referenced g-function response factors.";
 		public static string Field_GFunctionReferenceRatio = @"The G-Functions may be formulated slightly differently based on the program which generated them. The original g-functions as defined by Eskilson are based on an borehole radius to active length ratio of 0.0005. If the physical ratio is different from this, a correction must be applied. EnergyPlus will apply the correction, based on the reference ratio entered in this field. Therefore, therefore two possible input configurations.
 
@@ -2934,7 +2934,7 @@ An example object is shown below.
     1.679000;                !- G-Function Ln(T/Ts) Value 73";
 	}
 	public static class GroundHeatExchangerSlinky
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Slinky";
 		public static string Note = @"The GroundHeatExchanger:Slinky use the g-functions to calculate the GHX temperature response, similar to the GroundHeatExchanger:Vertical model, however for this model g-functions are automatically calculated by EnergyPlus without the need of external software or data.
 
@@ -2985,7 +2985,7 @@ GroundHeatExchanger:Slinky,
   10;               !- Maximum length of simulation [years]
 
 ";
-	public static string Field_Name = @"Alpha field used as identifying field for heat exchanger";
+		public static string Field_Name = @"Alpha field used as identifying field for heat exchanger";
 		public static string Field_InletNode = @"This alpha field is the name of the inlet node of the component on a plant loop.";
 		public static string Field_OutletNode = @"This alpha field is the name of the outlet node of the component on a plant loop.";
 		public static string Field_DesignFlowRate = @"This numeric field is the design flow rate in m3/s for the heat exchanger. The plant loop will attempt to meet this request based on loop and flow conditions.";
@@ -3009,7 +3009,7 @@ GroundHeatExchanger:Slinky,
 		public static string Field_MaximumLengthOfSimulation = @"This numeric field contains the maximum number of years of simulation to be carried out.";
 	}
 	public static class GroundHeatExchangerPond
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Pond";
 		public static string Note = @"The pond heat exchanger model represents a shallow pond with submerged hydronic tubes through which the heat transfer fluid is circulated. The model represents a `shallow' pond in that no attempt is made to model any stratification effects that may~ be present in deeper ponds.
 
@@ -3027,7 +3027,7 @@ This type of heat exchanger is intended to be connected to the supply side of a 
 \caption{Pond Ground Heat Exchanger with other heat exchangers on condenser loop \protect \label{fig:pond-ground-heat-exchanger-with-other-heat}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the outside pond heat exchanger.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the outside pond heat exchanger.";
 		public static string Field_FluidInletNodeName = @"This alpha field contains the fluid inlet node name.";
 		public static string Field_FluidOutletNodeName = @"This alpha field contains the fluid outlet node name.";
 		public static string Field_PondDepth = @"This numeric field contains the pond depth \{m\}.";
@@ -3057,7 +3057,7 @@ An example of the IDF is shown below.
       50.0;                    !- Length of Each Tubing Circuit {m}";
 	}
 	public static class GroundHeatExchangerSurface
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:Surface";
 		public static string Note = @"The surface heat exchanger model is to simulate hydronic surface ground heat exchangers. This includes pavement surfaces with embedded pipes for snow-melting or heat rejection from hybrid ground source heat pump systems.
 
@@ -3075,7 +3075,7 @@ The heat exchanger may be ground coupled or not. In the latter case the bottom s
 \caption{Surface Ground Heat Exchanger with other heat exchangers on condenser loop \protect \label{fig:surface-ground-heat-exchanger-with-other-heat}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the outside panel heat exchanger.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the outside panel heat exchanger.";
 		public static string Field_ConstructionName = @"This alpha field contains the construction name. It must contain a valid ``Construction'' name that is usual for Surfaces. (Ref: Group -- Surface Construction Elements).";
 		public static string Field_FluidInletNodeName = @"This alpha field contains the fluid inlet node name.";
 		public static string Field_FluidOutletNodeName = @"This alpha field contains the fluid outlet node name.";
@@ -3103,7 +3103,7 @@ An example of this statement in an IDF is shown below:
       GROUND;                  !- Lower Surface Environment";
 	}
 	public static class GroundHeatExchangerHorizontalTrench
-    { 
+	{
 		public static string Name = @"GroundHeatExchanger:HorizontalTrench";
 		public static string Note = @"The horizontal trench ground heat exchanger object provides an alternate interface to the detailed PipingSystem:Underground:* objects.~ The same underlying simulation algorithm is utilized, providing a transient numerical simulation of soil with buried pipes and a detailed surface heat balance.~ The input syntax is much smaller and useful for simple applications.~ For full flexibility, use the PipingSystem:Underground:* objects to build a detailed simulation domain and piping circuit.~ For information regarding the simulation algorithms, see the engineering reference document section covering the buried piping system objects.
 
@@ -3179,7 +3179,7 @@ This numeric field represents the volume fraction, in percent, of water content 
 
 This numeric field represents the volume fraction, in percent, of water content in the soil which results in saturation.
 ";
-	public static string Field_TypeOfUndisturbedGroundTemperatureObject = @"The type of undisturbed ground temperature object used to determine ground temperature for the farfield boundary conditions.";
+		public static string Field_TypeOfUndisturbedGroundTemperatureObject = @"The type of undisturbed ground temperature object used to determine ground temperature for the farfield boundary conditions.";
 		public static string Field_NameOfUndisturbedGroundTemperatureObject = @"The name of the undisturbed ground temperature object used to determine ground temperature for the farfield boundary conditions.
 
 {{Field: Evapotranspiration Ground Cover Parameter [-]}}
@@ -3214,7 +3214,7 @@ GroundHeatExchanger:HorizontalTrench,
      0.408;       !- Evapotranspiration Ground Cover Parameter";
 	}
 	public static class HeatExchangerFluidToFluid
-    { 
+	{
 		public static string Name = @"HeatExchanger:FluidToFluid";
 		public static string Note = @"A fluid-to-fluid heat exchanger designed to couple the supply side of one plant or condenser loop to the demand side of another plant or condenser loop.
 This heat exchanger is fairly general and can be configured for use in any application where any two loops need to be connected together.
@@ -3267,7 +3267,7 @@ As of Version 8.0, \texbf{this object replaces three separate objects that were 
     the Loop Supply Side is the supply side of a second condenser loop, and the control type is ``UncontrolledOn.''
 
 ";
-	public static string Field_Name = @"This alpha field provides the unique identifying name for this heat exchanger.";
+		public static string Field_Name = @"This alpha field provides the unique identifying name for this heat exchanger.";
 		public static string Field_AvailabilityScheduleName = @"This field specifies the name of an availability schedule that can be used for supervisory control of the device.~ If blank, the default is that heat exchanger is always available.~ If a scheduled is named here, then the heat exchanger is available for use whenever the schedule value is greater than zero.~ The heat exchanger is not available whenever the schedule value is zero or less.";
 		public static string Field_LoopDemandSideInletNodeName = @"This field specifies the name of a plant system node that connects an inlet of the heat exchanger to the demand side of a loop.~ This node must be on a branch located on the demand side of a plant or condenser loop.";
 		public static string Field_LoopDemandSideOutletNodeName = @"This field specifies the name of a plant system node that connects an outlet of the heat exchanger to the demand side of a loop.~ This node must be on a branch located on the demand side of a plant or condenser loop.";
@@ -3368,13 +3368,13 @@ Some example IDF input objects follow.
       LoopToLoop; !- Heat Transfer Metering End Use Type";
 	}
 	public static class ControlsAirLoopAndZoneEquipment
-    { 
+	{
 		public static string Name = @"Controls (Air Loop and Zone Equipment)";
 		public static string Note = @"A controller mimics the function of an actual physical controller in a somewhat rudimentary way. It can sense one node variable, compare it with its setpoint, and determine the desired value for another node variable. It should be noted that a controller cannot span a loop manager boundary (but a Setpoint Manager can). Thus, in an air loop (AirLoopHVAC), the sensed node and the controlled device must be in the air loop simulation. This means that a single zone system cannot be modeled with a simple controller sensing zone temperature and controlling coil water flow. Instead this must be modeled as a Setpoint Manager sensing a zone temperature and resetting the supply air temperature setpoint each timestep. This is artificial but should simplify the control modeling task. It should also be noted that there are various types of controllers and that each controller might hook into loops in a slightly different way. As a result, each controller type is described separately below.
 ";
-}
+	}
 	public static class ControllerWaterCoil
-    { 
+	{
 		public static string Name = @"Controller:WaterCoil";
 		public static string Note = @"This controller is really a solution inverter. For a water coil the simulation cannot be inverted where the mass flow rate of the water through the coil can be solved directly given an air temperature. Thus, this controller will numerically step through all of the water flow possibilities by an interval-halving technique until the mass flow rate is determined to meet the specified outlet air temperature within a specified user tolerance.
 
@@ -3384,7 +3384,7 @@ The next parameter in the input syntax is the Action of the control, which deter
 
 The next two parameters in the input syntax are node names corresponding to the node that is being sensed and the actuated node which controls the water mass flow through the coil. For example, in the case of a cooling coil the control variable might be the outlet air temperature of the coil while the actuated variable might be the water flow rate through the coil. These two parameters are followed by the controller convergence tolerance. Finally, the last two input parameters represent the maximum and minimum values allowed for the actuated variable at the actuated node.
 ";
-	public static string Field_Name = @"This is the unique name of the controller.";
+		public static string Field_Name = @"This is the unique name of the controller.";
 		public static string Field_ControlVariable = @"This was setup to be generic but to date has only been used for temperature control, or temperature and humidity ratio control, of a water coil in the air loop simulation. The keyword Temperature is used for air temperature control and is normally specified for the coils outlet air node. The keyword TemperatureAndHumidityRatio is used for controlling both air temperature and high humidity levels, and is normally specified for a cooling coils outlet air node. The keyword HumidityRatio is used for humidity control and would normally be specified for a dehumidifier outlet node. These two keywords require a ZoneControl:Humidistat object and a maximum humidity setpoint manager object (SetPointManager:SingleZone:Humidity:Maximum, SetPointManager:MultiZone:MaximumHumidity:Average or SetPointManager:MultiZone:Humidity:Maximum). If the coil is located in the outdoor air stream, it may also be necessary to use SetpointManager:OutdoorAirPretreat.";
 		public static string Field_Action = @"The next input refers to the action of the control. This can be best described by an example. In a coil where water mass flow rate is to be controlled, a coil will increase the mass flow rate through the coil when more heating or cooling is requested. In a heating coil, this increases the value of heat transfer from the water to the air stream. As a result, this is considered a Normal action controller. In a cooling coil, an increase in water mass flow rate through the coil decreases the value of heat transfer from the water to the air stream (absolute value increases, but since cooling is traditionally described as a negative number, an increase in absolute value results in a decrease in the actual heat transfer value). Thus, the cooling coil controller has Reverse action since an increase in flow rate results in a decrease in heat transfer.";
 		public static string Field_ActuatorVariable = @"This was again meant to be more generic but currently has only been used to control the water mass flow rate of a heating or cooling coil. This actuator variable must be set to the keyword Flow to control the water mass flow rate.";
@@ -3423,7 +3423,7 @@ Controller:WaterCoil,
   VAV Sys 1 Outlet Node;                !- Setpoint Node or NodeList Name";
 	}
 	public static class ControllerOutdoorAir
-    { 
+	{
 		public static string Name = @"Controller:OutdoorAir";
 		public static string Note = @"A mixed air box has its own controller type called Controller:OutdoorAir. The purpose of the outdoor air controller is to provide outdoor air for ventilation and also provide free cooling (through additional outdoor air and/or bypassing an air-to-air heat exchanger) whenever possible. The outdoor air controller includes a number of user-selectable limit controls. If any of the selected limits are exceeded, the outdoor airflow rate is set to the minimum.
 
@@ -3455,7 +3455,7 @@ There are various minimum and maximum limits on the outdoor air flow rate which 
   OA flow rate \le Current mixed air flow rate (system flow rate)
 
 ";
-	public static string Field_Name = @"The unique user-assigned name for an instance of an outdoor air controller. Any other object referencing this outdoor air controller will use this name.";
+		public static string Field_Name = @"The unique user-assigned name for an instance of an outdoor air controller. Any other object referencing this outdoor air controller will use this name.";
 		public static string Field_ReliefAirOutletNodeName = @"The name of the relief air node of the outdoor air mixer associated with this outdoor air controller.";
 		public static string Field_ReturnAirNodeName = @"The name of the return air node of the outdoor air mixer associated with this outdoor air controller.";
 		public static string Field_MixedAirNodeName = @"Name of the node where the mixed air setpoint is set. The outdoor air controller senses the temperature at this node and attempts to control that temperature to the node setpoint.";
@@ -3598,7 +3598,7 @@ Controller:OutdoorAir,
   29.13;                                     !- Maximum Value of x";
 	}
 	public static class ControllerMechanicalVentilation
-    { 
+	{
 		public static string Name = @"Controller:MechanicalVentilation";
 		public static string Note = @"This object is used in conjunction with an outdoor air controller (Ref. Controller:OutdoorAir, Field: Mechanical Ventilation Controller Name) to establish the minimum outdoor air flow rate provided by a mixed air box.
 
@@ -3606,7 +3606,7 @@ Ventilation standards provide guidance on appropriate levels of outdoor ventilat
 
 The first five inputs for this object are the name, the availability schedule, the zone outdoor air method, the system outdoor air method, and the zone maximum outdoor air fraction. The next three input fields define the zone name (or zone list name), the design specification outdoor air object name, and the design specification zone air distribution object name to be applied to this zone (or zone list). The last three fields are extensible
 ";
-	public static string Field_Name = @"The unique user assigned name for an instance of mechanical ventilation. Any other object referencing this mechanical ventilation object will use this name.";
+		public static string Field_Name = @"The unique user assigned name for an instance of mechanical ventilation. Any other object referencing this mechanical ventilation object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of a schedule whose values are greater than 0 when mechanical ventilation, as calculated by this object, is desired. If the schedule s value is 0.0, then mechanical ventilation is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), mechanical ventilation is available. If this field is blank, the schedule has values of 1 for all time periods. This schedule is useful for purging the building of contaminants prior to occupancy (i.e., ventilation rate per unit floor area will be provided even if the occupancy is zero).";
 		public static string Field_DemandControlledVentilation = @"This field indicates whether the air loop is capable of doing demand controlled ventilation (DCV) to vary the amount of outdoor air based on actual number of occupants in spaces. Two choices: Yes and No. Default is No.";
 		public static string Field_SystemOutdoorAirMethod = @"The method used to calculate the system minimum outdoor air flow. Several choices are allowed: {ZoneSum}, {VentilationRateProcedure,} {IndoorAirQualityProcedure, ProportionalControlBasedonOccupancySchedule,} {ProportionalControlBasedonDesignOccupancy,} {ProportionalControlBasedOnDesignOARate,} and {IndoorAirQualityProcedureGenericContaminant}. ZoneSum sums the outdoor air flows across all zones served by the system. VentilationRateProcedure (VRP) uses the multi-zone equations defined in 62.1-2007 to calculate the system outdoor air flow. VRP considers zone air distribution effectiveness and zone diversification of outdoor air fractions. IndoorAirQualityProcedure (IAQP) is the other procedure defined in ASHRAE Standard 62.1-2007 for calculate the amount of outdoor air necessary to maintain the levels of indoor air carbon dioxide at or below the setpoint defined in the ZoneControl:ContaminantController object. Appendix A of the ASHRAE 62.1-2010 user's manual discusses another method for implementing CO_{2}-based DCV in a single zone system. This method (Proportional Control) calculates the required outdoor air flow rate which varies in proportion to the percentage of the CO_{2} signal range and has two choices to calculate occupancy-based outdoor air rate. The ProportionalControlBasedonOccupancySchedule choice uses the real occupancy at the current time step to calculate outdoor air rate, while the ProportionalControlBasedonDesignOccupancy uses the design occupancy level to calculate outdoor air rate. The former choice is a good approach to estimate outdoor air rate. However, for practical applications, the zone controller usually does not have the real time occupancy information, and the design occupancy level is assumed. The latter choice is used in the design stage. The ProportionalControlBasedOnDesignOARate uses design outdoor air flow rate to calculate demand outdoor air flow rate. The IndoorAirQualityProcedure-GenericContaminant method calculates the amount of outdoor air necessary to maintain the levels of indoor air generic contaminant at or below the setpoint defined in the ZoneControl:ContaminantController object.
@@ -3669,7 +3669,7 @@ Controller:MechanicalVentilation,
   0.3;                                         !- Zone Secondary Recirculation Fraction";
 	}
 	public static class ZoneHVACEnergyRecoveryVentilatorController
-    { 
+	{
 		public static string Name = @"ZoneHVAC:EnergyRecoveryVentilator:Controller";
 		public static string Note = @"This controller object is used exclusively by the stand alone energy recovery ventilator (ZoneHVAC:EnergyRecoveryVentilator, see Figure~\ref{fig:schematic-of-the-zonehvac}). The purpose of this controller is to simulate economizer operation for the stand alone ERV and provide free cooling whenever possible or modify the outdoor air flow rate during high indoor humidity conditions. During economizer operation, if all of the limits are satisfied, the controller activates economizer mode (fully bypassing the fixed-plate air-to-air heat exchanger or stopping the rotation of a rotary heat exchanger). If any of the selected limits are exceeded, economizer operation is terminated. A time-of-day schedule may also be used to simulate a push-button type economizer controller.
 
@@ -3681,7 +3681,7 @@ In addition, the outdoor air flow rate may be modified and heat exchange suspend
 \caption{Schematic of the ZoneHVAC:EnergyRecoveryVentilator compound object \protect \label{fig:schematic-of-the-zonehvac}}
 \end{figure}
 ";
-	public static string Field_Name = @"A unique user-assigned name for the stand alone ERV controller. Any reference to this controller by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for the stand alone ERV controller. Any reference to this controller by another object will use this name.";
 		public static string Field_TemperatureHighLimit = @"The input for this field is the outdoor air temperature high limit ( ??C) for economizer operation. If the outdoor air temperature is above this limit, economizer (free cooling) operation is terminated. No input (blank) in this field means that there is no outdoor air temperature high limit control.";
 		public static string Field_TemperatureLowLimit = @"The input for this field is the outdoor air temperature low limit ( ??C) for economizer operation. If the outdoor air temperature is below this limit, economizer (free cooling) operation is terminated. No input (blank) in this field means that there is no outdoor air temperature low limit control.";
 		public static string Field_EnthalpyHighLimit = @"The input for this field is the outdoor air enthalpy limit (in J/kg) for economizer operation. If the outdoor air enthalpy is above this value, economizer (free cooling) operation is terminated. No input (blank) in this field means that there is no outdoor air economizer limit control.";
@@ -3725,16 +3725,16 @@ ZoneHVAC:EnergyRecoveryVentilator:Controller,
   29.13;                                       !- Maximum Value of x";
 	}
 	public static class InputForDesignCalculationsAndComponentAutosizing
-    { 
+	{
 		public static string Name = @"Input for Design Calculations and Component Autosizing";
 		public static string Note = @"";
-}
+	}
 	public static class DesignSpecificationOutdoorAir
-    { 
+	{
 		public static string Name = @"DesignSpecification:OutdoorAir";
 		public static string Note = @"This object allows for the outdoor air requirements to be defined in a common location for use by other objects. This object may be referenced by name from other objects (e.g., VAV terminal units, AirTerminal:SingleDuct:Uncontrolled, and AirTerminal:SingleDuct:Mixer) as required to identify an outdoor air quantity for use by that object. Note that a zone name Is not included as an input to this zone outdoor air definition and the number of people in a zone, zone floor area, and zone volume can only be determined after this object has been referenced by another. A single zone outdoor air definition may be referenced by multiple objects to specify that the same outdoor air requirements are used by those objects {or} multiple zone outdoor air objects may be defined and referenced by other objects as needed. If multiple zone outdoor air definitions are used, each outdoor air definition must have a unique name.
 ";
-	public static string Field_Name = @"Unique identifying name. Any reference to this name by other objects will denote that the following outdoor air requirements will be used.";
+		public static string Field_Name = @"Unique identifying name. Any reference to this name by other objects will denote that the following outdoor air requirements will be used.";
 		public static string Field_OutdoorAirMethod = @"The input must be either {Flow/Person}, {Flow/Area}, {Flow/Zone, AirChanges/Hour}, {Sum}, {Maximum}, {IndoorAirQualityProcedure}, {ProportionalControlBasedOnDesignOccupancy}, or {ProportionalControlBasedonOccupancySchedule}. The default is {Flow/Person}.
  
  
@@ -3788,11 +3788,11 @@ DesignSpecification:OutdoorAir
       Until: 24:00, 0.5;       !- Field 7";
 	}
 	public static class DesignSpecificationZoneAirDistribution
-    { 
+	{
 		public static string Name = @"DesignSpecification:ZoneAirDistribution";
 		public static string Note = @"This object is used to describe the air distribution effectiveness and fraction of secondary recirculation air (return air not directly mixed with outdoor air) of a zone. It is referenced by the Sizing:Zone and Controller:MechanicalVentilation objects.
 ";
-	public static string Field_Name = @"The unique user assigned name for an instance of this object. Any other object referencing this object will use this name.";
+		public static string Field_Name = @"The unique user assigned name for an instance of this object. Any other object referencing this object will use this name.";
 		public static string Field_ZoneAirDistributionEffectivenessInCoolingMode = @"The positive numeric input for this field is the zone air distribution effectiveness when the zone is in cooling mode. Default value of this field is 1.0. ASHRAE Standard 62.1-2010 provides typical values.";
 		public static string Field_ZoneAirDistributionEffectivenessInHeatingMode = @"The positive numeric input for this field is the zone air distribution effectiveness when the zone is in heating mode. Default value of this field is 1.0. ASHRAE Standard 62.1-2010 provides typical values as follows:
 
@@ -3818,13 +3818,13 @@ DesignSpecification:ZoneAirDistribution,
       ;                        !- Zone Air Distribution Effectiveness Schedule Name";
 	}
 	public static class SizingParameters
-    { 
+	{
 		public static string Name = @"Sizing:Parameters";
 		public static string Note = @"This object allows the user to specify global heating and cooling sizing ratios. These ratios will be applied at the zone level to all of the zone heating and cooling loads and air flow rates. These new loads and air flow rates are then used to calculate the system level flow rates and capacities and are used in all component sizing calculations.
 
 The user can also specify the width (in load timesteps) of a moving average window which can be used to smooth the calculated zone design flow sequences. The use of this parameter is described below.
 ";
-	public static string Field_HeatingSizingFactor = @"The global heating sizing ratio applied to all of the zone design heating loads and air flow rates.";
+		public static string Field_HeatingSizingFactor = @"The global heating sizing ratio applied to all of the zone design heating loads and air flow rates.";
 		public static string Field_CoolingSizingFactor = @"The global cooling sizing ratio applied to all of the zone design cooling loads and air flow rates";
 		public static string Field_TimestepsInAveragingWindow = @"The number of load timesteps in the zone design flow sequence averaging window. The default is 1, in which case the calculated zone design flow rates are averaged over the load timestep.
 
@@ -3833,7 +3833,7 @@ The zone design air flow rate calculation is performed assuming a potentially in
 For example, if the load calculation timestep is 15 minutes and the user specifies the {Timesteps in Averaging Window} to be 4, the zone design air flows will be averaged over a time period of 1 hour. Specifying 8 would result in averaging over a 2 hour period.";
 	}
 	public static class OutputControlSizingStyle
-    { 
+	{
 		public static string Name = @"OutputControl:Sizing:Style";
 		public static string Note = @"As described early in the document (see: EnergyPlus Output Processing), the user may select the ``style'' for the sizing result files (epluszsz.<ext>, eplusssz.<ext>). This object applies to all sizing output files.
 
@@ -3852,12 +3852,12 @@ OutputControl:Sizing:Style,
        \key Fixed
 
 ";
-	public static string Field_ColumnSeparator = @"For this field, the desired separator for columns is entered. ``Comma'' creates comma separated fields/columns in the outputs (eplus<sizing type>.csv files are created). ``Tab'' creates tab separated fields/columns in the outputs (eplus<sizing type>.tab files are created). ``Fixed'' creates space separated fields/columns in the outputs (eplus<sizing type>.txt files are created) but these are not necessarily lined up for easy printing.
+		public static string Field_ColumnSeparator = @"For this field, the desired separator for columns is entered. ``Comma'' creates comma separated fields/columns in the outputs (eplus<sizing type>.csv files are created). ``Tab'' creates tab separated fields/columns in the outputs (eplus<sizing type>.tab files are created). ``Fixed'' creates space separated fields/columns in the outputs (eplus<sizing type>.txt files are created) but these are not necessarily lined up for easy printing.
 
 Note that both tab and comma separated files easily import into Excel??? or other spreadsheet programs. The tab delimited files can also be viewed by text editors, word processing programs and easily converted to ``tables'' within those programs.";
 	}
 	public static class SizingZone
-    { 
+	{
 		public static string Name = @"Sizing:Zone";
 		public static string Note = @"The Sizing:Zone object provides the data needed to perform a zone design air flow calculation for a single zone. This calculation assumes a variable amount of supply air at a fixed temperature and humidity. The information needed consists of the zone inlet supply air conditions: temperature and humidity ratio for heating and cooling. The calculation is done for every design day included in the input. The maximum cooling load and air flow and the maximum heating load and air flow are then saved for the system level design calculations and for the component automatic sizing calculations.
 
@@ -3867,7 +3867,7 @@ The user can also place limits on the heating and design cooling air flow rates.
 
 The user can ask the zone design calculation to take into account the effect of a Dedicated Outdoor Air System on the zone design loads and airflow rates. The design calculation will calculate the heat addition rate to the zone of an idealized SOA system and add or subtract the result from the total zone loads and flow rates.
 ";
-	public static string Field_ZoneName = @"The name of the Zone corresponding to this Sizing:Zone object. This is the zone for which the design air flow calculation will be made using the input data of this Sizing:Zone Object.";
+		public static string Field_ZoneName = @"The name of the Zone corresponding to this Sizing:Zone object. This is the zone for which the design air flow calculation will be made using the input data of this Sizing:Zone Object.";
 		public static string Field_ZoneCoolingDesignSupplyAirTemperatureInputMethod = @"The input must be either {SupplyAirTemperature} or {TemperatureDifference}. {SupplyAirTemperature} means that the user inputs from the fields of Zone Cooling Design Supply Air Temperature will be used to determine the zone cooling design air flow rates. {TemperatureDifference} means that the user inputs from the fields of Zone Cooling Design Supply Air Temperature Difference will be used to determine the zone cooling design air flow rates.";
 		public static string Field_ZoneCoolingDesignSupplyAirTemperature = @"The supply air temperature in degrees Celsius for the zone cooling design air flow rate calculation. Air is supplied to the zone at this temperature during the cooling design day simulation, The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the~ zone cooling design air flow rate. This field is only used when Zone Cooling Design Supply Air Temperature Input Method = {SupplyAirTemperature}.";
 		public static string Field_ZoneCoolingDesignSupplyAirTemperatureDifference = @"The temperature difference between cooling design supply air temperature and room air temperature in degrees Celsius for the zone cooling design air flow rate calculation. Air is supplied to the zone at this temperature during the cooling design day simulation. The zone load is met by varying the zone air flow rate. The maximum zone flow rate is saved as the zone cooling design air flow rate. This field is only used when Zone Cooling Design Supply Air Temperature Input Method = {TemperatureDifference}.";
@@ -3951,7 +3951,7 @@ Sizing:Zone,
       0.3;                     !- Zone Secondary Recirculation Fraction";
 	}
 	public static class DesignSpecificationZoneHVACSizing
-    { 
+	{
 		public static string Name = @"DesignSpecification:ZoneHVAC:Sizing";
 		public static string Note = @"This object is used to describe general sizing and scalable sizing methods which are referenced by zone HVAC equipment objects. It is optional input field in zone HVAC objects. If a name of this optional input is not specified or is blank then the sizing method or input specified in the parent object is used.~ If the name of this object is entered, then the values or method specified overrides the sizing method in the parent zone HVAC objects. This object is meant to provide scalable sizing method to users. The name of this object is an optional input field in the zoneHVAC objects. When this name in not specified in the zone HVAC object the sizing method or the value specified in the zone HVAC object will be used.
 
@@ -4016,7 +4016,7 @@ The~ Design Specification ZoneHVAC Sizing object also has input fields for sizin
 
 Description of the input fields of the design specification zone HVAC sizing object ``DesignSpecification:ZoneHVAC:Sizing'':
 ";
-	public static string Field_Name = @"Unique identifier name of the DesignSpecification:ZoneHVAC:Sizing object. This sizing specification object referenced by a zone HVAC equipment whose design calculation will be made using the input data of this object.";
+		public static string Field_Name = @"Unique identifier name of the DesignSpecification:ZoneHVAC:Sizing object. This sizing specification object referenced by a zone HVAC equipment whose design calculation will be made using the input data of this object.";
 		public static string Field_CoolingDesignAirFlowMethod = @"The input of this field must be the method used to determine the cooling supply air volume flow rate. Input allowed is either {None}, {SupplyAirFlowRate}, {FlowPerFloorArea}, {FractionOfAutosizedCoolingAirflow}, or {FlowPerCoolingCapacity}.~ None means cooling coil is not included in the zone HVAC equipment or this field may be left blank. {SupplyAirFlowRate} means the user specifies the magnitude of supply air flow rate or the program calculates the design cooling supply air volume flow rate if autosize is specified. {FlowPerFloorArea} means the program calculates the cooling supply air volume flow rate from zone floor area served by the zone HVAC unit and user specified {Flow Per Floor Area} value. {FractionOfAutosizedCoolingAirflow} means the program calculates the cooling supply air volume flow rate from user specified fraction and the autosized design cooling supply air volume flow rate value determined by the simulation. FlowPerCoolingCapacity means the supply air volume is calculated from user specified flow per cooling capacity and design cooling capacity determined by the simulation. The default method is {SupplyAirFlowRate}.";
 		public static string Field_CoolingDesignSupplyAirFlowRateM3S = @"Enter the magnitude of the cooling supply air volume flow rate in m3/s. This input is an alternative to using the program auto-calculated value. This input is a required field when the Cooling Design air Flow Method is {SupplyAirFlowRate}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment. This input field is also autosizable.";
 		public static string Field_CoolingDesignSupplyAirFlowRatePerFloorAreaM3SM2 = @"Enter the cooling supply air volume flow rate per zone conditioned floor area in m3/s-m2. This field is required field when the Cooling Design air Flow Method is {FlowPerFloorArea}. This field may be left blank if a cooling coil is not included in the zone HVAC equipment or the Cooling Design Air Flow Method is not {FlowPerFloorArea}. The program calculates the cooling supply air volume flow rate from the zone conditioned floor area served by the zone HVAC equipment and the flow per unit area value specified by the user. Zone sizing object (Sizing:Zone) is not required.";
@@ -4148,11 +4148,11 @@ Description of the input fields of the design specification zone HVAC sizing obj
       ;                        !- Fraction of Autosized Cooling Design Capacity {-}";
 	}
 	public static class DesignSpecificationAirTerminalSizing
-    { 
+	{
 		public static string Name = @"DesignSpecification:AirTerminal:Sizing";
 		public static string Note = @"This object modifies the sizing of an air loop terminal unit. It may be referenced by a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled object. The values specified here are applied to the base sizing results from the corresponding Sizing:Zone inputs. Any given DesignSpecification:AirTerminal:Sizing object may be used by multiple terminal units with similar characteristics.
 ";
-	public static string Field_Name = @"Name of the design specification air terminal sizing object. This name may be referenced by a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled object.";
+		public static string Field_Name = @"Name of the design specification air terminal sizing object. This name may be referenced by a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled object.";
 		public static string Field_FractionOfDesignSensibleCoolingLoad = @"The fraction of the design sensible cooling load to be met by this terminal unit. This fraction is applied after the Zone Cooling Sizing Factor (see Sizing:Zone).";
 		public static string Field_CoolingDesignSupplyAirTemperatureDifferenceRatio = @"This ratio adjusts the supply air temperature difference used to calculate the cooling design supply air flow rate for this terminal unit.";
 		public static string Field_FractionOfDesignSensibleHeatingLoad = @"The fraction of the design sensible heating load to be met by this terminal unit. This fraction is applied after the Zone Heating Sizing Factor (see Sizing:Zone).";
@@ -4172,7 +4172,7 @@ An IDF example:
 ????????0.0;                     !- Fraction of Minimum Outdoor Air Flow";
 	}
 	public static class SizingSystem
-    { 
+	{
 		public static string Name = @"Sizing:System";
 		public static string Note = @"The Sizing:System object contains the input needed to perform a central forced air system design air flow, heating capacity, and cooling capacity calculation for a system serving one or more zones. The information needed consists of the outside environmental conditions and the design supply air temperatures, outdoor air flow rate, and minimum system air flow ratio.
 
@@ -4182,7 +4182,7 @@ Supply air conditions are specified by inputting a supply air temperature for co
 
 The system sizing calculation sums the zone design air flow rates to obtain a system supply air flow rate. The design conditions and the outdoor air flow rate are used to calculate a design mixed air temperature. The temperature plus the design supply air temperatures allows the calculation of system design heating and cooling capacities.
 ";
-	public static string Field_AirLoopName = @"The name of the AirLoopHVAC corresponding to this Sizing:System object. This is the air system for which the design calculation will be made using the input data of this Sizing:System Object.";
+		public static string Field_AirLoopName = @"The name of the AirLoopHVAC corresponding to this Sizing:System object. This is the air system for which the design calculation will be made using the input data of this Sizing:System Object.";
 		public static string Field_TypeOfLoadToSizeOn = @"The user specified type of load on which to size the central system. The choices are {Sensible}, {Total} and {VentilationRequirement}. {Sensible} and {Total} mean that the central system supply air flow rate will be determined by combining the zone design air flow rates, which have been calculated to meet the zone sensible loads from the design days. {VentilationRequirement} means that the central system supply air flow rate will be determined by the system ventilation requirement. In addition {Sensible} tells the program to size the central cooling coil using entering air flow rate and air conditions at the sensible load peak; {Total} indicates that the program should size the central cooling coil at the air flow rate and conditions at the total load peak. The central heating coil is always sized at the conditions at the peak sensible heating load.";
 		public static string Field_DesignOutdoorAirFlowRate = @"The design outdoor air flow rate in cubic meters per second. Generally this should be the minimum outdoor air flow. It is used for both heating and cooling design calculations. The assumption for cooling is that any outdoor air economizer will be closed. If {Autosize} is input the outdoor air flow rate will be taken from the sum of the zone outdoor air flow rates or calculated based on the System Outdoor Air Method selection (field below).";
 		public static string Field_CentralHeatingMaximumSystemAirFlowRatio = @"The ratio of the maximum system air flow rate for heating to the maximum system air flow rate. The value must be between 0 and 1. For constant volume systems the ratio should be set to 1. This ratio should be set to reflect what the user expects the system flow rate to be when maximum heating demand occurs. This ratio is used in calculating the central system heating capacity. Thus if the system is VAV with the zone VAV dampers held at minimum flow when there is a zone heating demand, this ratio should be set to the minimum flow ratio. If the zone VAV dampers are reverse action and can open to full flow to meet heating demand, this ratio should be set to 1. The default is set to 0.5, reflecting the fact that VAV dampers are typically not allowed to fully open during heating.
@@ -4265,13 +4265,13 @@ Sizing:System,
   ;                        !- Fraction of Autosized Cooling Design Capacity {-}";
 	}
 	public static class SizingPlant
-    { 
+	{
 		public static string Name = @"Sizing:Plant";
 		public static string Note = @"The Sizing:Plant object contains the input needed for the program to calculate plant loop flow rates and equipment capacities when autosizing. This information is initially used by components that use water for heating or cooling such as hot or chilled water coils to calculate their maximum water flow rates. These flow rates are then summed for use in calculating the Plant Loop flow rates.
 
 The program will size any number of chilled water, hot water, condenser water and other plant loops. There should be one Sizing:Plant object for each plant loop that is to be autosized.
 ";
-	public static string Field_PlantOrCondenserLoopName = @"The name of a Plant Loop or Condenser Loop object corresponding to this Sizing:Plant object. This is the plant loop for which this data will be used for calculating the loop flow rate.";
+		public static string Field_PlantOrCondenserLoopName = @"The name of a Plant Loop or Condenser Loop object corresponding to this Sizing:Plant object. This is the plant loop for which this data will be used for calculating the loop flow rate.";
 		public static string Field_LoopType = @"The possible inputs are {Heating, Steam, Cooling,} or {Condenser}.";
 		public static string Field_DesignLoopExitTemperature = @"The water temperature in degrees Celsius at the exit of the supply side of the plant loop, Thus this is the temperature of the water supplied to the inlet of chilled or hot water coils and other equipment that places loads on a plant loop.";
 		public static string Field_LoopDesignTemperatureDifference = @"The design temperature rise (for cooling or condenser loops) or fall (for heating loops) in degrees Celsius across the demand side of a plant loop.~ This temperature difference is used by component models to determine flow rates required to meet design capacities.~ Larger values lead to smaller design flow rates.";
@@ -4293,11 +4293,11 @@ Sizing:Plant,
   GlobalCoolingSizingFactor; !- Coincident Sizing Factor Mode";
 	}
 	public static class FanSystemModel
-    { 
+	{
 		public static string Name = @"Fan:SystemModel";
 		public static string Note = @"This object models fans of various types using a relatively simple engineering model. This fan can be used in variable air volume, constant volume, on-off cycling, two-speed, or multi-speed applications.  It was designed as a replacement for Fan:ConstantVolume, Fan:OnOff, Fan:VariableVolume, and FanPerformance:NightVentilation. The electric power consumed by the fan can be directly input or autosized using one of three optional methods.  For fans that can vary the volume flow rate the performance can be described using a separate performance curve or table object. Or for fans with discrete speed control the power fraction at each speed can be input directly with no need for a performance curve.  
 ";
-	public static string Field_Name = @"A unique name for this fan.  Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"A unique name for this fan.  Any reference to this fan by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of an availability schedule for this fan. Schedule values greater than zero means the fan is available. If this field is blank, the fan is always available.";
 		public static string Field_AirInletNodeName = @"The name of an air system node at the inlet to the fan. This field is required.";
 		public static string Field_AirOutletNodeName = @"The name of an air system node at the outlet of the fan.  This field is required.";
@@ -4415,11 +4415,11 @@ Fan:SystemModel,
   1.0;  !- Speed 3 Electric Power Fraction";
 	}
 	public static class FanConstantVolume
-    { 
+	{
 		public static string Name = @"Fan:ConstantVolume";
 		public static string Note = @"This object models a constant air volume fan that is intended to operate continuously based on a time schedule. This fan will not cycle on and off based on cooling/heating load or other control signals (Ref: Fan:OnOff).
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:ConstantVolume. Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:ConstantVolume. Any reference to this fan by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the fan can run during a given time period. A schedule value of 0 indicates that the fan is off for that time period. A schedule value greater than 0 indicates that the fan can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods. Applicable availability managers (ref. AvailabilityManagerAssignmentList) may override this schedule by forcing the fan to be on or off.";
 		public static string Field_FanTotalEfficiency = @"This value is the overall efficiency of the fan, i.e., the ratio of the power delivered to the fluid to the electrical input power. It is the product of the motor efficiency and the impeller efficiency. The motor efficiency is the power delivered to the shaft divided by the electrical power input to the motor. The impeller efficiency is power delivered to the fluid (air) divided by the shaft power. The power delivered to the fluid is the mass flow rate of the air multiplied by the pressure rise divided by the air density. This input value must be between 0 and 1.The default is 0.7.";
 		public static string Field_PressureRise = @"The pressure rise in Pascals at full flow and standard (sea level) conditions (20 ??C and 101325 Pa).";
@@ -4435,11 +4435,11 @@ where p = pressure in Pa and Z = altitude in m";
 		public static string Field_EndUseSubcategory = @"Allows you to specify a user-defined end-use subcategory, e.g., ``Central System'', etc. A new meter for reporting is created for each unique subcategory (ref: Output:Meter objects). Any text may be used here to categorize the end-uses in the ABUPS End Uses by Subcategory table and in the LEED Summary EAp2-4/5 Performance Rating Method Compliance table. If this field is omitted or blank, the fan will be assigned to the ``General'' end-use subcategory.";
 	}
 	public static class FanOnOff
-    { 
+	{
 		public static string Name = @"Fan:OnOff";
 		public static string Note = @"This object models a constant air volume fan that is intended to cycle on and off in tandem with a cooling or heating system (i.e., AUTO fan control mode). The fan can also operate continuously like Fan:ConstantVolume. If modeling continuous operation and this object is used as part of a system that utilizes Coil:Heating:Fuel, Coil:Cooling:DX:SingleSpeed or Coil:Heating:DX:SingleSpeed, the user should confirm proper air flow rates (coil and fan max flows are equal) and that the coil part-load fraction correlation(s) are appropriate (e.g., part-load fraction is less than or equal to 1 for all values of coil part-load ratio). If modeling multi-speed fan operation, this object must be used as part of a compound object that allows multiple fan speeds (e.g., AirLoopHVAC:Unitary:Furnace:HeatCool, ZoneHVAC:PackagedTerminalAirConditioner, etc.). In this case, the ratio of the compound object air flow rate to the fan s maximum air flow rate is used to determine the power at alternate fan speeds. The optional input for Fan Power Ratio Function of Speed Ratio Curve Name must be entered to model multi-speed fan operation. An optional fan total efficiency ratio curve is also available to model efficiency differences at alternate fan speeds.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:OnOff. Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:OnOff. Any reference to this fan by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the fan can run during a given time period. A schedule value of 0 indicates that the fan is off for that time period. A schedule value greater than 0 indicates that the fan can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods. Applicable availability managers (ref. AvailabilityManagerAssignmentList) may override this schedule by forcing the fan to be on or off.";
 		public static string Field_FanTotalEfficiency = @"This value is the overall efficiency of the fan, i.e., the ratio of the power delivered to the fluid to the electrical input power. It is the product of the motor efficiency and the impeller efficiency. The motor efficiency is the power delivered to the shaft divided by the electrical power input to the motor. The impeller efficiency is power delivered to the fluid (air) divided by the shaft power. The power delivered to the fluid is the mass flow rate of the air multiplied by the pressure rise divided by the air density. This input value must be between 0 and 1.The default is 0.6.";
 		public static string Field_PressureRise = @"The pressure rise in Pascals at full flow and standard (sea level) conditions (20 ??C and 101325 Pa).";
@@ -4471,10 +4471,10 @@ Fan:OnOff,
   Air Loop Inlet Node, Cooling Coil Air Inlet Node;   !Inlet Node, Outlet Node";
 	}
 	public static class FanVariableVolume
-    { 
+	{
 		public static string Name = @"Fan:VariableVolume";
 		public static string Note = @"";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:VariableVolume. Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:VariableVolume. Any reference to this fan by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the fan can run during a given time period. A schedule value of 0 indicates that the fan is off for that time period. A schedule value greater than 0 indicates that the fan can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods. Applicable availability managers (ref. AvailabilityManagerAssignmentList) may override this schedule by forcing the fan to be on or off.";
 		public static string Field_FanTotalEfficiency = @"This value is the overall efficiency of the fan, i.e., the ratio of the power delivered to the fluid to the electrical input power. It is the product of the motor efficiency and the impeller efficiency. The motor efficiency is the power delivered to the shaft divided by the electrical power input to the motor. The impeller efficiency is power delivered to the fluid (air) divided by the shaft power. The power delivered to the fluid is the mass flow rate of the air multiplied by the pressure rise divided by the air density. This input value must be between 0 and 1. The default is 0.7.";
 		public static string Field_PressureRise = @"The pressure rise in Pascals at full flow and standard (sea level) conditions (20 ??C and 101325 Pa).";
@@ -4528,7 +4528,7 @@ PLF = C_{1} + C_{2}^{.} FF + C_{3}^{.} FF^{2\\ +} C_{4}^{.} FF^{3} + C_{5}^{.} F
 		public static string Field_EndUseSubcategory = @"Allows you to specify a user-defined end-use subcategory, e.g., ``Central System'', etc. A new meter for reporting is created for each unique subcategory (ref: Output:Meter objects). Any text may be used here to categorize the end-uses in the ABUPS End Uses by Subcategory table and in the LEED Summary EAp2-4/5 Performance Rating Method Compliance table. If this field is omitted or blank, the fan will be assigned to the ``General'' end-use subcategory.";
 	}
 	public static class FanZoneExhaust
-    { 
+	{
 		public static string Name = @"Fan:ZoneExhaust";
 		public static string Note = @"This fan object differs from the other fans in that it stands on its own in a zone rather than serving as one part of an HVAC air system. This object appears directly in a ZoneHVAC:EquipmentList object and all the controls are contained within the fan object. The zone exhaust fan model provides a way to include the electrical power used by the fan. It can also impact air flows in central air handlers by decreasing the flow of return air and sometimes increasing the outdoor air flow rate.
 
@@ -4536,7 +4536,7 @@ There are several control options available for the exhaust fan including: an on
 
 The way in which the exhaust fan impacts central air system can be controlled by declaring what portion of the flow has been balanced by simple airflow from infiltration, ventilation, or mixing. However it is important to note that presence of an exhaust fan does not by itself drive any simple airflow such as infiltration, ventilation, or zone mixing. There is no comprehensive automatic mass balancing between air system flows, exhaust flows, and the separate simple airflows. For balancing, the simple airflows need to have their own input objects that need to be coordinated with the exhaust fan.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:ZoneExhaust. Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a Fan:ZoneExhaust. Any reference to this fan by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the fan can run during a given time period. A schedule value of 0 indicates that the fan is off for that time period. A schedule value greater than 0 indicates that the fan can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods. Applicable availability managers (ref. AvailabilityManagerAssignmentList) may override this schedule by forcing the fan to be on or off.";
 		public static string Field_FanTotalEfficiency = @"This value is the overall efficiency of the fan, i.e., the ratio of the power delivered to the fluid to the electrical input power. It is the product of the motor efficiency and the impeller efficiency. The motor efficiency is the power delivered to the shaft divided by the electrical power input to the motor. The impeller efficiency is power delivered to the fluid (air) divided by the shaft power. The power delivered to the fluid is the mass flow rate of the air multiplied by the pressure rise divided by the air density. This input value must be between 0 and 1. The default is 0.6.";
 		public static string Field_PressureRise = @"The pressure rise in Pascals at full flow and standard (sea level) conditions (20 ??C and 101325 Pa).";
@@ -4554,11 +4554,11 @@ where p = pressure in Pa and Z = altitude in m";
 		public static string Field_BalancedExhaustFractionScheduleName = @"This field is optional. If it is not used, then all the exhaust air flow is assumed to be unbalanced by any simple airflows, such as infiltration, ventilation, or zone mixing. Unbalanced exhaust is then modeled as being provided by the outdoor air system in the central air system. The modeling of unbalanced will reduce the flow rates at the zone s return air node by the flow rate that is being exhausted and will insure that the outdoor air flow rate is sufficient to serve the exhaust. If this field is used, then enter the name of a schedule with fractional values between 0.0 and 1.0, inclusive. This fraction is applied to the exhaust fan flow rate and the model tracks the portion of the exhaust that is balanced. Balanced exhaust is then modeled as being provided by simple airflows and does not impact the central air system return air or outdoor air flow rates. For example, if a kitchen zone with an exhaust fan is designed to draw half of its make up air from a neighboring dining room and the other half from the outdoor air system, then a schedule value of 0.5 could be used here.";
 	}
 	public static class FanPerformanceNightVentilation
-    { 
+	{
 		public static string Name = @"FanPerformance:NightVentilation";
 		public static string Note = @"This object is used for specifying an alternate set of performance parameters for a fan. These alternate parameters are used when a system manager (such as {AvailabilityManager:NightVentilation}) sets a specified flow rate for a central forced air system. At this time, it can be used with Fan:ConstantVolume, Fan:VariableVolume, Fan:ZoneExhaust, and , Fan:OnOff fans, but not with Fan:ComponentModel fans. The fan model checks whether a fixed flow rate has been set; if it has the fan model will use these alternate performance parameters. Note that it is assumed that the fan will run at a fixed speed in the alternate mode. The inputs needed by this object are the fan name, fan total efficiency, pressure rise, flow rate, motor efficiency, and motor in airstream fraction.
 ";
-	public static string Field_FanName = @"This is the name of a fan defined elsewhere in the input file. The night vent performance parameters will be applied to the named fan when a system manager has set the air system flow rate.";
+		public static string Field_FanName = @"This is the name of a fan defined elsewhere in the input file. The night vent performance parameters will be applied to the named fan when a system manager has set the air system flow rate.";
 		public static string Field_FanTotalEfficiency = @"This value is the overall efficiency of the fan, i.e., the ratio of the power delivered to the fluid to the electrical input power. It is the product of the motor efficiency and the impeller efficiency. The motor efficiency is the power delivered to the shaft divided by the electrical power input to the motor. The impeller efficiency is power delivered to the fluid (air) divided by the shaft power. The power delivered to the fluid is the mass flow rate of the air multiplied by the pressure rise divided by the air density. This input value must be between 0 and 1. This is a required field with no default.";
 		public static string Field_PressureRise = @"The pressure rise in Pascals at full flow and standard (sea level) conditions (20 ??C and 101325 Pa).";
 		public static string Field_MaximumFlowRate = @"The design volumetric flow rate of the fan (m^{3}/sec) at standard conditions. This input is not currently used by the night ventilation manager. The flow rate during night ventilation is specified using the SystemAvailabilityManager:NightVentilation ``Night Venting Flow Fraction'' field. This fraction is multiplied times the fan object's design flow rate.";
@@ -4596,11 +4596,11 @@ Fan:VariableVolume,
   1.0;                                         !- Motor in Airstream Fraction";
 	}
 	public static class FanComponentModel
-    { 
+	{
 		public static string Name = @"Fan:ComponentModel";
 		public static string Note = @"The Fan:ComponentModel fan is a more detailed fan type that can be defined in the air loop for central constant-air-volume (CAV) and variable-air-volume (VAV) systems. It includes inputs that describe the air-distribution system as well as the fan, its drive belt (if used), its motor, and its variable-frequency-drive (if used). See the engineering documentation for further descriptions about the inputs for this fan type.
 ";
-	public static string Field_Name = @"The required unique user-assigned alpha name for an instance of a Fan:ComponentModel. Any reference to this fan by another object will use this name.";
+		public static string Field_Name = @"The required unique user-assigned alpha name for an instance of a Fan:ComponentModel. Any reference to this fan by another object will use this name.";
 		public static string Field_AirInletNodeName = @"The required alpha name of the HVAC system node which supplies the inlet air conditions to the fan.";
 		public static string Field_AirOutletNodeName = @"The required alpha name of the HVAC system node to which the fan sends its outlet air.";
 		public static string Field_AvailabilityScheduleName = @"The required alpha name of the schedule (ref: Schedule) that denotes whether the fan can run during a given time period. A schedule value of 0 indicates that the fan is off for that time period. A schedule value greater than 0 indicates that the fan can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods. Applicable availability managers (ref. AvailabilityManagerAssignmentList) may override this schedule by forcing the fan to be on or off.";
@@ -4810,13 +4810,13 @@ Fan:ComponentModel,
   VFDPartLoad;                      ! VFD Efficiency Curve Name";
 	}
 	public static class HeatExchangerAirToAirFlatPlate
-    { 
+	{
 		public static string Name = @"HeatExchanger:AirToAir:FlatPlate";
 		public static string Note = @"The air-to-air flat plate heat exchanger is an HVAC component typically used for exhaust or relief air heat recovery. The user can choose the flow arrangement type: counter flow, parallel flow, or cross flow with both streams unmixed. The input requires no geometric data. Performance is defined by specifying primary outlet air temperature at nominal (user specified) inlet conditions. In addition, the ratio (h^{.}A)_{p} / (h^{.}A)_{s} at nominal flow needs to be input, where h is the convective heat transfer coefficient, A is the surface area, p stands for primary side, s for secondary side.
 
 If the heat exchanger is operated in conjunction with an outdoor air economizer (economizer lockout set to {Yes}), the nominal supply air flow rate should be set equal to the minimum outdoor air flow rate specified in the Controller:OutdoorAir. The heat exchanger detects that the economizer is operating by the fact that its inlet air flow rate is greater than its nominal supply air flow rate.
 ";
-	public static string Field_Name = @"A unique user-assigned name for a particular air-to-air flat plate heat exchanger unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for a particular air-to-air flat plate heat exchanger unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can run during a given time period. A schedule value of 0 indicates that the unit is off for that time period. A schedule value greater than 0 indicates that the unit can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_FlowArrangementType = @"The user specified flow arrangement of the heat exchanger. The possible inputs are {CounterFlow}, {ParallelFlow}, or {CrossFlowBothUnmixed}.";
 		public static string Field_EconomizerLockout = @"This input denotes whether the heat exchanger unit is locked out (bypassed) when the air-side economizer is operating. Both the economizer and high humidity control (Ref. Controller:OutdoorAir) activate the heat exchanger lockout as specified by this input. The input choices are {Yes} (meaning locked out) or {No}. The default input for this field is Yes.";
@@ -4854,7 +4854,7 @@ HeatExchanger:AirToAir:FlatPlate,
   Heat Recovery Secondary Outlet Node;   !- Secondary Air Outlet Node Name";
 	}
 	public static class HeatExchangerAirToAirSensibleAndLatent
-    { 
+	{
 		public static string Name = @"HeatExchanger:AirToAir:SensibleAndLatent";
 		public static string Note = @"\begin{figure}[htbp]
 \centering
@@ -4917,7 +4917,7 @@ The sensible and latent air-to-air heat exchanger can also be used in a number o
 
 A description of each input field for this object is provided below.
 ";
-	public static string Field_Name = @"A unique user-assigned name for a particular sensible/latent air-to-air heat exchanger. Any reference to this heat exchanger by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for a particular sensible/latent air-to-air heat exchanger. Any reference to this heat exchanger by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can operate during a given time period. A schedule value of less than or equal to 0 indicates that the unit is off for that time period. A schedule value greater than 0 indicates that the unit can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_NominalSupplyAirFlowRate = @"The nominal primary side (supply) air flow rate in cubic meters per second. The actual supply and exhaust air flow rates must be between 50% and 130% of this value or a warning will be issued.";
 		public static string Field_SensibleEffectivenessAt100HeatingAirFlow = @"The sensible heat exchange effectiveness at the {heating} condition defined in Table~\ref{table:operating-conditions-for-defining-heat} above with both the supply and exhaust air volume flow rates equal to 100% of the nominal supply air flow rate specified in the previous input field. The default value for this field is 0.";
@@ -5025,7 +5025,7 @@ HeatExchanger:AirToAir:SensibleAndLatent,
   None;                       !- Frost Control Type";
 	}
 	public static class HeatExchangerDesiccantBalancedFlow
-    { 
+	{
 		public static string Name = @"HeatExchanger:Desiccant:BalancedFlow";
 		public static string Note = @"This desiccant heat exchanger object is an HVAC component used to model both temperature (sensible) and moisture (latent) heat exchange between two air streams (Figure~\ref{fig:schematic-of-the-balanced-flow-desiccant-heat}). The model assumes balanced air flow through the regeneration and process sides of the heat exchanger (i.e., regeneration and process air volume flow rates and face velocities are the same). Heat exchanger performance is specified through a performance data type object (e.g., HeatExchanger:Desiccant:BalancedFlow:PerformanceDataType1).
 
@@ -5041,7 +5041,7 @@ This desiccant heat exchanger object may also be specified directly in an AirLoo
 
 Inputs to this model include an availability schedule name, inlet and outlet air node names, and the type and name of the heat exchanger performance data object. A description of each input field for this object is provided below.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for a particular balanced flow desiccant heat exchanger. Any reference to this heat exchanger by another object will use this name.";
+		public static string Field_Name = @"A unique, user-assigned name for a particular balanced flow desiccant heat exchanger. Any reference to this heat exchanger by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the heat exchanger can operate during a given time period. A schedule value of less than or equal to 0 indicates that the unit is off for that time period. A schedule value greater than 0 indicates that the unit can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_RegenerationAirInletNodeName = @"The name of the HVAC system node from which the unit draws its regeneration inlet air.";
 		public static string Field_RegenerationAirOutletNodeName = @"The name of the HVAC system node to which the unit sends its regeneration outlet air.";
@@ -5066,7 +5066,7 @@ HeatExchanger:Desiccant:BalancedFlow,
   HXDesPerf1;                                                 !- Heat Exchanger Performance Name";
 	}
 	public static class HeatExchangerDesiccantBalancedFlowPerformanceDataType1
-    { 
+	{
 		public static string Name = @"HeatExchanger:Desiccant:BalancedFlow:PerformanceDataType1";
 		public static string Note = @"This object specifies a performance model and model coefficients for a balanced flow desiccant heat exchanger. A HeatExchanger:Desiccant:BalancedFlow object will reference a HeatExchanger:Desiccant:BalancedFlow:PerformanceDataType1 object. This performance data object is used to specify the thermal performance and electric consumption of the heat exchanger. Some representative inputs for this object are provided in the EnergyPlus Reference DataSets (PerfCurves.idf and AllDataSets.idf).
 
@@ -5118,7 +5118,7 @@ RWO = Regeneration outlet air humidity ratio (kgWater/kgDryAir)
 
 A description of each input field for this object is provided below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for this set of desiccant heat exchanger performance data. Any reference to this performance data set by another object (e.g., HeatExchanger:Desiccant:BalancedFlow) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for this set of desiccant heat exchanger performance data. Any reference to this performance data set by another object (e.g., HeatExchanger:Desiccant:BalancedFlow) will use this name.";
 		public static string Field_NominalAirFlowRate = @"The nominal air volume flow rate in cubic meters per second. This model assumes balanced air flow (i.e., the same air volume flow rate across the process and regeneration sides of the heat exchanger). The minimum value should be greater than 0. This field is autosizable.";
 		public static string Field_NominalAirFaceVelocity = @"This numeric field contains the nominal air velocity across the heat exchanger face area in meters per second. It is assumed that this air velocity is the same for both sides of the heat exchanger. This value, along with the Nominal Air Flow Rate sets the heat exchanger face area. With this fixed face area, the air face velocity is calculated every simulation timestep based on the actual air volume flow rate for the timestep. The minimum value should be greater than 0 and less than or equal to 6. The default value is 3.0.";
 		public static string Field_NominalElectricPower = @"This numeric field contains the nominal electric consumption rate of the heat exchanger in watts. This electric power is considered constant and is consumed only when the heat exchanger operates (e.g., for all or a portion of the simulation timestep, as appropriate). This numeric input can be used to model electric power consumption by controls (transformers, relays, etc.) and/or a motor for a rotary heat exchanger. None of this electric power contributes thermal load to the process or regeneration air streams. The minimum value should be greater than or equal to 0. The default value for this field is also 0.
@@ -5240,7 +5240,7 @@ HeatExchanger:Desiccant:BalancedFlow:PerformanceDataType1,
   100.0;                 !- Maximum Process Inlet Air Relative Humidity for Humidity Ratio Equation {percent}";
 	}
 	public static class CoilCoolingWater
-    { 
+	{
 		public static string Name = @"Coil:Cooling:Water";
 		public static string Note = @"The water cooling coil (Coil:Cooling:Water) has the ability to give detailed output with simplified inputs, inputting complicated coil geometry is not required by the user for this model instead the coil is sized in terms of auto-sizeable thermodynamic inputs. The coil requires thermodynamic inputs such as temperatures, mass flow rates and humidity ratios.
 
@@ -5250,7 +5250,7 @@ The basic underlying idea is - use auto sizable thermodynamic design inputs, cal
 
 See section Cooling Coil Model in the EnergyPlus Engineering Document for further details regarding this model.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a cooling coil. Any reference to this cooling coil by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a cooling coil. Any reference to this cooling coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. The name of the schedule (ref: Schedule) that denotes whether the cooling coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during a given time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit is off. If this field is blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_DesignWaterFlowRate = @"The maximum possible water volume flow rate (m^{3}/sec) through the coil. This is an auto sizable design input.";
 		public static string Field_DesignAirFlowRate = @"The maximum possible air volume flow rate (m^{3}/sec) through the coil. This is an auto sizable design input.";
@@ -5308,11 +5308,11 @@ Coil:Cooling:Water,
   Main Cooling Coil 1 Outlet Node;               !- Coil_Air_Outlet_Node";
 	}
 	public static class CoilHeatingWater
-    { 
+	{
 		public static string Name = @"Coil:Heating:Water";
 		public static string Note = @"This simple heating coil model only does sensible heating of the air. The simple heating coil uses the Effectiveness-NTU algorithm and assumes a cross-flow heat exchanger.
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during a given time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit is off. If this field is blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_UFactorTimesAreaValue = @"The UA value for the coil needed for the Effectiveness-NTU heat exchanger model. An estimate of the UA can be obtained from:
 
@@ -5367,11 +5367,11 @@ Coil:Heating:Water,
   0.55;                                       !- Rated Ratio for Air and Water Convection";
 	}
 	public static class CoilHeatingSteam
-    { 
+	{
 		public static string Name = @"Coil:Heating:Steam";
 		public static string Note = @"The simple steam to air heating coil model only does sensible heating of the air. The steam to air coils condenses the steam and sub cools steam at loop pressure and discharges the condensate through steam traps at low pressure condensate line.
 ";
-	public static string Field_Name = @"A unique identifying name for each steam coil.";
+		public static string Field_Name = @"A unique identifying name for each steam coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is less than or equal to 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumSteamFlowRate = @"The maximum possible steam volumetric flow rate in m^{3}/s through the steam heating coil. The steam volumetric flow rate is calculated at 100C and 101325 Pa. This field is autosizable.";
 		public static string Field_DegreeOfSubCooling = @"Ideally the steam trap located at the outlet of steam coil should remove all the condensate immediately, however there is a delay in this process in actual systems which causes the condensate to SubCool by certain degree in the coil before leaving the coil, this SubCool occurs in the steam coil and this SubCool-heat is added to the zone. The minimum value is 2 ?? Celsius and default is 5 ?? Celsius.";
@@ -5414,7 +5414,7 @@ Coil:Heating:Steam,
   ZoneLoadControl;         !- field Coil Control Type";
 	}
 	public static class HeatingCoilSteamOutputs
-    { 
+	{
 		public static string Name = @"Heating Coil (Steam) Outputs:";
 		public static string Note = @"  HVAC,Sum, Heating Coil Heating Energy [J]
 
@@ -5429,13 +5429,13 @@ Coil:Heating:Steam,
   HVAC, Average, Heating Coil Steam Mass Flow Rate [kg/s]
 
 ";
-}
+	}
 	public static class CoilHeatingElectric
-    { 
+	{
 		public static string Name = @"Coil:Heating:Electric";
 		public static string Note = @"The electric heating coil is a simple capacity model with a user-inputted efficiency. In many cases, this efficiency for the electric coil will be 100%. This coil will be simpler than shown in Figure~\ref{fig:example-air-loop-heating-cooling-coil} since it will only have air nodes to connect it in the system. The coil can be used in the air loop simulation or in the zone equipment as a reheat coil. Depending on where it is used determines if this coil is temperature or capacity controlled. If used in the air loop simulation it will be controlled to a specified temperature scheduled from the SetPoint Manager. If it is used in zone equipment, it will be controlled from the zone thermostat by meeting the zone demand.
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods. Schedule values must be > = 0 and < = 1.";
 		public static string Field_Efficiency = @"This is user-inputted efficiency (decimal units, not percent) and can account for any loss. In most cases for the electric coil, this will be 100%.";
 		public static string Field_NominalCapacity = @"This is the maximum capacity of the coil (W). This controlled coil will only provide the needed capacity to meet the control criteria whether it is temperature or capacity controlled. This field is autosizable.";
@@ -5457,11 +5457,11 @@ Coil:Heating:Electric,
   AHU Reheater Outlet;       !- Temperature Setpoint Node Name";
 	}
 	public static class CoilHeatingElectricMultiStage
-    { 
+	{
 		public static string Name = @"Coil:Heating:Electric:MultiStage";
 		public static string Note = @"The multi stage electric heating coil is a simple capacity model with a user-inputted efficiencies at different stages. In many cases, the efficiencies for the electric coil will be 100%. This coil will only have air nodes to connect it in the system. The coil can be used in the air loop simulation or in the zone equipment as a reheat coil. Depending on where it is used determines if this coil is temperature or capacity controlled. If used in the air loop simulation it will be controlled to a specified temperature scheduled from the SetPoint Manager. If it is used in zone equipment, it will be controlled from the zone thermostat by meeting the zone demand. For the time being, this coil model can only be called by the parent object AirLoopHVAC:UnitaryHeatPump:AirToAir:MultiSpeed.
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods. Schedule values must be > = 0 and < = 1.";
 		public static string Field_AirInletNodeName = @"The name of the air inlet to the electric coil, i.e.~Heating Coil Air Inlet Node.";
 		public static string Field_AirOutletNodeName = @"The name of the air outlet from the electric coil, i.e.~Heating Coil Air Outlet Node.";
@@ -5494,7 +5494,7 @@ Coil:Heating:Electric:MultiStage,
   Autosize;                               !- Stage 3 Nominal Capacity {W}";
 	}
 	public static class CoilHeatingDesuperheater
-    { 
+	{
 		public static string Name = @"Coil:Heating:Desuperheater";
 		public static string Note = @"A simplified approach is used to determine the performance of this air heating coil. The model assumes that the heating energy provided by this coil is reclaimed from the superheated refrigerant gas leaving a compressor (i.e., a desuperheating refrigerant-to-air heating coil) and does not impact the performance of the compressor. This coil can be used in air loop simulations but can t be used by certain compound objects (e.g., AirLoopHVAC:UnitaryHeatPump:AirToAir, AirLoopHVAC:UnitaryHeatPump:WaterToAir, or Dehumidifier:Desiccant:NoFans) or any air distribution equipment (e.g., AirTerminal:SingleDuct:ConstantVolume:Reheat, AirTerminal:SingleDuct:VAV:Reheat, or AirTerminal:SingleDuct:SeriesPIU:Reheat).
 
@@ -5504,7 +5504,7 @@ The next two input items for the desuperheater heating coil are the node names f
 
 The next input field is optional and defines the set point node name if the desuperheater heating coil is to be controlled based on temperature. When a load-based control scheme is used, this field is left blank. A final optional input is used to model parasitic electric energy use of auxiliary equipment associated with the desuperheater heating coil (e.g., solenoid valve).
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a desuperheater heating coil. Any reference to this desuperheater heating coil by another object will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a desuperheater heating coil. Any reference to this desuperheater heating coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the desuperheater heating coil can run during a given time period. Schedule values must range from 0 to 1. A schedule value greater than 0 indicates that the coil can operate during the time period. A value equal to 0 denotes that the coil must be off for that time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_HeatReclaimRecoveryEfficiency = @"This numeric field defines the ratio of recovered waste heat from the superheated refrigerant gas to the total rejected waste heat from the heating source (as if no heat reclaim occurred). Values can range from 0.0 up to a maximum of 0.9 if the source is a refrigeration condenser and 0.3 for all other waste heat sources. If this input field is left blank, the default value is 0.8 for a refrigeration condenser source type and 0.25 for all other sources.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the HVAC system node from which the desuperheater heating coil draws its inlet air.";
@@ -5555,11 +5555,11 @@ Coil:Heating:Desuperheater,
   0.1;                                                               !- Parasitic Electric Load {W}";
 	}
 	public static class CoilCoolingDXVariableRefrigerantFlow
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:VariableRefrigerantFlow";
 		public static string Note = @"The variable refrigerant flow (VRF) DX cooling coil model is nearly identical to the single-speed DX cooling coil model (Ref. Coil:Cooling:DX:SingleSpeed). For this reason, an adaptation of the single-speed DX cooling coil model is used to model the variable-speed compression system used in VRF AC systems. The model inputs are quite similar to the input requirements for the single-speed DX cooling coil model, however, the location of a majority of the inputs have been moved to the variable refrigerant flow air conditioner object since multiple DX cooling coils will use the same DX compression system (Ref. AirConditioner:VariableRefrigerantFlow).
 ";
-	public static string Field_CoilName = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX cooling coil. Any reference to this DX cooling coil by another object will use this name. This cooling coil name must be entered in the AirConditioner:VariableRefrigerantFlow object. No other sytem type uses this specific coil.";
+		public static string Field_CoilName = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX cooling coil. Any reference to this DX cooling coil by another object will use this name. This cooling coil name must be entered in the AirConditioner:VariableRefrigerantFlow object. No other sytem type uses this specific coil.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the DX cooling coil availabiltiy schedule. Schedule values of 0 denote the DX cooling coil is off. A schedule value greater than 0 indicates that the coil can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_GrossRatedTotalCoolingCapacity = @"This numeric field defines the gross rated total cooling capacity of the DX cooling coil in watts at a rating point of 19.44 C indoor wet-bulb temperature and 35 C outdoor dry-bulb temperature. The total cooling capacity should be a gross , i.e., the effect of supply air fan heat NOT accounted for.";
 		public static string Field_GrossRatioSensibleHeatRatio = @"This numeric field defines the gross sensible heat ratio (sensible capacity divided by total cooling capacity) of the DX cooling coil at rated conditions. Both the sensible and total cooling capacities used to define the Rated SHR should be gross (i.e., the effect of supply air fan heat is NOT accounted for)";
@@ -5586,7 +5586,7 @@ COIL:Cooling:DX:VariableRefrigerantFlow,
   TU1 VRF DX CCoil Outlet Node;   !- Coil Air Outlet Node";
 	}
 	public static class CoilHeatingDXVariableRefrigerantFlow
-    { 
+	{
 		public static string Name = @"Coil:Heating:DX:VariableRefrigerantFlow";
 		public static string Note = @"The variable refrigerant flow (VRF) DX heating coil model uses performance information at rated conditions along with performance curves for variations in total capacity, energy input ratio and part load fraction to determine performance at part-load conditions. The impacts of defrost operation is modeled based a combination of user inputs and empirical models taken from the air-to-air heat pump algorithms in DOE-2.1E.
 
@@ -5613,7 +5613,7 @@ The heating capacity modifier curve (function of temperature) can be a function 
 
 The heating capacity modifier curve (function of flow fraction) is a quadratic or cubic curve with the independent variable being the ratio of the actual air flow rate across the heating coil to the rated air flow rate (i.e., fraction of full load flow). The curve is normalized to have the value of 1.0 when the actual air flow rate equals the rated air flow rate. The output of this curve is multiplied by the gross rated heating capacity and the heating capacity modifier curve (function of temperature) to give the gross heating capacity at the specific temperature and air flow conditions at which the coil is operating.
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX heating coil. Any reference to this DX heating coil by another object will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX heating coil. Any reference to this DX heating coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the DX heating coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_GrossRatedHeatingCapacity = @"This numeric field defines the total, full load gross heating capacity in watts of the DX coil unit at rated conditions (outside air dry-bulb temperature of 8.33 C, outside air wet-bulb temperature of 6.11 C, heating coil entering air dry-bulb temperature of 21.11 C, heating coil entering air wet-bulb temperature of 15.55 C, and a heating coil air flow rate defined by field rated air flow volume below). The value entered here must be greater than 0. The gross total heating capacity should not account for the effect of supply air fan heat.";
 		public static string Field_RatedAirFlowRate = @"This numeric field defines the volume air flow rate, in m^{3} per second, across the DX heating coil at rated conditions. The value entered here must be greater than 0. The rated air volume flow rate should be between 0.00004027 m^{3}/s and 0.00006041 m^{3}/s per watt of gross rated heating capacity. The gross rated heating capacity and the gross rated COP should be performance information for the unit with outside air dry-bulb temperature of 8.33 C, outside air wet-bulb temperature of 6.11 C, heating coil entering air dry-bulb temperature of 21.11 C, heating coil entering air wet-bulb temperature of 15.55 C, and the rated air volume flow rate defined here.";
@@ -5639,11 +5639,11 @@ COIL:Heating:DX:VariableRefrigerantFlow,
   VRFACCoolCapFFF;                !- Total heating capacity modifier curve Function of Flow Fraction";
 	}
 	public static class CoilCoolingDXVariableRefrigerantFlowFluidTemperatureControl
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:VariableRefrigerantFlow:FluidTemperatureControl";
 		public static string Note = @"This coil object is specifically designed for the physics based VRF model applicable for Fluid Temperature Control (VRF-FluidTCtrl). It describes the performance of the indoor unit coil of the VRF system operating at cooling mode. The name of this object is entered as an input to the object {ZoneHVAC:TerminalUnit:VariableRefrigerantFlow}. The outdoor unit part of the VRF system is modeled separately (refer to {AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl} object).
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX cooling coil. Any reference to this DX cooling coil by another object will use this name. This cooling coil name must be entered in the AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl object. No other system type uses this specific coil.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX cooling coil. Any reference to this DX cooling coil by another object will use this name. This cooling coil name must be entered in the AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl object. No other system type uses this specific coil.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the coil availability schedule. A name should be entered to define the availability of the coil. Schedule values of 0 denote the DX cooling coil is off. A schedule value greater than 0 indicates that the coil can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_CoilAirInletNode = @"This alpha field defines the name of the air inlet node entering the DX cooling coil.";
 		public static string Field_CoilAirOutletNode = @"This alpha field defines the name of the air outlet node exiting the DX cooling coil.";
@@ -5681,11 +5681,11 @@ Coil:Cooling:DX:VariableRefrigerantFlow:FluidTemperatureControl,
   Temperature;             !- Output Unit Type";
 	}
 	public static class CoilHeatingDXVariableRefrigerantFlowFluidTemperatureControl
-    { 
+	{
 		public static string Name = @"Coil:Heating:DX:VariableRefrigerantFlow:FluidTemperatureControl";
 		public static string Note = @"This coil object is specifically designed for the physics based VRF model applicable for Fluid Temperature Control (VRF-FluidTCtrl). It describes the performance of the indoor unit coil of the VRF system operating at heating mode. The name of this object is entered as an input to the object {ZoneHVAC:TerminalUnit:VariableRefrigerantFlow}. The outdoor unit part of the VRF system is modeled separately (refer to {AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl} object).
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX heating coil. Any reference to this DX heating coil by another object will use this name. This heating coil name must be entered in the AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl object. No other system type uses this specific coil.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a VRF DX heating coil. Any reference to this DX heating coil by another object will use this name. This heating coil name must be entered in the AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl object. No other system type uses this specific coil.";
 		public static string Field_AvailabilitySchedule = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the DX heating coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank the unit is always available.";
 		public static string Field_CoilAirInletNode = @"This alpha field defines the name of the HVAC system node from which the DX heating coil draws its inlet air.";
 		public static string Field_CoilAirOutletNode = @"This alpha field defines the name of the HVAC system node to which the DX heating coil sends its outlet air.";
@@ -5719,11 +5719,11 @@ Coil:Heating:DX:VariableRefrigerantFlow:FluidTemperatureControl,
   Temperature;             !- Output Unit Type";
 	}
 	public static class CoilHeatingFuel
-    { 
+	{
 		public static string Name = @"Coil:Heating:Fuel";
 		public static string Note = @"The fuel heating coil is a simple capacity model with a user inputted gas burner efficiency. The default for the burner efficiency is 80%. This coil will be simpler than shown in Figure~\ref{fig:example-air-loop-heating-cooling-coil} since it will only have air nodes to connect it in the system. The coil can be used in the air loop simulation or in the zone equipment as a reheat coil. Depending on where it is used determines if this coil is temperature or capacity controlled. If used in the air loop simulation it will be controlled to a specified temperature scheduled from the Setpoint Manager. If it is used in zone equipment, it will be controlled from the zone thermostat by meeting the zone demand.
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods. Schedule values must be > = 0 and < = 1.";
 		public static string Field_FuelType = @"This field designates the appropriate fuel type for the coil. Valid fuel types are: Gas, NaturalGas, Propane, FuelOil1, FuelOil2, Diesel, Gasoline, Coal, Steam, DistrictHeating, DistrictCooling, OtherFuel1 and OtherFuel2. The fuel type triggers the application of consumption amounts to the appropriate energy meters. NaturalGas is the default.";
 		public static string Field_BurnerEfficiency = @"This is user inputted gas burner efficiency (decimal, not percent) and is defaulted to 80%.";
@@ -5747,11 +5747,11 @@ A typical part load fraction correlation for a conventional gas heating coil (e.
 		public static string Field_ParasiticFuelLoad = @"This numeric field is the parasitic fuel load associated with the coil's operation (Watts), such as a standing pilot light. The model assumes that this parasitic load is consumed only for the portion of the simulation timestep where the heating coil is not operating.";
 	}
 	public static class CoilHeatingGasMultiStage
-    { 
+	{
 		public static string Name = @"Coil:Heating:Gas:MultiStage";
 		public static string Note = @"The multi stage gas heating coil is a simple capacity model with a user inputted gas burner efficiencies at different stages. This coil will only have air nodes to connect it in the system. The coil can be used in the air loop simulation or in the zone equipment as a reheat coil. Depending on where it is used determines if this coil is temperature or capacity controlled. If used in the air loop simulation it will be controlled to a specified temperature scheduled from the Setpoint Manager. If it is used in zone equipment, it will be controlled from the zone thermostat by meeting the zone demand. For the time being, this coil model can only be called by the parent object AirLoopHVAC:UnitaryHeatPump:AirToAir:MultiSpeed.
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods. Schedule values must be > = 0 and < = 1.";
 		public static string Field_AirInletNodeName = @"The name of the air inlet to the gas coil, i.e.~Heating Coil Air Inlet Node.";
 		public static string Field_AirOutletNodeName = @"The name of the air outlet from the gas coil, i.e.~Heating Coil Air Outlet Node.";
@@ -5806,7 +5806,7 @@ Coil:Heating:Gas:MultiStage,
   ;                                               !- Stage 3 Parasitic Electric Load {W}";
 	}
 	public static class CoilCoolingWaterDetailedGeometry
-    { 
+	{
 		public static string Name = @"Coil:Cooling:Water:DetailedGeometry";
 		public static string Note = @"This detailed flat fin coil model is for continuous plate fins. First, found in Type 12 from MODSIM, but now programmed directly from Elmahdy, A.H. and Mitalas, G.P. Then there was a discontinuity in their original model that was fixed in the EnergyPlus implementation. Now this model can be used in an interval halving solution technique for controlling this coil without the problems of non-convergence.
 
@@ -5826,7 +5826,7 @@ The following figures illustrate the geometry and circuits in a cooling coil.
 \caption{Number of Coolant Circuits (CCNCC) \protect \label{fig:number-of-coolant-circuits-ccncc}}
 \end{figure}
 ";
-	public static string Field_Name = @"A unique identifying name for each coil.";
+		public static string Field_Name = @"A unique identifying name for each coil.";
 		public static string Field_AvailabilityScheduleName = @"Schedule that defines when the coil is available. If the schedule s value is 0.0, then the coil is not available and flow will not be requested. If the schedule s value is > 0.0 (usually 1 is used), the coil is available. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumWaterFlowRate = @"The maximum possible water flow rate (m^{3}/sec) through the coil.";
 		public static string Field_TubeOutsideSurfaceArea = @"The outside surface area (m^{2}) of the tubes that is exposed to air (i.e.~the outside area of the unfinned tubes minus the area of tubes covered by the fins).";
@@ -5884,7 +5884,7 @@ Coil:Cooling:Water:DetailedGeometry,
   NODE_5, NODE_6;   !Coil Air Side Inlet & Outlet Node";
 	}
 	public static class CoilCoolingDXSingleSpeed
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:SingleSpeed";
 		public static string Note = @"This DX cooling coil input requires an availability schedule, the gross rated total cooling capacity, the gross rated SHR, the gross rated COP, and the rated air volume flow rate. The latter 4 inputs determine the coil performance at the rating point (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb and air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb). The rated air volume flow rate should be between .00004027 m^{3}/s and .00006041 m^{3}/s per watt of gross rated total cooling capacity (300 to 450 cfm/ton).
 
@@ -5918,7 +5918,7 @@ The next input describes the type of outdoor condenser coil used with the DX coo
 
 The last two input fields following the Basin Heater Operating Schedule Name are the Sensible Heat Ratio (SHR) modifier cruve names for temperature and flow fraction. These two input fields are optional and used only when a user intends to override SHR calculated using the apparatus dew point (ADP) and bypass factor (BF) method. See section SHR Calculation Using User Specified SHR Modifier Curves in the EnergyPlus Engineering Document for further details.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a DX cooling coil. Any reference to this DX coil by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a DX cooling coil. Any reference to this DX coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the DX cooling coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during a given time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_GrossRatedTotalCoolingCapacity = @"The total, full load gross cooling capacity (sensible plus latent) in watts of the DX coil unit at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb\protect\hyperlink{ux5fftn1}{[1]}, and a cooling coil air flow rate defined by field rated air flow rate below). Capacity should be gross (i.e., the effect of supply air fan heat is NOT accounted for). When used in a heat pump, the gross rated total cooling capacity should be within 20% of the gross rated heating capacity, otherwise a warning message is issued.";
 		public static string Field_GrossRatedSensibleHeatRatio = @"The sensible heat ratio (SHR = gross sensible cooling capacity divided by gross total cooling capacity) of the DX cooling coil at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb), and a cooling coil air flow rate defined by field rated air flow rate below). Both the sensible and total cooling capacities used to define the Rated SHR should be gross (i.e., the effect of supply air fan heat is NOT accounted for).";
@@ -6022,7 +6022,7 @@ Coil:Cooling:DX:SingleSpeed,
   10.;                             ! Maximum Outdoor Dry-bulb Temperature for Crankcase Heater Operation {C}";
 	}
 	public static class CoilCoolingDXTwoSpeed
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:TwoSpeed";
 		public static string Note = @"This component models a two-speed (or variable speed) DX compressor and fan. The method is based on the model used for the cycling, single speed DX unit. The single speed unit is described by single full load capacity, SHR, COP, and air flow rate at rated conditions. Off rated full load performance is obtained by the use of 4 modifier curves. At partial load the unit cycles on/off and the cycling losses are described by a part load fraction curve.
 
@@ -6032,7 +6032,7 @@ The multispeed unit model requires 2 full sets of performance data. There must b
 
 The multispeed DX component should be used for all cases in which a DX VAV system is being simulated. Obviously this model in which performance is obtained by interpolating between 2 specified states - is an oversimplification of how real multi-speed and variable speed DX cooling units are controlled. But detailed descriptions of how actual units perform and are controlled are not available. This model should give a good average prediction of multispeed and variable speed DX cooling unit performance. The last four input fields following the Basin Heater Operating Schedule Name are the Sensible Heat Ratio (SHR) modifier cruve names for temperature and flow fraction for high and low speed DX cooling coils. These four input fields are optional and used only when a user intends to override SHR calculated using the apparatus dew point (ADP) and bypass factor (BF) method. See section SHR Calculation Using User Specified SHR Modifier Curves in the EnergyPlus Engineering Document for further details..
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a multispeed DX cooling coil. Any reference to this DX coil by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a multispeed DX cooling coil. Any reference to this DX coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the DX cooling coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_HighSpeedGrossRatedTotalCoolingCapacity = @"The total, full load gross cooling capacity (sensible plus latent) in watts of the DX coil unit for high speed compressor and high speed fan at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb, and a cooling coil air flow rate defined by field rated air flow rate below). Capacity should be gross (i.e., the effect of supply air fan heat is NOT accounted for).";
 		public static string Field_HighSpeedGrossRatedSensibleHeatRatio = @"The sensible heat ratio (gross sensible capacity divided by gross total cooling capacity) of the DX cooling coil for high speed compressor and high speed fan at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb\protect\hyperlink{ux5fftn2}{[2]}, and a cooling coil air flow rate defined by field rated air flow rate below). Both the sensible and total cooling capacities used to define the Rated SHR should be gross (i.e., the effect of supply air fan heat is NOT accounted for).";
@@ -6219,13 +6219,13 @@ Coil:Cooling:DX:TwoSpeed,
   Dimensionless;                                                                                     !- Output Unit Type";
 	}
 	public static class CoilCoolingDXTwoStageWithHumidityControlMode
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:TwoStageWithHumidityControlMode";
 		public static string Note = @"The multimode DX coil is functionally equivalent to Coil:Cooling:DX:SingleSpeed but with multiple performance modes. It is capable of modeling two-stage DX units and units with an enhanced dehumidification mode such as coil bypass or subcool reheat. This object contains one-time specifications for the DX unit such as node names and crankcase heater specifications. It references one or more CoilPerformance:DX:Cooling objects which define the performance for each mode of operation. It can have up to 4 performance modes to accommodate a 2-stage 2-mode unit.
 
 The multimode DX coil can be used only as a component of CoilSystem:Cooling:DX or AirLoopHVAC:UnitaryHeatCool:VAVChangeoverBypass (parent object). These parent objects pass a load and dehumidification mode to this coil. If the coil has 2 capacity stages, the multimode coil model determines the stage sequencing.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a DX cooling coil. Any reference to this DX coil by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a DX cooling coil. Any reference to this DX coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the DX cooling coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during a given time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"The name of the HVAC system node from which the DX cooling coil draws its inlet air.";
 		public static string Field_AirOutletNodeName = @"The name of the HVAC system node to which the DX cooling coil sends its outlet air.";
@@ -6271,7 +6271,7 @@ Coil:Cooling:DX:TwoStageWithHumidityControlMode,
   DOAS Dehumid Perf 1+2;                      !- Dehumidification Mode 1 Stage 1+2 Coil Performance Name";
 	}
 	public static class CoilCoolingDXMultiSpeed
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:MultiSpeed";
 		public static string Note = @"This component models a DX cooling unit with multiple discrete levels of cooling capacity. Depending on input choices, the user can model a single compressor with multiple operating speeds, or a unit with a single cooling coil fed by multiple compressors (e.g., row split or intertwined coil circuiting). Currently, this cooling coil can only be referenced by a AirLoopHVAC:UnitaryHeatPump:AirToAir:Multispeed object. Refer to Coil:Cooling:DX:TwoStageWithHumidityControlMode if the user wishes to model a cooling coil with discrete levels of cooling and the possibility of air bypass during low speed operation (e.g.~face-split coil circuiting), or if cooling coil operation based on dehumidification requirements is desired.
 
@@ -6281,7 +6281,7 @@ The multispeed unit is described by specifying the performance at different oper
 
 The coil operates to meet the sensible capacity being requested. When this requested capacity is above the sensible capacity of the highest operating speed, the coil runs continuously at the highest speed. When the requested capacity is between the sensible capacities of two consecutive speeds, the unit will operate a portion of the time at each speed to meet the request. When the requested capacity is less than the low speed (Speed 1) capacity, the unit will cycle on/off as needed.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a multispeed DX cooling coil. Any reference to this DX coil by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a multispeed DX cooling coil. Any reference to this DX coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the DX cooling coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"The name of the HVAC system node from which the DX cooling coil draws its inlet air.";
 		public static string Field_AirOutletNodeName = @"The name of the HVAC system node to which the DX cooling coil sends its outlet air.";
@@ -6462,11 +6462,11 @@ Coil:Cooling:DX:MultiSpeed,
   100;                                         !- Evaporative Condenser Pump Rated Power Consumption, Speed 4 {W}";
 	}
 	public static class CoilCoolingDXVariableSpeed
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:VariableSpeed";
 		public static string Note = @"The Variable-Speed DX Cooling Coil is a collection of performance curves that represent the cooling coil at various speed levels. The performance curves should be generated from a Reference Unit data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. On the other hand, the model uses the bypass factor approach to calculate sensible heat transfer rate, similar to the one used in the single-speed DX coil. The number of speed levels can range from 1 to 10. The cooling coil has two indoor air side connections, and one optional condenser air node connection. The user needs to specify a nominal speed level, at which the gross rated total cooling capacity, and rated volumetric air rate are sized. The rated capacity and rated volumetric flow rate represent the real situation in the air loop, and are used to determine and flow rates at various speed levels in the parent objects, e.g.~of AirLoopHVAC:UnitaryHeatCool, ZoneHVAC:PackagedTerminalAirConditioner, AirLoopHVAC:UnitaryHeatPump:AirToAir and ZoneHVAC:PackagedTerminalHeatPump. It shall be mentioned that the performance correction curves, i.e.~the temperature and flow fraction correction curves, should be normalized to the capacity and flow rate at each individual speed and at the rated conditions, similar to the performance curves used in the single-speed DX coil. However, the performance values, e.g.~capacities, COPs, SHRs and flow rates at individual speed levels, should be given regarding a specific unit from the Reference Unit catalog data. In the following content, the statement started with Reference Unit means the actual Reference Unit catalog data. The rated conditions for obtaining the capacities, COPs and SHRs are at indoor dry-bulb temperature of 26.67 ??C (80 ??F), wet bulb temperature of 19.44 ??C (67 ??F), and the condenser entering air temperature of 35 ??C (95 ??F). Some equations are provided below to help explain the function of the various performance curves and data fields.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable-speed cooling coil.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable-speed cooling coil.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the cooling coil load side inlet node name.";
 		public static string Field_AirOutletNodeName = @"This alpha field contains the cooling coil load side outlet node name.";
 		public static string Field_NumberOfSpeeds = @"This numeric field contains the maximum number of speed levels that the module uses. The number of speeds, for which the user input the performance data and curves, should be equal or higher than the maximum number. The performance inputs at higher speed levels are ignored.";
@@ -6655,7 +6655,7 @@ Coil:Cooling:DX:VariableSpeed,
   HPACCOOLEIRFFF;                 !- Energy Input Ratio Function of Flow Fraction Curve Name";
 	}
 	public static class CoilPerformanceDXCooling
-    { 
+	{
 		public static string Name = @"CoilPerformance:DX:Cooling";
 		public static string Note = @"This coil performance object is used to specify DX coil performance for one mode of operation for a Coil:Cooling:DX:TwoStageWithHumidityControlMode. A single Coil:Cooling:DX:TwoStageWithHumidityControlMode object will reference one to four CoilPerformance:DX:Cooling objects depending on the number of available stages and dehumidification modes as specified in the two stage DX object. For example, a standard 2-stage DX system will use two of these performance objects, one to defined the capacity and performance for stage 1 operation, and a second one for stage 1+2 (both stages active) operation. In nearly all cases, the Rated Air Volume Flow Rate will be the same for all performance objects associated with a given multimode DX coil. If bypass is specified, the Rated Air Volume Flow Rate includes both the bypassed flow and the flow through the active coil.
 
@@ -6689,7 +6689,7 @@ The next input specifies the outdoor air node used to define the conditions of t
 
 The next input describes the type of outdoor condenser coil used with the DX cooling coil (Air Cooled or Evap Cooled). The following three inputs are required when modeling an evaporative-cooled condenser: evaporative condenser effectiveness, evaporative condenser air volume flow rate, and the power consumed by the evaporative condenser pump. See section DX Cooling Coil Model in the EnergyPlus Engineering Document for further details regarding this model.
 ";
-	public static string Field_Name = @"This alpha field is a unique user-assigned name for an instance of DX cooling coil performance. Any reference to this DX coil performance object by another object will use this name.";
+		public static string Field_Name = @"This alpha field is a unique user-assigned name for an instance of DX cooling coil performance. Any reference to this DX coil performance object by another object will use this name.";
 		public static string Field_GrossRatedTotalCoolingCapacity = @"The total, full load gross cooling capacity (sensible plus latent) in watts of the DX coil unit at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb\protect\hyperlink{ux5fftn4}{[4]}, and a cooling coil air flow rate defined by field rated air flow rate below). Capacity should be gross (i.e., the effect of supply air fan heat is NOT accounted for).";
 		public static string Field_GrossRatedSensibleHeatRatio = @"The sensible heat ratio (SHR = gross sensible capacity divided by gross total cooling capacity) of the DX cooling coil at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/23.9 ??C wetbulb, and a cooling coil air flow rate defined by field rated air flow rate below). Both the sensible and total cooling capacities used to define the Rated SHR should be gross (i.e., the effect of supply air fan heat is NOT accounted for).";
 		public static string Field_GrossRatedCoolingCOP = @"The coefficient of performance is the ratio of the gross total cooling capacity in watts to electrical power input in watts) of the DX cooling coil unit at rated conditions (air entering the cooling coil at 26.7 ??C drybulb/19.4 ??C wetbulb, air entering the outdoor condenser coil at 35 ??C drybulb/ 23.9 ??C wetbulb, and a cooling coil air flow rate defined by field rated air flow rate below). The input power includes electric power for the compressor(s) and condenser fan(s) but does not include the power consumption of the supply air fan. If this input field is left blank, the default value is 3.0.";
@@ -6872,7 +6872,7 @@ Coil:Cooling:DX:TwoStageWithHumidityControlMode,
   DOAS DX Coil SHR-FF;         !- Sensible Heat Ratio Function of Flow Fraction Curve Name";
 	}
 	public static class CoilHeatingDXSingleSpeed
-    { 
+	{
 		public static string Name = @"Coil:Heating:DX:SingleSpeed";
 		public static string Note = @"The single speed heating DX coil model uses performance information at rated conditions along with curve fits for variations in total capacity, energy input ratio and part load fraction to determine performance at part-load conditions. The impacts of various defrost strategies (reverse cycle, resistive, timed or on-demand) are modeled based on a combination of user inputs and empirical models taken from the air-to-air heat pump algorithms in DOE-2.1E.
 
@@ -6900,7 +6900,7 @@ The curves are simply specified by name. Curve inputs are described in the curve
 
 The next input item for the coil is the supply air fan operation mode. Either the supply air fan runs continuously while the DX coil cycles on/off, or the fan and coil cycle on/off together. The next two inputs define the minimum outdoor dry-bulb temperature that the heat pump compressor will operate and the maximum outdoor dry-bulb temperature for defrost operation. Crankcase heater capacity and cutout temperature are entered in the following two inputs. The final four inputs cover the type of defrost strategy (reverse-cycle or resistive), defrost control (timed or on-demand), the fractional defrost time period (timed defrost control only), and the resistive defrost heater capacity if a resistive defrost strategy is selected.
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a DX heating coil. Any reference to this DX heating coil by another object will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a DX heating coil. Any reference to this DX heating coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the DX heating coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_GrossRatedHeatingCapacity = @"This numeric field defines the total, full load gross heating capacity in watts of the DX coil unit at rated conditions (outdoor air dry-bulb temperature of 8.33 C, outdoor air wet-bulb temperature of 6.11 C, heating coil entering air dry-bulb temperature of 21.11 C, heating coil entering air wet-bulb temperature of 15.55 C, and a heating coil air flow rate defined by field rated air flow volume below). The value entered here must be greater than 0. Capacity should not account for supply air fan heat. The gross rated heating capacity should be within 20% of the gross rated total cooling capacity, otherwise a warning message is issued. The gross heating capacity should NOT include the effect of supply air fan heat.";
 		public static string Field_GrossRatedHeatingCOP = @"This numeric field defines the coefficient of performance (COP = the gross heating capacity in watts divided by electrical power input in watts) of the DX heating coil unit at rated conditions (outdoor air dry-bulb temperature of 8.33 C, outdoor air wet-bulb temperature of 6.11 C, coil entering air dry-bulb temperature of 21.11 C, coil entering air wet-bulb temperature of 15.55 C, and a heating coil air flow rate defined by field rated air flow volume rate below). The value entered here must be greater than 0. The input power includes power for the compressor(s) and outdoor fan(s) but does not include the power consumption of the indoor supply air fan. The gross COP should NOT account for the supply air fan.";
@@ -6979,7 +6979,7 @@ Coil:Heating:DX:SingleSpeed,
   20000;! Resistive defrost heater capacity (used for resistive defrost strategy only)";
 	}
 	public static class CoilHeatingDXMultiSpeed
-    { 
+	{
 		public static string Name = @"Coil:Heating:DX:MultiSpeed";
 		public static string Note = @"This component models a DX heating unit with multiple discrete levels of heating capacity. Currently, this heating coil can only be referenced by a AirLoopHVAC:UnitaryHeatPump:AirToAir:MultiSpeed compound object. The multispeed DX heating coil can have from two to four operating speeds. When the coil operates at Speed 1 (the lowest speed), its performance is very similar to the Coil:Heating:DX:SingleSpeed object where the impacts of part-load ratio can be included. When the coil operates at higher speeds (above Speed 1), the linear approximation methodology is applied. The coil outputs at two consecutive speeds are linearly interpolated to meet the required heating capacity during an HVAC system timestep. When the coil performs above the lowest speed, the user can choose if they want to include part-load ratio impacts at the higher speeds.
 
@@ -7013,7 +7013,7 @@ Then the number of speed for heating is entered. The rest of inputs are speed de
 
 The curves are simply specified by name. Curve inputs are described in the curve manager section of this document (ref. Performance Curves).
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a multispeed DX heating coil. Any reference to this DX heating coil by another object will use this name. The only allowed parent is AirLoopHVAC:UnitaryHeatPump:AirToAir:MultiSpeed.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a multispeed DX heating coil. Any reference to this DX heating coil by another object will use this name. The only allowed parent is AirLoopHVAC:UnitaryHeatPump:AirToAir:MultiSpeed.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the multispeed DX heating coil can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the HVAC system node from which the DX heating coil draws its inlet air.";
 		public static string Field_AirOutletNodeName = @"This alpha field defines the name of the HVAC system node to which the DX heating coil sends its outlet air.";
@@ -7129,11 +7129,11 @@ COIL:Heating:DX:MultiSpeed,
   HAPCHeatWHFT Speed 4;       !- Waste heat modifier curve, Speed 4 (temperature)";
 	}
 	public static class CoilHeatingDXVariableSpeed
-    { 
+	{
 		public static string Name = @"Coil:Heating:DX:VariableSpeed";
 		public static string Note = @"The Variable-Speed Air-to-Air Heating DX Coil is a collection of performance curves that represent the heating coil at various speed levels. The performance curves should be generated from the heat pump Reference Unit catalog data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. The number of speed levels can range from 1 to 10. The heating coil has two air side node connections. The user needs to specify a nominal speed level, at which the gross rated capacity and rated volumetric air flow rate are sized. The gross rated capacity and rated volumetric flow rate represent the real situation in the air loop, and are used to determine the flow rates at various speed levels in the parent objects, e.g.~AirLoopHVAC:UnitaryHeatPump:AirToAir, ZoneHVAC:PackagedTerminalHeatPump, etc. It shall be mentioned that the performance correction curves, i.e.~the temperature and flow fraction correction curves, should be normalized to the capacity and flow rate at each individual speed and at the rated operating conditions, similar to the performance curves used in the single-speed DX coil. On the other hand, the performance values at individual speed levels, e.g.~capacities, COPs and flow rates, should be given regarding a specific unit from the Reference Unit catalog data. In the following content, the statement started with Reference Unit means the actual Reference Unit catalog data. The rated conditions for obtaining the capacities and COPs are at indoor dry-bulb temperature of 21.1 ??C (70 ??F) and the source side entering air temperature of 8.3 ??C (47 ??F). Some equations are provided below to help explain the function of the various performance curves and data fields.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed heating coil.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed heating coil.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the heating coil load side inlet node name.";
 		public static string Field_AirOutletNodeName = @"This alpha field contains the heating coil load side outlet node name.";
 		public static string Field_NumberOfSpeeds = @"This numeric field contains the maximum number of speed levels that the module uses. The number of speeds, for which the user input the performance data and curves, has to be equal to or higher than the maximum number. The performance inputs at higher speeds are ignored.";
@@ -7282,7 +7282,7 @@ Coil:Heating:DX:VariableSpeed,
   HPACHeatEIRFFF;                   !- Energy Input Ratio Function of Flow Fraction Curve Name";
 	}
 	public static class CoilWaterHeatingDesuperheater
-    { 
+	{
 		public static string Name = @"Coil:WaterHeating:Desuperheater";
 		public static string Note = @"A simplified approach is used to determine the performance of this water heating coil. The model assumes that the heating energy provided by this coil is reclaimed from the superheated refrigerant gas leaving a compressor (i.e., a desuperheating refrigerant-to-water heating coil) and does not impact the performance of the compressor. This coil must be used with a water heater tank (e.g., WaterHeater:Mixed) which can supply heated potable water and/or hot water for use in a plant loop (e.g., hydronic air reheat coils).
 
@@ -7301,7 +7301,7 @@ This coil model performs the following major functions:
 
 The input fields for this object are described below in detail:
 ";
-	public static string Field_Name = @"This alpha field contains a unique user-assigned name for an instance of a desuperheater water heating coil. Any reference to this desuperheater coil by another object will use this name.";
+		public static string Field_Name = @"This alpha field contains a unique user-assigned name for an instance of a desuperheater water heating coil. Any reference to this desuperheater coil by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field contains the name of the schedule (ref: Schedule) that denotes whether the desuperheater coil is available to operate during a given time period. A schedule value equal to 0 denotes that the desuperheater coil is off for that time period. A value other than 0 denotes that the desuperheater coil is available to operate during that time period. During times when the desuperheater coil is scheduled off, the heater (element or burner) in the water tank object operates based on its tank set point temperature schedule and the desuperheater coil s parasitic electric power is also off for that time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_SetpointTemperatureScheduleName = @"This alpha field contains the name of the schedule (ref: Schedule) that specifies the set point (or cut-out ) temperature for the desuperheater coil. Temperature values used in this schedule should be in degrees Celsius. The desuperheater coil turns off when the tank water reaches this set point temperature. Once the desuperheater coil is off, the tank water temperature floats downward until it falls below the set point temperature minus the dead band temperature difference defined below (i.e., the cut-in temperature). At this point, the desuperheater coil turns on and remains on until the desuperheater coil set point temperature is reached.";
 		public static string Field_DeadBandTemperatureDifference = @"This numeric field contains the dead band temperature difference in degrees Celsius. The desuperheater coil cut-in temperature is defined as the desuperheater coil set point temperature defined above minus this dead band temperature difference. The desuperheater coil turns on when the water temperature in the tank falls below the cut-in temperature. The desuperheater coil remains on until the water temperature in the tank rises above the desuperheater coil set point ( cut-out ) temperature defined above. The dead band temperature difference must be greater than 0 ??C and less than or equal to 20 ??C. If this field is left blank, the default value is 5 ??C.
@@ -7371,7 +7371,7 @@ Coil:WaterHeating:Desuperheater,
   10.0;                                       !- Off-Cycle Parasitic Electric Load {W}";
 	}
 	public static class CoilSystemCoolingDX
-    { 
+	{
 		public static string Name = @"CoilSystem:Cooling:DX";
 		public static string Note = @"The CoilSystem:Cooling:DX object is a virtual container component that consists of a DX cooling coil component and its associated controls, as shown in the Figure below. This control object supports several different types of DX cooling coils (see field Cooling Coil Object Type).
 
@@ -7383,7 +7383,7 @@ This component may be used as a cooling coil in constant volume or variable volu
 \caption{Schematic of CoilSystem:Cooling:DX Object in an Air Loop for a Blow Through Application \protect \label{fig:schematic-of-coilsystem-cooling-dx-object-in}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for this component.";
+		public static string Field_Name = @"This alpha field contains the identifying name for this component.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field contains the schedule name that contains information on the availability of the DX coil to operate. A schedule value of 0 indicates that the coil is off for that time period. A schedule value greater than 0 indicates that the coil can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_DXCoolingCoilSystemInletNodeName = @"This alpha field contains the identifying name given to the DX cooling coil inlet node, as specified in the DX cooling coil object.";
 		public static string Field_DXCoolingCoilSystemOutletNodeName = @"This alpha field contains the identifying name given to the DX cooling coil outlet node, as specified in the cooling coil object.";
@@ -7466,7 +7466,7 @@ CoilSystem:Cooling:DX,
   WindACPLFFPLR;                     !- Part Load Fraction Correlation Curve Name";
 	}
 	public static class CoilSystemHeatingDX
-    { 
+	{
 		public static string Name = @"CoilSystem:Heating:DX";
 		public static string Note = @"The CoilSystem:Heating:DX object is a virtual container component for a DX heating coil that provides the controls needed to operate the coil. Only single speed DX air-to-air heating coils are supported.
 
@@ -7476,7 +7476,7 @@ The inlet and outlet nodes for the DX heat pump system are defined in the heatin
 
 This model only supports continuous fan and cycling compressor operation -- cycling fan modeling is not available with this model.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for this component.";
+		public static string Field_Name = @"This alpha field contains the identifying name for this component.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field contains the schedule name that contains information on the availability of the DX coil to operate. A schedule value of 0 indicates that the coil is off for that time period. A schedule value greater than 0 indicates that the coil can operate during the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_HeatingCoilObjectType = @"This alpha field specifies the type of DX heating coil. This model currently supports only single speed DX heat pump heating coils and the only options for this field are Coil:Heating:DX:SingleSpeed and Coil:Heating:DX:VariableSpeed.";
 		public static string Field_HeatingCoilName = @"This alpha field specifies the unique name of the DX heating coil. This field references the name of a Coil:Heating:DX:SingleSpeed that needs to be defined elsewhere in the input file.
@@ -7517,7 +7517,7 @@ CoilSystem:Heating:DX,
   Heat Pump 1 Evaporator Node;";
 	}
 	public static class CoilSystemCoolingDXHeatExchangerAssisted
-    { 
+	{
 		public static string Name = @"CoilSystem:Cooling:DX:HeatExchangerAssisted";
 		public static string Note = @"The heat exchanger-assisted DX cooling coil is a virtual component consisting of a direct expansion (DX) cooling coil and an air-to-air heat exchanger as shown in Figure~\ref{fig:schematic-of-the-coilsystem-cooling-dx} below. The air-to-air heat exchanger pre-conditions the air entering the cooling coil, and reuses this energy to post-condition the supply air leaving the cooling coil. This heat exchange process improves the latent removal performance of the cooling coil by allowing it to dedicate more of its cooling capacity toward dehumidification (lower sensible heat ratio).
 
@@ -7546,7 +7546,7 @@ Links to the cooling coil and air-to-air heat exchanger specifications are provi
 
 NOTE: Node naming shown in Figure~\ref{fig:schematic-of-the-coilsystem-cooling-dx} is representative for HeatExchanger:AirToAir:SensibleAndLatent. For HeatExchanger:AirToAir:FlatPlate, the exhaust air nodes are referred to as secondary air nodes. For HeatExchanger:Desiccant:BalancedFlow, the supply air nodes are referred to as regeneration air nodes and the exhaust air nodes as process air nodes.
 ";
-	public static string Field_Name = @"A unique user-assigned name for the heat exchanger-assisted DX cooling coil. Any reference to this compound component by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for the heat exchanger-assisted DX cooling coil. Any reference to this compound component by another object will use this name.";
 		public static string Field_HeatExchangerObjectType = @"This alpha field denotes the type of heat exchanger being modeled. Valid choices are:
 
 
@@ -7610,11 +7610,11 @@ CoilSystem:Cooling:DX:HeatExchangerAssisted,
   ACPLFFPLR;                    !- Part Load Fraction Correlation (function of part load ratio)";
 	}
 	public static class CoilSystemIntegratedHeatPumpAirSource
-    { 
+	{
 		public static string Name = @"CoilSystem:IntegratedHeatPump:AirSource";
 		public static string Note = @"CoilSystem:IntegratedHeatPump:AirSource is a collection of all the working modes in an air-source integrated heat pump, including space cooling (SC), space heating (SH), dedicated water heating (DWH), combined space cooling and water heating with full condensing(SCWH), combined space cooling and water heating with desuperheating (SCDWH), combined space heating and water heating with desuperheating (SHDWH). These working modes should also be referred to in other related air loop or water loop parent objects, for example, AirLoopHVAC:UnitarySystem and WaterHeater:HeatPump:PumpedCondenser, to represent the air side and water side node connections, and facilitate iterating the speed to match the space conditioning or water heating load. In addition, CoilSystem:IntegratedHeatPump:AirSource contains a series of criteria for selecting a working mode at the beginning of each timestep. 
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of an air-source integrated heat pump.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of an air-source integrated heat pump.";
 		public static string Field_SupplyWaterMonitoringNodeName = @"This alpha field defines a water side node to monitor the supply water amount after the water heating operation of the integrated heat pump is turned on.";
 		public static string Field_SpaceCoolingModeCoilName = @"This alpha field defines the space cooling (SC) mode in an ASIHP, which must be given. The SC mode refers to the name of a Coil:Cooling:DX:VariableSpeed object, which contains all the performance curves and rated values to describe the space cooling operation.";
 		public static string Field_SpaceHeatingModeCoilName = @"This alpha field defines the space heating (SH) mode in the ASIHP, which must be given. The SH mode refers to the name of a Coil:Heating:DX:VariableSpeed object, which contains all the performance curves and rated values to describe the space heating operation.";
@@ -7661,7 +7661,7 @@ CoilSystem:IntegratedHeatPump:AirSource,
   5;             !- minimum speed level for SHDWH mode";
 	}
 	public static class CoilSystemCoolingWaterHeatExchangerAssisted
-    { 
+	{
 		public static string Name = @"CoilSystem:Cooling:Water:HeatExchangerAssisted";
 		public static string Note = @"The heat exchanger-assisted water cooling coil is a virtual component consisting of a chilled-water cooling coil and an air-to-air heat exchanger as shown in Figure~\ref{fig:schematic-of-the-coilsystem-cooling-water} below. The air-to-air heat exchanger precools the air entering the cooling coil, and reuses this energy to reheat the supply air leaving the cooling coil. This heat exchange process improves the latent removal performance of the cooling coil by allowing it to dedicate more of its cooling capacity toward dehumidification (lower sensible heat ratio).
 
@@ -7688,7 +7688,7 @@ To model a heat exchanger-assisted water cooling coil, the input data file shoul
 
 Links to the cooling coil and air-to-air heat exchanger specifications are provided in the input data syntax for this compound object. A description of each input field for this compound object is provided below.
 ";
-	public static string Field_Name = @"A unique user-assigned name for the heat exchanger-assisted water cooling coil. Any reference to this compound component by another object (e.g., ZoneHVAC:UnitVentilator, ZoneHVAC:FourPipeFanCoil, component in an air loop Branch object) will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for the heat exchanger-assisted water cooling coil. Any reference to this compound component by another object (e.g., ZoneHVAC:UnitVentilator, ZoneHVAC:FourPipeFanCoil, component in an air loop Branch object) will use this name.";
 		public static string Field_HeatExchangerObjectType = @"This alpha field denotes the type of heat exchanger being modeled. Valid choices are:
 
 HeatExchanger:AirToAir:FlatPlate
@@ -7759,7 +7759,7 @@ CoilSystem:Cooling:Water:HeatExchangerAssisted,
   Main Cooling Coil 1 Outlet Node;   !- Coil_Air_Outlet_Node";
 	}
 	public static class CoilWaterHeatingAirToWaterHeatPumpPumped
-    { 
+	{
 		public static string Name = @"Coil:WaterHeating:AirToWaterHeatPump:Pumped";
 		public static string Note = @"EnergyPlus can model a heat pump water heater (HPWH) consisting of a water heater tank (e.g., \lstinline!WaterHeater:Mixed!), a direct expansion (DX) coil (i.e., an air-to-water DX compression system which includes a water heating coil, air coil, compressor, and water pump), and a fan to provide air flow across the air coil associated with the DX compression system. These objects work together to model a system which heats water using zone air, outdoor air, or a combination of zone and outdoor air as the primary heat source.
 
@@ -7780,7 +7780,7 @@ The heat pump water heater DX coil model performs the following major functions:
 
 The input fields for this object are described below in detail:
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a heat pump water heater DX coil. Any reference to this coil by another object (e.g., \lstinline!WaterHeater:HeatPump:PumpedCondenser!) will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a heat pump water heater DX coil. Any reference to this coil by another object (e.g., \lstinline!WaterHeater:HeatPump:PumpedCondenser!) will use this name.";
 		public static string Field_RatedHeatingCapacity = @"This numeric field defines the DX coil heating capacity in Watts at the rated evaporator inlet air temperatures, rated condenser inlet water temperature, rated evaporator air flow rate, and rated condenser water flow rate specified below. Values must be greater than 0. This value represents water heating capacity, and it may or may not include the impact of condenser pump heat (see field Condenser Pump Heat Included in Rated Heating Capacity below).";
 		public static string Field_RatedCOP = @"This numeric field defines the DX coil's water heating coefficient of performance (COP = water heating capacity in watts divided by electrical power input in watts) at rated conditions (rated inlet temperatures and flow rates specified below). This input not only determines the electric energy use of the heat pump DX coil, but also the amount of total air cooling provided by the evaporator. The rated COP includes compressor power, and may or may not include condenser pump power or evaporator fan power (see field Evaporator Fan Power Included in Rated COP and field Condenser Pump Power Included in Rated COP). Values must be greater than 0. If this field is left blank, the default value is 3.2.";
 		public static string Field_RatedSensibleHeatRatio = @"This numeric field defines the air-side sensible heat ratio (SHR = sensible cooling capacity divided by total cooling capacity) of the DX coil at rated conditions (rated inlet temperatures and flow rates specified below). This value should not include the effect of evaporator fan heat. Values must be greater than or equal to 0.5, and less than or equal to 1.0. The default value is 0.85.";
@@ -7862,7 +7862,7 @@ Coil:WaterHeating:AirToWaterHeatPump:Pumped,
   HPWHPLFFPLR;               !- Part Load Fraction Correlation Name (function of part load ratio)";
 	}
 	public static class CoilWaterHeatingAirToWaterHeatPumpWrapped
-    { 
+	{
 		public static string Name = @"Coil:WaterHeating:AirToWaterHeatPump:Wrapped";
 		public static string Note = @"EnergyPlus can model a heat pump water heater (HPWH) consisting of a water heater tank (e.g., \lstinline!WaterHeater:Stratified!), a direct expansion (DX) coil (i.e., an air-to-water DX compression system which includes a water heating coil, air coil, compressor, and water pump), and a fan to provide air flow across the air coil associated with the DX compression system. These objects work together to model a system which heats water using zone air, outdoor air, or a combination of zone and outdoor air as the primary heat source.
 
@@ -7881,7 +7881,7 @@ The heat pump water heater DX coil model performs the following major functions:
   calculates the air-side performance of the DX coil
 
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a heat pump water heater DX coil. Any reference to this coil by another object (e.g., \lstinline!WaterHeater:HeatPump:WrappedCondenser!) will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a heat pump water heater DX coil. Any reference to this coil by another object (e.g., \lstinline!WaterHeater:HeatPump:WrappedCondenser!) will use this name.";
 		public static string Field_RatedHeatingCapacity = @"This numeric field defines the DX coil heating capacity in Watts at the rated evaporator inlet air temperatures, rated condenser inlet water temperature, rated evaporator air flow rate, and rated condenser water flow rate specified below. Values must be greater than 0. This value represents water heating capacity, and it may or may not include the impact of condenser pump heat (see field Condenser Pump Heat Included in Rated Heating Capacity below).";
 		public static string Field_RatedCOP = @"This numeric field defines the DX coil's water heating coefficient of performance (COP = water heating capacity in watts divided by electrical power input in watts) at rated conditions (rated inlet temperatures and flow rates specified below). This input not only determines the electric energy use of the heat pump DX coil, but also the amount of total air cooling provided by the evaporator. The rated COP includes compressor power, and may or may not include condenser pump power or evaporator fan power (see field Evaporator Fan Power Included in Rated COP and field Condenser Pump Power Included in Rated COP). Values must be greater than 0. If this field is left blank, the default value is 3.2.";
 		public static string Field_RatedSensibleHeatRatio = @"This numeric field defines the air-side sensible heat ratio (SHR = sensible cooling capacity divided by total cooling capacity) of the DX coil at rated conditions (rated inlet temperatures and flow rates specified below). This value should not include the effect of evaporator fan heat. Values must be greater than or equal to 0.5, and less than or equal to 1.0. The default value is 0.85.";
@@ -7945,7 +7945,7 @@ Coil:WaterHeating:AirToWaterHeatPump:Wrapped,
   HPWH-COP-fPLR;           !- Part Load Fraction Correlation Curve Name";
 	}
 	public static class CoilWaterHeatingAirToWaterHeatPumpVariableSpeed
-    { 
+	{
 		public static string Name = @"Coil:WaterHeating:AirToWaterHeatPump:VariableSpeed";
 		public static string Note = @"\lstinline!Coil:WaterHeating:AirToWaterHeatPump:VariableSpeed! object described here models an air-to-water DX compression system to determine its air-side and water-side performance.
 Unlike the \lstinline!WaterHeater:HeatPump:PumpedCondenser! it has multiple, and up to 10, speeds.
@@ -7970,9 +7970,9 @@ The heat pump water heater DX coil model performs the following major functions:
 The input fields for this object are described below in detail:
 
 ";
-}
+	}
 	public static class CoilCoolingWaterToAirHeatPumpParameterEstimation
-    { 
+	{
 		public static string Name = @"Coil:Cooling:WaterToAirHeatPump:ParameterEstimation";
 		public static string Note = @"The {Coil:Cooling:WaterToAirHeatPump:ParameterEstimation} coil is a deterministic model that requires parameters to describe the operating conditions of the heat pump's components. The parameters are generated from the manufacturer catalog data using multi-variable optimization method. In addition, the cooling coil model can be used for 3 type of compressors: {reciprocating}, {rotary} and {scroll}. Descriptions and strength of each respective model is available in the following references:
 
@@ -7980,7 +7980,7 @@ Jin, Hui. 2002. Parameter Estimation Based Models of Water Source Heat Pumps. Ph
 
 Tang,C. C. 2005. Modeling Packaged Heat Pumps in Quasi-Steady State Energy Simulation Program. M.S. Thesis. Department of Mechanical and Aerospace Engineering, Oklahoma State University. (downloadable from \href{http://www.hvac.okstate.edu}{http://www.hvac.okstate.edu/})
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_CompressorType = @"Type of compressor mode used for the heat pump. Choices available are reciprocating, rotary and scroll compressor. Note that the parameters vary for different compressor.";
 		public static string Field_RefrigerantType = @"This alpha field contains the type of refrigerant used by the heat pump.";
 		public static string Field_DesignSourceSideFlowRate = @"This numeric field defines the water flow rate though the coil in m3/sec";
@@ -8049,13 +8049,13 @@ Coil:Cooling:WaterToAirHeatPump:ParameterEstimation,
   ;                                               !- Source Side Heat Transfer Resistance2 {W/K}";
 	}
 	public static class CoilCoolingWaterToAirHeatPumpEquationFit
-    { 
+	{
 		public static string Name = @"Coil:Cooling:WaterToAirHeatPump:EquationFit";
 		public static string Note = @"The Coil:Cooling:WaterToAirHeatPump:EquationFit is a simple curve-fit model that requires coefficients generated from the heat pump catalog data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. The performance of the heat pump is modeled using curves fitted from the catalog data. Description of the equation-fit model is available in the following reference:
 
 Tang,C. C. 2005. Modeling Packaged Heat Pumps in Quasi-Steady State Energy Simulation Program. M.S. Thesis. Department of Mechanical and Aerospace Engineering, Oklahoma State University. (downloadable from \href{http://www.hvac.okstate.edu}{http://www.hvac.okstate.edu/})
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the cooling coil source side inlet node name.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the cooling coil source side outlet node name.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the cooling coil air inlet node name.";
@@ -8106,11 +8106,11 @@ Coil:Cooling:WaterToAirHeatPump:EquationFit,
   0;!- Ratio of Initial Moisture Evaporation Rate and Steady-state Latent Capacity";
 	}
 	public static class CoilCoolingWaterToAirHeatPumpVariableSpeedEquationFit
-    { 
+	{
 		public static string Name = @"Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit";
 		public static string Note = @"The Variable-Speed Water-to-Air Cooling Equation Fit Coil is a collection of performance curves that represent the cooling coil at various speed levels. The performance curves should be generated from the heat pump Reference Unit data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. On the other hand, the model uses the bypass factor approach to calculate sensible heat transfer rate, similar to the one used in the single-speed DX coil. The number of speed levels can range from 2 to 10. The cooling coil has four node connections, i.e.~two air sides and two water sides. The user needs to specify a nominal speed level, at which the gross rated total cooling capacity, rated volumetric air and water flow rates are sized. The rated capacity, rated volumetric flow rates represent the real situation in the air and water loops, and are used to determine and flow rates at various speed levels in the parent objects, e.g.~AirLoopHVAC:UnitaryHeatPump:WaterToAir and ZoneHVAC:WaterToAirHeatPump. It shall be mentioned that the performance correction curves, i.e.~the temperature and flow fraction correction curves, should be normalized to the capacity and flow rates at each individual speed and at the rated conditions, similar to the performance curves used in the DX coils. However, the performance values, e.g.~gross capacities, gross COPs, gross SHRs and flow rates at individual speed levels, should be given regarding a specific unit from the Reference Unit catalog data. In the following content, the statement started with Reference Unit means the actual Reference Unit catalog data. The rated conditions for obtaining the capacities, COPs and SHRs are at indoor dry-bulb temperature of 26.67 ??C (80 ??F), wet bulb temperature of 19.44 ??C (67 ??F), and the source side entering water temperature of 29.4 ??C (85 ??F). Some equations are provided below to help explain the function of the various performance curves and data fields. For a detailed description of the algorithm and how the curves are used in the calculations, please see the Engineering Reference.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed cooling coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the cooling coil source side inlet node name.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the cooling coil source side outlet node name.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the cooling coil load side inlet node name.";
@@ -8385,11 +8385,11 @@ Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit,
   wasteHeat VS Temp1 Test;          !- Speed 10 Waste Heat Function of Temperature Curve Name";
 	}
 	public static class CoilHeatingWaterToAirHeatPumpParameterEstimation
-    { 
+	{
 		public static string Name = @"Coil:Heating:WaterToAirHeatPump:ParameterEstimation";
 		public static string Note = @"The Water to Air heat pump heating coil is a deterministic model that requires parameters to describe the operating conditions of the heat pump s components. The parameters are generated from the manufacturer catalog data using multi-variable optimization method. However, the parameters required for WatertoAirHP heating coil is similar to WatertoAirHP cooling except (source side outside heat transfer coefficient) parameter is not required for heating. In addition, the heating coil model can be used for 3 type of compressors which are {reciprocating}, {rotary} and {scroll}.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_CompressorType = @"Type of compressor mode used for the heat pump. Choices available are reciprocating, rotary and scroll compressor. Note that the parameters vary for different compressor.";
 		public static string Field_RefrigerantType = @"This alpha field contains the type of refrigerant used by the heat pump.";
 		public static string Field_DesignSourceSideFlowRate = @"This numeric field defines the water flow rate though the coil in m3/sec";
@@ -8452,11 +8452,11 @@ Coil:Heating:WaterToAirHeatPump:ParameterEstimation,
   ;                                               !- Source Side Heat Transfer Resistance2 {W/K}";
 	}
 	public static class CoilHeatingWaterToAirHeatPumpEquationFit
-    { 
+	{
 		public static string Name = @"Coil:Heating:WaterToAirHeatPump:EquationFit";
 		public static string Note = @"The Water to Air Heating Equation Fit Coil is a simple curve-fit model that requires coefficients generated from the heat pump catalog data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. The performance of the heat pump is modeled using curves fitted from the catalog data.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the heating coil source side inlet node name.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the heating coil source side outlet node name.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the heating coil air inlet node name.";
@@ -8469,11 +8469,11 @@ Coil:Heating:WaterToAirHeatPump:ParameterEstimation,
 		public static string Field_HeatingPowerConsumptionCoefficient15 = @"These numeric fields contain the first to fifth coefficient for the heat pump power consumption.";
 	}
 	public static class CoilHeatingWaterToAirHeatPumpVariableSpeedEquationFit
-    { 
+	{
 		public static string Name = @"Coil:Heating:WaterToAirHeatPump:VariableSpeedEquationFit";
 		public static string Note = @"The Variable-Speed Water-to-Air Heating Equation Fit Coil is a collection of performance curves that represent the heating coil at various speed levels. The performance curves should be generated from the heat pump Reference Unit catalog data. This is an equation-fit model that resembles a black box with no usage of heat transfer equations. The number of speed levels can range from 2 to 10. The heating coil has four node connections, i.e.~two air sides and two water sides. The user needs to specify a nominal speed level, at which the rated capacity, rated volumetric air and water flow rates are sized. The rated capacity, rated volumetric flow rates represent the real situation in the air and water loops, and are used to determine the flow rates at various speed levels in the parent objects, e.g.~AirLoopHVAC:UnitaryHeatPump:WaterToAir and ZoneHVAC:WaterToAirHeatPump. It shall be mentioned that the performance correction curves, i.e.~the temperature and flow fraction correction curves, should be normalized to the capacity and flow rates at each individual speed and at the rated operating conditions, similar to the performance curves used in the DX coils. On the other hand, the performance values at individual speed levels, e.g.~capacities, COPs and flow rates, should be given regarding a specific unit from the Reference Unit catalog data. In the following content, the statement started with Reference Unit means the actual Reference Unit catalog data. The rated conditions for obtaining the capacities and COPs are at indoor dry-bulb temperature of 21.1 ??C (70 ??F) and the source side entering water temperature of 21.1 ??C (70 ??F). Some equations are provided below to help explain the function of the various performance curves and data fields. For a detailed description of the algorithm and how the curves are used in the calculations, please see the Engineering Reference.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the variable speed heating coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the variable speed heating coil. Any reference to this coil by another object (e.g., AirLoopHVAC:UnitaryHeatPump:WaterToAir) will use this name.";
 		public static string Field_WaterInletNodeName = @"This alpha field contains the heating coil source side inlet node name.";
 		public static string Field_WaterOutletNodeName = @"This alpha field contains the heating coil source side outlet node name.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the heating coil load side inlet node name.";
@@ -8726,7 +8726,7 @@ Coil:Heating:WaterToAirHeatPump:VariableSpeedEquationFit,
   Heating wasteHeat VS Temp1 Test;!- Speed 10 Waste Heat Function of Temperature Curve Name";
 	}
 	public static class CoilCoolingDXSingleSpeedThermalStorage
-    { 
+	{
 		public static string Name = @"Coil:Cooling:DX:SingleSpeed:ThermalStorage";
 		public static string Note = @"This object models a special direct expansion (DX) cooling coil that includes methods of storing thermal energy within the cooling coil package. This packaged thermal storage cooling coil model includes all of the equipment needed to charge and discharge and the Thermal Energy Storage (TES) tank itself. This coil object is used with CoilSystem:Cooling:DX object and a constant volume supply fan, but all other subcomponents are contained within the package.
 
@@ -8751,7 +8751,7 @@ The model offers various modes of operation that can be controlled over time usi
 
 This cooling coil can be autosized. The cooling capacity for the cooling only mode is sized to meet the air system s final design cooling capacity. The cooling capacity for the other modes, and the storage capacity, can all be scaled relative to that one capacity using sizing factors that can be input by the user.
 ";
-	public static string Field_Name = @"A unique name for this TES coil object, assigned by user.";
+		public static string Field_Name = @"A unique name for this TES coil object, assigned by user.";
 		public static string Field_AvailabilityScheduleName = @"The name of a schedule that determines whether the TES coil is available for cooling during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during a given time period. A value less than or equal to 0 (usually 0 is used) denotes that unit must be in off mode. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_OperatingModeControlMethod = @"This field determines how the TES coil is to be controlled in terms of which operating mode is in effect for a given time period. There are two choices, ScheduledModes or EMSControlled. Choosing ScheduledModes indicates that the operating mode is determined by the values in a schedule that is named in the following input field. Choosing EMSControlled indicates that the operating mode is determined by the state of an EMS actuator called Coil:Cooling:DX:SingleSpeed:ThermalStorage with the control type Operating Mode.";
 		public static string Field_OperationModeControlScheduleName = @"This field is used (and required) if the operating model control method is set to ScheduledModes in the previous input field. The control schedule consists of a series of integer values that indicate what mode the TES coil should operate in for a given time period. The values for various operating modes have been programmed to be as follows:
@@ -8927,7 +8927,7 @@ This field is required if the condenser type is set to EvaporativelyCooled. If t
 		public static string Field_StorageTankMaximumOperatingLimitFluidTemperatureC = @"This field is used for fluid-based TES tank (Storage Type of Water or UserDefinedFluidType) to set the an upper limit on the operating temperatures, in Degrees Celsius. This value represents the temperature of the fluid-based TES tank when fully discharged. This field is optional. When left blank, the model uses the highest temperature for which fluid properties are defined.";
 	}
 	public static class SecondaryCoilsOfDXSystemAndHeatPump
-    { 
+	{
 		public static string Name = @"Secondary Coils of DX System and Heat Pump";
 		public static string Note = @"Secondary Coils reject to or remove heat from a secondary zone as part of a DX system or an air-to-air heat pump. Secondary coil refers to a condenser of a DX system or a heat pump in cooling operating mode or an evaporator of a heat pump in heating mode. The secondary coil (e.g.~condenser) of DX system or heat pumps is commonly installed outdoor but when installed inside a zone either heat is dumped to or extracted from a secondary zone. A secondary zone is a conditioned or unconditioned zone where the secondary coil is installed. Secondary coils are not standalone DX coils but they are add-on features on existing DX coil objects. A secondary DX coil is modeled by specifying additional inputs in one of the following DX coil objects: Coil:Cooling:DX:SingleSpeed, Coil:Heating:DX:SingleSpeed, Coil:Cooling:DX:TwoSpeed, Coil:Cooling:DX:MultiSpeed, and Coil:Heating:DX:MultiSpeed. These additional inputs allow us to model the heat rejected or extracted by the secondary coil while the primary (active) coil is serving another controlled zone as shown in \protect\hyperlink{SecondaryCoilsFigure1}{Figure}. A secondary coil is not controlled directly but responds to the requirements of the primary DX coil. Heat is rejected or extracted depending on the primary DX coil operating modes. For instance, heat rejected to a secondary zone by a condenser of a DX system or a heat pump is considered as sensible only whereas the energy extracted from a secondary zone may contain sensible and latent components.
 
@@ -8943,9 +8943,9 @@ Applications of this technology include: inter-zone heat pump in NTED (Dixon, 20
 
 {Cooling Operating Mode}: the primary DX cooling coil of a DX system serving a primary zone is active and heat is rejected by the secondary coil (condenser) into a secondary zone. The secondary zone name is specified in DX cooling coil objects. This operating mode applies to a DX cooling system and cooling operating mode of air-to-air single and multi-speed heat pumps. Heat rejected by a secondary coil (condenser) calculated at each time step becomes internal gain of the secondary zone as shown in \protect\hyperlink{SecondaryCoilsFigure2}{Figure}. Whenever a secondary zone name is specified in DX cooling coil objects, the secondary DX coil model calculation is invoked. The only input field required to invoke the secondary DX coil in cooling operating model is to add a zone name in the input field {Zone Name for Condenser Placement} in the DX cooling coil object.
 ";
-}
+	}
 	public static class SecondaryDXCoilOutput
-    { 
+	{
 		public static string Name = @"Secondary DX Coil Output";
 		public static string Note = @"  HVAC, Average, Secondary Coil Heat Rejection Rate [W]
 
@@ -8960,9 +8960,9 @@ Applications of this technology include: inter-zone heat pump in NTED (Dixon, 20
   HVAC, Average, Secondary Coil Compressor Part Load Ratio 
 
 ";
-}
+	}
 	public static class CurveLinear
-    { 
+	{
 		public static string Name = @"Curve:Linear";
 		public static string Note = @"Input for the linear curve consists of a curve name, the two coefficients, and the maximum and minimum valid independent variable values. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the linear curve is:
 
@@ -8970,7 +8970,7 @@ Applications of this technology include: inter-zone heat pump in NTED (Dixon, 20
 y = {C_1} + {C_2}*x
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a linear curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a linear curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The linear coefficient (C_{2}) in the equation.";
 		public static string Field_MinimumValueOfX = @"The minimum allowable value of x. Values of x less than the minimum will be replaced by the minimum.";
@@ -9029,11 +9029,11 @@ Curve:Linear,
   248.84; ! Maximum Curve Output [Pa]";
 	}
 	public static class CurveQuadLinear
-    { 
+	{
 		public static string Name = @"Curve:QuadLinear";
 		public static string Note = @"Input consists of the curve name, the five coefficients, and maximum and minimum values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is represented by this curve:
 ";
-	public static string YC1C2WC3XC4YC5Z = @"";
+		public static string YC1C2WC3XC4YC5Z = @"";
 		public static string Field_Name = @"A user assigned unique name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C1) in the equation.";
 		public static string Field_Coefficient2W = @"The coefficient (C2) in the equation.";
@@ -9177,7 +9177,7 @@ CURVE:QUADLINEAR,
   32.;                 ! Maximum Curve Output";
 	}
 	public static class CurveQuadratic
-    { 
+	{
 		public static string Name = @"Curve:Quadratic";
 		public static string Note = @"Input for a quadratic curve consists of the curve name, the three coefficients, and the maximum and minimum valid independent variable values. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the quadratic curve is:
 
@@ -9185,7 +9185,7 @@ CURVE:QUADLINEAR,
 y = {C_1} + {C_2}*x + {C_3}*{x^2}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a quadratic curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a quadratic curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The linear coefficient (C_{2}) in the equation.";
 		public static string Field_Coefficient3X2 = @"The quadratic coefficient (C_{3}) in the equation.";
@@ -9232,7 +9232,7 @@ Curve:Quadratic,
   1.0;          ! Maximum Value of x";
 	}
 	public static class CurveCubic
-    { 
+	{
 		public static string Name = @"Curve:Cubic";
 		public static string Note = @"Input for a cubic curve consists of the curve name, the 4 coefficients, and the maximum and minimum valid independent variable values. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the cubic curve is:
 
@@ -9240,7 +9240,7 @@ Curve:Quadratic,
 y = {C_1} + {C_2}*x + {C_3}*{x^2} + {C_4}*{x^3}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a cubic curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a cubic curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The linear coefficient (C_{2}) in the equation.";
 		public static string Field_Coefficient3X2 = @"The quadratic coefficient (C_{3}) in the equation.";
@@ -9289,7 +9289,7 @@ Curve:Cubic,
   1.1;           ! max";
 	}
 	public static class CurveQuartic
-    { 
+	{
 		public static string Name = @"Curve:Quartic";
 		public static string Note = @"Input for a Quartic (fourth order polynomial) curve consists of the curve name, the five coefficients, and the maximum and minimum valid independent variable values. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the quartic curve is:
 
@@ -9297,7 +9297,7 @@ Curve:Cubic,
 y = {C_1} + {C_2}x + {C_3}{x^2} + {C_4}{x^3} + {C_5}{x^4}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a Quartic curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a Quartic curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The linear coefficient (C_{2}) in the equation.";
 		public static string Field_Coefficient3X2 = @"The quadratic coefficient (C_{3}) in the equation.";
@@ -9364,7 +9364,7 @@ Curve:Quartic,
   0.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveExponent
-    { 
+	{
 		public static string Name = @"Curve:Exponent";
 		public static string Note = @"Input for a exponent curve consists of the curve name, the 3 coefficients, and the maximum and minimum valid independent variable values. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the exponent curve is:
 
@@ -9372,7 +9372,7 @@ Curve:Quartic,
 y = C1 + C2*{x^{C3}}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of an exponent curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of an exponent curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2Constant = @"The linear coefficient (C_{2}) in the equation.";
 		public static string Field_Coefficient3Constant = @"The exponent coefficient (C_{3}) in the equation.";
@@ -9422,7 +9422,7 @@ Curve:Exponent,
   1.5;                                     !- Maximum Curve Output";
 	}
 	public static class CurveBicubic
-    { 
+	{
 		public static string Name = @"Curve:Bicubic";
 		public static string Note = @"This curve type is a function of two independent variables. Input consists of the curve name, the ten coefficients, and the minimum and maximum values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the bicubic curve is:
 
@@ -9430,7 +9430,7 @@ Curve:Exponent,
 z = {C_1} + {C_2}*x + {C_3}*{x^2} + {C_4}*y + {C_5}*{y^2} + {C_6}*xy + {C_7}*{x^3} + {C_8}*{y^3} + {C_9}*{x^2}y + {C_{10}}*x{y^2}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a bicubic curve. When a curve is used by another object, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a bicubic curve. When a curve is used by another object, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The coefficient C_{2} in the equation.";
 		public static string Field_Coefficient3X2 = @"The coefficient C_{3} in the equation.";
@@ -9510,7 +9510,7 @@ Curve:Bicubic,
   1.01;                                             !- Maximum Value of y";
 	}
 	public static class CurveBiquadratic
-    { 
+	{
 		public static string Name = @"Curve:Biquadratic";
 		public static string Note = @"This curve is a function of two independent variables. Input consists of the curve name, the six coefficients, and min and max values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the bicubic curve is:
 
@@ -9518,7 +9518,7 @@ Curve:Bicubic,
 z = {C_1} + {C_2}*x + {C_3}*{x^2} + {C_4}*y + {C_5}*{y^2} + {C_6}*xy
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a biquadratic curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a biquadratic curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The coefficient C_{2} in the equation.";
 		public static string Field_Coefficient3X2 = @"The coefficient C_{3} in the equation.";
@@ -9588,7 +9588,7 @@ Curve:Biquadratic,
   29., 47.;        ! min and max of second independent variable";
 	}
 	public static class CurveCubicLinear
-    { 
+	{
 		public static string Name = @"Curve:CubicLinear";
 		public static string Note = @"This curve is a function of two independent variables. Input consists of the curve name, the six coefficients, and min and max values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the cubic linear curve:
 
@@ -9596,7 +9596,7 @@ Curve:Biquadratic,
 y = \left( {{C_1} + {C_2}*x + {C_3}*{x^2} + {C_4}*{x^3}} \right) + \left( {{C_5} + {C_6}*x} \right)*y
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a quadratic-linear curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a quadratic-linear curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_1 ) in the equation.";
 		public static string Field_Coefficient2X = @"The coefficient C_2 in the equation.";
 		public static string Field_Coefficient3X2TheCoefficientC3InTheEquation = @"";
@@ -9636,7 +9636,7 @@ Curve:CubicLinear,
   Dimensionless,            !- Output Unit Type";
 	}
 	public static class CurveChillerPartLoadWithLift
-    { 
+	{
 		public static string Name = @"Curve:ChillerPartLoadWithLift";
 		public static string Note = @"A custom chiller part-load performance curve is a function of three independent variables, i.e., x, y, and z. Input consists of the curve name, the twelve coefficients, and min and max values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve.
 
@@ -9658,9 +9658,9 @@ where,
   z represents the part load ratio.
 
 ";
-}
+	}
 	public static class CurveQuadraticLinear
-    { 
+	{
 		public static string Name = @"Curve:QuadraticLinear";
 		public static string Note = @"This curve is a function of two independent variables. Input consists of the curve name, the six coefficients, and min and max values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the quadratic linear curve:
 
@@ -9668,7 +9668,7 @@ where,
 z = \left( {{C_1} + {C_2}*x + {C_3}*{x^2}} \right) + \left( {{C_4} + {C_5}*x + {C_6}*{x^2}} \right)*y
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a quadratic-linear curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a quadratic-linear curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Coefficient1Constant = @"The constant coefficient (C_{1}) in the equation.";
 		public static string Field_Coefficient2X = @"The coefficient C_{2} in the equation.";
 		public static string Field_Coefficient3X2 = @"The coefficient C_{3} in the equation.";
@@ -9740,7 +9740,7 @@ Curve:QuadraticLinear,
   9.9;            !- Maximum Value of y";
 	}
 	public static class CurveTriquadratic
-    { 
+	{
 		public static string Name = @"Curve:Triquadratic";
 		public static string Note = @"This curve is a 2^{nd} order polynomial function of three variable polynomial independent variables. Input consists of the curve name, the twenty seven coefficients, and min and max values for each of the independent variables. Optional inputs for curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation represented by the triquadratic curve:
 
@@ -9753,7 +9753,7 @@ Curve:QuadraticLinear,
   \end{array}
 
 ";
-	public static string Field_Coefficient1Constant = @"The constant coefficient (A_{0}) in the equation.";
+		public static string Field_Coefficient1Constant = @"The constant coefficient (A_{0}) in the equation.";
 		public static string Field_Coefficient2X2 = @"The coefficient (A_{1}) in the equation.";
 		public static string Field_Coefficient3X = @"The coefficient (A_{2}) in the equation.";
 		public static string Field_Coefficient4Y2 = @"The coefficient (A_{3}) in the equation.";
@@ -9844,7 +9844,7 @@ Curve:QuadraticLinear,
   Power";
 	}
 	public static class CurveFunctionalPressureDrop
-    { 
+	{
 		public static string Name = @"Curve:Functional:PressureDrop";
 		public static string Note = @"Input for a pressure drop curve consists of the curve name, a varying number of parameters, and the maximum and minimum valid independent variable values. The equation represented by the pressure drop curve is:
 
@@ -9852,7 +9852,7 @@ Curve:QuadraticLinear,
 \Delta P = \left( {K + f\frac{L}{D}} \right)\frac{{\rho {V^2}}}{2}
 
 ";
-	public static string Field_Name = @"A user assigned unique name for an instance of a pressure drop curve. When a curve is used, it is referenced by this name.";
+		public static string Field_Name = @"A user assigned unique name for an instance of a pressure drop curve. When a curve is used, it is referenced by this name.";
 		public static string Field_Diameter = @"This diameter represents an equivalent diameter for the given branch. This is parameter (D) in the equation, and has units of \{m\}. Since varying components may be found on the same branch, this value must be selected along with the other inputs in order to provide a proper value of pressure drop. This is used to calculate the velocity in addition to being used directly in the frictional pressure drop calculation.";
 		public static string Field_MinorLossCoefficient = @"This is the pressure drop coefficient typically applied to components such as fittings and occasionally heat pumps. This is parameter (K) in the equation and is dimensionless. This coefficient is used to describe the amount of dynamic pressure lost during the process. This value may be left blank if the user only wants to account for frictional losses in this branch.";
 		public static string Field_Length = @"This is the length of a pressure drop process in which friction is applied. This is parameter (L) in the equation and has units of \{m\}. In a pipe, this would be the length of the pipe, however in many cases, pressure drop in other components are applied as an equivalent length. This is only required if the user is wanting to perform frictional pressure drop calculations.";
@@ -9885,7 +9885,7 @@ Curve:Functional:PressureDrop,
   0.008;                                     !- Fixed Friction Factor";
 	}
 	public static class CurveFanPressureRise
-    { 
+	{
 		public static string Name = @"Curve:FanPressureRise";
 		public static string Note = @"Input for the fan total pressure rise curve consists of the curve name, the four coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
@@ -9903,7 +9903,7 @@ The third term, which depends on the fan flow and square root of the supply duct
 
 The last term also accounts in part for leakage from the supply system when damper positions are fixed or are changed independently of static pressure or fan flow. This term indicates that the same fan pressure rise can be achieved by raising the duct pressure and closing dampers. The only change in the system in such a case is that the leakage flow may increase. The coefficient for this term is one when the VAV box dampers are modulated to control flow. In both cases, this term may be the most important correction to the simple system curves generally used, especially at low flows.
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_FanPressureRiseCoefficient1C1 = @"The required numeric constant coefficient C{_{1}} (Pa s^{2}/m^{6}) in the curve. Must be greater than zero.";
 		public static string Field_FanPressureRiseCoefficient2C2 = @"The required numeric constant coefficient C{_{2}} (Pa s/m^{3}) in the curve{.}";
 		public static string Field_FanPressureRiseCoefficient3C3 = @"The required numeric constant coefficient {C_{3}} (Pa^{0.5} s/m^{3}) in the curve{.}";
@@ -9933,7 +9933,7 @@ Curve:FanPressureRise,
   5000.;                               ! Maximum Curve Output [Pa]";
 	}
 	public static class CurveExponentialSkewNormal
-    { 
+	{
 		public static string Name = @"Curve:ExponentialSkewNormal";
 		public static string Note = @"Input for the exponential-modified skew normal curve consists of the curve name, the four coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
@@ -9949,7 +9949,7 @@ where:
   Z_3 &= -C_1/C_2
 \end{align*}
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient {C_{1}} in the curve.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient {C_{2}} in the curve. Must be non-zero.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient {C_{3}} in the curve.";
@@ -9989,7 +9989,7 @@ Curve:ExponentialSkewNormal,
   1.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveSigmoid
-    { 
+	{
 		public static string Name = @"Curve:Sigmoid";
 		public static string Note = @"Input for the sigmoid curve consists of the curve name, the five coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
@@ -9997,7 +9997,7 @@ Curve:ExponentialSkewNormal,
 y = {C_1} + \frac{{{C_2}}}{{\left( {{{(1 + {e^{\left[ {\frac{{({C_3} - x)}}{{{C_4}}}} \right]}})}^{{C_5}}}} \right)}}
 
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient {C_{1}} in the equation.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient {C_{2}} in the equation.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient {C_{3}} in the equation.";
@@ -10039,13 +10039,13 @@ Curve:Sigmoid,
   1.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveRectangularHyperbola1
-    { 
+	{
 		public static string Name = @"Curve:RectangularHyperbola1";
 		public static string Note = @"Input for the single rectangular hyperbola type 1 curve consists of the curve name, the three coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
 {y =}({C_{1} -* x}) {/} ({C_{2}+x}) {+ C_{3}}
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient {C_{1}} in the equation.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient {C_{2}} in the equation.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient {C_{3}} in the equation.";
@@ -10071,13 +10071,13 @@ Curve:RectangularHyperbola1,
   1.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveRectangularHyperbola2
-    { 
+	{
 		public static string Name = @"Curve:RectangularHyperbola2";
 		public static string Note = @"Input for the single rectangular hyperbola type 2 curve consists of the curve name, the three coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
 {y =}({C_{1} -* x}) {/} ({C_{2}+x}) {+ C_{3} -* x}
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient {C_{1}} in the equation.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient {C_{2}} in the equation.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient {C_{3}} in the equation.";
@@ -10133,7 +10133,7 @@ Curve:RectangularHyperbola2,
   1.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveExponentialDecay
-    { 
+	{
 		public static string Name = @"Curve:ExponentialDecay";
 		public static string Note = @"Input for the exponential decay curve consists of the curve name, the three coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve minimum and maximum may be used to limit the output of the performance curve (e.g., limit extrapolation). The equation is:
 
@@ -10141,7 +10141,7 @@ Curve:RectangularHyperbola2,
   y = C_1 + C_2 \cdot e^{C_3 x}
 
 ";
-	public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"The required user-assigned unique alpha name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient {C_{1}} in the equation.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient {C_{2}} in the equation.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient {C_{3}} in the equation.";
@@ -10167,7 +10167,7 @@ Curve:ExponentialDecay,
   1.;                                                           ! Maximum Curve Output";
 	}
 	public static class CurveDoubleExponentialDecay
-    { 
+	{
 		public static string Name = @"Curve:DoubleExponentialDecay";
 		public static string Note = @"Input for the double exponential decay curve consists of the curve name, the five coefficients, and the maximum and minimum valid independent variable values. Optional inputs for the curve include the minimum and maximum output of the performance curve. The equation is:
 
@@ -10175,7 +10175,7 @@ Curve:ExponentialDecay,
 y = {C_1} + {C_2}{\exp ^{({C_3}x)}} + {C_4}{\exp ^{({C_5}x)}}
 
 ";
-	public static string Field_Name = @"This field indicates the required user-assigned name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
+		public static string Field_Name = @"This field indicates the required user-assigned name for an instance of this curve. When a curve of this type is used, it is referenced by this name.";
 		public static string Field_Coefficient1C1 = @"The required numeric constant coefficient C_{1} in the equation.";
 		public static string Field_Coefficient2C2 = @"The required numeric constant coefficient C_{2} in the equation.";
 		public static string Field_Coefficient3C3 = @"The required numeric constant coefficient C_{3} in the equation.";
@@ -10203,7 +10203,7 @@ Curve:DoubleExponentialDecay,
   1.0;                                     !- Maximum Value of x";
 	}
 	public static class PlantLoop
-    { 
+	{
 		public static string Name = @"PlantLoop";
 		public static string Note = @"The main elements of the PlantLoop syntax are described in further detail below. A map of how the input for this portion of the HVAC input fits together is provided in the following diagram.
 
@@ -10213,7 +10213,7 @@ Curve:DoubleExponentialDecay,
 \caption{Plant Loop Input Syntax Map \protect \label{fig:plant-loop-input-syntax-map}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field is used as an identifying field for the plant loop.";
+		public static string Field_Name = @"This alpha field is used as an identifying field for the plant loop.";
 		public static string Field_FluidType = @"This alpha field must be a keyword selected from the list of available fluids for an EnergyPlus plant loop. Either {Water}, {Steam} or {UserDefinedFluidType} may be used. If the UserDefinedFluidType keyword is used, the following input field i.e.~User Defined Fluid Type must have a value (namely the name of a FluidProperties:GlycolConcentration object).";
 		public static string Field_UserDefinedFluidType = @"This alpha field must be specified when the previous field is set to {UserDefinedFluidType} otherwise it could be left blank. {Water}, {EthyleneGlycol}, {PropyleneGlycol} and {Steam} are all ``built-in'' fluids for EnergyPlus (that is, all of the appropriate properties are contained within the program). If the fluid specified here is a mixture of water and ethylene or propylene glycol, then only FluidProperties:GlycolConcentration objects need to be specified and the name of the appropriate one is used here. For another water/glycol mixture, a complete set of fluid property data (FluidProperties:Name and FluidProperties:Temperature objects plus multiple FluidProperties:Concentration objects for specific heat, density, etc.) must be specified (Ref dataset: GlycolPropertiesRefData.idf).";
 		public static string Field_PlantEquipmentOperationSchemeName = @"This alpha field is used as an identifying field for the plant operation scheme. This field ties to the PlantEquipmentOperationSchemes input structure, which must also be defined.";
@@ -10291,7 +10291,7 @@ An example of this statement used in an IDF is:
 In the above example input there is no system availability manager specified and the Demand Calculation Scheme will default to SingleSetpoint using a single setpoint manager. Common pipe simulation field in the above example will default to ``NONE'' since it is not specified.";
 	}
 	public static class CondenserLoop
-    { 
+	{
 		public static string Name = @"CondenserLoop";
 		public static string Note = @"The condenser loop input is very similar to that for the plant loop. As of version 7, the two loops are modeled the same way and inside the program all condenser loops are just plant loops. (In future versions of the program, this CondenserLoop object might be deprecated and these loops will be described using the PlantLoop object.)~ The main differences are the applicable components and operation schemes. This is depicted in the following diagram.
 
@@ -10301,7 +10301,7 @@ In the above example input there is no system availability manager specified and
 \caption{Condenser Loop Input Syntax Map \protect \label{fig:condenser-loop-input-syntax-map}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field is used as an identifying field for the condenser loop.";
+		public static string Field_Name = @"This alpha field is used as an identifying field for the condenser loop.";
 		public static string Field_FluidType = @"This alpha field must be a keyword selected from the list of available fluids for an EnergyPlus plant loop. Either {Water} or {UserDefinedFluidType} may be used. If the UserDefinedFluidType keyword is used, the following input field i.e.~User Defined Fluid Type must have a value (namely the name of a FluidProperties:GlycolConcentration object).";
 		public static string Field_UserDefinedFluidType = @"This alpha field must be specified when the previous field is set to {UserDefinedFluidType} otherwise it could be left blank. {Water}, {EthyleneGlycol}, and {PropyleneGlycol} are all ``built-in'' fluids for EnergyPlus (that is, all of the appropriate properties are contained within the program). If the fluid specified here is a mixture of water and ethylene or propylene glycol, then only FluidProperties:GlycolConcentration objects need to be specified and the name of the appropriate one is used here. For another water/glycol mixture, a complete set of fluid property data (FluidProperties:Name and FluidProperties:Temperature objects plus multiple FluidProperties:Concentration objects for specific heat, density, etc.) must be specified (Ref dataset: GlycolPropertiesRefData.idf).";
 		public static string Field_CondenserEquipmentOperationSchemeName = @"This alpha field is used as an identifying field for the condenser operation scheme. This field ties to the Condenser Operation Schemes input structure, which must also be defined.";
@@ -10381,7 +10381,7 @@ An example of this statement used in an IDF is:
       SequentialLoad;              !- Load Distribution Scheme";
 	}
 	public static class GenericChillerOutputs
-    { 
+	{
 		public static string Name = @"Generic Chiller Outputs";
 		public static string Note = @"Many output variable names are common across all chiller types. These generic chiller output names all begin with the word ``Chiller''. Certain chiller types have additional output variables which are specific to that type of chiller. Chiller energy use is added to the appropriate plant-level meters as a cooling end-use.
 
@@ -10566,12 +10566,12 @@ The following output is applicable only for indirect absorption chillersHVAC,Ave
   HVAC,Average,Chiller OtherFuel2 Mass Flow Rate [kg/s]
 
 ";
-}
+	}
 	public static class ChillerAbsorption
-    { 
+	{
 		public static string Name = @"Chiller:Absorption";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the absorption chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the absorption chiller.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_NominalPumpingPower = @"This numeric field contains the nominal pumping power of the absorber in Watts.";
 		public static string Field_ChilledWaterInletNodeName = @"This required alpha field contains the identifying name for the absorption chiller plant side inlet node.";
@@ -10646,11 +10646,11 @@ Chiller:Absorption,
       2.0;                     !- Degree of Subcooling in Steam Generator {C}";
 	}
 	public static class ChillerAbsorptionIndirect
-    { 
+	{
 		public static string Name = @"Chiller:Absorption:Indirect";
 		public static string Note = @"The Chiller:Absorption:Indirect object is an enhanced version of the absorption chiller model found in the Building Loads and System Thermodynamics (BLAST) program. This enhanced model is nearly identical to the existing absorption chiller model (Ref. Chiller:Absorption) with the exceptions that: 1) the enhanced indirect absorption chiller model provides more flexible performance curves and 2) chiller performance now includes the impact of varying evaporator, condenser, and generator temperatures. Since these absorption chiller models are nearly identical (i.e., the performance curves of the enhanced model can be manipulated to produce similar results to the previous model), it is quite probable that the Chiller:Absorption model will be deprecated in a future release of EnergyPlus.
 ";
-	public static string Field_Name = @"This required alpha field contains the identifying name for the indirect absorption chiller.";
+		public static string Field_Name = @"This required alpha field contains the identifying name for the indirect absorption chiller.";
 		public static string Field_NominalCapacity = @"This required numeric field contains the nominal cooling capability of the chiller in Watts. This field must be greater than 0 and is autosizable.";
 		public static string Field_NominalPumpingPower = @"This required numeric field contains the nominal pumping power of the chiller in Watts. The minimum value for this field is 0 and is autosizable.";
 		public static string Field_ChilledWaterInletNodeName = @"This required alpha field contains the identifying name for the chiller chilled water inlet node.";
@@ -10719,13 +10719,13 @@ Chiller:Absorption:Indirect,
       12.0;                    !- Degree of Subcooling in Steam Condensate Loop {C}";
 	}
 	public static class ChillerConstantCOP
-    { 
+	{
 		public static string Name = @"Chiller:ConstantCOP";
 		public static string Note = @"This chiller model is based on a simple, constant COP simulation of the chiller. In this case, performance does not vary with chilled water temperature or condenser conditions.
 
 Such a model is useful when the user does not have access to detailed performance data.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the constant COP chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the constant COP chiller.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_NominalCOP = @"This numeric field contains the Chiller's coefficient of performance.";
 		public static string Field_DesignChilledWaterFlowRate = @"For variable volume chiller this is the maximum flow and for constant flow chiller this is the design flow rate. The units are in cubic meters per second.";
@@ -10772,7 +10772,7 @@ Chiller:ConstantCOP, Little Chiller,
       450;                     !- Basin Heater Capacity {W/K}";
 	}
 	public static class ChillerElectric
-    { 
+	{
 		public static string Name = @"Chiller:Electric";
 		public static string Note = @"This chiller model is the empirical model from the Building Loads and System Thermodynamics (BLAST) program. Capacity, power, and full load are each defined by a set of performance curves (quadratics). Chiller performance curves are generated by fitting catalog data to third order polynomial equations. The nominal inputs and curves described below are combined as follows to calculate the chiller power:
 
@@ -10792,7 +10792,7 @@ FullLoadPowerRat~ = the result of the Power Ratio Curve
 
 FracFullLoadPower = the result of the Full Load Ratio Curve
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the electric chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the electric chiller.";
 		public static string Field_CondenserType = @"This alpha field determines what type of condenser will be modeled with this chiller. The 3 type of condensers are AirCooled, WaterCooled, and EvaporativelyCooled with the default being AirCooled if not specified. AirCooled and EvaporativelyCooled do not require a Condenser Loop to be specified, where the WaterCooled option requires the full specification of the Condenser Loop and its associated equipment.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_NominalCOP = @"This numeric field contains the chiller's coefficient of performance. For a water-cooled chiller, this number does not include energy use due to condenser pumps and/or fans. For an air-cooled or evap-cooled chiller, this number includes condenser fan power.";
@@ -11033,13 +11033,13 @@ Chiller:Electric,
       Big Chiller Heat Rec Outlet Node;  !- Heat Recovery Outlet Node Name";
 	}
 	public static class ChillerElectricEIR
-    { 
+	{
 		public static string Name = @"Chiller:Electric:EIR";
 		public static string Note = @"This chiller model is the empirical model used in the DOE-2.1 building energy simulation program. The model uses performance information at reference conditions along with three curve fits for cooling capacity and efficiency to determine chiller operation at off-reference conditions. Chiller performance curves can be generated by fitting manufacturer's catalog data or measured data. Performance curves for more than 160 chillers, including the default DOE-2.1E reciprocating and centrifugal chillers, are provided in the EnergyPlus Reference DataSets (Chillers.idf and AllDataSets.idf).
 
 Note: Chiller:Electric:EIR objects and their associated performance curve objects are developed using performance information for a specific chiller and should normally be used together for an EnergyPlus simulation. Changing the object input values, or swapping performance curves between chillers, should be done with caution.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the electric EIR chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the electric EIR chiller.";
 		public static string Field_ReferenceCapacity = @"This numeric field contains the reference cooling capacity of the chiller in Watts. This should be the capacity of the chiller at the reference temperatures and water flow rates defined below. Alternately, this field can be autosized.";
 		public static string Field_ReferenceCOP = @"This numeric field contains the chiller's coefficient of performance. This value should {not} include energy use due to pumps or cooling tower fans. This COP should be at the reference temperatures and water flow rates defined below. This value {should} include evap-cooled or air-cooled condenser fans except when the Condenser Fan Power Ratio input field defined below is used and that input value is greater than 0. For the case when condenser fan power is modeled separately, the calculated condenser fan energy is reported on the same electric meter as compressor power. Be careful to not duplicate this energy use.";
 		public static string Field_ReferenceLeavingChilledWaterTemperature = @"This numeric field contains the chiller's reference leaving chilled water temperature in Celsius. The default value is 6.67??C.";
@@ -11161,7 +11161,7 @@ An example of this statement in an IDF is:
    1.0;                        !- Maximum Value of x";
 	}
 	public static class ChillerElectricReformulatedEIR
-    { 
+	{
 		public static string Name = @"Chiller:Electric:ReformulatedEIR";
 		public static string Note = @"This chiller model, developed through the CoolTools??? project sponsored by Pacific Gas and Electric Company (PG\&E), is an empirical model similar to EnergyPlus' Chiller:Electric:EIR model. The model uses performance information at reference conditions along with three curve fits for cooling capacity and efficiency to determine chiller operation at off-reference conditions. The model has the same capabilities as the Chiller:Electric:EIR model, but can potentially provide significant accuracy improvement over the Chiller:Electric:EIR model for variable-speed compressor drive and variable condenser water flow applications. Chiller performance curves can be generated by fitting manufacturer's catalog data or measured data. Performance curves developed from manufacturer's performance data are provided in the EnergyPlus Reference DataSets (Chillers.idf and AllDataSets.idf). This chiller model can be used to predict the performance of various chiller types (e.g., reciprocating, screw, scroll, and centrifugal) with water-cooled condensers.
 
@@ -11169,7 +11169,7 @@ The main difference between this model and the Chiller:Electric:EIR model is the
 
 Note: Chiller:Electric:Reformulated EIR objects and their associated performance curve objects are developed using performance information for a specific chiller and should almost always be used together for an EnergyPlus simulation. Changing the object input values, or swapping performance curves between chillers, should be done with extreme caution. For example, if the user wishes to model a chiller size that is different from the reference capacity, it is highly recommended that the reference flow rates be scaled proportionately to the change in reference capacity. Although this model can provide more accurate prediction than the Chiller:Electric:EIR model, it requires more performance data to develop the associated performance curves (at least 12 points from full-load performance and 7 points from part-load performance).
 ";
-	public static string Field_ChillerName = @"This alpha field contains the identifying name for this chiller.";
+		public static string Field_ChillerName = @"This alpha field contains the identifying name for this chiller.";
 		public static string Field_ReferenceCapacity = @"This numeric field contains the reference cooling capacity of the chiller in Watts. This should be the capacity of the chiller at the reference temperatures and water flow rates defined below. Alternately, this field can be autosized.";
 		public static string Field_ReferenceCOP = @"This numeric field contains the chiller's coefficient of performance. This value should {not} include energy use due to pumps or cooling tower fans. This COP should be at the reference temperatures and water flow rates defined below.";
 		public static string Field_ReferenceLeavingChilledWaterTemperature = @"This numeric field contains the chiller's reference leaving chilled water temperature in Celsius. The default value is 6.67??C.";
@@ -11301,10 +11301,10 @@ Chiller:Electric:ReformulatedEIR,
       1.0;               !- Maximum Value of y";
 	}
 	public static class ChillerEngineDriven
-    { 
+	{
 		public static string Name = @"Chiller:EngineDriven";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the engine driven chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the engine driven chiller.";
 		public static string Field_CondenserType = @"This alpha field determines what type of condenser will be modeled with this chiller. The 3 type of condensers are AirCooled, WaterCooled, and EvaporativelyCooled with the default being AirCooled if not specified. AirCooled and EvaporativelyCooled do not require a Condenser Loop to be specified, where the WaterCooled option requires the full specification of the Condenser Loop and its associated equipment.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_NominalCOP = @"This numeric field contains the chiller's coefficient of performance (COP).";
@@ -11495,11 +11495,11 @@ Chiller:EngineDriven,
       60.0;                    !- Maximum Temp for Heat Recovery. This sets max availability {C}";
 	}
 	public static class ChillerCombustionTurbine
-    { 
+	{
 		public static string Name = @"Chiller:CombustionTurbine";
 		public static string Note = @"This chiller model is the empirical model from the Building Loads and System Thermodynamics (BLAST) program. Chiller performance curves are generated by fitting catalog data to third order polynomial equations. Three sets of coefficients are required.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the combustion turbine chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the combustion turbine chiller.";
 		public static string Field_CondenserType = @"This alpha field determines what type of condenser will be modeled with this chiller. The 3 type of condensers are AirCooled, WaterCooled, and EvaporativelyCooled with the default being AirCooled if not specified. AirCooled and EvaporativelyCooled do not require a Condenser Loop to be specified, where the WaterCooled option requires the full specification of the Condenser Loop and its associated equipment.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_NominalCOP = @"This numeric field contains the chiller's coefficient of performance (COP).";
@@ -11713,11 +11713,11 @@ Chiller:CombustionTurbine,
       80.0;                    !- Heat Recovery Maximum Temperature {C}";
 	}
 	public static class ChillerHeaterAbsorptionDirectFired
-    { 
+	{
 		public static string Name = @"ChillerHeater:Absorption:DirectFired";
 		public static string Note = @"This chiller is a direct fired absorption chiller-heater which is modeled using performance curves similar to the equivalent chiller in DOE-2.1E. This type of chiller is unusual for EnergyPlus, because it may be used in the same plant on both a chilled water supply branch and a hot water supply branch. The chiller has six node connections for chilled water, condenser water, and hot water, and can provide simultaneous heating and cooling. During simultaneous operation, the heating capacity is reduced as the cooling load increases (for more details see below). Some equations are provided below to help explain the function of the various performance curves. For a detailed description of the algorithm and how the curves are used in the calculations, please see the Engineering Reference.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the chiller.";
 		public static string Field_NominalCoolingCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts.";
 		public static string Field_HeatingToCoolingCapacityRatio = @"A positive fraction that represents the ratio of the heating capacity divided by the cooling capacity at rated conditions. The default is 0.8.";
 		public static string Field_FuelInputToCoolingOutputRatio = @"A positive fraction that represents the ratio of the instantaneous cooling fuel used divided by the cooling capacity at rated conditions. The default is 0.97.";
@@ -11814,11 +11814,11 @@ ChillerHeater:Absorption:DirectFired,
       1.0;                     !- Sizing Factor";
 	}
 	public static class ChillerHeaterAbsorptionDoubleEffect
-    { 
+	{
 		public static string Name = @"ChillerHeater:Absorption:DoubleEffect";
 		public static string Note = @"This chiller is an exhaust fired absorption chiller-heater which is modeled using performance curves similar to the direct fired absorption chiller in DOE-2.1E. The model uses the exhaust gas output from MicroTurbine. This type of chiller is unusual for EnergyPlus, because it may be used in the same plant on both a chilled water supply branch and a hot water supply branch. The chiller has six node connections for chilled water, condenser water, and hot water, and can provide simultaneous heating and cooling. During simultaneous operation, the heating capacity is reduced as the cooling load increases (for more details see below). Some equations are provided below to help explain the function of the various performance curves. For a detailed description of the algorithm and how the curves are used in the calculations, please see the Engineering Reference.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the chiller.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the chiller.";
 		public static string Field_NominalCoolingCapacity = @"This numeric field contains the nominal cooling capability of the chiller in Watts. Autosize can be used for this field.";
 		public static string Field_HeatingToCoolingCapacityRatio = @"A positive fraction that represents the ratio of the heating capacity divided by the cooling capacity at rated conditions. The default is 0.8.";
 		public static string Field_ThermalEnergyInputToCoolingOutputRatio = @"A positive fraction that represents the ratio of the instantaneous cooling Thermal Energy used divided by the cooling capacity at rated conditions. The default is 0.97.";
@@ -11920,11 +11920,11 @@ ChillerHeater:Absorption:DoubleEffect,
   1.0;                       !- Sizing Factor";
 	}
 	public static class BoilerHotWater
-    { 
+	{
 		public static string Name = @"Boiler:HotWater";
 		public static string Note = @"The boiler model calculates the performance of fuel oil, gas and electric boilers. Boiler performance is based on nominal thermal efficiency. A normailized efficiency performance curve may be used to more accurately represent the performance of non-electric boilers but is not considered a required input. When using the normalized efficiency performance curve, if all coefficients are not required simply set the unused coefficients to 0. For example, an electric boiler could be modeled by setting the nominal thermal efficiency to a value in the range of 0.96 to 1.0. Coefficient A0 in the normalized efficiency performance curve would equal 1 and all other coefficients would be set to 0. Coefficients for other types of non-electric boilers would set a combination of the available coefficents to non-zero values.
 ";
-	public static string Field_Name = @"This required alpha field contains the identifying name for the boiler.";
+		public static string Field_Name = @"This required alpha field contains the identifying name for the boiler.";
 		public static string Field_FuelType = @"This required choice field specifies the type of fuel used by the boiler. The fuel type can be {Electricity, NaturalGas, PropaneGas, FuelOil1, FuelOil2, Coal, Diesel, Gasoline, OtherFuel1} or {OtherFuel2}.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal operating capacity (W) of the boiler. The boiler may be autosized and would require a heating plant sizing object.";
 		public static string FuelUseEquation = @"The model is based the following two equations:
@@ -12022,11 +12022,11 @@ An example of this statement in an IDF is:
       85.0;                    !- Maximum Value of y";
 	}
 	public static class BoilerSteam
-    { 
+	{
 		public static string Name = @"Boiler:Steam";
 		public static string Note = @"The steam boiler model provides a first order approximation of performance for fuel oil, gas and electric boilers. Boiler performance is based on a ``theoretical'' boiler efficiency (overall efficiency at design operating conditions) and a single quadratic fuel use/ part load ratio curve. This single curve accounts for all combustion inefficiencies and stack losses.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the Steam Boiler.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the Steam Boiler.";
 		public static string Field_FuelType = @"This alpha value specifies the type of fuel used by the boiler. The fuel type can be {Electricity, NaturalGas, PropaneGas, FuelOil1, FuelOil2, Coal, Diesel, Gasoline, OtherFuel1} or {OtherFuel2.}";
 		public static string Field_MaximumOperatingPressure = @"This numeric field contains the maximum value of pressure up to which the boiler would operate, or the maximum design pressure. (Pascal)";
 		public static string Field_TheoreticalEfficiency = @"This numeric field contains the heating efficiency (as a fraction between 0 and 1) of the boiler's burner";
@@ -12084,7 +12084,7 @@ Boiler:Steam,
       Steam Boiler Plant Boiler Outlet Node; !- Plant Loop Outlet Node";
 	}
 	public static class WaterToWaterHeatPumps
-    { 
+	{
 		public static string Name = @"Water to Water Heat Pumps";
 		public static string Note = @"The EnergyPlus has three water-to-water heat pump models, parameter estimation, equation fit and an EIR-formulated version, to choose from.
 
@@ -12118,12 +12118,12 @@ The Supply side of the heat pump is usually connected to a Ground Heat Exchanger
 
 First, the equation fit model objects are described. This model has two sets of coefficients, one for the heating mode and other for the cooling mode.
 ";
-}
+	}
 	public static class HeatPumpWaterToWaterEquationFitCooling
-    { 
+	{
 		public static string Name = @"HeatPump:WaterToWater:EquationFit:Cooling";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
 		public static string Field_SourceSideInletNodeName = @"This alpha field contains the heat pump's source side inlet node name.";
 		public static string Field_SourceSideOutletNodeName = @"This alpha field contains the heat pump's source side outlet node name.";
 		public static string Field_LoadSideInletNodeName = @"This alpha field contains the heat pump's load side inlet node name.";
@@ -12171,10 +12171,10 @@ HeatPump:WaterToWater:EquationFit:Cooling,
   GshpHeating;             !- Companion Heating Heat Pump Name";
 	}
 	public static class HeatPumpWaterToWaterEquationFitHeating
-    { 
+	{
 		public static string Name = @"HeatPump:WaterToWater:EquationFit:Heating";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
 		public static string Field_SourceSideInletNodeName = @"This alpha field contains the heat pump's source side inlet node name.";
 		public static string Field_SourceSideOutletNodeName = @"This alpha field contains the heat pump's source side outlet node name.";
 		public static string Field_LoadSideInletNodeName = @"This alpha field contains the heat pump's load side inlet node name.";
@@ -12226,10 +12226,10 @@ HeatPump:WaterToWater:EquationFit:Heating,
 Next, the parameter estimation model objects are described. This model has two sets of parameters, one for the heating mode and other for the cooling mode.";
 	}
 	public static class HeatPumpWaterToWaterParameterEstimationCooling
-    { 
+	{
 		public static string Name = @"HeatPump:WaterToWater:ParameterEstimation:Cooling";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
 		public static string Field_SourceSideInletNodeName = @"This alpha field contains the heat pump's source side inlet node name.";
 		public static string Field_SourceSideOutletNodeName = @"This alpha field contains the heat pump's source side outlet node name.";
 		public static string Field_LoadSideInletNodeName = @"This alpha field contains the heat pump's load side inlet node name.";
@@ -12281,10 +12281,10 @@ HeatPump:WaterToWater:ParameterEstimation:Cooling,
       0.0;                     !- LowPressure Cut off {Pa}";
 	}
 	public static class HeatPumpWaterToWaterParameterEstimationHeating
-    { 
+	{
 		public static string Name = @"HeatPump:WaterToWater:ParameterEstimation:Heating";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
 		public static string Field_SourceSideInletNodeName = @"This alpha field contains the heat pump's source side inlet node name.";
 		public static string Field_SourceSideOutletNodeName = @"This alpha field contains the heat pump's source side outlet node name.";
 		public static string Field_LoadSideInletNodeName = @"This alpha field contains the heat pump's load side inlet node name.";
@@ -12336,11 +12336,11 @@ HeatPump:WaterToWater:ParameterEstimation:Heating,
       0.0;                     !- LowPressure Cut off {Pa}";
 	}
 	public static class HeatPumpWaterToWaterEIRCoolingAndHeating
-    { 
+	{
 		public static string Name = @"HeatPump:WaterToWater:EIR:Cooling (and Heating)";
 		public static string Note = @"Next, the EIR-formulated model objects are described. Although the model follows the pattern of having a separate input object for cooling and heating, the inputs are essentially identical, so they are described together.  Note that this component is currently a constant flow device (it will always request its full design flow from the plant), with a future addition to make it respond to outlet setpoint in order to vary the flow request.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ground source heat pump.";
 		public static string Field_LoadSideInletNodeName = @"This alpha field contains the heat pump's load side inlet node name.";
 		public static string Field_LoadSideOutletNodeName = @"This alpha field contains the heat pump's load side outlet node name.";
 		public static string Field_SourceSideInletNodeName = @"This alpha field contains the heat pump's source side inlet node name.";
@@ -12390,7 +12390,7 @@ An idf example:
     EIRCurveFuncPLR2;        !- Electric Input to Heating Output Ratio Modifier Function of Part Load Ratio Curve Name";
 	}
 	public static class StepsToSpecifyTheGroundSourceHeatPump
-    { 
+	{
 		public static string Name = @"Steps to specify the Ground Source Heat Pump";
 		public static string Note = @"Since the heat pump is defined with two separate objects (one for heating, one for cooling), the connections to the condenser has to be done carefully. The example below shows the configuration for parameter estimation objects. The same specifications and configuration also applies to the equation fit model.
 
@@ -12472,13 +12472,13 @@ BRANCH, GshpCLG1 Condenser Branch,
     GshpCLG SourceSide Outlet Node1;
 
 ";
-}
+	}
 	public static class DistrictCooling
-    { 
+	{
 		public static string Name = @"DistrictCooling";
 		public static string Note = @"When the user is not interested in a plant simulation or there is some centralized source of chilled water, the following object can be used in the input.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the district cooling (i.e., purchased chilled water).";
+		public static string Field_Name = @"This alpha field contains the identifying name for the district cooling (i.e., purchased chilled water).";
 		public static string Field_ChilledWaterInletNodeName = @"This alpha field contains the identifying name for the district cooling inlet node.";
 		public static string Field_ChilledWaterOutletNodeName = @"This alpha field contains the identifying name for the district cooling outlet node.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal demand (W) that the district cooling will meet. This field is autosizable.";
@@ -12493,11 +12493,11 @@ DistrictCooling, Purchased Cooling,
           68000;";
 	}
 	public static class DistrictHeating
-    { 
+	{
 		public static string Name = @"DistrictHeating";
 		public static string Note = @"When the user is not interested in a plant simulation or there is some centralized source of hot water (district heating), the following object can be used in the input.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the district heating (i.e., purchased hot water).";
+		public static string Field_Name = @"This alpha field contains the identifying name for the district heating (i.e., purchased hot water).";
 		public static string Field_HotWaterInletNodeName = @"This alpha field contains the identifying name for the district heating inlet node.";
 		public static string Field_HotWaterOutletNodeName = @"This alpha field contains the identifying name for the district heating outlet node.";
 		public static string Field_NominalCapacity = @"This numeric field contains the nominal demand (W) that the district heating will meet. This field is autosizable.";
@@ -12512,11 +12512,11 @@ DistrictHeating,Purchased Heating,
           1000000;";
 	}
 	public static class PlantComponentTemperatureSource
-    { 
+	{
 		public static string Name = @"PlantComponent:TemperatureSource";
 		public static string Note = @"This object allows the simulation of a water (or other fluid) source at a user-specified temperature.~ This could include a river, well, or seawater source, or any other configuration where the fluid temperature being supplied by the component to the plant is known.~ The temperature may be a constant or scheduled.~ Of course, the scheduled value may also be overwritten via EMS in cases where the specified temperature should be calculated at run-time.
 ";
-	public static string Field_Name = @"This field is the string identifier for this component.";
+		public static string Field_Name = @"This field is the string identifier for this component.";
 		public static string Field_InletNode = @"This is the name of this component's inlet node for the plant connection.";
 		public static string Field_OutletNode = @"This is the name of this component's outlet node for the plant connection. The source temperature is applied to this node when the component is active.";
 		public static string Field_DesignVolumeFlowRate = @"This numeric field contains the design value for component volume flow rate in m^{3}/s.~ This field may be autosized.";
@@ -12538,7 +12538,7 @@ PlantComponent:TemperatureSource,
       ;                        !- Source Temperature Schedule Name";
 	}
 	public static class CentralHeatPumpSystem
-    { 
+	{
 		public static string Name = @"CentralHeatPumpSystem";
 		public static string Note = @"This is a central geothermal application that contains one or more chiller-heaters centrally located in the building; the available chilled and/or hot water is then piped to the individual zones. Chiller-heaters used for this particular system can be of two types: 1) standard vapor-compression, non-reversible cycle chillers designed for heat recovery or 2) reversible-cycle, water-to-water heat pump chillers. Unlike a distributed ground source heat pump configuration where individual heat pumps are located in each zone, a centralized geothermal configuration has one or more chiller-heaters. Its function is to encapsulate the extra controls needed to turn individual chiller-heater modules on/off and whether they are to operate in cooling-only, heating-only or simultaneous cooling-heating mode and whether to connect the source water to the evaporator or condenser side. A variety of control schemes can be designed by setting schedules for both zone control types and individual chiller-heaters schedules.
 
@@ -12576,7 +12576,7 @@ In the above example, the heating load needs 3 chiller-heaters and the cooling l
 
 Users are required to define three different nodes such as chilled water, hot water, and source water nodes. Only this central heat pump system will be metered, and individual chiller-heaters' energy will be available for reporting only, but not metered.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name of the central heat pump system.";
+		public static string Field_Name = @"This alpha field contains the identifying name of the central heat pump system.";
 		public static string Field_ControlMethod = @"";
 		public static string ThisField_MustContainAKeywordDefinesHowTheCentralHeatPumpSystemControlsTheInteractionBetweenTheChillerHeaterModulesAndTheWaterLoopsToMeetTheCoolingAndHeatingDemandsCurrentlyTheOnlyAvailableOptionIsSmartMixing = @"";
 		public static string Field_CoolingLoopInletNodeName = @"This alpha field contains the identifying name of the chilled water inlet node.";
@@ -12618,13 +12618,13 @@ CentralHeatPumpSystem,
     2;                       !- Number of Chiller Heater Modules 2";
 	}
 	public static class ChillerHeaterPerformanceEIectricEIR
-    { 
+	{
 		public static string Name = @"ChillerHeaterPerformance:EIectric:EIR";
 		public static string Note = @"The performance of the chiller-heater will be defined by two sets of curves meant to describe unloading for: 1) cooling-only mode, and 2) heating-only mode or simultaneous cooling-heating mode. Reference conditions must be defined for both because each has its own set of three unloading curves based on their associated reference conditions. The cooling-mode curves are typically (but not always) based on condenser entering water temperature while the heating-only mode curves are typically based on condenser leaving water temperature. This chiller-heater object allows the user to specify whether to use condenser leaving or condenser entering as a dependent variable to differentiate, if necessary, the condenser temperature basis used to generate the cooling- and heating-only mode curves.
 ";
-}
+	}
 	public static class ChillerHeaterPerformanceElectricEIROutputs
-    { 
+	{
 		public static string Name = @"ChillerHeaterPerformance:Electric:EIR Outputs";
 		public static string Note = @"  HVAC,Average,Chiller Heater Operation Mode Unit <x> 
 
@@ -12675,9 +12675,9 @@ CentralHeatPumpSystem,
 
 Note that much of these output variables are adapted from the definitions above under ``Generic Chiller Outputs'' and ``Electric EIR Chiller Outputs.'' The following outputs are repeated up to the maximum of individual chiller-heater module objects. The maximum number may be different from the number of object defined in this object when users define two or more identical chiller-heater modules for a single chiller heater object in the central heat pump system.
 ";
-}
+	}
 	public static class ColdThermalStorageObjects
-    { 
+	{
 		public static string Name = @"Cold Thermal Storage Objects";
 		public static string Note = @"There are four types of cold thermal storage objects that can be added to plant loops. (To model cold thermal storage integrated with packaged air-conditioning units, see the thermal storage cooling coil in section \ref{coilcoolingdxsinglespeedthermalstorage}.  The four cold thermal storage objects for plant loops are:
 
@@ -12735,15 +12735,15 @@ Other considerations for applying cold thermal storage objects include:
   To end the storage charging cycle, use a AvailabilityManager:LowTemperatureTurnOff to shut off the primary chilled water loop when the temperature leaving the storage tank nears the charging mode chiller setpoint indicating that the tank is fully charged.~ For example, if the chiller is set to provide --5C chilled water during charging, then charging can be shut down when the water temperature leaving the storage unit reaches --4C.~ When using a primary-secondary loop arrangement, it may be necessary to schedule this availability manager to be active only when the HVAC systems are off to avoid fighting between the demand controls and the availability manager.
 
 ";
-}
+	}
 	public static class ThermalStorageIceSimple
-    { 
+	{
 		public static string Name = @"ThermalStorage:Ice:Simple";
 		public static string Note = @"This thermal storage model is based on a simple simulation of an ice storage tank with a fixed capacity.~ The tank is charged, or frozen, in an ice-on-coil configuration where ice builds up on the outside of the tubes carrying the brine or glycol solution from the chiller.~ There are two discharge (melt) options, internal or external.~ Internal melt uses the same fluid tubes for charging and discharging.~ External melt uses a separate fluid path for discharge such that the outer layers of ice melt first.~ The ice storage model includes an implied 3-way valve to control the amount if charge/discharge based on the incoming water temperature and the outlet node setpoint temperature.~ The storage tank is assumed to be fully charged (full of ice) at the beginning of each environment.~ The tank is then allowed to charge and discharge during the warmup days of the environment.~ The tank is best controlled using the PlantEquipmentOperation:ComponentSetpoint plant operation scheme, and requires that a setpoint be placed by a set point manager on the ice storage Plant Outlet Node.
 
 The input fields for the object are described in detail below:
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the ice storage tank.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the ice storage tank.";
 		public static string Field_IceStorageType = @"This alpha field specifies the type of ice storage tank to be modeled. There are two options:~ ``{IceOnCoilInternal}'' models ice-on-coil, internal melt.``IceOnCoilExternal'' models ice-on-coil, external melt.";
 		public static string Field_Capacity = @"This numeric field contains the nominal capacity of the ice storage in GJ (Giga is 10^{9}).";
 		public static string Field_InletNodeName = @"This alpha field specifies the name of the chilled water inlet node.";
@@ -12761,11 +12761,11 @@ ThermalStorage:Ice:Simple,
       ITS Outlet Node;         !- Plant Loop Outlet Node";
 	}
 	public static class ThermalStorageIceDetailed
-    { 
+	{
 		public static string Name = @"ThermalStorage:Ice:Detailed";
 		public static string Note = @"The detailed ice storage model allows the users of EnergyPlus to model more closely specific manufacturers' ice storage units. This is possible due to the use of curve fits to simulate the performance of the ice storage unit during charging and discharging. In this implementation, both charging and discharging are a function of the fraction charged/discharged as well as the log mean temperature difference across the storage unit. More information on the model is provided in the Engineering Reference for EnergyPlus. The remainder of this section describes the input required for the detailed ice storage model and the output that it can produce.
 ";
-	public static string Field_Name = @"This field is the name of the detailed ice storage system given to it by the user.";
+		public static string Field_Name = @"This field is the name of the detailed ice storage system given to it by the user.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that determines whether or not the ice storage system is available during a particular time period. This allows the system to be turned off during a particular season. A value of less than or equal to zero indicates that the ice storage system is not available. Any value greater than zero indicates that the system is available. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_Capacity = @"This number is the maximum amount of latent thermal storage available in the ice storage system. This model does not allow the removal or addition of sensible energy from the tank. Thus, it is always assumed to be at the freezing temperature of the storage material. The capacity is expressed in units of GJ.";
 		public static string Field_InletNodeName = @"This is the name of the node that connects the ice storage system to the plant loop. It is the inlet node to the ice storage component. The next field defines the outlet node. Due to presence of an internal bypass in this model, there are other ``nodes'' that are handled internally within the program. Users do not need to define any nodes other than the inlet and outlet nodes.";
@@ -12802,7 +12802,7 @@ ThermalStorage:Ice:Detailed,
       0.0;                     !- Freezing temperature [C]";
 	}
 	public static class ThermalStorageChilledWaterMixed
-    { 
+	{
 		public static string Name = @"ThermalStorage:ChilledWater:Mixed";
 		public static string Note = @"The ThermalStorage:ChilledWater:Mixed object analytically solves the differential equation governing the energy balance of the water tank.~ The chilled water is ``used'' by drawing from the ``Use Side'' of the water tank.~ The tank is indirectly charged by circulating cold water through the ``Source Side'' of the water tank.
 
@@ -12810,7 +12810,7 @@ Control is based on cycling flow through the source side.~ When the tank tempera
 
 For heat gains from the ambient environment, the ambient air temperature can be taken from a schedule, a zone, or the exterior. When used with a zone, the skin gains are removed from the zone heat balance as negative internal heat gains.
 ";
-	public static string Field_Name = @"The unique name of the ThermalStorage:ChilledWater:Mixed object.";
+		public static string Field_Name = @"The unique name of the ThermalStorage:ChilledWater:Mixed object.";
 		public static string Field_TankVolume = @"The volume of the thermal storage tank [m^{3}].";
 		public static string Field_SetpointTemperatureScheduleName = @"The reference to the schedule object specifying the chilled water temperature setpoint [??C]. Also known as the ``cut-out'' temperature.";
 		public static string Field_DeadbandTemperatureDifference = @"The delta temperature difference [????C] between the setpoint and the ``cut-in'' temperature at which the storage tank will request cooling. In other words, the ``cut-in'' temperature is Setpoint + Deadband.";
@@ -12862,7 +12862,7 @@ An example input object follows.
       4.0;                            !- Tank Recovery Time";
 	}
 	public static class ThermalStorageChilledWaterStratified
-    { 
+	{
 		public static string Name = @"ThermalStorage:ChilledWater:Stratified";
 		public static string Note = @"The ThermalStorage:ChilledWater:Stratified object divides the water tank into multiple nodes of equal volume. The nodes are coupled by vertical conduction effects, internode fluid flow, and temperature inversion mixing. The object simultaneously solves the differential equations governing the energy balances on the nodes using a numerical method. The system timestep is divided into many small substeps that allow the simulation to capture events that occur on a very short time scale.~ The chilled water is ``used'' by drawing from the ``Use Side'' of the water tank.~ The tank is indirectly charged by circulating cold water through the ``Source Side'' of the water tank.
 
@@ -12870,7 +12870,7 @@ Control is based on cycling flow through the source side.~ When the tank tempera
 
 For heat gains from the ambient environment, the ambient air temperature can be taken from a schedule, a zone, or the exterior. When used with a zone, the skin gains are removed from the zone heat balance as negative internal heat gains.
 ";
-	public static string Field_Name = @"The unique name of the ThermalStorage:ChilledWater:Stratified object.";
+		public static string Field_Name = @"The unique name of the ThermalStorage:ChilledWater:Stratified object.";
 		public static string Field_TankVolume = @"The volume of the thermal storage tank [m^{3}].";
 		public static string Field_TankHeight = @"The height [m] of the tank. For the HorizontalCylinder shape (see below) the height of the tank is the measure in the axial direction, i.e., the height if you were to stand the cylinder up on its end.";
 		public static string Field_TankShape = @"The tank shape determines the size and skin losses of the stratified nodes. There are three options:~ ``VerticalCylinder,'' ``HorizontalCylinder,'' and ``Other.''
@@ -12953,11 +12953,11 @@ An example input object follows.
       0.0;                            !- Additional Destratification Conductivity";
 	}
 	public static class PumpVariableSpeed
-    { 
+	{
 		public static string Name = @"Pump:VariableSpeed";
 		public static string Note = @"Pumps are needed in both plant and condenser loops. The syntax for a variable speed pump is given below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying a unique name for the pump.";
+		public static string Field_Name = @"This alpha field contains the identifying a unique name for the pump.";
 		public static string Field_InletNodeName = @"This alpha field contains the identifying name for the pump inlet node.";
 		public static string Field_OutletNodeName = @"This alpha field contains the identifying name for the pump outlet node.";
 		public static string Field_DesignMaximumFlowRate = @"This numeric field contains the pump's design maximum volume flow rate in cubic meters per second. This field can be autosized.";
@@ -13032,11 +13032,11 @@ Pump:VariableSpeed,
   Intermittent;                          !- Pump Control Type";
 	}
 	public static class PumpConstantSpeed
-    { 
+	{
 		public static string Name = @"Pump:ConstantSpeed";
 		public static string Note = @"Pumps may be found in both plant and condenser loops. The syntax for a constant speed pump is given below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the pump.";
 		public static string Field_InletNodeName = @"This alpha field contains the identifying name for the pump inlet node.";
 		public static string Field_OutletNodeName = @"This alpha field contains the identifying name for the pump outlet node.";
 		public static string Field_DesignFlowRate = @"This numeric field contains the pump's design volume flow rate in cubic meters per second. This field is autosizable.";
@@ -13102,11 +13102,11 @@ Pump:ConstantSpeed,
   Intermittent;                      !- Pump Control Type";
 	}
 	public static class PumpVariableSpeedCondensate
-    { 
+	{
 		public static string Name = @"Pump:VariableSpeed:Condensate";
 		public static string Note = @"The Pump:VariableSpeed:Condensate object can only be used in steam system simulation for the condensate side of the loop. This is a variable speed pump, which pumps the condensate back to the steam boiler. The syntax for condensate pump is given below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying unique name for the pump.";
+		public static string Field_Name = @"This alpha field contains the identifying unique name for the pump.";
 		public static string Field_InletNodeName = @"This alpha field contains the identifying name for the pump inlet node.";
 		public static string Field_OutletNodeName = @"This alpha field contains the identifying name for the pump outlet node.";
 		public static string Field_DesignSteamVolumeFlowRate = @"This numeric field contains the pump's design volume flow rate in cubic meters per second. This field is autosizable. This is the volume flow rate of steam in expanded stated. The volume of condensate is calculated by the software from the steam density and is much lower.";
@@ -13166,11 +13166,11 @@ Pump:VariableSpeed:Condensate,
   0;                                     !- Coefficient 4 of the Part Load Performance Curve";
 	}
 	public static class HeaderedPumpsConstantSpeed
-    { 
+	{
 		public static string Name = @"HeaderedPumps:ConstantSpeed";
 		public static string Note = @"Headered pumps are components with more than one identical pumps connected in parallel. The syntax for HeaderedPumps:ConstantSpeed is as follows.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the pump bank.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the pump bank.";
 		public static string Field_InletNodeName = @"This alpha field contains the identifying name for the pump bank inlet node.";
 		public static string Field_OutletNodeName = @"This alpha field contains the identifying name for the pump bank outlet node.";
 		public static string Field_TotalDesignFlowRate = @"This numeric field contains the pump bank s rated volumetric flow rate in cubic meters per second. This is equal to the product of number of pumps and the flow rate of each individual pump. The field can be autosized.";
@@ -13208,11 +13208,11 @@ HeaderedPumps:ConstantSpeed,
   CoolingPumpAvailSched;                  !- Pump Flow Rate Schedule Name";
 	}
 	public static class HeaderedPumpsVariableSpeed
-    { 
+	{
 		public static string Name = @"HeaderedPumps:VariableSpeed";
 		public static string Note = @"Headered pumps are components with more than one identical pumps connected in parallel. Currently this object may be found only in plant loops. The syntax for a HeaderedPumps:VariableSpeed pump is given below.
 ";
-	public static string Field_Name = @"This alpha field contains the identifying unique name for the pump bank.";
+		public static string Field_Name = @"This alpha field contains the identifying unique name for the pump bank.";
 		public static string Field_InletNodeName = @"This alpha field contains the identifying name for the pump bank inlet node.";
 		public static string Field_OutletNodeName = @"This alpha field contains the identifying name for the pump bank outlet node.";
 		public static string Field_TotalDesignFlowRate = @"This numeric field contains the pump bank's rated volume flow rate in cubic meters per second. This is equal to the product of number of pumps and the flow rate of each individual pump. The field can be autosized.";
@@ -13266,11 +13266,11 @@ HeaderedPumps:VariableSpeed,
   CoolingPumpAvailSched;      !- Pump Flow Rate Schedule Name";
 	}
 	public static class ZoneHVACBaseboardRadiantConvectiveWater
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Baseboard:RadiantConvective:Water";
 		public static string Note = @"The objective of this model is to calculate the convective and radiant heat transfer from water baseboard heaters to the people and the surfaces within a zone so that surface heat balances can take into account the radiant heat transfer to the surfaces and thus enhance the accuracy of thermal comfort predictions within the space. The radiant heat gains are distributed to the surfaces by fractions defined by user input.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a hot water baseboard heater unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a hot water baseboard heater unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the hot water baseboard heater unit can run during a given time period. A schedule value equal to 0 denotes that the unit must be off for that time period. A value greater than 0 denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_InletNodeName = @"This field is the name of the hot water inlet node for the baseboard heater.";
 		public static string Field_OutletNodeName = @"This field is the name of the hot water outlet node for the baseboard heater.";
@@ -13335,11 +13335,11 @@ ZoneHVAC:Baseboard:RadiantConvective:Water,
       0.1;                     !- fraction of radiant energy from heater distributed to surface 6";
 	}
 	public static class ZoneHVACBaseboardRadiantConvectiveSteam
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Baseboard:RadiantConvective:Steam";
 		public static string Note = @"The objective of this model is to calculate the convective and radiant heat transfer from steam baseboard heaters to the people and the surfaces within a zone so that surface heat balances can take into account the radiant heat transfer to the surfaces and thus enhance the accuracy of thermal comfort predictions within the space. The radiant heat gains are distributed to the surfaces by fractions defined by the user. Users are requested to provide degree of sub cooling to estimate the outlet conditions of the condensate.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a steam baseboard heater unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a steam baseboard heater unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the steam baseboard heater unit can run during a given time period. A schedule value equal to 0 denotes that the unit must be off for that time period. A value greater than 0 denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_InletNodeName = @"This field is the name of the steam inlet node for the baseboard heater.";
 		public static string Field_OutletNodeName = @"This field is the name of the steam outlet node for the baseboard heater.";
@@ -13395,11 +13395,11 @@ ZoneHVAC:Baseboard:RadiantConvective:Steam,
   0.1;                  !- Fraction of radiant energy from heater distributed to surface 4";
 	}
 	public static class ZoneHVACBaseboardRadiantConvectiveElectric
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Baseboard:RadiantConvective:Electric";
 		public static string Note = @"The electric baseboard heater is a component in the zone equipment simulation. Heat from this device is radiated to people and surfaces and also convected to the surrounding air. The electric baseboard model includes the impact of the radiant heat addition to people and surfaces so that the thermal comfort and surface heat balances are impacted. The component is controlled to meet any remaining zone load not met by other equipment baseboard operates to meet the remaining zone load and the total electric consumption is calculated by dividing by the efficiency of the baseboard.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of an electric baseboard heater unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of an electric baseboard heater unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the electric baseboard heater unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit will be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_HeatingDesignCapacityMethod = @"Enter the method used to determine the heating design capacity for scalable sizing. Input allowed is either {HeatingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedHeatingCapacity}. If this input field is left blank or zero, then autosizing is assumed. {HeatingDesignCapacity} means user specifies the magnitude of maximum or nominal heating capacity or the program calculates the maximum or nominal design heating capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design heating capacity from user specified heating capacity per floor area and floor area of the zone served by the radiant baseboard unit. {FractionOfAutosizedHeatingCapacity} means the program calculates the design heating capacity from user specified fraction and the auto-sized design heating capacity. The default method is {HeatingDesignCapacity}.";
 		public static string Field_HeatingDesignCapacityW = @"This field is for the radiant-convective electric baseboard unit nominal heating capacity in watts. This field can be autosized by EnergyPlus. This input field is autosizable. When the Heating Design Capacity Method is {HeatingDesignCapacity}~ and this input is blank, autosizing is assumed. Design day sizing run must be specified.";
@@ -13443,11 +13443,11 @@ ZoneHVAC:Baseboard:RadiantConvective:Electric,
   0.1;           !- Fraction of radiant energy from heater distributed to surface 5";
 	}
 	public static class ZoneHVACCoolingPanelRadiantConvectiveWater
-    { 
+	{
 		public static string Name = @"ZoneHVAC:CoolingPanel:RadiantConvective:Water";
 		public static string Note = @"The radiant/convective cooling panel is a type of zone equipment.  Chilled water is supplied by the plant and circulated through the panel.  Through radiation and convective heat transfer, the panel absorbs energy contained within the zone to provide cooling.  Control of the panel is achieved using the methodology used for low temperature radiant systems???a piecewise linear control profile that varies the flow rate to the panel based on a control parameter defined by the user.  This is different than being controlled to meet any remaining load like the air-based systems.  However, due to the radiant nature of these devices, it is not possible to control precisely on a zone air-based load since this will result in overcooling at the next time step.  Despite this, in addition to the piecewise linear controls that have been used with low temperature radiant systems in the past, two new controls are available for this simple model: one that varies the convective output of the system to meet the remaining zone load and one that varies the total convective output of the system to meet the remaining zone load.  In these two zone load control types, the user must enter the typical zone thermostat object to replace the setpoint and throttling range input in this object.  In this component, control is accomplished by throttling the chilled water flow to the device.  Capacity rating information is required as input and is used to calculate a UA value of the unit. The unit is connected to a chilled water loop (demand side) with an inlet and outlet node. The input data dictionary definition of the unit is as follows.
 ";
-	public static string Field_Name = @"A unique user assigned name for this instance of a radiant cooling panel. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for this instance of a radiant cooling panel. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the radiant cooling panel can run during a given hour. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the hour. A value less than or equal to 0 (usually 0 is used) denotes that the unit is off for the hour.";
 		public static string Field_InletNodeName = @"The name of the water inlet node for the radiant cooling panel.";
 		public static string Field_OutletNodeName = @"The name of the water outlet node for the radiant cooling panel.";
@@ -13571,11 +13571,11 @@ ZoneHVAC:CoolingPanel:RadiantConvective:Water,
 		public static string CoolingPanelWaterOutletTemperatureC = @"This field reports the water temperature at the outlet node of the radiant cooling panel.";
 	}
 	public static class ZoneHVACBaseboardConvectiveWater
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Baseboard:Convective:Water";
 		public static string Note = @"The hot water baseboard heater is a component of zone equipment. The component is controlled to meet any remaining zone load not met by other equipment in the zone that have higher heating priority. The control is accomplished by throttling the hot water flow. Input resembles that for the simple heating coil: there is an availability schedule, an overall UA, and a maximum hot water mass flow rate. The unit is connected to a hot water loop (demand side) with an inlet and outlet node. Finally, there is the convergence tolerance, which is the tolerance on how closely the baseboard outlet will meet the zone load. Of course, this tolerance is relative to the zone load.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a hot water baseboard heater unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a hot water baseboard heater unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the hot water baseboard heater unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_InletNodeName = @"The name of the hot water inlet node for the baseboard heater.";
 		public static string Field_OutletNodeName = @"The name of the hot water outlet node for the baseboard heater.";
@@ -13617,11 +13617,11 @@ ZoneHVAC:Baseboard:Convective:Water,
           0.001;                           !- tolerance";
 	}
 	public static class ZoneHVACBaseboardConvectiveElectric
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Baseboard:Convective:Electric";
 		public static string Note = @"The electric baseboard heater is a component in the zone equipment simulation. The component is controlled to meet any remaining zone load not met by other equipment in the zone that have higher heating priority. The control is accomplished by taking the remaining zone load and dividing by the efficiency of the baseboard.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a electric baseboard heater unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a electric baseboard heater unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the electric baseboard heater unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_HeatingDesignCapacityMethod = @"Enter the method used to determine the heating design capacity or enter the method for scalable sizing of heating capacity of electric baseboard unit. Input allowed is either {HeatingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedHeatingCapacity}. If this input field is left blank or zero, then autosizing is assumed. {HeatingDesignCapacity} means user specifies the magnitude of maximum or nominal heating capacity or the program calculates the maximum or nominal design heating capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design heating capacity from user specified heating capacity per floor area and floor area of the zone served by the electric convective baseboard unit. {FractionOfAutosizedHeatingCapacity} means the program calculates the design heating capacity from user specified fraction and the auto-sized design heating capacity. The default method is {HeatingDesignCapacity}.";
 		public static string Field_HeatingDesignCapacityW = @"This field is for the convective electric baseboard nominal heating capacity in watts. This field can be autosized by EnergyPlus. This input field is autosizable. Design day sizing run must be specified. This input field may be left blank.";
@@ -13643,13 +13643,13 @@ ZoneHVAC:Baseboard:Convective:Electric,
       0.97;                    !- Efficiency of the BaseBoard";
 	}
 	public static class ZoneHVACLowTemperatureRadiantVariableFlow
-    { 
+	{
 		public static string Name = @"ZoneHVAC:LowTemperatureRadiant:VariableFlow";
 		public static string Note = @"This low temperature radiant system (hydronic) is a component of zone equipment that is intended to model any ``radiant system'' where water is used to supply/remove energy to/from a building surface (wall, ceiling, or floor). The component is controlled to meet any remaining zone load not met by other equipment in the zone that have higher priority. The control is accomplished by throttling the hot or chilled water flow to the unit. Note that this system will only control based on the radiant system controls defined by this input syntax and not via a zone thermostat such as is used for forced air systems. Note also that because this unit does not require a thermostat that in cases where no other systems are serving the zone in which this system resides that it will use the heating equipment priority to determine which system will run first.~ If the radiant system is serving a zone with forced air equipment, the radiant system will follow the priority order established by the zone thermostat but will still base its response on the controls defined by the user for the radiant system.
 
 This model covers a wide range of low temperature radiant systems: heating and/or cooling, panel or embedded pipes, etc. It is not intended to simulate high temperature electric or gas radiant heaters. Those devices will be handled by a separate model and different input syntax. Low temperature radiant systems that use electric resistance heating should also be defined using separate input syntax (ref: ZoneHVAC:LowTemperatureRadiant:Electric).
 ";
-	public static string Field_Name = @"This field is an unique user assigned name for an instance of a hydronic low temperature radiant system. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"This field is an unique user assigned name for an instance of a hydronic low temperature radiant system. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that denotes whether the hydronic low temperature radiant system can run during a given time period. A schedule value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for that time period. A value greater than 0 (usually 1 is used) denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_ZoneName = @"This field is the name of the zone (Ref: Zone) in which the hydronic low temperature radiant system is principally located and intended to affect. A system that is between two zones will still act upon each zone; however, the zone name referenced here should be the zone that controls the radiant system response.";
 		public static string Field_SurfaceNameOrRadiantSurfaceGroupName = @"This field is the name of the surface (Ref: BuildingSurface) or surface list (Ref: ZoneHVAC:LowTemperatureRadiant:SurfaceGroup) in which the hydronic tubing is embedded/contained. This specification attaches the source or sink from the radiant system to a particular surface and the contribution of the system to the heat balances of that surface. If this field is a surface list, then the source or sink is attached to all of the surfaces in the list with the radiant system surface group defining the breakdown of how flow rate is split between the various surfaces. Base surfaces (e.g., BuildingSurface:Detailed), door surfaces and internal mass are valid. Window surfaces are not valid surface types for embedded radiant systems.";
@@ -13738,7 +13738,7 @@ An example IDF with a hydronic low temperature radiant system is shown below.
       106.7;                   !- Circuit Length";
 	}
 	public static class ZoneHVACLowTemperatureRadiantConstantFlow
-    { 
+	{
 		public static string Name = @"ZoneHVAC:LowTemperatureRadiant:ConstantFlow";
 		public static string Note = @"This low temperature radiant system (hydronic) is a component of zone equipment that is intended to model any ``radiant system'' where water is used to supply/remove energy to/from a building surface (wall, ceiling, or floor). The component is controlled via control schedules as described in the syntax below and does not require a zone thermostat. Note that because this unit does not require a thermostat that in cases where no other systems are serving the zone in which this system resides that it will use the heating equipment priority to determine which system will run first.~ If the radiant system is serving a zone with forced air equipment, the radiant system will follow the priority order established by the zone thermostat but will still base its response on the controls defined by the user for the radiant system.
 
@@ -13746,7 +13746,7 @@ The constant flow system differs from the hydronic system describe above in what
 
 One of the other differences between this model and the variable flow hydronic radiant system is that the constant flow radiant system has a built-in local secondary loop. It will recirculate flow coming out of the system and mix this with flow from the loop to arrive at the desired inlet temperature to the radiant system (note that this model has the temperature sensor AFTER the pump to insure proper inlet temperature to the radiant system). The local loop also contains a pump which is assumed to be upstream of the radiant system and after the mixing valve. So, the local loop can have some recirculation. The flow from the main loop may also bypass the radiant system if more than enough flow is available and the main loop is also a constant flow system.
 ";
-	public static string Field_Name = @"This field is an unique user assigned name for an instance of a constant flow low temperature radiant system. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"This field is an unique user assigned name for an instance of a constant flow low temperature radiant system. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that denotes whether the constant flow low temperature radiant system can run during a given time period. A schedule value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for that time period. A value greater than 0 (usually 1 is used) denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_ZoneName = @"This field is the name of the zone (Ref: Zone) in which the constant flow low temperature radiant system is principally located and intended to affect. A system that is between two zones will still act upon each zone; however, the zone name referenced here should be the zone that controls the radiant system response.";
 		public static string Field_SurfaceNameOrRadiantSurfaceGroupName = @"This field is the name of the surface (Ref: BuildingSurface:Detailed) or surface list (Ref: ZoneHVAC:LowTemperatureRadiant:SurfaceGroup) in which the hydronic tubing is embedded/contained. This specification attaches the source or sink from the radiant system to a particular surface and the contribution of the system to the heat balances of that surface. If this field is a surface list, then the source or sink is attached to all of the surfaces in the list with the radiant system surface group defining the breakdown of how flow rate is split between the various surfaces. Base surfaces (e.g., BuildingSurface:Detailed), door surfaces and internal mass are valid. Window surfaces are not valid surface types for embedded radiant systems.";
@@ -13835,13 +13835,13 @@ ZoneHVAC:LowTemperatureRadiant:ConstantFlow,
       106.7;                  !- Circuit Length";
 	}
 	public static class ZoneHVACLowTemperatureRadiantElectric
-    { 
+	{
 		public static string Name = @"ZoneHVAC:LowTemperatureRadiant:Electric";
 		public static string Note = @"This low temperature radiant system (electric) is a component of zone equipment that is intended to model any ``radiant system'' where electric resistance heating is used to supply energy (heat) to a building surface (wall, ceiling, or floor). The component is controlled by the radiant system controls that are defined in the syntax below and this control does not require the use of a zone thermostat unless the unit is being autosized. Note also that because this unit does not require a thermostat that in cases where no other systems are serving the zone in which this system resides that it will use the heating equipment priority to determine which system will run first. If the radiant system is serving a zone with forced air equipment, the radiant system will follow the priority order established by the zone thermostat but will still base its response on the controls defined by the user for the radiant system.
 
 The control is accomplished by varying the electrical power supplied to the unit. This model covers either a radiant panel system or wires embedded in entire walls, floors, or ceilings. It is not intended to simulate high temperature electric or gas radiant heaters. Those devices will be handled by a separate model (ref: ZoneHVAC:HighTemperatureRadiant) and different input syntax. Low temperature radiant systems that use water flowing through tubes to provide heat to the system should also be defined using separate input syntax (ref: ZoneHVAC:LowTemperatureRadiant:VariableFlow or ConstantFlow).
 ";
-	public static string Field_Name = @"This field is an unique user assigned name for an instance of an electric low temperature radiant system. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"This field is an unique user assigned name for an instance of an electric low temperature radiant system. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that denotes whether the electric low temperature radiant system can operate during a given time period. A schedule value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for that time period. A value greater than 0 (usually 1 is used) denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_ZoneName = @"This field is the name of the zone (Ref: Zone) in which the electric low temperature radiant system is principally located and intended to affect. A system that is between two zones will still act upon each zone; however, the zone name referenced here should be the zone that controls the radiant system response.";
 		public static string Field_SurfaceNameOrRadiantSurfaceGroupName = @"This field is the name of the surface (Ref: BuildingSurface) or surface list (Ref: ZoneHVAC:LowTemperatureRadiant:SurfaceGroup) in which the heating element is embedded/contained. This specification attaches the source or sink from the radiant system to a particular surface and the contribution of the system to the heat balances of that surface. If this field is a surface list, then the source or sink is attached to all of the surfaces in the list with the radiant system surface group defining the breakdown of how energy flow is split between the various surfaces. Base surfaces (e.g., BuildingSurface:Detailed, Wall:Detailed, RoofCeiling:Detailed, etc.), door surfaces and internal mass are valid. Window surfaces are not valid surface types for embedded radiant systems.";
@@ -13886,11 +13886,11 @@ ZoneHVAC:LowTemperatureRadiant:Electric,
            Radiant Heating Setpoints ; !- Heating Setpoint Temperature Schedule Name";
 	}
 	public static class ZoneHVACLowTemperatureRadiantSurfaceGroup
-    { 
+	{
 		public static string Name = @"ZoneHVAC:LowTemperatureRadiant:SurfaceGroup";
 		public static string Note = @"A low temperature radiant system (hydronic or electric) may consist of multiple active surfaces that serve to condition the space. Surfaces that act serially can be specified as multiple radiant systems using the standard radiant system input described above. However, if the multiple surfaces act in parallel, the Radiant System Surface Group input line is used to specify which surfaces are acting in a coordinated fashion and how energy flow is split between the surfaces. This list of surfaces (the name it is assigned) replaces the name of a single surface in the radiant system input described above. Note that all of the surfaces within a single list must be a part of the same zone and that the zone of these surfaces must also match the zone the radiant system is attempting to condition.
 ";
-	public static string Field_Name = @"This field is an unique user assigned name for the list of surfaces that are acting in coordination with one another. Any reference to this list by a radiant system will use this name.";
+		public static string Field_Name = @"This field is an unique user assigned name for the list of surfaces that are acting in coordination with one another. Any reference to this list by a radiant system will use this name.";
 		public static string Field_SetSurfaceNameFlowFractionToSurface = @"The pairs of Surface Name, Flow Fraction to Surface are used in several objects. There can be up to 10 specified. The object is extensible so more can be added.";
 		public static string Field_SurfaceXName = @"This field is the name of a surface in the zone being conditioned by the radiant system. Base surfaces (e.g., BuildingSurface:Detailed), door surfaces and internal mass are valid. Window surfaces are not valid surface types for embedded radiant systems.";
 		public static string Field_FlowFractionForSurfaceX = @"This field is the fraction of the total radiant system flow rate that is being sent to this particular surface. Note that the Surface Name/Surface Flow Fraction pair can be repeated up to 10 times. Flow rate fractions must sum to unity, otherwise the program will not accept the input as valid.
@@ -13907,13 +13907,13 @@ ZoneHVAC:LowTemperatureRadiant:SurfaceGroup,
       0.25;                    !- Flow fraction for surface 2";
 	}
 	public static class ZoneHVACHighTemperatureRadiant
-    { 
+	{
 		public static string Name = @"ZoneHVAC:HighTemperatureRadiant";
 		public static string Note = @"The high temperature radiant system (gas-fired or electric) is a component of zone equipment that is intended to model any ``high temperature'' or ``high intensity'' radiant system where electric resistance or gas-fired combustion heating is used to supply energy (heat) to a building occupants directly as well as the building surfaces (wall, ceiling, or floor). The component is controlled by the radiant system controls defined in the syntax below and this control does not require the use of a zone thermostat unless the unit is being autosized. Note also that because this unit does not require a thermostat that in cases where no other systems are serving the zone in which this system resides that it will use the heating equipment priority to determine which system will run first.~ If the radiant system is serving a zone with forced air equipment, the radiant system will follow the priority order established by the zone thermostat but will still base its response on the controls defined by the user for the radiant system.
 
 The control is accomplished by varying the electrical power supplied to or gas consumed by the unit. It is not intended to simulate low temperature electric or hydronic radiant systems. Those devices will be handled by a separate model and different input syntax (ref: the low temperature systems described elsewhere).
 ";
-	public static string Field_Name = @"This field is an unique user assigned name for an instance of the high temperature radiant system. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"This field is an unique user assigned name for an instance of the high temperature radiant system. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that denotes whether the high temperature radiant system can operate during a given time period. A schedule value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for that time period. A value greater than 0 (usually 1 is used) denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_ZoneName = @"This field is the name of the zone (Ref: Zone) in which the high temperature radiant system is principally located and intended to affect.";
 		public static string Field_HeatingDesignCapacityMethod = @"Enter the method used to determine the maximum electrical power (heating design capacity ) or enter the method for scalable sizing the maximum electrical power of high temperature radiant system unit. Input allowed is either {HeatingDesignCapacity}, {CapacityPerFloorArea}, and {FractionOfAutosizedHeatingCapacity}. If this input field is left blank or zero, then autosizing is assumed. {HeatingDesignCapacity} means user specifies the magnitude of maximum or nominal heating capacity or the program calculates the maximum or nominal design heating capacity if autosize is specified. {CapacityPerFloorArea} means the program calculates the design heating capacity from user specified heating capacity per floor area and floor area of the zone served by the high temperature radiant electric unit. {FractionOfAutosizedHeatingCapacity} means the program calculates the design heating capacity from user specified fraction and the auto-sized design heating capacity. The default method is {HeatingDesignCapacity}.";
@@ -13976,7 +13976,7 @@ ZoneHVAC:HighTemperatureRadiant, Zone 2 Radiant Heater,
            Zn002:Wall004, 0.04;       !- fraction of radiant energy that is incident on the surface indicated";
 	}
 	public static class ZoneHVACVentilatedSlab
-    { 
+	{
 		public static string Name = @"ZoneHVAC:VentilatedSlab";
 		public static string Note = @"Ventilated slab systems in general use outdoor air to ``precool'' slabs with colder nighttime air.~ This method of precooling the thermal mass of a space can be very effective when nighttime temperatures are low and the mass of the system is high enough to provide a significant amount of cooling potential during the day to counteract internal heat gains within a zone.~ Nearly all ventilated slabs are simple systems such as that shown in the right side of Figure~\ref{fig:ventilated-slab-model-basic-system}.~ The fan is shown in a blow through position, but the model will allow either a blow or draw through configuration.
 
@@ -13986,7 +13986,7 @@ ZoneHVAC:HighTemperatureRadiant, Zone 2 Radiant Heater,
 \caption{Ventilated Slab model - basic system \protect \label{fig:ventilated-slab-model-basic-system}}
 \end{figure}
 ";
-	public static string Field_Name = @"This field is a unique user assigned name for an instance of a ventilated slab system. Any reference to this unit by another object will use this name. Other objects that use this ventilated slab system will reference it by this name.";
+		public static string Field_Name = @"This field is a unique user assigned name for an instance of a ventilated slab system. Any reference to this unit by another object will use this name. Other objects that use this ventilated slab system will reference it by this name.";
 		public static string Field_AvailabilityScheduleName = @"This field is the name of the schedule (ref: Schedule) that denotes whether the ventilated slab system can run during a given time period. A schedule value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for that time period. A value greater than 0 (usually 1 is used) denotes that the unit is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.
 
 \begin{figure}[hbtp] % fig 129
@@ -14121,11 +14121,11 @@ An example IDF with a ventilated slab is shown below.
       Zone4VentSlabChWInletNode;  !- Cold Water Inlet Node Name";
 	}
 	public static class ZoneHVACVentilatedSlabSlabGroup
-    { 
+	{
 		public static string Name = @"ZoneHVAC:VentilatedSlab:SlabGroup";
 		public static string Note = @"A ventilated slab system may consist of multiple active slabs that are serving to condition the zone. Slabs that act serially can be specified as multiple radiant systems using the standard ventilated slab input described above. This list of surfaces (the name it is assigned) replcaces the name of a single surface in the ventilated slab system input described above.
 ";
-	public static string Field_NameOfVentilatedSlabSurfaceGroup = @"This field is a unique user assigned name for the list of surfaces that are acting in coordination with one another. Any reference to this list by a ventilated slab system will use this name.";
+		public static string Field_NameOfVentilatedSlabSurfaceGroup = @"This field is a unique user assigned name for the list of surfaces that are acting in coordination with one another. Any reference to this list by a ventilated slab system will use this name.";
 		public static string Field_ZoneName = @"This field is the name of the zone in which the surface is principally located and intended to affect.";
 		public static string Field_SurfaceName = @"This field is the name of a surface in the zone being conditioned by the ventilated slab system. Only base surfaces like walls, floors and roofs are valid. Door/Window Surface and Internal Mass are not valid surface types for the ventilated slab system.";
 		public static string Field_CoreDiameter = @"This field is the inside diameter of the cores through which air is circulated for the surface being defined by this statement.~ The inside diameter should be recorded in meters and is used to determine the convective heat transfer from the circulated air to the inside surface of the ventilated slab.";
@@ -14163,13 +14163,13 @@ ZoneHVAC:VentilatedSlab:SlabGroup,
       Z5VentSlabOut;           !- Slab Outlet Node Name for Surface 3";
 	}
 	public static class SetpointManagerScheduled
-    { 
+	{
 		public static string Name = @"SetpointManager:Scheduled";
 		public static string Note = @"The simplest Setpoint Manager simply uses a schedule to determine one or more setpoints. No node data is used as input. The input consists of the Setpoint Manager name, the control variable, the schedule name, and the name of a node list. The node list contains the name of those nodes at which the setpoint is to be applied. Of course, a node list name can always be simply the name of a single node.
 
 Note that although this object provides a very general method of setting the values of many different control variables on nodes, the component models and system solvers may or may not be able to use them. Therefore, it is important to understand that simply setting a control variable using this object will not necessarily always produce the desired behavior.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a scheduled setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a scheduled setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There are several choices for this type of set point manager. The most common control variable is Temperature but other major choices include: HumidityRatio and MassFlowRate. The versatility of control variables available here (probably) exceeds what is actually available in the component and systems models. However, a large number of possible control variables are made available here for maximum flexibility and because some (but not all) component models will be able to use them. The complete list of key words and the units required in the associated schedules follow.
 
 
@@ -14205,11 +14205,11 @@ SetpointManager:Scheduled,
   VAV Sys 1 Outlet Node;           !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerScheduledDualSetpoint
-    { 
+	{
 		public static string Name = @"SetpointManager:Scheduled:DualSetpoint";
 		public static string Note = @"This setpoint manager places a high and low schedule value on one or more nodes. The input consists of the Setpoint Manager name, the control variable, the high and low set point schedule names, and the name of a node list. The node list contains the name of those nodes at which the setpoint is to be applied. Of course, a node list name can simply be the name of a single node. Currently the DualSetpoint Manager will be used with PlantLoop when the Plant Loop Demand Calculation Scheme is set to DualSetpointDeadband .
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of this scheduled setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of this scheduled setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: Temperature.";
 		public static string Field_HighSetpointScheduleName = @"The name of a schedule that contains the high setpoint values. The schedule value for each time period is the high setpoint for this type of setpoint manager.";
 		public static string Field_LowSetpointScheduleName = @"The name of a schedule that contains the low setpoint values. The schedule value for each time period is the low setpoint for this type of setpoint manager.";
@@ -14227,7 +14227,7 @@ SetpointManager:Scheduled:DualSetpoint,
   Plant Supply Outlet Node;             !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerOutdoorAirReset
-    { 
+	{
 		public static string Name = @"SetpointManager:OutdoorAirReset";
 		public static string Note = @"The Outdoor Air Reset Setpoint Manager is used to place a setpoint temperature on a system node according to the outdoor air temperature using a reset rule. The reset rule is determined by 2 points: the setpoint temperature at the outdoor air high temperature (TSetAtOAHigh) and the setpoint temperature at the outdoor air low temperature (TSetAtOALow). If the outdoor air temperature is above the outdoor air high temperature limit, the setpoint temperature is set to TSetAtOAHigh. If the outdoor air temperature is below the outdoor air low temperature limit, the setpoint temperature is set to TSetAtOALow. If the outdoor air temperature is between the outdoor air high and outdoor air low temperatures limits, the setpoint temperature is linearly interpolated between TSetAtOAHigh and TSetAtOALow. The outdoor air temperature is obtained from the weather information during the simulation. This setpoint manager can be used to place a setpoint temperature on air loop and plant loop system nodes.
 
@@ -14235,7 +14235,7 @@ The input consists of the setpoint manager name, the type of control variable, a
 
 There are optional inputs for a second reset rule. First there is the name of a schedule that indicates which rule to use: a schedule value of 1 means use the first rule; a schedule value of 2 means use the second rule. Next, there are the 4 inputs specifying the second reset rule.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of an outdoor air reset setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of an outdoor air reset setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There are three key choices for this type of set point manager:
 
 
@@ -14274,11 +14274,11 @@ SetpointManager:OutdoorAirReset,
   Air Loop Outlet Node;   !- Node 1 Name";
 	}
 	public static class SetpointManagerSingleZoneReheat
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:Reheat";
 		public static string Note = @"The Single Zone Reheat Setpoint Manager allows the simulation of a single zone reheat system. This setpoint manager detects the control zone load, zone inlet node flow rate, and zone node temperature and calculates a setpoint temperature for the supply air that will satisfy the zone load for the control zone. This setpoint manager creates a variable temperature system. The input consists of the setpoint manager name, the control variable type, the minimum and maximum supply air temperatures, the name of the control zone, the name of the control zone node, the name of the control zone inlet node, and the name of a node or node list containing the nodes whose setpoint temperatures are to be set by this manager.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of this setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of this setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: Temperature.";
 		public static string Field_MinimumSupplyAirTemperature = @"The minimum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager).";
 		public static string Field_MaximumSupplyAirTemperature = @"The maximum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager)";
@@ -14308,11 +14308,11 @@ SetpointManager:SingleZone:Reheat,
   Air Loop Outlet Node; !- Node 2 Name";
 	}
 	public static class SetpointManagerSingleZoneHeating
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:Heating";
 		public static string Note = @"The Single Zone Heating Setpoint Manager allows a component to be controlled based on the load required to meet the zone heating setpoint. Ths setpoint manager detects the control zone load to meet the current heating setpoint, zone inlet node flow rate, and zone node temperature, and calculates a setpoint temperature for the supply air that will satisfy the zone heating load for the control zone. This setpoint manager creates a variable temperature system. The input consists of the setpoint manager name, the controlled variable type, the minimum and maximum supply air temperatures, the name of the control zone, the name of the control zone node, the name of the control zone inlet node, and the name of a node or node list containing the nodes whose setpoint temperatures are to be set by this manager.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone heating setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone heating setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: Temperature.";
 		public static string Field_MinimumSupplyAirTemperature = @"The minimum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager).";
 		public static string Field_MaximumSupplyAirTemperature = @"The maximum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager)";
@@ -14336,11 +14336,11 @@ SetpointManager:SingleZone:Heating,
   Zone 1 Heating Coil Outlet;   !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerSingleZoneCooling
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:Cooling";
 		public static string Note = @"The Single Zone Cooling Setpoint Manager allows a component to be controlled based on the load required to meet the zone cooling setpoint. This setpoint manager detects the control zone load to meet the current cooling setpoint, zone inlet node flow rate, and zone node temperature, and calculates a setpoint temperature for the supply air that will satisfy the zone cooling load for the control zone. This setpoint manager creates a variable temperature system. The input consists of the setpoint manager name, the controlled variable type, the minimum and maximum supply air temperatures, the name of the control zone, the name of the control zone node, the name of the control zone inlet node, and the name of a node or node list containing the nodes whose setpoint temperatures are to be set by this manager.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone cooling setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone cooling setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: Temperature.";
 		public static string Field_MinimumSupplyAirTemperature = @"The minimum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager).";
 		public static string Field_MaximumSupplyAirTemperature = @"The maximum supply air temperature (in C) that is allowed for this system (as set by this setpoint manager)";
@@ -14364,13 +14364,13 @@ SetpointManager:SingleZone:Cooling,
   Zone 1 Cooling Coil Outlet;   !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerSingleZoneHumidityMinimum
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:Humidity:Minimum";
 		public static string Note = @"The Single Zone Minimum Humidity Setpoint Manager allows the control of a single zone minimum humidity level. This setpoint manager detects the humidity level in a control zone and, using air and moisture mass balance, calculates the supply air humidity ratio needed to maintain the zone relative humidity at or above a given setpoint. The calculated supply air humidity ratio is then used as the setpoint for the designated setpoint node. A humidifier component placed upstream of the setpoint node can then use the humidity ratio setpoint to control its moisture addition rate.
 
 The use of this object requires that a ZoneControl:Humidistat object be specified with a humidifying relative humidity schedule for the controlling zone. The humidistat s controlling zone must correspond with the control zone air node name specified in this setpoint manager.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone minimum humidity setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone minimum humidity setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_SetpointNodeOrNodeListName = @"The name of the HVAC system node where the calculated humidity ratio setpoint is set. If the setpoint is being placed on more than one node, this input should be the name of a NodeList.";
 		public static string Field_ControlZoneAirNodeName = @"The name of the zone node for the humidity control zone (as specified in the object ZoneHVAC:EquipmentConnections).
 
@@ -14390,7 +14390,7 @@ SetpointManager:SingleZone:Humidity:Minimum,
   Min rel Hum Set Sch2;        !- Humidifying Relative Humidity Setpoint Schedule Name";
 	}
 	public static class SetpointManagerSingleZoneHumidityMaximum
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:Humidity:Maximum";
 		public static string Note = @"The Single Zone Maximum Humidity Setpoint Manager allows the control of a single zone maximum humidity level. This setpoint manager, used in conjunction with object ZoneControl:Humidistat, detects the air humidity level in a single control zone and uses air/moisture mass balances to calculate the supply air humidity ratio needed to maintain the zone relative humidity at or below a given setpoint. The calculated supply air humidity ratio is then used as the setpoint for the designated setpoint node. A dehumidification component placed upstream of this node can then use the humidity ratio setpoint to control its moisture removal rate (e.g., desiccant dehumidifiers).
 
@@ -14398,7 +14398,7 @@ In the case of a chilled water coil which is used for both temperature and high 
 
 The use of this object requires that a ZoneControl:Humidistat object be specified with a relative humidity setpoint schedule for the controlling zone. The humidistat s controlling zone must correspond with the control zone air node name specified in this setpoint manager..
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone maximum humidity setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a single zone maximum humidity setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_SetpointNodeOrNodeListName = @"The name of the HVAC system node where the calculated humidity ratio setpoint is set. If the setpoint is being placed on more than one node, this input should be the name of a NodeList.";
 		public static string Field_ControlZoneAirNodeName = @"The name of the zone air node for the humidity control zone (as specified in the object ZoneHVAC:EquipmentConnections).
 
@@ -14437,7 +14437,7 @@ SetpointManager:SingleZone:Humidity:Maximum,
   0.0;                                  !- Minimum Actuated Flow {m3/s}";
 	}
 	public static class SetpointManagerMixedAir
-    { 
+	{
 		public static string Name = @"SetpointManager:MixedAir";
 		public static string Note = @"The Mixed Air Setpoint Manager is meant to be used in conjunction with a Controller:OutdoorAir object. This setpoint manager is used to establish a temperature setpoint at the mixed air node. The Controller:OutdoorAir then operates the outdoor air damper to attempt to meet this setpoint.
 
@@ -14447,7 +14447,7 @@ Of course any type of setpoint manager can be used to establish a temperature se
 
 When optional inputs of Cooling Coil Inlet Node Name, Cooling coil Outlet Node Name, and Minimum Temperature at Cooling Coil Outlet Node are provided, the setpoint temperature at the mixed air node is calculated based on the maximum of both the reference setpoint temperature and minimum cooling coil outlet temperature, minus the cooling coil air temperature reduction and the supply fan air temperature rise if the supply fan placement is blow through. The setpoint temperature at the mixed air node is used to calculate the maximum outdoor air flow fraction in the corresponding Controller:OutdoorAir object. The outdoor air flow fraction is capped at the maximum outdoor air flow fraction to prevent the cooling coil from freezing, even though the fraction is below the minimum outdoor air flow fraction.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a mixed air setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a mixed air setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: Temperature.";
 		public static string Field_ReferenceSetpointNodeName = @"The name of an HVAC system node where the system supply air temperature is set. Normally this would be the AirLoopHVAC outlet node. The temperature setpoint at this reference node is set by a different setpoint manager.";
 		public static string Field_FanInletNodeName = @"The name of the supply fan inlet node.";
@@ -14487,13 +14487,13 @@ SetpointManager:SingleZone:Reheat, ! establishes the setpoint at the system outl
   Mixed Air Node; ! Setpoint Nodes";
 	}
 	public static class SetpointManagerOutdoorAirPretreat
-    { 
+	{
 		public static string Name = @"SetpointManager:OutdoorAirPretreat";
 		public static string Note = @"The OutdoorAir Pretreat Setpoint Manager is meant to be used in conjunction with an OutdoorAir:Mixer object. The Outdoor air Pretreat Setpoint Manager is used to establish a temperature or humidity ratio setpoint in the outdoor air stream flowing into the ``Outdoor Air Stream Node'' of an OutdoorAir:Mixer object. This setpoint manager determines the required setpoint in the outdoor air stream to produce the reference setpoint in the mixed air stream after mixing with return air. For example, if the temperature setpoint at the mixed air node is 15 ??C, the return air temperature is 20 ??C, and the outdoor air flow fraction is 0.5, the Outdoor Air Pretreat setpoint would be set to 10 ??C.
 
 Of course any type of setpoint manager can be used to establish setpoints in the outdoor air stream, but this setpoint manager is likely to be the most useful for systems which precondition outdoor air with equipment such as a DX cooling coil or desiccant dehumidifier.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of an outdoor air pretreat setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of an outdoor air pretreat setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. The choices are:
 
 
@@ -14537,11 +14537,11 @@ SetpointManager:OutdoorAirPretreat,
   Desiccant Process Outlet Node;   !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerWarmest
-    { 
+	{
 		public static string Name = @"SetpointManager:Warmest";
 		public static string Note = @"The Warmest Setpoint Manager resets the cooling supply air temperature of a central forced air HVAC system according to the cooling demand of the warmest zone. For each zone in the system at each system timestep, the manager calculates a supply air temperature that will meet the zone cooling load at the maximum zone supply air flow rate. The lowest of the possible supply air temperatures becomes the new supply air temperature setpoint, subject to minimum and maximum supply air temperature constraints. The resulting temperature setpoint is the highest supply air temperature that will meet the cooling requirements of all the zones. When compared to a fixed cooling supply air temperature setpoint, this strategy minimizes zone reheat coil energy (or overcooling) and central chiller energy consumption (if the chilled water temperature is also reset) at the cost of possible increased fan energy.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a warmest setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a warmest setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. Currently there is only one choice: Temperature.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its cooling supply air temperature.";
 		public static string Field_MinimumSetpointTemperature = @"The minimum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is less than this minimum, the setpoint is set to the minimum.";
@@ -14576,11 +14576,11 @@ SetpointManager:Warmest,
   VAV Sys 1 Outlet Node; ! Setpoint Node";
 	}
 	public static class SetpointManagerColdest
-    { 
+	{
 		public static string Name = @"SetpointManager:Coldest";
 		public static string Note = @"The Coldest Setpoint Manager is used in dual duct systems to reset the setpoint temperature of the air in the heating supply duct or in single duct systems to reset the setpoint temperature of the air for central heating coils. Usually it is used in conjunction with a SetpointManager:Warmest resetting the temperature of the air in the cooling supply duct. For each zone in the system at each system timestep, the manager calculates a supply air temperature that will meet the zone heating load at the maximum zone supply air flow rate. The highest of the possible supply air temperatures becomes the new supply air temperature setpoint, subject to minimum and maximum supply air temperature constraints. The resulting temperature setpoint is the lowest supply air temperature that will meet the heating requirements of all the zones. When compared to a fixed heating supply air temperature setpoint, this strategy minimizes central boiler energy consumption (if the hot water temperature is also reset or there are variable speed pumps) at the cost of possible increased fan energy (if there is variable volume control in the air system).
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a coldest setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a coldest setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. Currently there is only one choice: Temperature.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its heating supply air temperature.";
 		public static string Field_MinimumSetpointTemperature = @"The minimum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is less than this minimum, the setpoint is set to the minimum. This value is also used as the setpoint temperature when none of the zones have a heating load.";
@@ -14646,13 +14646,13 @@ Controller:Simple,
   VAV Sys 1 Hot Outlet Node;   !- Node 1 Name";
 	}
 	public static class SetpointManagerReturnAirBypassFlow
-    { 
+	{
 		public static string Name = @"SetpointManager:ReturnAirBypassFlow";
 		public static string Note = @"This manager is user in conjunction with a return air bypass configuration. This type of air system is basically a standard single duct system with the addition of a bypass duct that bypasses return air around the main system components in particular, the central cooling coil. This allows the central cooling coil to sufficiently dehumidify the mixed air; the bypassed air is then added to the supply air stream to bring the supply air temperature up to the desired temperature set point. This scheme is very useful in situations where an higher than normal supply air temperature is used for instance, in underfloor air distribution systems.
 
 This manager relies on the program to figure out the system configuration and to extract the needed data from the system nodes. All the user needs to input is the name of the air system and a schedule giving the desired supply air temperature setpoint. No node names are required. The manager will establish a bypass air flow rate that upon mixing with the non-bypassed air will yield the temperature given in the schedule.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of an Return Air Bypass Flow setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of an Return Air Bypass Flow setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. Currently there is only one choice: Flow.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its return air bypass flow rate.";
 		public static string Field_TemperatureSetpointScheduleName = @"The name of a schedule whose values are temperatures in C. The schedule value for the time period is the setpoint for this type of setpoint manager. The setpoint is assumed to be at the air handler outlet.
@@ -14668,7 +14668,7 @@ SetpointManager:ReturnAirBypassFlow,
   Seasonal Reset Supply Air Temp Sch;   !- Temperature Setpoint Schedule Name";
 	}
 	public static class SetpointManagerWarmestTemperatureFlow
-    { 
+	{
 		public static string Name = @"SetpointManager:WarmestTemperatureFlow";
 		public static string Note = @"The Warmest Temperature Flow Setpoint Manager resets the cooling supply air temperature of a central forced air HVAC system according to the cooling demand of the warmest zone. The user can select one of two strategies: {TemperatureFirst} or {FlowFirst}.
 
@@ -14678,7 +14678,7 @@ For {FlowFirst} the manager tries to find the lowest supply air flow rate that w
 
 When compared to a fixed cooling supply air temperature setpoint, the {TemperatureFirst} strategy minimizes fan energy at the cost of possible increased zone reheat coil energy (or overcooling) and central chiller energy consumption, whereas the {FlowFirst} strategy minimizes zone reheat coil energy (or overcooling) and central chiller energy consumption at the cost of possible increased fan energy.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of this setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of this setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. For this setpoint manager, this input should be Temperature.";
 		public static string Field_HVACAirLoopName = @"he name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its cooling supply air temperature.";
 		public static string Field_MinimumSetpointTemperature = @"The minimum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is less than this minimum, the setpoint is set to the minimum.";
@@ -14715,11 +14715,11 @@ SetpointManager:WarmestTemperatureFlow,
   VAV Sys 1 Outlet Node; ! Set Point Node";
 	}
 	public static class SetpointManagerMultiZoneCoolingAverage
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:Cooling:Average";
 		public static string Note = @"This setpoint manager is used to establish a supply air temperature setpoint for a central forced air HVAC system (air loop) based on the predicted sensible cooling loads and actual supply air mass flow rates for all zones served by the system. For all controlled zones in the air loop (i.e., zones with a thermostat object), the setpoint manager calculates an average supply air temperature that will meet the zone cooling loads based on the actual zone supply air mass flow rates (lagged by one time step). The calculated setpoint temperature is subject to the minimum and maximum setpoint temperature constraints specified by the user. When compared to a fixed cooling supply air temperature setpoint, this strategy may reduce zone reheat coil energy (or overcooling) and central chiller energy consumption (if the chilled water temperature is also reset) at the cost of possible increased fan energy.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of this multizone average cooling setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of this multizone average cooling setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its cooling supply air temperature.";
 		public static string Field_MinimumSetpointTemperature = @"The minimum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is less than this minimum, the setpoint is set to the minimum. The default value is 12C.";
 		public static string Field_MaximumSetpointTemperature = @"The maximum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is greater than this value, the setpoint is set to this maximum value. The default value is 18C.";
@@ -14737,11 +14737,11 @@ SetpointManager:MultiZone:Cooling:Average,
   Cooling Coil Supply Air Temp Nodes;   !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerMultiZoneHeatingAverage
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:Heating:Average";
 		public static string Note = @"This setpoint manager is used to establish a supply air temperature setpoint for a central forced air HVAC system (air loop) based on the predicted sensible heating loads and actual supply air mass flow rates for all zones served by the system. For all controlled zones in the air loop (i.e., zones with a thermostat object), the setpoint manager calculates an average supply air temperature that will meet the zone heating loads based on the actual zone supply air mass flow rates (lagged by one time step). The calculated setpoint temperature is subject to the minimum and maximum setpoint temperature constraints specified by the user. When compared to a fixed heating supply air temperature setpoint, this strategy may reduce central boiler energy consumption (if the hot water temperature is also reset or there are variable speed pumps) at the cost of possible increased fan energy (if there is variable volume control for the air system).
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone average heating setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone average heating setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its heating supply air temperature.";
 		public static string Field_MinimumSetpointTemperature = @"The minimum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is less than this minimum, the setpoint is set to the minimum. The default value is 20C.";
 		public static string Field_MaximumSetpointTemperature = @"The maximum allowed setpoint temperature in degrees C. If the calculated setpoint temperature is greater than this value, the setpoint is set to this maximum value. The default value is 50C.";
@@ -14759,11 +14759,11 @@ SetpointManager:MultiZone:Heating:Average,
   Heating Coil Supply Air Temp Nodes;   !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerMultiZoneMinimumHumidityAverage
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:MinimumHumidity:Average";
 		public static string Note = @"This setpoint manager allows for controlling the minimum humidity level is multiple zones served by a central forced air HVAC system (air loop). This setpoint manager, used in conjunction with one or more ZoneControl:Humidistat objects, detects the air humidity level in multiple controlled zones served by the HVAC air loop and uses air/moisture mass balances to calculate an average supply air humidity ratio needed to maintain the zone relative humidity levels near their respective humidifying setpoints. The calculated humidity ratio is then used as the minimum humidity ratio setpoint for the designated setpoint node(s). A humidification component (e.g., Humidifier:Steam:Electric) placed upstream of the setpoint node can then use the minimum humidity ratio setpoint to control humidification rate. The use of this object requires that a ZoneControl:Humidistat object be specified with a humidifying relative humidity schedule for one or more controlled zones served by the HVAC air loop.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of an average minimum humidity (humidifying) multizone setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of an average minimum humidity (humidifying) multizone setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its humidification setpoint (minimum air humidity ratio).";
 		public static string Field_MinimumSetpointHumidityRatio = @"The minimum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is less than this value, then the setpoint is set to this minimum value. The default value is 0.005 (kgWater/kgDryAir).";
 		public static string Field_MaximumSetpointHumidityRatio = @"The maximum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is greater than this value, then the setpoint is set to this maximum value. The default value is 0.012 (kgWater/kgDryAir).";
@@ -14788,13 +14788,13 @@ SetpointManager:MultiZone:MinimumHumidity:Average,
   MaxRelHumSetSch;   !- Dehumidifying Relative Humidity Setpoint Schedule Name";
 	}
 	public static class SetpointManagerMultiZoneMaximumHumidityAverage
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:MaximumHumidity:Average";
 		public static string Note = @"This setpoint manager allows for controlling the maximum humidity level is multiple zones served by a central forced air HVAC system (air loop). This setpoint manager, used in conjunction with one or more ZoneControl:Humidistat objects, detects the air humidity level in multiple controlled zones served by the HVAC air loop and uses air/moisture mass balances to calculate an average supply air humidity ratio needed to maintain the zone relative humidity levels near their respective dehumidifying setpoints. The calculated humidity ratio is then used as the maximum humidity ratio setpoint for the designated setpoint node(s). A dehumidification component (e.g., desiccant dehumidifiers) placed upstream of the setpoint node can then use the maximum humidity ratio setpoint to control its moisture removal rate. The use of this object requires that a ZoneControl:Humidistat object be specified with a dehumidifying relative humidity schedule for one or more controlled zones served by the HVAC air loop.
 
 In the case of a chilled water coil which is used for both temperature and high humidity control, this setpoint manager works in conjunction with a Controller:WaterCoil object to determine the supply air temperature required to meet both the temperature (sensible) and humidity (latent) load in the control zone. See object Controller:WaterCoil in the EnergyPlus Engineering Reference for a detailed discussion of how this is achieved.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of an average maximum humidity ratio (dehumidifying) multizone setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of an average maximum humidity ratio (dehumidifying) multizone setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its dehumidification setpoint (maximum air humidity ratio).";
 		public static string Field_MinimumSetpointHumidityRatio = @"The minimum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is less than this value, then the setpoint is set to this minimum value. The default value is 0.008 (kgWater/kgDryAir).";
 		public static string Field_MaximumSetpointHumidityRatio = @"The maximum humidity ratio (kgWater/kgDryAir) that is allowed by this set point manager. If the calculated setpoint humidity ratio is greater than this value, then the setpoint is set to this maximum value. The default value is 0.015 (kgWater/kgDryAir).";
@@ -14819,11 +14819,11 @@ SetpointManager:MultiZone:MaximumHumidity:Average,
   MaxRelHumSetSch;   !- Dehumidifying Relative Humidity Setpoint Schedule Name";
 	}
 	public static class SetpointManagerMultiZoneHumidityMinimum
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:Humidity:Minimum";
 		public static string Note = @"This setpoint manager allows for controlling the minimum humidity level in multiple zones served by a central forced air HVAC system (air loop). This setpoint manager, used in conjunction with one or more ZoneControl:Humidistat objects, detects the air humidity level in multiple controlled zones served by the HVAC air loop and uses air/moisture mass balances to calculate a supply air minimum humidity ratio based on a zone with the critical humidification requirement (i.e., a zone with the highest humidity ratio setpoint) to maintain the zone relative humidity levels near their respective humidifying setpoints. The calculated humidity ratio is then used as the minimum humidity ratio setpoint for the designated setpoint node(s). A humidification component (e.g., Humidifier:Steam:Electric) placed upstream of the setpoint node can then use the minimum humidity ratio setpoint to control humidification rate. The use of this object requires that a ZoneControl:Humidistat object be specified with a humidifying relative humidity schedule for one or more controlled zones served by the HVAC air loop. If ZoneControl:Humidistat object is defined for only one of the zones served by the air loop then the SetpointManager:MultiZone:Humidity:Minimum perform as SepointManager:SingleZone:Humidity:Minimum.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone minimum humidity (humidifying) setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone minimum humidity (humidifying) setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its humidification setpoint (minimum air humidity ratio).";
 		public static string Field_MinimumSetpointHumidityRatio = @"The minimum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is less than this value, then the setpoint is set to this minimum value. The default value is 0.005 (kgWater/kgDryAir).";
 		public static string Field_MaximumSetpointHumidityRatio = @"The maximum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is greater than this value, then the setpoint is set to this maximum value. The default value is 0.012 (kgWater/kgDryAir).";
@@ -14848,13 +14848,13 @@ SetpointManager:MultiZone:Humidity:Minimum,
   DehumidifyingHumSetSch;   !- Dehumidifying Relative Humidity Setpoint Schedule Name";
 	}
 	public static class SetpointManagerMultiZoneHumidityMaximum
-    { 
+	{
 		public static string Name = @"SetpointManager:MultiZone:Humidity:Maximum";
 		public static string Note = @"This setpoint manager allows for controlling the maximum humidity level in multiple zones served by a central forced air HVAC system (air loop). This setpoint manager, used in conjunction with one or more ZoneControl:Humidistat objects, detects the air humidity level in multiple controlled zones served by the HVAC air loop and uses air/moisture mass balances to calculate the maximum supply air humidity ratio based on a zone with the critical dehumidification requirement (i.e., a zone with the lowest humidity ratio setpoint) to maintain the zone relative humidity levels near their respective dehumidifying setpoints. The calculated humidity ratio is then used as the maximum humidity ratio setpoint for the designated setpoint node(s). A dehumidification component (e.g., desiccant dehumidifiers) placed upstream of the setpoint node can then use the maximum humidity ratio setpoint to control its moisture removal rate. The use of this object requires that a ZoneControl:Humidistat object be specified with a dehumidifying relative humidity schedule for one or more controlled zones served by the HVAC air loop. If ZoneControl:Humidistat object is defined for only one of the zones served by the air loop then the SetpointManager:MultiZone:Humidity:Maximum perform as SetpointManager:SingleZone:Humidity:Maximum.
 
 In the case of a chilled water coil which is used for both temperature and high humidity control, this setpoint manager works in conjunction with a Controller:WaterCoil object to determine the supply air temperature required to meet both the temperature (sensible) and dehumidification (latent) load in the control zone. See object Controller:WaterCoil in the EnergyPlus Engineering Reference for a detailed discussion of how this is achieved.
 ";
-	public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone maximum humidity ratio (dehumidifying) setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user-assigned name for an instance of a multizone maximum humidity ratio (dehumidifying) setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_HVACAirLoopName = @"The name of the AirLoopHVAC object (the central air system) which will use this setpoint manager to set its dehumidification setpoint (maximum air humidity ratio).";
 		public static string Field_MinimumSetpointHumidityRatio = @"The minimum humidity ratio (kgWater/kgDryAir) that is allowed by this setpoint manager. If the calculated setpoint humidity ratio is less than this value, then the setpoint is set to this minimum value. The default value is 0.008 (kgWater/kgDryAir).";
 		public static string Field_MaximumSetpointHumidityRatio = @"The maximum humidity ratio (kgWater/kgDryAir) that is allowed by this set point manager. If the calculated setpoint humidity ratio is greater than this value, then the setpoint is set to this maximum value. The default value is 0.015 (kgWater/kgDryAir).";
@@ -14878,11 +14878,11 @@ SetpointManager:MultiZone:Humidity:Maximum,
   HumidifyingHumSetSch,       !- Humidifying Relative Humidity Setpoint Schedule Name";
 	}
 	public static class SetpointManagerFollowOutdoorAirTemperature
-    { 
+	{
 		public static string Name = @"SetpointManager:FollowOutdoorAirTemperature";
 		public static string Note = @"This setpoint manager is used to place a temperature setpoint on a system node that is derived from the current outdoor air environmental conditions. The outdoor air conditions are obtained from the weather information during the simulation.
 ";
-	public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
+		public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There are three choices available: Temperature, MaximumTemperature, or MinimumTemperature.";
 		public static string Field_ReferenceTemperatureType = @"The field specifies the type of temperature value to obtain from the system node referenced in the previous field. The two available options are OutdoorDryBulb and OutdoorWetBulb.";
 		public static string Field_OffsetTemperatureDifference = @"This field provides a temperature offset that will be applied to the value of the reference temperature (outdoor air wetbulb/drybulb). If this value is zero, and the limits are met, then the resulting setpoint will be exactly the same as the outdoor air wetbulb/drybulb temperature. The sign convention is that a positive value here will increase the resulting setpoint to higher than the outdoor air wetbulb/drybulb.";
@@ -14904,11 +14904,11 @@ SetpointManager:FollowOutdoorAirTemperature,
   CondSupplyOutletNode;     !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerFollowSystemNodeTemperature
-    { 
+	{
 		public static string Name = @"SetpointManager:FollowSystemNodeTemperature";
 		public static string Note = @"This setpoint manager is used to place a temperature setpoint on a system node that is derived from the current temperatures at a separate system node. The current value of the temperature at a reference node is obtained and used to generate setpoint on a second system node. If the reference node is also designated to be an outdoor air (intake) node, then this setpoint manager can be used to follow outdoor air conditions that are adjusted for altitude.
 ";
-	public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
+		public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There are three choices available: Temperature, MaximumTemperature, or MinimumTemperature.";
 		public static string Field_ReferenceNodeName = @"The name of a system node where this setpoint manager will obtain a reference temperature to follow. Note that the temperature to obtained is the current temperature on the node and not the current value of a temperature {setpoint}.";
 		public static string Field_ReferenceTemperatureType = @"The field specifies the type of temperature value to obtain from the system node referenced in the previous field. The two available options are NodeDryBulb and NodeWetBulb.";
@@ -14932,11 +14932,11 @@ SetpointManager:FollowSystemNodeTemperature,
   CondSupplyOutletNode;     !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerFollowGroundTemperature
-    { 
+	{
 		public static string Name = @"SetpointManager:FollowGroundTemperature";
 		public static string Note = @"This setpoint manager is used to place a temperature setpoint on a system node that is derived from a current ground temperature. The ground temperatures are specified in different Site:GroundTemperature:* objects and used during the simulation. This setpoint manager is primarily intended for condenser or plant loops using some type of ground heat exchanger.
 ";
-	public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
+		public static string Field_Name = @"A unique user-defined name for an instance of this setpoint manager.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There are three choices available: Temperature, MaximumTemperature, or MinimumTemperature.";
 		public static string Field_ReferenceGroundTemperatureObjectType = @"This field is used to specify the type of ground temperature to be used by the setpoint manager. There are four options, Site:GroundTemperature:BuildingSurface, Site:GroundTemperature:Shallow, Site:GroundTemperature:Deep, or Site:GroundTemperature:FCfactorMethod. Generally the deep ground temperatures are the most useful for a plant loop serving a vertical borehole ground heat exchanger.";
 		public static string Field_OffsetTemperatureDifference = @"This field provides a temperature offset that will be applied to the value of the ground temperature. If this value is zero, and the limits are met, then the resulting setpoint will be exactly the same as the ground temperature. The sign convention is that a positive value here will increase the resulting setpoint to higher than the ground temperature.";
@@ -14958,11 +14958,11 @@ SetpointManager:FollowGroundTemperature,
   CondSupplyOutletNode;               !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerCondenserEnteringReset
-    { 
+	{
 		public static string Name = @"SetpointManager:CondenserEnteringReset";
 		public static string Note = @"The object resets the condenser entering water temperature setpoint to the optimal setpoint temperature that will result in minimum net energy consumption for the chiller and cooling tower plant. This chiller-tower optimization scheme uses one curve to determine the optimum condenser entering water temperature for a given time step and two other curves to place limit conditions on the optimized setpoint value. Note that this object will work with only one cooling tower object in a plant loop.
 ";
-	public static string Field_Name = @"A unique, user assigned name for an instance of the optimized condenser entering water setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user assigned name for an instance of the optimized condenser entering water setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. The only valid choice for this setpoint manager is {Temperature}.";
 		public static string Field_DefaultCondenserEnteringWaterTemperatureScheduleName = @"This schedule should define the default condenser entering water temperature setpoint. This scheduled setpoint value is only used in a given time step if the optimized setpoint value (see the Optimized Condenser Entering Water Temperature Curve Name field) does not fall within its prescribed boundary conditions.";
 		public static string Field_MinimumDesignWetbulbTemperatureCurveName = @"The curve name associated with the coefficients in the equation used to determine the minimum design tower wetbulb referenced by the minimum outside air wetbulb temperature curve below. The value from this curve is compared to the tower design wet bulb each timestep to establish one of the governing boundaries over the optimized condenser entering water temperature setpoint calculation. This curve must be quad-linear (Curve:QuadLinear) and is defined as:
@@ -15032,11 +15032,11 @@ SetpointManager:CondenserEnteringReset,
   Cond Water Setpoint Node;   !- Setpoint Node or Node List Name";
 	}
 	public static class SetpointManagerCondenserEnteringResetIdeal
-    { 
+	{
 		public static string Name = @"SetpointManager:CondenserEnteringReset:Ideal";
 		public static string Note = @"The object determines a near-optimal condenser water entering setpoint at each time step that will result in minimum net energy consumption for the chiller and coolingtower plant. The ideal chiller-tower optimization scheme uses a search algorithm to find the ideal optimal setpoint at a given timestep. Note that this object will work with only one chiller object and only one cooling tower object in a plant loop.
 ";
-	public static string Field_Name = @"A unique, user assigned name for an instance of the optimized condenser entering water setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
+		public static string Field_Name = @"A unique, user assigned name for an instance of the optimized condenser entering water setpoint manager. Anywhere in the input that this setpoint manager is used, it is referred to by this name.";
 		public static string Field_ControlVariable = @"The type of variable that will be controlled. There is only one choice for this type of setpoint manager: {Temperature}.";
 		public static string Field_MinimumLift = @"This field establishes the minimum lift allowed. Lift is generally thought of as the difference between condenser refrigerant pressure and the evaporator refrigerant pressure. Using defined pressure and temperature relationships, lift also can be related to the difference between the leaving chilled water and the leaving condenser water temperature. Further, when the leaving condenser water temperature and condenser water flow are constant, the entering condenser temperature can be used as a proxy for lift. Because most condenser water systems are designed for constant flow, entering condenser temperature is the most common metric for lift, and that is what meant here. If the optimized condenser entering water setpoint falls below leaving evaporator water temperature plus minimum lift, then the condenser entering water setpoint is reset to equal this field value plus leaving evaporator water temperature. This determines the minimum boundary of condenser entering water setpoint. The unit for this field is deg C TD. Default is 11.1 deg C (20 deg F).";
 		public static string Field_MaximumCondenserEnteringWaterTemperature = @"This field establishes the maximum condenser entering water setpoint temperature allowed. If the optimized condenser entering water setpoint is above this field value, then the condenser entering water setpoint is reset to equal this filed value. The units for this field are deg C. Default is 34 deg C";
@@ -15054,13 +15054,13 @@ SetpointManager:CondenserEnteringReset:Ideal,
   Cond Water Setpoint Node;   !- Setpoint Node or Node List Name";
 	}
 	public static class SetpointManagerSingleZoneOneStageCooling
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:OneStageCooling";
 		public static string Note = @"The singe-zone, one-stage cooling setpoint manager allows a component to be controlled based on thermostatic control using the object ZoneControl:Thermostat:StagedDualSetpoint. This setpoint manager differs from other parts of EnergyPlus that control based on predicted loads to setpoint. This setpoint manager allows modeling on/off cycling of DX coils using CoilSystem:Cooling:DX in continuous fan air handlers. This setpoint manger detects if the zone is calling for a cooling stage and applies one setpoint value if cooling is called for and another setpoint value if cooling is not called for.
 
 This method of control is much more like real world thermostatic control but it requires short zone timesteps. Models using this type of control should use 60 timesteps per hour and will run much slower because of that.
 ";
-	public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a single zone one stage cooling setpoint manager.";
+		public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a single zone one stage cooling setpoint manager.";
 		public static string Field_CoolingStageOnSupplyAirSetpointTemperature = @"This numeric field is the setpoint temperature to apply when the manager intends to turn on cooling, in degrees Celsius. The default is -99.0 ??C.";
 		public static string Field_CoolingStageOffSupplyAirSetpointTemperature = @"This numeric field is the setpoint temperature to apply when the manager intends to turn off cooling, in degrees Celsius. The value in this field must be higher than the value in the previous field. The default is 99.0 ??C.";
 		public static string Field_ControlZoneName = @"This alpha field is the name of the control zone for this setpoint manager. This zone needs to be controlled using ZoneControl:Thermostat:StagedDualSetpoint.";
@@ -15078,21 +15078,21 @@ SetpointManager:SingleZone:OneStageCooling,
   DX Cooling Coil 3 Outlet Node ; !- Setpoint Node or NodeList Name";
 	}
 	public static class SetpointManagerSingleZoneOneStageHeating
-    { 
+	{
 		public static string Name = @"SetpointManager:SingleZone:OneStageHeating";
 		public static string Note = @"The singe-zone, one-stage heating setpoint manager allows a component to be controlled based on thermostatic control using the object ZoneControl:Thermostat:StagedDualSetpoint. This setpoint manager differs from other parts of EnergyPlus that control based on predicted loads to setpoint. This setpoint manager allows modeling on/off cycling of heating coils in continuous fan air handlers. This setpoint manger detects if the zone is calling for a heating stage and applies one setpoint value if heating is called for and another setpoint value if heating is not called for.
 
 This method of control is much more like real world thermostatic control but it requires short zone timesteps. Models using this type of control should use 60 timesteps per hour and will run much slower because of that.
 ";
-}
+	}
 	public static class SetpointManagerReturnTemperatureChilledWater
-    { 
+	{
 		public static string Name = @"SetpointManager:ReturnTemperature:ChilledWater";
 		public static string Note = @"This setpoint manager allows for the central plant simulation in EnergyPlus to target a specific return water temperature entering the plant supply equipment. This setpoint manager is specifically for ``chilled water'' (although it could be any fluid) applications. This setpoint manager senses the current supply and return temperatures, calculates the current demand on the loop, and assuming this load remains constant for this time step, it predicts what set-point temperature would provide the desired target return temperature.
 
 Because this is predictive, and the setpoint is only updated once per system timestep (frequency of the call to ManageSetPoints), the longer the time step, the less accurate the prediction will be. To make tighter control, the time step can be reduced down even to one minute. However, as described in the EngineeringReference, for most realistic building profiles the control works quite well under normal timestep size. If your load profile is highly jagged with step changes in demand, a smaller timestep could help achieve tight control.
 ";
-	public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a chilled water return temperature reset setpoint manager.";
+		public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a chilled water return temperature reset setpoint manager.";
 		public static string PlantLoopSupplyOutletNode = @"This alpha field is the name of the plant loop supply side outlet node for the plant being managed by this setpoint manager. The current temperature of this node is sensed in order to calculate current loop demand. This node is typically also where the plant loop setpoint is specified, but not necessarily. This setpoint manager looks up the actual setpoint node from the PlantLoop internal data structures as it is specified on the PlantLoop object. If the plant loop setpoint is on a different node than the supply outlet node, the loop may not maintain return temperature control as expected.";
 		public static string PlantLoopSupplyInletNode = @"This alpha field is the name of the plant loop supply side inlet node whose temperature is controlled using this setpoint manager by resetting the supply setpoint temperature. The current temperature of this node is also sensed in order to calculate current loop demand.";
 		public static string MinimumSupplyTemperatureSetpoint = @"This numeric field plays multiple roles. During initialization, such as before the plant data structures are fully established, this is used as the default plant supply setpoint temperature. During normal calculation, this is used as the minimum chilled water supply temperature to avoid resetting the setpoint too low. During times of no-load, or odd conditions such as a negative load, the setpoint is reset to this design setpoint.";
@@ -15145,13 +15145,13 @@ Another example which uses the ``ReturnTemperatureSetpoint'' is shown here with 
     ;                        !- Return Temperature Setpoint Schedule Name";
 	}
 	public static class SetpointManagerReturnTemperatureHotWater
-    { 
+	{
 		public static string Name = @"SetpointManager:ReturnTemperature:HotWater";
 		public static string Note = @"This setpoint manager allows for the central plant simulation in EnergyPlus to target a specific return water temperature entering the plant supply equipment. This setpoint manager is specifically for ``hot water'' (although it could be any fluid) applications. This setpoint manager senses the current supply and return temperatures, calculates the current demand on the loop, and assuming this load remains constant for this time step, it predicts what supply set-point temperature would provide the desired target return temperature.
 
 Because this is predictive, and the setpoint is only updated once per system timestep (frequency of the call to ManageSetPoints), the longer the time step, the less accurate the prediction will be. To make tighter control, the time step can be reduced down even to one minute. However, as described in the EngineeringReference, for most realistic building profiles the control works quite well under normal timestep size. If your load profile is highly jagged with step changes in demand, a smaller timestep could help achieve tight control.
 ";
-	public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a hot water return temperature reset setpoint manager.";
+		public static string Field_Name = @"This alpha field is a unique, user-assigned name for an instance of a hot water return temperature reset setpoint manager.";
 		public static string PlantLoopSupplyOutletNode = @"This alpha field is the name of the plant loop supply side outlet node for the plant being managed by this setpoint manager. The current temperature of this node is sensed in order to calculate current loop demand. This node is typically also where the plant loop setpoint is specified, but not necessarily. This setpoint manager looks up the actual setpoint node from the PlantLoop internal data structures as it is specified on the PlantLoop object. If the plant loop setpoint is on a different node than the supply outlet node, the loop may not maintain return temperature control as expected.";
 		public static string PlantLoopSupplyInletNode = @"This alpha field is the name of the plant loop supply side inlet node whose temperature is controlled using this setpoint manager by resetting the supply setpoint temperature. The current temperature of this node is also sensed in order to calculate current loop demand.";
 		public static string MinimumSupplyTemperatureSetpoint = @"This numeric field is the minimum value to which the supply setpoint can be reset. This ensures that the hot water temperature does not go too low during reset operations.";
@@ -15184,10 +15184,10 @@ SetpointManager:ReturnTemperature:HotWater,
   UNTIL: 24:00, 55;        !- Field 3";
 	}
 	public static class AirConditionerVariableRefrigerantFlow
-    { 
+	{
 		public static string Name = @"AirConditioner:VariableRefrigerantFlow";
 		public static string Note = @"";
-	public static string Field_HeatPumpName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat pump. Any reference to this heat pump will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
+		public static string Field_HeatPumpName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat pump. Any reference to this heat pump will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the heat pump operates during a given time period. A schedule value equal to 0 denotes that the heat pump must be off for that time period. A value other than 0 denotes that the heat pump is available to operate during that time period. This schedule may be used to completely disable the heat pump (and all of its terminal units) as required. If this field is blank, the unit is enabled the entire simulation.";
 		public static string Field_GrossRatedTotalCoolingCapacity = @"This numeric field defines the total cooling capacity (sensible + latent) of the heat pump at rated conditions in watts. The cooling capacity must be greater than 0 or set to autosize.";
 		public static string Field_GrossRatedCoolingCOP = @"This numeric field defines the cooling coefficient of performance at rated conditions. The cooling coefficient of performance includes compressor power and condenser fan power. This COP value does not account for impacts due to the supply air fan. The nominal heat pump cooling COP must be greater than 0. If this field is left blank, a default coefficient of performance of 3.3 is assumed.";
@@ -15378,10 +15378,10 @@ AirConditioner:VariableRefrigerantFlow,
     ;                     !- Heat Recovery Heating Energy Time Constant (hr)";
 	}
 	public static class AirConditionerVariableRefrigerantFlowFluidTemperatureControl
-    { 
+	{
 		public static string Name = @"AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl";
 		public static string Note = @"";
-	public static string Field_HeatPumpName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat pump. Any reference to this heat pump will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
+		public static string Field_HeatPumpName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat pump. Any reference to this heat pump will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the heat pump operates during a given time period. A schedule value equal to 0 denotes that the heat pump must be off for that time period. A value other than 0 denotes that the heat pump is available to operate during that time period. This schedule may be used to completely disable the heat pump (and all of its terminal units) as required. If this field is blank, the unit is enabled the entire simulation.";
 		public static string Field_ZoneTerminalUnitListName = @"This alpha field defines the name of the zone terminal unit list. The name specified here should match the name of a valid ZoneTerminalUnitList object. In addition, each name specified in this list should match the name of a valid ZoneHVAC:TerminalUnit:VariableRefrigerantFlow object. All terminal units connected to this heat pump must be listed in this ZoneTerminalUnitList object.";
 		public static string Field_RefrigerantType = @"This alpha field defines the name of the refrigerant used in the VRF system. The name specified here should match the name of a valid FluidProperties:Name object.";
@@ -15616,10 +15616,10 @@ Curve:Biquadratic,
   Dimensionless;           !- Output Unit Type";
 	}
 	public static class AirConditionerVariableRefrigerantFlowFluidTemperatureControlHR
-    { 
+	{
 		public static string Name = @"AirConditioner:VariableRefrigerantFlow:FluidTemperatureControl:HR";
 		public static string Note = @"";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat recovery system. Any reference to this system will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow heat recovery system. Any reference to this system will use this name. Since this object is not listed in an AirloopHVAC object, the most likely use of this name would be for reporting purposes.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the VRF system operates during a given time period. A schedule value equal to 0 denotes that the VRF system must be off for that time period. A value other than 0 denotes that the VRF system is available to operate during that time period. This schedule may be used to completely disable the VRF system (and all of its terminal units) as required. If this field is blank, the unit is enabled the entire simulation.";
 		public static string Field_ZoneTerminalUnitListName = @"This alpha field defines the name of the zone terminal unit list. The name specified here should match the name of a valid ZoneTerminalUnitList object. In addition, each name specified in this list should match the name of a valid ZoneHVAC:TerminalUnit:VariableRefrigerantFlow object. All terminal units connected to this VRF system must be listed in this ZoneTerminalUnitList object.";
 		public static string Field_RefrigerantType = @"This alpha field defines the name of the refrigerant used in the VRF system. The name specified here should match the name of a valid FluidProperties:Name object.";
@@ -15888,7 +15888,7 @@ Curve:Biquadratic,
   Dimensionless;           !- Output Unit Type";
 	}
 	public static class ZoneTerminalUnitList
-    { 
+	{
 		public static string Name = @"ZoneTerminalUnitList";
 		public static string Note = @"The zone terminal unit list defines the names of the terminal units connected to a single variable refrigerant flow air-conditioning system. The zone terminal unit list is used exclusively in the variable refrigerant flow (VRF) air conditioner object (ref: AirConditioner:VariableRefrigerantFlow). Up to 20 terminal units may be connected to a single VRF outdoor condensing unit. This list is extensible if additional indoor terminal units are required. The name of this zone terminal unit list object is then input into the corresponding variable refrigerant flow air conditioner object. The following figure demonstrates this concept.
 
@@ -15897,7 +15897,7 @@ Curve:Biquadratic,
 \includegraphics[width=0.9\textwidth, height=0.9\textheight, keepaspectratio=true]{media/image313.png}
 \caption{Zone Terminal Unit List Diagram \protect \label{fig:zone-terminal-unit-list-diagram}}
 \end{figure}";
-	public static string Field_ZoneTerminalListName = @"This alpha field specifies the name of the zone terminal unit list. This name must be specified in the AirConditioner:VariableRefrigerantFlow object.";
+		public static string Field_ZoneTerminalListName = @"This alpha field specifies the name of the zone terminal unit list. This name must be specified in the AirConditioner:VariableRefrigerantFlow object.";
 		public static string Field_ZoneTerminalUnitNameX = @"This alpha field defines the name of the zone terminal unit used in a variable refrigerant air conditioner. The zone terminal unit must be connected to a zone using the ZoneHVAC:EquipmentConnections object. The terminal unit air inlet node is the same name as a zone exhaust node. The terminal unit air outlet node is the same name as a zone inlet node. The IDD is supplied with 20 fields for this.~ The object is extensible and you can change the IDD by adding more fields or, if you are using text editor for your input file, just add to the list of names.
 
 Following is an example input for a ZoneTerminalUnitList object.
@@ -15913,7 +15913,7 @@ ZoneTerminalUnitList,
      TU5;                   !- Zone Terminal Unit Name 5";
 	}
 	public static class ZoneHVACAirDistributionUnit
-    { 
+	{
 		public static string Name = @"ZoneHVAC:AirDistributionUnit";
 		public static string Note = @"The ZoneHVAC:AirDistributionUnit object gives further information on what air loop equipment (air terminal units) will be serving a particular zone. The ZoneHVAC:AirDistributionUnit is the part of the system that is supplied from a common main air handler simulated in the Air Loop Simulation and includes the equipment that controls or tempers the air going to each individual zone according to the desired thermostatic control. The current options for ZoneHVAC:AirDistributionUnit terminal unit types are:
 
@@ -15955,7 +15955,7 @@ Connections between the air distribution unit, the supply air duct, and the zone
 
 The Air Distribution unit also allows the user to specify leaks in the supply air duct system. These inputs are used in the EnergyPlus Simplified Duct Leakage Model (SDLM). This model simulates a specific configuration: supply leaks to a return plenum in a commercial VAV or CV system. The system must have a constant static pressure setpoint. Within these limitations SDLM allows the user to easily evaluate the energy penalty due to duct leakage.
 ";
-	public static string Field_Name = @"Unique identifying name of the air distribution unit.";
+		public static string Field_Name = @"Unique identifying name of the air distribution unit.";
 		public static string Field_AirDistributionUnitOutletNodeName = @"Outlet node name for the air distribution unit to the attached zone.";
 		public static string Field_AirTerminalObjectType = @"Single combined component/controller unit for that attached zone. Selection of components as listed above.";
 		public static string Field_AirTerminalName = @"The unique identifying component name.";
@@ -15982,13 +15982,13 @@ ZoneHVAC:AirDistributionUnit,
       0.07;                    !- downstream constant leakage fraction";
 	}
 	public static class ZoneHVACEquipmentConnections
-    { 
+	{
 		public static string Name = @"ZoneHVAC:EquipmentConnections";
 		public static string Note = @"Finally, the ZoneHVAC:EquipmentConnections statement defines the remaining details about each thermal zone from an HVAC perspective (besides the controls which were defined above). As with other statements, the first two items in this object are the keyword and an identifying name which links the zone back to its geometrical input, internal gains, etc. and other statements in the HVAC section of the input. The next three items are names of lists (equipment, air inlet nodes, and air exhaust nodes) that are described in more detail below. Note that if there are no air exhaust nodes from the zone that field is left blank. And if there are no air inlet nodes, that field is left blank. Finally, two node names are necessary to complete the zone-HVAC description. The first node is the main air node for the zone upon which the air heat balance is performed. The other node(s) begins the return air path(s) from the zone.
 
 Note that all nodes mentioned in the ZoneHVAC:EquipmentConnections input must be unique.~ That is, all nodes in all the ZoneHVAC:EquipmentConnections statements referenced by the ``Zone Air Inlet Nodes'', ``Zone Air Exhaust Nodes'', ``Zone Air Node Name'' and ``Zone Return Air Node Name'' cannot have any node name appearing more than once.
 ";
-	public static string Field_ZoneName = @"Name links this equipment list back to the heat balance for the zone.";
+		public static string Field_ZoneName = @"Name links this equipment list back to the heat balance for the zone.";
 		public static string Field_ZoneConditioningEquipmentListName = @"List of zone equipment for this zone in a ZoneHVAC:EquipmentList object. This list will consist of air distribution units or other direct convection or radiant equipment, i.e.~window air conditioner, baseboard, fan coils, etc.";
 		public static string Field_ZoneAirInletNodeOrNodeListName = @"There can be more than one air inlet node depending on how many pieces of equipment are in the ZoneHVAC:EquipmentList. Generally there will be one air inlet node for each piece of zone equipment that delivers conditioned air to the zone. Components such as electric or hot water baseboards and radiant systems do not require zone air inlet nodes. If there is only one node -- its name can be put in this field. If there is more than one node, this must be the name of a node list object (a node list object can also contain only one node name). If this field is not required (as in the baseboard system), it should be blank.";
 		public static string Field_ZoneAirExhaustNodeOrNodeListName = @"List of exhaust nodes leaving the zone for exhaust fans, zone energy recovery, etc. However these nodes are also used as sources of zone air for zone components such as fan coil units, unit heaters and ventilators, and window air conditioners. For each such component attached to a zone there should be a unique zone exhaust node acting as the inlet node to the component. If there is only one node -- its name can be put in this field. If there is more than one node, this must be the name of a node list object (a node list object can also contain only one node name). If there are no air exhaust nodes, this field should be blank.";
@@ -16019,13 +16019,13 @@ The following HVAC equipment types are allowed as zone equipment. The component 
 \end{figure}";
 	}
 	public static class ZoneHVACEquipmentList
-    { 
+	{
 		public static string Name = @"ZoneHVAC:EquipmentList";
 		public static string Note = @"The first list encountered in the ZoneHVAC:EquipmentConnections statement is the ZoneHVAC:EquipmentList. This object lists all HVAC equipment serving the zone. Each item in the list has four fields associated with it: Object Type, Name, Cooling Sequence and Heating or No-Load Sequence The Object Type and Name identify the specific equipment object. Cooling Sequence and Heating or No-Load Sequence specify the order of simulation for zones with more than one type of HVAC equipment.
 
 Note that a ZoneHVAC:AirDistributionUnit or AirTerminal:SingleDuct:Uncontrolled must be listed in this statement if there is a forced air system serving the zone from an air loop.
 ";
-	public static string Field_Name = @"Unique identifying name.";
+		public static string Field_Name = @"Unique identifying name.";
 		public static string Field_LoadDistributionScheme = @"The Load Distribution Scheme selects the algorithm used to allocate the current zone load across the zone equipment. There are four choices: SequentialLoad, UniformLoad, UniformPLR, and SequentialUniformPLR. The default is SequentialLoad. In all cases, the equipment operates in the order specifed by the Zone Equipment Cooling Sequence and Heating or No-Load Sequence fields.
 
 
@@ -16113,7 +16113,7 @@ Examples of this statement in an IDF are:
       2;                       !- Zone Equipment 2 Heating or No-Load Sequence";
 	}
 	public static class ZoneHVACIdealLoadsAirSystem
-    { 
+	{
 		public static string Name = @"ZoneHVAC:IdealLoadsAirSystem";
 		public static string Note = @"The simplest piece of zone equipment is the ZoneHVAC:IdealLoadsAirSystem component. ZoneHVAC:IdealLoadsAirSystem is used in situations where the user wishes to study the performance of a building without modeling a full HVAC system. In such a case, the Ideal Loads Air System is usually the sole conditioning component: the user does not need to specify air loops, water loops, etc. All that is needed for the ideal system are zone controls, zone equipment configurations, and the ideal loads system component. The use of a return plenum is optional and will require use of the AirloopHVAC:ReturnPlenum object.
 
@@ -16127,7 +16127,7 @@ The ideal loads system was significantly expanded in version 7.0 (October 2011).
 
 Older idf files which are transitioned to version 7.0 will automatically be set to use the {{ConstantSupplyHumidityRatio}} option for both dehumidification and humidification controls, because this is equivalent to the controls used in the older version of this system. However, the user should review all of the humidity control options and select the one which best reflects the goal of the simulation.
 ";
-	public static string Field_Name = @"A unique user assigned name for each ideal loads air system component.~ This name is referenced in a ZoneHVAC:EquipmentList object.";
+		public static string Field_Name = @"A unique user assigned name for each ideal loads air system component.~ This name is referenced in a ZoneHVAC:EquipmentList object.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether or not this component is available to operate during a given time period. If the schedule value is greater than zero then the system is available to operate; otherwise, the system is unavailable for that time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_ZoneSupplyAirNodeName = @"The name of the outlet air node of the ideal loads object. This should be the same as one of the zone air inlet nodes for the zone the ideal loads component is serving.";
 		public static string Field_ZoneExhaustAirNodeName = @"The name of the zone exhaust air node of the ideal loads object. This should be the same as one of the zone air exhaust nodes for the zone this component is serving. This node name is required if ZoneHVAC:IdealLoadsAirSystem is used in a zone which also has other forced air HVAC equipment. Otherwise this node name is optional but recommended.";
@@ -16205,7 +16205,7 @@ An example of this object in an IDF is:
       0.65;                    !- Latent Heat Recovery Effectiveness";
 	}
 	public static class ZoneHVACFourPipeFanCoil
-    { 
+	{
 		public static string Name = @"ZoneHVAC:FourPipeFanCoil";
 		public static string Note = @"What is a fan coil unit? Like many HVAC terms, ``fan coil unit'' is used rather loosely. Sometimes it is used for terminal units that would be better described as powered induction units. Carrier and others use the term for the room side of refrigerant-based split systems. Here we are modeling in-room forced-convection hydronic units. The hydronic heating coil may be replaced with an electric heating coil. Typically these units are small (200 -- 1200 cfm) and self-contained. They are mostly used in exterior zones, usually in hotels, apartments, or offices. They may be connected to ducted outside air, or have a direct outside air vent, but they do not have outside air economizers. Units with outside air economizers are marketed (in the United States) as unit ventilators. Unit ventilators are typically bigger than fan coils and are widely used in classrooms or other applications where ventilation is a priority. If a zonal unit with an outside economizer is desired, {ZoneHVAC:UnitVentilator} should be used.
 
@@ -16237,7 +16237,7 @@ Note that the type of fan component associated with the fan coil unit depends on
 
 Fan coil units can be 4-pipe or 2-pipe. For 4-pipe units there are 2 supply pipes and 2 return pipes. For 2-pipe units there is a single supply pipe and a single return pipe and the supply is switched between hot and chilled water depending on the season. EnergyPlus models 4-pipe units, but the 4-pipe model can be used to model 2-pipe~units by using the coil availability schedules to make sure that either hot or chilled water is exclusively available. Fan coil units with hydronic heat can instead be modeled using an electric heating coil if desired (i.e., replace the hydronic heating coil with an electric heating coil).
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a Fan Coil unit. Any reference to this Fan Coil unit by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a Fan Coil unit. Any reference to this Fan Coil unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the fan coil unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_CapacityControlMethod = @"This input denotes how the unit's output is controlled in order to meet zone heating or cooling requirement. The choices are {{ConstantFanVariableFlow}}, {{CyclingFan}}, {{VariableFanVariableFlow}}, {{VariableFanConstantFlow}}, {{MultiSpeedFan}}, or {{ASHRAE90VariableFan}}. For {ConstantFanVariableFlow}, the fan speed is held constant to produce a fixed air flow rate whenever the unit is scheduled on. The hot water or chilled flow rate is varied so that the unit output matches the zone heating or cooling requirement. For {CyclingFan}, the fan speed is chosen so that the unit capacity is greater than or equal to the heating / cooling load and the fan is cycled to match unit output with the load. For {VariableFanVariableFlow} ~both air and water flow rates are varied to match the load. For {VariableFanConstantFlow,} the water flow rate is at full flow and the fan speed varies to meet the load. For {MultiSpeedFan} the water flow rate is at full flow when there is load or fully closed when there is no load and the supply air flow rate is varied by varying the fan speed in order to match the load. For {ASHRAE90VariableFan}, the fan air flow rate is reduced according to the low speed supply air flow ratio when the zone sensible load is less than the zone sensible load multiplied by the low speed supply air flow ratio. The water coil water flow rate, or the electric heating coil part-load ratio, is modulated to meet the zone load. If the zone sensible load is greater than the zone sensible load multiplied by the low speed supply air flow ratio, then the air and water flow rate is increased to meet the load. If the zone load is greater than the design sensible load, the fan air flow rate is maintained at the maximum value while the water flow rate is further increased to the maximum available while electric heating coils are maintained at the maximum output.
 
@@ -16442,7 +16442,7 @@ An example input for a fan coil unit, including its constituent components, is s
      1.0;                     !- Maximum Curve Output";
 	}
 	public static class ZoneHVACUnitVentilator
-    { 
+	{
 		public static string Name = @"ZoneHVAC:UnitVentilator";
 		public static string Note = @"Unit ventilators are zone equipment units which are assembled from other components. They contain a built-in outdoor air mixer, a fan, a heating coil, and a cooling coil. These components are described elsewhere in this document, except the built-in outdoor air mixer which is contained within the unit ventilator statement. The unit ventilator input simply requires the names of these other three components, which have to be described elsewhere in the input. The input also requires the name of an availability schedule, maximum airflow rate, outdoor air control information (control type and schedules), an outdoor airflow rate, and maximum and minimum hot and cold water mass flow rates. The unit is connected to the zone inlet and exhaust nodes and the outdoor air by specifying unit inlet, outlet, outdoor air and exhaust (relief) air node names. Note that if the Unit Ventilator is not connected to central dedicated outdoor air (DOA), then the unit air inlet node should be the same as a zone exhaust air node and the unit air outlet node should be the same as a zone air inlet node. The three node name input fields: {Outdoor Air Node Name}, {Exhaust Air Node Name}, and {Mixed Air Node Name} are required fields only when the built-in outdoor air mixer is used to provide outdoor air. If the Unit Ventilator is connected to a central dedicated outdoor air (DOA) via {AirTerminal:SingleDuct:Mixer}, then the above three node name input fields are not required and must be left blank. In the later case the Unit Ventilator node connection to the zone air exhaust node and the zone air inlet node are described in {AirTerminal:SingleDuct:Mixer} object. In general, the unit ventilator input is very similar to the fan coil unit input, and the unit is connected to a hot water loop (demand side) through its hot water coil and to a chilled water loop (demand side) through its cooling coil.
 
@@ -16478,7 +16478,7 @@ Overall, control of the unit must consider the outdoor air. Here is a more detai
 
 Note: the unit ventilator controls are strictly temperature based and do not factor humidity into the equation (not an enthalpy economy cycle but rather a simple return air economy cycle). In addition, temperature predictions are not strict energy balances here in the control routine though in the mixing routine an energy balance is preserved.
 ";
-	public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular unit ventilator from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other unit ventilators use this same name.";
+		public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular unit ventilator from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other unit ventilators use this same name.";
 		public static string Field_AvailabilityScheduleName = @"This field is a schedule name (ref: Schedule) that determines whether the unit ventilator is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumSupplyAirFlowRate = @"This field allows the user to enter the maximum volumetric flow rate of air through the unit ventilator system in m^{3}/sec.~This parameter should be some real number greater than zero.";
 		public static string Field_OutdoorAirControlType = @"This field allows the user to control how outdoor air is used in the unit ventilator system. The unit ventilator system described by this syntax has its own outdoor air handler. The three options for outdoor air control are ``{VariablePercent}'', ``{FixedTemperature}'' and ``{FixedAmount}''. Those keys are the only allowed choices for this parameter. In general, the variable percent control will attempt to vary the amount of outdoor air between some minimum and maximum schedules of fractions (see next two fields) to best meet the current heating or cooling load. The fixed temperature control will vary the amount of outdoor air between the minimum schedule (fraction of maximum, see next field) and 100% available outdoor air to come as close as possible to a desired mixed air temperature (see 2 fields down) that can be scheduled. The fixed amount control will fix the outdoor air flow rate as minimum outdoor air flow rate and schedule specified by the user and automatically set the maximum and minimum outside flow rate to be equal by ignoring the maximum outdoor air flow rate. More information on the controls and operation of the unit ventilator are given in the introductory section above. For cycling fan operating mode, the outdoor air mass rate is capped by the actual supply air flow rate if the former is greater than the latter; otherwise, uses the amount calculated by the outdoor air control.";
@@ -16624,7 +16624,7 @@ ZoneHVAC:UnitVentilator,
       32.2;                    !- Design Outlet Air Temperature {C}";
 	}
 	public static class ZoneHVACUnitHeater
-    { 
+	{
 		public static string Name = @"ZoneHVAC:UnitHeater";
 		public static string Note = @"Unit heaters are zone equipment units which are assembled from other components and are a simplification of unit ventilators. They contain only a fan and a heating coil. These components are described elsewhere in this document. The unit heater input simply requires the names of these components, which have to be described elsewhere in the input. The input also requires the name of an availability schedule, maximum airflow rate, and maximum and minimum hot water volumetric flow rates. The unit is connected to the zone inlet and exhaust nodes by specifying unit inlet and outlet node names. Note that the unit air inlet node should be the same as a zone exhaust node and the unit outlet node should be the same as a zone inlet node.
 
@@ -16638,7 +16638,7 @@ While the control of the heating coil is similar to the fan coil units and the u
 
 {Heating:} The unit is on/available and there is a heating load. The heating coil is modulated (constant fan speed) to meet the heating load. When the fan type is not an OnOff fan then the~ control of the heating coil and its flow rate is identical to the fan coil unit. In the case of OnOff fan, the fan cycles with heating coil if the current timestep supply fan operating mode is schedule value is 0, or else if the current timestep supply fan operating mode schedule value is greater than 0, then the supply fan runs continuously for the entire timestep.
 ";
-	public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular unit heater from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other unit heaters use this same name.";
+		public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular unit heater from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other unit heaters use this same name.";
 		public static string Field_AvailabilityScheduleName = @"This field is a schedule name (ref: Schedule) that determines whether the unit heater is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the component can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the component must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This field is a node name used to identify the node that serves as the inlet (air side) to the unit heater. In EnergyPlus, nodes represent points between components or at various points in the loops. In a unit heater, the air inlet node to the system will typically be the same node as a zone outlet node. While a node name may be referenced more than once in an input data file, each node must have a unique name.";
 		public static string Field_AirOutletNodeName = @"This field is a node name used to identify the node that serves as the outlet (air side) to the unit heater. In EnergyPlus, nodes represent points between components or at various points in the loops. In a unit heater, the air outlet node from the system will typically be the same node as a zone inlet node. While a node name may be referenced more than once in an input data file, each node must have a unique name.";
@@ -16732,13 +16732,13 @@ ZoneHVAC:UnitHeater,
       32.2;                    !- Design Outlet Air Temperature {C}";
 	}
 	public static class ZoneHVACEvaporativeCoolerUnit
-    { 
+	{
 		public static string Name = @"ZoneHVAC:EvaporativeCoolerUnit";
 		public static string Note = @"The zone evaporative cooler unit is a compound object made up of a fan and one or two evaporative cooler components.~ This unit serves a single thermal zone as a forced-convection, cooling-only unit with supply fan.~ It always draws 100% of its supply air from the outside, passes the air through a supply fan and evaporative cooler(s) and then into the zone.~ The fan can be positioned upstream of the cooler(s) for a blow through placement.~ Or it can be positioned downstream of the cooler(s) for a draw through placement.~ If there is more than one evaporative cooler, then should be in series with the first cooler immediately upstream of the second cooler. There is an option to include a relief zone exhaust node to balance the air in the zone.
 
 The unit can have either constant or variable speed fans.~ This zone unit differs from other constant speed forced-air zone units in that its controls are not based on a part-load formulation with averaged air flow rates. Instead the unit is completely on or off during the entire timestep.~ This means that it is beneficial to use relatively short timesteps. However for variable speed fans, the unit can modulate fan speed to just meet cooling loads and therefore operates similar to other zone HVAC units.
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a zone evaporative cooler unit.~ References to this unit by other objects will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a zone evaporative cooler unit.~ References to this unit by other objects will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of a schedule that denotes whether the unit operates during a given time period. A schedule value equal to 0.0 denotes that the cooler unit must be off for that time period. A schedule value greater than 0.0 denotes that the cooler is available to operate during that time period. If this field is left blank, then the program assumes that the unit is always available as if the schedule was always set to 1.0.";
 		public static string Field_AvailabilityManagerListName = @"This optional alpha input field is the name of an AvailabilityManagerAssignmentList object. An Availability Manager Assignment List is a list of Availability Managers giving both Availability Manager type and name.~ The availability managers in the list apply to this evaporative cooler unit's operation. If this field is used and the cooler unit is scheduled to be available, based on the previous input field, then the unit will operate based on the result of the availability managers in the list.";
 		public static string Field_OutdoorAirInletNodeName = @"This alpha input field defines the name of the HVAC system node from which the evaporative cooler unit draws its supply air.~ This node is usually declared to be an outdoor air node using OutdoorAir:Node or OutdoorAir:NodeList.";
@@ -16790,7 +16790,7 @@ ZoneHVAC:EvaporativeCoolerUnit,
      ;                              !- Second Evaporative Cooler Name";
 	}
 	public static class ZoneHVACOutdoorAirUnit
-    { 
+	{
 		public static string Name = @"ZoneHVAC:OutdoorAirUnit";
 		public static string Note = @"The zone outdoor air unit (ZoneHVAC:OutdoorAirUnit) in EnergyPlus is intended to model dedicated outdoor air systems (DOAS) and other similar systems which aim to provide either additional outside air or some limited amount of sensible and/or latent conditioning.~ The zone outdoor air unit is a piece of zone equipment that can consist of a supply fan, an exhaust fan (optional), heating and cooling coils, and heat recovery.~ The outdoor air unit input simply requires information about flow rates, schedules, node names, and a list of component that are part of the unit.~ These components require additional input as per the requirements for these components.~ In addition, the input includes information about controls for the unit.~ It should be noted that the components that make up the zone outdoor air unit do not require additional controls or setpoints.~ The unit input defines how the unit outlet temperature is controlled as described below.
 
@@ -16804,7 +16804,7 @@ When an AirloopHVAC serves the same zone, it is strongly recommended that the ou
 
 The full input for zone outdoor air units is described below using a variety of fields.
 ";
-	public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular outdoor air unit from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other zone outdoor air units use this same name.";
+		public static string Field_Name = @"This field is simply the identifying name that distinguishes one particular outdoor air unit from another in the input data file. Like all other names in EnergyPlus, it is assumed that this is a unique character string and that no other zone outdoor air units use this same name.";
 		public static string Field_AvailabilityScheduleName = @"This field is a schedule name (ref: Schedule) that determines whether the zone outdoor air unit is available to operate. A schedule value greater than 0 (usually 1 is used) indicates that the outdoor air unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the outdoor air unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods. For any schedule value greater than zero, the outdoor air unit is considered available and will operate at the supply and exhaust flow rates defined by input field described below.";
 		public static string Field_ZoneName = @"This field is the name of the zone (Ref: Zone) in which the outdoor air unit is located and intended to affect.~ Zone outdoor air units impact only a single zone.";
 		public static string Field_OutdoorAirFlowRate = @"This field allows the user to enter the volumetric flow rate of outdoor air (in m^{3}/sec) that will be brought in through the outdoor air unit. The actual outdoor air flow rate will be this number multiplied by the schedule value from the outdoor air schedule. This field is autosizable.~ When autosized, the unit's outdoor air flow rate will match the minimum outdoor air requirements specified through the Sizing:Zone object.";
@@ -16867,11 +16867,11 @@ ZoneHVAC:OutdoorAirUnit,
       Zone5OAUEquip1;          !- Outdoor Air Unit List Name";
 	}
 	public static class ZoneHVACOutdoorAirUnitEquipmentList
-    { 
+	{
 		public static string Name = @"ZoneHVAC:OutdoorAirUnit:EquipmentList";
 		public static string Note = @"This input syntax is used to specify the components in a zone outdoor air unit. The components will be simulated in the order in which they occur in this list.
 ";
-	public static string Field_Name = @"The user designated unique name of an instance of a zone outdoor air unit equipment list.";
+		public static string Field_Name = @"The user designated unique name of an instance of a zone outdoor air unit equipment list.";
 		public static string Field_SetComponentObjectTypeComponentNameControlNodeNameUpTo8 = @"After the identifying name, the list consists of up to 8 pairs of data items.";
 		public static string Field_ComponentXObjectType = @"This field specifies the keyword for the type of component used.";
 		public static string Field_ComponentXName = @"This field is the unique name of the component specified in the previous field. This named object must appear in the IDF.
@@ -16894,13 +16894,13 @@ ZoneHVAC:OutdoorAirUnit:EquipmentList,
       Zone5DESHCoil;           !- Component 4 Name";
 	}
 	public static class ZoneHVACWindowAirConditioner
-    { 
+	{
 		public static string Name = @"ZoneHVAC:WindowAirConditioner";
 		public static string Note = @"The Window Air Conditioner is a unit of zone equipment made up of other components. Each window air conditioner consists of an outdoor air mixer, a fan, and a direct expansion (DX) cooling coil. These components are described elsewhere in this document. The input for a window air conditioner requires the names of these three pieces of equipment, which are then specified individually elsewhere in the input. The input for a window air conditioner also requires the name of an availability schedule, the maximum unit airflow rate, and the maximum outdoor airflow rate for the unit. The unit is connected to a zone by specifying an air inlet node, which must be the same as a zone exhaust node; and an air outlet node, which must be the same as a zone inlet node (ref. ZoneHVAC:EquipmentConnections).
 
 A supply air fan operating mode schedule must also be specified. The supply air fan operating mode schedule value determines if the supply air fan can run continuously with the DX coil cycling on/off to match the zone cooling demand or the fan and DX coil can cycle on/off together to meet the cooling demand. The placement of the supply air fan, in relation to the DX coil, must also be specified (blow through or draw through). The cooling convergence tolerance is required, which is the tolerance denoting how closely the window air conditioner will meet the cooling load. The tolerance is always relative to the zone load (i.e., the unit will operate to meet the zone load to within the tolerance value times the zone load for each simulation timestep). Finally, the DX cooling coil type must be specified.
 ";
-	public static string Field_Name = @"A unique user assigned name for an instance of a window air conditioner unit. Any reference to this window air conditioner by another object will use this name.";
+		public static string Field_Name = @"A unique user assigned name for an instance of a window air conditioner unit. Any reference to this window air conditioner by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the window air conditioner unit can run during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can be on during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit must be off for the time period. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_MaximumSupplyAirFlowRate = @"The maximum volumetric airflow rate through the window air conditioner in cubic meters per second. Since the unit operates by cycling on/off, this is also the design, rated airflow rate of the unit.";
 		public static string Field_MaximumOutdoorAirFlowRate = @"If the window air conditioner uses outdoor air, this field specifies the outdoor air volumetric flow rate in cubic meters per second. This flow rate should be less than or equal to the maximum airflow rate. A value of zero specifies no outdoor air. Note that the outdoor airflow rate is fixed: it cannot change during the simulation";
@@ -17016,7 +17016,7 @@ Following is an example input for the cycling window air conditioner, along with
       WindACPLFFPLR;           !- Part Load Fraction Correlation Curve Name";
 	}
 	public static class ZoneHVACPackagedTerminalAirConditioner
-    { 
+	{
 		public static string Name = @"ZoneHVAC:PackagedTerminalAirConditioner";
 		public static string Note = @"The packaged terminal air conditioner (PTAC) is a compound object made up of other components. Each PTAC consists of an outdoor air mixer, direct expansion (DX) cooling coil, heating coil (gas, electric, hot water, or steam) and a supply air fan. While the figure below shows the PTAC with draw through fan placement, blow through fan placement can also be modeled by positioning the supply air fan between the outdoor air mixer and the DX cooling coil. The packaged terminal air conditioner coordinates the operation of these components and is modeled as a type of zone equipment (Ref. ZoneHVAC:EquipmentList and ZoneHVAC:EquipmentConnections).
 
@@ -17028,7 +17028,7 @@ Following is an example input for the cycling window air conditioner, along with
 
 Links to the PTAC's supply air fan, DX cooling coil, heating coil, and outdoor air mixer specifications are provided in the air conditioner's input syntax. Additional inputs include supply and outdoor air flow rates during cooling operation, heating operation, and when neither cooling or heating is required. A description of each input field for the packaged terminal air conditioner compound object is provided below.
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a packaged terminal air conditioner. Any reference to this air conditioner by another object will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a packaged terminal air conditioner. Any reference to this air conditioner by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the air conditioner operates during a given time period. A schedule value equal to 0 denotes that the air conditioner must be off for that time period. A value greater than 0 denotes that the air conditioner is available to operate during that time period. This schedule may be used to completely disable the air conditioner (all of its coils and the supply air fan) as required. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the HVAC system node from which the air conditioner draws its inlet air. This node name must be the name of a zone air exhaust node (Ref. ZoneHVAC:EquipmentConnections).";
 		public static string Field_AirOutletNodeName = @"This alpha field defines the name of the HVAC system node to which the air conditioner sends its outlet air. This node name must be the name of a zone air inlet node (Ref. ZoneHVAC:EquipmentConnections).";
@@ -17176,7 +17176,7 @@ ZoneHVAC:PackagedTerminalAirConditioner,
       Zone2PTACAirOutletNode;      !- Air Outlet Node Name";
 	}
 	public static class ZoneHVACPackagedTerminalHeatPump
-    { 
+	{
 		public static string Name = @"ZoneHVAC:PackagedTerminalHeatPump";
 		public static string Note = @"The packaged terminal heat pump (PTHP) is a compound object made up of other components. Each PTHP consists of an outdoor air mixer, direct expansion (DX) cooling coil, DX heating coil, supply air fan, and a supplemental heating coil as shown in the figure below. These individual components are described elsewhere in this document. The packaged terminal heat pump coordinates the operation of these components and is modeled as a type of zone equipment (Ref. ZoneHVAC:EquipmentList and ZoneHVAC:EquipmentConnections).
 
@@ -17188,7 +17188,7 @@ ZoneHVAC:PackagedTerminalAirConditioner,
 
 Links to the PTHP's supply air fan, DX coils, supplemental heating coil, and outdoor air mixer specifications are provided in the heat pump's input syntax. Additional inputs include supply and outdoor air flow rates during cooling operation, heating operation, and when neither cooling or heating is required. A description of each input field for the packaged terminal heat pump compound object is provided below.
 ";
-	public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a packaged terminal heat pump. Any reference to this heat pump by another object will use this name.";
+		public static string Field_Name = @"This alpha field defines a unique user-assigned name for an instance of a packaged terminal heat pump. Any reference to this heat pump by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the heat pump operates during a given time period. A schedule value equal to 0 denotes that the heat pump must be off for that time period. A value greater than 0 denotes that the heat pump is available to operate during that time period. This schedule may be used to completely disable the heat pump (all of its coils and the supply air fan) as required. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the HVAC system node from which the heat pump draws its inlet air. This node name must be the name of a zone air exhaust node (Ref. ZoneHVAC:EquipmentConnections).";
 		public static string Field_AirOutletNodeName = @"This alpha field defines the name of the HVAC system node to which the heat pump sends its outlet air. This node name must be the name of a zone air inlet node (Ref. ZoneHVAC:EquipmentConnections).";
@@ -17386,13 +17386,13 @@ ZoneHVAC:PackagedTerminalHeatPump,
       Zone2PTHPAirOutletNode;      !- Air Outlet Node Name";
 	}
 	public static class ZoneHVACRefrigerationChillerSet
-    { 
+	{
 		public static string Name = @"ZoneHVAC:RefrigerationChillerSet";
 		public static string Note = @"The ZoneHVAC:RefrigerationChillerSet object works in conjunction with one or multiple air chillers, compressor racks, refrigeration systems, or refrigeration secondary system objects (Ref. Refrigeration:AirChiller Refrigeration:CompressorRack, Refrigeration:System, or Refrigeration:SecondarySystem) to simulate the performance of a group of air chillers cooling a single zone. The chiller set model passes information about the zone conditions to determine the performance of individual chiller coils within the set, thus providing the sensible and latent heat exchange with the zone environment.
 
 The refrigeration chiller set object inputs include a name, an availability schedule name, the name of the zone cooled by the chiller set, the air inlet node name, the air outlet node name, and an extensible list of air chiller names (Ref. Refrigeration:AirChiller).
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a refrigeration chiller. Any reference to this refrigeration chiller by another object (may be listed in a Refrigeration:CaseAndWalkInList, Refrigeration:System, Refrigeration:SecondarySystem, or Refrigeration:CompressorRack) will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a refrigeration chiller. Any reference to this refrigeration chiller by another object (may be listed in a Refrigeration:CaseAndWalkInList, Refrigeration:System, Refrigeration:SecondarySystem, or Refrigeration:CompressorRack) will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the refrigeration chiller can operate during a given time period. A schedule value greater than 0 (maximum schedule value of 1.0 is typically used) indicates that the refrigeration chiller will operate during a given time period. A value equal to 0 denotes that the case does not operate (everything is OFF: refrigeration, fans, lights, anti-sweat, etc.). Typically the refrigeration chiller will operate throughout the day (i.e., the schedule will contain 1 for all time periods); however, refrigeration chillers require maintenance and/or cleaning and this can be modeled accordingly using this schedule if desired. If this field is left blank, the default schedule has a value of 1 for all time periods.";
 		public static string Field_ZoneName = @"A unique user-assigned name for the zone cooled by this refrigeration chiller. This zone must represent a conditioned space, that is, it must appear in a ZoneHVAC:EquipmentConnections object.";
 		public static string Field_AirInletNodeName = @"Not used, reserved for future use.~ Current version exchanges energy directly with the zone, external of any air system. (Future: The name of the zone exhaust node (see Node) from which the refrigeration chiller draws its indoor air. This should be one of the zone exhaust nodes for the zone cooled by the chiller set.)";
@@ -17420,7 +17420,7 @@ The following is an example input for a refrigeration chiller set.
 There are no outputs variables for a ZoneHVAC:RefrigerationChillerSet. Outputs for the refrigeration impact on any zone are listed in the Group:Refrigeration.";
 	}
 	public static class ZoneHVACWaterToAirHeatPump
-    { 
+	{
 		public static string Name = @"ZoneHVAC:WaterToAirHeatPump";
 		public static string Note = @"The zone water-to-air heat pump is a compound component consisting of a fan, water-to-air cooling and heating coils, and a supplemental heating coil. Links to the fan, WaterToAirHeatPump cooling coil, WaterToAirHeatPump heating coil, and supplementary heating coil specifications are provided in the heat pump's input data syntax. The heat pump switches between cooling and heating depending on the zone's demand. The load side (air) of the zone water-to-air heat pump consists of an On/Off fan component, a WaterToAirHeatPump cooling coil component, a WaterToAirHeatPump heating coil component, and a Gas or Electric supplemental heating coil component. The source side (water) of the heat pump is connected to a condenser loop with a heat exchanger (ground heat exchanger or other type) or a plant loop with a heating source such as a boiler and a cooling source such as a chiller or cooling tower.~ The diagram below shows the setup and connection of the heat pump for the source side and load side for a ground heat exchanger configuration. Note that on the load side, the WaterToAirHeatPump cooling coil must always be placed before the WaterToAirHeatPump heating coil.
 
@@ -17443,7 +17443,7 @@ For this zone heat pump,there are two types of WaterToAirHeatPump coil model all
 \caption{Zone Water to Air Heat Pump Schematic for a DrawThrough Configuration with Ground Heat Exchanger \protect \label{fig:zone-water-to-air-heat-pump-schematic-for-a}}
 \end{figure}
 ";
-	public static string Field_Name = @"This alpha field contains the identifying name for the zone system heat pump.";
+		public static string Field_Name = @"This alpha field contains the identifying name for the zone system heat pump.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the heat pump operates during a given time period. A schedule value equal to 0 denotes that the heat pump must be off for that time period. A value greater than 0 denotes that the heat pump is available to operate during that time period. This schedule may be used to completely disable the heat pump (all of its coils and the supply air fan) as required. If this field is blank, the schedule has values of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This alpha field contains the name of the HVAC system node from which the heat pump draws its inlet air. This node must be a zone exhaust node as specified in a ZoneHVAC:EquipmentConnections object.";
 		public static string Field_AirOutletNodeName = @"This alpha field contains the name of the HVAC system node to which the heat pump sends its outlet air. This node must be a zone inlet node as specified in a ZoneHVAC:EquipmentConnections object.";
@@ -17651,7 +17651,7 @@ ZoneHVAC:WaterToAirHeatPump,
       Water to Air Heat Pump Source Side2 Outlet Node;  !- Component 1 Outlet Node Name";
 	}
 	public static class ZoneHVACDehumidifierDX
-    { 
+	{
 		public static string Name = @"ZoneHVAC:Dehumidifier:DX";
 		public static string Note = @"This object can be used for modeling conventional mechanical dehumidifiers. These systems use a direct expansion (DX) cooling coil to cool and dehumidify an airstream. Heat from the DX system's condenser section is rejected into the cool/dehumidified airstream, resulting in warm dry air being supplied from the unit. In EnergyPlus, this object is modeled as a type of zone equipment (ref. ZoneHVAC:EquipmentList and ZoneHVAC:EquipmentConnections).
 
@@ -17665,7 +17665,7 @@ The model has inputs for water removal, energy factor and air flow rate at rated
 
 The model assumes that this equipment dehumidifies and heats the air. If used in tandem with another system that cools and dehumidifies the zone air, then the zone dehumidifier should be specified as the lowest cooling priority in the ZoneHVAC:EquipmentList object for best control of zone temperature and humidity levels (e.g., if there are 3 pieces of equipment in ZoneHVAC:EquipmentList, then the zone dehumidifier should have Cooling Priority = 3). With this zone equipment prioritization, the other cooling and dehumidification system would operate first to meet the temperature setpoint (and possibly meet the high humidity setpoint as well). If additional dehumidification is needed, then the zone dehumidifier would operate. The sensible heat generated by the dehumidifier is carried over to the zone air heat balance for the next HVAC time step.
 ";
-	public static string Field_Name = @"A unique user-assigned name for an instance of a zone DX dehumidifier unit. Any reference to this dehumidifier by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for an instance of a zone DX dehumidifier unit. Any reference to this dehumidifier by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the dehumidifier operates during a given time period. A schedule value equal to 0 denotes that the dehumidifier will not operate for that time period. A value greater than 0 denotes that the dehumidifier is available to operate during that time period. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_AirInletNodeName = @"This alpha field defines the name of the HVAC system node from which the dehumidifier draws its inlet air. This node name must be the name of a zone air exhaust node (ref. ZoneHVAC:EquipmentConnections).";
 		public static string Field_AirOutletNodeName = @"This alpha field defines the name of the HVAC system node to which the dehumidifier sends its outlet air. This node name must be the name of a zone air inlet node (ref. ZoneHVAC:EquipmentConnections).";
@@ -17720,7 +17720,7 @@ Following is an example input for a zone DX dehumidifier object. A ZoneControl:H
       Seasonal Relative Humidity Sch;  !- Relative Humidity Setpoint Schedule Name";
 	}
 	public static class ZoneHVACEnergyRecoveryVentilator
-    { 
+	{
 		public static string Name = @"ZoneHVAC:EnergyRecoveryVentilator";
 		public static string Note = @"The ZoneHVAC:EnergyRecoveryVentilator - stand alone energy recovery ventilator (ERV) is a single-zone HVAC component used for exhaust air heat recovery (Figure~\ref{fig:zonehvac-energyrecoveryventilator-compound}). This compound object consists of 3 required components: a generic air-to-air heat exchanger (see object Heat Exchanger:Air to Air:Generic), a supply air fan, and an exhaust air fan (see object Fan:OnOff).
 
@@ -17761,7 +17761,7 @@ To model a stand alone ERV connected to a single zone, the input data file shoul
 
 A description of each input field for this compound object is provided below.
 ";
-	public static string Field_Name = @"A unique user-assigned name for the stand alone ERV unit. Any reference to this unit by another object will use this name.";
+		public static string Field_Name = @"A unique user-assigned name for the stand alone ERV unit. Any reference to this unit by another object will use this name.";
 		public static string Field_AvailabilityScheduleName = @"The name of the schedule (ref: Schedule) that denotes whether the unit can operate during a given time period. A schedule value greater than 0 (usually 1 is used) indicates that the unit can operate during the time period. A value less than or equal to 0 (usually 0 is used) denotes that the unit will not operate. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_HeatExchangerName = @"The user-assigned name corresponding to the air-to-air heat exchanger used in this compound object. The only allowable type is:.
 
@@ -17917,7 +17917,7 @@ ZoneHVAC:EnergyRecoveryVentilator,
       Heat Recovery Outlet Node;        !- Node_ID_1";
 	}
 	public static class ZoneHVACTerminalUnitVariableRefrigerantFlow
-    { 
+	{
 		public static string Name = @"ZoneHVAC:TerminalUnit:VariableRefrigerantFlow";
 		public static string Note = @"Zone terminal units with variable refrigerant flow DX coils are used exclusively with variable refrigerant flow (VRF) air conditioning systems (Ref. AirConditioner:VariableRefrigerantFlow objects). The zone terminal units are connected to a zone using the inlet and exhaust node names specified in a ZoneHVAC:EquipmentConnections object. The zone exhaust node has the same name as the terminal unit air inlet node. The zone inlet node has the same name as the terminal unit air outlet node. The zone terminal unit is also listed in a zone's equipment list and will typically be the first equipment operating for both cooling and heating (i.e., Sequence = 1 in the ZoneHVAC:EquipmentList). Other ZoneHVAC equipment may be used in the same zone and should be sequenced to operate after the zone terminal units (i.e., sequence = 2 or higher)
 
@@ -17925,7 +17925,7 @@ The terminal units operate to satisfy a heating or cooling load in a zone based 
 
 A supply air fan is also required and can be modeled as either draw through or blow through. The Supply Air Fan Object Type must be Fan:SystemModel, Fan:OnOff, or Fan:ConstantVolume if AirConditioner:VariableRefrigerantFlow is used to model the VRF outdoor unit. The Supply Air Fan Object Type must be Fan:SystemModel or Fan:VariableVolume if AirConditioner:VariableRefrigerantFlow:\-FluidTemperatureControl or AirConditioner:VariableRefrigerantFlow:\-FluidTemperatureControl:HR is used to model the VRF outdoor unit.
 ";
-	public static string Field_ZoneTerminalUnitName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow zone terminal unit. Any reference to this terminal unit by another object will use this name. The zone terminal unit name must be specified in a ZoneTerminalUnitList object to connect this terminal unit to an AirConditioner:VariableRefrigerantFlow object.";
+		public static string Field_ZoneTerminalUnitName = @"This alpha field defines a unique user-assigned name for an instance of a variable refrigerant flow zone terminal unit. Any reference to this terminal unit by another object will use this name. The zone terminal unit name must be specified in a ZoneTerminalUnitList object to connect this terminal unit to an AirConditioner:VariableRefrigerantFlow object.";
 		public static string Field_AvailabilityScheduleName = @"This alpha field defines the name of the schedule (ref: Schedule) that denotes whether the terminal unit operates during a given time period. A schedule value equal to 0 denotes that the terminal unit must be off for that time period. A value greater than 0 denotes that the terminal unit is available to operate during that time period. This schedule may be used to completely disable the terminal unit as required. If this field is left blank, the schedule has a value of 1 for all time periods.";
 		public static string Field_TerminalUnitAirInletNodeName = @"This alpha field defines the name of the terminal unit air inlet node. This node name should be the same as a zone exhaust node (ref: ZoneHVAC:EquipmentConnections).";
 		public static string Field_TerminalUnitAirOutletNodeName = @"This alpha field defines the name of the terminal unit air outlet node. This node name should be the same as a zone inlet node (ref: ZoneHVAC:EquipmentConnections).";
@@ -17990,7 +17990,7 @@ ZoneHVAC:TerminalUnit:VariableRefrigerantFlow,
   ;                        !- Availability Manager List Name";
 	}
 	public static class ZoneHVACHybridUnitaryHVAC
-    { 
+	{
 		public static string Name = @"ZoneHVAC:HybridUnitaryHVAC";
 		public static string Note = @"ZoneHVAC:Hybrid UnitaryHVAC is a black-box model for packaged forced air equipment with multiple discrete operating modes. Generally, a ''hybrid`` is any system that exhibits both continuous and discrete dynamic behavior ??? a system that can both flow (as could be described by a differential equation) and jump (as must be described by distinct modes). Equipment in this category may utilize a wide variety technologies including, but not limited to: indirect evaporative cooling, desiccant dehumidification, heat recovery, vapor compression, adsorption, or ventilation cooling. Each hybrid system packages multiple technologies into a single integrated system. There are a multitude of unique hybrid system architectures, and each unique system may have numerous unique operating modes.
 
@@ -18014,7 +18014,7 @@ ZoneHVAC:HybridUnitaryHVAC is structured as a constrained optimization problem ?
 
 A setting is defined as any unique combination of mode, outdoor air fraction, and supply air flow rate. The system may operate with multiple settings in each time step. The portion of each time step spent in a setting is described as the part runtime fraction for that setting. During any time step that the combination of settings can satisfy all of the soft constraints with part runtime fractions that sum to less than one, the system will operate in a standby mode (Mode 0) for the remainder of the timestep. If no combination of settings will satisfy all of  the soft constraints the system will choose the combination of settings that most nearly satisfies all soft constraints. If the indoor and outdoor psychrometric conditions are beyond the constraints that limit each operating mode, or if no setting will satisfy all constraints on supply air temperature and absolute humidity, the system will operate in standby mode (Mode 0).
 ";
-	public static string Field_Name = @"This alpha input field specifies a unique user-assigned name for one ZoneHVAC:HybridUnitaryHVAC unit. Any reference to this unit by another object will use this name. The name must be specified in a ZoneHVAC:EquipmentList object to connect this unit to a zone.";
+		public static string Field_Name = @"This alpha input field specifies a unique user-assigned name for one ZoneHVAC:HybridUnitaryHVAC unit. Any reference to this unit by another object will use this name. The name must be specified in a ZoneHVAC:EquipmentList object to connect this unit to a zone.";
 		public static string Field_AvailabilityScheduleName = @"This alpha input field specifies the name of the schedule (ref: Group ??? Schedules) that specifies when the ZoneHVAC:HybridUnitaryHVAC unit can operate. A schedule value greater than 0 means the unit can be available. A schedule value equal to zero means the unit cannot operate. Availability of the unit is governed by the availability schedule and by availability managers. The availability schedule may be used to completely disable the unit.  If this field is blank, the unit can always be available. If the unit is available but there is no sensible load, no latent load, and no need for ventilation, the unit will operate in a standby mode (mode 0).";
 		public static string Field_AvailabilityManagerListName = @"This optional alpha input field is the name of an AvailabilityManagerAssignmentList object.
 (ref: Group - Air Distribution, AvailabilityManagerAssignmentList, and Group - System Availability Managers). Availability of the unit is governed by the availability schedule and by availability managers specified in the list named here. If the unit is available but there is no sensible load, no latent load, and no need for ventilation, the unit will operate in a standby mode (mode 0).";
@@ -18075,7 +18075,7 @@ A setting is defined as any unique combination of mode, outdoor air fraction, an
 		public static string Field_ModeMinimumSupplyAirMassFlowRateRatio = @"This optional numeric input field specifies the minimum supply air mass flow rate ratio allowed in Mode . Supply air mass flow rate ratios below this value will be excluded from the feasible set within Mode . This value may be beyond the extents of the data in Table:MultiVariableLookup objects associated with Mode1, in which case this value sets the limit for extrapolation from the data table. If this field is blank, the lower constraint on supply air mass flow rate ratio will be 0.00 for Mode .";
 		public static string Field_ModeMaximumSupplyAirMassFlowRateRatio = @"This optional numeric input field specifies the maximum supply air mass flow rate ratio allowed in Mode . Supply air mass flow rate ratios above this value will be excluded from the feasible set within Mode . This value may be beyond the extents of the data in Table:MultiVariableLookup objects associated with Mode1, in which case this value sets the limit for extrapolation from the data table. If this field is blank, the upper constraint on supply air mass flow rate ratio will be 1.00 for Mode .";
 	}
-	}
+}
 
 
 
