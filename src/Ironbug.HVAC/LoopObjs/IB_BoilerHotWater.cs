@@ -31,9 +31,6 @@ namespace Ironbug.HVAC
         public IB_Field FuelType { get; }
             = new IB_BasicField("FuelType", "Fuel");
 
-        public IB_Field DesignWaterOutletTemperature { get; }
-            = new IB_BasicField("DesignWaterOutletTemperature", "OutWaterT");
-
         public IB_Field NominalCapacity { get; }
             = new IB_BasicField("NominalCapacity", "Capacity");
 
