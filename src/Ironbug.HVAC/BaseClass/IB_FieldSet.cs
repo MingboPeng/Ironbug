@@ -51,7 +51,7 @@ namespace Ironbug.HVAC.BaseClass
             var tp = RefObjType;
 
             var name = string.Format("Ironbug.EPDoc.{0}", tp.Name);
-            Type type = typeof(EPDoc.ExampleClass).Assembly.GetType(name, false, true);
+            Type type = typeof(EPDoc.AirLoopHVAC).Assembly.GetType(name, false, true);
             
             if (type!=null)
             {
