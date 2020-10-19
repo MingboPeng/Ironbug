@@ -75,12 +75,12 @@ namespace Ironbug.Grasshopper.Component
             for (int i = 0; i < inputCount; i++)
             {
 
-                GH_ObjectWrapper ghObj = null;
+                IGH_Goo ghObj = null;
                 if (DA.GetData(i, ref ghObj))
                 {
-                    var value = ghObj.Value;
+                    ghObj.CastTo(out object value) ;
+                    //ghObj.CastTo(out double aa);
                    
-                    //value.CastTo(out value);
                     var fieldName = this.Params.Input[i].Name;
                     var dataField = this.FieldSet.FirstOrDefault(_ => _.FULLNAME == fieldName.ToUpper());
                 
