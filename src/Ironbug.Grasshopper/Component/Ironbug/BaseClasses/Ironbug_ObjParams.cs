@@ -78,7 +78,7 @@ namespace Ironbug.Grasshopper.Component
                 GH_ObjectWrapper ghObj = null;
                 if (DA.GetData(i, ref ghObj))
                 {
-                    ghObj.CastTo(out object value);
+                    var value = ghObj.Value;
                    
                     //value.CastTo(out value);
                     var fieldName = this.Params.Input[i].Name;
