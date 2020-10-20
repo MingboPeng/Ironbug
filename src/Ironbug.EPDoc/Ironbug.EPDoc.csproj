@@ -13,4 +13,23 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="EPDOC.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EPDOC.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="EPDOC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EPDOC.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
 </Project>
