@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenStudio" Version="3.0.1">
+    <PackageReference Include="OpenStudio" Version="3.1.0">
 		<ExcludeAssets>runtime; build</ExcludeAssets>
 	</PackageReference>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
