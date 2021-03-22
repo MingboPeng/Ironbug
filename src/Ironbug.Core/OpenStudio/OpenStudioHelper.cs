@@ -15,6 +15,27 @@ namespace Ironbug.Core.OpenStudio
         //    return LoadAssemblies(MessageLogger, SupportedVersion);
         //}
 
+        public static string FindOpsFolder()
+        {
+            var possiblePath = new List<string>();
+            possiblePath.Add(@"C:\Ironbug");
+            //possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
+            //possiblePath.Add($@"C:\openstudio-{Version}\CSharp\openstudio");
+            var opsPaths = Directory.GetDirectories(@"C:\")
+                .Where(s => s.ToLower().StartsWith("c:\\openstudio"))
+                .Select(_ => _ + @"\CSharp\openstudio").ToList();
+            opsPaths.Sort();
+            opsPaths.Reverse();
+            possiblePath.AddRange(opsPaths);
+
+            var file = "OpenStudio.dll";
+            var path = possiblePath.FirstOrDefault(_ => File.Exists(Path.Combine(_, file)));
+            if (string.IsNullOrEmpty(path))
+                throw new FileNotFoundException($"Cannot find OpenStudio 2.8 or newer version installed in C drive!");
+
+            return path;
+        }
+
         public static bool LoadAssemblies(Action<string> MessageLogger)
         {
             Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
@@ -23,24 +44,8 @@ namespace Ironbug.Core.OpenStudio
 
             if (!possibleOpsDll.Any())
             {
-                var possiblePath = new List<string>();
-                possiblePath.Add(@"C:\Ironbug");
-                //possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
-                //possiblePath.Add($@"C:\openstudio-{Version}\CSharp\openstudio");
-                var opsPaths = Directory.GetDirectories(@"C:\")
-                    .Where(s => s.ToLower().StartsWith("c:\\openstudio"))
-                    .Select(_=>_+ @"\CSharp\openstudio").ToList();
-                opsPaths.Sort();
-                opsPaths.Reverse();
-                possiblePath.AddRange(opsPaths);
-
                 var file = "OpenStudio.dll";
-
-                var path = possiblePath.FirstOrDefault(_ => File.Exists(Path.Combine(_, file)));
-                if (string.IsNullOrEmpty(path))
-                {
-                    throw new FileNotFoundException($"Cannot find OpenStudio 2.8 or newer version installed in C drive!");
-                }
+                var path = FindOpsFolder();
 
                 var asmFile = Path.Combine(path, file);
                 var versionFound = CheckOpsVersionIfValid(asmFile);
