@@ -167,8 +167,6 @@ namespace Ironbug.HVAC.Schedules
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name") { };
 
-        public IB_Field ScheduleTypeLimits { get; }
-            = new IB_BasicField("ScheduleTypeLimits", "ScheduleTypeLimits") { };
 
     }
 }
