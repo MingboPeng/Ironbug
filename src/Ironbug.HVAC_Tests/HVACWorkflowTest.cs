@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Xunit;
-using Xunit.Abstractions;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
     public class HVACWorkflowTest
     {
-        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
@@ -27,7 +25,7 @@ namespace Ironbug.HVACTests
             return sizing;
         }
         
-        [Fact]
+        [Test]
         public void IBChiller_Loop_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -69,7 +67,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [Fact]
+        [Test]
         public void PlantBranches_Test()
         {
             
@@ -133,7 +131,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [Fact]
+        [Test]
         public void AirloopWorkflow_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -173,7 +171,7 @@ namespace Ironbug.HVACTests
         }
 
 
-        [Fact]
+        [Test]
         public void HWloopWorkflow_Test()
         {
             var plant = new HVAC.IB_PlantLoop();
@@ -203,7 +201,7 @@ namespace Ironbug.HVACTests
 
             Assert.True(success);
         }
-        [Fact]
+        [Test]
         public void VRF_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -226,7 +224,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void VAVReheat_Puppet_Test()
         {
             //var md1 = new OpenStudio.Model();
@@ -244,12 +242,12 @@ namespace Ironbug.HVACTests
             var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
             zone1.SetAirTerminal(reHeatPuppet1);
             var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
-            output.WriteLine($"ReheatCoil 1: {firstCoilID}");
+            Console.WriteLine($"ReheatCoil 1: {firstCoilID}");
 
             var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
             zone2.SetAirTerminal(reHeatPuppet2);
             var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
-            output.WriteLine($"ReheatCoil 2: {secondCoilID}");
+            Console.WriteLine($"ReheatCoil 2: {secondCoilID}");
 
             var airBranches = new IB_AirLoopBranches();
             airBranches.Add(new List<IB_HVACObject>() { zone1, zone2 });
@@ -288,7 +286,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void DuplicateWithChild()
         {
             var oa = new IB_OutdoorAirSystem();

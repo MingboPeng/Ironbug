@@ -4,21 +4,18 @@ using System.Linq;
 using System.Reflection;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Xunit;
-using Xunit.Abstractions;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
     public class DataFieldSetTest
     {
-        ITestOutputHelper output;
 
-        public DataFieldSetTest(ITestOutputHelper output)
+        public DataFieldSetTest()
         {
-            this.output = output;
         }
 
-        [Fact]
+        [Test]
         public void DataFieldNames_Test()
         {
             var testNames = new List<string>(){
@@ -41,7 +38,7 @@ namespace Ironbug.HVACTests
                 var testedName = datafields.FULLNAME;
                 if (testedName != expected)
                 {
-                    output.WriteLine(name + "\r\n >> " + testedName);
+                    Console.WriteLine(name + "\r\n >> " + testedName);
                     success = false;
                 }
             }
@@ -50,7 +47,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [Fact]
+        [Test]
         public void GetCustomizedDataFields_Test()
         {
             var datafields = IB_PumpVariableSpeed_FieldSet.Value;
@@ -129,7 +126,7 @@ namespace Ironbug.HVACTests
         //    Assert.IsTrue(success);
 
         //}
-        [Fact]
+        [Test]
         public void DataFieldTypeEpNote_Test()
         {
             var datafields = IB_CoilCoolingWater_FieldSet.Value;
@@ -141,7 +138,7 @@ namespace Ironbug.HVACTests
         }
 
 
-        [Fact]
+        [Test]
         public void DataFieldType_Test()
         {
             var datafields = IB_PumpVariableSpeed_FieldSet.Value;
@@ -160,7 +157,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
 
         }
-        [Fact]
+        [Test]
         public void AllDataFieldClass_ifSealed_Test()
         {
             var logs = new List<string>();
@@ -174,14 +171,14 @@ namespace Ironbug.HVACTests
                     logs.Add(_.Name + " is not sealed!");
             });
 
-            output.WriteLine(string.Join("\r\n", logs));
+            Console.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
 
             Assert.True(success);
 
         }
 
-        [Fact]
+        [Test]
         public void AllDataFieldClass_hasPrivateConstructor_Test()
         {
             var logs = new List<string>();
@@ -199,7 +196,7 @@ namespace Ironbug.HVACTests
 
             });
 
-            output.WriteLine(string.Join("\r\n", logs));
+            Console.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
 
             Assert.True(success);
@@ -224,14 +221,14 @@ namespace Ironbug.HVACTests
 
             });
 
-            output.WriteLine(string.Join("\r\n", logs));
+            Console.WriteLine(string.Join("\r\n", logs));
             var success = !logs.Any();
                     
             Assert.True(success);
 
         }
 
-        [Fact]
+        [Test]
         public void AllCustomizedDataFields_Test()
         {
             var allDataFieldsClasses = typeof(IB_PumpVariableSpeed_FieldSet).Assembly.GetTypes()
@@ -274,7 +271,7 @@ namespace Ironbug.HVACTests
                 if (log.Any())
                 {
                     logs.Add(log);
-                    output.WriteLine(string.Join("\r\n",log));
+                    Console.WriteLine(string.Join("\r\n",log));
                 }
 
 

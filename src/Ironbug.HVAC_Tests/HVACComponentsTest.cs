@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Xunit.Abstractions;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
@@ -12,12 +11,11 @@ namespace Ironbug.HVACTests
 
     public class HVACComponentsTest
     {
-        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
 
-        [Fact]
+        [Test]
         public void IB_Curve_GetMethodTest()
         {
             var c = new OpenStudio.CurveCubic(md1);
@@ -27,7 +25,7 @@ namespace Ironbug.HVACTests
             Assert.True(methodInfo !=null);
         }
 
-        [Fact]
+        [Test]
         public void IB_Curve_Test()
         {
 
@@ -65,7 +63,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [Fact]
+        [Test]
         public void IB_OutputVariables_Test()
         {
 
@@ -83,7 +81,7 @@ namespace Ironbug.HVACTests
 
         }
 
-        [Fact]
+        [Test]
         public void IB_ZoneHVACUnitVentilator_CoolingHeating_Test()
         {
             var model = new OpenStudio.Model();
@@ -109,7 +107,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void IB_Schedule24Hrs()
         {
 

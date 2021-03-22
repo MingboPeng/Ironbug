@@ -1,12 +1,18 @@
-﻿using System.Linq;
-using Xunit;
+﻿using NUnit.Framework;
+using System.Linq;
 
-namespace Ironbug.HVACTests.Loop
+namespace Ironbug.HVACTests
 {
     public class IB_OutdoorAirSystem_Test
     {
-        
-        [Fact]
+        [SetUp]
+        public void Init()
+        {
+
+        }
+
+
+        [Test]
         public void IB_OutdoorAirSystem_SetController_Test()
         {
             var model = new OpenStudio.Model();

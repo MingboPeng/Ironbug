@@ -2,13 +2,13 @@
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
     public class SetpointWorkflowTest
     {
-        [Fact]
+        [Test]
         public void SpInAirloopFirst_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -33,7 +33,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInAirloopLast_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -60,7 +60,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInPlantloopOnly_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -81,7 +81,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInPlantloopAtFirst_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -108,7 +108,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInPlantloopAtFirstWithPump_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -136,7 +136,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInPlantloopAfterPump_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -164,7 +164,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void SpInPlantloopAfterBranch_Test()
         {
             var md1 = new OpenStudio.Model();

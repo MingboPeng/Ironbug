@@ -1,22 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>NET45</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-    <PackageReference Include="xunit" Version="2.4.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
-    <PackageReference Include="coverlet.collector" Version="1.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="OpenStudio" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="OpenStudio">
-      <HintPath>..\..\..\OpenStudio.Tests\lib\2.9.0\OpenStudio.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj" />
+    <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj" />
   </ItemGroup>
+
 
 </Project>

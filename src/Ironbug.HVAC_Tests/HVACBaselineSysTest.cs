@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
-using Xunit;
-using Xunit.Abstractions;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
@@ -13,13 +12,12 @@ namespace Ironbug.HVACTests
     public class HVACBaselineSysTest
     {
 
-        ITestOutputHelper output;
 
         OpenStudio.Model md1 = new OpenStudio.Model();
         string exampleBuildingFile = @"..\..\..\..\doc\osmFile\BuildingForTest.osm";
         
 
-        [Fact]
+        [Test]
         public void Sys01_PTAC()
         {
             string saveFile = @"..\..\..\..\doc\osmFile\HVACBaseline\sys01_PTAC.osm";

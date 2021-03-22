@@ -7,13 +7,13 @@ using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System.IO;
 using Newtonsoft.Json;
-using Xunit;
+using NUnit.Framework;
 
 namespace Ironbug.HVACTests
 {
     public class DummyTest
     {
-        [Fact]
+        [Test]
         public void DummyTest_OS_Coil_Heating_WaterFields()
         {
             var tp = typeof(OpenStudio.OS_Coil_Heating_WaterFields);
@@ -23,14 +23,14 @@ namespace Ironbug.HVACTests
             Assert.True(true);
         }
 
-        [Fact]
+        [Test]
         public void IB_TypeTest()
         {
             var coil = new IB_CoilCoolingDXMultiSpeed();
             var success = typeof(IB_Coil).IsInstanceOfType(coil);
         }
 
-        [Fact]
+        [Test]
         public void CoolingPlantLoop_Test()
         {
             var lp = new IB_PlantLoop();
@@ -49,7 +49,7 @@ namespace Ironbug.HVACTests
             Assert.True(true);
         }
 
-        [Fact]
+        [Test]
         public void ThermalZoneAndSizingZone_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -69,7 +69,7 @@ namespace Ironbug.HVACTests
             Assert.True(success);
         }
 
-        [Fact]
+        [Test]
         public void RetrunIfInModel_Test()
         {
             var md1 = new OpenStudio.Model();
@@ -81,13 +81,13 @@ namespace Ironbug.HVACTests
             Assert.True(!(optional is null));
         }
 
-        [Fact]
+        [Test]
         public void GetEPDoc_Test()
         {
             var refType = typeof(CoilCoolingWater);
 
             var name = string.Format("Ironbug.EPDoc.{0}", refType.Name);
-            Type type = typeof(Ironbug.EPDoc.ExampleClass).Assembly.GetType(name,false,true);
+            Type type = typeof(Ironbug.EPDoc.OutdoorAirNode).Assembly.GetType(name,false,true);
             //Type type = Type.GetType("Ironbug.EPDoc.CoilCoolingWater");
 
             //dynamic obj = null;
@@ -103,25 +103,25 @@ namespace Ironbug.HVACTests
             Assert.True(!string.IsNullOrEmpty(temp));
         }
 
-        [Fact]
+        [Test]
         public void ReadJson()
         {
 
-            var dir = @"C:\Users\mingo\Documents\GitHub\EPDoc2Json\Doc\";
-            var files = Directory.GetFiles(dir, "*.json");
-            var arr = new List<object>();
-            foreach (var f in files)
-            {
+            //var dir = @"C:\Users\mingo\Documents\GitHub\EPDoc2Json\Doc\";
+            //var files = Directory.GetFiles(dir, "*.json");
+            //var arr = new List<object>();
+            //foreach (var f in files)
+            //{
 
-                dynamic docObj = JsonConvert.DeserializeObject(File.ReadAllText(f));
-                var ar = docObj.subsection;
-                var items = ar.Children();
-                arr.AddRange(items);
-            }
+            //    dynamic docObj = JsonConvert.DeserializeObject(File.ReadAllText(f));
+            //    var ar = docObj.subsection;
+            //    var items = ar.Children();
+            //    arr.AddRange(items);
+            //}
 
-            //var list = arr.Children().ToList();
+            ////var list = arr.Children().ToList();
 
-            Assert.True(true);
+            //Assert.True(true);
 
         }
 
