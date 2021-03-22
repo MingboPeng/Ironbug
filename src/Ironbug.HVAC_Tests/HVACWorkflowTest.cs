@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
@@ -24,7 +25,29 @@ namespace Ironbug.HVACTests
             
             return sizing;
         }
-        
+
+        [Test]
+        public void AddVRF_Test()
+        {
+            var osm = @"C:\Users\mingo\simulation\Unnamed\OpenStudio\run\in.osm";
+            var model = OpenStudio.Model.load(osm.ToPath()).get();
+            var zones = model.getThermalZones();
+            Assert.IsTrue(zones.Any());
+
+
+            var savePath = $"{Path.GetDirectoryName(osm)}\\{Guid.NewGuid().ToString().Substring(0, 8)}.osm";
+            File.Copy(osm, savePath);
+
+            var vrf = new IB_AirConditionerVariableRefrigerantFlow();
+            var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>(), new List<IB_PlantLoop>(), new List<IB_AirConditionerVariableRefrigerantFlow>() { vrf });
+            
+            var done = hvac.SaveHVAC(savePath);
+            done &= File.Exists(savePath);
+            Assert.IsTrue(done);
+
+
+        }
+
         [Test]
         public void IBChiller_Loop_Test()
         {
