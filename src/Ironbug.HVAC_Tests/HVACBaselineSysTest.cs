@@ -11,39 +11,34 @@ namespace Ironbug.HVACTests
 
     public class HVACBaselineSysTest
     {
-
-
-        OpenStudio.Model md1 = new OpenStudio.Model();
-        string exampleBuildingFile = @"..\..\..\..\doc\osmFile\BuildingForTest.osm";
-        
-
         [Test]
         public void Sys01_PTAC()
         {
-            string saveFile = @"..\..\..\..\doc\osmFile\HVACBaseline\sys01_PTAC.osm";
-            File.Copy(exampleBuildingFile, saveFile, true);
+            var exampleBuildingFile = TestHelper.ExampleBuildingFile;
+            Assert.True(File.Exists(exampleBuildingFile));
 
-            var m = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(saveFile)).get();
+            string saveFile = TestHelper.GenFileName;
+
+            var m = OpenStudio.Model.load(exampleBuildingFile.ToPath()).get();
             var zoneNames = m.getThermalZones().Select(_=>_.nameString());
+            Assert.True(zoneNames.Any());
 
-            var fan = new IB_FanConstantVolume();
-            var heatingCoil = new IB_CoilHeatingWater();
-            var coolingCoil = new IB_CoilCoolingDXSingleSpeed();
-
-            var ptac = new IB_ZoneHVACPackagedTerminalAirConditioner(fan, heatingCoil, coolingCoil);
-            //var eqpHost = ptac.ToPuppetHost();
-
+            
 
             var noAirlp = new IB_NoAirLoop();
-
+            var waterCoils = new List<IB_CoilHeatingWater>();
             foreach (var name in zoneNames)
             {
-                var opzone = new HVAC.BaseClass.IB_ThermalZone(name);
-                
-                var eqpPuppet = ptac.Duplicate() as HVAC.BaseClass.IB_ZoneEquipment;
-                opzone.AddZoneEquipment(eqpPuppet);
+                var opzone = new IB_ThermalZone(name);
 
+                var fan = new IB_FanConstantVolume();
+                var heatingCoil = new IB_CoilHeatingWater();
+                var coolingCoil = new IB_CoilCoolingDXSingleSpeed();
+                var ptac = new IB_ZoneHVACPackagedTerminalAirConditioner(fan, heatingCoil, coolingCoil);
+
+                opzone.AddZoneEquipment(ptac);
                 noAirlp.AddThermalZones(opzone);
+                waterCoils.Add(heatingCoil);
             }
 
             //hot water loop
@@ -63,7 +58,11 @@ namespace Ironbug.HVACTests
             
             //hot water demand side
             var b2 = new IB_PlantLoopBranches();
-            b2.Add(new List<IB_HVACObject>() { heatingCoil });
+            foreach (var item in waterCoils)
+            {
+                b2.Add(new List<IB_HVACObject>() { item });
+            }
+        
             hwlp.AddToDemand(b2);
 
             var hvac = new IB_HVACSystem(
@@ -73,16 +72,15 @@ namespace Ironbug.HVACTests
 
 
             var s = hvac.SaveHVAC(saveFile);
+            Assert.True(s);
 
             //check the results
-            m = OpenStudio.Model.load(OpenStudio.OpenStudioUtilitiesCore.toPath(saveFile)).get();
-            var countOfeqps = m.getZoneHVACPackagedTerminalAirConditioners().Where(_ => _.thermalZone().is_initialized()).Count();
-            s &= countOfeqps == zoneNames.Count();
+            var m2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var countOfeqps = m2.getZoneHVACPackagedTerminalAirConditioners().Where(_ => _.thermalZone().is_initialized()).Count();
+            Assert.True(countOfeqps == zoneNames.Count());
 
-            var countOfCoils = m.getCoilHeatingWaters().Where(_ => _.plantLoop().is_initialized()).Count();
-            s &= countOfCoils == zoneNames.Count();
-
-            Assert.True(s);
+            var countOfCoils = m2.getCoilHeatingWaters().Where(_ => _.plantLoop().is_initialized()).Count();
+            Assert.True(countOfCoils == zoneNames.Count());
         }
     }
 }

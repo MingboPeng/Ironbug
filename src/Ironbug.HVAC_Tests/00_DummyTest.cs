@@ -28,6 +28,7 @@ namespace Ironbug.HVACTests
         {
             var coil = new IB_CoilCoolingDXMultiSpeed();
             var success = typeof(IB_Coil).IsInstanceOfType(coil);
+            Assert.True(success);
         }
 
         [Test]
@@ -41,12 +42,12 @@ namespace Ironbug.HVACTests
 
             var md1 = new Model();
             lp.ToOS(md1);
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            string saveFile = TestHelper.GenFileName;
             var success = md1.Save(saveFile);
+            Assert.True(success);
 
             success &= md1.getPlantLoops().First().sizingPlant().loopType() == "Cooling";
-
-            Assert.True(true);
+            Assert.True(success);
         }
 
         [Test]

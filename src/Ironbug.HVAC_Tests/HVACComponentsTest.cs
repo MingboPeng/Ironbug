@@ -12,12 +12,12 @@ namespace Ironbug.HVACTests
     public class HVACComponentsTest
     {
 
-        OpenStudio.Model md1 = new OpenStudio.Model();
-        string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+        private string GenFileName => TestHelper.GenFileName;
 
         [Test]
         public void IB_Curve_GetMethodTest()
         {
+            var md1 = new OpenStudio.Model();
             var c = new OpenStudio.CurveCubic(md1);
             ////c.GetType().get
             var value = 0.5;
@@ -53,13 +53,15 @@ namespace Ironbug.HVACTests
             obj.SetFieldValues(fDic);
 
             var boiler = new IB_BoilerHotWater();
-            var cv = obj.ToOS(model);
-            boiler.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.NormalizedBoilerEfficiencyCurve, cv);
+            boiler.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.NormalizedBoilerEfficiencyCurve, obj);
 
             boiler.ToOS(model);
             
             var findChiller = model.getCurveCubics().First().to_CurveCubic().get().coefficient1Constant() == 0.5;
             Assert.True(findChiller);
+
+            var boilerCurve = model.getBoilerHotWaters().First().normalizedBoilerEfficiencyCurve().get().to_CurveCubic().get();
+            Assert.True(boilerCurve.coefficient1Constant() == 0.5);
 
         }
 
@@ -67,16 +69,19 @@ namespace Ironbug.HVACTests
         public void IB_OutputVariables_Test()
         {
 
-            var model = new OpenStudio.Model();
+            var md1 = new OpenStudio.Model();
 
             var obj = new HVAC.IB_BoilerHotWater();
             var variableName = obj.SimulationOutputVariables.First();
             var outputVariable = new IB_OutputVariable(variableName, IB_OutputVariable.TimeSteps.Monthly);
             obj.AddOutputVariables(new List<IB_OutputVariable>() { outputVariable });
-            obj.ToOS(model);
+            obj.ToOS(md1);
 
-            model.Save(saveFile);
-            var findChiller = model.getOutputVariables().Any();
+            string saveFile = GenFileName;
+            var saved = md1.Save(saveFile);
+            Assert.True(saved);
+
+            var findChiller = md1.getOutputVariables().Any();
             Assert.True(findChiller);
 
         }
@@ -129,10 +134,12 @@ namespace Ironbug.HVACTests
             var schRule2 = new HVAC.Schedules.IB_ScheduleRule(day2);
             sch.AddRule(schRule2);
 
+            var md1 = new OpenStudio.Model();
             sch.ToOS(md1);
-           
-            var success = md1.Save(saveFile);
-            Assert.True(success);
+
+            string saveFile = GenFileName;
+            var saved = md1.Save(saveFile);
+            Assert.True(saved);
         }
 
     }

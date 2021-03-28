@@ -10,9 +10,7 @@ namespace Ironbug.HVACTests
 {
     public class HVACWorkflowTest
     {
-
-        OpenStudio.Model md1 = new OpenStudio.Model();
-        string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+        private string GenFileName => TestHelper.GenFileName;
 
         private HVAC.IB_SizingPlant setSizingDefault(HVAC.IB_SizingPlant sizingPlant)
         {
@@ -29,22 +27,49 @@ namespace Ironbug.HVACTests
         [Test]
         public void AddVRF_Test()
         {
-            var osm = @"C:\Users\mingo\simulation\Unnamed\OpenStudio\run\in.osm";
-            var model = OpenStudio.Model.load(osm.ToPath()).get();
+            //var osm = @"C:\Users\mingo\simulation\Unnamed\OpenStudio\run\in.osm";
+            var osm = TestHelper.ExampleBuildingFile;
+            var model = IB_HVACSystem.GetOrNewModel(osm);
             var zones = model.getThermalZones();
             Assert.IsTrue(zones.Any());
 
 
-            var savePath = $"{Path.GetDirectoryName(osm)}\\{Guid.NewGuid().ToString().Substring(0, 8)}.osm";
+            var savePath = GenFileName;
             File.Copy(osm, savePath);
 
-            var vrf = new IB_AirConditionerVariableRefrigerantFlow();
-            var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>(), new List<IB_PlantLoop>(), new List<IB_AirConditionerVariableRefrigerantFlow>() { vrf });
+            var zoneNames = model.getThermalZones().Select(_ => _.nameString());
+            Assert.True(zoneNames.Any());
+
+            var noAirlp = new IB_NoAirLoop();
+            var vrfSys = new IB_AirConditionerVariableRefrigerantFlow();
+            foreach (var item in zoneNames)
+            {
+                var vrf = new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
+                var zone = new IB_ThermalZone(item);
+                zone.AddZoneEquipment(vrf);
+
+                noAirlp.AddThermalZones(zone);
+                vrfSys.AddTerminal(vrf);
+            }
+         
+            var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>() { noAirlp }, new List<IB_PlantLoop>(), new List<IB_AirConditionerVariableRefrigerantFlow>() { vrfSys });
             
             var done = hvac.SaveHVAC(savePath);
             done &= File.Exists(savePath);
             Assert.IsTrue(done);
 
+            var md2 = OpenStudio.Model.load(savePath.ToPath()).get();
+            var zones2 = md2.getThermalZones();
+            Assert.IsTrue(zones2.Count() == zoneNames.Count());
+
+            foreach (var item in zones2)
+            {
+                var c = item.equipment().Count();
+                var eqp = item.equipment().First();
+                Assert.IsTrue(eqp.to_ZoneHVACTerminalUnitVariableRefrigerantFlow().is_initialized());
+            }
+            var savedVrfs = md2.getZoneHVACTerminalUnitVariableRefrigerantFlows();
+            Assert.IsTrue(savedVrfs.Count() == zoneNames.Count());
 
         }
 
@@ -75,18 +100,22 @@ namespace Ironbug.HVACTests
             cwlp.AddToSupply(branches);
             cdlp.AddToDemand(branches2);
 
+            var md1 = new OpenStudio.Model();
             cwlp.ToOS(md1);
             cdlp.ToOS(md1);
 
-            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
+            string saveFile = GenFileName;
             md1.Save(saveFile);
 
-            var chillers = md1.getChillerElectricEIRs();
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var chillers = md2.getChillerElectricEIRs();
             var findChiller = chillers.Count() == 1;
+            Assert.True(findChiller);
+
 
             var cwloopSz = chillers.First().plantLoop().get().sizingPlant();
             var isCooling = cwloopSz.loopType() == "Cooling";
-            Assert.True(findChiller & isCooling);
+            Assert.True(isCooling);
 
         }
 
@@ -132,25 +161,38 @@ namespace Ironbug.HVACTests
 
             plantloop.AddToSupply(branches);
 
-
+            var md1 = new OpenStudio.Model();
             plantloop.ToOS(md1);
 
 
 
 
             var findboilers = md1.getBoilerHotWaters().Count() == 2;
+            Assert.True(findboilers);
+
             var findPumpv = md1.getPumpVariableSpeeds().Count == 2;
+            Assert.True(findPumpv);
+
             var findPumpC = md1.getPumpConstantSpeeds().Count == 2;
+            Assert.True(findPumpC);
             //var checkedTheFirstBoiler = md1.getPlantLoops().First().supplyMixer().inletModelObject(0).get().nameString() == "boiler1";
 
 
-            var success = findPumpv && findPumpC && findboilers;
-
-            //string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm";
-            success &= md1.Save(saveFile);
-
-
+            string saveFile = GenFileName;
+            var success = md1.Save(saveFile);
             Assert.True(success);
+
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            findboilers = md2.getBoilerHotWaters().Count() == 2;
+            Assert.True(findboilers);
+
+            findPumpv = md2.getPumpVariableSpeeds().Count == 2;
+            Assert.True(findPumpv);
+
+            findPumpC = md2.getPumpConstantSpeeds().Count == 2;
+            Assert.True(findPumpC);
+
 
         }
 
@@ -184,13 +226,22 @@ namespace Ironbug.HVACTests
             success1 &= oa.IsInModel(md2);
             success1 &= erv.IsInModel(md2);
             success1 &= md2.getHeatExchangerAirToAirSensibleAndLatents().First().latentEffectivenessat100CoolingAirFlow() == 0.555;
+            Assert.True(success1);
 
 
-            var success3 = md2.Save(saveFile);
-
-            var success = success1;
-
+            string saveFile = GenFileName;
+            var success = md2.Save(saveFile);
             Assert.True(success);
+
+            var md3 = OpenStudio.Model.load(saveFile.ToPath()).get();
+
+            var success3 = coil.IsInModel(md3);
+            success3 &= coil.IsInModel(md3);
+            success3 &= fan.IsInModel(md3);
+            success3 &= oa.IsInModel(md3);
+            success3 &= erv.IsInModel(md3);
+            success3 &= md3.getHeatExchangerAirToAirSensibleAndLatents().First().latentEffectivenessat100CoolingAirFlow() == 0.555;
+            Assert.True(success3);
         }
 
 
@@ -216,12 +267,13 @@ namespace Ironbug.HVACTests
 
             var newPlant = plant.Duplicate() as IB_PlantLoop;
 
+            var md1 = new OpenStudio.Model();
             newPlant.ToOS(md1);
             
-            var success1 = newPlant.IsInModel(md1);
-            var success3 = md1.Save(saveFile);
-            var success = success1 && success3;
+            var success = newPlant.IsInModel(md1);
+            Assert.True(success);
 
+            success = md1.Save(GenFileName);
             Assert.True(success);
         }
         [Test]
@@ -236,19 +288,27 @@ namespace Ironbug.HVACTests
 
             vrf.AddTerminal(vrfTerm);
 
-
+            var md1 = new OpenStudio.Model();
             vrf.ToOS(md1);
             zone.ToOS(md1);
 
             var success = md1.getZoneHVACTerminalUnitVariableRefrigerantFlows().Any();
-
-            success &= md1.Save(saveFile);
-            
             Assert.True(success);
+
+
+            string saveFile = GenFileName;
+            success = md1.Save(saveFile);
+            Assert.True(success);
+
+
+            var md3 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            success = md3.getZoneHVACTerminalUnitVariableRefrigerantFlows().Any();
+            Assert.True(success);
+
         }
 
         [Test]
-        public void VAVReheat_Puppet_Test()
+        public void VAVReheat_Test()
         {
             //var md1 = new OpenStudio.Model();
             var airLp = new IB_AirLoopHVAC();
@@ -263,50 +323,55 @@ namespace Ironbug.HVACTests
 
             //reHeat.ToPuppetHost();
             var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
+            reHeatPuppet1.SetTrackingID();
             zone1.SetAirTerminal(reHeatPuppet1);
             var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
             Console.WriteLine($"ReheatCoil 1: {firstCoilID}");
+         
 
             var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
+            reHeatPuppet2.SetTrackingID();
             zone2.SetAirTerminal(reHeatPuppet2);
             var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
             Console.WriteLine($"ReheatCoil 2: {secondCoilID}");
 
             var airBranches = new IB_AirLoopBranches();
-            airBranches.Add(new List<IB_HVACObject>() { zone1, zone2 });
+            airBranches.Add(new List<IB_HVACObject>() { zone1 });
+            airBranches.Add(new List<IB_HVACObject>() { zone2 });
 
             var branches = new IB_PlantLoopBranches();
             branches.Add(new List<IB_HVACObject>() { coil });
             hwLp.AddToDemand(branches);
-            //var puppetsInLoop = coil.GetPuppets();
-            //TestContext.WriteLine($"ReheatCoil in Plantloop IsPuppetHost : {coil.IsPuppetHost()} \r\nPuppetCount: {puppetsInLoop.Count}");
-            //foreach (var puppet in puppetsInLoop)
-            //{
-            //    TestContext.WriteLine($"ReheatCoil in loop: {puppet.GetTrackingID()}");
-            //}
-
 
             var fan = new IB_FanConstantVolume();
             airLp.AddToSupplySide(fan);
             airLp.AddToDemandSide(airBranches);
-            
+
+            var md1 = new OpenStudio.Model();
             airLp.ToOS(md1);
             hwLp.ToOS(md1);
-
-
+            
             var reheatTerminals
                 = md1
                 .getAirTerminalSingleDuctVAVReheats();
+            Assert.True(reheatTerminals.Count() == 2);
+
 
             var success 
                 = reheatTerminals
                 .Select(_ => _.reheatCoil().plantLoop().is_initialized())
                 .Where(_ => _ == true).Count()==2;
+            Assert.True(success);
+
 
             success &= reheatTerminals.First().nameString().EndsWith("1") && reheatTerminals.First().reheatCoil().nameString().EndsWith("1");
-            success &= md1.Save(saveFile);
-
             Assert.True(success);
+
+
+            string saveFile = GenFileName;
+            success = md1.Save(saveFile);
+            Assert.True(success);
+
         }
 
         [Test]

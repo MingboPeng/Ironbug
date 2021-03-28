@@ -18,5 +18,9 @@
     <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestSource\" />
+  </ItemGroup>
+
 
 </Project>

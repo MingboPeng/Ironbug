@@ -8,7 +8,7 @@ namespace Ironbug.HVACTests
 {
     public class IB_ThermalZone_Test
     {
-      
+        private string GenFileName => TestHelper.GenFileName;
         [Test]
         public void OpenStudioDll_Test()
         {
@@ -20,9 +20,19 @@ namespace Ironbug.HVACTests
         }
 
         [Test]
+        public void OldOsmFile_Test()
+        {
+            var oldFile = System.IO.Path.Combine(TestHelper.TestSourceFolder, "OldVersion.osm");
+            var ex = Assert.Throws<ArgumentException>(() => IB_HVACSystem.GetOrNewModel(oldFile));
+         
+            Assert.IsTrue(ex.Message.StartsWith("Incompatible OpenStudio file version"));
+        }
+
+
+        [Test]
         public void IB_ThermalZone_Sizing_Test()
         {
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Added_.osm"; 
+            string saveFile = GenFileName;
 
             var obj = new IB_ThermalZone();
             obj.SetAirTerminal(new HVAC.IB_AirTerminalSingleDuctConstantVolumeNoReheat());
@@ -30,10 +40,11 @@ namespace Ironbug.HVACTests
             var model = new OpenStudio.Model();
             var lp = new OpenStudio.AirLoopHVAC(model);
             var added1 = lp.addBranchForZone((OpenStudio.ThermalZone)obj.ToOS(model), obj.AirTerminal.ToOS(model));
+            Assert.IsTrue(added1);
 
             var added2 = model.Save(saveFile);
-            var success = added1 && added2;
-            Assert.True(success);
+            Assert.IsTrue(added2);
+
         }
 
     }

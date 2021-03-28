@@ -8,6 +8,7 @@ namespace Ironbug.HVACTests
 {
     public class SetpointWorkflowTest
     {
+        private string GenFileName => TestHelper.GenFileName;
         [Test]
         public void SpInAirloopFirst_Test()
         {
@@ -22,15 +23,15 @@ namespace Ironbug.HVACTests
             af.ToOS(md1);
 
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
-
-
-            var addedSetPt = md1.getAirLoopHVACs()[0].SetPointManagers().First();
-            var objAfterSetp = addedSetPt.setpointNode().get().outletModelObject().get();
-            success &= objAfterSetp.comment() == coil.GetTrackingID();
-
             Assert.True(success);
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getAirLoopHVACs()[0].SetPointManagers().First();
+            var objAfterSetp = addedSetPt.setpointNode().get().outletModelObject().get();
+      
+            Assert.True(objAfterSetp.comment() == coil.GetTrackingID());
         }
 
         [Test]
@@ -48,16 +49,16 @@ namespace Ironbug.HVACTests
 
             af.ToOS(md1);
 
-
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
-
-
-            var addedSetPt = md1.getAirLoopHVACs()[0].SetPointManagers().First();
-            var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
-            success &= objAfterSetp.comment() == fan.GetTrackingID();
-
             Assert.True(success);
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+
+            var addedSetPt = md2.getAirLoopHVACs()[0].SetPointManagers().First();
+            var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
+      
+            Assert.True(objAfterSetp.comment() == fan.GetTrackingID());
         }
 
         [Test]
@@ -71,14 +72,13 @@ namespace Ironbug.HVACTests
 
             pl.ToOS(md1);
             
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
-
-
-            var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
-            success &= addedSetPt.comment() == setPt.GetTrackingID();
-
             Assert.True(success);
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
+            Assert.True(addedSetPt.comment() == setPt.GetTrackingID());
         }
 
         [Test]
@@ -98,11 +98,12 @@ namespace Ironbug.HVACTests
             pl.AddToSupply(branches);
             pl.ToOS(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
+            Assert.True(success);
 
-
-            var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
             Assert.True(success);
@@ -126,11 +127,13 @@ namespace Ironbug.HVACTests
             pl.AddToSupply(branches);
             pl.ToOS(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
+            Assert.True(success);
 
 
-            var addedSetPt = md1.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getPlantLoops()[0].supplyInletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
             Assert.True(success);
@@ -154,10 +157,13 @@ namespace Ironbug.HVACTests
             pl.AddToSupply(branches);
             pl.ToOS(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
+            Assert.True(success);
 
-            var addedSetPt = md1.getPlantLoops()[0].SetPointManagers().First();
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getPlantLoops()[0].SetPointManagers().First();
             var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
             success &= objAfterSetp.comment() == pump.GetTrackingID();
             
@@ -183,10 +189,13 @@ namespace Ironbug.HVACTests
             
             pl.ToOS(md1);
 
-            string saveFile = @"..\..\..\..\doc\osmFile\empty_Saved.osm";
+            string saveFile = GenFileName;
             var success = md1.Save(saveFile);
+            Assert.True(success);
 
-            var addedSetPt = md1.getPlantLoops()[0].supplyOutletNode().setpointManagers().First();
+
+            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var addedSetPt = md2.getPlantLoops()[0].supplyOutletNode().setpointManagers().First();
             success &= addedSetPt.comment() == setPt.GetTrackingID();
 
             Assert.True(success);
