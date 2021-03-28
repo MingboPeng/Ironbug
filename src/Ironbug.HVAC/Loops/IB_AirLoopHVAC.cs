@@ -112,16 +112,15 @@ namespace Ironbug.HVAC
             foreach (var comp in comps)
             {
                 allcopied &= comp.AddToNode(spnd);
-            } 
-
-            allcopied &= this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components);
-            allcopied &= this.AddNodeProbe(AirLoopHVAC.supplyInletNode(), Components);
-
-            if (!allcopied)
-            {
-                throw new Exception("Warning: Failed to add all air loop supply components!");
-                
             }
+            if (!allcopied)
+                throw new ArgumentException("Warning: Failed to add all air loop supply components!");
+
+
+            if (!this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components))
+                throw new ArgumentException("Warning: Failed to add all set point managers to air loop supply side!");
+            if (!this.AddNodeProbe(AirLoopHVAC.supplyInletNode(), Components))
+                throw new ArgumentException("Warning: Failed to add all node probes to air loop supply side!");
 
             return allcopied;
         }
@@ -148,15 +147,15 @@ namespace Ironbug.HVAC
 
             var addObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
             var allcopied = addObjs.Count() == filteredObjs.CountWithBranches();
+            if (!allcopied)
+                throw new ArgumentException("Failed to add all airloop demand components!");
 
             //TODO: might need to double check the set point order.
-            allcopied &= this.AddSetPoints(dmInNd, Components);
-            allcopied &= this.AddNodeProbe(dmInNd, Components);
+            if (!this.AddSetPoints(dmInNd, Components))
+                throw new ArgumentException("Failed to add all set point managers to airloop demand side!");
 
-            if (!allcopied)
-            {
-                throw new Exception("Failed to add all airloop demand components!");
-            }
+            if (!this.AddNodeProbe(dmInNd, Components))
+                throw new ArgumentException("Failed to add all node probes to airloop demand side!");
 
             return allcopied;
         }
