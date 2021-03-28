@@ -35,9 +35,6 @@ namespace Ironbug.Grasshopper.Component
                 System.Windows.Forms.MessageBox.Show(loadError.Message);
             }
 
-            GH.Instances.ComponentServer.AddCategoryIcon("Ladybug", Properties.Resources.Ladybug);
-            GH.Instances.ComponentServer.AddCategoryIcon("Honeybee", Properties.Resources.Honeybee);
-
             GH.Instances.ComponentServer.AddCategoryIcon("Ironbug", Properties.Resources.Ironbug);
             GH.Instances.ComponentServer.AddCategoryShortName("Ironbug", "IB");
             GH.Instances.ComponentServer.AddCategorySymbolName("Ironbug", 'I');

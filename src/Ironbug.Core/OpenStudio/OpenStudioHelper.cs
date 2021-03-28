@@ -18,7 +18,26 @@ namespace Ironbug.Core.OpenStudio
         public static string FindOpsFolder()
         {
             var possiblePath = new List<string>();
-            possiblePath.Add(@"C:\Ironbug");
+            var root = Path.GetDirectoryName(typeof(OpenStudioHelper).Assembly.Location);
+            possiblePath.Add(root);
+
+            if (root.Contains("ladybug_tools"))
+            {
+                // installed to LBT folder
+                var lbt = Path.GetDirectoryName(root);
+                var lbtOpenStudio = Path.Combine(lbt, "openstudio", "CSharp", "openstudio");
+                if (Directory.Exists(lbtOpenStudio))
+                    possiblePath.Add(lbtOpenStudio);
+            }
+            else
+            {
+                var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var lbt = Path.Combine(userFolder, "ladybug_tools");
+                var lbtOpenStudio = Path.Combine(lbt, "openstudio", "CSharp", "openstudio");
+                if (Directory.Exists(lbtOpenStudio))
+                    possiblePath.Add(lbtOpenStudio);
+            }
+
             //possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
             //possiblePath.Add($@"C:\openstudio-{Version}\CSharp\openstudio");
             var opsPaths = Directory.GetDirectories(@"C:\")
@@ -52,6 +71,24 @@ namespace Ironbug.Core.OpenStudio
 
                 try
                 {
+                    // check openstudiolib.dll, copy it to csharp folder
+                    var libFile = "openstudiolib.dll";
+                    if (!File.Exists(Path.Combine(path, libFile)))
+                    {
+                        var opsRoot = Path.GetDirectoryName(Path.GetDirectoryName(path));
+                        var libFolder = Path.Combine(opsRoot, "lib");
+                        if (Directory.Exists(libFolder))
+                        {
+                            var libs = Directory.GetFiles(libFolder, "*", SearchOption.TopDirectoryOnly);
+                            foreach (var item in libs)
+                            {
+                                var target = Path.Combine(path, Path.GetFileName(item));
+                                File.Copy(item, target, true);
+                            }
+                        }
+                    }
+                   
+
                     Assembly.LoadFile(asmFile);
                     isLoaded = true;
                     MessageLogger($"OpenStudio library {versionFound} from {path}.");
