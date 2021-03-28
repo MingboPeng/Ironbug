@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
+using Ironbug.HVAC.Schedules;
 using NUnit.Framework;
 
 namespace Ironbug.HVACTests
@@ -57,6 +58,23 @@ namespace Ironbug.HVACTests
             Assert.True(success);
 
         }
+
+        [Test]
+        public void SetScheduleTypeLimit_Test()
+        {
+            var sch = new IB_ScheduleRuleset();
+            var typeLimit = new IB_ScheduleTypeLimits();
+            typeLimit.SetFieldValue(IB_ScheduleTypeLimits_FieldSet.Value.LowerLimitValue, 0.11);
+            sch.SetScheduleTypeLimits(typeLimit);
+
+            var m = new OpenStudio.Model();
+            sch.ToOS(m);
+
+            var limits = m.getScheduleRulesets().First().scheduleTypeLimits().get();
+            Assert.IsTrue(limits.lowerLimitValue().get() == 0.11);
+
+        }
+
 
         //[TestMethod]
         //public void MapOpsSettings_Test()
