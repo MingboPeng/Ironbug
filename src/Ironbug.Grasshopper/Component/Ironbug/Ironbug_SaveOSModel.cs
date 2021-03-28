@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
         public override Guid ComponentGuid => new Guid("{2B473359-4DFC-4DE7-BD3E-79C119C64250}");
 
-        bool _overrideMode = true;
+        bool _overrideMode = false;
         int _writeMode = 0;
         public Ironbug_SaveOSModel()
           : base("Ironbug_SaveToFile", "SaveToFile",
@@ -51,10 +51,21 @@ namespace Ironbug.Grasshopper.Component
             if (!write) return;
             
             if (string.IsNullOrEmpty(filepath)) return;
-            if (File.Exists(filepath) && this._overrideMode)
+           
+            if (File.Exists(filepath))
             {
-                File.Delete(filepath);
-            } 
+                if (this._overrideMode)
+                {
+                    File.Delete(filepath);
+                }
+                else
+                {
+                    var newfilepath = filepath.Replace(".osm", "_IB.osm");
+                    File.Copy(filepath, newfilepath, true);
+                    filepath = newfilepath;
+                }
+            }
+
             var saved = hvac.SaveHVAC(filepath);
 
             if (saved)
@@ -79,12 +90,21 @@ namespace Ironbug.Grasshopper.Component
             void OpenOPS(string FilePath)
             {
                 var OpsPath = OpenStudio.OpenStudioUtilitiesCore.getOpenStudioModuleDirectory().__str__().Remove(20) + @"bin";
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.Arguments = " \"" + FilePath + "\"";
-                startInfo.FileName = Path.Combine(OpsPath, "OpenStudioApp.exe");
-                startInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                startInfo.UseShellExecute = false;
-                Process.Start(startInfo);
+                var appPath = Path.Combine(OpsPath, "OpenStudioApp.exe");
+                if (File.Exists(appPath))
+                {
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.Arguments = " \"" + FilePath + "\"";
+                    startInfo.FileName = appPath;
+                    startInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                    startInfo.UseShellExecute = false;
+                    Process.Start(startInfo);
+                }
+                else
+                {
+                    Process.Start(FilePath);
+                }
+               
             }
 
         }
