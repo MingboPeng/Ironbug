@@ -17,6 +17,8 @@ namespace Ironbug.HVAC.Schedules
             => new ScheduleRuleset(model);
 
         private List<IB_ScheduleRule> Rules { get; set; } = new List<IB_ScheduleRule>();
+        private IB_ScheduleTypeLimits ScheduleTypeLimits { get; set; }
+
         public IB_ScheduleRuleset() : base(InitMethod(new Model()))
         {
         }
@@ -30,6 +32,11 @@ namespace Ironbug.HVAC.Schedules
             this.Rules.Add(Rule);
         }
 
+        public void SetScheduleTypeLimits(IB_ScheduleTypeLimits typeLimits)
+        {
+            this.ScheduleTypeLimits = typeLimits;
+        }
+
         public override IB_ModelObject Duplicate()
         {
             var obj = base.Duplicate() as IB_ScheduleRuleset;
@@ -37,7 +44,7 @@ namespace Ironbug.HVAC.Schedules
             {
                 obj.AddRule(item.Duplicate() as IB_ScheduleRule);
             }
-            
+            obj.ScheduleTypeLimits = this.ScheduleTypeLimits?.Duplicate() as IB_ScheduleTypeLimits;
             return obj;
         }
 
@@ -119,6 +126,12 @@ namespace Ironbug.HVAC.Schedules
               
                 //obj.setName(name);
             }
+
+            if (this.ScheduleTypeLimits != null)
+            {
+                obj.setScheduleTypeLimits(this.ScheduleTypeLimits.ToOS(model) as ScheduleTypeLimits);
+            }
+          
            
             obj.SetCustomAttributes(this.CustomAttributes);
             return obj;
@@ -163,10 +176,10 @@ namespace Ironbug.HVAC.Schedules
     public sealed class IB_ScheduleRuleset_FieldSet
         : IB_FieldSet<IB_ScheduleRuleset_FieldSet, ScheduleRuleset>
     {
-        private IB_ScheduleRuleset_FieldSet() { }
+        private IB_ScheduleRuleset_FieldSet() {}
         public IB_Field Name { get; }
             = new IB_BasicField("Name", "Name") { };
-
+      
 
     }
 }

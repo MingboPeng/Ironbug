@@ -58,7 +58,6 @@ namespace Ironbug.HVACTests
 
         }
 
-
         //[TestMethod]
         //public void MapOpsSettings_Test()
         //{

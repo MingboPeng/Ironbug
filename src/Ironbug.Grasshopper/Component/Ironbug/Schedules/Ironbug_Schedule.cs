@@ -44,13 +44,7 @@ namespace Ironbug.Grasshopper.Component
                 objAttris.Add(attributes.Name, name);
             }
 
-            HVAC.Schedules.IB_ScheduleTypeLimits scheduleType = null;
-            if (DA.GetData(2, ref scheduleType))
-            {
-                objAttris.Add(attributes.ScheduleTypeLimits, scheduleType);
-            }
-
-
+           
             var ghObjs = new List<GH_ObjectWrapper>();
             DA.GetDataList(1, ghObjs);
             var sch = new HVAC.Schedules.IB_ScheduleRuleset();
@@ -87,6 +81,14 @@ namespace Ironbug.Grasshopper.Component
             {
                 AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Unknown input value. Use 24 numbers for a typical day schedule or a list of ScheduleRules");
             }
+
+
+            HVAC.Schedules.IB_ScheduleTypeLimits scheduleType = null;
+            if (DA.GetData(2, ref scheduleType))
+            {
+                sch.SetScheduleTypeLimits(scheduleType);
+            }
+
 
             sch.SetFieldValues(objAttris);
             DA.SetData(0, sch);
