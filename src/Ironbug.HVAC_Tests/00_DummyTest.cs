@@ -114,6 +114,37 @@ namespace Ironbug.HVACTests
 
         }
 
+        [Test]
+        public void OverrideGUIDTest()
+        {
+
+            var m = new OpenStudio.Model();
+            var p = new OpenStudio.CoilHeatingWater(m);
+            p.setName("My Coil");
+            var id = p.getString(0).get();
+
+            var newID = $"{{{System.Guid.NewGuid()}}}";
+            p.setString(0, newID);
+
+            // override original uuid
+            var objID = p.getString(0).get();
+            Assert.IsTrue(objID != id);
+            Assert.IsTrue(objID == newID);
+
+            // get saving osm and read it back
+            var root = System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location);
+            var testOsm = System.IO.Path.Combine(root, "test.osm");
+            m.Save(testOsm);
+
+            var m2 = OpenStudio.Model.load(testOsm.ToPath()).get();
+            var uuid = OpenStudioUtilitiesCore.toUUID(newID);
+            var found = m2.getCoilHeatingWater(uuid).get();
+            Assert.IsTrue(found != null);
+            Assert.IsTrue(found.nameString() == "My Coil");
+
+
+        }
+
 
     }
 }
