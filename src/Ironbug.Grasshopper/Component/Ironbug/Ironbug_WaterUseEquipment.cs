@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("WaterUseLoad", "load_", "Use Ironbug_WaterUseEquipmentDefinition", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddBrepParameter("HBZone", "HBZone_", "Honeybee Zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HBRoom", "HBRoom_", "Honeybee Room", GH_ParamAccess.item);
             pManager[1].Optional = true;
         }
         
@@ -37,17 +37,12 @@ namespace Ironbug.Grasshopper.Component
         {
             HVAC.IB_WaterUseEquipmentDefinition load = new HVAC.IB_WaterUseEquipmentDefinition();
             DA.GetData(0, ref load);
-            GH_Brep hbZone = null;
+
+            object HBRoom = null;
             var spaceName = string.Empty;
-            DA.GetData(1, ref hbZone);
-            if (hbZone!= null)
-            {
-                var names = CallFromHBHive(new List<GH_Brep>() { hbZone });
-                if (names.Any())
-                {
-                    spaceName = names.First();
-                }
-            }
+            DA.GetData(1, ref HBRoom);
+            if (HBRoom != null)
+                spaceName = GetRoomName(HBRoom);
 
             var obj = new HVAC.IB_WaterUseEquipment(load);
             obj.SetSpace(spaceName);
@@ -56,51 +51,37 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
 
         }
+        private string GetRoomName(object HBZonesOrName)
+        {
+            var zoneName = string.Empty;
+
+            if (HBZonesOrName is GH_Brep hbzones)
+            {
+                zoneName = Helper.CallFromHBHive(new List<GH_Brep>() { hbzones }).FirstOrDefault();
+            }
+            else if (HBZonesOrName is GH_String nameString)
+            {
+                zoneName = nameString.Value;
+            }
+            else if (HBZonesOrName is GH_ObjectWrapper wrapper)
+            {
+                // LBT Room
+                var isLBTRoom = wrapper.Value.ToString().StartsWith("Room:");
+                isLBTRoom &= wrapper.Value.GetType().ToString().StartsWith("IronPython.");
+
+                if (isLBTRoom)
+                {
+                    zoneName = Helper.FromLBTRooms(new List<object> { HBZonesOrName }).FirstOrDefault();
+                }
+
+            }
+            return zoneName;
+        }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterUseEquip;
 
         public override Guid ComponentGuid => new Guid("3A46B628-A815-4994-A919-5FD10CB87CF1");
 
-        private static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
-        {
-            var HBIDs = new List<string>();
-            foreach (var item in inBreps)
-            {
-                if (inBreps is null) continue;
 
-                item.Value.UserDictionary.TryGetString("HBID", out string HBID);
-                if (string.IsNullOrEmpty(HBID)) continue;
-
-                HBIDs.Add(HBID);
-            }
-
-            if (HBIDs.Any())
-            {
-                return GetHBObjects(HBIDs).Select(_ => _ as string);
-            }
-            else
-            {
-                return new List<string>();
-            }
-        }
-
-        private static IList<dynamic> GetHBObjects(List<string> HBIDs)
-        {
-            var pyRun = Rhino.Runtime.PythonScript.Create();
-            pyRun.SetVariable("HBIDs", HBIDs.ToArray());
-            string pyScript = @"
-import scriptcontext as sc;
-PyHBObjects=[];
-for HBID in HBIDs:
-    baseKey, key = HBID.split('#')[0], '#'.join(HBID.split('#')[1:])
-    HBZone = sc.sticky['HBHive'][baseKey][key];
-    PyHBObjects.append(HBZone.name);
-";
-
-            pyRun.ExecuteScript(pyScript);
-            var PyHBObjects = pyRun.GetVariable("PyHBObjects") as IList<dynamic>;
-
-            return PyHBObjects;
-        }
     }
 
 
