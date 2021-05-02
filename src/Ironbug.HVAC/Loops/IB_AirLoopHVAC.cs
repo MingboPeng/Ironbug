@@ -108,13 +108,13 @@ namespace Ironbug.HVAC
             var spnd = AirLoopHVAC.supplyOutletNode();
             var comps = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
 
-            var allcopied = true;
             foreach (var comp in comps)
             {
-                allcopied &= comp.AddToNode(spnd);
+                var added = comp.AddToNode(spnd);
+                if (!added)
+                    throw new ArgumentException($"Warning: Failed to add {comp.GetType()} to air loop supply side!");
+
             }
-            if (!allcopied)
-                throw new ArgumentException("Warning: Failed to add all air loop supply components!");
 
 
             if (!this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components))
@@ -122,7 +122,7 @@ namespace Ironbug.HVAC
             if (!this.AddNodeProbe(AirLoopHVAC.supplyInletNode(), Components))
                 throw new ArgumentException("Warning: Failed to add all node probes to air loop supply side!");
 
-            return allcopied;
+            return true;
         }
 
         private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)

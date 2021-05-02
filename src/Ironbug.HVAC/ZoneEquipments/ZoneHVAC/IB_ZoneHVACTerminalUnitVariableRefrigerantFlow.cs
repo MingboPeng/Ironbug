@@ -5,8 +5,8 @@ using OpenStudio;
 namespace Ironbug.HVAC
 {
     public class IB_ZoneHVACTerminalUnitVariableRefrigerantFlow 
-        : IB_ZoneEquipment, IIB_DualLoopObj
-        
+        : IB_ZoneEquipment, IIB_DualLoopObj, IIB_AirLoopObject
+
     {
         protected override Func<IB_ModelObject> IB_InitSelf => delegate ()
         {
