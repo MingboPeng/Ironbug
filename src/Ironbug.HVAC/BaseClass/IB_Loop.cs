@@ -2,11 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_Loop : IB_ModelObject
     {
+        [DataMember]
+        protected List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
+        [DataMember]
+        protected List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
         public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
         {
         }

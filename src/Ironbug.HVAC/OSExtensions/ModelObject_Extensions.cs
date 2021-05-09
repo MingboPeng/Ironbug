@@ -59,7 +59,7 @@ namespace Ironbug.HVAC
             //Set to value
             if (iB_Field.SetterMethod is null)
             {
-                return SetFieldValue(component, $"set{iB_Field.FullName}" , value);
+                return SetFieldValue(component, $"set{iB_Field.FullName}", value, iB_Field.DataType);
             }
             else
             {
@@ -68,10 +68,10 @@ namespace Ironbug.HVAC
             
         }
 
-        private static object SetFieldValue(this ModelObject component, string setterMethodName, object value)
+        private static object SetFieldValue(this ModelObject component, string setterMethodName, object value, Type paramType = default)
         {
-            var tp = value.GetType();
-            var methodInfo = component.GetType().GetMethod(setterMethodName, new[] {tp });
+            var tp = paramType ?? value.GetType();
+            var methodInfo = component.GetType().GetMethod(setterMethodName, new[] { tp });
             if (methodInfo is null) throw new Exception($"{setterMethodName} is not available in {component}!");
             return InvokeMethod(component, methodInfo, value);
             
@@ -153,13 +153,13 @@ namespace Ironbug.HVAC
             return success;
 
         }
-        public static List<string> SetCustomAttributes(this ModelObject component, Dictionary<BaseClass.IB_Field, object> dataField)
+        public static List<string> SetCustomAttributes(this ModelObject component, BaseClass.IB_FieldArgumentSet fieldArgs)
         {
             var invokeResults = new List<string>();
             var md = component.model();
-            foreach (var item in dataField)
+            foreach (var item in fieldArgs)
             {
-                var field = item.Key;
+                var field = item.Field;
                 var value = item.Value;
                 //check types
                 if (value is BaseClass.IB_Curve c)

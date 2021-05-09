@@ -235,7 +235,7 @@ namespace Ironbug.HVAC.BaseClass
                 else
                 {
                     //TODO: this is not the best practice
-                    fieldMatched.DataType = _.DataType;
+                    fieldMatched.DataTypeName = _.DataTypeName;
                     fieldMatched.DetailedDescription = _.DataType == typeof(bool)? $"{fieldMatched.DetailedDescription}\r\nPlease use TRUE or FALSE to set this value regardless whatever suggested below!" : fieldMatched.DetailedDescription;
                     fieldMatched.SetterMethod = _.SetterMethod;
                 }

@@ -138,7 +138,7 @@ namespace Ironbug.HVAC.BaseClass
             //if yes, then return it
             //if no, then create a new one
 
-            var optionalNames = this.CustomAttributes.Where(_ => _.Key.FULLNAME == "NAME");
+            var optionalNames = this.CustomAttributes.Where(_ => _.Field.FULLNAME == "NAME");
             var optionalZone = new OptionalThermalZone();
 
             if (optionalNames.Any())

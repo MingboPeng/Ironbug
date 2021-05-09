@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -9,11 +10,8 @@ namespace Ironbug.HVAC
     public class IB_AirLoopHVAC : IB_Loop
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirLoopHVAC();
-
-        private List<IB_HVACObject> supplyComponents { get; set; }= new List<IB_HVACObject>();
-        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
-
-        private IB_SizingSystem _SizingSystem { get; set; } = new IB_SizingSystem();
+        [DataMember]
+        public IB_SizingSystem SizingSystem { get; private set; } = new IB_SizingSystem();
 
         private static AirLoopHVAC NewDefaultOpsObj(Model model) => new AirLoopHVAC(model);
 
@@ -26,8 +24,8 @@ namespace Ironbug.HVAC
 
         public void SetSizingSystem(IB_SizingSystem sizing)
         {
-            this._SizingSystem = sizing;
-            this._SizingSystem.ToOS(this.GhostOSObject as AirLoopHVAC);
+            this.SizingSystem = sizing;
+            this.SizingSystem.ToOS(this.GhostOSObject as AirLoopHVAC);
         }
 
 
@@ -71,7 +69,7 @@ namespace Ironbug.HVAC
                 newObj.AddToDemandSide(d.Duplicate() as IB_HVACObject)
                 );
 
-            newObj.SetSizingSystem(this._SizingSystem.Duplicate() as IB_SizingSystem);
+            newObj.SetSizingSystem(this.SizingSystem.Duplicate() as IB_SizingSystem);
 
             return newObj;
         }
@@ -81,7 +79,7 @@ namespace Ironbug.HVAC
             this.CheckSupplySide(this.supplyComponents);
             
             var airLoopHVAC = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            this._SizingSystem.ToOS(airLoopHVAC);
+            this.SizingSystem.ToOS(airLoopHVAC);
             
             this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
             this.AddDemandObjects(airLoopHVAC, this.demandComponents);

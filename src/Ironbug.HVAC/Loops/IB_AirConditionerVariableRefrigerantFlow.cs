@@ -3,6 +3,7 @@ using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
@@ -10,6 +11,7 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirConditionerVariableRefrigerantFlow();
 
+        [DataMember]
         public List<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow> Terminals { get; private set; } 
             = new List<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow>();
 

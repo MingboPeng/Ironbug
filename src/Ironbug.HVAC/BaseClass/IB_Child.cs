@@ -24,7 +24,7 @@ namespace Ironbug.HVAC
     ///// <param name="child2"></param>
     //public delegate void RelationWithChild<T, K>(T child1, K child2) where T : IB_ModelObject where K : IB_ModelObject;
 
-    public class IB_Child
+    public class IB_Child : IEquatable<IB_Child>
     {
         private IB_ModelObject IB_Obj;
         //private Action<IB_ModelObject> linkAction;
@@ -69,8 +69,21 @@ namespace Ironbug.HVAC
             return IB_Obj;
         }
 
-        
+        public bool Equals(IB_Child other)
+        {
+            if (other is null)
+                return this is null ? true : false;
+            return this.IB_Obj.Equals(other.Get());
         }
+        public static bool operator ==(IB_Child x, IB_Child y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(IB_Child x, IB_Child y) => !(x == y);
+    }
 
     //    public class IB_Child<T>: IIB_Child where T : IB_ModelObject
     //{

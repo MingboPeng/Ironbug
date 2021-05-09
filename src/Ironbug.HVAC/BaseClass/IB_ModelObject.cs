@@ -4,23 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
 using Ironbug.HVAC;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
-
-    public abstract class IB_ModelObject : IIB_ModelObject
+    [DataContract]
+    public abstract class IB_ModelObject : IIB_ModelObject, IEquatable<IB_ModelObject>
     {
         public string Memo { get; set; }
         public IEnumerable<string> SimulationOutputVariables { get; }
         public static bool IPUnit { get; set; } = false;
         //public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
+        [DataMember]
         public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
 
         //public IB_PuppetableState CurrentState { get; private set; }
-        public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
-        protected ModelObject GhostOSObject { get; private set; }
+        [DataMember]
+        public IB_FieldArgumentSet CustomAttributes { get; private set; } = new IB_FieldArgumentSet();
+        //public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
+   
 
+        protected ModelObject GhostOSObject { get; private set; }
+        [DataMember]
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
 
         private IList<string> RefObjects { get; set; } = new List<string>();
@@ -189,12 +195,12 @@ namespace Ironbug.HVAC.BaseClass
         {
             //var attributeName = "setComment";
             var ib_field = IB_Field_Comment.Instance;
-            
+
             var data = CreateUID();
 
             this.SetFieldValue(ib_field, data);
-            //this.CustomAttributes.TryAdd(ib_field, data);
-            //this.GhostOSObject.setComment(data);
+
+
             return data;
 
         }
@@ -359,9 +365,16 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         
-
+        public string ToJson()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
      
-
+     
+        public static T FromJson<T>(string json) where T: IB_ModelObject
+        {
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, IB_JsonSetting.ConvertSetting);
+        }
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
         //{
         //    var realObj = GetFromModelfunc.Invoke();
@@ -388,7 +401,7 @@ namespace Ironbug.HVAC.BaseClass
 
             foreach (var item in this.CustomAttributes)
             {
-                newObj.CustomAttributes.TryAdd(item.Key, item.Value);
+                newObj.CustomAttributes.TryAdd(item.Field, item.Value);
             }
 
             newObj.UpdateOSModelObjectWithCustomAttr();
@@ -450,13 +463,29 @@ namespace Ironbug.HVAC.BaseClass
         private static string CreateUID()
         {
             var idKey = "TrackingID:#[";
-            var uid = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Replace("=", "").Replace("/", "").Replace("+", "").Substring(0, 8);
+            var uid = Guid.NewGuid().ToString().Substring(0, 8);
             var trackingID = String.Format("{0}{1}{2}", idKey, uid, "]");
 
             return trackingID;
         }
 
-        
+        public bool Equals(IB_ModelObject other)
+        {
+            if (other is null)
+                return this is null ? true : false;
+            var same = this.CustomAttributes.SequenceEqual(other.CustomAttributes);
+            same &= this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables);
+            same &= this.Children.SequenceEqual(other.Children);
+            same &= this.GetType() == other.GetType();
+            return same;
+        }
+        public static bool operator ==(IB_ModelObject x, IB_ModelObject y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
 
+        public static bool operator !=(IB_ModelObject x, IB_ModelObject y) => !(x == y);
     }
 }

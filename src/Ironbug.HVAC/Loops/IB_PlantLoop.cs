@@ -3,6 +3,7 @@ using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
@@ -10,10 +11,8 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantLoop();
 
-        private List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
-        private List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
-
-        private IB_SizingPlant IB_SizingPlant { get; set; } = new IB_SizingPlant();
+        [DataMember]
+        public IB_SizingPlant SizingPlant { get; private set; } = new IB_SizingPlant();
         
         private static PlantLoop NewDefaultOpsObj(Model model) => new PlantLoop(model);
         public IB_PlantLoop() : base(NewDefaultOpsObj(new Model()))
@@ -21,7 +20,7 @@ namespace Ironbug.HVAC
         }
         public void SetSizingPlant(IB_SizingPlant sizing)
         {
-            this.IB_SizingPlant = sizing;
+            this.SizingPlant = sizing;
             //var obj = this.GhostOSObject as PlantLoop;
             //this.IB_SizingPlant.ToOS(this.GhostOSObject as PlantLoop);
             
@@ -59,7 +58,7 @@ namespace Ironbug.HVAC
         {
             var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
 
-            IB_SizingPlant.ToOS(plant);
+            SizingPlant.ToOS(plant);
 
             this.AddSupplyObjects(plant, this.supplyComponents);
 
@@ -94,7 +93,7 @@ namespace Ironbug.HVAC
                 newObj.AddToDemand(d.Duplicate() as IB_HVACObject)
                 );
 
-            newObj.SetSizingPlant((IB_SizingPlant)this.IB_SizingPlant.Duplicate());
+            newObj.SetSizingPlant((IB_SizingPlant)this.SizingPlant.Duplicate());
 
             return newObj;
         }

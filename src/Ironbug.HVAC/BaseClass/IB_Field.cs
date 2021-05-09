@@ -4,20 +4,27 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_Field : IEqualityComparer<IB_Field>
+    [DataContract]
+    public class IB_Field : IEquatable<IB_Field>
     {
         public string FULLNAME => FullName.ToUpper();
+        [DataMember]
         public string FullName { get; private set; }
         public string PerfectName { get; private set; }
         public string NickName { get; set; }
         //public string GetterMethodName { get; protected set; }
         //public string SetterMethodName { get; protected set; }
+      
         public MethodInfo SetterMethod { get;  set; } = null;
-        public Type DataType { get;  set; } = typeof(string);
+        [DataMember]
+        public string DataTypeName { get;  set; } = typeof(string).FullName;
+
+        public Type DataType => Type.GetType(DataTypeName);
         //public bool IsHidden { get; set; }
 
         public IEnumerable<string> ValidData { get; private set; } = new List<string>();
@@ -34,7 +41,7 @@ namespace Ironbug.HVAC.BaseClass
             : this(opsSetterMethod.Name.Substring(3), string.Empty)
         {
             //TODO: check Curve type
-            this.DataType = opsSetterMethod.GetParameters().First().ParameterType;
+            this.DataTypeName = opsSetterMethod.GetParameters().First().ParameterType.FullName;
             this.SetterMethod = opsSetterMethod;
 
         }
@@ -43,7 +50,7 @@ namespace Ironbug.HVAC.BaseClass
             : this(otherField.FullName, otherField.NickName)
         {
 
-            this.DataType = otherField.DataType;
+            this.DataTypeName = otherField.DataType.FullName;
             this.SetterMethod = otherField.SetterMethod;
             this.Description = otherField.Description;
             
@@ -233,11 +240,27 @@ namespace Ironbug.HVAC.BaseClass
             }
             
         }
-
-        public bool Equals(IB_Field x, IB_Field y)
+    
+        public bool Equals(IB_Field other)
         {
-            return x.FullName == y.FullName && x.DataType == y.DataType;
+            return this.FullName == other.FullName && this.DataType == other.DataType;
         }
+        public override bool Equals(object obj)
+        {
+            var y = obj as IB_Field;
+            if (y is null)
+                return this is null ? true : false;
+            return this.Equals(y);
+        }
+
+        public static bool operator ==(IB_Field x, IB_Field y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(IB_Field x, IB_Field y) => !(x == y);
 
         public int GetHashCode(IB_Field obj)
         {
@@ -249,7 +272,7 @@ namespace Ironbug.HVAC.BaseClass
             return this.PerfectName;
         }
 
-
+      
     }
 
     /// <summary>

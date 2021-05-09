@@ -1,14 +1,19 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
     public class IB_HVACSystem
     {
+        [DataMember]
         public List<IB_AirLoopHVAC> AirLoops { get; private set; }
+        [DataMember]
         public List<IB_PlantLoop> PlantLoops { get; private set; }
+        [DataMember]
         public List<IB_AirConditionerVariableRefrigerantFlow> VariableRefrigerantFlows { get; private set; }
 
         private string _existFile = "";
@@ -34,6 +39,23 @@ namespace Ironbug.HVAC
                 _existFile = existing[0];
             }
 
+        }
+
+        public string SaveAsIBJson(string path)
+        {
+            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+          
+            using (StreamWriter file = new StreamWriter(path, true))
+            {
+                file.Write(json);
+            }
+            return path;
+        }
+
+        public static IB_HVACSystem FromIBJson(string json)
+        {
+            var hvac = JsonConvert.DeserializeObject<IB_HVACSystem>(json, IB_JsonSetting.ConvertSetting);
+            return hvac;
         }
 
         /// <summary>

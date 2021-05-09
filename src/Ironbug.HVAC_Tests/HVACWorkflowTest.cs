@@ -259,10 +259,7 @@ namespace Ironbug.HVACTests
             plant.SetSizingPlant(sizing);
 
             var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
-            if (!plant.CustomAttributes.ContainsKey(plantFields.Name))
-            {
-                plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
-            }
+            plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
             plant.SetFieldValue(plantFields.FluidType, "Water");
 
             var newPlant = plant.Duplicate() as IB_PlantLoop;

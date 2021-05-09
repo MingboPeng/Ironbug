@@ -8,7 +8,7 @@ namespace Ironbug.HVAC
     {
         //IB_PuppetableState CurrentState { get; }
         //void ChangeState(IB_PuppetableState newState);
-        Dictionary<IB_Field, object> CustomAttributes { get; }
+        IB_FieldArgumentSet CustomAttributes { get; }
 
         IB_ModelObject Duplicate();
         //IB_ModelObject DuplicateAsPuppet();
