@@ -18,7 +18,7 @@ namespace Ironbug.HVAC.BaseClass
             }
             internal set
             {
-                _value = Convert.ChangeType(value, Field.DataType);
+                _value = value.GetType().IsSubclassOf(typeof(IB_ModelObject)) ? value: Convert.ChangeType(value, Field.DataType);
             }
         }
         public IB_FieldArgument(IB_Field field, object value)

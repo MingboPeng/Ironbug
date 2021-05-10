@@ -206,7 +206,7 @@ namespace Ironbug.HVACTests
             var coil = new HVAC.IB_CoilHeatingWater();
             var fan = new IB_FanConstantVolume();
 
-            var f = new IB_Field("LatentEffectivenessat100CoolingAirFlow", "LatentEffectivenessat100CoolingAirFlow");
+            var f = new IB_Field("LatentEffectivenessat100CoolingAirFlow", "LatentEffectivenessat100CoolingAirFlow", typeof(double));
             erv.SetFieldValue(f, 0.555);
 
 

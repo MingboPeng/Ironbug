@@ -13,6 +13,18 @@ namespace Ironbug.HVACTests
     {
 
         private string GenFileName => TestHelper.GenFileName;
+        [Test]
+        public void CurveType_Test()
+        {
+            var fSet = HVAC.Curves.IB_CurveCubic_FieldSet.Value;
+            Assert.IsTrue(fSet.Coefficient1Constant.DataType == typeof(double));
+
+            var curve = IB_BoilerHotWater_FieldSet.Value.NormalizedBoilerEfficiencyCurve;
+            Assert.IsTrue(curve.DataType == typeof(OpenStudio.Curve));
+
+            Assert.IsTrue(typeof(OpenStudio.Curve).IsAssignableFrom(typeof(OpenStudio.CurveCubic)));
+            Assert.IsTrue(typeof(OpenStudio.CurveCubic).IsSubclassOf(typeof(OpenStudio.Curve)));
+        }
 
         [Test]
         public void IB_Curve_GetMethodTest()

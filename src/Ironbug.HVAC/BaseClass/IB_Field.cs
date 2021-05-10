@@ -38,24 +38,33 @@ namespace Ironbug.HVAC.BaseClass
         public string UnitSI { get; set; }
         public string UnitIP { get; set; }
         internal IB_Field(MethodInfo opsSetterMethod)
-            : this(opsSetterMethod.Name.Substring(3), string.Empty)
+            : this(opsSetterMethod.Name.Substring(3), string.Empty, opsSetterMethod.GetParameters().First().ParameterType)
         {
             //TODO: check Curve type
-            this.DataTypeName = opsSetterMethod.GetParameters().First().ParameterType.FullName;
             this.SetterMethod = opsSetterMethod;
-
         }
 
         protected IB_Field(IB_Field otherField)
-            : this(otherField.FullName, otherField.NickName)
+            : this(otherField.FullName, otherField.NickName, otherField.DataType)
         {
-
-            this.DataTypeName = otherField.DataType.FullName;
             this.SetterMethod = otherField.SetterMethod;
             this.Description = otherField.Description;
-            
         }
+        public IB_Field(string fullName, string nickName, Type valueType = default)
+        {
 
+            this.FullName = CheckInputFullName(fullName);//RatedInletWaterTemperature
+            this.NickName = string.IsNullOrEmpty(nickName) ? FullName : nickName; //InWaterTemp
+            this.PerfectName = MakePerfectName(this.FullName); ////Rated Inlet Water Temperature
+            this.DataTypeName = valueType == default ? typeof(string).FullName : valueType.FullName;
+
+            //var assembly = valueType.Assembly.GetName().Name;
+            if (this.DataTypeName.StartsWith("OpenStudio."))
+            {
+                this.DataTypeName = $"{this.DataTypeName}, OpenStudio";
+            }
+
+        }
         public void AddDescriptionFromEpNote(string EpNote)
         {
             var dec = string.Empty;
@@ -187,14 +196,7 @@ namespace Ironbug.HVAC.BaseClass
         }
 
 
-        public IB_Field(string fullName, string nickName)
-        {
-            
-            this.FullName = CheckInputFullName(fullName);//RatedInletWaterTemperature
-            this.NickName = string.IsNullOrEmpty(nickName) ? FullName : nickName; //InWaterTemp
-            this.PerfectName = MakePerfectName(this.FullName); ////Rated Inlet Water Temperature
-            
-        }
+      
         
         private static string CheckInputFullName(string fullName)
         {
