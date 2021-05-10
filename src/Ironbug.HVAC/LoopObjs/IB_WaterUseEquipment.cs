@@ -8,7 +8,7 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterUseEquipment(this.waterUseLoad);
 
-        private IB_WaterUseEquipmentDefinition waterUseLoad => this.Children.Get<IB_WaterUseEquipmentDefinition>();
+        private IB_WaterUseEquipmentDefinition waterUseLoad => this.GetChild<IB_WaterUseEquipmentDefinition>();
         private string spaceName { get; set; } = string.Empty;
 
         private static WaterUseEquipment NewDefaultOpsObj(Model model) => new WaterUseEquipment(new WaterUseEquipmentDefinition(model));

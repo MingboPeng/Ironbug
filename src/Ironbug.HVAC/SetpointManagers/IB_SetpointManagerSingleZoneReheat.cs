@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerSingleZoneReheat NewDefaultOpsObj(Model model) 
             => new SetpointManagerSingleZoneReheat(model);
 
-        private IB_ThermalZone ControlZone => this.Children.Get<IB_ThermalZone>();
+        private IB_ThermalZone ControlZone => this.GetChild<IB_ThermalZone>();
         public IB_SetpointManagerSingleZoneReheat(IB_ThermalZone thermalZone) : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(thermalZone);

@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerOutdoorAir();
 
         private static ControllerOutdoorAir NewDefaultOpsObj(Model model) => new ControllerOutdoorAir(model);
-        private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.Children.Get<IB_ControllerMechanicalVentilation>();
+        private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.GetChild<IB_ControllerMechanicalVentilation>();
         public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_ControllerMechanicalVentilation());

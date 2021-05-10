@@ -6,8 +6,8 @@ namespace Ironbug.HVAC
 {
     public class IB_ZoneHVACLowTempRadiantVarFlow : BaseClass.IB_ZoneEquipment
     {
-        private IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil => this.Children.Get<IB_CoilHeatingLowTempRadiantVarFlow>();
-        private IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil => this.Children.Get<IB_CoilCoolingLowTempRadiantVarFlow>();
+        private IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil => this.GetChild<IB_CoilHeatingLowTempRadiantVarFlow>();
+        private IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil => this.GetChild<IB_CoilCoolingLowTempRadiantVarFlow>();
         
         protected override Func<IB_ModelObject> IB_InitSelf 
             => () => new IB_ZoneHVACLowTempRadiantVarFlow(HeatingCoil, CoolingCoil);

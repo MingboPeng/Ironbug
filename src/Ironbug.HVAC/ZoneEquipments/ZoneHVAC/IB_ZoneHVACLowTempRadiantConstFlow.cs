@@ -6,8 +6,8 @@ namespace Ironbug.HVAC
 {
     public class IB_ZoneHVACLowTempRadiantConstFlow : BaseClass.IB_ZoneEquipment
     {
-        private IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil => this.Children.Get<IB_CoilHeatingLowTempRadiantConstFlow>();
-        private IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil => this.Children.Get<IB_CoilCoolingLowTempRadiantConstFlow>(); 
+        private IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil => this.GetChild<IB_CoilHeatingLowTempRadiantConstFlow>();
+        private IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil => this.GetChild<IB_CoilCoolingLowTempRadiantConstFlow>(); 
         private double TubingLength;
 
 

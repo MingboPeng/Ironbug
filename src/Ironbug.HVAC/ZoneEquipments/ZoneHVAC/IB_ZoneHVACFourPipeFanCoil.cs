@@ -11,9 +11,9 @@ namespace Ironbug.HVAC
         private static ZoneHVACFourPipeFanCoil NewDefaultOpsObj(Model model)
             => new ZoneHVACFourPipeFanCoil(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilCoolingWater(model), new CoilHeatingWater(model));
 
-        private IB_CoilCoolingWater CoolingCoil => this.Children.Get<IB_CoilCoolingWater>();
-        private IB_CoilHeatingWater HeatingCoil => this.Children.Get<IB_CoilHeatingWater>();
-        private IB_Fan Fan => this.Children.Get<IB_Fan>();
+        private IB_CoilCoolingWater CoolingCoil => this.GetChild<IB_CoilCoolingWater>();
+        private IB_CoilHeatingWater HeatingCoil => this.GetChild<IB_CoilHeatingWater>();
+        private IB_Fan Fan => this.GetChild<IB_Fan>();
 
         public IB_ZoneHVACFourPipeFanCoil() : base(NewDefaultOpsObj(new Model()))
         {

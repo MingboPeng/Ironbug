@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         private double _value = 12.7778; //55F
         private bool _isTemperature = true;
 
-        //private IB_ScheduleRuleset _schedule => this.Children.Get<IB_ScheduleRuleset>();
+        //private IB_ScheduleRuleset _schedule => this.GetChild<IB_ScheduleRuleset>();
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerScheduled(this._value);
 
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, double temp)

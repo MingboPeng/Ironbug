@@ -322,14 +322,14 @@ namespace Ironbug.HVACTests
             var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
             reHeatPuppet1.SetTrackingID();
             zone1.SetAirTerminal(reHeatPuppet1);
-            var firstCoilID = reHeatPuppet1.Children.First().Get().GetTrackingID();
+            var firstCoilID = reHeatPuppet1.Children.First().GetTrackingID();
             Console.WriteLine($"ReheatCoil 1: {firstCoilID}");
          
 
             var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
             reHeatPuppet2.SetTrackingID();
             zone2.SetAirTerminal(reHeatPuppet2);
-            var secondCoilID = reHeatPuppet2.Children.First().Get().GetTrackingID();
+            var secondCoilID = reHeatPuppet2.Children.First().GetTrackingID();
             Console.WriteLine($"ReheatCoil 2: {secondCoilID}");
 
             var airBranches = new IB_AirLoopBranches();

@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.Schedules
             => new ScheduleRule(new ScheduleRuleset(model));
 
 
-        public IB_ScheduleDay ScheduleDay => this.Children.Get<IB_ScheduleDay>();
+        public IB_ScheduleDay ScheduleDay => this.GetChild<IB_ScheduleDay>();
 
         private (int sMonth, int sDay, int eMonth, int eDay) _DateRange = (1, 1, 12, 31);
         public IB_ScheduleRule() : base(InitMethod(new Model()))

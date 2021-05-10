@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
 
         private static CentralHeatPumpSystemModule NewDefaultOpsObj(Model model) => new CentralHeatPumpSystemModule(model);
 
-        private IB_ChillerHeaterPerformanceElectricEIR _chiller => this.Children.Get<IB_ChillerHeaterPerformanceElectricEIR>();
+        private IB_ChillerHeaterPerformanceElectricEIR _chiller => this.GetChild<IB_ChillerHeaterPerformanceElectricEIR>();
 
         public int NumberOfChillerHeaterModules { get; private set; }
 

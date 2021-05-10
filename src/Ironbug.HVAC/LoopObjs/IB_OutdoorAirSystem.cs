@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_OutdoorAirSystem();
         private static AirLoopHVACOutdoorAirSystem NewDefaultOpsObj(Model model) 
             => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
-        private IB_ControllerOutdoorAir ControllerOutdoorAir => this.Children.Get<IB_ControllerOutdoorAir>();
+        private IB_ControllerOutdoorAir ControllerOutdoorAir => this.GetChild<IB_ControllerOutdoorAir>();
         
         private IList<IB_HVACObject> OAStreamObjs = new List<IB_HVACObject>();
         private IList<IB_HVACObject> ReliefStreamObjs = new List<IB_HVACObject>();

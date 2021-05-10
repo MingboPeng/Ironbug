@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingWater();
 
         private static CoilHeatingWater NewDefaultOpsObj(Model model) => new CoilHeatingWater(model);
-        private IB_ControllerWaterCoil Controller => this.Children.Get<IB_ControllerWaterCoil>();
+        private IB_ControllerWaterCoil Controller => this.GetChild<IB_ControllerWaterCoil>();
         public IB_CoilHeatingWater() : base(NewDefaultOpsObj(new Model()))
         {
         }

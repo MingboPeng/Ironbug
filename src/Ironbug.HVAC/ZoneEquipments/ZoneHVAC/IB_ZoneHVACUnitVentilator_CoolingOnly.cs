@@ -9,8 +9,8 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ZoneHVACUnitVentilator_CoolingOnly();
 
         private static ZoneHVACUnitVentilator NewDefaultOpsObj(Model model) => new ZoneHVACUnitVentilator(model);
-        private IB_CoilBasic CoolingCoil => this.Children.Get<IB_CoilCoolingBasic>();
-        private IB_Fan Fan => this.Children.Get<IB_Fan>();
+        private IB_CoilBasic CoolingCoil => this.GetChild<IB_CoilCoolingBasic>();
+        private IB_Fan Fan => this.GetChild<IB_Fan>();
 
         public IB_ZoneHVACUnitVentilator_CoolingOnly() : base(NewDefaultOpsObj(new Model()))
         {

@@ -10,8 +10,8 @@ namespace Ironbug.HVAC
         private static AirTerminalSingleDuctParallelPIUReheat NewDefaultOpsObj(Model model) =>
             new AirTerminalSingleDuctParallelPIUReheat(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilHeatingElectric(model));
 
-        private IB_CoilBasic ReheatCoil => this.Children.Get<IB_CoilHeatingBasic>();
-        private IB_Fan Fan => this.Children.Get<IB_Fan>();
+        private IB_CoilBasic ReheatCoil => this.GetChild<IB_CoilHeatingBasic>();
+        private IB_Fan Fan => this.GetChild<IB_Fan>();
         
         
         public IB_AirTerminalSingleDuctParallelPIUReheat() : base(NewDefaultOpsObj(new Model()))

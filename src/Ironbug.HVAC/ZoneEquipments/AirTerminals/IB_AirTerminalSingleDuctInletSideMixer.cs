@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static AirTerminalSingleDuctInletSideMixer NewDefaultOpsObj(Model model) => new AirTerminalSingleDuctInletSideMixer(model);
 
-        public IB_ZoneEquipment MixedZoneEquip => this.Children.Get<IB_ZoneEquipment>();
+        public IB_ZoneEquipment MixedZoneEquip => this.GetChild<IB_ZoneEquipment>();
 
         public IB_AirTerminalSingleDuctInletSideMixer(IB_ZoneEquipment ZoneEquipMixedWith) : base(NewDefaultOpsObj(new Model()))
         {

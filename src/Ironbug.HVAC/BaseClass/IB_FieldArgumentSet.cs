@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    [DataContract]
+    //[DataContract]
     public class IB_FieldArgumentSet: List<IB_FieldArgument>, System.IEquatable<IB_FieldArgumentSet>
     {
 
@@ -45,7 +46,7 @@ namespace Ironbug.HVAC.BaseClass
         public bool TryGetValue(IB_Field field, out object value)
         {
             var arg = this.FirstOrDefault(_ => _.Field == field);
-            value = arg.Value;
+            value = arg?.Value;
             return arg != null;
         }
         public bool Equals(IB_FieldArgumentSet other)
@@ -65,4 +66,5 @@ namespace Ironbug.HVAC.BaseClass
 
 
     }
+
 }

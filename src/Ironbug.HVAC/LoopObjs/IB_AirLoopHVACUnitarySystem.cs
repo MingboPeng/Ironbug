@@ -12,11 +12,11 @@ namespace Ironbug.HVAC
         private static AirLoopHVACUnitarySystem NewDefaultOpsObj(Model m) 
             => new AirLoopHVACUnitarySystem(m);
 
-        private IB_Coil _coolingCoil => this.Children.Get<IB_Coil>(0);
-        private IB_Coil _heatingCoil => this.Children.Get<IB_Coil>(1);
-        private IB_Fan _fan => this.Children.Get<IB_Fan>(2);
-        private IB_Coil _supplementalHeatingCoil => this.Children.Get<IB_Coil>(3);
-        private IB_ThermalZone _Zone => this.Children.Get<IB_ThermalZone>();
+        private IB_Coil _coolingCoil => this.GetChild<IB_Coil>(0);
+        private IB_Coil _heatingCoil => this.GetChild<IB_Coil>(1);
+        private IB_Fan _fan => this.GetChild<IB_Fan>(2);
+        private IB_Coil _supplementalHeatingCoil => this.GetChild<IB_Coil>(3);
+        private IB_ThermalZone _Zone => this.GetChild<IB_ThermalZone>();
 
         public IB_AirLoopHVACUnitarySystem(IB_ThermalZone ControllingZone) 
             : base(NewDefaultOpsObj(new Model()))

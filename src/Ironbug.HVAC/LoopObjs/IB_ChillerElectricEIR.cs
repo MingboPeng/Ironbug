@@ -26,9 +26,9 @@ namespace Ironbug.HVAC
         private static ChillerElectricEIR NewDefaultOpsObj(Model model, IB_CurveBiquadratic CCFofT, IB_CurveBiquadratic EItoCORFofT, IB_CurveQuadratic EItoCORFofPLR) 
             => new ChillerElectricEIR(model, CCFofT.ToOS(model) as CurveBiquadratic, EItoCORFofT.ToOS(model) as CurveBiquadratic, EItoCORFofPLR.ToOS(model) as CurveQuadratic);
 
-        private IB_CurveBiquadratic _CCFofT => this.Children.Get<IB_CurveBiquadratic>(0);
-        private IB_CurveBiquadratic _EItoCORFofT => this.Children.Get<IB_CurveBiquadratic>(1);
-        private IB_CurveQuadratic _EItoCORFofPLR => this.Children.Get<IB_CurveQuadratic>(2);
+        private IB_CurveBiquadratic _CCFofT => this.GetChild<IB_CurveBiquadratic>(0);
+        private IB_CurveBiquadratic _EItoCORFofT => this.GetChild<IB_CurveBiquadratic>(1);
+        private IB_CurveQuadratic _EItoCORFofPLR => this.GetChild<IB_CurveQuadratic>(2);
 
         public IB_ChillerElectricEIR() : base(NewDefaultOpsObj(new Model()))
         {

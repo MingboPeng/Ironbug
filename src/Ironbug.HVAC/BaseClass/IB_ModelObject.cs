@@ -17,7 +17,7 @@ namespace Ironbug.HVAC.BaseClass
         //public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
         [DataMember]
-        public IList<IB_Child> Children { get; private set; } = new List<IB_Child>();
+        public IB_Children Children { get; private set; } = new IB_Children();
 
         //public IB_PuppetableState CurrentState { get; private set; }
         [DataMember]
@@ -47,39 +47,25 @@ namespace Ironbug.HVAC.BaseClass
             this.CustomOutputVariables.AddRange(outputVariable);
         }
 
-        internal void AddChild(IB_ModelObject ChildObj)
-        {
-            var c = new IB_Child(ChildObj);
-            this.Children.Add(c);
-        }
+        internal void AddChild(IB_ModelObject childObj) => this.Children.Add(childObj);
 
-        internal void SetChild<T>(T ChildObj) where T:IB_ModelObject
-        {
-            this.Children.FirstOrDefault(_ => _.IsType(typeof(T))).Set(ChildObj);
-        }
-        internal void SetChild<T>(int ChildIndex, T ChildObj) where T : IB_ModelObject
-        {
-            var child = this.Children[ChildIndex];
-            if (child.IsType(typeof(T)))
-            {
-                child.Set(ChildObj);
-            }
-            else
-            {
-                throw new ArgumentException($"Set {ChildObj.GetType()} to {GhostOSObject.GetType()} failed!");
-            }
-        }
+        internal void SetChild<T>(T childObj) where T:IB_ModelObject => this.Children.SetChild(childObj);
+        internal void SetChild<T>(int childIndex, T childObj) where T : IB_ModelObject => this.Children.SetChild(childIndex, childObj);
+
+        public T GetChild<T>() where T : IB_ModelObject => this.Children.GetChild<T>();
+
+        public T GetChild<T>(int childIndex) where T : IB_ModelObject => this.Children.GetChild<T>(childIndex);
 
         //public void ChangeState(IB_PuppetableState newState)
         //{
         //    this.CurrentState = newState;
         //}
-        
+
         //public bool IsPuppetHost()
         //{
         //    return this.CurrentState is IB_PuppetableState_Host;
         //}
-        
+
         //public IB_ModelObject ToPuppetHost()
         //{
         //    this.CurrentState.ToPuppetHost();
@@ -116,7 +102,7 @@ namespace Ironbug.HVAC.BaseClass
         //{
 
         //    var puppet = DuplicateAsPuppet(IB_InitSelf);
-            
+
         //    puppet.Children.Clear();
         //    foreach (var child in this.Children)
         //    {
@@ -149,9 +135,9 @@ namespace Ironbug.HVAC.BaseClass
 
         //    }
         //}
-        
-        
-        
+
+
+
 
         //public IList<IIB_ModelObject> GetPuppetsOrSelf()
         //{
@@ -365,9 +351,10 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         
-        public string ToJson()
+        public string ToJson(bool indented = false)
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            var format = indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
         }
      
      

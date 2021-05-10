@@ -18,6 +18,34 @@ namespace Ironbug.HVACTests
             //var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>() { }, new List<IB_PlantLoop>(), new List<IB_AirConditionerVariableRefrigerantFlow>() { });
             //hvac.SaveAsIBJson();
 
+        }
+        
+        [Test]
+        public void Children_Test()
+        {
+            //var vrfSys = new IB_AirConditionerVariableRefrigerantFlow();
+          
+            var coolingCoil = new IB_CoilCoolingDXVariableRefrigerantFlow();
+            var heatingCoil = new IB_CoilHeatingDXVariableRefrigerantFlow();
+            var fan = new IB_FanOnOff();
+            var vrf = new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(coolingCoil, heatingCoil, fan);
+
+            //vrfSys.AddTerminal(vrf);
+            var jsonFan = fan.ToJson(true);
+            var jsonCCoil = coolingCoil.ToJson(true);
+            var jsonHCoil = heatingCoil.ToJson(true);
+        
+
+            var json = vrf.ToJson(true);
+            var newVrf = IB_ModelObject.FromJson<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow>(json);
+            Assert.IsTrue(newVrf == vrf);
+
+            var newCCoil = newVrf.GetChild<IB_CoilCoolingDXVariableRefrigerantFlow>();
+            Assert.IsTrue(newCCoil == coolingCoil);
+            var newHCoil = newVrf.GetChild<IB_CoilHeatingDXVariableRefrigerantFlow>();
+            Assert.IsTrue(newHCoil == heatingCoil);
+            var newFan = newVrf.GetChild<IB_FanOnOff>();
+            Assert.IsTrue(newFan == fan);
 
         }
 
@@ -74,9 +102,10 @@ namespace Ironbug.HVACTests
             dis.TryAdd(szFields.LoopType, "Heating");
             dis.TryAdd(szFields.DesignLoopExitTemperature, 25D);
 
-            var json = JsonConvert.SerializeObject(dis, Formatting.Indented);
 
-            var readDis = JsonConvert.DeserializeObject<IB_FieldArgumentSet>(json);
+            var json = JsonConvert.SerializeObject(dis, Formatting.Indented, IB_JsonSetting.ConvertSetting);
+
+            var readDis = JsonConvert.DeserializeObject<IB_FieldArgumentSet>(json, IB_JsonSetting.ConvertSetting);
             Assert.IsTrue(readDis != null);
 
             Assert.IsTrue(readDis.TryGetValue(szFields.LoopType, out var l));
@@ -84,6 +113,24 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(readDis.TryGetValue(szFields.DesignLoopExitTemperature, out var t));
             Assert.IsTrue(t.Equals(25D));
             Assert.IsTrue(readDis.Equals(dis));
+        }
+
+        [Test]
+        public void FieldArgumentList_Test()
+        {
+            var args = new List<IB_FieldArgument>();
+            var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
+            args.Add(new IB_FieldArgument(szFields.LoopType, "Heating"));
+            args.Add(new IB_FieldArgument(szFields.DesignLoopExitTemperature, 25D));
+
+
+            var json = JsonConvert.SerializeObject(args, Formatting.Indented, IB_JsonSetting.ConvertSetting);
+
+            var readDis = JsonConvert.DeserializeObject<List<IB_FieldArgument>>(json, IB_JsonSetting.ConvertSetting);
+            Assert.IsTrue(readDis != null);
+
+            Assert.IsTrue(readDis[0].Value.ToString() == "Heating");
+            Assert.IsTrue(readDis[1].Value.Equals(25D));
         }
 
         [Test]

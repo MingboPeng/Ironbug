@@ -14,8 +14,8 @@ namespace Ironbug.HVAC
         
         //Associated with child object 
         //optional if there is no child 
-        private IB_CoilCoolingWater CoolingCoil => this.Children.Get<IB_CoilCoolingWater>();
-        private IB_CoilHeatingWater HeatingCoil => this.Children.Get<IB_CoilHeatingWater>();
+        private IB_CoilCoolingWater CoolingCoil => this.GetChild<IB_CoilCoolingWater>();
+        private IB_CoilHeatingWater HeatingCoil => this.GetChild<IB_CoilHeatingWater>();
         //optional if there is no child 
         public void SetCoolingCoil(IB_CoilCoolingWater coil)
         {

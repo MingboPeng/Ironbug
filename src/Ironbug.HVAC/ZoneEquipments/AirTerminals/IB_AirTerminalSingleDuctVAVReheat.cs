@@ -15,7 +15,7 @@ namespace Ironbug.HVAC
 
         //Associated child object
         //optional if there is no child
-        private IB_CoilBasic ReheatCoil => this.Children.Get<IB_CoilHeatingBasic>();
+        private IB_CoilBasic ReheatCoil => this.GetChild<IB_CoilHeatingBasic>();
 
         //optional if there is no child
         public void SetReheatCoil(IB_CoilHeatingBasic ReheatCoil) => this.SetChild(ReheatCoil);

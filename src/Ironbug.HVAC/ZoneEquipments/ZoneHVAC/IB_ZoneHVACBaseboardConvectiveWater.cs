@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static ZoneHVACBaseboardConvectiveWater NewDefaultOpsObj(Model model) 
             => new ZoneHVACBaseboardConvectiveWater(model, model.alwaysOnDiscreteSchedule(), new CoilHeatingWaterBaseboard(model));
 
-        private IB_CoilHeatingWaterBaseboard HeatingCoil => this.Children.Get<IB_CoilHeatingWaterBaseboard>();
+        private IB_CoilHeatingWaterBaseboard HeatingCoil => this.GetChild<IB_CoilHeatingWaterBaseboard>();
 
         public IB_ZoneHVACBaseboardConvectiveWater() : base(NewDefaultOpsObj(new Model()))
         {

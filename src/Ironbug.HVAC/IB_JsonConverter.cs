@@ -1,4 +1,5 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using Ironbug.HVAC;
+using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -7,9 +8,9 @@ using System.Linq;
 
 namespace Ironbug
 {
-    public class IB_JsonConverter : JsonConverter<IB_FieldArgumentSet>
+    public class IB_JsonConverter_FieldArgSet : JsonConverter<IB_FieldArgumentSet>
     {
-        public IB_JsonConverter()
+        public IB_JsonConverter_FieldArgSet()
         {
         }
 
@@ -22,8 +23,49 @@ namespace Ironbug
 
         public override void WriteJson(JsonWriter writer, IB_FieldArgumentSet value, JsonSerializer serializer)
         {
-            JToken t = JToken.FromObject(value, serializer);
+            JArray t = new JArray(value.Select(_ => JToken.FromObject(_, serializer)));
             t.WriteTo(writer);
+        }
+    }
+
+    public class IB_JsonConverter_Children : JsonConverter<IB_Children>
+    {
+        public IB_JsonConverter_Children()
+        {
+        }
+
+        public override IB_Children ReadJson(JsonReader reader, Type objectType, IB_Children existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var array = JArray.Load(reader);
+            var children = new IB_Children();
+            foreach (var item in array)
+            {
+                var typeName = item["ChildType"].ToString();
+                var type = Type.GetType(typeName);
+                var child = item.ToObject(type, serializer) as IB_ModelObject;
+                children.Add(child);
+            }
+            return children;
+
+        }
+
+        public override void WriteJson(JsonWriter writer, IB_Children value, JsonSerializer serializer)
+        {
+            JArray array = new JArray();
+            foreach (var item in value)
+            {
+                var t = JToken.FromObject(item, serializer);
+                t["ChildType"] = item.GetType().FullName;
+                array.Add(t);
+            }
+
+            //JArray t = new JArray(value.Select(_ => JToken.FromObject(_, serializer)));
+            array.WriteTo(writer);
+
+
+            //JToken t = JToken.FromObject(value, serializer);
+            //t["ChildType"] = value.GetType().FullName;
+            //t.WriteTo(writer);
         }
     }
 }
