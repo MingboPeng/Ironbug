@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
         bool IsInModel(Model model);
         void SetFieldValue(IB_Field dataField, object value);
         void SetFieldValues(Dictionary<IB_Field, object> DataFields);
-        string SetTrackingID();
+        string SetTrackingID(string id = default);
         string ToString();
     }
 }

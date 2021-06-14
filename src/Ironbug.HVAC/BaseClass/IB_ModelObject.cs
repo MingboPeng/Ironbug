@@ -13,6 +13,8 @@ namespace Ironbug.HVAC.BaseClass
     {
         public string Memo { get; set; }
         public IEnumerable<string> SimulationOutputVariables { get; }
+        public Dictionary<string, string> EmsActuators { get; }
+        public IEnumerable<string> EmsInternalVariables{ get; }
         public static bool IPUnit { get; set; } = false;
         //public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
@@ -28,7 +30,12 @@ namespace Ironbug.HVAC.BaseClass
         protected ModelObject GhostOSObject { get; private set; }
         [DataMember]
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
-
+        [DataMember]
+        public List<IB_EnergyManagementSystemSensor> CustomSensors { get; private set; } = new List<IB_EnergyManagementSystemSensor>();
+        [DataMember]
+        public List<IB_EnergyManagementSystemInternalVariable> CustomInternalVariables { get; private set; } = new List<IB_EnergyManagementSystemInternalVariable>();
+        [DataMember]
+        public List<IB_EnergyManagementSystemActuator> CustomActuators { get; private set; } = new List<IB_EnergyManagementSystemActuator>();
         private IList<string> RefObjects { get; set; } = new List<string>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
@@ -36,6 +43,9 @@ namespace Ironbug.HVAC.BaseClass
             this.GhostOSObject = GhostOSObject;
             this.SetTrackingID();
             this.SimulationOutputVariables = GhostOSObject.outputVariableNames();
+            this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.controlTypeName(), v => v.componentTypeName());
+            this.EmsInternalVariables = GhostOSObject.emsInternalVariableNames();
+
         }
 
         public void AddOutputVariables(List<IB_OutputVariable> outputVariable)
@@ -46,7 +56,21 @@ namespace Ironbug.HVAC.BaseClass
             }
             this.CustomOutputVariables.AddRange(outputVariable);
         }
-
+        public void AddEMSSensors(List<IB_EnergyManagementSystemSensor> sensors)
+        {
+            if (sensors is null) return;
+            this.CustomSensors.AddRange(sensors);
+        }
+        public void AddEMSInternalVariables(List<IB_EnergyManagementSystemInternalVariable> internalVariables)
+        {
+            if (internalVariables is null) return;
+            this.CustomInternalVariables.AddRange(internalVariables);
+        }
+        public void AddEMSActuators(List<IB_EnergyManagementSystemActuator> actuators)
+        {
+            if (actuators is null) return;
+            this.CustomActuators.AddRange(actuators);
+        }
         internal void AddChild(IB_ModelObject childObj) => this.Children.Add(childObj);
 
         internal void SetChild<T>(T childObj) where T:IB_ModelObject => this.Children.SetChild(childObj);
@@ -177,15 +201,16 @@ namespace Ironbug.HVAC.BaseClass
         //    return this.GhostOSObject.GetDataFieldValue(fieldName);
         //}
 
-        public string SetTrackingID()
+        public string SetTrackingID(string id = default)
         {
             //var attributeName = "setComment";
             var ib_field = IB_Field_Comment.Instance;
 
-            var data = CreateUID();
+            var data = id ;
+            if (data == default(string))
+                data = CreateUID();
 
             this.SetFieldValue(ib_field, data);
-
 
             return data;
 
@@ -308,6 +333,9 @@ namespace Ironbug.HVAC.BaseClass
                 var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 obj.SetCustomAttributes(this.CustomAttributes);
                 obj.SetOutputVariables(this.CustomOutputVariables);
+                obj.AddEmsInternalVariables(this.CustomInternalVariables);
+                obj.AddEmsActuators(this.CustomActuators);
+                obj.AddEmsSensors(this.CustomSensors);
                 return obj;
             }
 
@@ -351,7 +379,7 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         
-        public string ToJson(bool indented = false)
+        public virtual string ToJson(bool indented = false)
         {
             var format = indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None;
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
