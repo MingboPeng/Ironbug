@@ -87,7 +87,7 @@ namespace Ironbug.Grasshopper.Component
             var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             var sizing = sizingPlant.Duplicate() as HVAC.IB_SizingPlant;
 
-            var custAtt = sizing.CustomAttributes.Select(_=>_.Key.FULLNAME);
+            var custAtt = sizing.CustomAttributes.Select(_=>_.Field.FULLNAME);
 
             sizing.SetFieldValue(szFields.LoopType, "Cooling");
             

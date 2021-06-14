@@ -140,6 +140,40 @@ namespace Ironbug.HVAC
             return invokeResult;
 
         }
+        public static bool AddEmsInternalVariables(this ModelObject component, IEnumerable<IB_EnergyManagementSystemInternalVariable> inVariables)
+        {
+            foreach (var item in inVariables)
+            {
+                var added = item.ToOS(component);
+                if (added == null)
+                    throw new ArgumentNullException("Failed to add EnergyManagementSystemInternalVariable");
+            }
+            return true;
+
+        }
+        public static bool AddEmsActuators(this ModelObject component, ICollection<IB_EnergyManagementSystemActuator> actuators)
+        {
+            foreach (var item in actuators)
+            {
+                var added = item.ToOS(component);
+                if (added == null)
+                    throw new ArgumentNullException("Failed to add EnergyManagementSystemActuator");
+            }
+            return true;
+        }
+
+        public static bool AddEmsSensors(this ModelObject component, ICollection<IB_EnergyManagementSystemSensor> sensors)
+        {
+            var md = component.model();
+            foreach (var item in sensors)
+            {
+                var added = item.ToOS(md);
+                if (added == null)
+                    throw new ArgumentNullException("Failed to add EnergyManagementSystemSensor");
+            }
+            return true;
+
+        }
         public static bool SetOutputVariables(this ModelObject component, ICollection<BaseClass.IB_OutputVariable> outputVariables)
         {
             var success = true;

@@ -146,5 +146,63 @@ namespace Ironbug.HVACTests
         }
 
 
+        [Test]
+        public void PlantComponentUserDefined()
+        {
+
+            var m = new OpenStudio.Model();
+            var p = new OpenStudio.PlantComponentUserDefined(m);
+
+
+            var dummy = new Node(m);
+            var act = new EnergyManagementSystemActuator(dummy, "Plant Connection 1", "Minimum Loading Capacity");
+            act.setName("new actuator");
+            p.setMinimumLoadingCapacityActuator(act);
+
+            var pManager = new EnergyManagementSystemProgramCallingManager(m);
+            pManager.setName("new program manager");
+            var program = new EnergyManagementSystemProgram(m);
+            program.setName("new program");
+            pManager.addProgram(program);
+
+            p.setPlantInitializationProgramCallingManager(pManager);
+
+
+
+            // get saving osm and read it back
+            var root = System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location);
+            var testOsm = System.IO.Path.Combine(root, "test.osm");
+            m.Save(testOsm);
+
+            //var m2 = OpenStudio.Model.load(testOsm.ToPath()).get();
+            //var uuid = OpenStudioUtilitiesCore.toUUID(newID);
+            //var found = m2.getCoilHeatingWater(uuid).get();
+            //Assert.IsTrue(found != null);
+            //Assert.IsTrue(found.nameString() == "My Coil");
+
+
+        }
+
+        [Test]
+        public void EmsActuators()
+        {
+
+            var m = new OpenStudio.Model();
+            var p = new OpenStudio.PlantComponentUserDefined(m);
+
+            var actuators = p.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
+            var internalVariables = p.emsInternalVariableNames().Select(_ => _.ToString());
+
+            var l = new PlantLoop(m);
+            var lAs = l.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
+            var livs = l.emsInternalVariableNames();
+            var lSensors = l.outputVariableNames();
+
+            var pump = new PumpVariableSpeed(m);
+            var pAs = pump.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
+            var pivs = pump.emsInternalVariableNames();
+            var pSensors = pump.outputVariableNames();
+        }
+
     }
 }

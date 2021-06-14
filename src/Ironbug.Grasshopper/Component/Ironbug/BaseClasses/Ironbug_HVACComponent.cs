@@ -135,6 +135,9 @@ namespace Ironbug.Grasshopper.Component
             var objParams = paramInput.VolatileData.get_Branch(branchIndex - 1);
             var inputP = (Dictionary<IB_Field, object>)null;
             var outputP = (List<IB_OutputVariable>)null;
+            var emsSensors = (List<HVAC.IB_EnergyManagementSystemSensor>)null;
+            var emsActuators = (List<HVAC.IB_EnergyManagementSystemActuator>)null;
+            var emsInVariables = (List<HVAC.IB_EnergyManagementSystemInternalVariable>)null;
             var paramSource = (List<string>)null;
 
             foreach (var ghitem in objParams)
@@ -147,19 +150,27 @@ namespace Ironbug.Grasshopper.Component
                 if (item.Value is Dictionary<IB_Field, object> inputParams)
                 {
                     if (inputParams.Count == 0) continue;
-                    if (inputP is null)
-                    {
-                        inputP = inputParams;
-                    }
+                    inputP = inputP ?? inputParams;
                 }
                 else if (item.Value is List<IB_OutputVariable> outputParams)
                 {
                     if (outputParams.Count == 0) continue;
-                    if (outputP is null)
-                    {
-                        outputP = outputParams;
-                    }
-
+                    outputP = outputP ?? outputParams;
+                }
+                else if (item.Value is List<HVAC.IB_EnergyManagementSystemSensor> sensors)
+                {
+                    if (sensors.Count == 0) continue;
+                    emsSensors = emsSensors ?? sensors;
+                }
+                else if (item.Value is List<HVAC.IB_EnergyManagementSystemActuator> actuators)
+                {
+                    if (actuators.Count == 0) continue;
+                    emsActuators = emsActuators ?? actuators;
+                }
+                else if (item.Value is List<HVAC.IB_EnergyManagementSystemInternalVariable> inVars)
+                {
+                    if (inVars.Count == 0) continue;
+                    emsInVariables = emsInVariables ?? inVars;
                 }
                 else if (item.Value is RefObject refObj)
                 {
@@ -183,7 +194,9 @@ namespace Ironbug.Grasshopper.Component
             IB_obj.SetRefObject(paramSource);
             IB_obj.SetFieldValues(inputP);
             IB_obj.AddOutputVariables(outputP);
-
+            IB_obj.AddEMSActuators(emsActuators);
+            IB_obj.AddEMSSensors(emsSensors);
+            IB_obj.AddEMSInternalVariables(emsInVariables);
 
         }
 
