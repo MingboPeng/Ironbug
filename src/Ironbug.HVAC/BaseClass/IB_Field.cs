@@ -245,6 +245,8 @@ namespace Ironbug.HVAC.BaseClass
     
         public bool Equals(IB_Field other)
         {
+            if (other == null)
+                return false;
             return this.FullName == other.FullName && this.DataType == other.DataType;
         }
         public override bool Equals(object obj)
