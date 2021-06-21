@@ -1,44 +1,37 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Ironbug.HVAC.BaseClass;
-//using OpenStudio;
+﻿using System;
+using Ironbug.HVAC.BaseClass;
+using OpenStudio;
 
-//namespace Ironbug.HVAC
-//{
-//    public class IB_EnergyManagementSystemMeteredOutputVariable : IB_ModelObject
-//    {
-//        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemMeteredOutputVariable();
+namespace Ironbug.HVAC
+{
+    public class IB_EnergyManagementSystemMeteredOutputVariable : IB_EnergyManagementSystemVariable
+    {
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemMeteredOutputVariable();
 
-//        private static EnergyManagementSystemMeteredOutputVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemMeteredOutputVariable(model);
-//        public IB_EnergyManagementSystemMeteredOutputVariable() : base(NewDefaultOpsObj(new Model()))
-//        {
-//        }
-//        private string _name { get; set; }
-//        private IB_MeteredOutput _MeteredOutput { get; set; }
-//        public void SetName(string name)
-//        {
-//            this._name = name;
-//            var p = this.GhostOSObject;
-//            p.setName(name);
-//        }
+        private static EnergyManagementSystemMeteredOutputVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemMeteredOutputVariable(model, "Elec");
+        public IB_EnergyManagementSystemMeteredOutputVariable() : base(NewDefaultOpsObj(new Model()))
+        {
+        }
+        private IB_EnergyManagementSystemProgram _program => this.GetChild<IB_EnergyManagementSystemProgram>(0);
+        public IB_EnergyManagementSystemMeteredOutputVariable(IB_EnergyManagementSystemProgram program) : base(NewDefaultOpsObj(new Model()))
+        {
+            this.AddChild(program);
+        }
+       
+        public override ModelObject ToOS(Model model)
+        {
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var p = this._program.GetOsmObjInModel(model) as EnergyManagementSystemProgram;
+            obj.setEMSProgramOrSubroutineName(p);
+            return obj;
+        }
 
-//        public void SetMeteredOutput(IB_MeteredOutput _MeteredOutput)
-//        {
-//            this._MeteredOutput = _MeteredOutput;
-//        }
+    }
+    public sealed class IB_EnergyManagementSystemMeteredOutputVariable_FieldSet
+       : IB_FieldSet<IB_EnergyManagementSystemMeteredOutputVariable_FieldSet, EnergyManagementSystemMeteredOutputVariable>
+    {
+        private IB_EnergyManagementSystemMeteredOutputVariable_FieldSet() { }
 
+    }
 
-//        public EnergyManagementSystemMeteredOutputVariable ToOS(Model model)
-//        {
-//            var MeteredOutput = _MeteredOutput.GetOsmObjInModel(model) as MeteredOutput;
-//            var obj = new EnergyManagementSystemMeteredOutputVariable(model, MeteredOutput);
-//            if (string.IsNullOrEmpty(_name))
-//                obj.setName(_name);
-//            return obj;
-//        }
-
-//    }
-
-    
-//}
+}

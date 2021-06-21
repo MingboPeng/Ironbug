@@ -15,12 +15,13 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
-        private HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet _callingPointField = HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet.Value;
+        private HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet _fieldSet = HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet.Value;
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("_name_", "_name_", "Name", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddTextParameter("CallingPoint_", "CallingPoint_", _callingPointField.CallingPoint.DetailedDescription, GH_ParamAccess.item);
+            pManager.AddTextParameter("CallingPoint_", "CallingPoint_", _fieldSet.CallingPoint.DetailedDescription, GH_ParamAccess.item);
+            pManager[1].Optional = true;
             pManager.AddGenericParameter("_programs", "_programs", "A list of EnergyManagementSystemPrograms", GH_ParamAccess.list);
         }
 
@@ -34,11 +35,11 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_EnergyManagementSystemProgramCallingManager();
             string name = null;
             if(DA.GetData(0, ref name))
-                obj.SetName(name);
+                obj.AddCustomAttribute(_fieldSet.Name, name);
 
             string callingPoint = null;
             if (DA.GetData(1, ref callingPoint))
-                obj.SetFieldValue(_callingPointField.CallingPoint, callingPoint);
+                obj.SetFieldValue(_fieldSet.CallingPoint, callingPoint);
 
             var programs = new List<HVAC.IB_EnergyManagementSystemProgram>();
             DA.GetDataList(2, programs);

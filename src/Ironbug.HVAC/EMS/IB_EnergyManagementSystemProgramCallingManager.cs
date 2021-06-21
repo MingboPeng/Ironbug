@@ -14,31 +14,24 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemProgramCallingManager() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        private string _name { get; set; }
         private List<IB_EnergyManagementSystemProgram> _programs { get; set; }
 
-        public void SetName(string name)
-        {
-            this._name = name;
-            var p = this.GhostOSObject as EnergyManagementSystemProgram;
-            p.setName(name);
-        }
-
+    
         public void SetPrograms(List<IB_EnergyManagementSystemProgram> programs)
         {
             this._programs = programs;
-            //var p = this.GhostOSObject as EnergyManagementSystemProgramCallingManager;
-            //foreach (var item in programs)
-            //{
-            //    p.addProgram(item.ToOS);
-            //}
         }
 
+        public override IB_ModelObject Duplicate()
+        {
+            var dup = base.Duplicate() as IB_EnergyManagementSystemProgramCallingManager;
+            dup._programs = this._programs;
+            return dup;
+        }
         public EnergyManagementSystemProgramCallingManager ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
+      
             foreach (var item in _programs)
             {
                 var prg = item.GetOsmObjInModel(model) as EnergyManagementSystemProgram;
@@ -54,8 +47,10 @@ namespace Ironbug.HVAC
        : IB_FieldSet<IB_EnergyManagementSystemProgramCallingManager_FieldSet, EnergyManagementSystemProgramCallingManager>
     {
         private IB_EnergyManagementSystemProgramCallingManager_FieldSet() { }
+        public IB_Field Name { get; }
+         = new IB_BasicField("Name", "Name");
         public IB_Field CallingPoint { get; }
-       = new IB_BasicField("CallingPoint", "CallingPoint");
+            = new IB_BasicField("CallingPoint", "CallingPoint");
 
     }
 

@@ -6,68 +6,70 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_EnergyManagementSystemInternalVariable : IB_ModelObject
+    public class IB_EnergyManagementSystemInternalVariable : IB_EnergyManagementSystemVariable
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemInternalVariable();
 
-        private static EnergyManagementSystemInternalVariable NewDefaultOpsObj(Model model, string dataType) => new EnergyManagementSystemInternalVariable(model, dataType);
-        public IB_EnergyManagementSystemInternalVariable() : base(NewDefaultOpsObj(new Model(), ""))
+        private static EnergyManagementSystemInternalVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemInternalVariable(model, "");
+        public IB_EnergyManagementSystemInternalVariable() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        private string _name { get; set; }
-        private string _internalDataType { get; set; }
+       
         private IB_ModelObject _hostObj { get; set; }
-        //private string _keyName { get; set; }
-        public void SetName(string name)
-        {
-            this._name = name;
-            var p = this.GhostOSObject as EnergyManagementSystemInternalVariable;
-            p.setName(name);
-        }
-
-        public void SetInternalDataType(string internalDataType)
-        {
-            this._internalDataType = internalDataType;
-            var p = this.GhostOSObject as EnergyManagementSystemInternalVariable;
-            p.setInternalDataType(internalDataType);
-        }
+    
         public void SetHostObj(IB_ModelObject host)
         {
             this._hostObj = host;
         }
+        public void SetInternalDataType(string dataType)
+        {
+            var f = IB_EnergyManagementSystemInternalVariable_FieldSet.Value;
+            this.AddCustomAttribute(f.InternalDataType, dataType);
+        }
 
-        //public void SetKeyName(string keyName)
-        //{
-        //    this._keyName = keyName;
-        //    var p = this.GhostOSObject as EnergyManagementSystemInternalVariable;
-        //    p.setInternalDataIndexKeyName(keyName);
-        //}
-
-        public EnergyManagementSystemInternalVariable ToOS(Model model)
+        public override IB_ModelObject Duplicate()
+        {
+            var dup = base.Duplicate() as IB_EnergyManagementSystemInternalVariable;
+            dup._hostObj = this._hostObj;
+            return dup;
+        }
+        public override ModelObject ToOS(Model model)
         {
             var host = _hostObj.GetOsmObjInModel(model);
             if (host == null)
                 throw new ArgumentException("Failed to find the host object that this internal variable is associated with, you will have to add the host object to model first.");
-            var obj = new EnergyManagementSystemInternalVariable(model, this._internalDataType);
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
-            obj.setInternalDataType(this._internalDataType);
-            obj.setInternalDataIndexKeyName(host.handle().ToString());
+            
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            obj.setInternalDataIndexKeyName(host.handle().__str__());
             return obj;
+
         }
+
         public EnergyManagementSystemInternalVariable ToOS(ModelObject modelObject)
         {
             var host = modelObject;
             if (host == null)
                 throw new ArgumentException("Failed to find the host object that this internal variable is associated with, you will have to add the host object to model first.");
-            var obj = new EnergyManagementSystemInternalVariable(host.model(), this._internalDataType);
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
-            obj.setInternalDataType(this._internalDataType);
-            obj.setInternalDataIndexKeyName(host.handle().ToString());
+          
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, host.model());
+            obj.setInternalDataIndexKeyName(host.handle().__str__());
             return obj;
+
         }
     }
 
-    
+    public sealed class IB_EnergyManagementSystemInternalVariable_FieldSet
+      : IB_FieldSet<IB_EnergyManagementSystemInternalVariable_FieldSet, EnergyManagementSystemInternalVariable>
+    {
+
+        private IB_EnergyManagementSystemInternalVariable_FieldSet() { }
+
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
+
+        public IB_Field InternalDataType { get; }
+            = new IB_BasicField("InternalDataType", "DataType");
+
+    }
+
 }

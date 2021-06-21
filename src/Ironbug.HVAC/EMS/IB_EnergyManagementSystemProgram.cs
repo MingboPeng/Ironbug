@@ -14,39 +14,24 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemProgram() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        private string _name { get; set; }
-        private string _programBody { get; set; }
-
+       
         public void SetName(string name)
         {
-            this._name = name;
-            var p = this.GhostOSObject as EnergyManagementSystemProgram;
-            p.setName(name);
+            var f = IB_EnergyManagementSystemProgram_FieldSet.Value;
+            this.AddCustomAttribute(f.Name, name);
         }
-
         public void SetProgramBody(string programBody)
         {
-            this._programBody = programBody;
-            var p = this.GhostOSObject as EnergyManagementSystemProgram;
-            p.setBody(programBody);
+            var f = IB_EnergyManagementSystemProgram_FieldSet.Value;
+            this.AddCustomAttribute(f.Body, programBody);
         }
-     
-
-        private Dictionary<string, string> _idMapper = new Dictionary<string, string>();
-        public void AddMapper(string tagId, string realId)
-        {
-            _idMapper.Add(tagId, realId);
-        }
-
 
         public EnergyManagementSystemProgram ToOS(Model model, Dictionary<string, string> idMapper)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
-
+      
             // replace mapper
-            var mappedBody = this._programBody;
+            var mappedBody = obj.body();
             foreach (var id in idMapper)
             {
                 mappedBody = mappedBody.Replace(id.Key, id.Value);
@@ -56,7 +41,37 @@ namespace Ironbug.HVAC
             return obj;
         }
 
+        public void ApplyAttributesToObj(ModelObject osObj, Dictionary<string, string> idMapper)
+        {
+            base.ApplyAttributesToObj(osObj);
+            var obj = osObj as EnergyManagementSystemProgram;
+            // replace mapper
+            var mappedBody = obj.body();
+            foreach (var id in idMapper)
+            {
+                mappedBody = mappedBody.Replace(id.Key, id.Value);
+            }
+
+            obj.setBody(mappedBody);
+        }
+
+
     }
 
-    
+    public sealed class IB_EnergyManagementSystemProgram_FieldSet
+       : IB_FieldSet<IB_EnergyManagementSystemProgram_FieldSet, EnergyManagementSystemProgram>
+    {
+
+        private IB_EnergyManagementSystemProgram_FieldSet() { }
+
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
+
+        public IB_Field Body { get; }
+            = new IB_BasicField("Body", "Body");
+
+       
+    }
+
+
 }

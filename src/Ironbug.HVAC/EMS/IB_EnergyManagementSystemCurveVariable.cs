@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_EnergyManagementSystemCurveVariable : IB_ModelObject
+    public class IB_EnergyManagementSystemCurveVariable : IB_EnergyManagementSystemVariable
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemCurveVariable();
 
@@ -27,13 +27,18 @@ namespace Ironbug.HVAC
         {
             this._curve = curve;
         }
-
-
-        public EnergyManagementSystemCurveOrTableIndexVariable ToOS(Model model)
+        public override IB_ModelObject Duplicate()
+        {
+            var dup = base.Duplicate() as IB_EnergyManagementSystemCurveVariable;
+            dup._name = this._name;
+            dup._curve = this._curve;
+            return dup;
+        }
+        public override ModelObject ToOS(Model model)
         {
             var curve = _curve.GetOsmObjInModel(model) as Curve;
             var obj = new EnergyManagementSystemCurveOrTableIndexVariable(model, curve);
-            if (string.IsNullOrEmpty(_name))
+            if (!string.IsNullOrEmpty(_name))
                 obj.setName(_name);
             return obj;
         }

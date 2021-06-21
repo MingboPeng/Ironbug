@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_EnergyManagementSystemConstructionIndexVariable : IB_ModelObject
+    public class IB_EnergyManagementSystemConstructionIndexVariable : IB_EnergyManagementSystemVariable
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemConstructionIndexVariable();
 
@@ -14,33 +14,44 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemConstructionIndexVariable() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        private string _name { get; set; }
-        private string _construction { get; set; }
-        public void SetName(string name)
-        {
-            this._name = name;
-            var p = this.GhostOSObject;
-            p.setName(name);
-        }
 
+  
+        private string _construction { get; set; }
+       
         public void SetConstructionID(string construction)
         {
             this._construction = construction;
         }
 
-
-        public EnergyManagementSystemConstructionIndexVariable ToOS(Model model)
+        public override IB_ModelObject Duplicate()
+        {
+            var dup = base.Duplicate() as IB_EnergyManagementSystemConstructionIndexVariable;
+            dup._construction = this._construction;
+            return dup;
+        }
+        public override ModelObject ToOS(Model model)
         {
             var oc = model.getConstructionByName(this._construction);
             if (!oc.is_initialized())
                 throw new ArgumentException($"Failed to find the construction {_construction}, you will have to add it to model first.");
             var obj = new EnergyManagementSystemConstructionIndexVariable(model, oc.get());
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
+
             return obj;
         }
 
     }
 
-    
+    public sealed class IB_EnergyManagementSystemConstructionIndexVariable_FieldSet
+     : IB_FieldSet<IB_EnergyManagementSystemConstructionIndexVariable_FieldSet, EnergyManagementSystemConstructionIndexVariable>
+    {
+
+        private IB_EnergyManagementSystemConstructionIndexVariable_FieldSet() { }
+
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
+
+
+    }
+
+
 }

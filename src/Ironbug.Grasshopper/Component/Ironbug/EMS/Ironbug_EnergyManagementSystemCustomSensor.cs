@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
 
             string outputVariable = null;
             DA.GetData(2, ref outputVariable);
-            obj.SetOutputVariableOrMeterName(outputVariable);
+            obj.SetOutputVariable(outputVariable);
 
             DA.SetData(0, obj);
 

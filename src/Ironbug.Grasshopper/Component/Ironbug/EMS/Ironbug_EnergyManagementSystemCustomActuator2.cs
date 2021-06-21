@@ -3,10 +3,10 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EnergyManagementSystemCustomActuator : Ironbug_Component
+    public class Ironbug_EnergyManagementSystemCustomActuator2 : Ironbug_Component
     {
-        public Ironbug_EnergyManagementSystemCustomActuator()
-          : base("Ironbug_EnergyManagementSystemActuator", "EMSCustomActuator",
+        public Ironbug_EnergyManagementSystemCustomActuator2()
+          : base("Ironbug_EnergyManagementSystemCustomActuator2", "EMSCustomActuator",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {
@@ -16,6 +16,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddGenericParameter("_obj", "_obj", "a Hvac object for setting actuator", GH_ParamAccess.item);
             pManager.AddTextParameter("_tagID", "_tagID", "Assign a tag id for this actuator that can be referenced in EMS program.", GH_ParamAccess.item);
             pManager.AddTextParameter("_type", "_type", "Actuated Component Type", GH_ParamAccess.item);
             pManager.AddTextParameter("_controlType", "_ctrlType", "Actuated Component Control Type", GH_ParamAccess.item);
@@ -28,18 +29,20 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-          
-            string tagID = null;
-            DA.GetData(0, ref tagID);
-            
+         
+            HVAC.BaseClass.IB_ModelObject hostObj = null;
+            DA.GetData(0, ref hostObj);
 
+            string tagID = null;
+            DA.GetData(1, ref tagID);
+         
             string type = null;
-            DA.GetData(1, ref type);
+            DA.GetData(2, ref type);
 
             string ctype = null;
-            DA.GetData(2, ref ctype);
+            DA.GetData(3, ref ctype);
 
-            var obj = new HVAC.IB_EnergyManagementSystemActuator();
+            var obj = new HVAC.IB_EnergyManagementSystemActuator(hostObj);
             var fSet = HVAC.IB_EnergyManagementSystemActuator_FieldSet.Value;
             obj.AddCustomAttribute(fSet.ActuatedComponentType, type);
             obj.AddCustomAttribute(fSet.ActuatedComponentControlType, ctype);
@@ -53,6 +56,6 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => null;
 
         
-        public override Guid ComponentGuid => new Guid("933B351E-C1E3-48B6-82AF-74B0C29A1C53");
+        public override Guid ComponentGuid => new Guid("8F6CD814-4993-4F1C-ACEF-E2AD4E1E4D28");
     }
 }

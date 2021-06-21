@@ -29,9 +29,10 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_EnergyManagementSystemConstructionIndexVariable();
+            var f = HVAC.IB_EnergyManagementSystemConstructionIndexVariable_FieldSet.Value;
             string name = null;
-            if(DA.GetData(0, ref name))
-                obj.SetName(name);
+            if (DA.GetData(0, ref name))
+                obj.AddCustomAttribute(f.Name, name);
 
             string Construction = null;
             DA.GetData(1, ref Construction);
@@ -44,6 +45,6 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => null;
 
         
-        public override Guid ComponentGuid => new Guid("8A70D5E0-BF0D-4789-9A64-F61D579FF74C");
+        public override Guid ComponentGuid => new Guid("29249B6D-D991-4C39-8D17-7A7F52A6F139");
     }
 }

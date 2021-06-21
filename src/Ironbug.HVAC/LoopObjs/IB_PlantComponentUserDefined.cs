@@ -30,7 +30,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public void SetDesignVolumeFlowRateActuator(IB_EnergyManagementSystemActuator energyManagementSystemActuator) => this._dvfrActuator = energyManagementSystemActuator;
+        public void SetDesignVolumeFlowRateActuator(IB_EnergyManagementSystemActuator energyManagementSystemActuator) { this._dvfrActuator = energyManagementSystemActuator; }
         public void SetMassFlowRateActuator(IB_EnergyManagementSystemActuator energyManagementSystemActuator) { this._mfrActuator = energyManagementSystemActuator; }
         public void SetMaximumLoadingCapacityActuator(IB_EnergyManagementSystemActuator energyManagementSystemActuator) { this._mxlcActuator = energyManagementSystemActuator; }
         public void SetMaximumMassFlowRateActuator(IB_EnergyManagementSystemActuator energyManagementSystemActuator) { this._mxfrActuator = energyManagementSystemActuator; }
@@ -45,6 +45,25 @@ namespace Ironbug.HVAC
 
         public void SetPlantSimulationProgram(IB_EnergyManagementSystemProgram program) { this._plantSimulationProgram = program; }
         public void SetPlantSimulationProgramCallingManager(IB_EnergyManagementSystemProgramCallingManager manager) { this._plantSimulationProgramCallingManager = manager; }
+        public override IB_ModelObject Duplicate()
+        {
+            var dup = base.Duplicate() as IB_PlantComponentUserDefined;
+            dup._dvfrActuator = this._dvfrActuator;
+            dup._mfrActuator = this._mfrActuator;
+            dup._mxlcActuator = this._mxlcActuator;
+            dup._mxfrActuator = this._mxfrActuator;
+            dup._mlcActuator = this._mlcActuator;
+            dup._mmfrActuator = this._mmfrActuator;
+            dup._olcActuator = this._olcActuator;
+            dup._otActuator = this._otActuator;
+
+            dup._plantInitializationProgram = this._plantInitializationProgram;
+            dup._plantInitializationProgramCallingManager = this._plantInitializationProgramCallingManager;
+
+            dup._plantSimulationProgram = this._plantSimulationProgram;
+            dup._plantSimulationProgramCallingManager = this._plantSimulationProgramCallingManager;
+            return dup;
+        }
 
         public override HVACComponent ToOS(Model model)
         {
@@ -52,52 +71,52 @@ namespace Ironbug.HVAC
 
             var mapper = new Dictionary<IB_ModelObject, ModelObject>();
 
-            var dvfr = _dvfrActuator.ToOS(obj);
-            obj.setDesignVolumeFlowRateActuator(dvfr);
+            var dvfr = obj.designVolumeFlowRateActuator().get();
+            _dvfrActuator.ApplyAttributesToObj(dvfr);
             mapper.Add(_dvfrActuator, dvfr);
 
-            var mfr = _mfrActuator.ToOS(obj);
-            obj.setMassFlowRateActuator(mfr);
+            var mfr = obj.massFlowRateActuator().get();
+            _mfrActuator.ApplyAttributesToObj(mfr);
             mapper.Add(_mfrActuator, mfr);
 
-            var mxlc = _mxlcActuator.ToOS(obj);
-            obj.setMaximumLoadingCapacityActuator(_mxlcActuator.ToOS(obj));
+            var mxlc = obj.maximumLoadingCapacityActuator().get();
+            _mxlcActuator.ApplyAttributesToObj(mxlc);
             mapper.Add(_mxlcActuator, mxlc);
 
-
-            var mxfr = _mxfrActuator.ToOS(obj);
-            obj.setMaximumMassFlowRateActuator(_mxfrActuator.ToOS(obj));
+            var mxfr = obj.maximumMassFlowRateActuator().get();
+            _mxfrActuator.ApplyAttributesToObj(mxfr);
             mapper.Add(_mxfrActuator, mxfr);
 
 
-            var mlc = _mlcActuator.ToOS(obj);
-            obj.setMinimumLoadingCapacityActuator(_mlcActuator.ToOS(obj));
+            var mlc = obj.minimumLoadingCapacityActuator().get();
+            _mlcActuator.ApplyAttributesToObj(mlc);
             mapper.Add(_mlcActuator, mlc);
 
-            var mmfr = _mmfrActuator.ToOS(obj);
-            obj.setMinimumMassFlowRateActuator(_mmfrActuator.ToOS(obj));
+            var mmfr = obj.minimumMassFlowRateActuator().get();
+            _mmfrActuator.ApplyAttributesToObj(mmfr);
             mapper.Add(_mmfrActuator, mmfr);
 
-            var olc = _olcActuator.ToOS(obj);
-            obj.setOptimalLoadingCapacityActuator(_olcActuator.ToOS(obj));
+            var olc = obj.optimalLoadingCapacityActuator().get();
+            _olcActuator.ApplyAttributesToObj(olc);
             mapper.Add(_olcActuator, olc);
 
-            var ot = _otActuator.ToOS(obj);
-            obj.setOutletTemperatureActuator(_otActuator.ToOS(obj));
+            var ot = obj.outletTemperatureActuator().get();
+            _otActuator.ApplyAttributesToObj(ot);
             mapper.Add(_otActuator, ot);
 
-            var idMapper = mapper.ToDictionary(_ =>  _.Key.GetTrackingID(), v=> v.Value.handle().ToString());
+            var idMapper = mapper.ToDictionary(_ =>  _.Key.GetTrackingID(), v=> v.Value.handle().__str__());
 
+            var psp = obj.plantSimulationProgram().get();
+            _plantSimulationProgram.ApplyAttributesToObj(psp, idMapper);
 
-            if (_plantSimulationProgram != null)
-                obj.setPlantSimulationProgram(_plantSimulationProgram.ToOS(model, idMapper));
-            if (_plantSimulationProgramCallingManager != null)
-                obj.setPlantSimulationProgramCallingManager(_plantSimulationProgramCallingManager.ToOS(model));
+            var pspm = obj.plantSimulationProgramCallingManager().get();
+            _plantSimulationProgramCallingManager.ApplyAttributesToObj(pspm);
 
-            if (_plantInitializationProgram != null)
-                obj.setPlantInitializationProgram(_plantInitializationProgram.ToOS(model, idMapper));
-            if (_plantInitializationProgramCallingManager != null)
-                obj.setPlantInitializationProgramCallingManager(_plantInitializationProgramCallingManager.ToOS(model));
+            var pip = obj.plantInitializationProgram().get();
+            _plantInitializationProgram.ApplyAttributesToObj(pip, idMapper);
+
+            var pipm = obj.plantInitializationProgramCallingManager().get();
+            _plantInitializationProgramCallingManager.ApplyAttributesToObj(pipm);
 
 
             return obj;

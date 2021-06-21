@@ -10,49 +10,43 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemSensor();
 
-        private static EnergyManagementSystemSensor NewDefaultOpsObj(Model model, string outputVariable) => new EnergyManagementSystemSensor(model, outputVariable);
-        public IB_EnergyManagementSystemSensor() : base(NewDefaultOpsObj(new Model(), ""))
+        private static EnergyManagementSystemSensor NewDefaultOpsObj(Model model) => new EnergyManagementSystemSensor(model, "");
+        public IB_EnergyManagementSystemSensor() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public IB_EnergyManagementSystemSensor(string outputVariable) : base(NewDefaultOpsObj(new Model(), outputVariable))
-        {
-            this._outputVariable = outputVariable;
-        }
-        private string _name { get; set; }
-        private string _outputVariable { get; set; }
-        private string _keyName { get; set; }
-        public void SetName(string name)
-        {
-            this._name = name;
-            var p = this.GhostOSObject as EnergyManagementSystemSensor;
-            p.setName(name);
-        }
-
-        public void SetOutputVariableOrMeterName(string outputVariable)
-        {
-            this._outputVariable = outputVariable;
-            var p = this.GhostOSObject as EnergyManagementSystemSensor;
-            p.setOutputVariableOrMeterName(outputVariable);
-        }
-
+      
         public void SetKeyName(string keyName)
         {
-            this._keyName = keyName;
-            var p = this.GhostOSObject as EnergyManagementSystemSensor;
-            p.setKeyName(keyName);
+            var f = IB_EnergyManagementSystemSensor_FieldSet.Value;
+            this.AddCustomAttribute(f.KeyName, keyName);
+        }
+        public void SetOutputVariable(string outputVariable)
+        {
+            var f = IB_EnergyManagementSystemSensor_FieldSet.Value;
+            this.AddCustomAttribute(f.OutputVariableOrMeterName, outputVariable);
         }
 
         public EnergyManagementSystemSensor ToOS(Model model)
         {
-            var obj = new EnergyManagementSystemSensor(model, this._outputVariable);
-            if (string.IsNullOrEmpty(_name))
-                obj.setName(_name);
-            obj.setOutputVariableOrMeterName(this._outputVariable);
-            obj.setKeyName(this._keyName);
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;
         }
 
     }
 
-    
+
+    public sealed class IB_EnergyManagementSystemSensor_FieldSet
+    : IB_FieldSet<IB_EnergyManagementSystemSensor_FieldSet, EnergyManagementSystemSensor>
+    {
+
+        private IB_EnergyManagementSystemSensor_FieldSet() { }
+
+        public IB_Field Name { get; }
+            = new IB_BasicField("Name", "Name");
+        public IB_Field OutputVariableOrMeterName { get; }
+            = new IB_BasicField("OutputVariableOrMeterName", "OutputVariable");
+        public IB_Field KeyName { get; }
+          = new IB_BasicField("KeyName", "KeyName");
+    }
+
 }

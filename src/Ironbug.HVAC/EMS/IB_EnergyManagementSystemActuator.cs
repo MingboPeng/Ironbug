@@ -10,43 +10,25 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemActuator();
 
-        private static EnergyManagementSystemActuator NewDefaultOpsObj(ModelObject obj, string type, string controlType) => new EnergyManagementSystemActuator(obj, type, controlType);
-        public IB_EnergyManagementSystemActuator() : base(NewDefaultOpsObj(new Node(new Model()), "component type", "component control type"))
+        private static EnergyManagementSystemActuator NewDefaultOpsObj(ModelObject obj) => new EnergyManagementSystemActuator(obj, "", "");
+        public IB_EnergyManagementSystemActuator() : base(NewDefaultOpsObj(new Node(new Model())))
         {
-        }
-        public IB_EnergyManagementSystemActuator(IB_ModelObject obj, string actuatedComType, string actuatedControlType) : base(NewDefaultOpsObj(new Node(new Model()), actuatedComType, actuatedControlType))
-        {
-            this.AddChild(obj);
-            this._actuatedComponentType = actuatedComType;
-            this._actuatedComponentControlType = actuatedControlType;
         }
         private IB_ModelObject _actuatedObj => this.GetChild<IB_ModelObject>(0);
-        private string _actuatedComponentType { get; set; }
-        private string _actuatedComponentControlType { get; set; }
-
-        public void SetActuatedComponentType(string type)
+        public IB_EnergyManagementSystemActuator(IB_ModelObject actuatedObj) : base(NewDefaultOpsObj(new Node(new Model())))
         {
-            this._actuatedComponentType = type;
+            this.AddChild(actuatedObj);
         }
-
-        public void SetActuatedComponentControlType(string type)
-        {
-            this._actuatedComponentControlType = type;
-        }
-
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    return base.Duplicate();
-        //}
-
         public EnergyManagementSystemActuator ToOS(Model model)
         {
             var objInModel = _actuatedObj.GetOsmObjInModel(model);
+            if (objInModel == null)
+                throw new ArgumentException("Actuated object has not been added to model, please add it first");
             var obj = base.OnNewOpsObj(InitMethodWithChildren, model);
 
             return obj;
 
-            EnergyManagementSystemActuator InitMethodWithChildren(Model md)=> new EnergyManagementSystemActuator(objInModel, this._actuatedComponentType, this._actuatedComponentControlType);
+            EnergyManagementSystemActuator InitMethodWithChildren(Model md)=> new EnergyManagementSystemActuator(objInModel, "", "");
         }
 
         public EnergyManagementSystemActuator ToOS(ModelObject actuatedObj)
@@ -55,7 +37,7 @@ namespace Ironbug.HVAC
             var obj = base.OnNewOpsObj(InitMethodWithChildren, model);
             return obj;
 
-            EnergyManagementSystemActuator InitMethodWithChildren(Model md) => new EnergyManagementSystemActuator(actuatedObj, this._actuatedComponentType, this._actuatedComponentControlType);
+            EnergyManagementSystemActuator InitMethodWithChildren(Model md) => new EnergyManagementSystemActuator(actuatedObj, "", "");
         }
 
     }
@@ -64,6 +46,10 @@ namespace Ironbug.HVAC
        : IB_FieldSet<IB_EnergyManagementSystemActuator_FieldSet, EnergyManagementSystemActuator>
     {
         private IB_EnergyManagementSystemActuator_FieldSet() { }
+        public IB_Field ActuatedComponentControlType { get; }
+            = new IB_BasicField("ActuatedComponentControlType", "ActuatedComponentControlType") { };
+        public IB_Field ActuatedComponentType { get; }
+            = new IB_BasicField("ActuatedComponentType", "ActuatedComponentType"){};
     }
 
 }
