@@ -192,11 +192,14 @@ namespace Ironbug.HVACTests
 
             var actuators = p.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
             var internalVariables = p.emsInternalVariableNames().Select(_ => _.ToString());
+            var sensors = p.outputVariableNames().ToList();
 
             var l = new PlantLoop(m);
             var lAs = l.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
             var livs = l.emsInternalVariableNames();
             var lSensors = l.outputVariableNames();
+
+            var dic = l.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
 
             var pump = new PumpVariableSpeed(m);
             var pAs = pump.emsActuatorNames().Select(_ => $"{_.controlTypeName()}_{_.componentTypeName()}");
