@@ -21,7 +21,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
 
             pManager.AddNumberParameter("Temperature", "_Temp", "SetpointTemperature", GH_ParamAccess.item);
-            pManager.AddTextParameter("ControlVariable", "var_", _fieldSet.ControlVariable.Description, GH_ParamAccess.item);
+            pManager.AddTextParameter("ControlVariable", "ctrlVar_", _fieldSet.ControlVariable.Description, GH_ParamAccess.item);
             pManager[1].Optional = true;
             
         }
