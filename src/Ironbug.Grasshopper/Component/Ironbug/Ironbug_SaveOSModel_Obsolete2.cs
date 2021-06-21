@@ -7,14 +7,16 @@ using System.Diagnostics;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : Ironbug_Component
+    public class Ironbug_SaveOSModel_Obsolete2 : Ironbug_Component
     {
+        public override bool Obsolete => true;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
-        public override Guid ComponentGuid => new Guid("2AA7B0D0-1BC9-49EE-9C5F-4A9999439161");
+        public override Guid ComponentGuid => new Guid("{2B473359-4DFC-4DE7-BD3E-79C119C64250}");
 
         bool _overrideMode = false;
         int _writeMode = 0;
-        public Ironbug_SaveOSModel()
+        public Ironbug_SaveOSModel_Obsolete2()
           : base("Ironbug_SaveToFile", "SaveToFile",
               "Description",
               "Ironbug", "HVAC")
@@ -23,11 +25,11 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("NewFilePath", "_OSMpath", "New OSM file path. This file will be deleted first if it is existed when the component is on override mode.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("HVACSystem", "HVAC", "A HVAC system from Ironbug_HVACSystem", GH_ParamAccess.item);
-            pManager.AddGenericParameter("EnergyManagementSystem", "EMS", "EnergyManagementSystem", GH_ParamAccess.item);
+            pManager.AddTextParameter("NewFilePath", "_OSMpath", "New OSM file path. This file will be deleted first if it is existed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HVACSystem", "_HVAC", "A HVAC system from Ironbug_HVACSystem", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
+            pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
         }
@@ -42,13 +44,11 @@ namespace Ironbug.Grasshopper.Component
             this.Message = this._overrideMode ? "Override" : "";
             string filepath = string.Empty;
             HVAC.IB_HVACSystem hvac = null;
-            HVAC.IB_EnergyManagementSystem ems = null;
             bool write = false;
 
             DA.GetData(0, ref filepath);
             DA.GetData(1, ref hvac);
-            DA.GetData(2, ref ems);
-            DA.GetData(3, ref write);
+            DA.GetData(2, ref write);
 
             if (!write) return;
             
@@ -68,11 +68,7 @@ namespace Ironbug.Grasshopper.Component
                 }
             }
 
-            var saved = false;
-            if (hvac != null)
-                saved = hvac.SaveHVAC(filepath);
-            if (ems != null)
-                saved = ems.SaveEMS(filepath);
+            var saved = hvac.SaveHVAC(filepath);
 
             if (saved)
             {
