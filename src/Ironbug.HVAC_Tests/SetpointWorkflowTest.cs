@@ -28,9 +28,13 @@ namespace Ironbug.HVACTests
             Assert.True(success);
 
             var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
-            var addedSetPt = md2.getAirLoopHVACs()[0].SetPointManagers().First();
+            var loop = md2.getAirLoopHVACs()[0];
+
+            var addedSetPt = loop.SetPointManagers().First();
+            var stp = loop.supplyInletNode().setpointManagers().First();
+            Assert.True(stp.comment() == setPt.GetTrackingID());
+
             var objAfterSetp = addedSetPt.setpointNode().get().outletModelObject().get();
-      
             Assert.True(objAfterSetp.comment() == coil.GetTrackingID());
         }
 
@@ -55,9 +59,12 @@ namespace Ironbug.HVACTests
 
             var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
 
-            var addedSetPt = md2.getAirLoopHVACs()[0].SetPointManagers().First();
+            var loop = md2.getAirLoopHVACs()[0];
+            var ids = loop.supplyComponents().Select(_ => _.OSType());
+            var addedSetPt = loop.supplyOutletNode().setpointManagers().First();
+            Assert.True(addedSetPt.comment() == setPt.GetTrackingID());
+
             var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
-      
             Assert.True(objAfterSetp.comment() == fan.GetTrackingID());
         }
 

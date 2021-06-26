@@ -27,15 +27,14 @@ namespace Ironbug.HVACTests
         [Test]
         public void AddVRF_Test()
         {
-            //var osm = @"C:\Users\mingo\simulation\Unnamed\OpenStudio\run\in.osm";
-            var osm = TestHelper.ExampleBuildingFile;
-            var model = IB_HVACSystem.GetOrNewModel(osm);
+            var model = new OpenStudio.Model();
+            var z1 = new OpenStudio.ThermalZone(model);
+            var z2 = new OpenStudio.ThermalZone(model);
             var zones = model.getThermalZones();
             Assert.IsTrue(zones.Any());
 
 
             var savePath = GenFileName;
-            File.Copy(osm, savePath);
 
             var zoneNames = model.getThermalZones().Select(_ => _.nameString());
             Assert.True(zoneNames.Any());
