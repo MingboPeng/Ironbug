@@ -34,7 +34,7 @@ namespace Ironbug.HVAC.BaseClass
         protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
             var components = Components.Where(_ => !(_ is IB_Probe));
-            var setPts = components.Where(_ => _ is IB_SetpointManager).Select(_ => _ as IB_SetpointManager);
+            var setPts = components.OfType<IB_SetpointManager>();
 
             //check if there is set point
             if (setPts.Count() == 0) return true;
@@ -43,7 +43,7 @@ namespace Ironbug.HVAC.BaseClass
             var currentComps = Loop.components();
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
-           
+
 
             int added = 0;
 
@@ -95,6 +95,8 @@ namespace Ironbug.HVAC.BaseClass
                     var comBeforeSetPt_ID = comBeforeSetPt.GetTrackingID();
                     var combeforeSetPt_Index = allTrackingIDs.IndexOf(comBeforeSetPt_ID);
 
+                    if (combeforeSetPt_Index == -1)
+                        throw new ArgumentException($"Failed to find object with id [{comBeforeSetPt_ID}] in loop");
                     //Find the node for setPoint
                     var node_Index = indexOfStartingNode + combeforeSetPt_Index + 1;
                     
