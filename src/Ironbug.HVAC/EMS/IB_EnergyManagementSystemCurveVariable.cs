@@ -37,6 +37,8 @@ namespace Ironbug.HVAC
         public override ModelObject ToOS(Model model)
         {
             var curve = _curve.GetOsmObjInModel(model) as Curve;
+            if (curve == null)
+                curve = _curve.ToOS(model);
             var obj = new EnergyManagementSystemCurveOrTableIndexVariable(model, curve);
             if (!string.IsNullOrEmpty(_name))
                 obj.setName(_name);
