@@ -66,24 +66,24 @@ namespace Ironbug.HVAC
             foreach (var item in actuators)
             {
                 var added = item.ToOS(model);
-                mapper.Add(item.GetTrackingID(), added.handle().__str__());
+                mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
             }
 
             foreach (var item in sensors)
             {
                 var added = item.ToOS(model);
-                mapper.Add(item.GetTrackingID(), added.handle().__str__());
+                mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
             }
             foreach (var item in variables)
             {
                 var added = item.ToOS(model);
-                mapper.Add(item.GetTrackingID(), added.handle().__str__());
+                mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
             }
 
             foreach (var item in programs)
             {
                 var added = item.ToOS(model, mapper);
-                mapper.Add(item.GetTrackingID(), added.handle().__str__());
+                mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
             }
 
             // check programs in PlantComponentUserDefined

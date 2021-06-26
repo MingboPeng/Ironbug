@@ -195,12 +195,16 @@ namespace Ironbug.HVAC.BaseClass
 
         public string GetTrackingID()
         {
+            return this.GhostOSObject.comment();
+        }
+        public string GetTrackingTagID()
+        {
             var id = this.GhostOSObject.comment();
             var idd = id.StartsWith("! ") ? id.Replace("! ", "") : id;
             return idd;
         }
 
-        
+
         //public object GetFieldValue(string fieldName)
         //{
         //    return this.GhostOSObject.GetDataFieldValue(fieldName);

@@ -104,7 +104,7 @@ namespace Ironbug.HVAC
             _otActuator.ApplyAttributesToObj(ot);
             mapper.Add(_otActuator, ot);
 
-            var idMapper = mapper.ToDictionary(_ =>  _.Key.GetTrackingID(), v=> v.Value.handle().__str__());
+            var idMapper = mapper.ToDictionary(_ =>  _.Key.GetTrackingTagID(), v=> v.Value.handle().__str__());
 
             var psp = obj.plantSimulationProgram().get();
             _plantSimulationProgram.ApplyAttributesToObj(psp, idMapper);
