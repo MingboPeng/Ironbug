@@ -19,17 +19,55 @@ namespace Ironbug.HVAC
         {
             this.AddChild(actuatedObj);
         }
+        private string _nameID;
+        public IB_EnergyManagementSystemActuator(string actuatedObjNameID) : base(NewDefaultOpsObj(new Node(new Model())))
+        {
+            this._nameID = actuatedObjNameID;
+        }
+        public override IB_ModelObject Duplicate()
+        {
+            var obj  = base.Duplicate() as IB_EnergyManagementSystemActuator;
+            obj._nameID = this._nameID;
+            return obj;
+        }
+
+        private ModelObject GetActuatedObj(Model model)
+        {
+            ModelObject actObj = null;
+            if (this._actuatedObj != null)
+            {
+                actObj = _actuatedObj.GetOsmObjInModel(model);
+            }
+            else if (string.IsNullOrEmpty( this._nameID))
+            {
+                var obj = model.getObjectsByName(this._nameID).FirstOrDefault();
+                //var handle = obj.handle();
+                //model.get
+
+                if (obj.GetType().Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
+                var getmethodName = $"get{obj.GetType().Name}sByName";
+                var methodInfo = typeof(Model).GetMethod(getmethodName);
+                if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
+
+                var objresults = methodInfo.Invoke(model, new object[] { this._nameID });
+                var objList = (objresults as IEnumerable<ModelObject>).ToList();
+                actObj = objList.FirstOrDefault();
+
+            }
+            if (actObj == null) throw new ArgumentNullException($"Actuated object has not been added to model, please add it first!");
+            return actObj;
+        }
+
         public EnergyManagementSystemActuator ToOS(Model model)
         {
-            var objInModel = _actuatedObj.GetOsmObjInModel(model);
-            if (objInModel == null)
-                throw new ArgumentException("Actuated object has not been added to model, please add it first");
+            var objInModel = GetActuatedObj(model);
             var obj = base.OnNewOpsObj(InitMethodWithChildren, model);
 
             return obj;
 
             EnergyManagementSystemActuator InitMethodWithChildren(Model md)=> new EnergyManagementSystemActuator(objInModel, "", "");
         }
+
 
         public EnergyManagementSystemActuator ToOS(ModelObject actuatedObj)
         {
