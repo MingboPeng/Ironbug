@@ -38,21 +38,10 @@ namespace Ironbug.HVAC
             {
                 actObj = _actuatedObj.GetOsmObjInModel(model);
             }
-            else if (string.IsNullOrEmpty( this._nameID))
+            else if (!string.IsNullOrEmpty( this._nameID))
             {
                 var obj = model.getObjectsByName(this._nameID).FirstOrDefault();
-                //var handle = obj.handle();
-                //model.get
-
-                if (obj.GetType().Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
-                var getmethodName = $"get{obj.GetType().Name}sByName";
-                var methodInfo = typeof(Model).GetMethod(getmethodName);
-                if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
-
-                var objresults = methodInfo.Invoke(model, new object[] { this._nameID });
-                var objList = (objresults as IEnumerable<ModelObject>).ToList();
-                actObj = objList.FirstOrDefault();
-
+                actObj = obj.CastToOsType();
             }
             if (actObj == null) throw new ArgumentNullException($"Actuated object has not been added to model, please add it first!");
             return actObj;

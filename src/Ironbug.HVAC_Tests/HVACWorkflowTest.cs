@@ -388,5 +388,22 @@ namespace Ironbug.HVACTests
 
             Assert.True(s);
         }
+
+        [Test]
+        public void ConstructionActuatorTest()
+        {
+            var md = new OpenStudio.Model();
+            var cName = "My Construction";
+            var construction = new OpenStudio.Construction(md);
+            construction.setName(cName);
+
+            var actuator = new IB_EnergyManagementSystemActuator(cName);
+            var a = actuator.ToOS(md);
+
+            Assert.True(a.actuatedComponent().is_initialized());
+           
+
+        }
+
     }
 }
