@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
         [DataMember]
         public List<IB_EnergyManagementSystemSensor> Sensors { get; private set; }
         [DataMember]
-        public List<IB_EnergyManagementSystemProgram> Programs { get; private set; }
+        public List<IB_EnergyManagementSystemProgramCallingManager> ProgramClnManagers { get; private set; }
         [DataMember]
         public List<BaseClass.IB_EnergyManagementSystemVariable> Variables { get; private set; }
 
@@ -23,11 +23,11 @@ namespace Ironbug.HVAC
             List<IB_EnergyManagementSystemActuator> actuators, 
             List<IB_EnergyManagementSystemSensor> sensors,
             List<BaseClass.IB_EnergyManagementSystemVariable> variables,
-            List<IB_EnergyManagementSystemProgram> programs)
+            List<IB_EnergyManagementSystemProgramCallingManager> programManagers)
         {
             this.Actuators = actuators;
             this.Sensors = sensors;
-            this.Programs = programs;
+            this.ProgramClnManagers = programManagers;
             this.Variables = variables;
             
         }
@@ -54,7 +54,7 @@ namespace Ironbug.HVAC
         {
             var actuators = this.Actuators;
             var sensors = this.Sensors;
-            var programs = this.Programs;
+            var prograManagers = this.ProgramClnManagers;
             var variables = this.Variables;
 
             var osmFile = filepath;
@@ -80,10 +80,15 @@ namespace Ironbug.HVAC
                 mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
             }
 
-            foreach (var item in programs)
+            foreach (var item in prograManagers)
             {
-                var added = item.ToOS(model, mapper);
-                mapper.Add(item.GetTrackingTagID(), added.handle().__str__());
+                // add program first
+                foreach (var p in item.Programs)
+                {
+                    var added = p.ToOS(model, mapper);
+                }
+                item.ToOS(model);
+
             }
 
             // check programs in PlantComponentUserDefined

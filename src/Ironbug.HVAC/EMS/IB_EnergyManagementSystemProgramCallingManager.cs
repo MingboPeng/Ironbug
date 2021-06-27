@@ -14,25 +14,20 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemProgramCallingManager() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        private List<IB_EnergyManagementSystemProgram> _programs { get; set; }
+        public List<IB_EnergyManagementSystemProgram> Programs { get; set; } = new List<IB_EnergyManagementSystemProgram>();
 
     
-        public void SetPrograms(List<IB_EnergyManagementSystemProgram> programs)
-        {
-            this._programs = programs;
-        }
-
         public override IB_ModelObject Duplicate()
         {
             var dup = base.Duplicate() as IB_EnergyManagementSystemProgramCallingManager;
-            dup._programs = this._programs;
+            dup.Programs = this.Programs;
             return dup;
         }
         public EnergyManagementSystemProgramCallingManager ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
       
-            foreach (var item in _programs)
+            foreach (var item in Programs)
             {
                 var prg = item.GetOsmObjInModel(model) as EnergyManagementSystemProgram;
                 if (prg == null)
