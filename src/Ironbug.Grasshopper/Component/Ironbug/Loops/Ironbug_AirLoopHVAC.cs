@@ -21,18 +21,18 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "supply", "heating or cooling supply source", GH_ParamAccess.list);
-            pManager.AddGenericParameter("demand", "demand", "zoneBranches or other HVAC components", GH_ParamAccess.list);
+            pManager.AddGenericParameter("_supply", "_supply", "heating or cooling supply source", GH_ParamAccess.list);
+            pManager.AddGenericParameter("_demand", "_demand", "zoneBranches or other HVAC components", GH_ParamAccess.list);
             pManager.AddGenericParameter("sizingSystem", "sizing", "HVAC components", GH_ParamAccess.item);
             
-            pManager[0].Optional = true;
-            pManager[1].Optional = true;
+            //pManager[0].Optional = true;
+            //pManager[1].Optional = true;
             pManager[2].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("AirLoopHVAC", "AirLoop", "To HVACsystem", GH_ParamAccess.item);
+            pManager.AddGenericParameter("airLoopHVAC", "airLoop", "To HVACsystem", GH_ParamAccess.item);
         }
 
         

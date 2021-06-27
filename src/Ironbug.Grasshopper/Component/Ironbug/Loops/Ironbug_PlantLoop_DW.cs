@@ -23,17 +23,17 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("supply", "supply", "HVAC components", GH_ParamAccess.list);
-            pManager[0].Optional = true;
-            pManager.AddGenericParameter("demand", "demand", "HVAC components", GH_ParamAccess.list);
-            pManager[1].Optional = true;
+            pManager.AddGenericParameter("_supply", "_supply", "HVAC components", GH_ParamAccess.list);
+            //pManager[0].Optional = true;
+            pManager.AddGenericParameter("_demand", "_demand", "HVAC components", GH_ParamAccess.list);
+            //pManager[1].Optional = true;
             pManager.AddGenericParameter("sizingLoop", "sizing", "HVAC components", GH_ParamAccess.item);
             pManager[2].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CondenserWaterPlantLoop", "DWLoop", "CondenserWaterPlantLoop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CondenserWaterPlantLoop", "dwLoop", "CondenserWaterPlantLoop", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
