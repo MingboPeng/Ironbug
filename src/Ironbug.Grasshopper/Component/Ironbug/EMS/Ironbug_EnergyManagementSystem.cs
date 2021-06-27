@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("actuators", "actuators", "Actuators", GH_ParamAccess.list);
             pManager.AddGenericParameter("sensors", "sensors", "Sensors", GH_ParamAccess.list);
             pManager.AddGenericParameter("variables", "variables", "Variables", GH_ParamAccess.list);
-            pManager.AddGenericParameter("programs", "programs", "Programs", GH_ParamAccess.list);
+            pManager.AddGenericParameter("programCallingManagers", "managers", "ProgramCallingManagers", GH_ParamAccess.list);
 
             pManager[0].Optional = true;
             pManager[0].DataMapping = GH_DataMapping.Flatten;
@@ -40,14 +40,14 @@ namespace Ironbug.Grasshopper.Component
             var actuators = new List<HVAC.IB_EnergyManagementSystemActuator>();
             var sensors = new List<HVAC.IB_EnergyManagementSystemSensor>();
             var variables = new List<HVAC.BaseClass.IB_EnergyManagementSystemVariable>();
-            var programs = new List<HVAC.IB_EnergyManagementSystemProgram>();
+            var prgmManagers = new List<HVAC.IB_EnergyManagementSystemProgramCallingManager>();
 
             DA.GetDataList(0, actuators);
             DA.GetDataList(1, sensors);
             DA.GetDataList(2, variables);
-            DA.GetDataList(3, programs);
+            DA.GetDataList(3, prgmManagers);
 
-            var hvac = new HVAC.IB_EnergyManagementSystem(actuators, sensors, variables, programs);
+            var hvac = new HVAC.IB_EnergyManagementSystem(actuators, sensors, variables, prgmManagers);
             DA.SetData(0, hvac);
 
         }

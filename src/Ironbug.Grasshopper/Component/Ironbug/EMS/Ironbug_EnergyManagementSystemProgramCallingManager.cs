@@ -4,9 +4,9 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EnergyManagementSystemCallingManager : Ironbug_Component
+    public class Ironbug_EnergyManagementSystemProgramCallingManager : Ironbug_Component
     {
-        public Ironbug_EnergyManagementSystemCallingManager()
+        public Ironbug_EnergyManagementSystemProgramCallingManager()
           : base("Ironbug_EMSProgramCallingManager", "EMSProgramCallingManager",
               "Description",
               "Ironbug", "06:Sizing&Controller")
@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("programCallingManager", "prgmCallingManager", "ProgramCallingManager", GH_ParamAccess.item);
+            pManager.AddGenericParameter("programCallingManager", "manager", "ProgramCallingManager", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component
 
             var programs = new List<HVAC.IB_EnergyManagementSystemProgram>();
             DA.GetDataList(2, programs);
-            obj.SetPrograms(programs);
+            obj.Programs = programs;
 
             DA.SetData(0, obj);
 
