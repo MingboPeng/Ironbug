@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_EnergyManagementSystemCallingManager : Ironbug_Component
     {
         public Ironbug_EnergyManagementSystemCallingManager()
-          : base("Ironbug_EnergyManagementSystemProgramCallingManager", "EMSProgramCallingManager",
+          : base("Ironbug_EMSProgramCallingManager", "EMSProgramCallingManager",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {
@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("programCallingManager", "programCallingManager", "ProgramCallingManager", GH_ParamAccess.item);
+            pManager.AddGenericParameter("programCallingManager", "prgmCallingManager", "ProgramCallingManager", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)

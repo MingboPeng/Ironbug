@@ -3,10 +3,10 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EnergyManagementSystemCustomInternalVariable : Ironbug_Component
+    public class Ironbug_EnergyManagementSystemInternalVariable : Ironbug_Component
     {
-        public Ironbug_EnergyManagementSystemCustomInternalVariable()
-          : base("Ironbug_EnergyManagementSystemCustomInternalVariable", "EMSCustomInternalVariable",
+        public Ironbug_EnergyManagementSystemInternalVariable()
+          : base("Ironbug_EMSInternalVariable", "EMSInternalVariable",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {

@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_EnergyManagementSystemConstructionVariable : Ironbug_Component
     {
         public Ironbug_EnergyManagementSystemConstructionVariable()
-          : base("Ironbug_EnergyManagementSystemConstructionVariable", "EMSConstructionVariable",
+          : base("Ironbug_EMSConstructionVariable", "EMSConstructionVariable",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {

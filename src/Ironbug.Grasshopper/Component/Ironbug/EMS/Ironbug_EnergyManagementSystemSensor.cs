@@ -3,10 +3,10 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_EnergyManagementSystemCustomSensor : Ironbug_Component
+    public class Ironbug_EnergyManagementSystemSensor : Ironbug_Component
     {
-        public Ironbug_EnergyManagementSystemCustomSensor()
-          : base("Ironbug_EnergyManagementSystemCustomSensor", "EMSCustomSensor",
+        public Ironbug_EnergyManagementSystemSensor()
+          : base("Ironbug_EMSSensor", "EMSSensor",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {
