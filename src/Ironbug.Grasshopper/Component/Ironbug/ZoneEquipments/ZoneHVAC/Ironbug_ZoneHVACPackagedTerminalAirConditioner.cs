@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide reheat source. CoilHeatingWater", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "_coilH", "Heating coil to provide reheat source. CoilHeatingWater", GH_ParamAccess.item);
             //pManager[0].Optional = true;
             pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. CoilCoolingDX", GH_ParamAccess.item);
             pManager[1].Optional = true;
