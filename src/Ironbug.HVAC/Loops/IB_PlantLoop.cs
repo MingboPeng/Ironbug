@@ -13,7 +13,9 @@ namespace Ironbug.HVAC
 
         [DataMember]
         public IB_SizingPlant SizingPlant { get; private set; } = new IB_SizingPlant();
-        
+        [DataMember]
+        public IB_PlantEquipmentOperationSchemeBase OperationScheme { get; private set; }
+
         private static PlantLoop NewDefaultOpsObj(Model model) => new PlantLoop(model);
         public IB_PlantLoop() : base(NewDefaultOpsObj(new Model()))
         {
@@ -24,6 +26,10 @@ namespace Ironbug.HVAC
             //var obj = this.GhostOSObject as PlantLoop;
             //this.IB_SizingPlant.ToOS(this.GhostOSObject as PlantLoop);
             
+        }
+        public void SetOperationScheme(IB_PlantEquipmentOperationSchemeBase schema)
+        {
+            this.OperationScheme = schema;
         }
 
         public void AddToSupply(IB_HVACObject HvacComponent)
@@ -61,9 +67,9 @@ namespace Ironbug.HVAC
             SizingPlant.ToOS(plant);
 
             this.AddSupplyObjects(plant, this.supplyComponents);
-
             this.AddDemandObjects(plant, this.demandComponents);
 
+            this.OperationScheme?.ToOS(plant);
             return plant;
         }
 
@@ -94,7 +100,7 @@ namespace Ironbug.HVAC
                 );
 
             newObj.SetSizingPlant((IB_SizingPlant)this.SizingPlant.Duplicate());
-
+            newObj.OperationScheme = this.OperationScheme?.Duplicate() as IB_PlantEquipmentOperationSchemeBase;
             return newObj;
         }
 

@@ -7,17 +7,17 @@ using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_PlantLoop : Ironbug_HVACWithParamComponent
+    public class Ironbug_PlantLoop_Obsolete : Ironbug_HVACWithParamComponent
     {
-        public Ironbug_PlantLoop()
+        public Ironbug_PlantLoop_Obsolete()
           : base("Ironbug_PlantLoop", "PlantLoop",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))
         {
         }
-
-        public override GH_Exposure Exposure => GH_Exposure.primary | GH_Exposure.obscure;
+        public override bool Obsolete => true;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -27,8 +27,6 @@ namespace Ironbug.Grasshopper.Component
             //pManager[1].Optional = true;
             pManager.AddGenericParameter("sizingLoop", "sizing", "HVAC components", GH_ParamAccess.item);
             pManager[2].Optional = true;
-            pManager.AddGenericParameter("Operation Scheme", "scheme", "HVAC components", GH_ParamAccess.item);
-            pManager[3].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -42,11 +40,10 @@ namespace Ironbug.Grasshopper.Component
             List<IB_HVACObject> supplyComs = new List<IB_HVACObject>();
             List<IB_HVACObject> demandComs = new List<IB_HVACObject>();
             HVAC.IB_SizingPlant sizing = null;
-            HVAC.IB_PlantEquipmentOperationSchemeBase scheme = null;
             DA.GetDataList(0, supplyComs);
             DA.GetDataList(1, demandComs);
             DA.GetData(2, ref sizing);
-            DA.GetData(3, ref scheme);
+
 
             var plant = new HVAC.IB_PlantLoop();
             foreach (var item in supplyComs)
@@ -60,11 +57,11 @@ namespace Ironbug.Grasshopper.Component
                 plant.AddToDemand(newItem);
             }
 
-            if (sizing != null) 
+            if (sizing != null)
+            {
                 plant.SetSizingPlant(sizing);
+            }
 
-            if (scheme != null)
-                plant.SetOperationScheme(scheme);
 
             this.SetObjParamsTo(plant);
             DA.SetData(0, plant);
@@ -74,7 +71,7 @@ namespace Ironbug.Grasshopper.Component
         protected override System.Drawing.Bitmap Icon => Resources.PlantLoop;
 
 
-        public override Guid ComponentGuid => new Guid("172A074C-8FFC-45FE-9E0D-4017591F3BAC");
+        public override Guid ComponentGuid => new Guid("63e4f976-4b63-48e4-b6f7-a2b5d7040252");
 
         public override void CreateAttributes()
         {
