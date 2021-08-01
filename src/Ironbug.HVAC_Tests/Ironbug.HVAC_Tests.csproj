@@ -4,13 +4,17 @@
     <TargetFramework>NET45</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <UserSecretsId>085f2812-ea16-4af0-a0eb-9d39148795c5</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
     <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="OpenStudio" Version="3.2.2" />
+    <PackageReference Include="OpenStudio" Version="3.2.2">
+      <ExcludeAssets></ExcludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

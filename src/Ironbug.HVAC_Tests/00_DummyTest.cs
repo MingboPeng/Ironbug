@@ -210,11 +210,11 @@ namespace Ironbug.HVACTests
         [Test]
         public void LoadIdfToOsm()
         {
-            var m = new OpenStudio.Model();
+            //var m = new OpenStudio.Model();
             var idf = @"
   Construction,
     TCwindow_85,                !- Name
-    A2 - 4 IN DENSE FACE BRICK;               !- Outside Layer
+    R13LAYER;               !- Outside Layer
 ";
             var mIdf = @"
 Material:NoMass,
@@ -225,22 +225,48 @@ R13LAYER,  ! Material Name
   0.7500000    ,   ! Solar Absorptance
   0.7500000    ;   ! Visible Absorptance
 ";
+            //var idfPath = @"C:\EnergyPlusV9-2-0\ExampleFiles\1ZoneEvapCooler.idf";
+            //var trans = new OpenStudio.EnergyPlusReverseTranslator();
+            //var om = trans.loadModel(OpenStudio.OpenStudioUtilitiesCore.toPath(idfPath));
+            //if (om.is_initialized())
+            //{
+            //    var mm = om.get();
+            //    var mats = mm.getMasslessOpaqueMaterials();
+            //    var names = mats.Select(_ => _.nameString());
+            //}
+            var m = new OpenStudio.Model();
+            var t1 = new OpenStudio.VersionTranslator();
+            var t2 = new OpenStudio.EnergyPlusForwardTranslator();
+            var t3 = new OpenStudio.EnergyPlusReverseTranslator();
+
+
+
+
+
+
+
+
+
+
+
             var oM = OpenStudio.IdfObject.load(mIdf);
+            
             if (oM.is_initialized())
             {
-                //var c = ocons.get().to_Construction().get();
+                //var c = oM.get().to_MasslessOpaqueMaterial().get();
                 var c = m.addObject(oM.get()).get();
                 var tp = c.iddObject().type().valueDescription();
-                var cc = c.to_MasslessOpaqueMaterial();
-                var ccc = c.to_OpaqueMaterial();
-                if (!cc.isNull())
-                {
-                    var cccc = cc.get();
-                }
-                if (!ccc.isNull())
-                {
-                    var cccc = cc.get();
-                }
+                m.save(OpenStudioUtilitiesCore.toPath(@"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\bin\Debug\net45\tt.osm"), true);
+                //var cc = c.to_MasslessOpaqueMaterial();
+                //var ccc = c.to_OpaqueMaterial();
+                //if (!cc.isNull())
+                //{
+                //    var cccc = cc.get();
+                //}
+                //if (!ccc.isNull())
+                //{
+                //    var cccc = cc.get();
+                //}
             }
 
             var ocons = OpenStudio.IdfObject.load(idf);
