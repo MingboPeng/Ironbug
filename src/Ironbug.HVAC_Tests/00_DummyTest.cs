@@ -225,61 +225,18 @@ R13LAYER,  ! Material Name
   0.7500000    ,   ! Solar Absorptance
   0.7500000    ;   ! Visible Absorptance
 ";
-            //var idfPath = @"C:\EnergyPlusV9-2-0\ExampleFiles\1ZoneEvapCooler.idf";
-            //var trans = new OpenStudio.EnergyPlusReverseTranslator();
-            //var om = trans.loadModel(OpenStudio.OpenStudioUtilitiesCore.toPath(idfPath));
-            //if (om.is_initialized())
-            //{
-            //    var mm = om.get();
-            //    var mats = mm.getMasslessOpaqueMaterials();
-            //    var names = mats.Select(_ => _.nameString());
-            //}
-            var m = new OpenStudio.Model();
-            var t1 = new OpenStudio.VersionTranslator();
-            var t2 = new OpenStudio.EnergyPlusForwardTranslator();
-            var t3 = new OpenStudio.EnergyPlusReverseTranslator();
+        
+            var ws = new OpenStudio.Workspace();
+            var idfobj = OpenStudio.IdfObject.load(mIdf).get();
+            ws.addObject(idfobj);
 
+            var trans = new OpenStudio.EnergyPlusReverseTranslator();
+            var om = trans.translateWorkspace(ws);
+            var mat = om.getMasslessOpaqueMaterials().First();
 
+            Assert.IsTrue(mat.nameString() == "R13LAYER");
+            Assert.IsTrue(mat.thermalResistance() == 2.290965);
 
-
-
-
-
-
-
-
-
-            var oM = OpenStudio.IdfObject.load(mIdf);
-            
-            if (oM.is_initialized())
-            {
-                //var c = oM.get().to_MasslessOpaqueMaterial().get();
-                var c = m.addObject(oM.get()).get();
-                var tp = c.iddObject().type().valueDescription();
-                m.save(OpenStudioUtilitiesCore.toPath(@"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\bin\Debug\net45\tt.osm"), true);
-                //var cc = c.to_MasslessOpaqueMaterial();
-                //var ccc = c.to_OpaqueMaterial();
-                //if (!cc.isNull())
-                //{
-                //    var cccc = cc.get();
-                //}
-                //if (!ccc.isNull())
-                //{
-                //    var cccc = cc.get();
-                //}
-            }
-
-            var ocons = OpenStudio.IdfObject.load(idf);
-            if (ocons.is_initialized())
-            {
-                //var c = ocons.get().to_Construction().get();
-                var c = m.addObject(ocons.get()).get();
-                var cc = c.to_Construction();
-                if (cc.is_initialized())
-                {
-                    var ccc = cc.get();
-                }
-            }
         }
 
 
