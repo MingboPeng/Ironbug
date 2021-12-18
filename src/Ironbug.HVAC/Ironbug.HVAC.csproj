@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>NET452;netstandard2.0</TargetFrameworks>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -11,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="OpenStudio" Version="3.2.1">
+    <PackageReference Include="OpenStudio" Version="3.2.2.1">
 		<ExcludeAssets>runtime; build</ExcludeAssets>
 	</PackageReference>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
