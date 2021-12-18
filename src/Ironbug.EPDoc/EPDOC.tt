@@ -15,7 +15,7 @@ namespace Ironbug.EPDoc
 {
 	<#
 	//####################################
-	var dir = @"C:\Users\mingo\Documents\GitHub\EPDoc2Json\Doc\";
+	var dir = @"D:\Dev\EPDoc2Json\EPDoc2Json\bin\Debug\net6\outputs";
 	var files = Directory.GetFiles(dir, "*.json");
 
 	var arr = new List<dynamic>();
