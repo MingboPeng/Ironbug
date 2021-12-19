@@ -62,7 +62,7 @@ namespace Ironbug.HVAC.BaseClass
                     note = note.Length > 1000?note.Substring(0,1000)+"....\n(Due to the length of content, documentation has been shown partially)":note;
                     note += Environment.NewLine;
                     note += Environment.NewLine;
-                    note += "Above content copyright © 1996-2019 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
+                    note += "Above content copyright © 1996-2021 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
                     
                 }
                 else
