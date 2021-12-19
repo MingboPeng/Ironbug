@@ -8,15 +8,29 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerWaterCoil();
 
-        private static ControllerWaterCoil NewDefaultOpsObj(Model model) => new ControllerWaterCoil(model);
+
+        private static ControllerWaterCoil NewDefaultOpsObj(Model model) {
+           
+            var dummyLoop = new PlantLoop(model);
+            var dummyCoil = new CoilCoolingWater(model);
+            dummyLoop.addDemandBranchForComponent(dummyCoil);
+            // get a default controllerWaterCoil
+            return dummyCoil.controllerWaterCoil().get();
+        }
+
         public IB_ControllerWaterCoil() : base(NewDefaultOpsObj(new Model()))
         {
+
         }
-        
+
         public ModelObject ToOS(Model model)
         {
-            var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model);
-            return newObj;
+            //var newObj = this.OnNewOpsObj(NewDefaultOpsObj, model);
+            //return newObj;
+
+            //ControllerWaterCoil will never be added to model individually.
+            //It will be added to WaterCoil when it is added to a plant loop
+            return null;
         }
 
     }
