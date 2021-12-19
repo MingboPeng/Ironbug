@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>NET452</TargetFramework>
+	<TargetFrameworks>NET452;netstandard2.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
