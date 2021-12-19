@@ -17,7 +17,8 @@ namespace Ironbug
 					{
 						Converters = new List<JsonConverter>() {
 							new IB_JsonConverter_FieldArgSet(),
-							new IB_JsonConverter_Children()
+							new IB_JsonConverter_Children(),
+							new IB_JsonConverter_HVACObjects()
 						}
 					};
 				}

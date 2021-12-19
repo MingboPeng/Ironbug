@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_Loop : IB_ModelObject
+    public abstract class IB_Loop : IB_ModelObject, IEquatable<IB_Loop>
     {
         [DataMember]
         protected List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
@@ -229,5 +229,28 @@ namespace Ironbug.HVAC.BaseClass
 
             return allcopied;
         }
+
+        public bool Equals(IB_Loop obj)
+        {
+            var isSame = base.Equals(obj);
+
+            var other = obj;
+            if (other == null)
+                return isSame;
+
+            isSame &= this.demandComponents.SequenceEqual(other.demandComponents);
+            isSame &= this.supplyComponents.SequenceEqual(other.supplyComponents);
+
+            return isSame;
+        }
+
+        public static bool operator ==(IB_Loop x, IB_Loop y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(IB_Loop x, IB_Loop y) => !(x == y);
     }
 }

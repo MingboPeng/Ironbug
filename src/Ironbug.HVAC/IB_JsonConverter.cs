@@ -40,7 +40,7 @@ namespace Ironbug
             var children = new IB_Children();
             foreach (var item in array)
             {
-                var typeName = item["ChildType"].ToString();
+                var typeName = item["_IBType"].ToString();
                 var type = Type.GetType(typeName);
                 var child = item.ToObject(type, serializer) as IB_ModelObject;
                 children.Add(child);
@@ -55,7 +55,7 @@ namespace Ironbug
             foreach (var item in value)
             {
                 var t = JToken.FromObject(item, serializer);
-                t["ChildType"] = item.GetType().FullName;
+                t["_IBType"] = item.GetType().FullName;
                 array.Add(t);
             }
 
@@ -66,6 +66,41 @@ namespace Ironbug
             //JToken t = JToken.FromObject(value, serializer);
             //t["ChildType"] = value.GetType().FullName;
             //t.WriteTo(writer);
+        }
+    }
+
+    public class IB_JsonConverter_HVACObjects : JsonConverter<List<IB_HVACObject>>
+    {
+        public IB_JsonConverter_HVACObjects()
+        {
+        }
+
+        public override List<IB_HVACObject> ReadJson(JsonReader reader, Type objectType, List<IB_HVACObject> existingValue, bool hasExistingValue, JsonSerializer serializer)
+        {
+            var array = JArray.Load(reader);
+            var children = new List<IB_HVACObject>();
+            foreach (var item in array)
+            {
+                var typeName = item["_IBType"].ToString();
+                var type = Type.GetType(typeName);
+                var child = item.ToObject(type, serializer) as IB_HVACObject;
+                children.Add(child);
+            }
+            return children;
+
+        }
+
+        public override void WriteJson(JsonWriter writer, List<IB_HVACObject> value, JsonSerializer serializer)
+        {
+            JArray array = new JArray();
+            foreach (var item in value)
+            {
+                var t = JToken.FromObject(item, serializer);
+                t["_IBType"] = item.GetType().FullName;
+                array.Add(t);
+            }
+
+            array.WriteTo(writer);
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Ironbug.HVAC.BaseClass
         public List<IB_EnergyManagementSystemInternalVariable> CustomInternalVariables { get; private set; } = new List<IB_EnergyManagementSystemInternalVariable>();
         [DataMember]
         public List<IB_EnergyManagementSystemActuator> CustomActuators { get; private set; } = new List<IB_EnergyManagementSystemActuator>();
+
         private IList<string> RefObjects { get; set; } = new List<string>();
 
         public IB_ModelObject(ModelObject GhostOSObject)
@@ -500,6 +501,11 @@ namespace Ironbug.HVAC.BaseClass
             var trackingID = String.Format("{0}{1}{2}", idKey, uid, "]");
 
             return trackingID;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_ModelObject);
         }
 
         public bool Equals(IB_ModelObject other)
