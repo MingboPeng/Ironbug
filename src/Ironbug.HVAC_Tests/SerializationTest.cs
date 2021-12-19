@@ -67,7 +67,15 @@ namespace Ironbug.HVACTests
             plant.SetFieldValue(plantFields.Name, "Hot Water Loop");
             plant.SetFieldValue(plantFields.FluidType, "Water");
 
+            // Add children
+            var coilControl = new HVAC.IB_ControllerWaterCoil();
+            coilControl.SetFieldValue(new IB_Field("Action", "Action"), "Normal");
+            var coil = new HVAC.IB_CoilCoolingWater(coilControl);
+            plant.AddToDemand(coil);
 
+
+
+            // ToJson()
             var json = plant.ToJson();
             var readDis = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
             Assert.IsTrue(readDis != null);
@@ -76,9 +84,65 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(name.Equals("Hot Water Loop"));
 
             Assert.IsTrue(readDis.SizingPlant == sizing);
+            Assert.IsTrue(readDis == plant);
 
         }
 
+
+        [Test]
+        public void PlantLoopBranches_Test()
+        {
+
+            var plant = new HVAC.IB_PlantLoop();
+
+         
+            // Add children
+            var coilControl = new HVAC.IB_ControllerWaterCoil();
+            var ctrlField = new IB_Field("Action", "Action");
+            coilControl.SetFieldValue(ctrlField, "Normal");
+            var coil = new HVAC.IB_CoilCoolingWater(coilControl);
+            plant.AddToDemand(coil);
+
+            var pump = new HVAC.IB_PumpVariableSpeed();
+            plant.AddToDemand(pump);
+
+            // ToJson()
+            var json = plant.ToJson();
+            var readDis = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
+            Assert.IsTrue(readDis != null);
+
+            var prop = plant.GetType().GetProperty("demandComponents", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            var readDemands = prop.GetValue(plant) as List<IB_HVACObject>;
+
+            Assert.IsNotNull(readDemands);
+            Assert.AreEqual(readDemands.Count, 2);
+
+            var readCoil = readDemands.OfType<IB_CoilCoolingWater>().FirstOrDefault();
+            Assert.IsNotNull(readCoil);
+
+            var readCoilControl = readCoil.Children.GetChild<IB_ControllerWaterCoil>();
+            Assert.IsTrue(readCoilControl.CustomAttributes.TryGetValue(ctrlField, out var actionValue));
+            Assert.AreEqual(actionValue, "Normal");
+
+            Assert.IsTrue(readDis == plant);
+
+        }
+
+        [Test]
+        public void CoilCoolingWater_Test()
+        {
+
+            var coil = new HVAC.IB_CoilCoolingWater();
+
+
+            // ToJson()
+            var json = coil.ToJson();
+            var readDis = IB_ModelObject.FromJson<IB_CoilCoolingWater>(json);
+            Assert.IsTrue(readDis != null);
+
+            Assert.IsTrue(readDis == coil);
+
+        }
         [Test]
         public void Sizing_Test()
         {
@@ -123,14 +187,17 @@ namespace Ironbug.HVACTests
             args.Add(new IB_FieldArgument(szFields.LoopType, "Heating"));
             args.Add(new IB_FieldArgument(szFields.DesignLoopExitTemperature, 25D));
 
+            // manually added field
+            args.Add(new IB_FieldArgument(new IB_Field("SizingOption", "SizingOption", typeof(string)), "Coincident"));
 
             var json = JsonConvert.SerializeObject(args, Formatting.Indented, IB_JsonSetting.ConvertSetting);
 
             var readDis = JsonConvert.DeserializeObject<List<IB_FieldArgument>>(json, IB_JsonSetting.ConvertSetting);
             Assert.IsTrue(readDis != null);
 
-            Assert.IsTrue(readDis[0].Value.ToString() == "Heating");
-            Assert.IsTrue(readDis[1].Value.Equals(25D));
+            Assert.AreEqual(readDis[0].Value.ToString(), "Heating");
+            Assert.AreEqual(readDis[1].Value, 25D);
+            Assert.AreEqual(readDis[2].Value, "Coincident");
         }
 
         [Test]
