@@ -13,7 +13,8 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="OpenStudio" Version="3.3.1">
-		<ExcludeAssets>runtime; build</ExcludeAssets>
+		<ExcludeAssets>runtime</ExcludeAssets>
+		<IncludeAssets>compile; build; native; analyzers</IncludeAssets>
 	</PackageReference>
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
