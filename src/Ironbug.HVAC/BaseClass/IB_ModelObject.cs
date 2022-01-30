@@ -49,6 +49,15 @@ namespace Ironbug.HVAC.BaseClass
 
         }
 
+        #region Serialization
+        public bool ShouldSerializeChildren() => !this.Children.IsNullOrEmpty();
+        public bool ShouldSerializeCustomAttributes() => !this.CustomAttributes.IsNullOrEmpty();
+        public bool ShouldSerializeCustomOutputVariables() => !this.CustomOutputVariables.IsNullOrEmpty();
+        public bool ShouldSerializeCustomSensors() => !this.CustomSensors.IsNullOrEmpty();
+        public bool ShouldSerializeCustomInternalVariables() => !this.CustomInternalVariables.IsNullOrEmpty();
+        public bool ShouldSerializeCustomActuators() => !this.CustomActuators.IsNullOrEmpty();
+        #endregion
+
         /// <summary>
         /// Same as SetFieldValue
         /// </summary>
@@ -515,6 +524,9 @@ namespace Ironbug.HVAC.BaseClass
             var same = this.CustomAttributes.SequenceEqual(other.CustomAttributes);
             same &= this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables);
             same &= this.Children.SequenceEqual(other.Children);
+            same &= this.CustomSensors.SequenceEqual(other.CustomSensors);
+            same &= this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables);
+            same &= this.CustomActuators.SequenceEqual(other.CustomActuators);
             same &= this.GetType() == other.GetType();
             return same;
         }

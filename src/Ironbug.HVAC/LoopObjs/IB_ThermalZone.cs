@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using OpenStudio;
+using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -10,11 +12,15 @@ namespace Ironbug.HVAC.BaseClass
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ThermalZone();
         private static ThermalZone NewDefaultOpsObj(Model model) => new ThermalZone(model);
 
+        [DataMember]
         public IB_AirTerminal AirTerminal { get; private set; } = new IB_AirTerminalSingleDuctConstantVolumeNoReheat();
+        [DataMember]
         public List<IIB_ZoneEquipment> ZoneEquipments { get; private set; } = new List<IIB_ZoneEquipment>();
-        private IB_SizingZone IB_SizingZone { get; set; } = new IB_SizingZone();
-
+        [DataMember]
+        private IB_SizingZone SizingZone { get; set; } = new IB_SizingZone();
+        [DataMember]
         public IB_ThermalZone SupplyPlenum { get; private set; }
+        [DataMember]
         public IB_ThermalZone ReturnPlenum { get; private set; }
 
         public bool IsAirTerminalPriorToZoneEquipments { get; set; } = false;
@@ -29,6 +35,13 @@ namespace Ironbug.HVAC.BaseClass
 
         }
 
+        #region Serialization
+        public bool ShouldSerializeAirTerminal() => this.AirTerminal != null;
+        public bool ShouldSerializeZoneEquipments() => !this.ZoneEquipments.IsNullOrEmpty();
+        public bool ShouldSerializeIB_SizingZone() => this.SizingZone != null;
+        public bool ShouldSerializeSupplyPlenum() => this.SupplyPlenum != null; 
+        public bool ShouldSerializeReturnPlenum() => this.ReturnPlenum != null;
+        #endregion
 
         public ModelObject GetModelObject()
         {
@@ -43,7 +56,7 @@ namespace Ironbug.HVAC.BaseClass
         /// <param name="NewSizingZone"></param>
         public void SetSizingZone(IB_SizingZone NewSizingZone)
         {
-            this.IB_SizingZone = NewSizingZone;
+            this.SizingZone = NewSizingZone;
         }
 
         
@@ -186,7 +199,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
             //add child to newZone
-            this.IB_SizingZone.ToOS(newZone);
+            this.SizingZone.ToOS(newZone);
 
           
             return newZone;
@@ -202,7 +215,7 @@ namespace Ironbug.HVAC.BaseClass
 
             //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());
-            newObj.SetSizingZone((IB_SizingZone)this.IB_SizingZone.Duplicate());
+            newObj.SetSizingZone((IB_SizingZone)this.SizingZone.Duplicate());
 
 
             foreach (var item in this.ZoneEquipments)

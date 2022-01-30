@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using Ironbug.Core;
 
 namespace Ironbug.HVAC
 {
@@ -20,12 +21,16 @@ namespace Ironbug.HVAC
 
         public IB_HVACSystem(List<IB_AirLoopHVAC> airLoops, List<IB_PlantLoop> plantLoops, List<IB_AirConditionerVariableRefrigerantFlow> vrfs)
         {
+            airLoops = airLoops ?? new List<IB_AirLoopHVAC>();
+            plantLoops = plantLoops ?? new List<IB_PlantLoop>();
+            vrfs = vrfs ?? new List<IB_AirConditionerVariableRefrigerantFlow>();
+
             this.AirLoops = airLoops;
             this.PlantLoops = plantLoops;
             this.VariableRefrigerantFlows = vrfs;
             
-            var existingA = airLoops.Where(_=>_ is IIB_ExistingLoop).Select(_=>((IIB_ExistingLoop)_).ExistingObj.OsmFile);
-            var existingP = plantLoops.Where(_ => _ is IIB_ExistingLoop).Select(_ => ((IIB_ExistingLoop)_).ExistingObj.OsmFile);
+            var existingA = this.AirLoops.Where(_=>_ is IIB_ExistingLoop).Select(_=>((IIB_ExistingLoop)_).ExistingObj.OsmFile);
+            var existingP = this.PlantLoops.Where(_ => _ is IIB_ExistingLoop).Select(_ => ((IIB_ExistingLoop)_).ExistingObj.OsmFile);
 
             var existing = existingA.ToList();
             existing.AddRange(existingP);
@@ -41,9 +46,21 @@ namespace Ironbug.HVAC
 
         }
 
+        #region Serialization
+        public bool ShouldSerializeAirLoops() => !this.AirLoops.IsNullOrEmpty();
+        public bool ShouldSerializePlantLoops() => !this.PlantLoops.IsNullOrEmpty();
+        public bool ShouldSerializeVariableRefrigerantFlows() => !this.VariableRefrigerantFlows.IsNullOrEmpty();
+        #endregion
+
+        public string ToJson(bool indented = false)
+        {
+            var format = indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
+        }
+
         public string SaveAsIBJson(string path)
         {
-            var json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            var json = this.ToJson();
           
             using (StreamWriter file = new StreamWriter(path, true))
             {
@@ -52,7 +69,7 @@ namespace Ironbug.HVAC
             return path;
         }
 
-        public static IB_HVACSystem FromIBJson(string json)
+        public static IB_HVACSystem FromJson(string json)
         {
             var hvac = JsonConvert.DeserializeObject<IB_HVACSystem>(json, IB_JsonSetting.ConvertSetting);
             return hvac;
@@ -241,6 +258,30 @@ namespace Ironbug.HVAC
             
             
         }
-        
+
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_HVACSystem);
+        }
+
+        public bool Equals(IB_HVACSystem other)
+        {
+            if (other is null)
+                return this is null ? true : false;
+            var same = this.AirLoops.SequenceEqual(other.AirLoops);
+            same &= this.PlantLoops.SequenceEqual(other.PlantLoops);
+            same &= this.VariableRefrigerantFlows.SequenceEqual(other.VariableRefrigerantFlows);
+            same &= this.GetType() == other.GetType();
+            return same;
+        }
+        public static bool operator ==(IB_HVACSystem x, IB_HVACSystem y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(IB_HVACSystem x, IB_HVACSystem y) => !(x == y);
     }
 }

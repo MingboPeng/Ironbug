@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -15,6 +16,11 @@ namespace Ironbug.HVAC.BaseClass
         public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
         {
         }
+
+        #region Serialization
+        public bool ShouldSerializesupplyComponents() => !this.supplyComponents.IsNullOrEmpty();
+        public bool ShouldSerializedemandComponents() => !this.demandComponents.IsNullOrEmpty();
+        #endregion
 
         protected (IEnumerable<IB_HVACObject> before, IB_LoopBranches branch, IEnumerable<IB_HVACObject> after) GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
         {
