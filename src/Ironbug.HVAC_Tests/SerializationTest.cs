@@ -6,6 +6,7 @@ using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using Ironbug.Core;
 
 namespace Ironbug.HVACTests
 {
@@ -14,21 +15,67 @@ namespace Ironbug.HVACTests
         [Test]
         public void HVACSystem_Test()
         {
-           
-            //var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>() { }, new List<IB_PlantLoop>(), new List<IB_AirConditionerVariableRefrigerantFlow>() { });
-            //hvac.SaveAsIBJson();
+            var airloop = BuildAirloop();
+            var airloops = new List<IB_AirLoopHVAC>() { airloop };
+
+            var plantloop = BuildPlantLoop();
+            var plantloops = new List<IB_PlantLoop>() { plantloop };
+            var vrf = new IB_AirConditionerVariableRefrigerantFlow();
+            vrf.AddTerminal(BuildVrfTerminal());
+            var vrfs = new List<IB_AirConditionerVariableRefrigerantFlow>() {vrf};
+
+            var hvac = new IB_HVACSystem(airloops, plantloops, vrfs);
+            var j = hvac.ToJson();
+
+            var newHvac = IB_HVACSystem.FromJson(j);
+            Assert.IsTrue(newHvac == hvac);
+        }
+
+        IB_AirLoopHVAC BuildAirloop()
+        {
+            var loop = new IB_AirLoopHVAC();
+
+            var outdoorAir = new IB_OutdoorAirSystem();
+            loop.AddToSupplySide(outdoorAir);
+
+            var heatingcoil = new IB_CoilHeatingElectric();
+            loop.AddToSupplySide(heatingcoil);
+
+            var coolingcoil = new IB_CoilCoolingDXSingleSpeed();
+            loop.AddToSupplySide(coolingcoil);
+
+            var fan = new IB_FanConstantVolume();
+            loop.AddToSupplySide(fan);
+
+            var spt = new IB_SetpointManagerScheduled();
+            loop.AddToSupplySide(spt);
+
+            return loop;
 
         }
-        
+
+        [Test]
+        public void Vrf_Test()
+        {
+            //var vrfSys = new IB_AirConditionerVariableRefrigerantFlow();
+            var vrf = new IB_AirConditionerVariableRefrigerantFlow();
+            vrf.AddTerminal(BuildVrfTerminal());
+
+            var json = vrf.ToJson(true);
+            var newVrf = IB_ModelObject.FromJson<IB_AirConditionerVariableRefrigerantFlow>(json);
+            Assert.IsTrue(newVrf == vrf);
+
+        }
         [Test]
         public void Children_Test()
         {
             //var vrfSys = new IB_AirConditionerVariableRefrigerantFlow();
           
-            var coolingCoil = new IB_CoilCoolingDXVariableRefrigerantFlow();
-            var heatingCoil = new IB_CoilHeatingDXVariableRefrigerantFlow();
-            var fan = new IB_FanOnOff();
-            var vrf = new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(coolingCoil, heatingCoil, fan);
+            var vrf = BuildVrfTerminal();
+
+            var coolingCoil = vrf.GetChild<IB_CoilCoolingDXVariableRefrigerantFlow>();
+            var heatingCoil = vrf.GetChild<IB_CoilHeatingDXVariableRefrigerantFlow>();
+            var fan = vrf.GetChild<IB_FanOnOff>();
 
             //vrfSys.AddTerminal(vrf);
             var jsonFan = fan.ToJson(true);
@@ -48,9 +95,37 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(newFan == fan);
 
         }
+        IB_ZoneHVACTerminalUnitVariableRefrigerantFlow BuildVrfTerminal()
+        {
+            var coolingCoil = new IB_CoilCoolingDXVariableRefrigerantFlow();
+            var heatingCoil = new IB_CoilHeatingDXVariableRefrigerantFlow();
+            var fan = new IB_FanOnOff();
+            var vrf = new IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(coolingCoil, heatingCoil, fan);
+            return vrf;
+        }
+
 
         [Test]
         public void PlantLoop_Test()
+        {
+            var plant = BuildPlantLoop();
+            var sizing = plant.SizingPlant;
+
+            // ToJson()
+            var json = plant.ToJson();
+            var readDis = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
+            Assert.IsTrue(readDis != null);
+
+            var plantFields = HVAC.IB_PlantLoop_FieldSet.Value;
+            Assert.IsTrue(readDis.CustomAttributes.TryGetValue(plantFields.Name, out var name));
+            Assert.IsTrue(name.Equals("Hot Water Loop"));
+
+            Assert.IsTrue(readDis.SizingPlant == sizing);
+            Assert.IsTrue(readDis == plant);
+
+        }
+
+        IB_PlantLoop BuildPlantLoop()
         {
 
             var plant = new HVAC.IB_PlantLoop();
@@ -72,22 +147,8 @@ namespace Ironbug.HVACTests
             coilControl.SetFieldValue(new IB_Field("Action", "Action"), "Normal");
             var coil = new HVAC.IB_CoilCoolingWater(coilControl);
             plant.AddToDemand(coil);
-
-
-
-            // ToJson()
-            var json = plant.ToJson();
-            var readDis = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
-            Assert.IsTrue(readDis != null);
-
-            Assert.IsTrue(readDis.CustomAttributes.TryGetValue(plantFields.Name, out var name));
-            Assert.IsTrue(name.Equals("Hot Water Loop"));
-
-            Assert.IsTrue(readDis.SizingPlant == sizing);
-            Assert.IsTrue(readDis == plant);
-
+            return plant;
         }
-
 
         [Test]
         public void PlantLoopBranches_Test()
