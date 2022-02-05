@@ -6,9 +6,9 @@ namespace Ironbug.HVAC.BaseClass
         public string Name { get; private set; }
         public string OsmFile { get; private set; }
 
+        private IB_ExistingObj() { }
         public IB_ExistingObj(string ExistingAirloopName, string ExistingOsmPath)
         {
-
             this.Name = ExistingAirloopName;
             this.OsmFile = ExistingOsmPath;
         }

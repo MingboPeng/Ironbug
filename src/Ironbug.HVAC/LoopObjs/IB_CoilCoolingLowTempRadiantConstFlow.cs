@@ -29,7 +29,7 @@ namespace Ironbug.HVAC
             Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airLoT));
            
         }
-
+        private IB_CoilCoolingLowTempRadiantConstFlow():base(null) { }
         public IB_CoilCoolingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 
             : base(NewDefaultOpsObj(new Model(), waterHiT, waterLoT, airHiT, airLoT))
         {

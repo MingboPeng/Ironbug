@@ -6,7 +6,7 @@ namespace Ironbug.HVAC.BaseClass
 {
     public class IB_IddField : IB_Field
     {
-        
+        private IB_IddField() : base(null, null) { }
         public IB_IddField(IB_Field IBField, IddField field)
             : base(IBField)
         {

@@ -39,14 +39,22 @@ namespace Ironbug.HVAC.BaseClass
 
         private IList<string> RefObjects { get; set; } = new List<string>();
 
-        public IB_ModelObject(ModelObject GhostOSObject)
+        public static bool Deserializating;
+        public IB_ModelObject(ModelObject ghostOpsObj)
         {
-            this.GhostOSObject = GhostOSObject;
-            this.SetTrackingID();
-            this.SimulationOutputVariables = GhostOSObject.outputVariableNames();
-            //this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
-            this.EmsInternalVariables = GhostOSObject.emsInternalVariableNames();
+            if (ghostOpsObj != null)
+            {
+                this.GhostOSObject = ghostOpsObj;
 
+                // do not reset tracking id when desrializating object from json
+                if (!Deserializating)
+                    this.SetTrackingID();
+
+                this.SimulationOutputVariables = ghostOpsObj.outputVariableNames();
+                //this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
+                this.EmsInternalVariables = ghostOpsObj.emsInternalVariableNames();
+            }
+            
         }
 
         #region Serialization
@@ -205,11 +213,22 @@ namespace Ironbug.HVAC.BaseClass
 
         public string GetTrackingID()
         {
-            return this.GhostOSObject.comment();
+            var id = string.Empty;
+            if (this.GhostOSObject == null || string.IsNullOrEmpty(this.GhostOSObject.comment()))
+            {
+                var found = this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out var att);
+                if (found && !string.IsNullOrEmpty(att?.ToString()))
+                    id = $"! {att}";
+            }
+            else
+            {
+                id = this.GhostOSObject.comment();
+            }
+            return id;
         }
         public string GetTrackingTagID()
         {
-            var id = this.GhostOSObject.comment();
+            var id = this.GetTrackingID();
             var idd = id.StartsWith("! ") ? id.Replace("! ", "") : id;
             return idd;
         }
@@ -248,7 +267,7 @@ namespace Ironbug.HVAC.BaseClass
         public void SetRefObject(IList<string> RefObjectStrs)
         {
             if (RefObjectStrs is null) return;
-            GhostOSObject = this.InitFromRefObj(GhostOSObject.model(), RefObjectStrs);
+            GhostOSObject = this.InitFromRefObj(GhostOSObject?.model(), RefObjectStrs);
             this.RefObjects = RefObjectStrs;
         }
 
@@ -271,7 +290,7 @@ namespace Ironbug.HVAC.BaseClass
             //remember this ghost is only for preview purpose
             //meaning it will not be saved in real OpenStudio.Model, 
             //but it should have all the same field values as the real one, except handles.
-            this.GhostOSObject.SetFieldValue(field, realValue);
+            this.GhostOSObject?.SetFieldValue(field, realValue);
             
 
         }
@@ -333,10 +352,9 @@ namespace Ironbug.HVAC.BaseClass
             ModelObject realObj = null;
             if (this is IIB_DualLoopObj)
             {
-                var objInModel = this.GhostOSObject.GetIfInModel(model);
-                var ifNull = objInModel is null;
-                realObj = ifNull ? InitAndSetAttributes(): objInModel;
-                
+                var objInModel = this.GetIfInModel<T>(model, this.GetTrackingID());
+                realObj = objInModel is null ? InitAndSetAttributes() : objInModel;
+
             }
             else
             {
@@ -357,9 +375,26 @@ namespace Ironbug.HVAC.BaseClass
            
         }
 
+        private ModelObject GetIfInModel<T>(Model model, string trackingID) where T : ModelObject
+        {
+            if (string.IsNullOrEmpty(trackingID))
+                return null;
+            var type = typeof(T);
+            if (type.Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
+            var getmethodName = $"get{type.Name}s";
+            var methodInfo = typeof(Model).GetMethod(getmethodName);
+            if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
+         
+            var objresults = methodInfo.Invoke(model, null);
+            var objList = (objresults as IEnumerable<T>).ToList();
+            var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
+
+            return matchObj;
+        }
+
         public void ApplyAttributesToObj(ModelObject osObj)
         {
-            if (this.GhostOSObject.GetType() != osObj.GetType())
+            if (this.GhostOSObject != null && this.GhostOSObject.GetType() != osObj.GetType())
                 throw new ArgumentException($"You cannot apply attributes of {this.GhostOSObject.GetType()} to {osObj.GetType()}");
             osObj.SetCustomAttributes(this.CustomAttributes);
             osObj.SetOutputVariables(this.CustomOutputVariables);
@@ -501,14 +536,9 @@ namespace Ironbug.HVAC.BaseClass
             return s;
         }
 
-        
-
         private static string CreateUID()
         {
-            var idKey = "TrackingID:#[";
-            var uid = Guid.NewGuid().ToString().Substring(0, 8);
-            var trackingID = String.Format("{0}{1}{2}", idKey, uid, "]");
-
+            var trackingID = $"TrackingID:#[{Guid.NewGuid().ToString().Substring(0, 8)}]";
             return trackingID;
         }
 

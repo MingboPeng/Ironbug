@@ -12,6 +12,7 @@ namespace Ironbug.HVAC
         private string spaceName { get; set; } = string.Empty;
 
         private static WaterUseEquipment NewDefaultOpsObj(Model model) => new WaterUseEquipment(new WaterUseEquipmentDefinition(model));
+        private IB_WaterUseEquipment() : base(null) { }
         public IB_WaterUseEquipment(IB_WaterUseEquipmentDefinition waterUseLoad) : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(waterUseLoad);

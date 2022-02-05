@@ -21,8 +21,8 @@ namespace Ironbug.HVAC
             CoilHeatingLowTempRadiantVarFlow NewDefaultOpsObj(Model m)
             => new CoilHeatingLowTempRadiantVarFlow(m, Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airLoT));
         }
-        
 
+        private IB_CoilHeatingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilHeatingLowTempRadiantVarFlow(double airLoT) 
             : base(NewDefaultOpsObj(new Model(), airLoT))
         {

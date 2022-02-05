@@ -15,6 +15,7 @@ namespace Ironbug.HVAC
 
         public IB_ExistingObj ExistingObj { get; private set; }
 
+        private IB_ExistPlantLoop() { }
         public IB_ExistPlantLoop(IB_ExistingObj ExistingAirloop) : base()
         {
             this.ExistingObj = ExistingAirloop;
@@ -72,6 +73,10 @@ namespace Ironbug.HVAC
         public override List<string> ToStrings()
         {
             return new List<string>() { this.ToString() };
+        }
+        public override string ToJson(bool indented = false)
+        {
+            throw new ArgumentException($"{this.GetType().Name} can not be saved to Json");
         }
     }
 }

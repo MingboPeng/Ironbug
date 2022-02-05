@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
         private IB_HeatExchangerAirToAirSensibleAndLatent _heatingExchanger => this.GetChild<IB_HeatExchangerAirToAirSensibleAndLatent>();
         private IB_Fan _supplyFan => this.GetChild<IB_Fan>(1);
         private IB_Fan _exhaustFan => this.GetChild<IB_Fan>(2);
-
+        private IB_ZoneHVACEnergyRecoveryVentilator() : base(null) { }
         public IB_ZoneHVACEnergyRecoveryVentilator(IB_HeatExchangerAirToAirSensibleAndLatent HeExchanger, IB_Fan SupplyFan, IB_Fan ExhaustFan) 
             : base(NewDefaultOpsObj(new Model(), HeExchanger, SupplyFan, ExhaustFan))
         {

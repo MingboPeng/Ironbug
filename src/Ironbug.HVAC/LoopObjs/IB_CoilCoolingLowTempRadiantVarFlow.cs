@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
           
 
         }
-
+        private IB_CoilCoolingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilCoolingLowTempRadiantVarFlow( double airHiT) 
             : base(NewDefaultOpsObj(new Model(), airHiT))
         {

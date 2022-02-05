@@ -18,17 +18,17 @@ namespace Ironbug.HVAC
         [DataMember]
         public List<BaseClass.IB_EnergyManagementSystemVariable> Variables { get; private set; }
 
-
+        private IB_EnergyManagementSystem() { }
         public IB_EnergyManagementSystem(
             List<IB_EnergyManagementSystemActuator> actuators, 
             List<IB_EnergyManagementSystemSensor> sensors,
             List<BaseClass.IB_EnergyManagementSystemVariable> variables,
             List<IB_EnergyManagementSystemProgramCallingManager> programManagers)
         {
-            this.Actuators = actuators;
-            this.Sensors = sensors;
-            this.ProgramClnManagers = programManagers;
-            this.Variables = variables;
+            this.Actuators = actuators ?? new List<IB_EnergyManagementSystemActuator>();
+            this.Sensors = sensors ?? new List<IB_EnergyManagementSystemSensor>();
+            this.ProgramClnManagers = programManagers ?? new List<IB_EnergyManagementSystemProgramCallingManager>();
+            this.Variables = variables ?? new List<BaseClass.IB_EnergyManagementSystemVariable>();
             
         }
 

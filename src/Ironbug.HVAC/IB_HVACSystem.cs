@@ -19,6 +19,11 @@ namespace Ironbug.HVAC
 
         private string _existFile = "";
 
+        private IB_HVACSystem() {
+            this.AirLoops = new List<IB_AirLoopHVAC>();
+            this.PlantLoops = new List<IB_PlantLoop>();
+            this.VariableRefrigerantFlows = new List<IB_AirConditionerVariableRefrigerantFlow>();
+        }
         public IB_HVACSystem(List<IB_AirLoopHVAC> airLoops, List<IB_PlantLoop> plantLoops, List<IB_AirConditionerVariableRefrigerantFlow> vrfs)
         {
             airLoops = airLoops ?? new List<IB_AirLoopHVAC>();

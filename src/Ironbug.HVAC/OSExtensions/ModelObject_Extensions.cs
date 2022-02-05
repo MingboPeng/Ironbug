@@ -22,15 +22,17 @@ namespace Ironbug.HVAC
 
         public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
         {
-
-            if (component.GetType().Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
-            var getmethodName = $"get{component.GetType().Name}s";
+            var type = component.GetType();
+            if (type.Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
+            var getmethodName = $"get{type.Name}s";
             var methodInfo = typeof(Model).GetMethod(getmethodName);
             if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
 
             var objresults = methodInfo.Invoke(model, null);
             var objList = (objresults as IEnumerable<T>).ToList();
-            var matchObj = objList.FirstOrDefault(_ => _.comment() == component.comment());
+            var trackingID = component.comment();
+            var ids = objList.Select(_ => _.comment()).ToList();
+            var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
 
             return matchObj;
         }

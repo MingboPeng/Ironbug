@@ -15,7 +15,7 @@ namespace Ironbug.HVAC
         private static ZoneHVACLowTempRadiantVarFlow NewDefaultOpsObj(Model model, IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil, IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil) 
             => new ZoneHVACLowTempRadiantVarFlow(model,model.alwaysOnDiscreteSchedule(), HeatingCoil.ToOS(model), CoolingCoil.ToOS(model));
 
-        
+        private IB_ZoneHVACLowTempRadiantVarFlow() : base(null) { }
         public IB_ZoneHVACLowTempRadiantVarFlow(IB_CoilHeatingLowTempRadiantVarFlow HeatingCoil, IB_CoilCoolingLowTempRadiantVarFlow CoolingCoil) 
             : base(NewDefaultOpsObj(new Model(), HeatingCoil, CoolingCoil))
         {

@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
+        [DataMember]
         public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
 
         public IB_LoopBranches() : base(new Node(new Model()))

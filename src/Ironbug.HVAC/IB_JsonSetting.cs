@@ -15,11 +15,11 @@ namespace Ironbug
 				{
 					_setting = new JsonSerializerSettings
 					{
-						Converters = new List<JsonConverter>() {
-							new IB_JsonConverter_FieldArgSet(),
-							new IB_JsonConverter_Children(),
-							new IB_JsonConverter_HVACObjects()
-						}
+                        Converters = new List<JsonConverter>() {
+                            new IB_JsonConverter_FieldArgSet(),
+                        },
+                        TypeNameHandling = TypeNameHandling.Objects,
+						ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
 					};
 				}
 				return _setting;

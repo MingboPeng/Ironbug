@@ -160,7 +160,7 @@ namespace Ironbug.HVAC
         {
 
             //Find the branch object first, and mark it. 
-            //Reverce the objects order before the mark (supplyInletNode)
+            //Reverse the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(Components);

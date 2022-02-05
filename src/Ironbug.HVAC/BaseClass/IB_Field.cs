@@ -37,6 +37,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public string UnitSI { get; set; }
         public string UnitIP { get; set; }
+        protected IB_Field() { }
         internal IB_Field(MethodInfo opsSetterMethod)
             : this(opsSetterMethod.Name.Substring(3), string.Empty, opsSetterMethod.GetParameters().First().ParameterType)
         {
@@ -286,6 +287,7 @@ namespace Ironbug.HVAC.BaseClass
     /// </summary>
     public class IB_TopField : IB_Field
     {
+        private IB_TopField() : base() { }
         public IB_TopField(string FullName, string ShortName)
             : base(FullName, ShortName)
         {
@@ -295,7 +297,7 @@ namespace Ironbug.HVAC.BaseClass
 
     public class IB_BasicField : IB_Field
     {
-        
+        private IB_BasicField() : base() { }
         public IB_BasicField(string FullName, string ShortName) 
             :base(FullName, ShortName)
         {

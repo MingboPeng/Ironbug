@@ -68,6 +68,7 @@ namespace Ironbug.HVAC.Schedules
 
         private string _FilePath;
 
+        private IB_ScheduleFile() : base(null) { }
         public IB_ScheduleFile(string FilePath) : base(InitMethod(new Model(), FilePath))
         {
             //if (_refOsType == typeof(Node))
@@ -85,7 +86,11 @@ namespace Ironbug.HVAC.Schedules
 
         }
 
-        
+        public override string ToJson(bool indented = false)
+        {
+            throw new ArgumentException($"{this.GetType().Name} is not supported to be exported to Json now");
+        }
+
     }
     public sealed class IB_ScheduleFile_FieldSet
     : IB_FieldSet<IB_ScheduleFile_FieldSet>

@@ -10,10 +10,11 @@ namespace Ironbug.HVAC
 
         private static CoilHeatingWater NewDefaultOpsObj(Model model) => new CoilHeatingWater(model);
         private IB_ControllerWaterCoil Controller => this.GetChild<IB_ControllerWaterCoil>();
+
         public IB_CoilHeatingWater() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public IB_CoilHeatingWater(IB_ControllerWaterCoil Controller) : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingWater(IB_ControllerWaterCoil Controller) : this()
         {
             AddChild(Controller);
         }

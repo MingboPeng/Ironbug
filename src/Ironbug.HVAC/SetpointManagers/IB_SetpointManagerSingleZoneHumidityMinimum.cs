@@ -12,6 +12,7 @@ namespace Ironbug.HVAC
             => new SetpointManagerSingleZoneHumidityMinimum(model);
 
         private IB_ThermalZone ControlZone => this.GetChild<IB_ThermalZone>();
+        private IB_SetpointManagerSingleZoneHumidityMinimum() : base(null) { }
         public IB_SetpointManagerSingleZoneHumidityMinimum(IB_ThermalZone thermalZone) : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(thermalZone);

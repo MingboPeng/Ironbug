@@ -1,23 +1,28 @@
-﻿using Ironbug.HVAC.BaseClass;
+﻿using Ironbug.Core;
+using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
     public class IB_NoAirLoop : IB_AirLoopHVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_NoAirLoop();
-
-        private List<IB_ThermalZone> _thermalZones { get; set; } = new List<IB_ThermalZone>();
+        [DataMember]
+        public List<IB_ThermalZone> ThermalZones { get; private set; } = new List<IB_ThermalZone>();
 
         public IB_NoAirLoop() : base()
         {
         }
 
+        #region Serialization
+        public bool ShouldSerializeThermalZones() => !this.ThermalZones.IsNullOrEmpty();
+        #endregion
         public void AddThermalZones(IB_ThermalZone ThermalZones)
         {
-            this._thermalZones.Add(ThermalZones);
+            this.ThermalZones.Add(ThermalZones);
         }
 
 
@@ -25,7 +30,7 @@ namespace Ironbug.HVAC
         {
             var newObj = this.Duplicate(() => new IB_NoAirLoop());
 
-            this._thermalZones.ForEach(
+            this.ThermalZones.ForEach(
                 _ => newObj.AddThermalZones(_.Duplicate() as IB_ThermalZone)
                 );
 
@@ -34,7 +39,7 @@ namespace Ironbug.HVAC
 
         public override ModelObject ToOS(Model model)
         {
-            var tzs = this._thermalZones;
+            var tzs = this.ThermalZones;
             foreach (var item in tzs)
             {
                 item.ToOS_NoAirLoop(model);
@@ -45,7 +50,7 @@ namespace Ironbug.HVAC
 
         public override string ToString()
         {
-            return string.Format("{0} zones in this NoAirLoop", this._thermalZones.Count);
+            return string.Format("{0} zones in this NoAirLoop", this.ThermalZones.Count);
         }
 
         public override List<string> ToStrings()

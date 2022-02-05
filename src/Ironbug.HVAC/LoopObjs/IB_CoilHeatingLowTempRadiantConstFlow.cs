@@ -31,7 +31,7 @@ namespace Ironbug.HVAC
       
         }
 
-
+        private IB_CoilHeatingLowTempRadiantConstFlow() : base(null) { }
 
         public IB_CoilHeatingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 
             : base(NewDefaultOpsObj(new Model(), waterHiT, waterLoT, airHiT, airLoT))

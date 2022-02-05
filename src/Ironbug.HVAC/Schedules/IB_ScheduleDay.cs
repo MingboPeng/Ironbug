@@ -15,7 +15,7 @@ namespace Ironbug.HVAC.Schedules
             => new ScheduleDay(model);
 
         private List<double> values { get; set; } = new List<double>();
-
+        private IB_ScheduleDay() : base(null) { }
         public IB_ScheduleDay(double value) : base(InitMethod(new Model()))
         {
             this.constantNumber = value;

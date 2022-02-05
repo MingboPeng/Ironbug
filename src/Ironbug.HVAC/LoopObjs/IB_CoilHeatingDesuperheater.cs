@@ -12,6 +12,7 @@ namespace Ironbug.HVAC
         //Now supports CoilCoolingDXSingleSpeed and CoilCoolingDXTwoSpeed
         //TODO: will add later: RefrigerationCondenserAirCooled, RefrigerationCondenserEvaporativeCooled, RefrigerationCondenserWaterCooled
         private IB_CoilDX HeatingSource => this.GetChild<IB_CoilDX>();
+        private IB_CoilHeatingDesuperheater() : base(null) { }
         public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(heatingSource);

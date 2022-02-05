@@ -1,10 +1,15 @@
-﻿namespace Ironbug.HVAC.BaseClass
+﻿using System.Runtime.Serialization;
+
+namespace Ironbug.HVAC.BaseClass
 {
     public class IB_OutputVariable
     {
+        [DataMember]
         public string VariableName { get; private set; }
+        [DataMember]
         public string TimeStep { get; private set; }
 
+        private IB_OutputVariable() { }
         public IB_OutputVariable(string variableName, TimeSteps timeStep)
         {
             this.VariableName = variableName;
@@ -19,7 +24,7 @@
             success &= outV.setKeyValue(keyName);
             return success;
         }
-
+        
         public enum TimeSteps
         {
             Detail,
