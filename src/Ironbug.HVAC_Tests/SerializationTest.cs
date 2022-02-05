@@ -12,11 +12,60 @@ namespace Ironbug.HVACTests
 {
     public class SerializationTest
     {
+
+        [Test]
+        public void CheckAllObjectsConstructors_Test()
+        {
+            //ensure all object has a default constructor for json deserialization
+            var types = typeof(IB_HVACObject).Assembly.GetExportedTypes().
+                Where( _ => 
+                _.IsClass && 
+                !_.IsAbstract &&
+                _.Name.StartsWith("IB_") && 
+                !_.Name.StartsWith("IB_Json") && 
+                !_.IsSubclassOf(typeof(IB_FieldSet))
+                );
+            var typesTobeFixed = new List<Type>();
+            foreach (var type in types)
+            {
+                //var c = type.GetConstructor(Type.EmptyTypes);
+                var construction = type.GetConstructor(
+                    System.Reflection.BindingFlags.Instance | 
+                    System.Reflection.BindingFlags.Public | 
+                    System.Reflection.BindingFlags.NonPublic, 
+                    null, Type.EmptyTypes, null);
+                if (construction != null)
+                    continue;
+
+                typesTobeFixed.Add(type);
+                Console.WriteLine($"{type} has no parameterless constructor for json deserialization, please add private constructor");
+            }
+
+            Assert.IsTrue(typesTobeFixed.Count == 0);
+        }
+
+        [Test]
+        public void Deserialize_Test()
+        {
+            IB_ModelObject.Deserializating = true;
+            var p = @"C:\Users\mingo\Desktop\New folder\IbJson.json";
+            var json = File.ReadAllText(p);
+            var newHvac = IB_HVACSystem.FromJson(json);
+            IB_ModelObject.Deserializating = false;
+            var osmP = @"C:\Users\mingo\Desktop\New folder\IbJson.osm";
+            newHvac.SaveHVAC(osmP);
+            //Assert.IsTrue(newHvac == hvac);
+
+        }
+
+
         [Test]
         public void HVACSystem_Test()
         {
             var airloop = BuildAirloop();
-            var airloops = new List<IB_AirLoopHVAC>() { airloop };
+
+            var noAirLoop = new IB_NoAirLoop();
+            var airloops = new List<IB_AirLoopHVAC>() { airloop, noAirLoop };
 
             var plantloop = BuildPlantLoop();
             var plantloops = new List<IB_PlantLoop>() { plantloop };
@@ -29,6 +78,8 @@ namespace Ironbug.HVACTests
 
             var newHvac = IB_HVACSystem.FromJson(j);
             Assert.IsTrue(newHvac == hvac);
+
+            //IB_OutputVariable
         }
 
         IB_AirLoopHVAC BuildAirloop()
@@ -66,6 +117,21 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(newVrf == vrf);
 
         }
+
+        [Test]
+        public void OutputVariable_Test()
+        {
+            var fan = new IB_FanConstantVolume();
+            var vr = new IB_OutputVariable("vv", IB_OutputVariable.TimeSteps.Hourly);
+            fan.AddOutputVariables(new List<IB_OutputVariable>() { vr });
+            var j = fan.ToJson();
+
+            var newObj = IB_FanConstantVolume.FromJson<IB_FanConstantVolume>(j);
+            Assert.IsTrue(newObj == fan);
+
+            //IB_OutputVariable
+        }
+
         [Test]
         public void Children_Test()
         {
@@ -104,6 +170,47 @@ namespace Ironbug.HVACTests
             return vrf;
         }
 
+        [Test]
+        public void ZoneEquipment_Test()
+        {
+            //var fan = new IB_FanConstantVolume();
+            //var coilH = new IB_CoilHeatingWater();
+            //var coilC = new IB_CoilCoolingDXSingleSpeed();
+            //var z = new IB_ZoneHVACPackagedTerminalAirConditioner(fan, coilH, coilC);
+
+            //var fanJson = fan.ToJson();
+            //var fan2 = IB_ModelObject.FromJson<IB_FanConstantVolume>(fanJson);
+            //Assert.IsTrue(fan == fan2);
+
+            //var coilHJson = coilH.ToJson();
+            //var coilH2 = IB_ModelObject.FromJson<IB_CoilHeatingWater>(coilHJson);
+            //Assert.IsTrue(coilH == coilH2);
+
+            //var coilCJson = coilC.ToJson();
+            //var coilC2 = IB_ModelObject.FromJson<IB_CoilCoolingDXSingleSpeed>(coilCJson);
+            //Assert.IsTrue(coilC == coilC2);
+
+            //var zJson = z.ToJson();
+            //var z2 = IB_ModelObject.FromJson<IB_ZoneHVACPackagedTerminalAirConditioner>(zJson);
+            //Assert.IsTrue(z == z2);
+
+            var z = BuildZoneEquipment();
+            var json = z.ToJson();
+            var readDis = IB_ZoneHVACPackagedTerminalAirConditioner.FromJson<IB_ZoneHVACPackagedTerminalAirConditioner>(json);
+            Assert.IsTrue(readDis != null);
+
+            Assert.IsTrue(readDis == z);
+
+        }
+        IB_ZoneHVACPackagedTerminalAirConditioner BuildZoneEquipment()
+        {
+            var fan = new IB_FanConstantVolume();
+            var coilH = new IB_CoilHeatingWater();
+            var coilC = new IB_CoilCoolingDXSingleSpeed();
+            var zp = new IB_ZoneHVACPackagedTerminalAirConditioner(fan, coilH, coilC);
+            return zp;
+
+        }
 
         [Test]
         public void PlantLoop_Test()
