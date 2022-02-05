@@ -1,54 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>NET452</TargetFramework>
-    <Platforms>AnyCPU;x64</Platforms>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>NET452</TargetFramework>
+		<Platforms>AnyCPU;x64</Platforms>
+		<TargetExt>.gha</TargetExt>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Grasshopper">
-		<Version>6.0.18016.23451</Version>
-		<ExcludeAssets>runtime</ExcludeAssets>
-		<IncludeAssets>compile; build; native; analyzers</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="OpenStudio" Version="3.3.1">
-		<ExcludeAssets>runtime</ExcludeAssets>
-		<IncludeAssets>compile; build; native; analyzers</IncludeAssets>
-	</PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
+		<PackageReference Include="OpenStudio" Version="3.3.1" IncludeAssets="compile;build" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj" />
-    <ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj" />
+		<ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Windows" />
+		<Reference Include="System.Windows.Forms" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Resource.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resource.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resource.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="Copy &quot;$(TargetPath)&quot; &quot;$(TargetDir)$(ProjectName).gha&quot;&#xD;&#xA;if $(ConfigurationName) == Release Erase &quot;$(TargetPath)&quot;" />
-  </Target>
+	<PropertyGroup Condition="$(Configuration) != 'Release' AND $([MSBuild]::IsOSPlatform(Windows))">
+		<StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+		<StartAction>Program</StartAction>
+	</PropertyGroup>
 
 </Project>
