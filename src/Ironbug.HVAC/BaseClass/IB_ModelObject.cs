@@ -448,7 +448,10 @@ namespace Ironbug.HVAC.BaseClass
      
         public static T FromJson<T>(string json) where T: IB_ModelObject
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, IB_JsonSetting.ConvertSetting);
+            IB_ModelObject.Deserializating = true;
+            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, IB_JsonSetting.ConvertSetting);
+            IB_ModelObject.Deserializating = false;
+            return obj;
         }
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
         //{

@@ -16,7 +16,7 @@ namespace Ironbug
 					_setting = new JsonSerializerSettings
 					{
                         Converters = new List<JsonConverter>() {
-                            new IB_JsonConverter_FieldArgSet(),
+                            new IB_JsonConverter_FieldArgument(),
                         },
                         TypeNameHandling = TypeNameHandling.Objects,
 						ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor

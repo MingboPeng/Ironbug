@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -22,8 +21,11 @@ namespace Ironbug.HVAC.BaseClass
       
         public MethodInfo SetterMethod { get;  set; } = null;
         [DataMember]
-        public string DataTypeName { get;  set; } = typeof(string).FullName;
-
+        public string DataTypeName { get; set; } = typeof(string).FullName;
+    
+        /// <summary>
+        /// Setter method's parameter type used in OpenStudio
+        /// </summary>
         public Type DataType => Type.GetType(DataTypeName);
         //public bool IsHidden { get; set; }
 
@@ -191,8 +193,6 @@ namespace Ironbug.HVAC.BaseClass
                     return $"\r\nUnit: {UnitSI} [IP: {UnitIP}]";
                 }
                 
-
-
             }
         }
 
