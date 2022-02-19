@@ -73,5 +73,11 @@ namespace Ironbug.HVAC
             = new IB_BasicField("RatedCoolingCOP", "CoCOP");
         public IB_Field RatedHeatingCOP { get; }
             = new IB_BasicField("RatedHeatingCOP", "HeCOP");
+
+        public IB_Field BasinHeaterOperatingSchedule { get; } 
+            = new IB_Field("BasinHeaterOperatingSchedule", "BasinHeaterOperatingSchedule");
+
+        public IB_Field CoolingCapacityRatioBoundaryCurve { get; }
+            = new IB_Field("CoolingCapacityRatioBoundaryCurve", "CoolingCapacityRatioBoundaryCurve");
     }
 }
