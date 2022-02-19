@@ -42,6 +42,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
             if (zones.Count > 1) this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This is the setpointManager for single zone, you have more than one zone as input. So it takes the first zone as the control zone.");
             zone = zones[0];
+            if (zone == null)
+                throw new ArgumentException("Input zone is null");
+                
             var obj = new HVAC.IB_SetpointManagerSingleZoneReheat(zone);
             double minT = 10;
             double maxT = 50;
