@@ -49,11 +49,22 @@ namespace Ironbug.HVAC.BaseClass
             value = arg?.Value;
             return arg != null;
         }
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_FieldArgumentSet);
+        }
         public bool Equals(IB_FieldArgumentSet other)
         {
             if (other is null)
                 return this is null ? true : false;
-            return this.SequenceEqual(other);
+
+            foreach (var item in this)
+            {
+                var found = other.FirstOrDefault(_ => _.Field == item.Field);
+                if (item != found)
+                    return false;
+            }
+            return true;
         }
         public static bool operator ==(IB_FieldArgumentSet x, IB_FieldArgumentSet y)
         {

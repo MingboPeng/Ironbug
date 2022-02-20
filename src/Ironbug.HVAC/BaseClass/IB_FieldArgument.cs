@@ -32,11 +32,27 @@ namespace Ironbug.HVAC.BaseClass
             return this.Value.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_FieldArgument);
+        }
+
         public bool Equals(IB_FieldArgument other)
         {
             if (other is null)
                 return this is null ? true : false;
-            return this.Field.Equals(other.Field) && this.Value.Equals(other.Value);
+            if (!this.Field.Equals(other.Field))
+                return false;
+
+            if (this.Value.GetType().IsSubclassOf(typeof(IB_ModelObject)))
+            {
+                return this.Value.Equals(other.Value);
+            }
+            else
+            {
+                return this.Value.ToString().Equals(other.Value.ToString());
+            }
+
         }
         public static bool operator == (IB_FieldArgument x, IB_FieldArgument y) {
             if (x is null)
