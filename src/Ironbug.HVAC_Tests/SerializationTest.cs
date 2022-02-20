@@ -47,11 +47,9 @@ namespace Ironbug.HVACTests
         [Test]
         public void Deserialize_Test()
         {
-            IB_ModelObject.Deserializating = true;
             var p = @"C:\Users\mingo\Desktop\New folder\IbJson.json";
             var json = File.ReadAllText(p);
             var newHvac = IB_HVACSystem.FromJson(json);
-            IB_ModelObject.Deserializating = false;
             var osmP = @"C:\Users\mingo\Desktop\New folder\IbJson.osm";
             newHvac.SaveHVAC(osmP);
             //Assert.IsTrue(newHvac == hvac);
@@ -77,9 +75,8 @@ namespace Ironbug.HVACTests
             var j = hvac.ToJson();
 
             var newHvac = IB_HVACSystem.FromJson(j);
-            Assert.IsTrue(newHvac == hvac);
+            Assert.AreEqual(newHvac, hvac);
 
-            //IB_OutputVariable
         }
 
         IB_AirLoopHVAC BuildAirloop()
@@ -121,13 +118,21 @@ namespace Ironbug.HVACTests
         [Test]
         public void OutputVariable_Test()
         {
-            var fan = new IB_FanConstantVolume();
+            //test output variable
             var vr = new IB_OutputVariable("vv", IB_OutputVariable.TimeSteps.Hourly);
+            var outVarsJson = JsonConvert.SerializeObject(vr, IB_JsonSetting.ConvertSetting);
+            //JsonSerializerSettings
+            var obj = JsonConvert.DeserializeObject<IB_OutputVariable>(outVarsJson, IB_JsonSetting.ConvertSetting);
+            Assert.AreEqual(vr, obj);
+
+            // test output variable in an object
+            var fan = new IB_FanConstantVolume();
             fan.AddOutputVariables(new List<IB_OutputVariable>() { vr });
+
             var j = fan.ToJson();
 
             var newObj = IB_FanConstantVolume.FromJson<IB_FanConstantVolume>(j);
-            Assert.IsTrue(newObj == fan);
+            Assert.AreEqual(newObj, fan);
 
             //IB_OutputVariable
         }
@@ -147,19 +152,24 @@ namespace Ironbug.HVACTests
             var jsonFan = fan.ToJson(true);
             var jsonCCoil = coolingCoil.ToJson(true);
             var jsonHCoil = heatingCoil.ToJson(true);
-        
+
+            var copyCCoil = IB_ModelObject.FromJson<IB_CoilCoolingDXVariableRefrigerantFlow>(jsonCCoil);
+            Assert.AreEqual(coolingCoil, copyCCoil);
+
+            var copyHCoil = IB_ModelObject.FromJson<IB_CoilHeatingDXVariableRefrigerantFlow>(jsonHCoil);
+            Assert.AreEqual(heatingCoil, copyHCoil);
 
             var json = vrf.ToJson(true);
             var newVrf = IB_ModelObject.FromJson<IB_ZoneHVACTerminalUnitVariableRefrigerantFlow>(json);
-            Assert.IsTrue(newVrf == vrf);
-
+            
             var newCCoil = newVrf.GetChild<IB_CoilCoolingDXVariableRefrigerantFlow>();
-            Assert.IsTrue(newCCoil == coolingCoil);
+            Assert.AreEqual(newCCoil, coolingCoil);
             var newHCoil = newVrf.GetChild<IB_CoilHeatingDXVariableRefrigerantFlow>();
-            Assert.IsTrue(newHCoil == heatingCoil);
+            Assert.AreEqual(newHCoil, heatingCoil);
             var newFan = newVrf.GetChild<IB_FanOnOff>();
-            Assert.IsTrue(newFan == fan);
+            Assert.AreEqual(newFan, fan);
 
+            Assert.AreEqual(newVrf, vrf);
         }
         IB_ZoneHVACTerminalUnitVariableRefrigerantFlow BuildVrfTerminal()
         {
@@ -329,10 +339,18 @@ namespace Ironbug.HVACTests
         [Test]
         public void FieldArguments_Test()
         {
+            var c = BuildCurve();
+            var s = BuildSchedule(); 
+
             var dis = new IB_FieldArgumentSet();
+
             var szFields = HVAC.IB_SizingPlant_FieldSet.Value;
             dis.TryAdd(szFields.LoopType, "Heating");
             dis.TryAdd(szFields.DesignLoopExitTemperature, 25D);
+
+            var vrfFields = HVAC.IB_AirConditionerVariableRefrigerantFlow_FieldSet.Value;
+            dis.TryAdd(vrfFields.CoolingCapacityRatioBoundaryCurve, c);
+            dis.TryAdd(vrfFields.BasinHeaterOperatingSchedule, s);
 
 
             var json = JsonConvert.SerializeObject(dis, Formatting.Indented, IB_JsonSetting.ConvertSetting);
@@ -344,7 +362,11 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(l.Equals("Heating"));
             Assert.IsTrue(readDis.TryGetValue(szFields.DesignLoopExitTemperature, out var t));
             Assert.IsTrue(t.Equals(25D));
-            Assert.IsTrue(readDis.Equals(dis));
+            Assert.IsTrue(readDis.TryGetValue(vrfFields.CoolingCapacityRatioBoundaryCurve, out var crv));
+            Assert.AreEqual(c, crv);
+            Assert.IsTrue(readDis.TryGetValue(vrfFields.BasinHeaterOperatingSchedule, out var sch));
+            Assert.AreEqual(s, sch);
+            Assert.AreEqual(readDis, dis);
         }
 
         [Test]
@@ -378,6 +400,46 @@ namespace Ironbug.HVACTests
 
 
             Assert.IsTrue(source == readField);
+        }
+
+        [Test]
+        public void Curve_Test()
+        {
+            var c = BuildCurve();
+            var json = c.ToJson(true);
+            var fromJson = HVAC.Curves.IB_CurveCubic.FromJson<HVAC.Curves.IB_CurveCubic>(json);
+            Assert.AreEqual(c, fromJson);
+        }
+
+        public HVAC.Curves.IB_CurveCubic BuildCurve()
+        {
+            var c = new HVAC.Curves.IB_CurveCubic();
+            var fSet = HVAC.Curves.IB_CurveCubic_FieldSet.Value;
+
+            c.CustomAttributes.TryAdd(fSet.Coefficient1Constant, 0.1);
+            c.CustomAttributes.TryAdd(fSet.Coefficient2x, 0.2);
+            c.CustomAttributes.TryAdd(fSet.Coefficient3xPOW2, 0.3);
+            c.CustomAttributes.TryAdd(fSet.Coefficient4xPOW3, 0.4);
+
+            return c;
+            
+        }
+
+        [Test]
+        public void Schedule_Test()
+        {
+            var c = BuildSchedule();
+            var json = c.ToJson(true);
+            var fromJson = HVAC.Schedules.IB_ScheduleRuleset.FromJson<HVAC.Schedules.IB_ScheduleRuleset>(json);
+            Assert.AreEqual(c, fromJson);
+        }
+        public HVAC.Schedules.IB_ScheduleRuleset BuildSchedule()
+        {
+            var c = new HVAC.Schedules.IB_ScheduleRuleset(0.2);
+            //var fSet = HVAC.Schedules.IB_ScheduleRuleset_FieldSet.Value;
+
+            return c;
+
         }
 
         [Test]
