@@ -59,6 +59,12 @@ namespace Ironbug.HVAC.BaseClass
                 throw new ArgumentException($"Child at {childIndex} doesn't match type: {typeof(T)}!");
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_Children);
+        }
+
         public bool Equals(IB_Children other)
         {
             if (other is null)
