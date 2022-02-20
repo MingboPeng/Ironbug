@@ -39,16 +39,13 @@ namespace Ironbug.HVAC.BaseClass
 
         private IList<string> RefObjects { get; set; } = new List<string>();
 
-        public static bool Deserializating;
         public IB_ModelObject(ModelObject ghostOpsObj)
         {
             if (ghostOpsObj != null)
             {
                 this.GhostOSObject = ghostOpsObj;
 
-                // do not reset tracking id when desrializating object from json
-                if (!Deserializating)
-                    this.SetTrackingID();
+                this.SetTrackingID();
 
                 this.SimulationOutputVariables = ghostOpsObj.outputVariableNames();
                 //this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
@@ -448,9 +445,7 @@ namespace Ironbug.HVAC.BaseClass
      
         public static T FromJson<T>(string json) where T: IB_ModelObject
         {
-            IB_ModelObject.Deserializating = true;
             var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, IB_JsonSetting.ConvertSetting);
-            IB_ModelObject.Deserializating = false;
             return obj;
         }
         //protected virtual ModelObject ToOS(Model model, Func<ModelObject> GetFromModelfunc)
@@ -554,13 +549,16 @@ namespace Ironbug.HVAC.BaseClass
         {
             if (other is null)
                 return this is null ? true : false;
-            var same = this.CustomAttributes.SequenceEqual(other.CustomAttributes);
+            if (this.GetType() != other.GetType())
+                return false;
+            var same = this.CustomAttributes.Equals(other.CustomAttributes);
             same &= this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables);
             same &= this.Children.SequenceEqual(other.Children);
             same &= this.CustomSensors.SequenceEqual(other.CustomSensors);
             same &= this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables);
             same &= this.CustomActuators.SequenceEqual(other.CustomActuators);
-            same &= this.GetType() == other.GetType();
+
+
             return same;
         }
         public static bool operator ==(IB_ModelObject x, IB_ModelObject y)
