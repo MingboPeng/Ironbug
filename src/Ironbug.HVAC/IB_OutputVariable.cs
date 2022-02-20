@@ -1,8 +1,9 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_OutputVariable
+    public class IB_OutputVariable : IEquatable<IB_OutputVariable>
     {
         [DataMember]
         public string VariableName { get; private set; }
@@ -24,7 +25,28 @@ namespace Ironbug.HVAC.BaseClass
             success &= outV.setKeyValue(keyName);
             return success;
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_OutputVariable);
+        }
+        public bool Equals(IB_OutputVariable other)
+        {
+            if (other == null)
+                return this is null ? true : false;
+            return this.VariableName == other.VariableName && this.TimeStep == other.TimeStep;
+        }
+
+        public static bool operator ==(IB_OutputVariable x, IB_OutputVariable y)
+        {
+            if (x is null)
+                return y is null ? true : false;
+            return x.Equals(y);
+        }
+
+        public static bool operator !=(IB_OutputVariable x, IB_OutputVariable y) => !(x == y);
+
+
         public enum TimeSteps
         {
             Detail,
