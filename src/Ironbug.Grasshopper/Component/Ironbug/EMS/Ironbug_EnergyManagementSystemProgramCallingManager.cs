@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary | GH_Exposure.obscure;
 
         private HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet _fieldSet = HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet.Value;
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -49,7 +49,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.EMS_ProgramManager;
 
         public override Guid ComponentGuid => new Guid("C1CFB67F-89D6-48BE-BD9A-1EA824D6FF5D");
     }

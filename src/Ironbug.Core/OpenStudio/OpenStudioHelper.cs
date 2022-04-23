@@ -31,7 +31,7 @@ namespace Ironbug.Core.OpenStudio
             }
             else
             {
-                var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var userFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
                 var lbt = Path.Combine(userFolder, "ladybug_tools");
                 var lbtOpenStudio = Path.Combine(lbt, "openstudio", "CSharp", "openstudio");
                 if (Directory.Exists(lbtOpenStudio))
