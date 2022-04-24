@@ -1,0 +1,187 @@
+<project>
+    <shortName>Ironbug</shortName>
+    <fullName>Ironbug for Ladybug Tools</fullName>
+    <version>1.0</version>
+    <leftImage>../../Pollination/rhino-plugin/installer/config/logo.png</leftImage>
+    <logoImage>../../Pollination/rhino-plugin/installer/config/logo.png</logoImage>
+    <wmImage>../../Pollination/rhino-plugin/installer/config/logo.png</wmImage>
+    <componentList>
+        <component>
+            <name>plugin</name>
+            <description>Plugin</description>
+            <canBeEdited>0</canBeEdited>
+            <selected>1</selected>
+            <show>1</show>
+            <folderList>
+                <folder>
+                    <description>Plugin</description>
+                    <destination>${installdir}</destination>
+                    <name>plugin</name>
+                    <platforms>all</platforms>
+                    <distributionFileList>
+                        <distributionDirectory>
+                            <origin>plugin</origin>
+                        </distributionDirectory>
+                    </distributionFileList>
+                </folder>
+            </folderList>
+        </component>
+    </componentList>
+    <preInstallationActionList>
+        <throwError>
+            <text>This installer only works for Windows x64</text>
+            <ruleList>
+                <platformTest>
+                    <negate>1</negate>
+                    <type>windows-x64</type>
+                </platformTest>
+            </ruleList>
+        </throwError>
+        <throwError>
+            <text>Please close the Rhino before installing!</text>
+            <ruleList>
+                <processTest>
+                    <logic>is_running</logic>
+                    <name>Rhino.exe</name>
+                </processTest>
+            </ruleList>
+        </throwError>
+    </preInstallationActionList>
+    <readyToInstallActionList>
+        <actionGroup>
+            <progressText>Removing old versions</progressText>
+            <actionList>
+                <deleteFile>
+                    <path>C:\Ironbug</path>
+                    <progressText>Removing ${installdir}</progressText>
+                    <ruleList>
+                        <fileExists>
+                            <path>${installdir}</path>
+                        </fileExists>
+                    </ruleList>
+                </deleteFile>
+                <deleteFile>
+                    <path>${installdir}</path>
+                    <progressText>Removing ${installdir}</progressText>
+                    <ruleList>
+                        <fileExists>
+                            <path>${installdir}</path>
+                        </fileExists>
+                    </ruleList>
+                </deleteFile>
+                <registryFind>
+                    <dataPattern>Ironbug</dataPattern>
+                    <findAll>1</findAll>
+                    <keyPattern>*</keyPattern>
+                    <namePattern>DisplayName</namePattern>
+                    <rootKey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\${product_fullname}</rootKey>
+                    <variable>oldInstallerPath</variable>
+                </registryFind>
+                <foreach>
+                    <values>${oldInstallerPath}</values>
+                    <variables>key name value</variables>
+                    <actionList>
+                        <registryGet>
+                            <key>${key}</key>
+                            <name>InstallLocation</name>
+                            <variable>PreInstallLocation</variable>
+                        </registryGet>
+                        <registryDelete>
+                            <key>${key}</key>
+                            <name></name>
+                            <progressText>Removing ${key}</progressText>
+                        </registryDelete>
+                        <deleteFile>
+                            <path>${PreInstallLocation}</path>
+                            <progressText>Removing ${PreInstallLocation}</progressText>
+                            <ruleList>
+                                <fileExists>
+                                    <path>${PreInstallLocation}</path>
+                                </fileExists>
+                            </ruleList>
+                        </deleteFile>
+                    </actionList>
+                </foreach>
+            </actionList>
+        </actionGroup>
+    </readyToInstallActionList>
+    <allowComponentSelection>1</allowComponentSelection>
+    <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
+    <disableSplashScreen>1</disableSplashScreen>
+    <enableRollback>0</enableRollback>
+    <enableTimestamp>1</enableTimestamp>
+    <enableUpx>1</enableUpx>
+    <height>500</height>
+    <installationScope>allusers</installationScope>
+    <osxApplicationBundleIcon>../../Pollination/rhino-plugin/installer/config/logo.icns</osxApplicationBundleIcon>
+    <osxUninstallerApplicationBundleIcon>../../Pollination/rhino-plugin/installer/config/logo.icns</osxUninstallerApplicationBundleIcon>
+    <productComments>${project.version}</productComments>
+    <productContact>info@pollination.cloud</productContact>
+    <productDisplayIcon>${installdir}/logo.ico</productDisplayIcon>
+    <productUrlInfoAbout>https://www.pollination.cloud</productUrlInfoAbout>
+    <requireInstallationByRootUser>1</requireInstallationByRootUser>
+    <saveRelativePaths>1</saveRelativePaths>
+    <showFileUnpackingProgress>0</showFileUnpackingProgress>
+    <singleInstanceCheck>1</singleInstanceCheck>
+    <vendor>Ironbug</vendor>
+    <width>700</width>
+    <windowsARPRegistryPrefix>${product_fullname}</windowsARPRegistryPrefix>
+    <windowsExecutableIcon>../../Pollination/rhino-plugin/installer/config/logo.ico</windowsExecutableIcon>
+    <windowsResourceFileVersion>1.4.0</windowsResourceFileVersion>
+    <windowsUninstallerExecutableIcon>../../Pollination/rhino-plugin/installer/config/logo.ico</windowsUninstallerExecutableIcon>
+    <installationAbortedActionList>
+        <deleteFile>
+            <path>${installdir}</path>
+        </deleteFile>
+    </installationAbortedActionList>
+    <parameterList>
+        <directoryParameter>
+            <name>installdir</name>
+            <description>Installer.Parameter.installdir.description</description>
+            <explanation>Installer.Parameter.installdir.explanation</explanation>
+            <value></value>
+            <default>${platform_install_prefix}/ladybug_tools/grasshopper/ironbug</default>
+            <allowEmptyValue>0</allowEmptyValue>
+            <cliOptionName>TargetDir</cliOptionName>
+            <mustBeWritable>1</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>70</width>
+            <validationActionList>
+                <throwError>
+                    <text>The installation directory contains non ASCII characters. This is currently not supported!
+Please choose a different path.</text>
+                    <ruleList>
+                        <stringTest>
+                            <text>${installdir}</text>
+                            <type>not_ascii</type>
+                        </stringTest>
+                    </ruleList>
+                </throwError>
+            </validationActionList>
+        </directoryParameter>
+        <parameterGroup>
+            <name>AcceptLicenses</name>
+            <title>License Agreement</title>
+            <explanation>Please read the following License Agreement. You must accept the terms of this agreement before continuing with the installation.</explanation>
+            <value></value>
+            <default></default>
+            <parameterList>
+                <licenseParameter>
+                    <name>PollinationLicense</name>
+                    <title>License Agreement</title>
+                    <description>Pollination License Agreement:</description>
+                    <explanation></explanation>
+                    <file>../../Pollination/rhino-plugin/installer/packages/licenses/Pollination_Rhino_Terms.txt</file>
+                    <htmlFile></htmlFile>
+                </licenseParameter>
+            </parameterList>
+            <ruleList>
+                <isTrue>
+                    <negate>1</negate>
+                    <value>${AcceptLicenses}</value>
+                </isTrue>
+            </ruleList>
+        </parameterGroup>
+    </parameterList>
+</project>
+
