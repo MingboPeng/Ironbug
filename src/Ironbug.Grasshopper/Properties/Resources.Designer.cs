@@ -1103,6 +1103,36 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PlantComponent {
+            get {
+                object obj = ResourceManager.GetObject("PlantComponent", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PlantCoolingScheme {
+            get {
+                object obj = ResourceManager.GetObject("PlantCoolingScheme", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PlantHeatingScheme {
+            get {
+                object obj = ResourceManager.GetObject("PlantHeatingScheme", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PlantLoop {
             get {
                 object obj = ResourceManager.GetObject("PlantLoop", resourceCulture);
@@ -1496,6 +1526,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap ThermalZone {
             get {
                 object obj = ResourceManager.GetObject("ThermalZone", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap TSource {
+            get {
+                object obj = ResourceManager.GetObject("TSource", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

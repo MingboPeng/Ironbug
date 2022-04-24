@@ -55,7 +55,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.PlantHeatingScheme;
         
         public override Guid ComponentGuid => new Guid("59688116-9923-48F1-B02A-8DC5FC5DE749");
     }

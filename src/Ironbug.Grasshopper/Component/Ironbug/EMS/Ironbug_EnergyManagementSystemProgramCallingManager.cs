@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary | GH_Exposure.obscure;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         private HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet _fieldSet = HVAC.IB_EnergyManagementSystemProgramCallingManager_FieldSet.Value;
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

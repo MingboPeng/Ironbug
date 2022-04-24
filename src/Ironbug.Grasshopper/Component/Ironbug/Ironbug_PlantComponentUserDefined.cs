@@ -98,7 +98,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, obj);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.PlantComponent;
 
         public override Guid ComponentGuid => new Guid("B85DA677-8B01-47BB-B061-8106B6D228DF");
     }
