@@ -13,7 +13,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
-		<PackageReference Include="OpenStudio" Version="3.3.1" IncludeAssets="compile;build" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="3.3.1.1" IncludeAssets="compile;build" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,21 +32,12 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Resource.Designer.cs">
-			<DesignTime>True</DesignTime>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>Resource.resx</DependentUpon>
-		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="Properties\Resources.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Resource.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
-			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

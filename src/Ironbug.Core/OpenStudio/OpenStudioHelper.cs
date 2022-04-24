@@ -50,7 +50,7 @@ namespace Ironbug.Core.OpenStudio
             var file = "OpenStudio.dll";
             var path = possiblePath.FirstOrDefault(_ => File.Exists(Path.Combine(_, file)));
             if (string.IsNullOrEmpty(path))
-                throw new FileNotFoundException($"Cannot find OpenStudio 2.8 or newer version installed in C drive!");
+                throw new FileNotFoundException($"Cannot find OpenStudio 3.3 or newer version installed in C drive!");
 
             return path;
         }
