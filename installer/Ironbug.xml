@@ -2,6 +2,7 @@
     <shortName>Ironbug</shortName>
     <fullName>Ironbug for Ladybug Tools</fullName>
     <version>1.0</version>
+    <licenseFile>LICENSE</licenseFile>
     <leftImage>Ironbug.png</leftImage>
     <logoImage>Ironbug.png</logoImage>
     <wmImage>Ironbug.png</wmImage>
@@ -15,15 +16,16 @@
             <folderList>
                 <folder>
                     <description>Plugin</description>
-                    <destination>${IBFolder}</destination>
+                    <destination>${installdir}</destination>
                     <name>plugin</name>
                     <platforms>all</platforms>
                     <distributionFileList>
-                        <distributionDirectory>
-                            <origin>plugin</origin>
-                        </distributionDirectory>
                         <distributionFile>
                             <origin>Ironbug.ico</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <allowWildcards>1</allowWildcards>
+                            <origin>plugin/*</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -111,7 +113,6 @@
             </actionList>
         </actionGroup>
     </readyToInstallActionList>
-    <allowComponentSelection>1</allowComponentSelection>
     <compressionAlgorithm>lzma-ultra</compressionAlgorithm>
     <disableSplashScreen>1</disableSplashScreen>
     <enableRollback>0</enableRollback>
@@ -121,7 +122,8 @@
     <installationScope>allusers</installationScope>
     <productComments>${project.version}</productComments>
     <productContact>https://github.com/MingboPeng/Ironbug</productContact>
-    <productDisplayIcon>${IBFolder}/Ironbug.ico</productDisplayIcon>
+    <productDisplayIcon>${installdir}/Ironbug.ico</productDisplayIcon>
+    <productUrlHelpLink>https://github.com/MingboPeng/Ironbug</productUrlHelpLink>
     <productUrlInfoAbout>https://github.com/MingboPeng/Ironbug</productUrlInfoAbout>
     <requireInstallationByRootUser>1</requireInstallationByRootUser>
     <saveRelativePaths>1</saveRelativePaths>
@@ -133,29 +135,18 @@
     <windowsExecutableIcon>Ironbug.ico</windowsExecutableIcon>
     <windowsResourceFileVersion>1.4.0</windowsResourceFileVersion>
     <windowsUninstallerExecutableIcon>Ironbug.ico</windowsUninstallerExecutableIcon>
-    <installationAbortedActionList>
-        <deleteFile>
-            <path>${IBFolder}</path>
-        </deleteFile>
-    </installationAbortedActionList>
     <parameterList>
         <directoryParameter>
             <name>installdir</name>
             <description>Installation Directory</description>
-            <explanation>Please specify the directory where the Ladybug Tools is installed. (By default: C:\Program Files\ladybug_tools) </explanation>
+            <explanation>Please specify the directory where the Ladybug Tools is installed. (By default: C:\Program Files\ladybug_tools\grasshopper\ironbug) </explanation>
             <value></value>
-            <default>${LBTFolder}</default>
+            <default>${platform_install_prefix}/ladybug_tools/grasshopper/ironbug</default>
             <allowEmptyValue>0</allowEmptyValue>
             <cliOptionName>TargetDir</cliOptionName>
             <mustBeWritable>1</mustBeWritable>
             <mustExist>0</mustExist>
             <width>70</width>
-            <postShowPageActionList>
-                <setInstallerVariable>
-                    <name>IBFolder</name>
-                    <value>${installdir}/grasshopper/ironbug</value>
-                </setInstallerVariable>
-            </postShowPageActionList>
             <preShowPageActionList>
                 <actionGroup>
                     <actionList>
@@ -186,12 +177,9 @@
                                 </fileExists>
                             </ruleList>
                         </showInfo>
-                        <showInfo>
-                            <text>Found ${lbt}</text>
-                        </showInfo>
                         <setInstallerVariable>
                             <name>installdir</name>
-                            <value>${lbt}</value>
+                            <value>${lbt}/grasshopper/ironbug</value>
                             <ruleList>
                                 <fileExists>
                                     <path>${lbt}</path>
@@ -213,24 +201,6 @@ Please choose a different path.</text>
                     </ruleList>
                 </throwError>
             </validationActionList>
-        </directoryParameter>
-        <directoryParameter>
-            <name>IBFolder</name>
-            <description></description>
-            <explanation></explanation>
-            <value></value>
-            <default></default>
-            <allowEmptyValue>0</allowEmptyValue>
-            <ask>0</ask>
-            <cliOptionShow>0</cliOptionShow>
-            <mustBeWritable>1</mustBeWritable>
-            <mustExist>0</mustExist>
-            <width>40</width>
-            <postShowPageActionList>
-                <showInfo>
-                    <text>${IBFolder}</text>
-                </showInfo>
-            </postShowPageActionList>
         </directoryParameter>
     </parameterList>
 </project>
