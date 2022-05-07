@@ -56,7 +56,7 @@ jobs:
           msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=1.2.0 /restore
           mkdir installer/plugin
           
-          mv src/bin/x64/Debug/* installer/plugin
+          mv src/Ironbug.Grasshopper/bin/x64/Release/* installer/plugin
           ls installer/plugin -r
 
 
@@ -80,6 +80,13 @@ jobs:
               --verbose
           cp ./*-installer.exe ./installer.exe
           ls -l
+
+      - name: Upload Installer
+        uses: actions/upload-artifact@v2
+        with:
+          name: Installer
+          path: |
+            installer.exe
 
       - run: npx semantic-release
         if: github.ref == 'refs/heads/master'
