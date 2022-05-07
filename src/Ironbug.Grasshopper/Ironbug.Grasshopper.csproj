@@ -2,8 +2,10 @@
 
 	<PropertyGroup>
 		<TargetFramework>NET452</TargetFramework>
-		<Platforms>AnyCPU;x64</Platforms>
+		<Platforms>x64</Platforms>
 		<TargetExt>.gha</TargetExt>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Version>1.0.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">

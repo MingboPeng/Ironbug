@@ -15,7 +15,7 @@
             <folderList>
                 <folder>
                     <description>Plugin</description>
-                    <destination>${installdir}</destination>
+                    <destination>${IBFolder}</destination>
                     <name>plugin</name>
                     <platforms>all</platforms>
                     <distributionFileList>
@@ -61,7 +61,10 @@
                     </ruleList>
                 </deleteFile>
                 <deleteFile>
-                    <path>${installdir}</path>
+                    <path>${windows_folder_appdata}\Grasshopper\Libraries\Ironbug.ghlink</path>
+                </deleteFile>
+                <deleteFile>
+                    <path>${installdir}/grasshopper/ironbug</path>
                     <progressText>Removing ${installdir}</progressText>
                     <ruleList>
                         <fileExists>
@@ -131,21 +134,72 @@
     <windowsUninstallerExecutableIcon>../../Pollination/rhino-plugin/installer/config/logo.ico</windowsUninstallerExecutableIcon>
     <installationAbortedActionList>
         <deleteFile>
-            <path>${installdir}</path>
+            <path>${IBFolder}</path>
         </deleteFile>
     </installationAbortedActionList>
     <parameterList>
         <directoryParameter>
             <name>installdir</name>
-            <description>Installer.Parameter.installdir.description</description>
-            <explanation>Installer.Parameter.installdir.explanation</explanation>
+            <description>Installation Directory</description>
+            <explanation>Please specify the directory where the Ladybug Tools is installed. (By default: C:\Program Files\ladybug_tools) </explanation>
             <value></value>
-            <default>${platform_install_prefix}/ladybug_tools/grasshopper/ironbug</default>
+            <default>${LBTFolder}</default>
             <allowEmptyValue>0</allowEmptyValue>
             <cliOptionName>TargetDir</cliOptionName>
             <mustBeWritable>1</mustBeWritable>
             <mustExist>0</mustExist>
             <width>70</width>
+            <postShowPageActionList>
+                <setInstallerVariable>
+                    <name>IBFolder</name>
+                    <value>${installdir}/grasshopper/ironbug</value>
+                </setInstallerVariable>
+            </postShowPageActionList>
+            <preShowPageActionList>
+                <actionGroup>
+                    <actionList>
+                        <setInstallerVariable>
+                            <name>lbt</name>
+                            <value>${platform_install_prefix}/ladybug_tools</value>
+                            <ruleList>
+                                <fileExists>
+                                    <path>${platform_install_prefix}/ladybug_tools/grasshopper</path>
+                                </fileExists>
+                            </ruleList>
+                        </setInstallerVariable>
+                        <setInstallerVariable>
+                            <name>lbt</name>
+                            <value>${windows_folder_profile}/ladybug_tools</value>
+                            <ruleList>
+                                <fileExists>
+                                    <path>${windows_folder_profile}/ladybug_tools/grasshopper</path>
+                                </fileExists>
+                            </ruleList>
+                        </setInstallerVariable>
+                        <showInfo>
+                            <text>Failed to find the Ladybug Tools installation folder. You have to set the path manually!</text>
+                            <ruleList>
+                                <fileExists>
+                                    <negate>1</negate>
+                                    <path>${lbt}</path>
+                                </fileExists>
+                            </ruleList>
+                        </showInfo>
+                        <showInfo>
+                            <text>Found ${lbt}</text>
+                        </showInfo>
+                        <setInstallerVariable>
+                            <name>installdir</name>
+                            <value>${lbt}</value>
+                            <ruleList>
+                                <fileExists>
+                                    <path>${lbt}</path>
+                                </fileExists>
+                            </ruleList>
+                        </setInstallerVariable>
+                    </actionList>
+                </actionGroup>
+            </preShowPageActionList>
             <validationActionList>
                 <throwError>
                     <text>The installation directory contains non ASCII characters. This is currently not supported!
@@ -159,29 +213,24 @@ Please choose a different path.</text>
                 </throwError>
             </validationActionList>
         </directoryParameter>
-        <parameterGroup>
-            <name>AcceptLicenses</name>
-            <title>License Agreement</title>
-            <explanation>Please read the following License Agreement. You must accept the terms of this agreement before continuing with the installation.</explanation>
+        <directoryParameter>
+            <name>IBFolder</name>
+            <description></description>
+            <explanation></explanation>
             <value></value>
             <default></default>
-            <parameterList>
-                <licenseParameter>
-                    <name>PollinationLicense</name>
-                    <title>License Agreement</title>
-                    <description>Pollination License Agreement:</description>
-                    <explanation></explanation>
-                    <file>../../Pollination/rhino-plugin/installer/packages/licenses/Pollination_Rhino_Terms.txt</file>
-                    <htmlFile></htmlFile>
-                </licenseParameter>
-            </parameterList>
-            <ruleList>
-                <isTrue>
-                    <negate>1</negate>
-                    <value>${AcceptLicenses}</value>
-                </isTrue>
-            </ruleList>
-        </parameterGroup>
+            <allowEmptyValue>0</allowEmptyValue>
+            <ask>0</ask>
+            <cliOptionShow>0</cliOptionShow>
+            <mustBeWritable>1</mustBeWritable>
+            <mustExist>0</mustExist>
+            <width>40</width>
+            <postShowPageActionList>
+                <showInfo>
+                    <text>${IBFolder}</text>
+                </showInfo>
+            </postShowPageActionList>
+        </directoryParameter>
     </parameterList>
 </project>
 

@@ -1,0 +1,19 @@
+{
+    "plugins": [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        [
+            "@semantic-release/github",
+            {
+                "assets": [
+                    {
+                        "path": "installer.exe",
+                        "name": "IronbugInstaller-${nextRelease.version}.exe",
+                        "label": "IronbugInstaller-${nextRelease.version}.exe"
+                    }
+
+                ]
+            }
+        ]
+    ]
+}

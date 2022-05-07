@@ -1,0 +1,88 @@
+env:
+  INSTALLBUILDER_DIR: ../ib
+  INSTALLBUILDER_URL: https://installbuilder.com/installbuilder-enterprise-21.12.0-windows-x64-installer.exe
+
+
+name: CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: "Build the Plugin"
+    runs-on: windows-latest
+    continue-on-error: false
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: "Checkout Master Branch"
+        uses: actions/checkout@v2
+
+      - name: Setup MSbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Semantic Release - dry run for getting version
+        if: github.ref == 'refs/heads/master'
+        uses: cycjimmy/semantic-release-action@v2
+        id: semantic
+        with:
+          dry_run: true
+          semantic_version: 17.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Set test version
+        shell: bash
+        run: |
+          echo "ReleaseVersion=0.0.1" >> $GITHUB_ENV
+
+      - name: Set real version
+        if: github.ref == 'refs/heads/master'
+        shell: bash
+        run: |
+          echo "ReleaseVersion=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
+
+      - name: Update versions
+        run: |
+          echo ${{ env.ReleaseVersion }}
+
+      - name: MSBuild GH Plugin
+        run: |
+          msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=1.2.0 /restore
+          mkdir installer/plugin
+          
+          mv src/bin/x64/Debug/* installer/plugin
+          ls installer/plugin -r
+
+
+      - name: Install the InstalBuilder
+        shell: bash
+        env:
+          IB_LICENSE: ${{ secrets.INSTALLER_LICENSE }}
+        run: |
+          curl -L ${{ env.INSTALLBUILDER_URL }} --output ib.exe
+          ./ib.exe --mode unattended --prefix ${{ env.INSTALLBUILDER_DIR }}
+          ${{ env.INSTALLBUILDER_DIR }}/bin/builder-cli.exe --version
+          echo "$IB_LICENSE" > lic.xml
+          
+      - name: Create installer package
+        shell: bash
+        run: |
+          ${{ env.INSTALLBUILDER_DIR }}/bin/builder-cli.exe build installer/Ironbug.xml \
+              --license lic.xml \
+              --setvars project.outputDirectory=$(pwd) \
+              --setvars project.version=${{ env.ReleaseVersion }} \
+              --verbose
+          cp ./*-installer.exe ./installer.exe
+          ls -l
+
+      - run: npx semantic-release
+        if: github.ref == 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      
