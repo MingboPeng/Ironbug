@@ -2,9 +2,9 @@
     <shortName>Ironbug</shortName>
     <fullName>Ironbug for Ladybug Tools</fullName>
     <version>1.0</version>
-    <leftImage>../../Pollination/rhino-plugin/installer/config/logo.png</leftImage>
-    <logoImage>../../Pollination/rhino-plugin/installer/config/logo.png</logoImage>
-    <wmImage>../../Pollination/rhino-plugin/installer/config/logo.png</wmImage>
+    <leftImage>Ironbug.png</leftImage>
+    <logoImage>Ironbug.png</logoImage>
+    <wmImage>Ironbug.png</wmImage>
     <componentList>
         <component>
             <name>plugin</name>
@@ -22,6 +22,9 @@
                         <distributionDirectory>
                             <origin>plugin</origin>
                         </distributionDirectory>
+                        <distributionFile>
+                            <origin>Ironbug.ico</origin>
+                        </distributionFile>
                     </distributionFileList>
                 </folder>
             </folderList>
@@ -116,12 +119,10 @@
     <enableUpx>1</enableUpx>
     <height>500</height>
     <installationScope>allusers</installationScope>
-    <osxApplicationBundleIcon>../../Pollination/rhino-plugin/installer/config/logo.icns</osxApplicationBundleIcon>
-    <osxUninstallerApplicationBundleIcon>../../Pollination/rhino-plugin/installer/config/logo.icns</osxUninstallerApplicationBundleIcon>
     <productComments>${project.version}</productComments>
-    <productContact>info@pollination.cloud</productContact>
-    <productDisplayIcon>${installdir}/logo.ico</productDisplayIcon>
-    <productUrlInfoAbout>https://www.pollination.cloud</productUrlInfoAbout>
+    <productContact>https://github.com/MingboPeng/Ironbug</productContact>
+    <productDisplayIcon>${IBFolder}/Ironbug.ico</productDisplayIcon>
+    <productUrlInfoAbout>https://github.com/MingboPeng/Ironbug</productUrlInfoAbout>
     <requireInstallationByRootUser>1</requireInstallationByRootUser>
     <saveRelativePaths>1</saveRelativePaths>
     <showFileUnpackingProgress>0</showFileUnpackingProgress>
@@ -129,9 +130,9 @@
     <vendor>Ironbug</vendor>
     <width>700</width>
     <windowsARPRegistryPrefix>${product_fullname}</windowsARPRegistryPrefix>
-    <windowsExecutableIcon>../../Pollination/rhino-plugin/installer/config/logo.ico</windowsExecutableIcon>
+    <windowsExecutableIcon>Ironbug.ico</windowsExecutableIcon>
     <windowsResourceFileVersion>1.4.0</windowsResourceFileVersion>
-    <windowsUninstallerExecutableIcon>../../Pollination/rhino-plugin/installer/config/logo.ico</windowsUninstallerExecutableIcon>
+    <windowsUninstallerExecutableIcon>Ironbug.ico</windowsUninstallerExecutableIcon>
     <installationAbortedActionList>
         <deleteFile>
             <path>${IBFolder}</path>
