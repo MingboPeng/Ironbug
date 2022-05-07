@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         private static HVAC.IB_SetpointManagerScheduled_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduled_FieldSet.Value;
         
         public Ironbug_SetpointManagerScheduled()
-          : base("Ironbug_SetpointManagerScheduled", "SPM_Scheduled",
+          : base("IB_SetpointManagerScheduled", "SPM_Scheduled",
               "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerScheduled_FieldSet))

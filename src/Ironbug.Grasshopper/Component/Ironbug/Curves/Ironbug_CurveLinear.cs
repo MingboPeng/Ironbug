@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CurveLinear : Ironbug_HVACWithParamComponent
     {
         public Ironbug_CurveLinear()
-          : base("Ironbug_CurveLinear", "CurveLinear",
+          : base("IB_CurveLinear", "CurveLinear",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Curves.IB_CurveLinear_FieldSet))

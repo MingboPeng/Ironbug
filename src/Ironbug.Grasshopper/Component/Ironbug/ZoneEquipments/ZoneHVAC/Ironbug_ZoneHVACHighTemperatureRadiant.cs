@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACHighTemperatureRadiant : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ZoneHVACHighTemperatureRadiant()
-          : base("Ironbug_ZoneHVACHighTemperatureRadiant", "HighTRadiant",
+          : base("IB_ZoneHVACHighTemperatureRadiant", "HighTRadiant",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_ZoneHVACHighTemperatureRadiant_FieldSet))

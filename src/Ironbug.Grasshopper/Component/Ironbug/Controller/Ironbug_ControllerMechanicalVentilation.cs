@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ControllerMechanicalVentilation : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ControllerMechanicalVentilation()
-          : base("Ironbug_ControllerMechanicalVentilation", "MechVentController",
+          : base("IB_ControllerMechanicalVentilation", "MechVentController",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_ControllerMechanicalVentilation_FieldSet))

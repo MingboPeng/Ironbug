@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ChillerElectricEIR class.
         
         public Ironbug_CoilCoolingDXSingleSpeed()
-          : base("Ironbug_CoilCoolingDXSingleSpeed", "CoilClnDX1",
+          : base("IB_CoilCoolingDXSingleSpeed", "CoilClnDX1",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilCoolingDXSingleSpeed_FieldSet))

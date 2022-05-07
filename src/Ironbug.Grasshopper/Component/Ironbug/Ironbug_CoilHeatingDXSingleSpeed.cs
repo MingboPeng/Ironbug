@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CoilHeatingDXSingleSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoilHeatingDXSingleSpeed()
-          : base("Ironbug_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
+          : base("IB_CoilHeatingDXSingleSpeed", "CoilHtn_DX1",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingDXSingleSpeed_FieldSet))

@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
         public Ironbug_SizingZone()
-          : base("Ironbug_SizingZone", "SizingZone",
+          : base("IB_SizingZone", "SizingZone",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_SizingZone_FieldSet))

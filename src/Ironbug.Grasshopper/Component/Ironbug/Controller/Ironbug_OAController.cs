@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_OAController : Ironbug_HVACWithParamComponent
     {
         public Ironbug_OAController()
-          : base("Ironbug_OAController", "OAController",
+          : base("IB_OAController", "OAController",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_ControllerOutdoorAir_FieldSet))

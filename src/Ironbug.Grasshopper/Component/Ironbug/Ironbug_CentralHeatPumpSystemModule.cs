@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CentralHeatPumpSystemModule()
-          : base("Ironbug_CentralHeatPumpSystemModule", "ChillerHeaterModule",
+          : base("IB_CentralHeatPumpSystemModule", "ChillerHeaterModule",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CentralHeatPumpSystemModule_FieldSet))

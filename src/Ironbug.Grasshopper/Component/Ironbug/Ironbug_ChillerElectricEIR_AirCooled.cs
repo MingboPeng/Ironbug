@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ChillerElectricEIR_Air : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ChillerElectricEIR_Air()
-          : base("Ironbug_ChillerElectricEIR_AirCooled", "Chiller_AirCooled",
+          : base("IB_ChillerElectricEIR_AirCooled", "Chiller_AirCooled",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_ChillerElectricEIR_FieldSet))

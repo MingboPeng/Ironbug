@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
 
         public Ironbug_CoilCoolingDXVariableRefrigerantFlow()
-          : base("Ironbug_CoilCoolingDXVariableRefrigerantFlow", "CoilCln_VRF",
+          : base("IB_CoilCoolingDXVariableRefrigerantFlow", "CoilCln_VRF",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilCoolingDXVariableRefrigerantFlow_FieldSet))

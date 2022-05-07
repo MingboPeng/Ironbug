@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         public Ironbug_ObjViewer()
-          : base("Ironbug_ObjViewer", "ObjViewer",
+          : base("IB_ObjViewer", "ObjViewer",
               "Description",
               "Ironbug", "00:Ironbug")
         {

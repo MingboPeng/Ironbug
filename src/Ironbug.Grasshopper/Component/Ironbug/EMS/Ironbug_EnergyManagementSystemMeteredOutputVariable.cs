@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_EnergyManagementSystemMeteredOutputVariable : Ironbug_HVACWithParamComponent
     {
         public Ironbug_EnergyManagementSystemMeteredOutputVariable()
-          : base("Ironbug_EMSMeteredOutputVariable", "EMSMeteredVariable",
+          : base("IB_EMSMeteredOutputVariable", "EMSMeteredVariable",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(IB_EnergyManagementSystemMeteredOutputVariable_FieldSet))

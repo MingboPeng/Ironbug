@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeatExchangerAirToAirSensibleAndLatent : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HeatExchangerAirToAirSensibleAndLatent()
-          : base("Ironbug_HeatExchangerAirToAirSensibleAndLatent", "HeatExchanger_Air",
+          : base("IB_HeatExchangerAirToAirSensibleAndLatent", "HeatExchanger_Air",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatExchangerAirToAirSensibleAndLatent_FieldSet))

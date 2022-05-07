@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PlantComponentUserDefined : Ironbug_HVACWithParamComponent
     {
         public Ironbug_PlantComponentUserDefined()
-          : base("Ironbug_PlantComponentUserDefined", "PlantComponent_UserDefined",
+          : base("IB_PlantComponentUserDefined", "PlantComponent_UserDefined",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PlantComponentUserDefined_FieldSet))

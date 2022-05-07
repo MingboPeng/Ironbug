@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_FanOnOff()
-          : base("Ironbug_FanOnOff", "FanOnOff",
+          : base("IB_FanOnOff", "FanOnOff",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_FanOnOff_FieldSet))

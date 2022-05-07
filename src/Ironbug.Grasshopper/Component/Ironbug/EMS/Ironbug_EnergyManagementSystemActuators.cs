@@ -17,7 +17,7 @@
 //        private Dictionary<string, string> _emsActuators { get; set; } = new Dictionary<string, string>();
 
 //        public Ironbug_EnergyManagementSystemActuators()
-//          : base("Ironbug_EnergyManagementSystemActuators", "EmsActuators",
+//          : base("IB_EnergyManagementSystemActuators", "EmsActuators",
 //              "Description",
 //              "Ironbug", "06:Sizing&Controller")
 //        {

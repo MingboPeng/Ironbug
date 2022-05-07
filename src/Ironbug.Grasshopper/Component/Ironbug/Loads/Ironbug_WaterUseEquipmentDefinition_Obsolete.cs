@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
         public Ironbug_WaterUseEquipmentDefinition_Obsolete()
-          : base("Ironbug_WaterUseEquipmentDefinition", "WaterUseLoad",
+          : base("IB_WaterUseEquipmentDefinition", "WaterUseLoad",
               "Description",
               "Ironbug", "07:Curve & Load")
         {

@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
         public Ironbug_ScheduleRule_Obsolete()
-          : base("Ironbug_ScheduleRule", "ScheduleRule",
+          : base("IB_ScheduleRule", "ScheduleRule",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Schedules.IB_ScheduleRule_FieldSet))

@@ -17,7 +17,7 @@
 //        private IEnumerable<string> OutputVariables { get; set; } = new List<string>();
 
 //        public Ironbug_EnergyManagementSystemInternalVariables()
-//          : base("Ironbug_EMSInternalVariables", "EmsInternalVariables",
+//          : base("IB_EMSInternalVariables", "EmsInternalVariables",
 //              "Description",
 //              "Ironbug", "06:Sizing&Controller")
 //        {

@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CentralHeatPumpSystem()
-          : base("Ironbug_CentralHeatPumpSystem", "CentralHeatPumpSystem",
+          : base("IB_CentralHeatPumpSystem", "CentralHeatPumpSystem",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CentralHeatPumpSystem_FieldSet))

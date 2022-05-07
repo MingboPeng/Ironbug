@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid => new Guid("3246f516-d4cf-45e0-b0a7-abb47bb014c1");
         
         public Ironbug_SaveOSModel_Obsolete()
-          : base("Ironbug_SaveToFile", "SaveToFile",
+          : base("IB_SaveToFile", "SaveToFile",
               "Description",
               "Ironbug", "HVAC")
         {

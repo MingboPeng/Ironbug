@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACUnitVentilator_CoolingHeating : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ZoneHVACUnitVentilator_CoolingHeating()
-          : base("Ironbug_ZoneHVACUnitVentilator_CoolingHeating", "UnitVentCoolingHeating",
+          : base("IB_ZoneHVACUnitVentilator_CoolingHeating", "UnitVentCoolingHeating",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACUnitVentilator_FieldSet))

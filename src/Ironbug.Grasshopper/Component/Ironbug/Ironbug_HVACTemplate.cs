@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         List<string> folderList = new List<string>();
         List<List<string>> filesList = new List<List<string>>();
         public Ironbug_HVACTemplate()
-          : base("Ironbug_HVACTemplate", "HVACTemplate",
+          : base("IB_HVACTemplate", "HVACTemplate",
               "Description",
               "Ironbug", "HVAC")
         {

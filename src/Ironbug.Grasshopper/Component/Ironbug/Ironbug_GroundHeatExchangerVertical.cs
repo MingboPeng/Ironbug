@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_GroundHeatExchangerVertical()
-          : base("Ironbug_GroundHeatExchangerVertical", "GroundHXVertical",
+          : base("IB_GroundHeatExchangerVertical", "GroundHXVertical",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_GroundHeatExchangerVertical_FieldSet))

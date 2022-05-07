@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_AirConditionerVariableRefrigerantFlow_WaterCooled()
-          : base("Ironbug_AirConditionerVariableRefrigerantFlow_WaterCooled", "VRFSystem_WaterCooled",
+          : base("IB_AirConditionerVariableRefrigerantFlow_WaterCooled", "VRFSystem_WaterCooled",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_AirConditionerVariableRefrigerantFlow_FieldSet))

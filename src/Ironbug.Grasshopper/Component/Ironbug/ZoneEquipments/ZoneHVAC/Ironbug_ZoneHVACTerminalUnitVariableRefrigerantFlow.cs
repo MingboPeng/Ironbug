@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         
         public Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow()
-          : base("Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFTerminal",
+          : base("IB_ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFTerminal",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet))

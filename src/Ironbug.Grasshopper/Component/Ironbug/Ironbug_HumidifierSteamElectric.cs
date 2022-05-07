@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HumidifierSteamElectric : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HumidifierSteamElectric()
-          : base("Ironbug_HumidifierSteamElectric", "Humidifier",
+          : base("IB_HumidifierSteamElectric", "Humidifier",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HumidifierSteamElectric_FieldSet))

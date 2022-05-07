@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_EnergyManagementSystemProgram : Ironbug_Component
     {
         public Ironbug_EnergyManagementSystemProgram()
-          : base("Ironbug_EMSProgram", "EMSProgram",
+          : base("IB_EMSProgram", "EMSProgram",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {

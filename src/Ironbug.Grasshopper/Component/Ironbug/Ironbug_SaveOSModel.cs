@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         bool _overrideMode = false;
         int _writeMode = 0;
         public Ironbug_SaveOSModel()
-          : base("Ironbug_SaveToFile", "SaveToFile",
+          : base("IB_SaveToFile", "SaveToFile",
               "Description",
               "Ironbug", "HVAC")
         {

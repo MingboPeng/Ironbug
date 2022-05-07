@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_PlantLoop_DW()
-          : base("Ironbug_CondenserWaterPlantLoop", "CondenserWaterLoop",
+          : base("IB_CondenserWaterPlantLoop", "CondenserWaterLoop",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))

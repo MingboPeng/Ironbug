@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
        
         public Ironbug_PlantEquipmentOperationCoolingLoad()
-          : base("Ironbug_PlantEquipmentOperationCoolingLoad", "ClnLoadScheme",
+          : base("IB_PlantEquipmentOperationCoolingLoad", "ClnLoadScheme",
               "Description",
               "Ironbug", "06:Sizing&Controller")
         {

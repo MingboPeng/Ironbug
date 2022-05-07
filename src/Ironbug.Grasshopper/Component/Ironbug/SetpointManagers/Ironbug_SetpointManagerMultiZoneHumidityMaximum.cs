@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         private static HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHumidityMaximum_FieldSet.Value;
         
         public Ironbug_SetpointManagerMultiZoneHumidityMaximum()
-          : base("Ironbug_SetpointManagerMultiZoneHumidityMaximum", 
+          : base("IB_SetpointManagerMultiZoneHumidityMaximum", 
                 "SPM_HumidityMax",
                 "Description",
                 "Ironbug", "05:SetpointManager",

@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         public Ironbug_ZonePicker()
-          : base("Ironbug_ZonePicker", "ZonePicker",
+          : base("IB_ZonePicker", "ZonePicker",
               "Description",
               "Ironbug", "00:Ironbug")
         {

@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ExistAirLoopHVAC()
-          : base("Ironbug_ExistingAirLoop", "ExistingAirLoop",
+          : base("IB_ExistingAirLoop", "ExistingAirLoop",
               HVAC.IB_AirLoopHVAC_FieldSet.Value.OwnerEpNote,
               "Ironbug", "01:Loops")
         {

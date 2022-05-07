@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACWaterToAirHeatPump : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ZoneHVACWaterToAirHeatPump()
-          : base("Ironbug_ZoneHVACWaterToAirHeatPump", "WaterAirHeatPump",
+          : base("IB_ZoneHVACWaterToAirHeatPump", "WaterAirHeatPump",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACWaterToAirHeatPump_FieldSet))

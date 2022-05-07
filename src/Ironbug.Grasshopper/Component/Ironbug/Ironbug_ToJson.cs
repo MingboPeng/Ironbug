@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ToJson : Ironbug_Component
     {
         public Ironbug_ToJson()
-          : base("Ironbug_ToJson", "ToJson",
+          : base("IB_ToJson", "ToJson",
               "Use this component to measure variables like temperature, flow rate, etc, in the loop.\nPlace this between loopObjects.",
               "Ironbug", "HVAC")
         {

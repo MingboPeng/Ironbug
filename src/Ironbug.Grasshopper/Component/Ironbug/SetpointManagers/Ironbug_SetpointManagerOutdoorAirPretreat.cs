@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     public class Ironbug_SetpointManagerOutdoorAirPretreat : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_SetpointManagerOutdoorAirPretreat()
-          : base("Ironbug_SetpointManagerOutdoorAirPretreat", "SPM_OAPretreat",
+          : base("IB_SetpointManagerOutdoorAirPretreat", "SPM_OAPretreat",
               "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerOutdoorAirPretreat_FieldSet))

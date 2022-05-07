@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
         
         public Ironbug_FanZoneExhaust()
-          : base("Ironbug_FanZoneExhaust", "ExhaustFan",
+          : base("IB_FanZoneExhaust", "ExhaustFan",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_FanZoneExhaust_FieldSet))

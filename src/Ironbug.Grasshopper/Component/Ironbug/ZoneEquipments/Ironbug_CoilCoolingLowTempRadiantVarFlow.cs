@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CoilCoolingLowTempRadiantVarFlow : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoilCoolingLowTempRadiantVarFlow()
-          : base("Ironbug_CoilCoolingLowTempRadiantVarFlow", "CoilCln_LowTRadV",
+          : base("IB_CoilCoolingLowTempRadiantVarFlow", "CoilCln_LowTRadV",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilCoolingLowTempRadiantVarFlow_FieldSet))

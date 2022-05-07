@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CoilHeatingWaterBaseboardRadiant : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoilHeatingWaterBaseboardRadiant()
-          : base("Ironbug_CoilHeatingWaterBaseboardRadiant", "CoilHtn_BaseboardRad",
+          : base("IB_CoilHeatingWaterBaseboardRadiant", "CoilHtn_BaseboardRad",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingWaterBaseboardRadiant_FieldSet))

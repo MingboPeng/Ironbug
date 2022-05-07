@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilCoolingGas class.
         
         public Ironbug_CoilHeatingGas()
-          : base("Ironbug_CoilHeatingGas", "CoilHtnGas",
+          : base("IB_CoilHeatingGas", "CoilHtnGas",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(IB_CoilHeatingGas_FieldSet))

@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_AirConditionerVariableRefrigerantFlow()
-          : base("Ironbug_AirConditionerVariableRefrigerantFlow", "VRFSystem",
+          : base("IB_AirConditionerVariableRefrigerantFlow", "VRFSystem",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_AirConditionerVariableRefrigerantFlow_FieldSet))

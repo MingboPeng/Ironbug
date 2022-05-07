@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_NoAirLoop : Ironbug_Component
     {
         public Ironbug_NoAirLoop()
-          : base("Ironbug_NoAirLoop", "NoAirLoop",
+          : base("IB_NoAirLoop", "NoAirLoop",
               "An void loop for zones don't need an airloop, but only with ZoneEquipments",
               "Ironbug", "01:Loops")
         {

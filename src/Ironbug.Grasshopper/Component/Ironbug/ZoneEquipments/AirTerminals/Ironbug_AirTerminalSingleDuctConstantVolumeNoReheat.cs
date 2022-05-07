@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_AirTerminalSingleDuctVAVReheat class.
         
         public Ironbug_AirTerminalSingleDuctUncontrolled()
-          : base("Ironbug_AirTerminalSingleDuctConstantVolumeNoReheat", "Diffuser",
+          : base("IB_AirTerminalSingleDuctConstantVolumeNoReheat", "Diffuser",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctConstantVolumeNoReheat_FieldSet))

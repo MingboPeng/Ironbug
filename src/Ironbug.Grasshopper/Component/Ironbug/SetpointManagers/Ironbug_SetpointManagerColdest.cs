@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         private static HVAC.IB_SetpointManagerColdest_FieldSet _fieldSet = HVAC.IB_SetpointManagerColdest_FieldSet.Value;
         
         public Ironbug_SetpointManagerColdest()
-          : base("Ironbug_SetpointManagerColdest", "SPM_Warmest",
+          : base("IB_SetpointManagerColdest", "SPM_Warmest",
              "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerColdest_FieldSet))

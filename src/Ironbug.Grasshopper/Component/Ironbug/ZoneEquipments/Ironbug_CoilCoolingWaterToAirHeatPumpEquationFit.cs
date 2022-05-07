@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
 
         public Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit()
-          : base("Ironbug_CoilCoolingWaterToAirHeatPumpEquationFit", "CoilHtn_WaterToAir",
+          : base("IB_CoilCoolingWaterToAirHeatPumpEquationFit", "CoilHtn_WaterToAir",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilCoolingWaterToAirHeatPumpEquationFit_FieldSet))

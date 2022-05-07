@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ZoneHVACLowTemperatureRadiantElectric : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ZoneHVACLowTemperatureRadiantElectric()
-          : base("Ironbug_ZoneHVACLowTemperatureRadiantElectric", "LowTRadiant_Elec",
+          : base("IB_ZoneHVACLowTemperatureRadiantElectric", "LowTRadiant_Elec",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_ZoneHVACLowTemperatureRadiantElectric_FieldSet))

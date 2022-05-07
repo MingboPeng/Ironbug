@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_Duct : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_Duct()
-          : base("Ironbug_Duct", "Duct",
+          : base("IB_Duct", "Duct",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_Duct_FieldSet))

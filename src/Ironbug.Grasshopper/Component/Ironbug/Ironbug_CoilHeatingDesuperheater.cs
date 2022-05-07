@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CoilHeatingDesuperheater()
-          : base("Ironbug_CoilHeatingDesuperheater", "Desuperheater",
+          : base("IB_CoilHeatingDesuperheater", "Desuperheater",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingDesuperheater_FieldSet))

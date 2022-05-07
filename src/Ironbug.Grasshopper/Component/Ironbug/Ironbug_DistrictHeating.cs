@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_DistrictHeating()
-          : base("Ironbug_DistrictHeating", "DistrictHeating",
+          : base("IB_DistrictHeating", "DistrictHeating",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_DistrictHeating_FieldSet))

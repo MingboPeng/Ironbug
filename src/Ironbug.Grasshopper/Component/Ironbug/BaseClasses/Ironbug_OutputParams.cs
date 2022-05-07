@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
         private IEnumerable<string> OutputVariables { get; set; } = new List<string>();
 
         public Ironbug_OutputParams()
-          : base("Ironbug_OutputParams", "OutputParams",
+          : base("IB_OutputParams", "OutputParams",
               "Description",
               "Ironbug", "00:Ironbug")
         {

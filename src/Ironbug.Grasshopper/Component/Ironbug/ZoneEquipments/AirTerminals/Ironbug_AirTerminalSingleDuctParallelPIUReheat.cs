@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctParallelPIUReheat : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctParallelPIUReheat()
-          : base("Ironbug_AirTerminalSingleDuctParallelPIUReheat", "ParallelPIUReheat",
+          : base("IB_AirTerminalSingleDuctParallelPIUReheat", "ParallelPIUReheat",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctParallelPIUReheat_FieldSet))

@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_CoolingTowerVariableSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_CoolingTowerVariableSpeed()
-          : base("Ironbug_CoolingTowerVariableSpeed", "CoolingTowerV",
+          : base("IB_CoolingTowerVariableSpeed", "CoolingTowerV",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_CoolingTowerVariableSpeed_FieldSet))

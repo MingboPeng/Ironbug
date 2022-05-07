@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ControllerWaterCoil : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_ControllerWaterCoil()
-          : base("Ironbug_ControllerWaterCoil", "ControllerWaterCoil",
+          : base("IB_ControllerWaterCoil", "ControllerWaterCoil",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_ControllerWaterCoil_FieldSet))

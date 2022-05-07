@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CurveCubic()
-          : base("Ironbug_CurveCubic", "CurveCubic",
+          : base("IB_CurveCubic", "CurveCubic",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Curves.IB_CurveCubic_FieldSet))

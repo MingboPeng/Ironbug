@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirLoopHVACUnitarySystem : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirLoopHVACUnitarySystem()
-          : base("Ironbug_AirLoopHVACUnitarySystem", "UnitarySystem",
+          : base("IB_AirLoopHVACUnitarySystem", "UnitarySystem",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(IB_AirLoopHVACUnitarySystem_FieldSet))

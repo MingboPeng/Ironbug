@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ChillerHeaterPerformanceElectricEIR()
-          : base("Ironbug_ChillerHeaterPerformanceElectricEIR", "ChillerHeater",
+          : base("IB_ChillerHeaterPerformanceElectricEIR", "ChillerHeater",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_ChillerHeaterPerformanceElectricEIR_FieldSet))

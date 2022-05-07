@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeatPumpWaterToWaterEquationFitHeating : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HeatPumpWaterToWaterEquationFitHeating()
-          : base("Ironbug_HeatPumpWaterToWaterEquationFitHeating", "HeatPumpHeating",
+          : base("IB_HeatPumpWaterToWaterEquationFitHeating", "HeatPumpHeating",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatPumpWaterToWaterEquationFitHeating_FieldSet))

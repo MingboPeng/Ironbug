@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HVACSystem : Ironbug_Component
     {
         public Ironbug_HVACSystem()
-          : base("Ironbug_HVACSystem", "HVACSystem",
+          : base("IB_HVACSystem", "HVACSystem",
               "Description",
               "Ironbug", "HVAC")
         {

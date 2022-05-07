@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.
         
         public Ironbug_ZoneHVACBaseboardRadiantConvectiveWater()
-          : base("Ironbug_ZoneHVACBaseboardRadiantConvectiveWater", "BaseboardWaterRadC",
+          : base("IB_ZoneHVACBaseboardRadiantConvectiveWater", "BaseboardWaterRadC",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACBaseboardRadiantConvectiveWater_FieldSet))

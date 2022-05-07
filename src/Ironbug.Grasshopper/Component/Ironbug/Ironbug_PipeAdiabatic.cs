@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PipeAdiabatic : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PipeAdiabatic()
-          : base("Ironbug_PipeAdiabatic", "PipeAdiabatic",
+          : base("IB_PipeAdiabatic", "PipeAdiabatic",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PipeAdiabatic_FieldSet))

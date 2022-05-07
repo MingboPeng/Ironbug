@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirLoopHVAC : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirLoopHVAC()
-          : base("Ironbug_AirLoopHVAC", "AirLoop",
+          : base("IB_AirLoopHVAC", "AirLoop",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_AirLoopHVAC_FieldSet))

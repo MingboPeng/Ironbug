@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     {
         //private static HVAC.IB_SetpointManagerScheduledDualSetpoint_Adv_FieldSet _fieldSet = HVAC.IB_SetpointManagerScheduledDualSetpoint_Adv_FieldSet.Value;
         public Ironbug_SetpointManagerScheduledDualSetpoint_Adv()
-          : base("Ironbug_SetpointManagerScheduledDualSetpoint_Adv", "SPM_Dual_Adv",
+          : base("IB_SetpointManagerScheduledDualSetpoint_Adv", "SPM_Dual_Adv",
               "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet))

@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         
         public Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit()
-          : base("Ironbug_CoilHeatingWaterToAirHeatPumpEquationFit", "CoilHtn_WaterToAir",
+          : base("IB_CoilHeatingWaterToAirHeatPumpEquationFit", "CoilHtn_WaterToAir",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingWaterToAirHeatPumpEquationFit_FieldSet))

@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PipeOutdoor : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PipeOutdoor()
-          : base("Ironbug_PipeOutdoor", "PipeOutdoor",
+          : base("IB_PipeOutdoor", "PipeOutdoor",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PipeOutdoor_FieldSet))

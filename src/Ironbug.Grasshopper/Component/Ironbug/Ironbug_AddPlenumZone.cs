@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
 
         
         public Ironbug_AddPlenumZone()
-          : base("Ironbug_PlenumZone", "PlenumZone",
+          : base("IB_PlenumZone", "PlenumZone",
               "Attach supply or/and retrun plenum zones to thermal zones in the airloop.",
               "Ironbug", "00:Ironbug")
         {
@@ -29,7 +29,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("HoneybeePlenumZone", "supplyPlenum_", "Use HBRoom or OsZones.\nThis plenumZone will be connect to all thermal zones", GH_ParamAccess.list);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("Ironbug_ThermalZones", "_ThermalZones", "Add Ironbug_ThermalZones to here to attach their supply and return plenums.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("IB_ThermalZones", "_ThermalZones", "Add Ironbug_ThermalZones to here to attach their supply and return plenums.", GH_ParamAccess.list);
             pManager.AddGenericParameter("HoneybeePlenumZone", "returnPlenum_", "Use HBRoom or OsZones.\nThis plenumZone will be connect to all thermal zones", GH_ParamAccess.list);
             pManager[2].Optional = true;
      

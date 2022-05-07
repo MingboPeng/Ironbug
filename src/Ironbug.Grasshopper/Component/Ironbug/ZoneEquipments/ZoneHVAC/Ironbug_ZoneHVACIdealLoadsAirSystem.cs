@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         public override GH_Exposure Exposure => GH_Exposure.secondary;
         
         public Ironbug_ZoneHVACIdealLoadsAirSystem()
-          : base("Ironbug_ZoneHVACIdealLoadsAirSystem", "IdealAirLoad",
+          : base("IB_ZoneHVACIdealLoadsAirSystem", "IdealAirLoad",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACIdealLoadsAirSystem_FieldSet))

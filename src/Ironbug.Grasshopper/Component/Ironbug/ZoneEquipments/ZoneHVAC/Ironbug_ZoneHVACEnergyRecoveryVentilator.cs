@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ZoneHVACEnergyRecoveryVentilator()
-          : base("Ironbug_ZoneHVACEnergyRecoveryVentilator", "ZoneERV",
+          : base("IB_ZoneHVACEnergyRecoveryVentilator", "ZoneERV",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACEnergyRecoveryVentilator_FieldSet))

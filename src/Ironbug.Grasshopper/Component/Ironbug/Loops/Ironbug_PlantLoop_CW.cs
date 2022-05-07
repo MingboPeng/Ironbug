@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_PlantLoop_CW()
-          : base("Ironbug_ChilledWaterPlantLoop", "ChilledWaterLoop",
+          : base("IB_ChilledWaterPlantLoop", "ChilledWaterLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))

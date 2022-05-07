@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_WaterUseConnections()
-          : base("Ironbug_WaterUseConnections", "WaterUseConnections",
+          : base("IB_WaterUseConnections", "WaterUseConnections",
               "Description",
                "Ironbug", "02:LoopComponents",
                typeof(HVAC.IB_WaterUseConnections_FieldSet))

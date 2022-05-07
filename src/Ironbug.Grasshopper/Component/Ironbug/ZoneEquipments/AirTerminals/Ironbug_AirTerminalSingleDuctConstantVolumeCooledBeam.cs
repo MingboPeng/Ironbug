@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctConstantVolumeCooledBeam : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctConstantVolumeCooledBeam()
-          : base("Ironbug_AirTerminalChilledBeam", "ChilledBeam",
+          : base("IB_AirTerminalChilledBeam", "ChilledBeam",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctConstantVolumeCooledBeam_FieldSet))

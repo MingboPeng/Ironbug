@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_OutdoorAirSystem class.
         
         public Ironbug_OutdoorAirSystem()
-          : base("Ironbug_OutdoorAirSystem", "OASystem",
+          : base("IB_OutdoorAirSystem", "OASystem",
               EPDoc.AirLoopHVACOutdoorAirSystem.Note,
               "Ironbug", "02:LoopComponents")
         {

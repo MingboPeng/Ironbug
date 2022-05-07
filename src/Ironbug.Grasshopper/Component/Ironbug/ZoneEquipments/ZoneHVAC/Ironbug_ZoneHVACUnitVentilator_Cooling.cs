@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ZoneHVACUnitHeater class.
         
         public Ironbug_ZoneHVACUnitVentilator_Cooling()
-          : base("Ironbug_ZoneHVACUnitVentilator_Cooling", "UnitVentCooling",
+          : base("IB_ZoneHVACUnitVentilator_Cooling", "UnitVentCooling",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACUnitVentilator_FieldSet))

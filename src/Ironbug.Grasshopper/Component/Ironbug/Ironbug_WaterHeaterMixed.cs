@@ -5,7 +5,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_WaterHeaterMixed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_WaterHeaterMixed()
-          : base("Ironbug_WaterHeaterMixed", "WaterHeaterMixed",
+          : base("IB_WaterHeaterMixed", "WaterHeaterMixed",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_WaterHeaterMixed_FieldSet))

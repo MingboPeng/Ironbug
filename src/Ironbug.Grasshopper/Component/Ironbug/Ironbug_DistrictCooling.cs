@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_DistrictCooling : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_DistrictCooling()
-          : base("Ironbug_DistrictCooling", "DistrictCooling",
+          : base("IB_DistrictCooling", "DistrictCooling",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_DistrictCooling_FieldSet))

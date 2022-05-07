@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ZoneEquipmentGroup class.
         
         public Ironbug_ZoneEquipmentGroup()
-          : base("Ironbug_ZoneEquipmentGroup", "ZoneEquipmentGroup",
+          : base("IB_ZoneEquipmentGroup", "ZoneEquipmentGroup",
               "Use Ironbug_ZoneEquipmentGroup if you have more than one equipments for one zone",
                "Ironbug", "04:ZoneEquipments")
         {

@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PlantLoop_Obsolete : Ironbug_HVACWithParamComponent
     {
         public Ironbug_PlantLoop_Obsolete()
-          : base("Ironbug_PlantLoop", "PlantLoop",
+          : base("IB_PlantLoop", "PlantLoop",
               "Description",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))

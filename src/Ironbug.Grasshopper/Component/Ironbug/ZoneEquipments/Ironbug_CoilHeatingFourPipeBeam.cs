@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_CoilHeatingWater class.
         
         public Ironbug_CoilHeatingFourPipeBeam()
-          : base("Ironbug_CoilHeatingFourPipeBeam", "Coil_Htn4PipBeam",
+          : base("IB_CoilHeatingFourPipeBeam", "Coil_Htn4PipBeam",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_CoilHeatingFourPipeBeam_FieldSet))

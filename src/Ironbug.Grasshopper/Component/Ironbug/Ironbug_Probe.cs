@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_Probe : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_Probe()
-          : base("Ironbug_Probe", "Probe",
+          : base("IB_Probe", "Probe",
               "Use this component to measure variables like temperature, flow rate, etc, in the loop.\nPlace this between loopObjects.",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_Probe_FieldSet))

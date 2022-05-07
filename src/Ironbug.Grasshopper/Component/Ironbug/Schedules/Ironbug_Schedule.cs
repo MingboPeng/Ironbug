@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_Schedule : Ironbug_Component
     {
         public Ironbug_Schedule()
-          : base("Ironbug_Schedule", "Schedule",
+          : base("IB_Schedule", "Schedule",
               HVAC.Schedules.IB_ScheduleRuleset_FieldSet.Value.OwnerEpNote,
               "Ironbug", "07:Curve & Load")
         {

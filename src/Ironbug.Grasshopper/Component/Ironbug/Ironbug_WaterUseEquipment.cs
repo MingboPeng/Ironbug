@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ZoneEquipmentGroup class.
         
         public Ironbug_WaterUseEquipment()
-          : base("Ironbug_WaterUseEquipment", "WaterUseEquipment",
+          : base("IB_WaterUseEquipment", "WaterUseEquipment",
               "Description",
                "Ironbug", "02:LoopComponents",
                typeof(HVAC.IB_WaterUseEquipment_FieldSet))

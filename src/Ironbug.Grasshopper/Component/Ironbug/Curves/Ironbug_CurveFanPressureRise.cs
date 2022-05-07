@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_SizingZone class.
         
         public Ironbug_CurveFanPressureRise()
-          : base("Ironbug_CurveFanPressureRise", "CurveFanPressure",
+          : base("IB_CurveFanPressureRise", "CurveFanPressure",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Curves.IB_CurveCubic_FieldSet))

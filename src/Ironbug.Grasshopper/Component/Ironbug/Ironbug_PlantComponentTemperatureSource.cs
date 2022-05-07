@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PlantComponentTemperatureSource : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PlantComponentTemperatureSource()
-          : base("Ironbug_PlantComponentTemperatureSource", "PlantComponent_TSource",
+          : base("IB_PlantComponentTemperatureSource", "PlantComponent_TSource",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PlantComponentTemperatureSource_FieldSet))

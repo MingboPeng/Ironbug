@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_FanVariableVolume : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_FanVariableVolume()
-          : base("Ironbug_FanVariableVolume", "FanVariable",
+          : base("IB_FanVariableVolume", "FanVariable",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_FanVariableVolume_FieldSet))

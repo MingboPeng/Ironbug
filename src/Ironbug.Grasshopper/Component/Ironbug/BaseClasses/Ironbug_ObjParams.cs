@@ -39,7 +39,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_FieldSet class.
         
         public Ironbug_ObjParams()
-          : base("Ironbug_ObjParams", "ObjParams",
+          : base("IB_ObjParams", "ObjParams",
               "Description",
               "Ironbug", "00:Ironbug")
         {
@@ -247,12 +247,12 @@ namespace Ironbug.Grasshopper.Component
         {
             if (IB_ModelObject.IPUnit)
             {
-                this.Name = "Ironbug_ObjParams [IP]";
+                this.Name = "IB_ObjParams [IP]";
                 this.NickName = "ObjParams [IP]";
             }
             else
             {
-                this.Name = "Ironbug_ObjParams";
+                this.Name = "IB_ObjParams";
                 this.NickName = "ObjParams";
             }
         }

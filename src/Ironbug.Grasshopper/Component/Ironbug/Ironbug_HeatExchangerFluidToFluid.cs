@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeatExchangerFluidToFluid : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HeatExchangerFluidToFluid()
-          : base("Ironbug_HeatExchangerFluidToFluid", "HeatExchangerFluid",
+          : base("IB_HeatExchangerFluidToFluid", "HeatExchangerFluid",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatExchangerFluidToFluid_FieldSet))

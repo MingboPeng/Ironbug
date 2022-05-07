@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam()
-          : base("Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeBeam", "4PipeBeam",
+          : base("IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam", "4PipeBeam",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam_FieldSet))

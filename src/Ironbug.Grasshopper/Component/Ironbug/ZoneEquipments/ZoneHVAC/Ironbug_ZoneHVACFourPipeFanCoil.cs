@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ZoneHVACFourPipeFanCoil()
-          : base("Ironbug_ZoneHVACFourPipeFanCoil", "4PipeFanCoil",
+          : base("IB_ZoneHVACFourPipeFanCoil", "4PipeFanCoil",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACFourPipeFanCoil_FieldSet))

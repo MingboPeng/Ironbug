@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PlantLoop_HW : Ironbug_HVACWithParamComponent
     {
         public Ironbug_PlantLoop_HW()
-          : base("Ironbug_HotWaterPlantLoop", "HotWaterLoop",
+          : base("IB_HotWaterPlantLoop", "HotWaterLoop",
               "Same as PlantLoop, except the FluidType and LoopType cannot be overridden.",
               "Ironbug", "01:Loops",
               typeof(HVAC.IB_PlantLoop_FieldSet))

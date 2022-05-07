@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         
         public Ironbug_Duplicate()
-          : base("Ironbug_Duplicate", "Duplicate",
+          : base("IB_Duplicate", "Duplicate",
               "Description",
               "Ironbug", "00:Ironbug")
         {

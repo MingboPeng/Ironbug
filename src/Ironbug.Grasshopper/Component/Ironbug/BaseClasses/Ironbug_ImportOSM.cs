@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ImportOSM : Ironbug_Component
     {
         public Ironbug_ImportOSM()
-          : base("Ironbug_ImportOSM", "ImportOSM(WIP)",
+          : base("IB_ImportOSM", "ImportOSM(WIP)",
               "Description",
               "Ironbug", "00:Ironbug")
         {

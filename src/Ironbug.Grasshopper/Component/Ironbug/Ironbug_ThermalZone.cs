@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_ThermalZone class.
         
         public Ironbug_ThermalZone()
-          : base("Ironbug_ThermalZone", "ThermalZone",
+          : base("IB_ThermalZone", "ThermalZone",
               "Use this component to create thermal zones from Honeybee rooms, OsZones, or zone names",
               "Ironbug", "00:Ironbug",
               typeof(IB_ThermalZone_FieldSet))

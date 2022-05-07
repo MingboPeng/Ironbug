@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         /// Initializes a new instance of the Ironbug_SetpointManagerOutdoorAirReset class.
         
         public Ironbug_SetpointManagerOutdoorAirReset()
-          : base("Ironbug_SetpointManagerOutdoorAirReset", "SPM_OAReset",
+          : base("IB_SetpointManagerOutdoorAirReset", "SPM_OAReset",
               "Description",
               "Ironbug", "05:SetpointManager",
               typeof(HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet))

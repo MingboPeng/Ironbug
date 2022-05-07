@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_GroundHeatExchangerHorizontalTrench()
-          : base("Ironbug_GroundHeatExchangerHorizontalTrench", "GroundHXHorizontal",
+          : base("IB_GroundHeatExchangerHorizontalTrench", "GroundHXHorizontal",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_GroundHeatExchangerHorizontalTrench_FieldSet))

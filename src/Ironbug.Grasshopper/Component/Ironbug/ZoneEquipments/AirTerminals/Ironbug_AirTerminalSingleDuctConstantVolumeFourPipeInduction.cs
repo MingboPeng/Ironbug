@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction()
-          : base("Ironbug_AirTerminalSingleDuctConstantVolumeFourPipeInduction", "4PipeInduction",
+          : base("IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction", "4PipeInduction",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction_FieldSet))

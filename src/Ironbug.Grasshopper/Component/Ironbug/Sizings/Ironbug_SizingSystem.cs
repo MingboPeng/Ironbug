@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_SizingSystem : Ironbug_HVACWithParamComponent
     {
         public Ironbug_SizingSystem()
-          : base("Ironbug_SizingSystem", "SizingSystem",
+          : base("IB_SizingSystem", "SizingSystem",
               "Description",
               "Ironbug", "06:Sizing&Controller",
               typeof(HVAC.IB_SizingSystem_FieldSet))

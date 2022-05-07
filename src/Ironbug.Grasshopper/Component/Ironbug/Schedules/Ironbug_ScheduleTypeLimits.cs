@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ScheduleTypeLimits()
-          : base("Ironbug_ScheduleTypeLimits", "ScheduleType",
+          : base("IB_ScheduleTypeLimits", "ScheduleType",
               HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.OwnerEpNote,
               "Ironbug", "07:Curve & Load")
         {

@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CurveSigmoid()
-          : base("Ironbug_CurveSigmoid", "CurveSigmoid",
+          : base("IB_CurveSigmoid", "CurveSigmoid",
               "Description",
               "Ironbug", "07:Curve & Load",
               typeof(HVAC.Curves.IB_CurveSigmoid_FieldSet))

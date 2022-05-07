@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_ZoneHVACLowTempRadiantVarFlow()
-          : base("Ironbug_ZoneHVACLowTempRadiantVarFlow", "RadiantVFlow",
+          : base("IB_ZoneHVACLowTempRadiantVarFlow", "RadiantVFlow",
               "Description",
               "Ironbug", "04:ZoneEquipments",
               typeof(IB_ZoneHVACLowTempRadiantVarFlow_FieldSet))

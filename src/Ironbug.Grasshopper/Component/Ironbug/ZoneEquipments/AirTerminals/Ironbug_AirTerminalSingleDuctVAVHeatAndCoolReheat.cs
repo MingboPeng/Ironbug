@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctVAVHeatAndCoolReheat : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctVAVHeatAndCoolReheat()
-          : base("Ironbug_AirTerminalSingleDuctVAVHeatAndCoolReheat", "VAVHtnClnReheat",
+          : base("IB_AirTerminalSingleDuctVAVHeatAndCoolReheat", "VAVHtnClnReheat",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctVAVHeatAndCoolReheat_FieldSet))

@@ -17,7 +17,7 @@
 //        private IEnumerable<string> OutputVariables { get; set; } = new List<string>();
 
 //        public Ironbug_EnergyManagementSystemSensors()
-//          : base("Ironbug_EnergyManagementSystemSensors", "EmsSensors",
+//          : base("IB_EnergyManagementSystemSensors", "EmsSensors",
 //              "Description",
 //              "Ironbug", "06:Sizing&Controller")
 //        {

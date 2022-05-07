@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         /// Initializes a new instance of the Ironbug_BoilerHotWater class.
         
         public Ironbug_EvaporativeCoolerIndirectResearchSpecial()
-          : base("Ironbug_EvaporativeCoolerIndirectResearchSpecial", "EvapCoolerIndir",
+          : base("IB_EvaporativeCoolerIndirectResearchSpecial", "EvapCoolerIndir",
               "Description",
               "Ironbug", "02:LoopComponents", 
               typeof(HVAC.IB_EvaporativeCoolerIndirectResearchSpecial_FieldSet))

@@ -6,7 +6,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeaderedPumpsVariableSpeed : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_HeaderedPumpsVariableSpeed()
-          : base("Ironbug_HeaderedPumpsVariableSpeed", "PumpVar_Headered",
+          : base("IB_HeaderedPumpsVariableSpeed", "PumpVar_Headered",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeaderedPumpsVariableSpeed_FieldSet))

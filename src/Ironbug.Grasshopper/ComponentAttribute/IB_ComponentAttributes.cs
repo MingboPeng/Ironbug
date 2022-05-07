@@ -23,7 +23,7 @@ namespace Ironbug.Grasshopper.Component
                 if (mode == 0) return;
                 if (GH_Canvas.ZoomFadeMedium <5) return;
                 
-                var name = mode == 1 ? this.Owner.NickName : this.Owner.Name.Replace("Ironbug_", "");
+                var name = mode == 1 ? this.Owner.NickName : this.Owner.Name.Replace("IB_", "");
                 this.DrawComName(graphics, this.Bounds, name);
                 
             }

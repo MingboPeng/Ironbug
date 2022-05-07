@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirTerminalSingleDuctInletSideMixer : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AirTerminalSingleDuctInletSideMixer()
-          : base("Ironbug_AirTerminalSingleDuctInletSideMixer", "InletMixer",
+          : base("IB_AirTerminalSingleDuctInletSideMixer", "InletMixer",
               "Description",
               "Ironbug", "03:AirTerminals",
               typeof(IB_AirTerminalSingleDuctInletSideMixer_FieldSet))
