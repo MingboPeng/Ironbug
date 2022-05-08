@@ -55,6 +55,8 @@ jobs:
           mkdir installer/plugin
           
           mv src/Ironbug.Grasshopper/bin/x64/Release/Ironbug.* installer/plugin
+          cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
+
           ls installer/plugin -r
 
       - name: Unit tests

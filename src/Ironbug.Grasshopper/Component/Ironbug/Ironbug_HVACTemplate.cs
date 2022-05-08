@@ -38,11 +38,9 @@ namespace Ironbug.Grasshopper.Component
         {
             this.folderList = new List<string>();
             this.filesList = new List<List<string>>();
-
-            var dirs = new List<string>()
-            {
-                @"C:\Ironbug\HVACTemplates\"
-            };
+            var root = System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location);
+            var templateDir = System.IO.Path.Combine(root, "HVACTemplates");
+            var dirs = new List<string>() { templateDir };
             DA.GetDataList(0, dirs);
 
             dirs =  dirs.Where(_ => Directory.Exists(_)).ToList();

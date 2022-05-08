@@ -48,4 +48,8 @@
 		<StartAction>Program</StartAction>
 	</PropertyGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="Del $(TargetDir)OpenStudio*" />
+	</Target>
+
 </Project>
