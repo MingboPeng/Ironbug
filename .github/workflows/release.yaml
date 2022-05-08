@@ -47,13 +47,11 @@ jobs:
         run: |
           echo "ReleaseVersion=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
 
-      - name: Update versions
-        run: |
-          echo ${{ env.ReleaseVersion }}
 
       - name: MSBuild GH Plugin
         run: |
-          msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=1.2.0 /restore
+          echo ${{ env.ReleaseVersion }}
+          msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=${{ env.ReleaseVersion }} /restore
           mkdir installer/plugin
           
           mv src/Ironbug.Grasshopper/bin/x64/Release/Ironbug.* installer/plugin

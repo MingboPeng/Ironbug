@@ -31,17 +31,37 @@ Sort and group the Rhino geometries based on its layer information. It is very u
 
 A set of 80 components (by Aug 4, 2018) for creating highly customizable HVAC systems including: Air handling unit, Water loops (hot water, chilled water, condensing water), and VRF.
 
-## Installation
-1. Download the [Ironbug.zip (1.4 MB)](https://github.com/MingboPeng/Ironbug/releases) and unblock the file.
-
-![Image of Ironbug](https://github.com/MingboPeng/Ironbug/blob/master/doc/GIF/unblock.gif) 
-
-2. Unzip to `C:\Ironbug`, and open 00_installer.gh in Grasshopper.
-![image of folder](https://discourse.ladybug.tools/uploads/default/original/2X/5/5fe511542effa4a87dd90c7a2a435bfc6474eba9.png)
-
-3. Find the OpenStudio folder path on your computer, and set toggle to true to install.
-![image of installer](https://github.com/MingboPeng/Ironbug/blob/master/doc/GIF/installer.gif)
 
 
-4. Restart the Grasshopper, and enjoy!
+# Installation
+
+**Prerequisite**: Ironbug v1.0 and above only works with the new Ladybug Tools (not the legacy version). It is suggested to use the [Pollination installer](https://www.pollination.cloud/grasshopper-plugin) to install the Ladybug Tools, which comes with all compatible libraries and engines.
+
+1. Download the Ironbug [single-click installer](https://github.com/MingboPeng/Ironbug/releases) and execute it with admin privilege.
+
+2. The installer will auto-select the valid Ladybug Tools' installation folder, and install the Ironbug to its `grasshopper\ironbug` folder.
+![image](https://user-images.githubusercontent.com/9031066/167290376-b49e9995-48c8-4829-8bfd-df3412744470.png)
+
+3. Finish the installation and enjoy!
+
+Note: installing the Ironbug with the new single-click installer will automatically remove the old Ironbug (if any) from `C:\Ironbug`.
+
+## Installation Issues:
+
+### 1. Ironbug can't find the OpenStudio:
+Ironbug only uses the OpenStudio that is installed to the Ladybug Tools installation folder. If you use the Pollination installer to install Ladybug Tools, the OpenStudio is installed to `C:\Program Files\ladybug_tools\openstudio`. The easiest way to fix this issue is to use the [Pollination installer](https://www.pollination.cloud/grasshopper-plugin) to install the LBT plugins.
+
+### 2. Single-click installer can't find the Ladybug Tools' installation folder
+It is likely you installed the LBT from Food4Rhino, or installed to LBT to a non-standard location that Ironbug's installer can't find it. The following two directories are checked by the installer to find the Ladybug Tools' installation folder:
+    
+    1. C:\Program Files\ladybug_tools\
+    2. C:\Users\USERNAME\ladybug_tools\
+
+The easiest way to fix this issue is to use the [Pollination installer](https://www.pollination.cloud/grasshopper-plugin) to install the LBT plugins.
+
+If you really have to install the Ladybug Tools to a customized directory, for example `D:\ladybug_tools`, you will have to manually point the Ironbug's installer the correct Ladybug Tools folder. In this case, the installation path will be `D:\ladybug_tools\grasshopper\ironbug`
+
+### More issues?
+Post an issue here: https://github.com/MingboPeng/Ironbug/issues/new
+
 
