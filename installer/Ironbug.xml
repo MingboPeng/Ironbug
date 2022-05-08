@@ -27,6 +27,9 @@
                             <allowWildcards>1</allowWildcards>
                             <origin>plugin/*</origin>
                         </distributionFile>
+                        <distributionDirectory>
+                            <origin>HVACTemplates</origin>
+                        </distributionDirectory>
                     </distributionFileList>
                 </folder>
             </folderList>

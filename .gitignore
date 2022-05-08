@@ -9,6 +9,7 @@
 *.xml.backup
 
 LBHB/
+installer/HVACTemplates/*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
