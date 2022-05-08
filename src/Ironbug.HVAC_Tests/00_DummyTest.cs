@@ -246,11 +246,18 @@ R13LAYER,  ! Material Name
             //https://github.com/NREL/openstudio-standards/blob/master/lib/openstudio-standards/prototypes/common/objects/Prototype.CentralAirSourceHeatPump.rb
 
             //var inPath = @"C:\Users\mingo\simulation\HB_Template\OpenStudio\run\in.osm";
-            var inPath = @"C:\Users\mingo\simulation\IB_EMS\OpenStudio\run\in_IB.osm";
-            var outPath = @"C:\Users\mingo\simulation\HB_Template\OpenStudio\run\in_EMS.osm";
+            //var inPath = @"C:\Users\mingo\simulation\IB_EMS\OpenStudio\run\in_IB.osm";
+            var outPath = @"EMS.osm";
 
-            var model = OpenStudio.Model.load(OpenStudioUtilitiesCore.toPath(inPath)).get();
-            var hot_water_loop = model.getPlantLoopByName("Hot Water Loop").get();
+            //var model = OpenStudio.Model.load(OpenStudioUtilitiesCore.toPath(inPath)).get();
+            var model = new OpenStudio.Model();
+            var hotWaterLoop = new OpenStudio.PlantLoop(model);
+            hotWaterLoop.setName("Hot Water Loop");
+
+            var userCom = new OpenStudio.PlantComponentUserDefined(model);
+            hotWaterLoop.addSupplyBranchForComponent(userCom);
+
+            //var hot_water_loop = model.getPlantLoopByName("Hot Water Loop").get();
             //var model = new Model();
 
             ////remove old one
@@ -280,7 +287,7 @@ R13LAYER,  ! Material Name
 
 
 
-            AddCentralAirSouceHeatPump(model, hot_water_loop);
+            AddCentralAirSouceHeatPump(model, hotWaterLoop);
             //var plant_comp = model.getPlantComponentUserDefineds().First();
             //var htg_op_scheme = new PlantEquipmentOperationHeatingLoad(model);
             //htg_op_scheme.addEquipment(1000000000, plant_comp);

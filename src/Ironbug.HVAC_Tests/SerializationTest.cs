@@ -44,7 +44,7 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(typesTobeFixed.Count == 0);
         }
 
-        [Test]
+        //[Test]
         public void Deserialize_Test()
         {
             var p = @"C:\Users\mingo\Desktop\New folder\IbJson.json";
