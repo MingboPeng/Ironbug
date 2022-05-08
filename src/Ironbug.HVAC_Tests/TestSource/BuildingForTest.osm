@@ -1,7 +1,7 @@
 
 OS:Version,
-  {c6953e7b-86d5-4e67-b947-3709cab26e83}, !- Handle
-  3.1.0;                                  !- Version Identifier
+  {17b2b71b-655c-47ae-abaf-df59ac3c7d63}, !- Handle
+  3.3.0;                                  !- Version Identifier
 
 OS:Schedule:Constant,
   {96a7a7fa-11c1-4b19-988b-d21e0b93d1b6}, !- Handle
@@ -88,21 +88,23 @@ OS:SizingPeriod:DesignDay,
   New York Laguardia Arpt Ann Htg 99.6% Condns DB, !- Name
   -10.8,                                  !- Maximum Dry-Bulb Temperature {C}
   0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
-  -10.8,                                  !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   7.5,                                    !- Wind Speed {m/s}
   320,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   1,                                      !- Month
   WinterDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  -10.8,                                  !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAEClearSky;                         !- Solar Model Indicator
 
 OS:SizingPeriod:DesignDay,
@@ -110,21 +112,23 @@ OS:SizingPeriod:DesignDay,
   New York Laguardia Arpt Ann Hum_n 99.6% Condns DP=>MCDB, !- Name
   -9.3,                                   !- Maximum Dry-Bulb Temperature {C}
   0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
-  -20.1,                                  !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   7.5,                                    !- Wind Speed {m/s}
   320,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   1,                                      !- Month
   WinterDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Dewpoint,                               !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Dewpoint,                               !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  -20.1,                                  !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAEClearSky;                         !- Solar Model Indicator
 
 OS:SizingPeriod:DesignDay,
@@ -132,21 +136,23 @@ OS:SizingPeriod:DesignDay,
   New York Laguardia Arpt Ann Htg Wind 99.6% Condns WS=>MCDB, !- Name
   0,                                      !- Maximum Dry-Bulb Temperature {C}
   0,                                      !- Daily Dry-Bulb Temperature Range {deltaC}
-  0,                                      !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   14.4,                                   !- Wind Speed {m/s}
   320,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   1,                                      !- Month
   WinterDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  0,                                      !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAEClearSky;                         !- Solar Model Indicator
 
 OS:SizingPeriod:DesignDay,
@@ -154,104 +160,112 @@ OS:SizingPeriod:DesignDay,
   New York Laguardia Arpt Ann Clg .4% Condns DB=>MWB, !- Name
   33.5,                                   !- Maximum Dry-Bulb Temperature {C}
   7.7,                                    !- Daily Dry-Bulb Temperature Range {deltaC}
-  23.5,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   5.6,                                    !- Wind Speed {m/s}
   270,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   7,                                      !- Month
   SummerDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  23.5,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAETau,                              !- Solar Model Indicator
   ,                                       !- Beam Solar Day Schedule Name
   ,                                       !- Diffuse Solar Day Schedule Name
-  0.532,                                  !- ASHRAE Taub {dimensionless}
-  1.821;                                  !- ASHRAE Taud {dimensionless}
+  0.532,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance {dimensionless}
+  1.821;                                  !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance {dimensionless}
 
 OS:SizingPeriod:DesignDay,
   {1cea911c-f20c-450c-be6a-af2ce63676f3}, !- Handle
   New York Laguardia Arpt Ann Clg .4% Condns Enth=>MDB, !- Name
   30.8,                                   !- Maximum Dry-Bulb Temperature {C}
   7.7,                                    !- Daily Dry-Bulb Temperature Range {deltaC}
-  76200,                                  !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   5.6,                                    !- Wind Speed {m/s}
   270,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   7,                                      !- Month
   SummerDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Enthalpy,                               !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Enthalpy,                               !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  ,                                       !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  76200,                                  !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAETau,                              !- Solar Model Indicator
   ,                                       !- Beam Solar Day Schedule Name
   ,                                       !- Diffuse Solar Day Schedule Name
-  0.532,                                  !- ASHRAE Taub {dimensionless}
-  1.821;                                  !- ASHRAE Taud {dimensionless}
+  0.532,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance {dimensionless}
+  1.821;                                  !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance {dimensionless}
 
 OS:SizingPeriod:DesignDay,
   {4790c9e6-c038-4846-93e7-8e7a4bedf60f}, !- Handle
   New York Laguardia Arpt Ann Clg .4% Condns WB=>MDB, !- Name
   30.7,                                   !- Maximum Dry-Bulb Temperature {C}
   7.7,                                    !- Daily Dry-Bulb Temperature Range {deltaC}
-  25.1,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   5.6,                                    !- Wind Speed {m/s}
   270,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   7,                                      !- Month
   SummerDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Wetbulb,                                !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Wetbulb,                                !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  25.1,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAETau,                              !- Solar Model Indicator
   ,                                       !- Beam Solar Day Schedule Name
   ,                                       !- Diffuse Solar Day Schedule Name
-  0.532,                                  !- ASHRAE Taub {dimensionless}
-  1.821;                                  !- ASHRAE Taud {dimensionless}
+  0.532,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance {dimensionless}
+  1.821;                                  !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance {dimensionless}
 
 OS:SizingPeriod:DesignDay,
   {177c07b8-c68c-47e6-bb01-2e0c0d2b2a3e}, !- Handle
   New York Laguardia Arpt Ann Clg .4% Condns DP=>MDB, !- Name
   27.2,                                   !- Maximum Dry-Bulb Temperature {C}
   7.7,                                    !- Daily Dry-Bulb Temperature Range {deltaC}
-  23.5,                                   !- Humidity Indicating Conditions at Maximum Dry-Bulb
   101289,                                 !- Barometric Pressure {Pa}
   5.6,                                    !- Wind Speed {m/s}
   270,                                    !- Wind Direction {deg}
   0,                                      !- Sky Clearness
-  0,                                      !- Rain Indicator
-  0,                                      !- Snow Indicator
+  No,                                     !- Rain Indicator
+  No,                                     !- Snow Indicator
   21,                                     !- Day of Month
   7,                                      !- Month
   SummerDesignDay,                        !- Day Type
-  0,                                      !- Daylight Saving Time Indicator
-  Dewpoint,                               !- Humidity Indicating Type
-  ,                                       !- Humidity Indicating Day Schedule Name
+  No,                                     !- Daylight Saving Time Indicator
+  Dewpoint,                               !- Humidity Condition Type
+  ,                                       !- Humidity Condition Day Schedule Name
+  23.5,                                   !- Wetbulb or DewPoint at Maximum Dry-Bulb {C}
+  ,                                       !- Humidity Ratio at Maximum Dry-Bulb {kgWater/kgDryAir}
+  ,                                       !- Enthalpy at Maximum Dry-Bulb {J/kg}
   DefaultMultipliers,                     !- Dry-Bulb Temperature Range Modifier Type
-  ,                                       !- Dry-Bulb Temperature Range Modifier Schedule Name
+  ,                                       !- Dry-Bulb Temperature Range Modifier Day Schedule Name
   ASHRAETau,                              !- Solar Model Indicator
   ,                                       !- Beam Solar Day Schedule Name
   ,                                       !- Diffuse Solar Day Schedule Name
-  0.532,                                  !- ASHRAE Taub {dimensionless}
-  1.821;                                  !- ASHRAE Taud {dimensionless}
+  0.532,                                  !- ASHRAE Clear Sky Optical Depth for Beam Irradiance {dimensionless}
+  1.821;                                  !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance {dimensionless}
 
 OS:BuildingStory,
   {cd3c8f8d-8e5e-48a3-8b63-feabf0302930}, !- Handle
@@ -1190,7 +1204,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {55e14165-074d-4bdf-b655-ed9441b0427e}, !- Handle
-  Port List 1,                            !- Name
   {ca3cc766-80c6-4f7a-b76e-978c5974e272}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -1202,7 +1215,6 @@ OS:Node,
 
 OS:Connection,
   {b0e7b2f9-e4ec-4078-bbd4-acf68f4db1ad}, !- Handle
-  {84d78284-21b2-4e7b-ad66-69c27b639969}, !- Name
   {ca3cc766-80c6-4f7a-b76e-978c5974e272}, !- Source Object
   11,                                     !- Outlet Port
   {97d62c90-8bda-4f55-856c-570c413f004e}, !- Target Object
@@ -1210,13 +1222,11 @@ OS:Connection,
 
 OS:PortList,
   {23874aef-74f7-48c1-9319-3e9e703857f4}, !- Handle
-  {5b26ef93-bf0a-4ffc-ad7c-1f2b9ed0cde3}, !- Name
   {ca3cc766-80c6-4f7a-b76e-978c5974e272}, !- HVAC Component
   {495a795d-5947-4004-8e1e-44bd443d5dcd}; !- Port 1
 
 OS:PortList,
   {1f171328-056d-4c3e-92c3-219cb5a8348d}, !- Handle
-  {11916b93-0a1d-472e-aac6-96603377992d}, !- Name
   {ca3cc766-80c6-4f7a-b76e-978c5974e272}, !- HVAC Component
   {caabddb6-1ac1-4e43-9cf6-23d561543a9b}; !- Port 1
 
@@ -1647,7 +1657,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {f2ee28ae-ba2d-41f5-9ffa-139015bca166}, !- Handle
-  Port List 2,                            !- Name
   {85259e24-0255-4231-9b37-23ae7f782022}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -1659,7 +1668,6 @@ OS:Node,
 
 OS:Connection,
   {bc019832-d20f-44f9-b25a-73ee0bdcba73}, !- Handle
-  {876f1bfd-8fe1-4b45-8650-854d9b8dfc35}, !- Name
   {85259e24-0255-4231-9b37-23ae7f782022}, !- Source Object
   11,                                     !- Outlet Port
   {fd1f9788-799e-407f-a7e8-5febc97248ba}, !- Target Object
@@ -1667,13 +1675,11 @@ OS:Connection,
 
 OS:PortList,
   {550def4a-c440-4995-bd1b-25e5d7aae225}, !- Handle
-  {a36c8c62-882c-45f9-9669-45053244e623}, !- Name
   {85259e24-0255-4231-9b37-23ae7f782022}, !- HVAC Component
   {2b09fbf7-ae86-459c-866c-926440fe1af1}; !- Port 1
 
 OS:PortList,
   {d1119f94-c7ad-4b81-b326-db4b008800f3}, !- Handle
-  {7a607830-1940-44af-bab2-09b34a022d13}, !- Name
   {85259e24-0255-4231-9b37-23ae7f782022}, !- HVAC Component
   {d25b6f61-3e2d-4932-9b17-447ae800b87f}; !- Port 1
 
@@ -1862,7 +1868,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {a57647d6-063c-4b89-bc9e-486b102a19fd}, !- Handle
-  Port List 3,                            !- Name
   {a373f58c-fd05-45f1-8b30-89d9713c7801}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -1874,7 +1879,6 @@ OS:Node,
 
 OS:Connection,
   {ffea65e6-98a5-47ec-b469-07a6094e98b7}, !- Handle
-  {a4105af7-aae8-4ad3-8e6b-e60a47d79698}, !- Name
   {a373f58c-fd05-45f1-8b30-89d9713c7801}, !- Source Object
   11,                                     !- Outlet Port
   {a7aa847b-59d7-490a-b0b0-26b62856c9f0}, !- Target Object
@@ -1882,13 +1886,11 @@ OS:Connection,
 
 OS:PortList,
   {7f4da674-d00f-4fb8-9dee-9818322ba762}, !- Handle
-  {fbb062cb-8c41-4f2a-ba16-2d2d5b628a1e}, !- Name
   {a373f58c-fd05-45f1-8b30-89d9713c7801}, !- HVAC Component
   {f95246b5-3882-4eca-9903-4ea1993bdf0e}; !- Port 1
 
 OS:PortList,
   {bc8673f4-27b1-4d70-9c3f-cbd463a5869c}, !- Handle
-  {19d9aea8-9a98-478d-beb1-a5bcc1ed5648}, !- Name
   {a373f58c-fd05-45f1-8b30-89d9713c7801}, !- HVAC Component
   {38c82be1-c0ab-4071-a22d-2670efbecaee}; !- Port 1
 
@@ -2143,7 +2145,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {898f4cad-68de-42fb-be57-b8fa41d4c9e0}, !- Handle
-  Port List 4,                            !- Name
   {b213970a-31f5-4ad2-a5e5-349412847c4f}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -2155,7 +2156,6 @@ OS:Node,
 
 OS:Connection,
   {b9b60d55-9ed3-4d40-9991-f138970586c3}, !- Handle
-  {1a41023b-e946-4b3c-90c9-49302451c969}, !- Name
   {b213970a-31f5-4ad2-a5e5-349412847c4f}, !- Source Object
   11,                                     !- Outlet Port
   {99030147-3f8d-4482-99a1-7214faeae848}, !- Target Object
@@ -2163,13 +2163,11 @@ OS:Connection,
 
 OS:PortList,
   {f8205440-7722-4702-b119-54c0a34dee23}, !- Handle
-  {1c9cd208-3531-41cc-bd77-81dcbe130dde}, !- Name
   {b213970a-31f5-4ad2-a5e5-349412847c4f}, !- HVAC Component
   {8531af17-9a7b-476d-b9cf-804bdb191f85}; !- Port 1
 
 OS:PortList,
   {52b600a1-1e05-40e8-9e80-f0d251c3a90e}, !- Handle
-  {4fc9d461-aec2-40fd-86f9-800503507421}, !- Name
   {b213970a-31f5-4ad2-a5e5-349412847c4f}, !- HVAC Component
   {bb18033a-6199-4a6e-bdc0-c77c4bd47aee}; !- Port 1
 
@@ -2408,7 +2406,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {f7da804e-69cb-4903-9fdc-f17c93f84fa0}, !- Handle
-  Port List 5,                            !- Name
   {863d9092-7709-4161-bdbf-230a4befa503}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -2420,7 +2417,6 @@ OS:Node,
 
 OS:Connection,
   {70310c0f-be96-4c1e-a0b5-e0f01eae6428}, !- Handle
-  {a87f02bd-7094-4856-8ca0-7c5e44754720}, !- Name
   {863d9092-7709-4161-bdbf-230a4befa503}, !- Source Object
   11,                                     !- Outlet Port
   {002c81da-c6c4-4f80-9847-55c29be59e7b}, !- Target Object
@@ -2428,13 +2424,11 @@ OS:Connection,
 
 OS:PortList,
   {6ede411a-5d86-4a1c-a0df-aacf558d7ae7}, !- Handle
-  {a48c6371-3a1f-4994-90a3-550152546c05}, !- Name
   {863d9092-7709-4161-bdbf-230a4befa503}, !- HVAC Component
   {3770015c-e686-4711-acd1-93927a066404}; !- Port 1
 
 OS:PortList,
   {abdff63c-ad35-45cd-a835-308d59b2c47a}, !- Handle
-  {0d73615f-8491-49b1-98ad-0cd7361e38c9}, !- Name
   {863d9092-7709-4161-bdbf-230a4befa503}, !- HVAC Component
   {afa84360-1e13-4eb6-bb25-95a71a63aaf6}; !- Port 1
 
@@ -2655,7 +2649,6 @@ OS:ThermalZone,
 
 OS:PortList,
   {0b31d987-500b-4cd4-b3cb-e4a205bf3ae4}, !- Handle
-  Port List 6,                            !- Name
   {45310e36-331f-46c8-8bec-605926a4683d}, !- HVAC Component
   ;                                       !- Port 1
 
@@ -2667,7 +2660,6 @@ OS:Node,
 
 OS:Connection,
   {b6d73d68-9433-4693-b974-860c4947a588}, !- Handle
-  {f207b569-6863-4a8f-bda6-299cb8deb0e9}, !- Name
   {45310e36-331f-46c8-8bec-605926a4683d}, !- Source Object
   11,                                     !- Outlet Port
   {e1831016-0814-4851-af38-e029b90d2d4f}, !- Target Object
@@ -2675,13 +2667,11 @@ OS:Connection,
 
 OS:PortList,
   {0cf765f6-8730-410e-832a-d796ddcaffbf}, !- Handle
-  {ca1a3c0a-a799-47db-8cb1-3c4965eea3d7}, !- Name
   {45310e36-331f-46c8-8bec-605926a4683d}, !- HVAC Component
   {8fee4f94-e35e-4f87-8ffc-a85c5d578ee9}; !- Port 1
 
 OS:PortList,
   {6f905d2b-e8fe-412c-9a74-e3b4666c5e83}, !- Handle
-  {7fc9d047-052b-4e95-8874-4931133d71fd}, !- Name
   {45310e36-331f-46c8-8bec-605926a4683d}, !- HVAC Component
   {bd2331e0-a76d-491d-9c14-7ffd71114e0d}; !- Port 1
 
@@ -2884,7 +2874,6 @@ OS:Node,
 
 OS:Connection,
   {caabddb6-1ac1-4e43-9cf6-23d561543a9b}, !- Handle
-  {b3810129-62d9-47c1-bb8d-0d5ab6063914}, !- Name
   {1f171328-056d-4c3e-92c3-219cb5a8348d}, !- Source Object
   3,                                      !- Outlet Port
   {2a98eec3-373e-414c-a4b0-de82287d26f4}, !- Target Object
@@ -2892,7 +2881,6 @@ OS:Connection,
 
 OS:Connection,
   {9bc569cd-a12d-4e69-95b4-135d3fc2eb25}, !- Handle
-  {3dc8a4bd-c31c-450e-abff-50edcc550ae8}, !- Name
   {2a98eec3-373e-414c-a4b0-de82287d26f4}, !- Source Object
   3,                                      !- Outlet Port
   {bce3a6e6-a70d-4f64-a217-3c6a962e579c}, !- Target Object
@@ -2906,7 +2894,6 @@ OS:Node,
 
 OS:Connection,
   {495a795d-5947-4004-8e1e-44bd443d5dcd}, !- Handle
-  {62e5d405-d83f-4fc7-a9c5-d0a9bb34d8eb}, !- Name
   {e02d0c3a-5637-4bc5-9d8c-224a7bfcbaca}, !- Source Object
   3,                                      !- Outlet Port
   {23874aef-74f7-48c1-9319-3e9e703857f4}, !- Target Object
@@ -2914,7 +2901,6 @@ OS:Connection,
 
 OS:Connection,
   {8568bc83-191e-4b03-a689-062275664d1c}, !- Handle
-  {f05a9a0f-8baf-46fb-b3e8-b8d444bc14cb}, !- Name
   {bce3a6e6-a70d-4f64-a217-3c6a962e579c}, !- Source Object
   4,                                      !- Outlet Port
   {e02d0c3a-5637-4bc5-9d8c-224a7bfcbaca}, !- Target Object
@@ -2956,7 +2942,6 @@ OS:Node,
 
 OS:Connection,
   {d25b6f61-3e2d-4932-9b17-447ae800b87f}, !- Handle
-  {df514392-8699-4ca3-a2c8-506790928506}, !- Name
   {d1119f94-c7ad-4b81-b326-db4b008800f3}, !- Source Object
   3,                                      !- Outlet Port
   {c6395c4b-6777-49a7-82a7-780dc690c262}, !- Target Object
@@ -2964,7 +2949,6 @@ OS:Connection,
 
 OS:Connection,
   {a4f23104-df21-499f-8a5e-95053ccb7f88}, !- Handle
-  {4dea93a2-2013-4426-9d98-9c654715db87}, !- Name
   {c6395c4b-6777-49a7-82a7-780dc690c262}, !- Source Object
   3,                                      !- Outlet Port
   {fa3b49d3-9443-4a60-abde-f85ca2a0c239}, !- Target Object
@@ -2978,7 +2962,6 @@ OS:Node,
 
 OS:Connection,
   {2b09fbf7-ae86-459c-866c-926440fe1af1}, !- Handle
-  {39e994df-1cef-48ef-a286-0ed0197c2cb0}, !- Name
   {ce56f2ed-195b-4a2d-b001-0067cd94f229}, !- Source Object
   3,                                      !- Outlet Port
   {550def4a-c440-4995-bd1b-25e5d7aae225}, !- Target Object
@@ -2986,7 +2969,6 @@ OS:Connection,
 
 OS:Connection,
   {0e3f66f3-58da-4ae7-bd0c-d7c26f77b0f9}, !- Handle
-  {9b2e6a95-36c2-4d20-9b7a-a8d415a2970f}, !- Name
   {fa3b49d3-9443-4a60-abde-f85ca2a0c239}, !- Source Object
   4,                                      !- Outlet Port
   {ce56f2ed-195b-4a2d-b001-0067cd94f229}, !- Target Object
@@ -3028,7 +3010,6 @@ OS:Node,
 
 OS:Connection,
   {38c82be1-c0ab-4071-a22d-2670efbecaee}, !- Handle
-  {51f598bd-69aa-4ead-ac8c-328638fbc33f}, !- Name
   {bc8673f4-27b1-4d70-9c3f-cbd463a5869c}, !- Source Object
   3,                                      !- Outlet Port
   {a0ef54f3-84db-4b86-a030-5a5a30b0a48b}, !- Target Object
@@ -3036,7 +3017,6 @@ OS:Connection,
 
 OS:Connection,
   {3d278425-135c-470e-899a-de2c582d9763}, !- Handle
-  {7c0598a0-4996-48a1-9caa-709087b83670}, !- Name
   {a0ef54f3-84db-4b86-a030-5a5a30b0a48b}, !- Source Object
   3,                                      !- Outlet Port
   {81ac2206-d49c-4586-8375-ed22e7d79c12}, !- Target Object
@@ -3050,7 +3030,6 @@ OS:Node,
 
 OS:Connection,
   {f95246b5-3882-4eca-9903-4ea1993bdf0e}, !- Handle
-  {059b3bfc-91d3-4ad7-90b0-ff4c113c2136}, !- Name
   {efd04fb1-035c-4bd6-b09e-d04cbd670a92}, !- Source Object
   3,                                      !- Outlet Port
   {7f4da674-d00f-4fb8-9dee-9818322ba762}, !- Target Object
@@ -3058,7 +3037,6 @@ OS:Connection,
 
 OS:Connection,
   {18724158-b499-4f34-bfad-626df0c26201}, !- Handle
-  {327554c7-1162-470f-bde7-27a76d96d107}, !- Name
   {81ac2206-d49c-4586-8375-ed22e7d79c12}, !- Source Object
   4,                                      !- Outlet Port
   {efd04fb1-035c-4bd6-b09e-d04cbd670a92}, !- Target Object
@@ -3100,7 +3078,6 @@ OS:Node,
 
 OS:Connection,
   {bb18033a-6199-4a6e-bdc0-c77c4bd47aee}, !- Handle
-  {dcdad64e-1277-4306-909a-c04b53745bf9}, !- Name
   {52b600a1-1e05-40e8-9e80-f0d251c3a90e}, !- Source Object
   3,                                      !- Outlet Port
   {44d89c71-a892-424f-9088-af6fe829a70a}, !- Target Object
@@ -3108,7 +3085,6 @@ OS:Connection,
 
 OS:Connection,
   {7db68eae-0027-4be9-8462-6af6fee67ad1}, !- Handle
-  {ab229b8a-89fc-465e-aac9-d0ec34ffe1e7}, !- Name
   {44d89c71-a892-424f-9088-af6fe829a70a}, !- Source Object
   3,                                      !- Outlet Port
   {a896c567-16c2-4e0f-ba35-8504f96b5d6b}, !- Target Object
@@ -3122,7 +3098,6 @@ OS:Node,
 
 OS:Connection,
   {8531af17-9a7b-476d-b9cf-804bdb191f85}, !- Handle
-  {555e9610-07c1-4226-8958-62e22c05a891}, !- Name
   {a0371e50-7489-4bcd-8c9d-24e665a88ee6}, !- Source Object
   3,                                      !- Outlet Port
   {f8205440-7722-4702-b119-54c0a34dee23}, !- Target Object
@@ -3130,7 +3105,6 @@ OS:Connection,
 
 OS:Connection,
   {82523638-33e1-44af-9d3b-7daa03269257}, !- Handle
-  {9b7173ef-e77c-482a-9b94-d298ef241916}, !- Name
   {a896c567-16c2-4e0f-ba35-8504f96b5d6b}, !- Source Object
   4,                                      !- Outlet Port
   {a0371e50-7489-4bcd-8c9d-24e665a88ee6}, !- Target Object
@@ -3172,7 +3146,6 @@ OS:Node,
 
 OS:Connection,
   {afa84360-1e13-4eb6-bb25-95a71a63aaf6}, !- Handle
-  {e5d3ebf2-46df-40f0-a554-0642c2185a66}, !- Name
   {abdff63c-ad35-45cd-a835-308d59b2c47a}, !- Source Object
   3,                                      !- Outlet Port
   {83776a56-0ad0-4d86-a89b-b2bf9006d0cb}, !- Target Object
@@ -3180,7 +3153,6 @@ OS:Connection,
 
 OS:Connection,
   {6cdf24a0-90c0-45d4-91c6-12f7e485c943}, !- Handle
-  {a27be545-e0bc-4a34-a8fb-63dc7b0be95f}, !- Name
   {83776a56-0ad0-4d86-a89b-b2bf9006d0cb}, !- Source Object
   3,                                      !- Outlet Port
   {43452120-4845-4f92-8986-d2a06011ca62}, !- Target Object
@@ -3194,7 +3166,6 @@ OS:Node,
 
 OS:Connection,
   {3770015c-e686-4711-acd1-93927a066404}, !- Handle
-  {969ce7dc-3afe-416a-bbf8-a4a494a6c84f}, !- Name
   {1b1012ed-c17b-456e-847b-bd7210119023}, !- Source Object
   3,                                      !- Outlet Port
   {6ede411a-5d86-4a1c-a0df-aacf558d7ae7}, !- Target Object
@@ -3202,7 +3173,6 @@ OS:Connection,
 
 OS:Connection,
   {068ec173-6a5b-4e05-8e16-fd873f16060e}, !- Handle
-  {5c1df169-60b6-407a-b6f7-41a66593810b}, !- Name
   {43452120-4845-4f92-8986-d2a06011ca62}, !- Source Object
   4,                                      !- Outlet Port
   {1b1012ed-c17b-456e-847b-bd7210119023}, !- Target Object
@@ -3244,7 +3214,6 @@ OS:Node,
 
 OS:Connection,
   {bd2331e0-a76d-491d-9c14-7ffd71114e0d}, !- Handle
-  {5ae4d166-5c04-4e11-8a24-d0449a3e5e67}, !- Name
   {6f905d2b-e8fe-412c-9a74-e3b4666c5e83}, !- Source Object
   3,                                      !- Outlet Port
   {d5225b96-48ef-4533-84d4-7d6534550e35}, !- Target Object
@@ -3252,7 +3221,6 @@ OS:Connection,
 
 OS:Connection,
   {880febec-ea45-4e28-8328-07013dfbf2ed}, !- Handle
-  {1decf228-ba8d-43c8-be71-2cfb4290b45b}, !- Name
   {d5225b96-48ef-4533-84d4-7d6534550e35}, !- Source Object
   3,                                      !- Outlet Port
   {9aea2067-2242-4a88-b8af-ac412f1d842d}, !- Target Object
@@ -3266,7 +3234,6 @@ OS:Node,
 
 OS:Connection,
   {8fee4f94-e35e-4f87-8ffc-a85c5d578ee9}, !- Handle
-  {8f722ebb-8225-475c-a6d7-0828c0ef7d8a}, !- Name
   {3c21bd06-9e9a-4e40-8df4-6829493dc4ef}, !- Source Object
   3,                                      !- Outlet Port
   {0cf765f6-8730-410e-832a-d796ddcaffbf}, !- Target Object
@@ -3274,7 +3241,6 @@ OS:Connection,
 
 OS:Connection,
   {362f8424-dc19-4032-b9ff-5b1c922fbb30}, !- Handle
-  {192c0564-8537-4c38-82ac-c4dc18bc6988}, !- Name
   {9aea2067-2242-4a88-b8af-ac412f1d842d}, !- Source Object
   4,                                      !- Outlet Port
   {3c21bd06-9e9a-4e40-8df4-6829493dc4ef}, !- Target Object

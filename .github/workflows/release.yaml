@@ -57,6 +57,9 @@ jobs:
           mv src/Ironbug.Grasshopper/bin/x64/Release/Ironbug.* installer/plugin
           ls installer/plugin -r
 
+      - name: Unit tests
+        run: |
+          dotnet test src\Ironbug.HVAC_Tests /p:Platform=x64
 
       - name: Install the InstalBuilder
         shell: bash
