@@ -54,10 +54,11 @@ jobs:
           msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=${{ env.ReleaseVersion }} /restore
           mkdir installer/plugin
           
-          mv src/Ironbug.Grasshopper/bin/x64/Release/Ironbug.* installer/plugin
+          mv src/Ironbug.Grasshopper/bin/x64/Release/* installer/plugin
+          mkdir installer/HVACTemplates
           cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
 
-          ls installer/plugin -r
+          ls installer -r
 
       - name: Unit tests
         run: |
