@@ -21,11 +21,12 @@ namespace Ironbug.Core.OpenStudio
             var root = Path.GetDirectoryName(typeof(OpenStudioHelper).Assembly.Location);
             possiblePath.Add(root);
 
+            // only works with LBT
             if (root.Contains("ladybug_tools"))
             {
                 // installed to LBT folder
-                var lbt = Path.GetDirectoryName(root);
-                var lbtOpenStudio = Path.Combine(lbt, "openstudio", "CSharp", "openstudio");
+                var lbt = root.Substring(0, root.IndexOf("ladybug_tools"));
+                var lbtOpenStudio = Path.Combine(lbt, "ladybug_tools", "openstudio", "CSharp", "openstudio");
                 if (Directory.Exists(lbtOpenStudio))
                     possiblePath.Add(lbtOpenStudio);
             }
@@ -38,19 +39,11 @@ namespace Ironbug.Core.OpenStudio
                     possiblePath.Add(lbtOpenStudio);
             }
 
-            //possiblePath.Add(@"C:\openstudio-2.7.0\CSharp\openstudio");
-            //possiblePath.Add($@"C:\openstudio-{Version}\CSharp\openstudio");
-            var opsPaths = Directory.GetDirectories(@"C:\")
-                .Where(s => s.ToLower().StartsWith("c:\\openstudio"))
-                .Select(_ => _ + @"\CSharp\openstudio").ToList();
-            opsPaths.Sort();
-            opsPaths.Reverse();
-            possiblePath.AddRange(opsPaths);
 
             var file = "OpenStudio.dll";
             var path = possiblePath.FirstOrDefault(_ => File.Exists(Path.Combine(_, file)));
             if (string.IsNullOrEmpty(path))
-                throw new FileNotFoundException($"Cannot find OpenStudio 3.3 or newer version installed in C drive!");
+                throw new FileNotFoundException($"Cannot find OpenStudio installed in ladybug_tools folder!");
 
             return path;
         }
@@ -95,7 +88,7 @@ namespace Ironbug.Core.OpenStudio
                 }
                 catch (Exception)
                 {
-                    throw new FileNotFoundException($"Cannot find {file} (2.8 or newer) in {path}");
+                    throw new FileNotFoundException($"Cannot find {file} in {path}");
                 }
             }
 
@@ -104,22 +97,16 @@ namespace Ironbug.Core.OpenStudio
 
         public static Version CheckOpsVersionIfValid(string Path)
         {
-            var v1 = new System.Version("2.5.0.0");
-            var v2 = new System.Version("2.8.0.0");
+            var v2 = new System.Version("3.3.0.0");
             var versionFound = AssemblyName.GetAssemblyName(Path).Version;
 
-            //2.5.0
-            if (versionFound.CompareTo(v1) == 0)
-            {
-                return v1;
-            }
-            else if (versionFound.CompareTo(v2) >= 0)
+            if (versionFound.CompareTo(v2) >= 0)
             {
                 return versionFound;
             }
             else
             {
-                throw new FileNotFoundException($"Cannot find OpenStudio (2.8 or newer) installed!\n{versionFound} is found at {Path}");
+                throw new FileNotFoundException($"Cannot find OpenStudio ({v2} or newer) installed!\n{versionFound} is found at {Path}");
                 //return v2;
             }
             
