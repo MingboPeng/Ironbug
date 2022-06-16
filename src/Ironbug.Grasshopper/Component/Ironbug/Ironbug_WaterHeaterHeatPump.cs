@@ -1,10 +1,13 @@
 using System;
 using Grasshopper.Kernel;
+using Ironbug.HVAC;
+using Ironbug.HVAC.BaseClass;
+
 namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_WaterHeaterHeatPump : Ironbug_DuplicableHVACWithParamComponent
     {
-        public Ironbug_WaterHeaterPump()
+        public Ironbug_WaterHeaterHeatPump()
           : base("IB_WaterHeaterHeatPump", "WaterHeaterHeatPump",
               "Description",
               "Ironbug", "02:LoopComponents",
@@ -49,17 +52,17 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetData(0, ref waterHeater))
             {
-                obj.SetTank(waterHeater)
+                obj.SetTank(waterHeater);
             }
 
             if (DA.GetData(1, ref coilH))
             {
-                obj.SetHeatingCoil(coilH)
+                obj.SetHeatingCoil(coilH);
             }
 
             if (DA.GetData(2, ref fan))
             {
-                obj.SetFan(fan)
+                obj.SetFan(fan);
             }
 
 

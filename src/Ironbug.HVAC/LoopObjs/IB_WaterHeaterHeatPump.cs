@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static WaterHeaterHeatPump NewDefaultOpsObj(Model model) => new WaterHeaterHeatPump(model);
 
-        private IB_Tank _waterHeater => this.GetChild<IB_WaterHeaterMixed>(0)
+        private IB_WaterHeaterMixed _waterHeater => this.GetChild<IB_WaterHeaterMixed>(0);
         private IB_Coil _heatingCoil => this.GetChild<IB_Coil>(1);
         private IB_Fan _fan => this.GetChild<IB_Fan>(2);
 
@@ -40,7 +40,7 @@ namespace Ironbug.HVAC
         {
             var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
-            if (this._waterHeater != null) opsObj.setTank(this._waterHeater.ToOS(model))
+            if (this._waterHeater != null) opsObj.setTank(this._waterHeater.ToOS(model));
             if (this._heatingCoil != null) opsObj.setDXCoil(this._heatingCoil.ToOS(model));
             if (this._fan != null) opsObj.setFan(this._fan.ToOS(model));
 
