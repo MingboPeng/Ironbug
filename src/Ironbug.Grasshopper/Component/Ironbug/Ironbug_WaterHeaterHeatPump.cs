@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
 
-        public override Guid ComponentGuid => new Guid("A202ED17-8359-4A2A-A0DD-D17515DCC5BG");
+        public override Guid ComponentGuid => new Guid("61ACA84B-DAAF-4ECE-8271-5796FF8C3A0D");
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
