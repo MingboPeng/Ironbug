@@ -19,7 +19,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => null;
 
-        public override Guid ComponentGuid => new Guid("DA313EFA-1136-4D7C-9ADA-3BF35993A17E");
+        public override Guid ComponentGuid => new Guid("61ACA84B-DAAF-4ECE-8271-5796FF8C3A0D");
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
