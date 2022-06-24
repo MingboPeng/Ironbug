@@ -16,6 +16,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
+            pManager.AddGenericParameter("SurfaceName", "surfaceName", "Flat Plate Surface Name", GH_ParamAccess.item);
         }
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
@@ -24,10 +25,21 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+
             var obj = new HVAC.IB_SolarCollectorFlatPlateWater();
+
+            //this still seems wrong, kinda just made an empty class
+            var surfaceName = (HVAC.BaseClass.IB_PlanarSurface)null;
+
+            if (DA.GetData(0, ref surfaceName))
+            {
+                obj.SetSurface(surfaceName);
+            }
+
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
             DA.SetDataList(0, objs);
+
         }
         
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
