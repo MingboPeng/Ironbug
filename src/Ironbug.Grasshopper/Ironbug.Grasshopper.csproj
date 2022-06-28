@@ -14,6 +14,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="obj\**" />
+	  <EmbeddedResource Remove="obj\**" />
+	  <None Remove="obj\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Component\Ironbug\Ironbug_SolarCollectorFlatPlateWater.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
 		<PackageReference Include="NREL.OpenStudio.win" Version="3.4.0" IncludeAssets="compile;build" />
 	</ItemGroup>
