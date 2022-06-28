@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("ctrlZone_", "ctrlZone_", "Control zone", GH_ParamAccess.item);
+            pManager.AddGenericParameter("AmbientTemperatureThermalZone", "AmbientTemperatureThermalZone_", "", GH_ParamAccess.item);
             pManager[0].Optional = true;
             pManager.AddGenericParameter("sizing_", "sizing", "WaterHeaterSizing", GH_ParamAccess.item);
             pManager[1].Optional = true;
@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
 
             var obj = new HVAC.IB_WaterHeaterMixed();
 
-            if (DA.GetData(0, ref zone)) obj.SetControllingZone(zone);
+            if (DA.GetData(0, ref zone)) obj.setAmbientTemperatureThermalZone(zone);
             if (DA.GetData(1, ref sizing)) obj.SetSizing(sizing);
 
 
