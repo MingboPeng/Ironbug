@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="BaseClass\IB_PlanarSurface.cs" />
+    <Compile Remove="BaseClass\IB_SolarColletorPerformanceFlatPlate.cs" />
+    <Compile Remove="LoopObjs\IB_SolarCollectorFlatPlateWater.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NREL.OpenStudio.win" Version="3.4.0" IncludeAssets="compile;build" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
