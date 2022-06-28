@@ -23,14 +23,14 @@ namespace Ironbug.HVAC
             this.AddChild(null);
             this.AddChild(null);
         }
-        public void SetControllingZone(IB_ThermalZone Zone)
-        {
-            this.SetChild(0, Zone);
-        }
-
+    
         public void SetSizing(IB_WaterHeaterSizing sizing)
         {
             this.SetChild(1, sizing);
+        }
+        public void setAmbientTemperatureThermalZone(IB_ThermalZone Zone)
+        {
+            this.SetChild(0, Zone);
         }
 
         public override HVACComponent ToOS(Model model)

@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         {
 
             var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            //probably should change input from string to surface - Question: how does one convert HB surface to OS surface
+            //changed input from string to surface - Question: how does one convert HB surface to OS surface
             if (this._surface != null) opsObj.setSurface(this._surface);
 
             return opsObj;
