@@ -64,10 +64,18 @@
                     <progressText>Removing ${installdir}</progressText>
                     <ruleList>
                         <fileExists>
-                            <path>${installdir}</path>
+                            <path>C:\Ironbug</path>
                         </fileExists>
                     </ruleList>
                 </deleteFile>
+                <showWarning>
+                    <text>Failed to remove C:\Ironbug, you will have to remove it manually!</text>
+                    <ruleList>
+                        <fileExists>
+                            <path>C:\Ironbug</path>
+                        </fileExists>
+                    </ruleList>
+                </showWarning>
                 <deleteFile>
                     <path>${windows_folder_appdata}\Grasshopper\Libraries\Ironbug.ghlink</path>
                 </deleteFile>
@@ -76,10 +84,18 @@
                     <progressText>Removing ${installdir}</progressText>
                     <ruleList>
                         <fileExists>
-                            <path>${installdir}</path>
+                            <path>${installdir}/grasshopper/ironbug</path>
                         </fileExists>
                     </ruleList>
                 </deleteFile>
+                <showWarning>
+                    <text>Failed to remove ${installdir}/grasshopper/ironbug, you will have to remove it manually!</text>
+                    <ruleList>
+                        <fileExists>
+                            <path>${installdir}/grasshopper/ironbug</path>
+                        </fileExists>
+                    </ruleList>
+                </showWarning>
                 <registryFind>
                     <dataPattern>Ironbug</dataPattern>
                     <findAll>1</findAll>
@@ -111,6 +127,14 @@
                                 </fileExists>
                             </ruleList>
                         </deleteFile>
+                        <showWarning>
+                            <text>Failed to remove ${PreInstallLocation}, you will have to remove it manually!</text>
+                            <ruleList>
+                                <fileExists>
+                                    <path>${PreInstallLocation}</path>
+                                </fileExists>
+                            </ruleList>
+                        </showWarning>
                     </actionList>
                 </foreach>
             </actionList>
