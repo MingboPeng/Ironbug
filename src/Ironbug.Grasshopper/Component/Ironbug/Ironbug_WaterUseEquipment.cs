@@ -53,30 +53,10 @@ namespace Ironbug.Grasshopper.Component
         }
         private string GetRoomName(object HBZonesOrName)
         {
-            var zoneName = string.Empty;
-
-            if (HBZonesOrName is GH_Brep hbzones)
-            {
-                zoneName = Helper.CallFromHBHive(new List<GH_Brep>() { hbzones }).FirstOrDefault();
-            }
-            else if (HBZonesOrName is GH_String nameString)
-            {
-                zoneName = nameString.Value;
-            }
-            else if (HBZonesOrName is GH_ObjectWrapper wrapper)
-            {
-                // LBT Room
-                var isLBTRoom = wrapper.Value.ToString().StartsWith("Room:");
-                isLBTRoom &= wrapper.Value.GetType().ToString().StartsWith("IronPython.");
-
-                if (isLBTRoom)
-                {
-                    zoneName = Helper.FromLBTRooms(new List<object> { HBZonesOrName }).FirstOrDefault();
-                }
-
-            }
+            var zoneName = Helper.GetRoomNames(new List<object> { HBZonesOrName })?.FirstOrDefault();
             return zoneName;
         }
+
         protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterUseEquip;
 
         public override Guid ComponentGuid => new Guid("3A46B628-A815-4994-A919-5FD10CB87CF1");
