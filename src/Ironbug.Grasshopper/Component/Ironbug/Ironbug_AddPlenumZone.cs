@@ -89,31 +89,7 @@ namespace Ironbug.Grasshopper.Component
 
         private IB_ThermalZone CreatePlenumZone(object HBZonesOrName)
         {
-            var OSZones= new List<IB_ThermalZone>();
-
-            var zoneName = string.Empty;
-
-            if (HBZonesOrName is GH_Brep hbzones)
-            {
-                zoneName = Helper.CallFromHBHive(new List<GH_Brep>() { hbzones }).FirstOrDefault();
-            }
-            else if (HBZonesOrName is GH_String nameString)
-            {
-                zoneName = nameString.Value;
-            }
-            else if (HBZonesOrName is GH_ObjectWrapper wrapper)
-            {
-                // LBT Room
-                var isLBTRoom = wrapper.Value.ToString().StartsWith("Room:");
-                isLBTRoom &= wrapper.Value.GetType().ToString().StartsWith("IronPython.");
-
-                if (isLBTRoom)
-                {
-                    zoneName = Helper.FromLBTRooms(new List<object> { HBZonesOrName }).FirstOrDefault();
-                }
-
-            }
-
+            var zoneName = Helper.GetRoomNames(new List<object> { HBZonesOrName })?.FirstOrDefault();
 
             if (string.IsNullOrEmpty(zoneName))
             {
