@@ -26,13 +26,17 @@ jobs:
       - name: Setup MSbuild
         uses: microsoft/setup-msbuild@v1.0.2
 
+      # this is for fixing semantic-release-action
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         id: semantic
         with:
           dry_run: true
-          semantic_version: 17.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
@@ -92,8 +96,8 @@ jobs:
           path: |
             installer.exe
 
-      - run: npx semantic-release
+      - uses: cycjimmy/semantic-release-action@v3
         if: github.ref == 'refs/heads/master'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       

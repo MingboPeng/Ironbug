@@ -17,39 +17,37 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
+        protected override System.Drawing.Bitmap Icon => null;
 
-        public override Guid ComponentGuid => new Guid("61ACA84B-DAAF-4ECE-8271-5796FF8C3A0D");
+
+        public override Guid ComponentGuid => new Guid("DA313EFA-1136-4D7C-9ADA-3BF35993A17E");
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             // I believe all of these parameters are necessary, but I'm not sure whether I need to explicitly add ALL of the parameters listed in
             // https://bigladdersoftware.com/epx/docs/8-0/input-output-reference/page-025.html#waterheaterheatpump -- it seems that the Ironbug_DuplicableHVACWithParamComponent class takes care of that
-            pManager.AddGenericParameter("Water Heater Mixed", "waterHeater_", "Water Heater Mixed. use WaterHeaterMixed", GH_ParamAccess.item);
-            pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide heating source..", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Fan", "fan_", "Supply fan. By default, no fan is included.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Water Heater Mixed", "_waterHeater_", "Water Heater Mixed. Use WaterHeaterMixed", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "_coilH_", "Heating coil to provide heating source. The only valid choice is CoilWaterHeatingAirToWaterHeatPump", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Fan", "_fan_", "Supply fan. By default, a FanOnOff is included.", GH_ParamAccess.item);
+
+            pManager[0].Optional = true;
+            pManager[1].Optional = true;
+            pManager[2].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("WaterHeaterHeatPump", "WaterHeaterHeatPump", "Connect to hot water loop's supply side.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("WaterHeaterHeatPump", "HPWH", "Add to room's zone equipment", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // HVAC.BaseClass.IB_Fan fan = null;
-            // HVAC.BaseClass.IB_WaterHeaterMixed waterHeater = null;
-            // HVAC.BaseClass.IB_CoilDX coilH = null;
-            // HVAC.BaseClass.Fan fan = null;
-
             var obj = new HVAC.IB_WaterHeaterHeatPump();
 
-
             var waterHeater = (IB_WaterHeaterMixed)null;
-            var coilH = (IB_CoilDX)null;
-            var fan = (IB_Fan)null;
+            var coilH = (IB_CoilWaterHeatingAirToWaterHeatPump)null;
+            var fan = (IB_FanOnOff)null;
             
-
             if (DA.GetData(0, ref waterHeater))
             {
                 obj.SetTank(waterHeater);
