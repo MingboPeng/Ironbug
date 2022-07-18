@@ -5,7 +5,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_WaterHeaterHeatPump : IB_ZoneEquipment
+    public class IB_WaterHeaterHeatPump : IB_ZoneEquipment //IB_HVACObject, IIB_PlantLoopObjects
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterHeaterHeatPump();
 
