@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Component\Ironbug\Ironbug_PhotovoltaicPerformanceSimple.cs" />
 	  <Compile Remove="Component\Ironbug\Ironbug_SolarCollectorFlatPlateWater.cs" />
 	</ItemGroup>
 

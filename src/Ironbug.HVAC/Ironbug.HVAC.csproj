@@ -13,7 +13,9 @@
   <ItemGroup>
     <Compile Remove="BaseClass\IB_PlanarSurface.cs" />
     <Compile Remove="BaseClass\IB_SolarColletorPerformanceFlatPlate.cs" />
+    <Compile Remove="LoopObjs\IB_PhotovoltaicPerformanceSimple.cs" />
     <Compile Remove="LoopObjs\IB_SolarCollectorFlatPlateWater.cs" />
+    <Compile Remove="ZoneEquipments\ZoneHVAC\IB_SolarCollectorFlatPlateWater.cs" />
   </ItemGroup>
 
   <ItemGroup>
