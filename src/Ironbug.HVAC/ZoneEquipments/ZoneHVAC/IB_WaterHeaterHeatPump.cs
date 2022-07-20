@@ -40,7 +40,7 @@ namespace Ironbug.HVAC
         {
             var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
-            opsObj.tank(this._waterHeater.ToOS(model));
+            //opsObj.tank(this._waterHeater.ToOS(model));
 
             if (this._waterHeater != null) opsObj.setTank(this._waterHeater.ToOS(model));
             if (this._heatingCoil != null) opsObj.setDXCoil(this._heatingCoil.ToOS(model));
