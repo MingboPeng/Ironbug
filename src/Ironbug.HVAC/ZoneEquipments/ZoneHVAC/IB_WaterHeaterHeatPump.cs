@@ -4,7 +4,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_WaterHeaterHeatPump : IB_ZoneEquipment //IB_HVACObject, IIB_PlantLoopObjects
+    public class IB_WaterHeaterHeatPump : IB_ZoneEquipment
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterHeaterHeatPump();
 
@@ -39,6 +39,8 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+
+            opsObj.tank(this._waterHeater.ToOS(model));
 
             if (this._waterHeater != null) opsObj.setTank(this._waterHeater.ToOS(model));
             if (this._heatingCoil != null) opsObj.setDXCoil(this._heatingCoil.ToOS(model));
