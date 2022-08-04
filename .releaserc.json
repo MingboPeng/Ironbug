@@ -10,6 +10,11 @@
                         "path": "installer.exe",
                         "name": "IronbugInstaller-${nextRelease.version}.exe",
                         "label": "IronbugInstaller-${nextRelease.version}.exe"
+                    },
+                    {
+                        "path": "ironbug.zip",
+                        "name": "ironbug-${nextRelease.version}.zip",
+                        "label": "ironbug-${nextRelease.version}.zip"
                     }
 
                 ]

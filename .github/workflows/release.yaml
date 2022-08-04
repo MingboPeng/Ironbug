@@ -68,6 +68,16 @@ jobs:
         run: |
           dotnet test src\Ironbug.HVAC_Tests /p:Platform=x64
 
+      - name: zip plugin
+        shell: bash
+        run: |
+          mkdir ./ironbug
+          cp ./installer/plugin/* ./ironbug -r
+          cp ./installer/HVACTemplates ./ironbug -r
+          zip -r ironbug.zip ./ironbug
+          ls
+
+
       - name: Install the InstalBuilder
         shell: bash
         env:
