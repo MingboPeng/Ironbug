@@ -24,6 +24,23 @@ namespace Ironbug.HVACTests
         }
 
         [Test]
+        public void DummyTest_FourPipeFanCoil()
+        {
+            var model = new OpenStudio.Model();
+            var zone = new ThermalZone(model);
+
+            var elecC = new CoilHeatingElectric(model);
+            var f = new ZoneHVACFourPipeFanCoil(model, model.alwaysOnDiscreteSchedule(), new FanConstantVolume(model), new CoilCoolingWater(model), elecC);
+            f.addToThermalZone(zone);
+
+            var hc = f.heatingCoil().OSType();
+            Assert.True(hc == "OS:Coil:Heating:Electric");
+            model.Save( System.IO.Path.Combine(System.IO.Path.GetTempPath(), "test.osm"));
+ 
+         
+        }
+
+        [Test]
         public void IB_TypeTest()
         {
             var coil = new IB_CoilCoolingDXMultiSpeed();
