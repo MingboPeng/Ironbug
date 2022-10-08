@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Security.Cryptography;
 using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
@@ -41,6 +43,15 @@ namespace Ironbug.Grasshopper.Component
             }
 
             DA.SetData(0, json);
+
+            // var osm = @"D:\Dev\Ironbug\src\Ironbug.Console\bin\Debug\net6.0\in - Copy.osm";
+            // var hvac = @"D:\Dev\Ironbug\src\Ironbug.Console\bin\Debug\net6.0\hvac.txt";
+            // var hvacJson = System.IO.File.ReadAllText(hvac);
+            // var system = HVAC.IB_HVACSystem.FromJson(hvacJson);
+
+            // if (system != null) Console.WriteLine($"HVAC is valid");
+
+            // var done = system.SaveHVAC(osm);
 
         }
 
