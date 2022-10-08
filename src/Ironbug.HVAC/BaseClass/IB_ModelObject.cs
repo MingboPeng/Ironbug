@@ -211,12 +211,9 @@ namespace Ironbug.HVAC.BaseClass
         public string GetTrackingID()
         {
             var id = string.Empty;
-            if (this.GhostOSObject == null || string.IsNullOrEmpty(this.GhostOSObject.comment()))
-            {
-                var found = this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out var att);
-                if (found && !string.IsNullOrEmpty(att?.ToString()))
-                    id = $"! {att}";
-            }
+            var found = this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out var att);
+            if (found && !string.IsNullOrEmpty(att?.ToString()))
+                id = $"! {att}";
             else
             {
                 id = this.GhostOSObject.comment();
