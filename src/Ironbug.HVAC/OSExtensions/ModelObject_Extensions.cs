@@ -74,7 +74,16 @@ namespace Ironbug.HVAC
         {
             var tp = paramType ?? value.GetType();
             var methodInfo = component.GetType().GetMethod(setterMethodName, new[] { tp });
-            if (methodInfo is null) throw new Exception($"{setterMethodName} is not available in {component}!");
+
+            //try to look and match all methods
+            if (methodInfo is null) 
+            {
+                var lowerCase = setterMethodName.ToLower();
+                methodInfo = component.GetType().GetMethods().FirstOrDefault(_ => _.Name.ToLower() == lowerCase);
+            }
+
+            if (methodInfo is null)
+                throw new Exception($"{setterMethodName} method is not available in {component}!");
             return InvokeMethod(component, methodInfo, value);
             
         }
