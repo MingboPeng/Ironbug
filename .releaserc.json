@@ -15,6 +15,11 @@
                         "path": "ironbug.zip",
                         "name": "ironbug-${nextRelease.version}.zip",
                         "label": "ironbug-${nextRelease.version}.zip"
+                    },
+                    {
+                        "path":"ironbug.console.win.zip",
+                        "name": "ironbug.console.win-${nextRelease.version}.zip",
+                        "label": "ironbug.console.win-${nextRelease.version}.zip"
                     }
 
                 ]

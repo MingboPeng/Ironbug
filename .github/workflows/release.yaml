@@ -63,6 +63,12 @@ jobs:
           cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
 
           ls installer -r
+      
+      - name: Build Ironbug.Console
+        run: |
+          dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=${{ env.ReleaseVersion }}
+          7z a -tzip ironbug.console.win.zip ./src/Ironbug.Console/bin/x64/Release/
+
 
       - name: Unit tests
         run: |
@@ -111,3 +117,58 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       
+
+
+  Build_ubuntu:
+    name: "Build for ubuntu"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout Master Branch"
+        uses: actions/checkout@v2
+
+      - name: Unit tests
+        run: |
+          cd ./src/Ironbug.HVAC_Tests
+          dotnet restore Ironbug.HVAC_Tests.csproj
+          dotnet test Ironbug.HVAC_Tests.csproj /p:Platform=x64
+
+      # this is for fixing semantic-release-action
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Semantic Release - dry run for getting version
+        if: github.ref == 'refs/heads/master'
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic
+        with:
+          dry_run: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Set test version
+        shell: bash
+        run: |
+          echo "ReleaseVersion=0.0.1" >> $GITHUB_ENV
+
+      - name: Set real version
+        if: github.ref == 'refs/heads/master'
+        shell: bash
+        run: |
+          echo "ReleaseVersion=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
+
+      - name: Build
+        run: |
+          cd ./src/Ironbug.Console
+          dotnet build Ironbug.Console.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=${{ env.ReleaseVersion }}
+          ls ./bin/
+          zip -r ironbug.console.linux.zip ./bin/
+
+      - name: Upload artifact
+      
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v2
+        with:
+          name: ironbug.console.linux
+          path: ironbug.console.linux.zip

@@ -359,10 +359,11 @@ namespace Ironbug.HVACTests
                 .Where(_ => _ == true).Count()==2;
             Assert.True(success);
 
-
-            success &= reheatTerminals.First().nameString().EndsWith("1") && reheatTerminals.First().reheatCoil().nameString().EndsWith("1");
-            Assert.True(success);
-
+            var reheatT = reheatTerminals.First(_ => _.nameString().EndsWith("1"));
+            var name = reheatT.nameString();
+            Assert.AreEqual(name, "Air Terminal Single Duct VAV Reheat 1");
+            name = reheatT.reheatCoil().nameString();
+            Assert.AreEqual(name, "Coil Heating Water 1");
 
             string saveFile = GenFileName;
             success = md1.Save(saveFile);
