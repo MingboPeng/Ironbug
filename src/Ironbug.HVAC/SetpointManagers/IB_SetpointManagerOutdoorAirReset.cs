@@ -27,16 +27,16 @@ namespace Ironbug.HVAC
         private IB_SetpointManagerOutdoorAirReset_FieldSet() { }
 
         public IB_Field SetpointatOutdoorHighTemperature { get; }
-            = new IB_TopField("SetpointatOutdoorHighTemperature", "SpOHTemp");
+            = new IB_BasicField("SetpointatOutdoorHighTemperature", "SpOHTemp");
 
         public IB_Field OutdoorHighTemperature { get; }
-            = new IB_TopField("OutdoorHighTemperature", "OHTemp");
+            = new IB_BasicField("OutdoorHighTemperature", "OHTemp");
 
         public IB_Field SetpointatOutdoorLowTemperature { get; }
-           = new IB_TopField("SetpointatOutdoorLowTemperature", "SpOLTemp");
+           = new IB_BasicField("SetpointatOutdoorLowTemperature", "SpOLTemp");
 
         public IB_Field OutdoorLowTemperature { get; }
-            = new IB_TopField("OutdoorLowTemperature", "OLTemp");
+            = new IB_BasicField("OutdoorLowTemperature", "OLTemp");
 
 
     }
