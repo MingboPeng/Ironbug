@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         
         public Ironbug_CoilHeatingWater_Adv()
-          : base("IB_CoilHeatingWater_Adv", "CoilHtnWater_Adv",
+          : base("IB_CoilHeatingWater+", "CoilHtnWater+",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_CoilHeatingWater_FieldSet))
