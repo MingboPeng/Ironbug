@@ -9,12 +9,32 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterHeaterMixed();
 
         private static WaterHeaterMixed NewDefaultOpsObj(Model model) => new WaterHeaterMixed(model);
+     
+        private IB_ThermalZone _Zone => this.GetChild<IB_ThermalZone>();
+        private IB_WaterHeaterSizing _Sizing => this.GetChild<IB_WaterHeaterSizing>();
         public IB_WaterHeaterMixed() : base(NewDefaultOpsObj(new Model()))
         {
+            this.AddChild(null);
+            this.AddChild(null);
         }
+        public void SetControllingZone(IB_ThermalZone Zone)
+        {
+            this.SetChild(0, Zone);
+        }
+
+        public void SetSizing(IB_WaterHeaterSizing sizing)
+        {
+            this.SetChild(1, sizing);
+        }
+
         public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            if (this._Zone != null)
+                opsObj.setAmbientTemperatureThermalZone(this._Zone.ToOS(model) as ThermalZone);
+            if (this._Sizing != null) 
+                this._Sizing.ToOS(opsObj);
+            return opsObj;
         }
     }
 
