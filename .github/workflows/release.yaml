@@ -72,7 +72,7 @@ jobs:
 
       - name: Unit tests
         run: |
-          dotnet test src\Ironbug.HVAC_Tests /p:Platform=x64
+          dotnet test src\Ironbug.HVAC_Tests --arch x64
 
       - name: zip plugin
         shell: bash
@@ -131,7 +131,7 @@ jobs:
         run: |
           cd ./src/Ironbug.HVAC_Tests
           dotnet restore Ironbug.HVAC_Tests.csproj
-          dotnet test Ironbug.HVAC_Tests.csproj /p:Platform=x64
+          dotnet test Ironbug.HVAC_Tests.csproj --arch x64
 
       # this is for fixing semantic-release-action
       - uses: actions/setup-node@v2
