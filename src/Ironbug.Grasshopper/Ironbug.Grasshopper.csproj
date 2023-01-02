@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>NET452</TargetFramework>
+		<TargetFramework>NET48</TargetFramework>
 		<Platforms>x64</Platforms>
 		<TargetExt>.gha</TargetExt>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -15,7 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
-		<PackageReference Include="NREL.OpenStudio.win" Version="3.4.0" IncludeAssets="compile;build" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="3.5.1.1" IncludeAssets="compile;build" />
 	</ItemGroup>
 
 	<ItemGroup>
