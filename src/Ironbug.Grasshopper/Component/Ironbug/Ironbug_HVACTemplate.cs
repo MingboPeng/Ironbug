@@ -119,27 +119,48 @@ namespace Ironbug.Grasshopper.Component
         {
             var menu = new ToolStripDropDownMenu();
 
-            var count = 0;
-            foreach (var filesPerFolder in this.filesList)
+            var rootFolder = this.folderList.FirstOrDefault();
+            var topDirs = Directory.GetDirectories(rootFolder);
+
+            foreach (var item in topDirs)
             {
-                var menuItem = addFromFolder(this.folderList[count], filesPerFolder);
+                var menuItem = addFromFolder(item);
+                if (menuItem == null)
+                    continue;
                 menu.Items.Add(menuItem);
-                count++;
             }
+
             return menu;
         }
 
         ToolStripDropDownMenu templateMenu = new ToolStripDropDownMenu();
-        private ToolStripMenuItem addFromFolder(string rootFolder , List<string> filesPerFolder)
+        private ToolStripMenuItem addFromFolder(string rootFolder)
         {
+            var allFiles = Directory.GetFiles(rootFolder, "*.gh*", SearchOption.AllDirectories);
+            if (!allFiles.Any()) return null;
+
+            var topDirs = Directory.GetDirectories(rootFolder);
+            var topFiles = Directory.GetFiles(rootFolder, "*.gh*", SearchOption.TopDirectoryOnly);
+
+
+            // create menu item
             var folderName = new DirectoryInfo(rootFolder).Name;
             var t = new ToolStripMenuItem(folderName);
 
-            foreach (var item in filesPerFolder)
+            foreach (var item in topDirs)
             {
-                var p = Path.GetDirectoryName(item);
+                var menuItem = addFromFolder(item);
+                if (menuItem == null)
+                    continue;
+                t.DropDownItems.Add(menuItem);
+            }
+
+
+            foreach (var item in topFiles)
+            {
+                //var p = Path.GetDirectoryName(item);
                 var name = Path.GetFileNameWithoutExtension(item);
-                var showName = p.Length > rootFolder.Length ? p.Replace(rootFolder+"\\", "") + "\\" + name : name;
+                //var showName = p.Length > rootFolder.Length ? p.Replace(rootFolder+"\\", "") + "\\" + name : name;
 
                 EventHandler ev = (object sender, EventArgs e) =>
                 {
@@ -150,7 +171,7 @@ namespace Ironbug.Grasshopper.Component
 
                 };
 
-                Menu_AppendItem(t.DropDown, showName, ev, null, item);
+                Menu_AppendItem(t.DropDown, name, ev, null, item);
             }
            
             return t;
@@ -159,7 +180,7 @@ namespace Ironbug.Grasshopper.Component
         public override void CreateAttributes()
         {
             var att = new IB_ComponentButtonAttributes(this);
-            att.ButtonText = "Pick a system";
+            att.ButtonText = "Pick a template";
 
             att.MouseDownEvent += (object loc) => this.templateMenu.Show((GH.GUI.Canvas.GH_Canvas)loc,(loc as GH.GUI.Canvas.GH_Canvas).CursorControlPosition);
             this.Attributes = att;
