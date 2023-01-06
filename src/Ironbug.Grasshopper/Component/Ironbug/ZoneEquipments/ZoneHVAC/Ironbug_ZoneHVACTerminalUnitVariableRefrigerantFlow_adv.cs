@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     {
         
         public Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv()
-          : base("IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_Advanced", "VRFTerminal_Adv",
+          : base("IB_ZoneHVACTerminalUnitVariableRefrigerantFlow+", "VRFTerminal+",
               "Use this component to set customized cooling coil, heating coil, or fan for VRF terminal unit.",
               "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow_FieldSet))
