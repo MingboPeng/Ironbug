@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;NET452</TargetFrameworks>
-    <Platforms>AnyCPU;x64</Platforms>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
