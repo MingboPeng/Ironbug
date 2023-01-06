@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatingCoil", "_coilH", "Heating coil to provide reheat source. CoilHeatingWater", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatingCoil", "_coilH", "Heating coil to provide heating source. Valid options: CoilHeatingElectric, CoilHeatingWater, or CoilHeatingGas", GH_ParamAccess.item);
             //pManager[0].Optional = true;
             pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. CoilCoolingDX", GH_ParamAccess.item);
             pManager[1].Optional = true;
@@ -39,12 +39,24 @@ namespace Ironbug.Grasshopper.Component
         {
             
             var fan = new IB_FanConstantVolume();
-            var coilH =  (IB_CoilHeatingWater) null;
+            var coilH =  (HVAC.BaseClass.IB_CoilHeatingBasic) null;
             var coilC = new IB_CoilCoolingDXSingleSpeed();
 
             DA.GetData(0, ref coilH);
             DA.GetData(1, ref coilC);
             DA.GetData(2, ref fan);
+
+            var isValidHeatingCoil = 
+                coilH is HVAC.IB_CoilHeatingElectric ||
+                coilH is IB_CoilHeatingWater ||
+                coilH is IB_CoilHeatingGas;
+
+            if (!isValidHeatingCoil)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid heating coil!");
+                return;
+            }
+
 
             var obj = new HVAC.IB_ZoneHVACPackagedTerminalAirConditioner(fan,coilH,coilC);
             
