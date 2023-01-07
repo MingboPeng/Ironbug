@@ -26,7 +26,7 @@ namespace Ironbug.Grasshopper.Component
             //pManager[0].Optional = true;
             pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. CoilCoolingDX", GH_ParamAccess.item);
             pManager[1].Optional = true;
-            pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Fan", "fan_", "Valid options: FanConstantVolume, FanVariableVolume, or FanOnOff.", GH_ParamAccess.item);
             pManager[2].Optional = true;
         }
         
@@ -38,7 +38,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             
-            var fan = new IB_FanConstantVolume();
+            HVAC.BaseClass.IB_Fan fan = new IB_FanConstantVolume();
             var coilH =  (HVAC.BaseClass.IB_CoilHeatingBasic) null;
             var coilC = new IB_CoilCoolingDXSingleSpeed();
 
