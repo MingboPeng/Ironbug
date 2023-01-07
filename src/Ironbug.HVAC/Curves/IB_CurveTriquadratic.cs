@@ -18,6 +18,7 @@ namespace Ironbug.HVAC.Curves
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
+
     }
 
     public sealed class IB_CurveTriquadratic_FieldSet

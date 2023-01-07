@@ -1,6 +1,7 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
+using System.Collections.Generic;
 
 namespace Ironbug.HVAC.Curves
 {
@@ -18,6 +19,7 @@ namespace Ironbug.HVAC.Curves
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
+
     }
 
     public sealed class IB_CurveFanPressureRise_FieldSet

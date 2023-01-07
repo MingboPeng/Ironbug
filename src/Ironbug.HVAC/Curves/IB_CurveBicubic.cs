@@ -1,10 +1,12 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.HVAC.Curves
 {
-    public class IB_CurveBicubic: IB_Curve
+    public class IB_CurveBicubic: IB_Curve, IIB_Curve3D
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CurveBicubic();
         private static CurveBicubic NewDefaultOpsObj(Model model)
@@ -18,6 +20,74 @@ namespace Ironbug.HVAC.Curves
         public override Curve ToOS(Model model)
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
+        }
+
+        private List<double> _coefficients;
+        private void GetCoefficients()
+        {
+            if (_coefficients != null)
+                return;
+
+            var att = this.CustomAttributes;
+            var fSet = HVAC.Curves.IB_CurveBicubic_FieldSet.Value;
+
+            att.TryGetValue<double>(fSet.Coefficient1Constant, out var c1);
+            att.TryGetValue<double>(fSet.Coefficient2x, out var c2);
+            att.TryGetValue<double>(fSet.Coefficient3xPOW2, out var c3);
+            att.TryGetValue<double>(fSet.Coefficient4y, out var c4);
+            att.TryGetValue<double>(fSet.Coefficient5yPOW2, out var c5);
+            att.TryGetValue<double>(fSet.Coefficient6xTIMESY, out var c6);
+            att.TryGetValue<double>(fSet.Coefficient7xPOW3, out var c7);
+            att.TryGetValue<double>(fSet.Coefficient8yPOW3, out var c8);
+            att.TryGetValue<double>(fSet.Coefficient9xPOW2TIMESY, out var c9);
+            att.TryGetValue<double>(fSet.Coefficient10xTIMESYPOW2, out var c10);
+
+
+            _coefficients = new List<double>()
+            {   
+                0,
+                c1, c2, c3, c4,
+                c5, c6, c7, c8,
+                c9, c10
+
+            };
+        }
+
+        public void GetMinMax(out double minX,out double maxX, out double minY, out double maxY)
+        {
+            if (this.GhostOSObject is CurveBicubic c)
+            {
+                minX = c.minimumValueofx();
+                maxX = c.maximumValueofx();
+                minY = c.minimumValueofy();
+                maxY = c.maximumValueofy();
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid curve type {this.GhostOSObject.GetType().Name}");
+            }
+        }
+
+        public double Compute(double x, double y)
+        {
+            GetCoefficients();
+            var c = _coefficients;
+                
+            var vs = new List<double>
+            {
+                c[1],
+                c[2]*x,
+                c[3]* Math.Pow(x, 2),
+                c[4]*y,
+                c[5]* Math.Pow(y, 2),
+                c[6]*x*y,
+                c[7]* Math.Pow(x, 3),
+                c[8]* Math.Pow(y, 3),
+                c[9] * Math.Pow(x, 2) * y,
+                c[10] * x * Math.Pow(y, 2),
+            };
+       
+            return vs.Sum();
         }
     }
 
