@@ -49,6 +49,18 @@ namespace Ironbug.HVAC.BaseClass
             value = arg?.Value;
             return arg != null;
         }
+
+        public bool TryGetValue<T>(IB_Field field, out T value)
+        {
+            var arg = this.FirstOrDefault(_ => _.Field == field);
+            var valueObj = arg?.Value;
+            if (valueObj is T v)
+                value = v;
+            else
+                value = default(T);
+            return arg != null;
+        }
+
         public override bool Equals(object obj)
         {
             return this.Equals(obj as IB_FieldArgumentSet);
