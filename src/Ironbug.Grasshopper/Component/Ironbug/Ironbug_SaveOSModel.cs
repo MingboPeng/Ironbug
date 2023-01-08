@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         int _writeMode = 0;
         public Ironbug_SaveOSModel()
           : base("IB_SaveToFile", "SaveToFile",
-              "Description",
+              "Save HVACSystem to OpenStudio (.osm) file",
               "Ironbug", "HVAC")
         {
         }

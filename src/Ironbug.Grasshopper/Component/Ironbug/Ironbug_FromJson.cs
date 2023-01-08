@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.septenary | GH_Exposure.hidden;
+        public override GH_Exposure Exposure => GH_Exposure.septenary;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Hvac", "Hvac", "TODO....", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Hvac", "Hvac", "IB_HVACSystem", GH_ParamAccess.item);
         }
 
         
