@@ -19,7 +19,9 @@ namespace Ironbug.HVAC
 
         private string _existFile = "";
 
-        private IB_HVACSystem() {
+        private IB_HVACSystem() 
+        {
+
             this.AirLoops = new List<IB_AirLoopHVAC>();
             this.PlantLoops = new List<IB_PlantLoop>();
             this.VariableRefrigerantFlows = new List<IB_AirConditionerVariableRefrigerantFlow>();
@@ -93,6 +95,27 @@ namespace Ironbug.HVAC
 
             return this.SaveHVAC(tempPath) ? tempPath : string.Empty;
             
+        }
+
+        public static bool SaveHVAC(string osmPath, string hvacJsonFilePath)
+        {
+            var osm = osmPath;
+            var hvac = hvacJsonFilePath;
+
+            if (!System.IO.File.Exists(osm) || !osm.ToLower().EndsWith(".osm"))
+                throw new ArgumentException($"Invalid osm file: {osm}");
+            if (!System.IO.File.Exists(hvac))
+                throw new ArgumentException($"Invalid hvac file: {hvac}");
+
+            var hvacJson = System.IO.File.ReadAllText(hvac);
+            var system = Ironbug.HVAC.IB_HVACSystem.FromJson(hvacJson);
+
+            if (system == null)
+                throw new ArgumentException("Invalid HVAC");
+
+            var done = system.SaveHVAC(osm);
+            return done;
+
         }
 
         public bool SaveHVAC(string filepath)
