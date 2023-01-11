@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("NewFilePath", "_OSMpath", "New OSM file path.", GH_ParamAccess.item);
+            pManager.AddTextParameter("_JsonPath", "_JsonPath", "New Json file path.", GH_ParamAccess.item);
             pManager.AddGenericParameter("HVACSystem", "HVAC", "A HVAC system from Ironbug_HVACSystem", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Write", "_write", "Write the file.", GH_ParamAccess.item, false);
         }
@@ -58,7 +58,7 @@ namespace Ironbug.Grasshopper.Component
                 return;
             }
 
-            File.WriteAllText(json, filepath);
+            File.WriteAllText( filepath, json);
             if (!File.Exists(filepath))
             {
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Failed to convert to json");
