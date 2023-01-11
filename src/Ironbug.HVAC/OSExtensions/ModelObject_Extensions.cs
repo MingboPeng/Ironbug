@@ -106,18 +106,46 @@ namespace Ironbug.HVAC
             bool lockWasTaken = false;
             var tempComp = component;
             object invokeResult = null;
+            var tryRunCount = 0;
+            var tryFinallyCount = 1;
+
             try
             {
-                Monitor.Enter(tempComp,ref lockWasTaken);
+               
+                Monitor.Enter(tempComp, ref lockWasTaken);
+                while (tryRunCount < tryFinallyCount)
                 {
-                    var parm = value is null? null: new object[] { value };
-                    invokeResult = method.Invoke(tempComp, parm);
-                    if (invokeResult is bool b)
+                    try
                     {
-                        if(!b) throw new ArgumentException($"Failed to {method.Name} with {value} to {tempComp.GetType()}!");
+                        var parm = value is null ? null : new object[] { value };
+                        invokeResult = method.Invoke(tempComp, parm);
+                        if (invokeResult is bool b)
+                        {
+                            if (!b) throw new ArgumentException($"Failed to {method.Name} with {value} to {tempComp.GetType()}!");
+                        }
+
                     }
+                    catch (Exception e)
+                    {
+                       
+                        // try 5 times
+                        if (e.InnerException != null)
+                        {
+                            if (e.InnerException.Message.Contains("Attempted to read or write protected memory"))
+                            {
+                                tryFinallyCount = 5;
+                                continue;
+                            }
+                            else
+                                throw;
+                        }
+                        else
+                            throw;
+                    }
+                    finally { tryRunCount++; }
+                    
                 }
-                
+
             }
             catch (Exception e)
             {
@@ -134,10 +162,9 @@ namespace Ironbug.HVAC
                 }
                 else
                 {
-                    throw new ArgumentException($"{e.Message}");
+                    throw e;
                 }
                 
-                //invokeResult = e.ToString();
             }
             finally
             {
