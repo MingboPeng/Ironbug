@@ -47,9 +47,11 @@ namespace Ironbug.HVAC.BaseClass
         public T Get<T>(int childIndex) where T : IB_ModelObject => this.GetChild<T>(childIndex);
         public T GetChild<T>(int childIndex) where T : IB_ModelObject
         {
-            if (!(this.Count > childIndex)) return null;
+            if (!(this.Count > childIndex)) return (T)null;
 
             var child = this[childIndex];
+            if (child is null) return (T)null;
+
             if (child is T)
             {
                 return child as T;
