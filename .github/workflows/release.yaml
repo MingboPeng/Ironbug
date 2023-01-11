@@ -123,6 +123,7 @@ jobs:
       - name: Upload Installer
         uses: actions/upload-artifact@v2
         with:
+          name: windows
           path: |
             ironbug.zip
             installer.exe
@@ -189,7 +190,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ironbug.console.linux
+          name: linux
           path: ironbug.console.linux.zip
 
 
@@ -207,6 +208,8 @@ jobs:
 
       - name: list files
         run: |
+          cp ./windows/* .
+          cp ./linux/* .
           ls -l
     
       - uses: actions/setup-node@v3
