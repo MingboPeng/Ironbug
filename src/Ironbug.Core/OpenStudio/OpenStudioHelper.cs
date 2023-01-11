@@ -8,13 +8,7 @@ namespace Ironbug.Core.OpenStudio
 {
     public static class OpenStudioHelper
     {
-        //public static string SupportedVersion { get; set; } = "2.8.1";
-
-        //public static bool LoadAssemblies(Action<string> MessageLogger)
-        //{
-        //    return LoadAssemblies(MessageLogger, SupportedVersion);
-        //}
-
+   
         public static string FindOpsFolder()
         {
             var possiblePath = new List<string>();
@@ -47,16 +41,22 @@ namespace Ironbug.Core.OpenStudio
 
             return path;
         }
+        public static bool LoadAssemblies(Action<string> messageLogger)
+        {
+            return LoadAssemblies(messageLogger, out var _);
+        }
 
-        public static bool LoadAssemblies(Action<string> MessageLogger)
+        public static bool LoadAssemblies(Action<string> messageLogger, out Assembly ops)
         {
             Assembly[] asms = AppDomain.CurrentDomain.GetAssemblies();
             var possibleOpsDll = asms.Where(_ => _.GetName().Name.ToUpper() == "OPENSTUDIO");
-            var isLoaded = false;
+            var isLoaded = possibleOpsDll.Any();
 
-            if (!possibleOpsDll.Any())
+            var file = "OpenStudio.dll";
+            ops = null;
+
+            if (!isLoaded)
             {
-                var file = "OpenStudio.dll";
                 var path = FindOpsFolder();
 
                 var asmFile = Path.Combine(path, file);
@@ -80,11 +80,11 @@ namespace Ironbug.Core.OpenStudio
                             }
                         }
                     }
-                   
 
-                    Assembly.LoadFile(asmFile);
+
+                    ops = Assembly.LoadFile(asmFile);
                     isLoaded = true;
-                    MessageLogger($"OpenStudio library {versionFound} from {path}.");
+                    messageLogger($"OpenStudio library {versionFound} from {path}.");
                 }
                 catch (Exception)
                 {
