@@ -13,7 +13,6 @@ namespace Ironbug
             {
                 AppDomain currentDomain = AppDomain.CurrentDomain;
                 currentDomain.AssemblyResolve += new ResolveEventHandler(OpsResolveEventHandler);
-                
                 var commandArgs = args.Select(x => x.Trim()).Where(_ => !string.IsNullOrEmpty(_));
 
                 if (!commandArgs.Any() || commandArgs.Count() != 2)
@@ -21,14 +20,18 @@ namespace Ironbug
                     Console.WriteLine("Hello, this is Ironbug Console app!");
                     return;
                 }
-                var osm = commandArgs.FirstOrDefault();
-                var hvac = commandArgs.LastOrDefault();
+                var osm = System.IO.Path.GetFullPath(commandArgs.FirstOrDefault());
+                var hvac = System.IO.Path.GetFullPath(commandArgs.LastOrDefault());
 
                 //var osm = @"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\TestSource\Integration Testing\FourOfficeBuilding - Copy.osm";
                 //var hvac = @"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\TestSource\Integration Testing\Sys02_PTHP_Advanced.json";
 
                 Console.WriteLine($"[INFO] Input osm file: {osm}");
                 Console.WriteLine($"[INFO] Input ironbug HVAC json file: {hvac}");
+
+                // set the current directory so that it can find all openstudio files on Linux
+                var currDir = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                System.IO.Directory.SetCurrentDirectory(currDir);
 
                 var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
                 if (done)
