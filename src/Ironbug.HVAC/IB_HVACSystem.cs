@@ -65,14 +65,10 @@ namespace Ironbug.HVAC
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
         }
 
-        public string SaveAsIBJson(string path)
+        public string SaveAsJson(string path)
         {
             var json = this.ToJson();
-          
-            using (StreamWriter file = new StreamWriter(path, true))
-            {
-                file.Write(json);
-            }
+            File.WriteAllText(path, json);
             return path;
         }
 
