@@ -21,13 +21,13 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup MSbuild
         uses: microsoft/setup-msbuild@v1.0.2
 
       # this is for fixing semantic-release-action
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
 
@@ -123,7 +123,6 @@ jobs:
       - name: Upload Installer
         uses: actions/upload-artifact@v2
         with:
-          name: Installer
           path: |
             ironbug.zip
             installer.exe
@@ -139,7 +138,7 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Unit tests
         run: |
@@ -149,7 +148,7 @@ jobs:
           ls 
 
       # this is for fixing semantic-release-action
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 14
 
@@ -188,8 +187,6 @@ jobs:
 
 
       - name: Upload artifact
-      
-        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v2
         with:
           name: ironbug.console.linux
@@ -203,7 +200,7 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download all installers
         uses: actions/download-artifact@v3
@@ -212,7 +209,8 @@ jobs:
         run: |
           ls -l
     
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
+        if: github.ref == 'refs/heads/master'
         with:
           node-version: 14
 
