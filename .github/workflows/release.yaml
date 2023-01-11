@@ -121,7 +121,7 @@ jobs:
           ls -l
 
       - name: Upload Installer
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: windows
           path: |
@@ -188,7 +188,7 @@ jobs:
 
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: linux
           path: ironbug.console.linux.zip
@@ -196,6 +196,7 @@ jobs:
 
   release:
     name: deploy installers
+    if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: [Build_windows, Build_ubuntu]
 
