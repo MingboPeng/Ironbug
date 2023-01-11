@@ -146,6 +146,7 @@ jobs:
           cd ./src/Ironbug.HVAC_Tests
           dotnet restore Ironbug.HVAC_Tests.csproj
           dotnet test Ironbug.HVAC_Tests.csproj --arch x64
+          ls 
 
       # this is for fixing semantic-release-action
       - uses: actions/setup-node@v2
@@ -175,6 +176,8 @@ jobs:
       - name: Build
         run: |
           dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj /p:Configuration=Release /p:Platform=x64 /p:TargetFramework=NET7 /p:Version=${{ env.ReleaseVersion }}
+          cp ./src/Ironbug.Console/bin/x64/Release/runtimes/linux-x64/native/* ./src/Ironbug.Console/bin/x64/Release/
+          rm ./src/Ironbug.Console/bin/x64/Release/runtimes/ -r
           ls ./src/Ironbug.Console/bin/
           zip -r ironbug.console.linux.zip ./src/Ironbug.Console/bin/x64/Release/
 
