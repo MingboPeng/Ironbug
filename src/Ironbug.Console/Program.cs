@@ -15,9 +15,12 @@ namespace Ironbug
                 currentDomain.AssemblyResolve += new ResolveEventHandler(OpsResolveEventHandler);
                 var commandArgs = args.Select(x => x.Trim()).Where(_ => !string.IsNullOrEmpty(_));
 
+                var assembly = typeof(Program).Assembly;
                 if (!commandArgs.Any() || commandArgs.Count() != 2)
                 {
-                    Console.WriteLine("Hello, this is Ironbug Console app!");
+                    var version = assembly.GetName().Version;
+                    var date = System.IO.File.GetLastWriteTime(assembly.Location).ToString("MMM dd, yyyy");
+                    Console.WriteLine($"Hello, this is Ironbug Console app!{System.Environment.NewLine}v{version} ({date})");
                     return;
                 }
                 var osm = System.IO.Path.GetFullPath(commandArgs.FirstOrDefault());
@@ -30,7 +33,7 @@ namespace Ironbug
                 Console.WriteLine($"[INFO] Input ironbug HVAC json file: {hvac}");
 
                 // set the current directory so that it can find all openstudio files on Linux
-                var currDir = System.IO.Path.GetDirectoryName(typeof(Program).Assembly.Location);
+                var currDir = System.IO.Path.GetDirectoryName(assembly.Location);
                 System.IO.Directory.SetCurrentDirectory(currDir);
 
                 var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
