@@ -25,7 +25,7 @@ namespace Ironbug.HVACTests
             var oldFile = System.IO.Path.Combine(TestHelper.TestSourceFolder, "OldVersion.osm");
             var ex = Assert.Throws<ArgumentException>(() => IB_HVACSystem.GetOrNewModel(oldFile));
          
-            Assert.IsTrue(ex.Message.StartsWith("Incompatible OpenStudio file version"));
+            Assert.IsTrue(ex.Message.StartsWith("Incompatible input OpenStudio file version"));
         }
 
 
