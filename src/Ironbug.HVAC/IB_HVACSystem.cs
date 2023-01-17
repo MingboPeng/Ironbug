@@ -17,6 +17,18 @@ namespace Ironbug.HVAC
         [DataMember]
         public List<IB_AirConditionerVariableRefrigerantFlow> VariableRefrigerantFlows { get; private set; }
 
+        private static string _version;
+        [DataMember]
+        public string IBVersion
+        {
+            get
+            {
+                _version = _version?? typeof(IB_HVACSystem).Assembly.GetName().Version.ToString();
+                return _version;
+            }
+            private set => _version = value;
+        }
+
         private string _existFile = "";
 
         private IB_HVACSystem() 
@@ -141,6 +153,13 @@ namespace Ironbug.HVAC
 
             //add loops
             //added plantLoops first, as the controllerWaterCoil of CoilCoolingWater or CoilHeatingWater only exists after the coil is added to PlantLoop
+            // add Condenser water loop before chilled water loop so that the chiller's condenser type can be set to WaterCooled
+            //var condenserLps = plantLoops.OfType<IB_CondenserPlantLoop>();
+            //foreach (var cdPlant in condenserLps)
+            //{
+            //    cdPlant.ToOS(model);
+            //}
+            //var theRestLps = plantLoops.Where(_ => !(_ is IB_CondenserPlantLoop));
             foreach (var plant in plantLoops)
             {
                 plant.ToOS(model);
@@ -199,7 +218,7 @@ namespace Ironbug.HVAC
                 var v1 = ts.originalVersion().str();
                 var v2 = m.version().str();
                 if (v1 != v2)
-                    throw new ArgumentException($"Incompatible OpenStudio file version {v1} which is different than what Ironbug is using ({v2})");
+                    throw new ArgumentException($"Incompatible input OpenStudio file version {v1} which is different than what Ironbug is using ({v2})");
                 return true;
             }
         }
