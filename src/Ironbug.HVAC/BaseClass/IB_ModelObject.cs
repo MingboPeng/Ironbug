@@ -336,7 +336,7 @@ namespace Ironbug.HVAC.BaseClass
         //protected abstract T InitOpsObj<T>(Model model);
         //protected delegate ModelObject InitMethodDelegate(Model model);
 
-        protected T OnNewOpsObj<T>(Func<Model, T> InitMethodHandler, Model model) where T: ModelObject
+        protected T OnNewOpsObj<T>(Func<Model, T> InitMethodHandler, Model model, bool withAttributes = true) where T: ModelObject
         {
             if (InitMethodHandler == null)
             {
@@ -347,29 +347,30 @@ namespace Ironbug.HVAC.BaseClass
             if (this is IIB_DualLoopObj)
             {
                 var objInModel = this.GetIfInModel<T>(model, this.GetTrackingID());
-                realObj = objInModel is null ? InitAndSetAttributes() : objInModel;
+                realObj = objInModel is null ? InitAndSetAttributes(withAttributes) : objInModel;
 
             }
             else
             {
-                realObj = InitAndSetAttributes();
+                realObj = InitAndSetAttributes(withAttributes);
             }
             
             return realObj as T;
 
 
-            ModelObject InitAndSetAttributes()
+            ModelObject InitAndSetAttributes(bool withAtt)
             {
 
                 var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
-                ApplyAttributesToObj(obj);
+                if (withAtt)
+                    ApplyAttributesToObj(obj);
                 return obj;
             }
 
            
         }
 
-        private ModelObject GetIfInModel<T>(Model model, string trackingID) where T : ModelObject
+        protected T GetIfInModel<T>(Model model, string trackingID) where T : ModelObject
         {
             if (string.IsNullOrEmpty(trackingID))
                 return null;

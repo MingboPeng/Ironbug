@@ -41,18 +41,27 @@ namespace Ironbug.HVAC
             this.AddChild(CCFofT);
             this.AddChild(EItoCORFofT);
             this.AddChild(EItoCORFofPLR);
+
+            // add a fake condenser loop for water cooled chiller to be added to the demand side
+            var ghost = this.GhostOSObject as ChillerElectricEIR;
+            var ghostModel = ghost.model();
+            var addGhostCondenserLoop = new PlantLoop(ghostModel);
+            addGhostCondenserLoop.addDemandBranchForComponent(ghost);
+
         }
-        
-        public override HVACComponent ToOS(Model model)
+
+        internal HVACComponent ToOS(Model model, bool withAttributes)
         {
             if (this.Children.Count > 0)
             {
-                return base.OnNewOpsObj(InitMethodWithChildren, model);
+                // water cooled chiller
+                return base.OnNewOpsObj(InitMethodWithChildren, model, withAttributes);
 
             }
             else
             {
-                return base.OnNewOpsObj(NewDefaultOpsObj, model);
+                // air cooled chiller
+                return base.OnNewOpsObj(NewDefaultOpsObj, model, withAttributes);
             }
 
 
@@ -64,9 +73,17 @@ namespace Ironbug.HVAC
                     _CCFofT.ToOS(model) as CurveBiquadratic,
                     _EItoCORFofT.ToOS(model) as CurveBiquadratic,
                     _EItoCORFofPLR.ToOS(model) as CurveQuadratic);
-
             }
 
+        }
+
+        public override HVACComponent ToOS(Model model)
+        {
+            var obj = ToOS(model, false);
+            //CondenserType will be adjusted automatically by OpenStudio
+            this.CustomAttributes.RemoveAll(_ => _.Field == IB_ChillerElectricEIR_FieldSet.Value.CondenserType);
+            this.ApplyAttributesToObj(obj);
+            return obj;
         }
         
     }
@@ -85,7 +102,10 @@ namespace Ironbug.HVAC
         
         public IB_Field ReferenceCOP { get; }
             = new IB_BasicField("ReferenceCOP", "COP");
-        
+
+        public IB_Field CondenserType { get; }
+            = new IB_BasicField("CondenserType", "CondenserType");
+
         public IB_Field ReferenceLeavingChilledWaterTemperature { get; }
             = new IB_BasicField("ReferenceLeavingChilledWaterTemperature", "LeavingT");
     }

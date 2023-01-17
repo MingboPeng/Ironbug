@@ -39,26 +39,60 @@ namespace Ironbug.HVAC
             foreach (var branch in branches)
             {
                 //flatten the puppet structure 
-
                 var items = branch;
                 //add one branch
-                var firstItem = items.First();
-                plant.addDemandBranchForComponent(firstItem.ToOS(model));
+                plant.addDemandBranchForComponent(items.First().ToOS(model));
                 //add the rest child in this branch
                 var restChild = items.Skip(1);
-                //TDDO: double check the obj order here
-                var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
-                foreach (var item in restChild)
+                if (restChild.Any())
                 {
-                    
-                    if (!item.AddToNode(node))
-                        throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
+                    //TDDO: double check the obj order here
+                    var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
+                    foreach (var item in restChild)
+                    {
+                        if (!item.AddToNode(node))
+                            throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
+                    }
                 }
-
-    
-
+                
             }
         }
+
+        //private static bool AddCheckSpecialObjects(IB_HVACObject obj, Model model, PlantLoop plant, Node node)
+        //{
+        //    if (plant == null && node == null)
+        //        throw new ArgumentException($"Plantloop and node cannot be null at the same time!");
+
+        //    // for water-coolded chiller, it has to be added to condenser plant's demand side first
+        //    if (obj is IB_ChillerElectricEIR chiller)
+        //    {
+        //        // create openstudio object without attributes
+        //        var c = chiller.ToOS(model, false);
+        //        // add to plantloop
+        //        if (plant != null)
+        //            plant.addDemandBranchForComponent(c);
+        //        else
+        //            c.addToNode(node);
+        //        // assign attributes
+        //        obj.ApplyAttributesToObj(c);
+        //        return true;
+        //    }
+
+
+        //    // regular objects
+        //    var done = false;
+        //    if (plant != null)
+        //    {
+        //        plant.addDemandBranchForComponent(obj.ToOS(model));
+        //        done = true;
+        //    }
+        //    else
+        //    {
+        //        done = obj.AddToNode(node);
+        //    }
+
+        //    return done;
+        //}
 
 
         
