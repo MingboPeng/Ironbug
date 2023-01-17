@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     {
         public Ironbug_FromJson()
           : base("IB_FromJson", "FromJson",
-              "Use this component to measure variables like temperature, flow rate, etc, in the loop.\nPlace this between loopObjects.",
+              "Load a HVAC system from Json strings",
               "Ironbug", "HVAC")
         {
         }
@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("Json", "Json", "A HVAC system from Ironbug_HVACSystem", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Json", "Json", "Json string of a HVAC system", GH_ParamAccess.item);
         }
 
 

@@ -85,8 +85,8 @@ namespace Ironbug.Grasshopper.Component
         //public override bool Obsolete => _isOldVersion;
         private bool IsVersionCheckOk()
         {
-            var v1 = new Version(IronbugInfo.version); //0.0.0.13
-            var v0 = this.InstanceVersion == "[unknown version]"? new Version(): new Version(this.InstanceVersion);
+            var v1 = new Version(IronbugInfo.version); //0.0.0.13 plugin version
+            var v0 = this.InstanceVersion == "[unknown version]"? new Version(): new Version(this.InstanceVersion); // component instance version
 
             var isOldVersion = v1.Build - v0.Build > 2;
             if (v0>v1)
