@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using GH_IO.Serialization;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -132,7 +133,7 @@ namespace Ironbug.Grasshopper.Component
 
         private void ChangeWriteMode(object sender, EventArgs e)
         {
-            var writeParm = this.Params.Input[2];
+            var writeParm = this.Params.Input.LastOrDefault();
             if (this._writeMode != 1)
             {
                 this._writeMode = 1;
