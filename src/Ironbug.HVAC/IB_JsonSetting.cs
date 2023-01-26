@@ -23,9 +23,10 @@ namespace Ironbug
                         TypeNameHandling = TypeNameHandling.Objects,
                         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
                         ContractResolver = ContractResolver,
+                        MetadataPropertyHandling = MetadataPropertyHandling.ReadAhead
                     };
 				}
-				return _setting;
+                return _setting;
 			}
 		}
 
