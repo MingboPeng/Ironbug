@@ -1,6 +1,6 @@
 env:
   INSTALLBUILDER_DIR: ../ib
-  INSTALLBUILDER_URL: https://installbuilder.com/installbuilder-enterprise-21.12.0-windows-x64-installer.exe
+  INSTALLBUILDER_URL: https://storage.googleapis.com/pollination-public/plugins/installerAssets/installbuilder-enterprise-21.12.0-windows-x64-installer.exe
 
 
 name: CD
