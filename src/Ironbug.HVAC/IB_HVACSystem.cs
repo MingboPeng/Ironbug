@@ -29,6 +29,7 @@ namespace Ironbug.HVAC
             private set => _version = value;
         }
 
+        [IgnoreDataMember]
         private string _existFile = "";
 
         private IB_HVACSystem() 
