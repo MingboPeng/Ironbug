@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -14,28 +12,18 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemInternalVariable() : base(NewDefaultOpsObj(new Model()))
         {
         }
-       
-        private IB_ModelObject _hostObj { get; set; }
-    
-        public void SetHostObj(IB_ModelObject host)
-        {
-            this._hostObj = host;
-        }
+
+        public IB_ModelObject HostObj { get => Get<IB_ModelObject>(); set => Set(value); }
+
         public void SetInternalDataType(string dataType)
         {
             var f = IB_EnergyManagementSystemInternalVariable_FieldSet.Value;
             this.AddCustomAttribute(f.InternalDataType, dataType);
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            var dup = base.Duplicate() as IB_EnergyManagementSystemInternalVariable;
-            dup._hostObj = this._hostObj;
-            return dup;
-        }
         public override ModelObject ToOS(Model model)
         {
-            var host = _hostObj.GetOsmObjInModel(model);
+            var host = HostObj.GetOsmObjInModel(model);
             if (host == null)
                 throw new ArgumentException("Failed to find the host object that this internal variable is associated with, you will have to add the host object to model first.");
             

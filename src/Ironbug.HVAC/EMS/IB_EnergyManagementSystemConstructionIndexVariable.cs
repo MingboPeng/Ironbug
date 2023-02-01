@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -15,25 +13,13 @@ namespace Ironbug.HVAC
         {
         }
 
-  
-        private string _construction { get; set; }
-       
-        public void SetConstructionID(string construction)
-        {
-            this._construction = construction;
-        }
+        public string ConstructionID { get => Get<string>(); set => Set(value); }
 
-        public override IB_ModelObject Duplicate()
-        {
-            var dup = base.Duplicate() as IB_EnergyManagementSystemConstructionIndexVariable;
-            dup._construction = this._construction;
-            return dup;
-        }
         public override ModelObject ToOS(Model model)
         {
-            var oc = model.getConstructionByName(this._construction);
+            var oc = model.getConstructionByName(this.ConstructionID);
             if (!oc.is_initialized())
-                throw new ArgumentException($"Failed to find the construction {_construction}, you will have to add it to model first.");
+                throw new ArgumentException($"Failed to find the construction {ConstructionID}, you will have to add it to model first.");
             var obj = new EnergyManagementSystemConstructionIndexVariable(model, oc.get());
 
             return obj;

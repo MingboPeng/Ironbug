@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_EnergyManagementSystemInternalVariable();
             HVAC.BaseClass.IB_ModelObject hostObj = null;
             DA.GetData(0, ref hostObj);
-            obj.SetHostObj(hostObj);
+            obj.HostObj = hostObj;
 
             string tagId = null;
             DA.GetData(1, ref tagId);

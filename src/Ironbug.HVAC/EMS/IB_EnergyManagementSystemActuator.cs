@@ -19,16 +19,12 @@ namespace Ironbug.HVAC
         {
             this.AddChild(actuatedObj);
         }
-        private string _nameID;
+
+        private string _nameID { get => Get<string>(); set => Set(value); }
+
         public IB_EnergyManagementSystemActuator(string actuatedObjNameID) : base(NewDefaultOpsObj(new Node(new Model())))
         {
             this._nameID = actuatedObjNameID;
-        }
-        public override IB_ModelObject Duplicate()
-        {
-            var obj  = base.Duplicate() as IB_EnergyManagementSystemActuator;
-            obj._nameID = this._nameID;
-            return obj;
         }
 
         private ModelObject GetActuatedObj(Model model)

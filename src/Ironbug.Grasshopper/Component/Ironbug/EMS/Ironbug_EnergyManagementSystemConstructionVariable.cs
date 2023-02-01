@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
 
             string Construction = null;
             DA.GetData(1, ref Construction);
-            obj.SetConstructionID(Construction);
+            obj.ConstructionID = Construction;
 
             DA.SetData(0, obj);
 
