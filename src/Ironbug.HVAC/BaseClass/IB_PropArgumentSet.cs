@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Ironbug.Core;
+using Newtonsoft.Json.Linq;
 using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
@@ -112,7 +113,7 @@ namespace Ironbug.HVAC.BaseClass
                 this.SetByKey(propertyName, def);
                 return def;
             }
-            else if (prop is IList ls)
+            else if (prop is IEnumerable ls)
             {
                 if (prop is List<T> lst)
                     return lst;
@@ -139,19 +140,44 @@ namespace Ironbug.HVAC.BaseClass
             }
         }
 
+        [OnDeserialized]
+        internal void OnDeserializedMethod(StreamingContext context)
+        {
+            foreach (var item in this)
+            {
+                if (item.Value is Newtonsoft.Json.Linq.JToken jt)
+                {
+                    var o = DeserializationHelper.Deserialize(jt);
+                    this.SetByKey(item.Key, o);
+                }
+            }
+        }
+
 
         public IB_PropArgumentSet Duplicate()
         {
             var dup = new IB_PropArgumentSet();
             foreach (var item in this)
             {
-                var pv = item.Value;
-                if (pv is IB_ModelObject mo)
-                    pv = mo.Duplicate();
-                dup.Add(item.Key, pv);
+                dup.Add(item.Key, Duplicate(item.Value));
             }
             return dup;
         }
+
+        static object Duplicate(object obj)
+        {
+            if (obj is IEnumerable enu)
+            {
+                return enu.Cast<object>().Select(_ => Duplicate(_));
+            }
+            else if (obj is IB_ModelObject mo)
+                return mo.Duplicate();
+            else
+            {
+                return obj;
+            }
+        }
+
         public bool Equals(IB_PropArgumentSet other)
         {
             if (other == null)
@@ -164,7 +190,7 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in this)
             {
                 same &= other.TryGetValue(item.Key, out var o);
-                same &= AreSame(item.Value, o);
+                same = same ? AreSame(item.Value, o) : false ;
             }
             return same;
         }

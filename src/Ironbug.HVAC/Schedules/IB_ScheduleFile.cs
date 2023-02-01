@@ -3,6 +3,7 @@ using OpenStudio;
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -90,6 +91,14 @@ namespace Ironbug.HVAC.Schedules
         {
             throw new ArgumentException($"{this.GetType().Name} is not supported to be exported to Json now");
         }
+
+
+        [OnSerializing]
+        internal void OnSerializingMethod(StreamingContext context)
+        {
+            throw new ArgumentException($"{this.GetType().Name} is not supported to be exported to Json now");
+        }
+
 
     }
     public sealed class IB_ScheduleFile_FieldSet

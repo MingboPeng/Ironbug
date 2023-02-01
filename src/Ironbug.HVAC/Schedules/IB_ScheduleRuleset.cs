@@ -8,7 +8,7 @@ namespace Ironbug.HVAC.Schedules
 {
     public class IB_ScheduleRuleset : IB_Schedule
     {
-        private double constantNumber = 0.0;
+        private double constantNumber => this.Get<double>(0.0);
 
         protected override Func<IB_ModelObject> IB_InitSelf
             => () => new IB_ScheduleRuleset(this.constantNumber);
@@ -16,36 +16,24 @@ namespace Ironbug.HVAC.Schedules
         private static ScheduleRuleset InitMethod(Model model)
             => new ScheduleRuleset(model);
 
-        private List<IB_ScheduleRule> Rules { get; set; } = new List<IB_ScheduleRule>();
-        private IB_ScheduleTypeLimits ScheduleTypeLimits { get; set; }
+        public List<IB_ScheduleRule> Rules
+        {
+            get => this.TryGetList<IB_ScheduleRule>();
+            set => this.Set(value);
+        }
+
+        public IB_ScheduleTypeLimits ScheduleTypeLimits
+        {
+            get => this.Get<IB_ScheduleTypeLimits>();
+            set => this.Set(value);
+        }
 
         public IB_ScheduleRuleset() : base(InitMethod(new Model()))
         {
         }
         public IB_ScheduleRuleset(double value) : base(InitMethod(new Model()))
         {
-            this.constantNumber = value;
-        }
-
-        public void AddRule(IB_ScheduleRule Rule)
-        {
-            this.Rules.Add(Rule);
-        }
-
-        public void SetScheduleTypeLimits(IB_ScheduleTypeLimits typeLimits)
-        {
-            this.ScheduleTypeLimits = typeLimits;
-        }
-
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_ScheduleRuleset;
-            foreach (var item in this.Rules)
-            {
-                obj.AddRule(item.Duplicate() as IB_ScheduleRule);
-            }
-            obj.ScheduleTypeLimits = this.ScheduleTypeLimits?.Duplicate() as IB_ScheduleTypeLimits;
-            return obj;
+            this.Set(nameof(constantNumber), value);
         }
 
         public override ModelObject ToOS(Model model)

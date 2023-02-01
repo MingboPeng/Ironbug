@@ -34,11 +34,7 @@ namespace Ironbug.Grasshopper.Component
             DA.GetDataList(0, eqps);
 
             var obj = new HVAC.IB_WaterUseConnections();
-            foreach (var item in eqps)
-            {
-                obj.AddWaterUseEquipment(item);
-            }
-
+            obj.WaterUseEquips.AddRange(eqps);
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
 

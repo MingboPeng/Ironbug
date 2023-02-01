@@ -1,5 +1,6 @@
 ﻿using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -10,6 +11,12 @@ namespace Ironbug.HVAC
 
         private static ControllerOutdoorAir NewDefaultOpsObj(Model model) => new ControllerOutdoorAir(model);
         private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.GetChild<IB_ControllerMechanicalVentilation>();
+
+        [JsonConstructor]
+        private IB_ControllerOutdoorAir(bool forDerialization) : base(NewDefaultOpsObj(new Model()))
+        {
+        }
+
         public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_ControllerMechanicalVentilation());

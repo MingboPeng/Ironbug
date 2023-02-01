@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
     
         public List<IB_EnergyManagementSystemProgram> Programs 
         {
-            get => GetList<IB_EnergyManagementSystemProgram>(initDefault: true);
+            get => TryGetList<IB_EnergyManagementSystemProgram>();
             set => Set(value); 
         }
 

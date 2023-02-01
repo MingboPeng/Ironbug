@@ -102,4 +102,39 @@ namespace Ironbug
 
     }
 
+    public static class DeserializationHelper
+    {
+        public static object Deserialize(JToken result)
+        {
+            var tp = result.Type;
+            if (tp == JTokenType.Array)
+            {
+                var list = result.ToArray().Select(_ => Deserialize(_)).ToList();
+                return list;
+            }
+            else if (tp == JTokenType.Object)
+            {
+                var prop = result.OfType<JProperty>().FirstOrDefault(_ => _.Name == "$type");
+                if (prop != null)
+                {
+                    var obj = JsonConvert.DeserializeObject(result.ToString(), IB_JsonSetting.ConvertSetting);
+                    if (obj is JToken jObj)
+                        obj = Deserialize(jObj);
+                    return obj;
+                }
+                return result;
+            }
+            else if (result is JValue jv)
+            {
+                return jv.Value;
+            }
+            else
+            {
+                var value = result.ToString();
+                return value;
+            }
+        }
+
+    }
+
 }

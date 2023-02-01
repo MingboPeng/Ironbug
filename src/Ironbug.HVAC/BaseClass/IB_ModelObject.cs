@@ -31,7 +31,10 @@ namespace Ironbug.HVAC.BaseClass
         /// Custom attributes for setting OpenStudio object fields
         /// </summary>
         [DataMember]
-        public IB_FieldArgumentSet CustomAttributes { get; private set; } = new IB_FieldArgumentSet();
+        public IB_FieldArgumentSet CustomAttributes {
+            get; 
+            private set;
+        } = new IB_FieldArgumentSet();
 
         /// <summary>
         /// Custom properties of each Ironbug classes
@@ -54,6 +57,10 @@ namespace Ironbug.HVAC.BaseClass
 
         public IB_ModelObject(ModelObject ghostOpsObj)
         {
+            if (this is IB_SetpointManagerScheduled)
+            {
+
+            }
             if (ghostOpsObj != null)
             {
                 this.GhostOSObject = ghostOpsObj;
@@ -113,6 +120,21 @@ namespace Ironbug.HVAC.BaseClass
         public T GetChild<T>(int childIndex) where T : IB_ModelObject => this.Children.GetChild<T>(childIndex);
 
         /// <summary>
+        /// Set a serializable property when the value is not the same as defaultValue. Only use this in property setter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="defaultValue">set default value for comparision</param>
+        /// <param name="caller"></param>
+        protected void Set<T>(T value, T defaultValue, [CallerMemberName] string caller = null) 
+        {
+            if (!value.Equals(defaultValue))
+                this.IBProperties.Set(value, caller);
+            else
+                this.IBProperties.Remove(caller);
+        }
+
+        /// <summary>
         /// Set a serializable property. Only use this in property setter.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -152,6 +174,13 @@ namespace Ironbug.HVAC.BaseClass
         /// <param name="caller"></param>
         /// <returns>Original list if found, otherwise generate an empty list.</returns>
         protected List<T> GetList<T>(bool initDefault, [CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(initDefault, caller);
+        /// <summary>
+        /// Find a serialized property value by call name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="caller"></param>
+        /// <returns>Original list if found, otherwise generate an empty list.</returns>
+        protected List<T> TryGetList<T>([CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(true, caller);
         /// <summary>
         /// Find a serialized property value by call name.
         /// </summary>
@@ -510,18 +539,24 @@ namespace Ironbug.HVAC.BaseClass
         {
             if (other is null)
                 return this is null ? true : false;
-            if (this.GetType() != other.GetType())
+            if (this.GetType() != other.GetType()) 
                 return false;
-            var same = this.CustomAttributes.Equals(other.CustomAttributes);
-            same &= this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables);
-            same &= this.Children.SequenceEqual(other.Children);
-            same &= this.CustomSensors.SequenceEqual(other.CustomSensors);
-            same &= this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables);
-            same &= this.CustomActuators.SequenceEqual(other.CustomActuators);
-            same &= this.IBProperties.Equals(other.IBProperties);
-
-
-            return same;
+            if (!this.CustomAttributes.Equals(other.CustomAttributes)) 
+                return false;
+            if (!this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables)) 
+                return false;
+            if (!this.Children.Equals(other.Children)) 
+                return false;
+            if (!this.CustomSensors.SequenceEqual(other.CustomSensors)) 
+                return false;
+            if (!this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables)) 
+                return false;
+            if (!this.CustomActuators.SequenceEqual(other.CustomActuators)) 
+                return false;
+            if (!this.IBProperties.Equals(other.IBProperties)) 
+                return false;
+         
+            return true;
         }
         public static bool operator ==(IB_ModelObject x, IB_ModelObject y)
         {

@@ -6,13 +6,12 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingLowTempRadiantConstFlow : IB_CoilHeatingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
-        private double waterHiT = 50; //122F
-        private double waterLoT = 30; //86F
-        private double airHiT = 20; //68F
-        private double airLoT = 17; //62.6F
+        private double WaterHiT { get => Get<double>(50); set => Set(value, 50); } //122F
+        private double WaterLoT { get => Get<double>(30); set => Set(value, 30); } //86F
+        private double AirHiT { get => Get<double>(20); set => Set(value, 20); }  //68F
+        private double AirLoT { get => Get<double>(17); set => Set(value, 17); } //62.6F
 
-
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantConstFlow(waterHiT, waterLoT, airHiT, airLoT);
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantConstFlow(WaterHiT, WaterLoT, AirHiT, AirLoT);
 
         private static CoilHeatingLowTempRadiantConstFlow NewDefaultOpsObj(Model model, double waterHiT, double waterLoT, double airHiT, double airLoT) 
             => new CoilHeatingLowTempRadiantConstFlow(model, new ScheduleRuleset(model, waterHiT), new ScheduleRuleset(model, waterLoT), new ScheduleRuleset(model, airHiT), new ScheduleRuleset(model, airLoT));
@@ -24,10 +23,10 @@ namespace Ironbug.HVAC
 
             CoilHeatingLowTempRadiantConstFlow NewDefaultOpsObj(Model m)
             => new CoilHeatingLowTempRadiantConstFlow(m, 
-            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, waterHiT),
-            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, waterLoT),
-            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airHiT),
-            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airLoT));
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, WaterHiT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, WaterLoT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, AirHiT),
+            Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, AirLoT));
       
         }
 
@@ -36,10 +35,10 @@ namespace Ironbug.HVAC
         public IB_CoilHeatingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 
             : base(NewDefaultOpsObj(new Model(), waterHiT, waterLoT, airHiT, airLoT))
         {
-            this.airHiT = airHiT;
-            this.airLoT = airLoT;
-            this.waterLoT = waterLoT;
-            this.waterHiT = waterHiT;
+            this.AirHiT = airHiT;
+            this.AirLoT = airLoT;
+            this.WaterLoT = waterLoT;
+            this.WaterHiT = waterHiT;
         }
 
     }

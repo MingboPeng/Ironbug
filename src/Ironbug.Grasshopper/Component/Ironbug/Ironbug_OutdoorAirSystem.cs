@@ -60,20 +60,12 @@ namespace Ironbug.Grasshopper.Component
             var exObjs = new List<HVAC.BaseClass.IB_HVACObject>();
             if (DA.GetDataList(0, exObjs))
             {
-                foreach (var item in exObjs)
-                {
-                    obj.AddToReliefStream(item);
-                }
-
+                obj.ReliefStreamObjs.AddRange(exObjs);
             }
             var oaObjs = new List<HVAC.BaseClass.IB_HVACObject>();
             if (DA.GetDataList(2,oaObjs))
             {
-                foreach (var item in oaObjs)
-                {
-                    obj.AddToOAStream(item);
-                }
-               
+                obj.OAStreamObjs.AddRange(oaObjs);
             }
 
 

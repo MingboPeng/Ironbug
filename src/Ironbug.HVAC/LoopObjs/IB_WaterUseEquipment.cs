@@ -9,7 +9,8 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterUseEquipment(this.waterUseLoad);
 
         private IB_WaterUseEquipmentDefinition waterUseLoad => this.GetChild<IB_WaterUseEquipmentDefinition>();
-        private string spaceName { get; set; } = string.Empty;
+ 
+        private string SpaceName { get => Get<string>(); set => Set(value); }
 
         private static WaterUseEquipment NewDefaultOpsObj(Model model) => new WaterUseEquipment(new WaterUseEquipmentDefinition(model));
         private IB_WaterUseEquipment() : base(null) { }
@@ -20,16 +21,16 @@ namespace Ironbug.HVAC
         }
         public void SetSpace(string ZoneName)
         {
-            this.spaceName = ZoneName;
+            this.SpaceName = ZoneName;
 
         }
       
         public WaterUseEquipment ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(localMethod, model); 
-            if (!string.IsNullOrEmpty(spaceName))
+            if (!string.IsNullOrEmpty(SpaceName))
             {
-                var optionalSpace = model.getSpaceByName($"{spaceName}_space");
+                var optionalSpace = model.getSpaceByName($"{SpaceName}_space");
                 if (optionalSpace.is_initialized())
                 {
                     obj.setSpace(optionalSpace.get());
@@ -44,13 +45,7 @@ namespace Ironbug.HVAC
             }
 
         }
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_WaterUseEquipment;
-            obj.spaceName = this.spaceName;
-
-            return obj;
-        }
+    
     }
     public sealed class IB_WaterUseEquipment_FieldSet
         : IB_FieldSet<IB_WaterUseEquipment_FieldSet, WaterUseEquipment>

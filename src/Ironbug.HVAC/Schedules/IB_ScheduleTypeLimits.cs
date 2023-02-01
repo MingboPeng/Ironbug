@@ -23,6 +23,8 @@ namespace Ironbug.HVAC.Schedules
             return base.OnNewOpsObj(InitMethod, model);
         }
 
+        public static IB_ScheduleTypeLimits_FieldSet FieldSet => IB_ScheduleTypeLimits_FieldSet.Value;
+
     }
     public sealed class IB_ScheduleTypeLimits_FieldSet
     : IB_FieldSet<IB_ScheduleTypeLimits_FieldSet, ScheduleTypeLimits>

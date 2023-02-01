@@ -64,18 +64,13 @@ namespace Ironbug.Grasshopper.Component
                 var day = new HVAC.Schedules.IB_ScheduleDay(values);
                 var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
                 
-                sch.AddRule(schRule);
+                sch.Rules.Add(schRule);
 
             }
             else if (ghObjs[0].Value is HVAC.Schedules.IB_ScheduleRule)
             {
                 var values = ghObjs.Select(_ => _.Value as HVAC.Schedules.IB_ScheduleRule);
-
-                foreach (var item in values)
-                {
-                    sch.AddRule(item);
-                }
-                
+                sch.Rules.AddRange(values);
             }
             else
             {
@@ -86,7 +81,7 @@ namespace Ironbug.Grasshopper.Component
             HVAC.Schedules.IB_ScheduleTypeLimits scheduleType = null;
             if (DA.GetData(2, ref scheduleType))
             {
-                sch.SetScheduleTypeLimits(scheduleType);
+                sch.ScheduleTypeLimits = scheduleType;
             }
 
 

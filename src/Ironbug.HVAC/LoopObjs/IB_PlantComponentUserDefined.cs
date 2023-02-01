@@ -11,20 +11,38 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantComponentUserDefined();
 
         private static PlantComponentUserDefined NewDefaultOpsObj(Model model) => new PlantComponentUserDefined(model);
- 
-        private IB_EnergyManagementSystemActuator _dvfrActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _mmfrActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _mxfrActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _mlcActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _mxlcActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _olcActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _otActuator { get; set; }
-        private IB_EnergyManagementSystemActuator _mfrActuator { get; set; }
 
-        private IB_EnergyManagementSystemProgram _plantSimulationProgram { get; set; }
-        private IB_EnergyManagementSystemProgramCallingManager _plantSimulationProgramCallingManager { get; set; }
-        private IB_EnergyManagementSystemProgram _plantInitializationProgram { get; set; }
-        private IB_EnergyManagementSystemProgramCallingManager _plantInitializationProgramCallingManager { get; set; }
+        
+        private IB_EnergyManagementSystemActuator _dvfrActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _mmfrActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _mxfrActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _mlcActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _mxlcActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _olcActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _otActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemActuator _mfrActuator { get => Get<IB_EnergyManagementSystemActuator>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemProgram _plantSimulationProgram { get => Get<IB_EnergyManagementSystemProgram>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemProgramCallingManager _plantSimulationProgramCallingManager 
+        { 
+            get => Get<IB_EnergyManagementSystemProgramCallingManager>(); 
+            set => Set(value);
+        }
+        
+        private IB_EnergyManagementSystemProgram _plantInitializationProgram { get => Get<IB_EnergyManagementSystemProgram>(); set => Set(value); }
+        
+        private IB_EnergyManagementSystemProgramCallingManager _plantInitializationProgramCallingManager 
+        { 
+            get => Get<IB_EnergyManagementSystemProgramCallingManager>(); 
+            set => Set(value); }
 
         public IB_PlantComponentUserDefined() : base(NewDefaultOpsObj(new Model()))
         {
@@ -45,25 +63,7 @@ namespace Ironbug.HVAC
 
         public void SetPlantSimulationProgram(IB_EnergyManagementSystemProgram program) { this._plantSimulationProgram = program; }
         public void SetPlantSimulationProgramCallingManager(IB_EnergyManagementSystemProgramCallingManager manager) { this._plantSimulationProgramCallingManager = manager; }
-        public override IB_ModelObject Duplicate()
-        {
-            var dup = base.Duplicate() as IB_PlantComponentUserDefined;
-            dup._dvfrActuator = this._dvfrActuator;
-            dup._mfrActuator = this._mfrActuator;
-            dup._mxlcActuator = this._mxlcActuator;
-            dup._mxfrActuator = this._mxfrActuator;
-            dup._mlcActuator = this._mlcActuator;
-            dup._mmfrActuator = this._mmfrActuator;
-            dup._olcActuator = this._olcActuator;
-            dup._otActuator = this._otActuator;
-
-            dup._plantInitializationProgram = this._plantInitializationProgram;
-            dup._plantInitializationProgramCallingManager = this._plantInitializationProgramCallingManager;
-
-            dup._plantSimulationProgram = this._plantSimulationProgram;
-            dup._plantSimulationProgramCallingManager = this._plantSimulationProgramCallingManager;
-            return dup;
-        }
+ 
 
         public override HVACComponent ToOS(Model model)
         {

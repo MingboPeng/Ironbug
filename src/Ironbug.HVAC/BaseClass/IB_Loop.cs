@@ -10,9 +10,9 @@ namespace Ironbug.HVAC.BaseClass
     public abstract class IB_Loop : IB_ModelObject, IEquatable<IB_Loop>
     {
         [DataMember]
-        protected List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
+        public List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
         [DataMember]
-        protected List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
+        public List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
         public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
         {
         }

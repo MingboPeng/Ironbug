@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
 
         private IB_ChillerHeaterPerformanceElectricEIR _chiller => this.GetChild<IB_ChillerHeaterPerformanceElectricEIR>();
 
-        public int NumberOfChillerHeaterModules { get; private set; }
+        public int NumberOfChillerHeaterModules { get => Get<int>(1); private set => Set(value, 1); }
 
         public IB_CentralHeatPumpSystemModule() : base(NewDefaultOpsObj(new Model()))
         {
@@ -24,20 +24,6 @@ namespace Ironbug.HVAC
         {
             this.SetChild(Chiller);
         }
-
-        public void SetNumberOfChillerHeaterModules(int Number)
-        {
-            this.NumberOfChillerHeaterModules = Number;
-        }
-
-        public override IB_ModelObject Duplicate()
-        {
-            var newObj = base.Duplicate() as  IB_CentralHeatPumpSystemModule;
-            newObj.SetNumberOfChillerHeaterModules(this.NumberOfChillerHeaterModules);
-
-            return newObj;
-        }
-
 
         public ModelObject ToOS(Model model)
         {
