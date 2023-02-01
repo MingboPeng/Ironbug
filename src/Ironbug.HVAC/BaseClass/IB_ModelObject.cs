@@ -112,158 +112,32 @@ namespace Ironbug.HVAC.BaseClass
 
         public T GetChild<T>(int childIndex) where T : IB_ModelObject => this.Children.GetChild<T>(childIndex);
 
-        protected void Set<T>(T value, [CallerMemberName] string caller = null)
-        {
-            if (string.IsNullOrEmpty(caller))
-                throw new ArgumentException("User GetPropListByName instead!");
-            SetProp(caller, value);
-        }
+        /// <summary>
+        /// Set a serializable property. Only use this in property setter.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="caller"></param>
+        protected void Set<T>(T value, [CallerMemberName] string caller = null) => this.IBProperties.Set(value, caller);
      
-        public void Set<T>(string propertyName, T value) => SetProp(propertyName, value);
-        private void SetProp<T>(string propertyName, T value)
-        {
-            this.IBProperties.TryAdd(propertyName, value);
-        }
-   
-        protected List<T> GetList<T>([CallerMemberName] string caller = null)
-        {
-            if (string.IsNullOrEmpty(caller))
-                throw new ArgumentException("User GetPropListByName instead!");
-            return GetPropListByName<T>(caller, null);
-        }
+        /// <summary>
+        /// Set a serializable property
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyName"></param>
+        /// <param name="value"></param>
+        public void Set<T>(string propertyName, T value) => this.IBProperties.SetByKey(propertyName, value);
 
-        protected List<T> GetList<T>(List<T> defaultList, [CallerMemberName] string caller = null)
-        {
-            if (string.IsNullOrEmpty(caller))
-                throw new ArgumentException("User GetPropListByName instead!");
-            return GetPropListByName<T>(caller, defaultList);
-        }
+        protected List<T> GetList<T>([CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(caller);
 
-        private List<T> GetPropListByName<T>(string propertyName, List<T> defaultList)
-        {
-            var props = this.IBProperties;
-            if (props == null)
-                this.IBProperties = new IB_PropArgumentSet();
-
-            var def = defaultList ?? new List<T>();
-            if (!props.TryGetValue(propertyName, out var prop))
-            {   // add default value first
-                this.Set(propertyName, def);
-                return def;
-            }
-            else if (prop is IList ls)
-            {
-                if (prop is List<T> lst)
-                    return lst;
-                else
-                {
-                    try
-                    {
-                        var casted = ls.Cast<T>().ToList();
-                        this.Set(propertyName, casted);
-                        return casted;
-                    }
-                    catch (Exception)
-                    {
-                        var casted = ls.Cast<object>().Select(_=>_.To<T>()).ToList();
-                        this.Set(propertyName, casted);
-                        return casted;
-                    }
-                
-                }
-            }
-            else
-            {
-                throw new ArgumentException($"{propertyName} is not a list type property");
-            }
-        }
-
-        //private T GetIBPropObject<T>(string propertyName) where T: new ()
-        //{
-
-        //    var props = this.IBProperties;
-        //    if (props == null)
-        //        this.IBProperties = new IB_PropArgumentSet();
-
-        //    var def = new T();
-        //    if (!props.TryGetValue(propertyName, out var prop))
-        //    {                // add default value first
-        //        this.Set(propertyName, def);
-        //        return def;
-        //    }
-        //    else
-        //    {
-        //        if (prop is T pt)
-        //            return pt;
-        //        else
-        //        {
-        //            return GetPropByName<T>(propertyName);
-        //        }
-        //    }
-               
-        //}
-
-        protected T Get<T>(T defaultValue, [CallerMemberName] string caller = null)
-        {
-            if (string.IsNullOrEmpty(caller))
-                throw new ArgumentException("User GetPropByName instead!");
-            return GetPropByName(caller, defaultValue);
-        }
-
-        private T GetPropByName<T>(string propertyName, T defaultValue)
-        {
-            var props = this.IBProperties;
-            if (props == null)
-                this.IBProperties = new IB_PropArgumentSet();
-
-            if (!props.ContainsKey(propertyName))
-            {                // add default value first
-                this.Set(propertyName, defaultValue);
-                return defaultValue;
-            }
-            else 
-                return GetPropByName<T>(propertyName);
-        }
+        protected List<T> GetList<T>(List<T> defaultList, [CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(defaultList, caller);
 
 
-        private object GetPropByName(string propertyName)
-        {
-            var props = this.IBProperties;
-            if (props == null)
-                this.IBProperties = new IB_PropArgumentSet();
-            if (!props.Any() || !props.TryGetValue(propertyName, out var prop))
-                throw new ArgumentException($"Failed to find the property {propertyName}");
+        protected T Get<T>(T defaultValue, [CallerMemberName] string caller = null) => this.IBProperties.Get(defaultValue, caller);
 
-            return prop;
-        }
+        protected T Get<T>([CallerMemberName] string caller = null) => this.IBProperties.Get<T>(caller);
 
-        protected T Get<T>([CallerMemberName] string caller = null)
-        {
-            if (string.IsNullOrEmpty(caller))
-                throw new ArgumentException("User GetPropByName instead!");
-            return GetPropByName<T>(caller);
-        }
-
-        private T GetPropByName<T>(string propertyName)
-        {
-            var prop = GetPropByName(propertyName);
-            if (prop == null)
-                return (T)(object)null;
-
-            // convert to T
-            if (prop is T pt)
-                return pt;
-
-            var realValue = prop.To<T>();
-
-            // override the current property with the correct type
-            this.Set(propertyName, realValue);
-            return realValue;
-
-            
-
-        }
-
+      
 
 
         public string GetTrackingID()
@@ -615,7 +489,7 @@ namespace Ironbug.HVAC.BaseClass
             same &= this.CustomSensors.SequenceEqual(other.CustomSensors);
             same &= this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables);
             same &= this.CustomActuators.SequenceEqual(other.CustomActuators);
-            same &= this.IBProperties.SequenceEqual(other.IBProperties);
+            same &= this.IBProperties.Equals(other.IBProperties);
 
 
             return same;
