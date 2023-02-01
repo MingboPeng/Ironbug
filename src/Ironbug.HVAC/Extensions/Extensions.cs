@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,32 @@ namespace Ironbug.HVAC
             return count;
         }
 
-     
+
+        public static T To<T>(this object fromObject)
+        {
+            if (fromObject is T tv)
+                return tv;
+
+            if (fromObject is JToken jtoken)
+            {
+                var tobj = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(jtoken?.ToString(), IB_JsonSetting.ConvertSetting);
+                return tobj;
+            }
+
+            // convert to T
+            return (T)Convert.ChangeType(fromObject, typeof(T));
+        }
+        public static T To<T>(this object fromObject, T anonymousTypeObject)
+        {
+            return fromObject.To<T>();
+        }
+        public static object To(this object fromObject, Type type)
+        {
+            if (fromObject.GetType() == type)
+                return fromObject;
+
+            var instance = Activator.CreateInstance(type);
+            return fromObject.To(instance);
+        }
     }
 }

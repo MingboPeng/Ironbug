@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -12,28 +14,30 @@ namespace Ironbug.HVAC
         private static AirLoopHVACOutdoorAirSystem NewDefaultOpsObj(Model model) 
             => new AirLoopHVACOutdoorAirSystem(model, new ControllerOutdoorAir(model));
         private IB_ControllerOutdoorAir ControllerOutdoorAir => this.GetChild<IB_ControllerOutdoorAir>();
-        
-        private IList<IB_HVACObject> OAStreamObjs = new List<IB_HVACObject>();
-        private IList<IB_HVACObject> ReliefStreamObjs = new List<IB_HVACObject>();
 
-        
+        public List<IB_HVACObject> OAStreamObjs 
+        { 
+            get => TryGetList<IB_HVACObject>(); 
+            set => Set(value);
+        }
+      
+        public List<IB_HVACObject> ReliefStreamObjs
+        {
+            get => TryGetList<IB_HVACObject>();
+            set => Set(value);
+        }
+
+
+        [JsonConstructor]
+        private IB_OutdoorAirSystem(bool forDerialization) : base(NewDefaultOpsObj(new Model()))
+        {
+        }
+
         public IB_OutdoorAirSystem():base(NewDefaultOpsObj(new Model()))
         {
-
             this.AddChild(new IB_ControllerOutdoorAir());
             
         }
-
-        public void AddToOAStream(IB_HVACObject Obj)
-        {
-            this.OAStreamObjs.Add(Obj);
-        }
-
-        public void AddToReliefStream(IB_HVACObject Obj)
-        {
-            this.ReliefStreamObjs.Add(Obj);
-        }
-
 
         public void SetHeatExchanger(IB_HeatExchangerAirToAirSensibleAndLatent heatExchanger)
         {
@@ -42,7 +46,7 @@ namespace Ironbug.HVAC
 
         public void SetController(IB_ControllerOutdoorAir ControllerOutdoorAir)
         {
-            this.SetChild(ControllerOutdoorAir);
+            this.SetChild(0, ControllerOutdoorAir);
         }
 
         public override bool AddToNode(Node node)
@@ -57,7 +61,7 @@ namespace Ironbug.HVAC
             var oa = ((AirLoopHVACOutdoorAirSystem)this.ToOS(model));
             oa.addToNode(node);
             var oaNode = oa.outboardOANode().get();
-            var oaObjs = this.OAStreamObjs.Reverse();
+            var oaObjs = this.OAStreamObjs.ToArray().Reverse();
 
             var comps = oaObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             foreach (var item in comps)
@@ -71,7 +75,7 @@ namespace Ironbug.HVAC
 
 
             var rfNode = oa.outboardReliefNode().get();
-            var rfObjs = this.ReliefStreamObjs.Reverse().ToList();
+            var rfObjs = this.ReliefStreamObjs.ToArray().Reverse().ToList();
             var rfcomps = rfObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
             foreach (var item in rfcomps)
             {
@@ -96,30 +100,7 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            //Duplicate self;
-            var newObj = base.Duplicate(() => new IB_OutdoorAirSystem());
-
-            //Duplicate child member;
-            var newCtrl = (IB_ControllerOutdoorAir)this.ControllerOutdoorAir.Duplicate();
-
-            //add new child member to new object;
-            newObj.SetController(newCtrl);
-
-            foreach (var item in this.ReliefStreamObjs)
-            {
-                newObj.ReliefStreamObjs.Add(item.Duplicate() as IB_HVACObject);
-            };
-
-            foreach (var item in this.OAStreamObjs)
-            {
-                newObj.OAStreamObjs.Add(item.Duplicate() as IB_HVACObject);
-            };
-
-
-            return newObj;
-        }
+       
 
         protected bool AddSetPoints(IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
         {

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    //[DataContract]
-    public class IB_FieldArgumentSet: List<IB_FieldArgument>, System.IEquatable<IB_FieldArgumentSet>
+    public class IB_FieldArgumentSet : List<IB_FieldArgument>, System.IEquatable<IB_FieldArgumentSet>
     {
 
         public IB_FieldArgumentSet()

@@ -1,6 +1,8 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.HVAC.Schedules
 {
@@ -14,8 +16,12 @@ namespace Ironbug.HVAC.Schedules
 
 
         public IB_ScheduleDay ScheduleDay => this.GetChild<IB_ScheduleDay>();
-
-        private (int sMonth, int sDay, int eMonth, int eDay) _DateRange = (1, 1, 12, 31);
+        private List<int> _dateRange 
+        {
+            get => this.GetList(initDefault: () => new List<int> { 1, 1, 12, 31 });
+            set => this.Set(value); 
+        }
+        private (int sMonth, int sDay, int eMonth, int eDay) dateRange => (_dateRange[0], _dateRange[1], _dateRange[2], _dateRange[3]);
         public IB_ScheduleRule() : base(InitMethod(new Model()))
         {
         }
@@ -27,15 +33,9 @@ namespace Ironbug.HVAC.Schedules
 
         public void SetDateRange(int[] DateValues)
         {
-            this._DateRange = (DateValues[0], DateValues[1], DateValues[2], DateValues[3]);
+            _dateRange = DateValues.ToList();
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_ScheduleRule;
-            obj._DateRange = this._DateRange;
-            return obj;
-        }
         public override ModelObject ToOS(Model model)
         {
             throw new ArgumentException(@"Use 'public ScheduleRule ToOS(ScheduleRuleset Ruleset)' instead!");
@@ -53,8 +53,9 @@ namespace Ironbug.HVAC.Schedules
             var obj = new ScheduleRule(Ruleset, day);
             obj.setName(name);
             obj.SetCustomAttributes(this.CustomAttributes);
-            obj.setStartDate(new Date(new MonthOfYear(_DateRange.sMonth), (uint)_DateRange.sDay));
-            obj.setEndDate(new Date(new MonthOfYear(_DateRange.eMonth), (uint)_DateRange.eDay));
+            var dateRange = this.dateRange;
+            obj.setStartDate(new Date(new MonthOfYear(dateRange.sMonth), (uint)dateRange.sDay));
+            obj.setEndDate(new Date(new MonthOfYear(dateRange.eMonth), (uint)dateRange.eDay));
             return obj;
         }
         

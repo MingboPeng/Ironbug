@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
+    
     [DataContract]
-    public class IB_FieldArgument: IEquatable<IB_FieldArgument>
+    public class IB_FieldArgument : IEquatable<IB_FieldArgument>
     {
         [DataMember]
         public IB_Field Field { get; internal set; }
@@ -29,7 +31,7 @@ namespace Ironbug.HVAC.BaseClass
         }
         public override string ToString()
         {
-            return this.Value.ToString();
+            return $"{this.Field.FullName}: {Value}";
         }
 
         public override bool Equals(object obj)

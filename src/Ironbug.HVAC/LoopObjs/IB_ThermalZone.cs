@@ -23,8 +23,7 @@ namespace Ironbug.HVAC.BaseClass
         [DataMember]
         public IB_ThermalZone ReturnPlenum { get; private set; }
 
-        public bool IsAirTerminalPriorToZoneEquipments { get; set; } = false;
-
+        public bool IsAirTerminalBeforeZoneEquipments { get => Get(false); set => Set(value, false); }
         public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
         {
             
@@ -84,7 +83,7 @@ namespace Ironbug.HVAC.BaseClass
             var newZone = (ThermalZone)this.ToOS(model);
             var airTerminal = this.AirTerminal.ToOS(model);
 
-            if (this.IsAirTerminalPriorToZoneEquipments)
+            if (this.IsAirTerminalBeforeZoneEquipments)
             {
                 if (!airLoop.addBranchForZone(newZone, airTerminal))
                     throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
@@ -211,7 +210,6 @@ namespace Ironbug.HVAC.BaseClass
             
             //Duplicate self;
             var newObj = base.Duplicate(() => new IB_ThermalZone());
-            newObj.IsAirTerminalPriorToZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
 
             //Duplicate child member; //add new child member to new object;
             newObj.SetAirTerminal((IB_AirTerminal)this.AirTerminal.Duplicate());

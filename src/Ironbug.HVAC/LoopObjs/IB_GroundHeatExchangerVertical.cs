@@ -11,7 +11,12 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GroundHeatExchangerVertical();
         private static GroundHeatExchangerVertical NewDefaultOpsObj(Model model) => new GroundHeatExchangerVertical(model);
 
-        private List<(double Ln, double GValue)> GFuncs { get; set; } = new List<(double Ln, double GValue)>();
+        public List<(double Ln, double GValue)> GFuncs 
+        {
+            get => TryGetList<(double Ln, double GValue)>();
+            private set => Set(value); 
+        } 
+
         public IB_GroundHeatExchangerVertical():base(NewDefaultOpsObj(new Model()))
         {
         }
@@ -40,13 +45,6 @@ namespace Ironbug.HVAC
                 var value = strValue.Split(',')[0].Split(';')[0].Trim().Split(' ')[0];
                 return double.Parse(value.Trim());
             }
-        }
-
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_GroundHeatExchangerVertical;
-            obj.GFuncs = this.GFuncs;
-            return obj;
         }
 
         public override HVACComponent ToOS(Model model)

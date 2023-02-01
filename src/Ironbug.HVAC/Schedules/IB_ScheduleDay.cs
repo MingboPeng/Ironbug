@@ -7,30 +7,27 @@ namespace Ironbug.HVAC.Schedules
 {
     public class IB_ScheduleDay : IB_Schedule
     {
-        private double constantNumber { get; set; } = 0.0;
+  
+        private double constantNumber { get => this.Get(0.0); set => this.Set(value, 0.0); }
+        private List<double> values { get => this.TryGetList<double>(); set => this.Set(value); }
+
         protected override Func<IB_ModelObject> IB_InitSelf
-            => () => new IB_ScheduleDay(this.values);
+            => () => new IB_ScheduleDay(constantNumber);
 
         private static ScheduleDay InitMethod(Model model)
             => new ScheduleDay(model);
 
-        private List<double> values { get; set; } = new List<double>();
         private IB_ScheduleDay() : base(null) { }
-        public IB_ScheduleDay(double value) : base(InitMethod(new Model()))
+        public IB_ScheduleDay(double constantValue) : base(InitMethod(new Model()))
         {
-            this.constantNumber = value;
+            this.constantNumber = constantValue;
         }
-        public IB_ScheduleDay(List<double> ValuesFor24Hrs) : base(InitMethod(new Model()))
+        public IB_ScheduleDay(List<double> valuesFor24Hrs) : base(InitMethod(new Model()))
         {
-            if (ValuesFor24Hrs.Count != 24) throw new ArgumentException("24 values are needed");
-            this.values = ValuesFor24Hrs;
+            if (valuesFor24Hrs.Count != 24) throw new ArgumentException("24 values are needed");
+            values = valuesFor24Hrs;
         }
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_ScheduleDay;
-            obj.values = this.values;
-            return obj;
-        }
+  
         public override ModelObject ToOS(Model model)
         {
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);

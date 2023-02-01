@@ -10,13 +10,10 @@ namespace Ironbug.HVAC
         public IB_PlantEquipmentOperationSchemeBase(ModelObject obj) : base(obj)
         {
         }
-        protected List<(int limit, IB_HVACObject obj)> _equipments = new List<(int limit, IB_HVACObject obj)>();
-
-        public override IB_ModelObject Duplicate()
-        {
-            var obj = base.Duplicate() as IB_PlantEquipmentOperationSchemeBase;
-            obj._equipments = this._equipments;
-            return obj;
+        protected List<(int limit, IB_HVACObject obj)> _equipments 
+        { 
+            get => TryGetList<(int limit, IB_HVACObject obj)>(); 
+            set => Set(value); 
         }
 
         public void AddEquipment(int limit, IB_HVACObject obj)

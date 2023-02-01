@@ -10,8 +10,12 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CentralHeatPumpSystem();
 
         private static CentralHeatPumpSystem NewDefaultOpsObj(Model model) => new CentralHeatPumpSystem(model);
-
-        public List<IB_CentralHeatPumpSystemModule> Modules { get; private set; } = new List<IB_CentralHeatPumpSystemModule>();
+ 
+        public List<IB_CentralHeatPumpSystemModule> Modules 
+        { 
+            get => TryGetList<IB_CentralHeatPumpSystemModule>(); 
+            private set => Set(value); 
+        }
 
         public IB_CentralHeatPumpSystem():base(NewDefaultOpsObj(new Model()))
         {
@@ -36,18 +40,7 @@ namespace Ironbug.HVAC
             
             return newObj;
         }
-        public override IB_ModelObject Duplicate()
-        {
-            //Duplicate self;
-            var newObj = base.Duplicate() as IB_CentralHeatPumpSystem;
-            foreach (var item in this.Modules)
-            {
-                newObj.AddModule(item.Duplicate() as IB_CentralHeatPumpSystemModule);
-            }
-
-            return newObj;
-        }
-
+        
         public override bool AddToNode(Node node)
         {
             var model = node.model();

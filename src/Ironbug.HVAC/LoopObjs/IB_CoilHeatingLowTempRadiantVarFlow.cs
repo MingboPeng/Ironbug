@@ -6,9 +6,10 @@ namespace Ironbug.HVAC
 {
     public class IB_CoilHeatingLowTempRadiantVarFlow : IB_CoilHeatingBasic, IIB_DualLoopObj, IIB_PlantLoopObjects
     {
-        private double airLoT = 15;
-        
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantVarFlow(airLoT);
+
+        private double AirLoT { get => Get<double>(15); set => Set(value, 15); }
+
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilHeatingLowTempRadiantVarFlow(AirLoT);
 
         private static CoilHeatingLowTempRadiantVarFlow NewDefaultOpsObj(Model model, double airLoT) 
             => new CoilHeatingLowTempRadiantVarFlow(model, new ScheduleRuleset(model, airLoT));
@@ -19,14 +20,14 @@ namespace Ironbug.HVAC
         {
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
             CoilHeatingLowTempRadiantVarFlow NewDefaultOpsObj(Model m)
-            => new CoilHeatingLowTempRadiantVarFlow(m, Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, airLoT));
+            => new CoilHeatingLowTempRadiantVarFlow(m, Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, AirLoT));
         }
 
         private IB_CoilHeatingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilHeatingLowTempRadiantVarFlow(double airLoT) 
             : base(NewDefaultOpsObj(new Model(), airLoT))
         {
-            this.airLoT = airLoT;
+            this.AirLoT = airLoT;
         }
 
     }

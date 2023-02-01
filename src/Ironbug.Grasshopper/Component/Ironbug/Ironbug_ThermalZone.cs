@@ -137,7 +137,7 @@ namespace Ironbug.Grasshopper.Component
             foreach (var zone in OSZones)
             {
                 zone.SetSizingZone(sizing);
-                zone.IsAirTerminalPriorToZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
+                zone.IsAirTerminalBeforeZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
                 this.SetObjParamsTo(zone);
             }
             
