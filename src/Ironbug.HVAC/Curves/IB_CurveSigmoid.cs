@@ -22,7 +22,6 @@ namespace Ironbug.HVAC.Curves
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
-        private List<double> _coefficients;
         private void GetCoefficients()
         {
             if (_coefficients != null)
