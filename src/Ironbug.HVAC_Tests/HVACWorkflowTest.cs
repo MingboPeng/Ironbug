@@ -119,6 +119,61 @@ namespace Ironbug.HVACTests
         }
 
         [Test]
+        public void PlantBranches_Dup_Test()
+        {
+
+
+            var plantloop = new IB_PlantLoop();
+
+
+            var branches = new IB_PlantLoopBranches();
+            var branch = new List<IB_HVACObject>();
+
+
+            var boiler1 = new IB_BoilerHotWater();
+            boiler1.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.Name, "boiler1");
+            branch.Add(boiler1);
+            branch.Add(new IB_PumpConstantSpeed());
+
+            branches.Add(branch);
+            //plantloop.AddToSupply(branches);
+
+            //add the second branch
+
+            var branch2 = new List<IB_HVACObject>();
+            var boiler2 = new IB_BoilerHotWater();
+            boiler2.SetFieldValue(IB_BoilerHotWater_FieldSet.Value.Name, "boiler2");
+            branch2.Add(boiler2);
+            branch2.Add(new IB_PumpVariableSpeed());
+            branches.Add(branch2);
+
+            var branch3 = new List<IB_HVACObject>();
+            branch3.Add(new IB_PumpVariableSpeed());
+            branches.Add(branch3);
+
+            var branch4 = new List<IB_HVACObject>();
+            branch4.Add(new IB_PumpConstantSpeed());
+            branches.Add(branch4);
+
+            plantloop.AddToSupply(branches);
+
+            var dup = plantloop.Duplicate();
+
+
+            Assert.AreEqual(plantloop, dup);
+
+            var json = plantloop.ToJson();
+            var dup2 = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
+            Assert.AreEqual(plantloop, dup2);
+            Assert.AreEqual(plantloop.supplyComponents, dup2.supplyComponents);
+
+            var json2 = dup2.ToJson();
+            Assert.AreEqual(json, json2);
+
+        }
+
+
+        [Test]
         public void PlantBranches_Test()
         {
             
@@ -167,30 +222,30 @@ namespace Ironbug.HVACTests
 
 
             var findboilers = md1.getBoilerHotWaters().Count() == 2;
-            Assert.True(findboilers);
+            Assert.IsTrue(findboilers);
 
             var findPumpv = md1.getPumpVariableSpeeds().Count == 2;
-            Assert.True(findPumpv);
+            Assert.IsTrue(findPumpv);
 
             var findPumpC = md1.getPumpConstantSpeeds().Count == 2;
-            Assert.True(findPumpC);
+            Assert.IsTrue(findPumpC);
             //var checkedTheFirstBoiler = md1.getPlantLoops().First().supplyMixer().inletModelObject(0).get().nameString() == "boiler1";
 
 
             string saveFile = GenFileName;
             var success = md1.Save(saveFile);
-            Assert.True(success);
+            Assert.IsTrue(success);
 
 
             var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
             findboilers = md2.getBoilerHotWaters().Count() == 2;
-            Assert.True(findboilers);
+            Assert.IsTrue(findboilers);
 
             findPumpv = md2.getPumpVariableSpeeds().Count == 2;
-            Assert.True(findPumpv);
+            Assert.IsTrue(findPumpv);
 
             findPumpC = md2.getPumpConstantSpeeds().Count == 2;
-            Assert.True(findPumpC);
+            Assert.IsTrue(findPumpC);
 
 
         }

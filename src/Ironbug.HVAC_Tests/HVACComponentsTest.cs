@@ -140,11 +140,11 @@ namespace Ironbug.HVACTests
             };
             var day = new HVAC.Schedules.IB_ScheduleDay(values);
             var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
-            sch.AddRule(schRule);
+            sch.Rules.Add(schRule);
 
             var day2 = new HVAC.Schedules.IB_ScheduleDay(values2);
             var schRule2 = new HVAC.Schedules.IB_ScheduleRule(day2);
-            sch.AddRule(schRule2);
+            sch.Rules.Add(schRule2);
 
             var md1 = new OpenStudio.Model();
             sch.ToOS(md1);
