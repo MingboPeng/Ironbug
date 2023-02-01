@@ -7,6 +7,9 @@ using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using Ironbug.Core;
+using Ironbug.HVAC.Schedules;
+using OpenStudio;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVACTests
 {
@@ -465,6 +468,24 @@ namespace Ironbug.HVACTests
             var defaultType =  default(Type);
             Assert.IsTrue(typeName == tp.FullName);
         }
+
+        //[Test]
+        //public void IBProperties_pp_Test()
+        //{
+        //    var pT = new IBPropertyTester();
+        //    pT.testvalue = 6;
+
+        //    var json = JsonConvert.SerializeObject(pT, Formatting.Indented, IB_JsonSetting.ConvertSetting);
+        //    var readDis = JsonConvert.DeserializeObject<IBPropertyTester>(json, IB_JsonSetting.ConvertSetting);
+        //    Assert.IsTrue(readDis != null);
+
+        //    Assert.AreNotEqual(readDis.testvalue, 6);
+
+        //    var dup = pT.Duplicate();
+        //    Assert.AreEqual(pT, dup);
+        //}
+
+   
 
     }
 }

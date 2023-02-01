@@ -65,7 +65,7 @@ namespace Ironbug.HVACTests
             var sch = new IB_ScheduleRuleset();
             var typeLimit = new IB_ScheduleTypeLimits();
             typeLimit.SetFieldValue(IB_ScheduleTypeLimits_FieldSet.Value.LowerLimitValue, 0.11);
-            sch.SetScheduleTypeLimits(typeLimit);
+            sch.ScheduleTypeLimits = typeLimit;
 
             var m = new OpenStudio.Model();
             sch.ToOS(m);
