@@ -90,14 +90,25 @@ namespace Ironbug.HVAC.BaseClass
                 throw new ArgumentException("Missing caller name! Use GetListByKey instead!");
             return GetListByKey<T>(caller, defaultList);
         }
+        public List<T> GetList<T>(bool initDefault, [CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("Missing caller name! Use GetListByKey instead!");
+            return GetListByKeyInit<T>(caller, initDefault ? () => new List<T>() : null);
+        }
 
         public List<T> GetListByKey<T>(string propertyName, List<T> defaultList)
         {
+            return GetListByKeyInit(propertyName, ()=> defaultList);
+        }
+
+        public List<T> GetListByKeyInit<T>(string propertyName, Func<List<T>> initDefault)
+        {
             var props = this;
 
-            var def = defaultList ?? new List<T>();
             if (!props.TryGetValue(propertyName, out var prop))
             {   // add default value first
+                var def = initDefault?.Invoke();
                 this.SetByKey(propertyName, def);
                 return def;
             }
@@ -127,8 +138,6 @@ namespace Ironbug.HVAC.BaseClass
                 throw new ArgumentException($"{propertyName} is not a list type property");
             }
         }
-
-
 
 
         public IB_PropArgumentSet Duplicate()

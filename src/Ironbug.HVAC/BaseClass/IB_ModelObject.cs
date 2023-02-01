@@ -127,10 +127,39 @@ namespace Ironbug.HVAC.BaseClass
         /// <param name="propertyName"></param>
         /// <param name="value"></param>
         public void Set<T>(string propertyName, T value) => this.IBProperties.SetByKey(propertyName, value);
-
+        
+        /// <summary>
+        /// Find a serialized property value by call name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="caller"></param>
+        /// <returns>Original list if found, otherwise Null.</returns>
         protected List<T> GetList<T>([CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(caller);
 
+        /// <summary>
+        /// Find a serialized property value by call name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="defaultList">Initial defualt list if not found</param>
+        /// <param name="caller"></param>
+        /// <returns>Original list if found, otherwise return defaultList.</returns>
         protected List<T> GetList<T>(List<T> defaultList, [CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(defaultList, caller);
+        /// <summary>
+        /// Find a serialized property value by call name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="initDefault">Set to true to create an empty list if not found.</param>
+        /// <param name="caller"></param>
+        /// <returns>Original list if found, otherwise generate an empty list.</returns>
+        protected List<T> GetList<T>(bool initDefault, [CallerMemberName] string caller = null) => this.IBProperties.GetList<T>(initDefault, caller);
+        /// <summary>
+        /// Find a serialized property value by call name.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="initDefault">Function to generate the initial defualt list</param>
+        /// <param name="caller"></param>
+        /// <returns>Original list if found, otherwise call initDefault() and return default list.</returns>
+        protected List<T> GetList<T>(Func<List<T>> initDefault, [CallerMemberName] string caller = null) => this.IBProperties.GetListByKeyInit<T>(caller, initDefault);
 
 
         protected T Get<T>(T defaultValue, [CallerMemberName] string caller = null) => this.IBProperties.Get(defaultValue, caller);
