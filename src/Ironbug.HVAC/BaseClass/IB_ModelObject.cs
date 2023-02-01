@@ -5,6 +5,8 @@ using System.Linq;
 using Ironbug.Core;
 using Ironbug.HVAC;
 using System.Runtime.Serialization;
+using System.Collections;
+using System.Runtime.CompilerServices;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -18,14 +20,25 @@ namespace Ironbug.HVAC.BaseClass
         public static bool IPUnit { get; set; } = false;
         //public event EventHandler<PuppetEventArg> PuppetEventHandler;
         protected abstract Func<IB_ModelObject> IB_InitSelf { get; }
+        //[DataMember(Name = "$type")]
+        //private string type { get; set; }
+
+
         [DataMember]
         public IB_Children Children { get; private set; } = new IB_Children();
 
-        //public IB_PuppetableState CurrentState { get; private set; }
+        /// <summary>
+        /// Custom attributes for setting OpenStudio object fields
+        /// </summary>
         [DataMember]
         public IB_FieldArgumentSet CustomAttributes { get; private set; } = new IB_FieldArgumentSet();
-        //public Dictionary<IB_Field, object> CustomAttributes { get; private set; } = new Dictionary<IB_Field, object>();
-   
+
+        /// <summary>
+        /// Custom properties of each Ironbug classes
+        /// </summary>
+        [DataMember]
+        public IB_PropArgumentSet IBProperties { get; private set; } = new IB_PropArgumentSet();
+
 
         protected ModelObject GhostOSObject { get; private set; }
         [DataMember]
@@ -61,6 +74,7 @@ namespace Ironbug.HVAC.BaseClass
         public bool ShouldSerializeCustomSensors() => !this.CustomSensors.IsNullOrEmpty();
         public bool ShouldSerializeCustomInternalVariables() => !this.CustomInternalVariables.IsNullOrEmpty();
         public bool ShouldSerializeCustomActuators() => !this.CustomActuators.IsNullOrEmpty();
+        public bool ShouldSerializeIBProperties() => !this.IBProperties.IsNullOrEmpty();
         #endregion
 
         /// <summary>
@@ -98,115 +112,159 @@ namespace Ironbug.HVAC.BaseClass
 
         public T GetChild<T>(int childIndex) where T : IB_ModelObject => this.Children.GetChild<T>(childIndex);
 
-        //public void ChangeState(IB_PuppetableState newState)
-        //{
-        //    this.CurrentState = newState;
-        //}
+        protected void Set<T>(T value, [CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("User GetPropListByName instead!");
+            SetProp(caller, value);
+        }
+     
+        public void Set<T>(string propertyName, T value) => SetProp(propertyName, value);
+        private void SetProp<T>(string propertyName, T value)
+        {
+            this.IBProperties.TryAdd(propertyName, value);
+        }
+   
+        protected List<T> GetList<T>([CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("User GetPropListByName instead!");
+            return GetPropListByName<T>(caller, null);
+        }
 
-        //public bool IsPuppetHost()
-        //{
-        //    return this.CurrentState is IB_PuppetableState_Host;
-        //}
+        protected List<T> GetList<T>(List<T> defaultList, [CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("User GetPropListByName instead!");
+            return GetPropListByName<T>(caller, defaultList);
+        }
 
-        //public IB_ModelObject ToPuppetHost()
+        private List<T> GetPropListByName<T>(string propertyName, List<T> defaultList)
+        {
+            var props = this.IBProperties;
+            if (props == null)
+                this.IBProperties = new IB_PropArgumentSet();
+
+            var def = defaultList ?? new List<T>();
+            if (!props.TryGetValue(propertyName, out var prop))
+            {   // add default value first
+                this.Set(propertyName, def);
+                return def;
+            }
+            else if (prop is IList ls)
+            {
+                if (prop is List<T> lst)
+                    return lst;
+                else
+                {
+                    try
+                    {
+                        var casted = ls.Cast<T>().ToList();
+                        this.Set(propertyName, casted);
+                        return casted;
+                    }
+                    catch (Exception)
+                    {
+                        var casted = ls.Cast<object>().Select(_=>_.To<T>()).ToList();
+                        this.Set(propertyName, casted);
+                        return casted;
+                    }
+                
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"{propertyName} is not a list type property");
+            }
+        }
+
+        //private T GetIBPropObject<T>(string propertyName) where T: new ()
         //{
-        //    this.CurrentState.ToPuppetHost();
-        //    foreach (var child in this.Children)
-        //    {
-        //        child.Get().ToPuppetHost();
+
+        //    var props = this.IBProperties;
+        //    if (props == null)
+        //        this.IBProperties = new IB_PropArgumentSet();
+
+        //    var def = new T();
+        //    if (!props.TryGetValue(propertyName, out var prop))
+        //    {                // add default value first
+        //        this.Set(propertyName, def);
+        //        return def;
         //    }
-
-        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-        //    return this;
-        //}
-
-        //public void ResetPuppetState()
-        //{
-        //    this.CurrentState = new IB_PuppetableState_None(this);
-        //    foreach (var child in this.Children)
+        //    else
         //    {
-        //        child.Get().ResetPuppetState();
-        //    }
-        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-        //}
-
-        //public void PuppetStateUpdated()
-        //{
-        //    this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-        //    foreach (var child in this.Children)
-        //    {
-        //        child.PuppetStateUpdated();
-        //    }
-        //}
-
-
-        //public IB_ModelObject DuplicateAsPuppet()
-        //{
-
-        //    var puppet = DuplicateAsPuppet(IB_InitSelf);
-
-        //    puppet.Children.Clear();
-        //    foreach (var child in this.Children)
-        //    {
-        //        var childPuppet = child.DuplicateAsPuppet();
-        //        puppet.Children.Add(childPuppet);
-        //    }
-
-        //    //this.PuppetEventHandler?.Invoke(this, new PuppetEventArg(this.CurrentState));
-        //    return puppet;
-
-        //    //Local method
-        //    T DuplicateAsPuppet<T>(Func<T> DupMethodHandler) where T : IB_ModelObject
-        //    {
-        //        T p = null;
-        //        if (this.CurrentState is IB_PuppetableState_Host stateParent)
-        //        {
-        //            p = this.DuplicateIBObj(DupMethodHandler);
-        //            //puppet.ToPuppet();
-        //            p.SetTrackingID();
-        //            stateParent.AddPuppet(p);
-        //        }
+        //        if (prop is T pt)
+        //            return pt;
         //        else
         //        {
-        //            throw new ArgumentException("Item has to be a puppet host.");//TODO: show the item's name
-        //                                                                         //currently only two available
+        //            return GetPropByName<T>(propertyName);
         //        }
-
-        //        return p;
-
-
         //    }
+               
         //}
 
+        protected T Get<T>(T defaultValue, [CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("User GetPropByName instead!");
+            return GetPropByName(caller, defaultValue);
+        }
+
+        private T GetPropByName<T>(string propertyName, T defaultValue)
+        {
+            var props = this.IBProperties;
+            if (props == null)
+                this.IBProperties = new IB_PropArgumentSet();
+
+            if (!props.ContainsKey(propertyName))
+            {                // add default value first
+                this.Set(propertyName, defaultValue);
+                return defaultValue;
+            }
+            else 
+                return GetPropByName<T>(propertyName);
+        }
 
 
+        private object GetPropByName(string propertyName)
+        {
+            var props = this.IBProperties;
+            if (props == null)
+                this.IBProperties = new IB_PropArgumentSet();
+            if (!props.Any() || !props.TryGetValue(propertyName, out var prop))
+                throw new ArgumentException($"Failed to find the property {propertyName}");
 
-        //public IList<IIB_ModelObject> GetPuppetsOrSelf()
-        //{
+            return prop;
+        }
 
-        //    //TODO: move this part to IB_PuppetableState later
-        //    var puppetsOrSelf = this.GetPuppets();
-        //    if (!puppetsOrSelf.Any())
-        //    {
-        //        puppetsOrSelf.Add(this);
-        //    }
+        protected T Get<T>([CallerMemberName] string caller = null)
+        {
+            if (string.IsNullOrEmpty(caller))
+                throw new ArgumentException("User GetPropByName instead!");
+            return GetPropByName<T>(caller);
+        }
 
-        //    return puppetsOrSelf;
-        //}
+        private T GetPropByName<T>(string propertyName)
+        {
+            var prop = GetPropByName(propertyName);
+            if (prop == null)
+                return (T)(object)null;
 
-        //public IList<IIB_ModelObject> GetPuppets()
-        //{
+            // convert to T
+            if (prop is T pt)
+                return pt;
 
-        //    //TODO: move this part to IB_PuppetableState later
-        //    var puppets = new List<IIB_ModelObject>();
-        //    if (this.CurrentState is IB_PuppetableState_Host state)
-        //    {
-        //        puppets.AddRange(state.Puppets);
-        //        //state.ExpireState();
-        //    }
+            var realValue = prop.To<T>();
 
-        //    return puppets;
-        //}
+            // override the current property with the correct type
+            this.Set(propertyName, realValue);
+            return realValue;
+
+            
+
+        }
+
+
 
         public string GetTrackingID()
         {
@@ -487,6 +545,8 @@ namespace Ironbug.HVAC.BaseClass
             {
                 newObj.Children.Add(child.Duplicate());
             }
+
+            newObj.IBProperties = this.IBProperties.Duplicate();
             return newObj;
         }
 
@@ -555,6 +615,7 @@ namespace Ironbug.HVAC.BaseClass
             same &= this.CustomSensors.SequenceEqual(other.CustomSensors);
             same &= this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables);
             same &= this.CustomActuators.SequenceEqual(other.CustomActuators);
+            same &= this.IBProperties.SequenceEqual(other.IBProperties);
 
 
             return same;
