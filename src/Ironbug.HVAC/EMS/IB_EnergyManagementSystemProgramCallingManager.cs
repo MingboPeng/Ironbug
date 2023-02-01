@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 
@@ -14,15 +13,14 @@ namespace Ironbug.HVAC
         public IB_EnergyManagementSystemProgramCallingManager() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public List<IB_EnergyManagementSystemProgram> Programs { get; set; } = new List<IB_EnergyManagementSystemProgram>();
+    
+        public List<IB_EnergyManagementSystemProgram> Programs 
+        {
+            get => GetList<IB_EnergyManagementSystemProgram>(initDefault: true);
+            set => Set(value); 
+        }
 
     
-        public override IB_ModelObject Duplicate()
-        {
-            var dup = base.Duplicate() as IB_EnergyManagementSystemProgramCallingManager;
-            dup.Programs = this.Programs;
-            return dup;
-        }
         public EnergyManagementSystemProgramCallingManager ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);

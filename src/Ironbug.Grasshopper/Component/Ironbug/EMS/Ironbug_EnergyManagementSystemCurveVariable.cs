@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_EnergyManagementSystemCurveVariable();
             string name = null;
             if(DA.GetData(0, ref name))
-                obj.SetName(name);
+                obj.Name = name;
 
             string tagId = null;
             if (DA.GetData(1, ref tagId))
@@ -40,7 +40,7 @@ namespace Ironbug.Grasshopper.Component
 
             HVAC.BaseClass.IB_Curve curve = null;
             DA.GetData(2, ref curve);
-            obj.SetCurve(curve);
+            obj.Curve = curve;
 
             DA.SetData(0, obj);
 
