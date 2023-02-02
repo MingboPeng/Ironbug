@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
-    public class IB_PlantLoop : IB_Loop
+    public class IB_PlantLoop : IB_Loop, IEquatable<IB_PlantLoop>
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantLoop();
 
@@ -89,15 +89,7 @@ namespace Ironbug.HVAC
         public override IB_ModelObject Duplicate()
         {
 
-            var newObj = this.Duplicate(() => new IB_PlantLoop());
-
-            this.SupplyComponents.ForEach(d =>
-                newObj.AddToSupply(d.Duplicate() as IB_HVACObject)
-                );
-
-            this.DemandComponents.ForEach(d =>
-                newObj.AddToDemand(d.Duplicate() as IB_HVACObject)
-                );
+            var newObj = base.Duplicate() as IB_PlantLoop;
 
             newObj.SetSizingPlant((IB_SizingPlant)this.SizingPlant.Duplicate());
             newObj.OperationScheme = this.OperationScheme?.Duplicate() as IB_PlantEquipmentOperationSchemeBase;
@@ -209,7 +201,17 @@ namespace Ironbug.HVAC
             return !isThereAlreadyOne;
         }
 
+        public bool Equals(IB_PlantLoop other)
+        {
+            if (!base.Equals(other))
+                return false;
 
+            if (this.SizingPlant != other.SizingPlant)
+                return false;
+            if (this.OperationScheme != other.OperationScheme)
+                return false;
+            return true;
+        }
     }
 
 

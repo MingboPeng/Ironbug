@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirConditionerVariableRefrigerantFlow: IB_VRFSystem
+    public class IB_AirConditionerVariableRefrigerantFlow: IB_VRFSystem, IEquatable<IB_AirConditionerVariableRefrigerantFlow>
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirConditionerVariableRefrigerantFlow();
 
@@ -59,7 +59,16 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
+        public bool Equals(IB_AirConditionerVariableRefrigerantFlow other)
+        {
+            if (!base.Equals(other))
+                return false;
 
+            if (!this.Terminals.SequenceEqual(other.Terminals))
+                return false;
+
+            return true;
+        }
     }
 
     public sealed class IB_AirConditionerVariableRefrigerantFlow_FieldSet

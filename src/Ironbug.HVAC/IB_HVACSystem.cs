@@ -326,6 +326,7 @@ namespace Ironbug.HVAC
             same &= this.PlantLoops.SequenceEqual(other.PlantLoops);
             same &= this.VariableRefrigerantFlows.SequenceEqual(other.VariableRefrigerantFlows);
             same &= this.GetType() == other.GetType();
+            same &= this.IBVersion== other.IBVersion;
             return same;
         }
         public static bool operator ==(IB_HVACSystem x, IB_HVACSystem y)

@@ -157,10 +157,10 @@ namespace Ironbug.HVACTests
 
             plantloop.AddToSupply(branches);
 
-            var dup = plantloop.Duplicate();
-
-
+            var dup = plantloop.Duplicate() as IB_PlantLoop;
+            
             Assert.AreEqual(plantloop, dup);
+            Assert.AreEqual(plantloop.SupplyComponents[0], dup.SupplyComponents[0]);
 
             var json = plantloop.ToJson();
             var dup2 = IB_PlantLoop.FromJson<IB_PlantLoop>(json);

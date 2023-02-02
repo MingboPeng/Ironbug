@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public abstract class IB_LoopBranches : IB_HVACObject
+    public abstract class IB_LoopBranches : IB_HVACObject, IEquatable<IB_LoopBranches>
     {
         [DataMember]
         public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
@@ -27,7 +27,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public override string ToString()
         {
-            return "LoopBranches";
+            return $"LoopBranches ({this.Branches.Count})";
         }
 
         public override List<string> ToStrings()
@@ -63,6 +63,30 @@ namespace Ironbug.HVAC.BaseClass
         public override HVACComponent ToOS(Model model)
         {
             throw new NotImplementedException();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_LoopBranches);
+        }
+        public bool Equals(IB_LoopBranches other)
+        {
+            if (other is null)
+                return this is null ? true : false;
+
+            //if (!base.Equals(other))
+            //    return false;
+
+            var zip = this.Branches.Zip(other.Branches, (s, o) => new { s, o });
+            foreach (var item in zip)
+            {
+                var same = item.s.SequenceEqual(item.o);
+                if (same)
+                    continue;
+                else
+                    return false;
+            }
+            return true;
         }
 
     }

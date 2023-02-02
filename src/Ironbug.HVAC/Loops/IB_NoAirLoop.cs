@@ -3,11 +3,12 @@ using Ironbug.HVAC.BaseClass;
 using OpenStudio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
-    public class IB_NoAirLoop : IB_AirLoopHVAC
+    public class IB_NoAirLoop : IB_AirLoopHVAC, IEquatable<IB_NoAirLoop>
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_NoAirLoop();
         [DataMember]
@@ -28,12 +29,8 @@ namespace Ironbug.HVAC
 
         public override IB_ModelObject Duplicate()
         {
-            var newObj = this.Duplicate(() => new IB_NoAirLoop());
-
-            this.ThermalZones.ForEach(
-                _ => newObj.AddThermalZones(_.Duplicate() as IB_ThermalZone)
-                );
-
+            var newObj = new IB_NoAirLoop();
+            newObj.ThermalZones = this.ThermalZones.Select(_=> _.Duplicate() as IB_ThermalZone).ToList();
             return newObj;
         }
 
@@ -56,6 +53,17 @@ namespace Ironbug.HVAC
         public override List<string> ToStrings()
         {
             return new List<string>() { this.ToString() };
+        }
+
+        public override bool Equals(object obj)
+        {
+            return this.Equals(obj as IB_NoAirLoop);
+        }
+        public bool Equals(IB_NoAirLoop other)
+        {
+            if (other is null)
+                return this is null ? true : false;
+            return this.ThermalZones.SequenceEqual(other.ThermalZones);
         }
     }
 }
