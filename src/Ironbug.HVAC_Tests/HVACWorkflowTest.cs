@@ -165,7 +165,7 @@ namespace Ironbug.HVACTests
             var json = plantloop.ToJson();
             var dup2 = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
             Assert.AreEqual(plantloop, dup2);
-            Assert.AreEqual(plantloop.supplyComponents, dup2.supplyComponents);
+            Assert.AreEqual(plantloop.SupplyComponents, dup2.SupplyComponents);
 
             var json2 = dup2.ToJson();
             Assert.AreEqual(json, json2);

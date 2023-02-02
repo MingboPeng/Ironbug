@@ -293,7 +293,7 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(readDis != null);
 
             Assert.IsTrue(readDis == plant);
-            var readDemands = plant.demandComponents;
+            var readDemands = plant.DemandComponents;
 
             Assert.IsNotNull(readDemands);
             Assert.AreEqual(readDemands.Count, 2);

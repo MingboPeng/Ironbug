@@ -39,10 +39,10 @@ namespace Ironbug.HVAC
 
             if (HvacComponent is IB_PlantLoopBranches)
             {
-                CheckWithBranch(this.supplyComponents);
+                CheckWithBranch(this.SupplyComponents);
             }
 
-            this.supplyComponents.Add(HvacComponent);
+            this.SupplyComponents.Add(HvacComponent);
         }
         
 
@@ -53,10 +53,10 @@ namespace Ironbug.HVAC
 
             if (HvacComponent is IB_PlantLoopBranches)
             {
-                CheckWithBranch(this.demandComponents);
+                CheckWithBranch(this.DemandComponents);
             }
 
-            this.demandComponents.Add(HvacComponent);
+            this.DemandComponents.Add(HvacComponent);
             
         }
 
@@ -66,8 +66,8 @@ namespace Ironbug.HVAC
 
             SizingPlant.ToOS(plant);
 
-            this.AddSupplyObjects(plant, this.supplyComponents);
-            this.AddDemandObjects(plant, this.demandComponents);
+            this.AddSupplyObjects(plant, this.SupplyComponents);
+            this.AddDemandObjects(plant, this.DemandComponents);
 
             this.OperationScheme?.ToOS(plant);
             return plant;
@@ -91,11 +91,11 @@ namespace Ironbug.HVAC
 
             var newObj = this.Duplicate(() => new IB_PlantLoop());
 
-            this.supplyComponents.ForEach(d =>
+            this.SupplyComponents.ForEach(d =>
                 newObj.AddToSupply(d.Duplicate() as IB_HVACObject)
                 );
 
-            this.demandComponents.ForEach(d =>
+            this.DemandComponents.ForEach(d =>
                 newObj.AddToDemand(d.Duplicate() as IB_HVACObject)
                 );
 
