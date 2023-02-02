@@ -292,8 +292,8 @@ namespace Ironbug.HVACTests
             var readDis = IB_PlantLoop.FromJson<IB_PlantLoop>(json);
             Assert.IsTrue(readDis != null);
 
-            var prop = plant.GetType().GetProperty("demandComponents", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            var readDemands = prop.GetValue(plant) as List<IB_HVACObject>;
+            Assert.IsTrue(readDis == plant);
+            var readDemands = plant.demandComponents;
 
             Assert.IsNotNull(readDemands);
             Assert.AreEqual(readDemands.Count, 2);
@@ -305,7 +305,6 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(readCoilControl.CustomAttributes.TryGetValue(ctrlField, out var actionValue));
             Assert.AreEqual(actionValue, "Normal");
 
-            Assert.IsTrue(readDis == plant);
 
         }
 
