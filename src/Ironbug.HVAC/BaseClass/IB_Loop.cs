@@ -10,16 +10,16 @@ namespace Ironbug.HVAC.BaseClass
     public abstract class IB_Loop : IB_ModelObject, IEquatable<IB_Loop>
     {
         [DataMember]
-        public List<IB_HVACObject> supplyComponents { get; set; } = new List<IB_HVACObject>();
+        public List<IB_HVACObject> SupplyComponents { get; set; } = new List<IB_HVACObject>();
         [DataMember]
-        public List<IB_HVACObject> demandComponents { get; set; } = new List<IB_HVACObject>();
+        public List<IB_HVACObject> DemandComponents { get; set; } = new List<IB_HVACObject>();
         public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
         {
         }
 
         #region Serialization
-        public bool ShouldSerializesupplyComponents() => !this.supplyComponents.IsNullOrEmpty();
-        public bool ShouldSerializedemandComponents() => !this.demandComponents.IsNullOrEmpty();
+        public bool ShouldSerializesupplyComponents() => !this.SupplyComponents.IsNullOrEmpty();
+        public bool ShouldSerializedemandComponents() => !this.DemandComponents.IsNullOrEmpty();
         #endregion
 
         protected (IEnumerable<IB_HVACObject> before, IB_LoopBranches branch, IEnumerable<IB_HVACObject> after) GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
@@ -244,8 +244,8 @@ namespace Ironbug.HVAC.BaseClass
             if (other == null)
                 return isSame;
 
-            isSame &= this.demandComponents.SequenceEqual(other.demandComponents);
-            isSame &= this.supplyComponents.SequenceEqual(other.supplyComponents);
+            isSame &= this.DemandComponents.SequenceEqual(other.DemandComponents);
+            isSame &= this.SupplyComponents.SequenceEqual(other.SupplyComponents);
 
             return isSame;
         }

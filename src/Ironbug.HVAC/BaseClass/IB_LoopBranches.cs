@@ -2,16 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_LoopBranches : IB_HVACObject
     {
-        public List<List<IB_HVACObject>> Branches 
-        { 
-            get => TryGetList<List<IB_HVACObject>>(); 
-            private set => Set(value); 
-        } 
+        [DataMember]
+        public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
 
         public IB_LoopBranches() : base(new Node(new Model()))
         {
@@ -37,22 +35,22 @@ namespace Ironbug.HVAC.BaseClass
             return new List<string>() { this.ToString() };
         }
 
-        //public override IB_ModelObject Duplicate()
-        //{
-        //    //var newBranches = new List<List<IB_HVACObject>>();
-        //    var loopBranches = new IB_PlantLoopBranches();
-        //    foreach (var branch in this.Branches)
-        //    {
-        //        var newBranch = new List<IB_HVACObject>();
-        //        foreach (var item in branch)
-        //        {
-        //            newBranch.Add(item.Duplicate() as IB_HVACObject);
-        //        }
-        //        loopBranches.Add(newBranch);
-        //    }
+        public override IB_ModelObject Duplicate()
+        {
+            //var newBranches = new List<List<IB_HVACObject>>();
+            var loopBranches = new IB_PlantLoopBranches();
+            foreach (var branch in this.Branches)
+            {
+                var newBranch = new List<IB_HVACObject>();
+                foreach (var item in branch)
+                {
+                    newBranch.Add(item.Duplicate() as IB_HVACObject);
+                }
+                loopBranches.Add(newBranch);
+            }
 
-        //    return loopBranches;
-        //}
+            return loopBranches;
+        }
 
         public int Count()
         {

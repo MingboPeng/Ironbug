@@ -34,7 +34,7 @@ namespace Ironbug.HVAC
             //TODO: check before add
             if (HvacComponent is IIB_AirLoopObject)
             {
-                this.supplyComponents.Add(HvacComponent);
+                this.SupplyComponents.Add(HvacComponent);
             }
             else
             {
@@ -47,7 +47,7 @@ namespace Ironbug.HVAC
             
             if (HvacComponent is IIB_AirLoopObject)
             {
-                this.demandComponents.Add(HvacComponent);
+                this.DemandComponents.Add(HvacComponent);
             }
             else
             {
@@ -61,11 +61,11 @@ namespace Ironbug.HVAC
         {
             var newObj = this.Duplicate(() => new IB_AirLoopHVAC());
 
-            this.supplyComponents.ForEach(d =>
+            this.SupplyComponents.ForEach(d =>
                 newObj.AddToSupplySide(d.Duplicate() as IB_HVACObject)
                 );
 
-            this.demandComponents.ForEach(d =>
+            this.DemandComponents.ForEach(d =>
                 newObj.AddToDemandSide(d.Duplicate() as IB_HVACObject)
                 );
 
@@ -76,13 +76,13 @@ namespace Ironbug.HVAC
 
         public override ModelObject ToOS(Model model)
         {
-            this.CheckSupplySide(this.supplyComponents);
+            this.CheckSupplySide(this.SupplyComponents);
             
             var airLoopHVAC = base.OnNewOpsObj(NewDefaultOpsObj, model);
             this.SizingSystem.ToOS(airLoopHVAC);
             
-            this.AddSupplyObjects(airLoopHVAC, this.supplyComponents);
-            this.AddDemandObjects(airLoopHVAC, this.demandComponents);
+            this.AddSupplyObjects(airLoopHVAC, this.SupplyComponents);
+            this.AddDemandObjects(airLoopHVAC, this.DemandComponents);
             
             return airLoopHVAC;
         }

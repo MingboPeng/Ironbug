@@ -87,8 +87,17 @@ namespace Ironbug.HVAC
 
         public static IB_HVACSystem FromJson(string json)
         {
-            var hvac = JsonConvert.DeserializeObject<IB_HVACSystem>(json, IB_JsonSetting.ConvertSetting);
-            return hvac;
+            try
+            {
+                var hvac = JsonConvert.DeserializeObject<IB_HVACSystem>(json, IB_JsonSetting.ConvertSetting);
+                return hvac;
+            }
+            catch (Exception e)
+            {
+                
+                throw e;
+            }
+           
         }
 
         /// <summary>
