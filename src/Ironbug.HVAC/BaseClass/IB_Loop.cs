@@ -35,6 +35,15 @@ namespace Ironbug.HVAC.BaseClass
             return (beforeBranch, branch, afterBranch);
         }
 
+        public override IB_ModelObject Duplicate()
+        {
+            var newObj = base.Duplicate() as IB_Loop;
+            newObj.SupplyComponents = this.SupplyComponents.Select(_=>_.Duplicate() as IB_HVACObject).ToList();
+            newObj.DemandComponents = this.DemandComponents.Select(_ => _.Duplicate() as IB_HVACObject).ToList();
+            return newObj;
+
+        }
+
         public abstract ModelObject ToOS(Model model);
 
         protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> Components)
@@ -236,27 +245,20 @@ namespace Ironbug.HVAC.BaseClass
             return allcopied;
         }
 
+
         public bool Equals(IB_Loop obj)
         {
-            var isSame = base.Equals(obj);
+            if (!base.Equals(obj))
+                return false;
 
-            var other = obj;
-            if (other == null)
-                return isSame;
+            if (!this.DemandComponents.SequenceEqual(obj.DemandComponents)) 
+                return false;
 
-            isSame &= this.DemandComponents.SequenceEqual(other.DemandComponents);
-            isSame &= this.SupplyComponents.SequenceEqual(other.SupplyComponents);
-
-            return isSame;
+            if (!this.SupplyComponents.SequenceEqual(obj.SupplyComponents))
+                return false;
+    
+            return true;
         }
 
-        public static bool operator ==(IB_Loop x, IB_Loop y)
-        {
-            if (x is null)
-                return y is null ? true : false;
-            return x.Equals(y);
-        }
-
-        public static bool operator !=(IB_Loop x, IB_Loop y) => !(x == y);
     }
 }

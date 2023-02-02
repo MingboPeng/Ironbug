@@ -7,7 +7,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirLoopHVAC : IB_Loop
+    public class IB_AirLoopHVAC : IB_Loop, IEquatable<IB_AirLoopHVAC>
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AirLoopHVAC();
         [DataMember]
@@ -57,22 +57,6 @@ namespace Ironbug.HVAC
 
         }
 
-        public override IB_ModelObject Duplicate()
-        {
-            var newObj = this.Duplicate(() => new IB_AirLoopHVAC());
-
-            this.SupplyComponents.ForEach(d =>
-                newObj.AddToSupplySide(d.Duplicate() as IB_HVACObject)
-                );
-
-            this.DemandComponents.ForEach(d =>
-                newObj.AddToDemandSide(d.Duplicate() as IB_HVACObject)
-                );
-
-            newObj.SetSizingSystem(this.SizingSystem.Duplicate() as IB_SizingSystem);
-
-            return newObj;
-        }
 
         public override ModelObject ToOS(Model model)
         {
@@ -158,9 +142,25 @@ namespace Ironbug.HVAC
             return allcopied;
         }
 
-        
 
-        
+        public override IB_ModelObject Duplicate()
+        {
+            var newObj = base.Duplicate() as IB_AirLoopHVAC;
+            newObj.SizingSystem = this.SizingSystem.Duplicate() as IB_SizingSystem;
+
+            return newObj;
+        }
+
+        public bool Equals(IB_AirLoopHVAC other)
+        {
+            if (!base.Equals(other))
+                return false;
+
+            if (this.SizingSystem != other.SizingSystem)
+                return false;
+
+            return true;
+        }
     }
 
     public sealed class IB_AirLoopHVAC_FieldSet

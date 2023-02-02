@@ -7,7 +7,7 @@ using Ironbug.Core;
 
 namespace Ironbug.HVAC.BaseClass
 {
-    public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject
+    public class IB_ThermalZone : IB_HVACObject, IIB_AirLoopObject, IEquatable<IB_ThermalZone>
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ThermalZone();
         private static ThermalZone NewDefaultOpsObj(Model model) => new ThermalZone(model);
@@ -230,9 +230,24 @@ namespace Ironbug.HVAC.BaseClass
 
             return newObj;
         }
-        
-        
-        
+
+        public bool Equals(IB_ThermalZone other)
+        {
+            if (!base.Equals(other))
+                return false;
+
+            if (this.SizingZone != other.SizingZone)
+                return false;
+            if (this.AirTerminal != other.AirTerminal)
+                return false; 
+            if (this.ZoneEquipments.SequenceEqual( other.ZoneEquipments))
+                return false;
+            if (this.SupplyPlenum != other.SupplyPlenum)
+                return false;
+            if (this.ReturnPlenum != other.ReturnPlenum)
+                return false;
+            return true;
+        }
     }
 
     public sealed class IB_ThermalZone_FieldSet 
