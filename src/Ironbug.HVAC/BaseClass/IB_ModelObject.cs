@@ -371,7 +371,6 @@ namespace Ironbug.HVAC.BaseClass
             var objresults = methodInfo.Invoke(model, null);
             var objList = (objresults as IEnumerable<T>).ToList();
             var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
-            var ids = objList.Select(_=>_.comment()).ToList();
             return matchObj;
         }
 
