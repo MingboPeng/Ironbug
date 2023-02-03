@@ -15,6 +15,16 @@ namespace Ironbug.HVAC.BaseClass
         {
         }
 
+        public void AddBranch(params IB_HVACObject[] HVACObjects)
+        {
+            if (!HVACObjects.Any())
+            {
+                return;
+            }
+
+            this.Branches.Add(HVACObjects?.ToList());
+        }
+
         public void Add(List<IB_HVACObject> HVACObjects)
         {
             if (!HVACObjects.Any())
@@ -65,14 +75,11 @@ namespace Ironbug.HVAC.BaseClass
             throw new NotImplementedException();
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_LoopBranches);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_LoopBranches);
         public bool Equals(IB_LoopBranches other)
         {
             if (other is null)
-                return this is null ? true : false;
+                return false;
 
             //if (!base.Equals(other))
             //    return false;
@@ -81,12 +88,18 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in zip)
             {
                 var same = item.s.SequenceEqual(item.o);
-                if (same)
-                    continue;
-                else
+                if (!same)
                     return false;
             }
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -1471091297;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<List<IB_HVACObject>>>.Default.GetHashCode(Branches);
+            return hashCode;
         }
 
     }

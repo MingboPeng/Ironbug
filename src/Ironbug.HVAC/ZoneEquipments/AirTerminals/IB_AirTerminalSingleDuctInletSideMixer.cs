@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -11,7 +12,7 @@ namespace Ironbug.HVAC
         private static AirTerminalSingleDuctInletSideMixer NewDefaultOpsObj(Model model) => new AirTerminalSingleDuctInletSideMixer(model);
 
         public IB_ZoneEquipment MixedZoneEquip => this.GetChild<IB_ZoneEquipment>();
-
+        [JsonConstructor]
         private IB_AirTerminalSingleDuctInletSideMixer() : base(null) { }
         public IB_AirTerminalSingleDuctInletSideMixer(IB_ZoneEquipment ZoneEquipMixedWith) : base(NewDefaultOpsObj(new Model()))
         {

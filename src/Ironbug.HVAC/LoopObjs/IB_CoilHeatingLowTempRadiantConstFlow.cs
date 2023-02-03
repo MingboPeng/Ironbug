@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -30,6 +31,7 @@ namespace Ironbug.HVAC
       
         }
 
+        [JsonConstructor]
         private IB_CoilHeatingLowTempRadiantConstFlow() : base(null) { }
 
         public IB_CoilHeatingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 

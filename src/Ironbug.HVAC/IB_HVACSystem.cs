@@ -136,18 +136,17 @@ namespace Ironbug.HVAC
 
         }
 
-        public bool SaveHVAC(string filepath)
+        public bool SaveHVAC(string osmFile)
         {
             var airLoops = this.AirLoops;
             var plantLoops = this.PlantLoops;
             var vrfs = this.VariableRefrigerantFlows;
 
-            var osmFile = filepath;
 
             //here means editing current existing file 
             if (!string.IsNullOrEmpty( this._existFile))
             {
-                if (this._existFile != filepath)
+                if (this._existFile != osmFile)
                 {
                     throw new ArgumentException("File path is different than osm file contains existing loops!\nPlease input the existing osm file path.");
                 }
@@ -193,16 +192,16 @@ namespace Ironbug.HVAC
             tol.setToleranceforTimeHeatingSetpointNotMet(1.11);
 
             //save workflow 
-            var osw = Path.Combine(Path.GetDirectoryName(filepath), Path.GetFileNameWithoutExtension(filepath), "workflow.osw");
+            var osw = Path.Combine(Path.GetDirectoryName(osmFile), Path.GetFileNameWithoutExtension(osmFile), "workflow.osw");
             var wf = model.workflowJSON();
-            wf.setSeedFile(OpenStudio.OpenStudioUtilitiesCore.toPath(Path.Combine("..", Path.GetFileName(filepath))));
+            wf.setSeedFile(OpenStudio.OpenStudioUtilitiesCore.toPath(Path.Combine("..", Path.GetFileName(osmFile))));
             wf.saveAs(OpenStudio.OpenStudioUtilitiesCore.toPath(osw));
             if (!File.Exists(osw))
                 throw new ArgumentException($"Failed to create workflowJSON file: {osw}");
 
 
             //save osm file
-            var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(filepath);
+            var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(osmFile);
             return model.save(osmPath, true);
             
         }

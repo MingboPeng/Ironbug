@@ -7,6 +7,7 @@ using Ironbug.HVAC;
 using System.Runtime.Serialization;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -57,10 +58,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public IB_ModelObject(ModelObject ghostOpsObj)
         {
-            if (this is IB_SetpointManagerScheduled)
-            {
-
-            }
+          
             if (ghostOpsObj != null)
             {
                 this.GhostOSObject = ghostOpsObj;
@@ -369,11 +367,11 @@ namespace Ironbug.HVAC.BaseClass
             var getmethodName = $"get{type.Name}s";
             var methodInfo = typeof(Model).GetMethod(getmethodName);
             if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
-         
+            
             var objresults = methodInfo.Invoke(model, null);
             var objList = (objresults as IEnumerable<T>).ToList();
             var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
-
+            var ids = objList.Select(_=>_.comment()).ToList();
             return matchObj;
         }
 
@@ -530,34 +528,46 @@ namespace Ironbug.HVAC.BaseClass
             return trackingID;
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_ModelObject);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_ModelObject);
 
         public bool Equals(IB_ModelObject other)
         {
             if (other is null)
-                return this is null ? true : false;
+                return DebugFalseMessage("Other is Null");
             if (this.GetType() != other.GetType()) 
-                return false;
+                return DebugFalseMessage($"Failed to compare type!");
             if (!this.CustomAttributes.Equals(other.CustomAttributes)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare CustomAttributes!");
             if (!this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare CustomOutputVariables!");
             if (!this.Children.Equals(other.Children)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare Children!");
             if (!this.CustomSensors.SequenceEqual(other.CustomSensors)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare CustomSensors!");
             if (!this.CustomInternalVariables.SequenceEqual(other.CustomInternalVariables)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare CustomInternalVariables!");
             if (!this.CustomActuators.SequenceEqual(other.CustomActuators)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare CustomActuators!");
             if (!this.IBProperties.Equals(other.IBProperties)) 
-                return false;
+                return DebugFalseMessage($"Failed to compare IBProperties!");
          
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -113914117;
+            hashCode = hashCode * -1521134295 + EqualityComparer<Type>.Default.GetHashCode(this.GetType());
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_Children>.Default.GetHashCode(Children);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_FieldArgumentSet>.Default.GetHashCode(CustomAttributes);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_PropArgumentSet>.Default.GetHashCode(IBProperties);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_OutputVariable>>.Default.GetHashCode(CustomOutputVariables);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_EnergyManagementSystemSensor>>.Default.GetHashCode(CustomSensors);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_EnergyManagementSystemInternalVariable>>.Default.GetHashCode(CustomInternalVariables);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_EnergyManagementSystemActuator>>.Default.GetHashCode(CustomActuators);
+            return hashCode;
+        }
+
         public static bool operator ==(IB_ModelObject x, IB_ModelObject y)
         {
             if (x is null)
@@ -566,5 +576,23 @@ namespace Ironbug.HVAC.BaseClass
         }
 
         public static bool operator !=(IB_ModelObject x, IB_ModelObject y) => !(x == y);
+
+        protected static bool DebugFalseMessage(string message)
+        {
+#if DEBUG
+            if (string.IsNullOrEmpty(message))
+                Console.WriteLine(message);
+#endif
+            return false;
+        }
+        protected static bool DebugMessage(bool returnValue, string message)
+        {
+#if DEBUG
+            if (string.IsNullOrEmpty(message))
+                Console.WriteLine(message);
+#endif
+            return returnValue;
+        }
+
     }
 }

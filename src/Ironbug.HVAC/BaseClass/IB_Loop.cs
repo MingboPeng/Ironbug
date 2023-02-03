@@ -245,7 +245,7 @@ namespace Ironbug.HVAC.BaseClass
             return allcopied;
         }
 
-
+        public override bool Equals(object obj) => this.Equals(obj as IB_Loop);
         public bool Equals(IB_Loop obj)
         {
             if (!base.Equals(obj))

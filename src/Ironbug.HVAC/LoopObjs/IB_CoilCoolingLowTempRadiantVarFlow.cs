@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -25,6 +26,7 @@ namespace Ironbug.HVAC
           
 
         }
+        [JsonConstructor]
         private IB_CoilCoolingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilCoolingLowTempRadiantVarFlow( double airHiT) 
             : base(NewDefaultOpsObj(new Model(), airHiT))

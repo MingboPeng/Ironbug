@@ -8,7 +8,6 @@ namespace Ironbug.HVAC
         {
             return model.save(OpenStudioUtilitiesCore.toPath(filePath), true);
         }
-
         public static Path ToPath(this string filePath)
         {
             return OpenStudioUtilitiesCore.toPath(filePath);

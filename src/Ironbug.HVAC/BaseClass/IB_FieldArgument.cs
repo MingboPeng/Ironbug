@@ -34,10 +34,7 @@ namespace Ironbug.HVAC.BaseClass
             return $"{this.Field.FullName}: {Value}";
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_FieldArgument);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_FieldArgument);
 
         public bool Equals(IB_FieldArgument other)
         {

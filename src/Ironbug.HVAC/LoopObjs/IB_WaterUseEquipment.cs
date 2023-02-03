@@ -1,5 +1,6 @@
 ﻿using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -13,6 +14,8 @@ namespace Ironbug.HVAC
         private string SpaceName { get => Get<string>(); set => Set(value); }
 
         private static WaterUseEquipment NewDefaultOpsObj(Model model) => new WaterUseEquipment(new WaterUseEquipmentDefinition(model));
+       
+        [JsonConstructor]
         private IB_WaterUseEquipment() : base(null) { }
         public IB_WaterUseEquipment(IB_WaterUseEquipmentDefinition waterUseLoad) : base(NewDefaultOpsObj(new Model()))
         {

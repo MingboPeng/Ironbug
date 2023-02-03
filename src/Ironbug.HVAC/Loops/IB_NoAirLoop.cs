@@ -55,14 +55,11 @@ namespace Ironbug.HVAC
             return new List<string>() { this.ToString() };
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_NoAirLoop);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_NoAirLoop);
         public bool Equals(IB_NoAirLoop other)
         {
             if (other is null)
-                return this is null ? true : false;
+                return false;
             return this.ThermalZones.SequenceEqual(other.ThermalZones);
         }
     }

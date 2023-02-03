@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC.BaseClass
 {
+
+    [DataContract]
     public class IB_Children : List<IB_ModelObject>, System.IEquatable<IB_Children>
     {
 
@@ -62,15 +65,12 @@ namespace Ironbug.HVAC.BaseClass
             }
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_Children);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_Children);
 
         public bool Equals(IB_Children other)
         {
             if (other is null)
-                return this is null ? true : false;
+                return false;
             return this.SequenceEqual(other);
         }
         public static bool operator ==(IB_Children x, IB_Children y)

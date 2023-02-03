@@ -201,6 +201,7 @@ namespace Ironbug.HVAC
             return !isThereAlreadyOne;
         }
 
+        public override bool Equals(object obj)=> this.Equals(obj as IB_PlantLoop);
         public bool Equals(IB_PlantLoop other)
         {
             if (!base.Equals(other))

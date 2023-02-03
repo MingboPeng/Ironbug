@@ -5,6 +5,7 @@ using System.Linq;
 using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using NUnit.Framework;
+using OpenStudio;
 
 namespace Ironbug.HVACTests
 {
@@ -368,51 +369,55 @@ namespace Ironbug.HVACTests
             var zone2 = new IB_ThermalZone();
 
             var reHeat = new IB_AirTerminalSingleDuctVAVReheat();
-            var coil = new IB_CoilHeatingWater();
-            coil.SetFieldValue(IB_CoilHeatingWater_FieldSet.Value.RatedInletAirTemperature, 15.6);
-            reHeat.SetReheatCoil(coil);
+            var coil1 = new IB_CoilHeatingWater();
+            var firstCoilID = coil1.GetTrackingID();
+            coil1.SetFieldValue(IB_CoilHeatingWater_FieldSet.Value.RatedInletAirTemperature, 15.6);
+            reHeat.SetReheatCoil(coil1);
+            zone1.SetAirTerminal(reHeat);
 
-            //reHeat.ToPuppetHost();
-            var reHeatPuppet1 = (IB_AirTerminal)reHeat.Duplicate();
-            reHeatPuppet1.SetTrackingID();
-            zone1.SetAirTerminal(reHeatPuppet1);
-            var firstCoilID = reHeatPuppet1.Children.First().GetTrackingID();
-            Console.WriteLine($"ReheatCoil 1: {firstCoilID}");
-         
-
-            var reHeatPuppet2 = (IB_AirTerminal)reHeat.Duplicate();
-            reHeatPuppet2.SetTrackingID();
-            zone2.SetAirTerminal(reHeatPuppet2);
-            var secondCoilID = reHeatPuppet2.Children.First().GetTrackingID();
-            Console.WriteLine($"ReheatCoil 2: {secondCoilID}");
+            // dup at2
+            var reheat2 = reHeat.Duplicate() as IB_AirTerminalSingleDuctVAVReheat;
+            reheat2.SetTrackingID();
+            var coil2 = coil1.Duplicate() as IB_CoilHeatingWater;
+            coil2.SetTrackingID();
+            reheat2.SetReheatCoil(coil2);
+            zone2.SetAirTerminal(reheat2);
+            var secondCoilID = coil2.GetTrackingID();
+            Assert.AreNotEqual(secondCoilID, firstCoilID);
 
             var airBranches = new IB_AirLoopBranches();
-            airBranches.Add(new List<IB_HVACObject>() { zone1 });
-            airBranches.Add(new List<IB_HVACObject>() { zone2 });
+            airBranches.AddBranch(zone1);
+            airBranches.AddBranch(zone2);
 
             var branches = new IB_PlantLoopBranches();
-            branches.Add(new List<IB_HVACObject>() { coil });
+            branches.AddBranch(coil1);
+            branches.AddBranch(coil2);
             hwLp.AddToDemand(branches);
 
             var fan = new IB_FanConstantVolume();
             airLp.AddToSupplySide(fan);
             airLp.AddToDemandSide(airBranches);
 
-            var md1 = new OpenStudio.Model();
-            airLp.ToOS(md1);
-            hwLp.ToOS(md1);
+            var hvac = new IB_HVACSystem(new List<IB_AirLoopHVAC>{ airLp }, new List<IB_PlantLoop> { hwLp}, null);
+
+
+            // save to OSM
+
+            string saveFile = GenFileName;
+            var temp = hvac.SaveHVAC(saveFile);
+            var md1 = OpenStudio.Model.load(OpenStudioUtilitiesCore.toPath(saveFile)).get();
             
             var reheatTerminals
                 = md1
                 .getAirTerminalSingleDuctVAVReheats();
-            Assert.True(reheatTerminals.Count() == 2);
+            Assert.AreEqual(2, reheatTerminals.Count());
 
-
-            var success 
+            var plantloops
                 = reheatTerminals
-                .Select(_ => _.reheatCoil().plantLoop().is_initialized())
-                .Where(_ => _ == true).Count()==2;
-            Assert.True(success);
+                .Select(_ => _.reheatCoil().plantLoop())
+                .Where(_ => _.is_initialized()).Select(_ => _.get().comment()).ToList();
+            Assert.AreEqual(2, plantloops.Count());
+            Assert.AreEqual(plantloops[0], plantloops[1]);
 
             var reheatT = reheatTerminals.First(_ => _.nameString().EndsWith("1"));
             var name = reheatT.nameString();
@@ -420,9 +425,57 @@ namespace Ironbug.HVACTests
             name = reheatT.reheatCoil().nameString();
             Assert.AreEqual(name, "Coil Heating Water 1");
 
-            string saveFile = GenFileName;
-            success = md1.Save(saveFile);
-            Assert.True(success);
+
+            // total coils 
+            var coils = md1.getCoilHeatingWaters();
+            Assert.AreEqual(2 , coils.Count());
+
+            // serialization
+            var json = hvac.ToJson();
+            var dup = IB_HVACSystem.FromJson(json);
+            Assert.AreEqual(hvac, dup);
+
+            // compare IB_AT
+            var airloops = dup.AirLoops;
+            Assert.AreEqual(1, airloops.Count);
+
+            var airloop = airloops.First();
+            Assert.AreEqual(airLp, airloop);
+
+            var zones = airloop.DemandComponents
+                .OfType<IB_LoopBranches>()
+                .First()
+                .Branches
+                .SelectMany(_ => _)
+                .OfType<IB_ThermalZone>().ToList();
+            Assert.AreEqual(2, zones.Count());
+            Assert.AreEqual(zone1, zones.First());
+
+            var ats = zones
+                .Select(_=>_.AirTerminal)
+                .ToList();
+
+            Assert.AreEqual(2, ats.Count());
+            Assert.AreEqual(reHeat, ats.First());
+
+
+            string saveFile2 = GenFileName;
+            var temp2 = dup.SaveHVAC(saveFile2);
+            var md2 = OpenStudio.Model.load(OpenStudioUtilitiesCore.toPath(saveFile2)).get();
+
+
+
+            // compare AT
+            var reheatTerminals2
+                = md2
+                .getAirTerminalSingleDuctVAVReheats();
+            Assert.True(reheatTerminals.Count() == 2);
+
+            // compare coils
+            var coils2 = md2.getCoilHeatingWaters();
+            Assert.AreEqual(2, coils2.Count());
+
+
 
         }
 

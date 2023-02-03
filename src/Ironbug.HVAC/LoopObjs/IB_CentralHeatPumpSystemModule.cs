@@ -1,6 +1,7 @@
 ﻿
 using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -14,6 +15,11 @@ namespace Ironbug.HVAC
         private IB_ChillerHeaterPerformanceElectricEIR _chiller => this.GetChild<IB_ChillerHeaterPerformanceElectricEIR>();
 
         public int NumberOfChillerHeaterModules { get => Get<int>(1); private set => Set(value, 1); }
+
+        [JsonConstructor]
+        private IB_CentralHeatPumpSystemModule(bool forDeserialization) : base(null)
+        {
+        }
 
         public IB_CentralHeatPumpSystemModule() : base(NewDefaultOpsObj(new Model()))
         {

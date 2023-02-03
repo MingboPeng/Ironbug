@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -23,6 +24,7 @@ namespace Ironbug.HVAC
             => new CoilHeatingLowTempRadiantVarFlow(m, Schedules.IB_ScheduleRuleset.GetOrNewConstantSchedule(m, AirLoT));
         }
 
+        [JsonConstructor]
         private IB_CoilHeatingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilHeatingLowTempRadiantVarFlow(double airLoT) 
             : base(NewDefaultOpsObj(new Model(), airLoT))
