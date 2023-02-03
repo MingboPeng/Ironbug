@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -12,6 +13,8 @@ namespace Ironbug.HVAC
         //Now supports CoilCoolingDXSingleSpeed and CoilCoolingDXTwoSpeed
         //TODO: will add later: RefrigerationCondenserAirCooled, RefrigerationCondenserEvaporativeCooled, RefrigerationCondenserWaterCooled
         private IB_CoilDX HeatingSource => this.GetChild<IB_CoilDX>();
+
+        [JsonConstructor]
         private IB_CoilHeatingDesuperheater() : base(null) { }
         public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj(new Model()))
         {

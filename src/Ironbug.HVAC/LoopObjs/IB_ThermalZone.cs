@@ -231,6 +231,7 @@ namespace Ironbug.HVAC.BaseClass
             return newObj;
         }
 
+        public override bool Equals(object obj) => this.Equals(obj as IB_ThermalZone);
         public bool Equals(IB_ThermalZone other)
         {
             if (!base.Equals(other))
@@ -240,13 +241,25 @@ namespace Ironbug.HVAC.BaseClass
                 return false;
             if (this.AirTerminal != other.AirTerminal)
                 return false; 
-            if (this.ZoneEquipments.SequenceEqual( other.ZoneEquipments))
+            if (!this.ZoneEquipments.SequenceEqual( other.ZoneEquipments))
                 return false;
             if (this.SupplyPlenum != other.SupplyPlenum)
                 return false;
             if (this.ReturnPlenum != other.ReturnPlenum)
                 return false;
             return true;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 6190033;
+            hashCode = hashCode * -1521134295 + base.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_AirTerminal>.Default.GetHashCode(AirTerminal);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IIB_ZoneEquipment>>.Default.GetHashCode(ZoneEquipments);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_SizingZone>.Default.GetHashCode(SizingZone);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_ThermalZone>.Default.GetHashCode(SupplyPlenum);
+            hashCode = hashCode * -1521134295 + EqualityComparer<IB_ThermalZone>.Default.GetHashCode(ReturnPlenum);
+            return hashCode;
         }
     }
 

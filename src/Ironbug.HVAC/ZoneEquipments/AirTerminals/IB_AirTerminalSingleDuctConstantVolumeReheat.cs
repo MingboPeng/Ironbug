@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -19,6 +20,9 @@ namespace Ironbug.HVAC
 
         //optional if there is no child
         public void SetReheatCoil(IB_CoilHeatingBasic ReheatCoil) => this.SetChild(ReheatCoil);
+
+        [JsonConstructor]
+        private IB_AirTerminalSingleDuctConstantVolumeReheat(bool forDeserialization) : base(null) { }
 
         public IB_AirTerminalSingleDuctConstantVolumeReheat() : base(NewDefaultOpsObj(new Model()))
         {

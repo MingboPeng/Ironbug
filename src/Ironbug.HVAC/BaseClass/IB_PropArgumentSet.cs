@@ -5,8 +5,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using Ironbug.Core;
-using Newtonsoft.Json.Linq;
-using OpenStudio;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -178,6 +176,7 @@ namespace Ironbug.HVAC.BaseClass
             }
         }
 
+        public override bool Equals(object obj) => this.Equals(obj as IB_PropArgumentSet);
         public bool Equals(IB_PropArgumentSet other)
         {
             if (other == null)

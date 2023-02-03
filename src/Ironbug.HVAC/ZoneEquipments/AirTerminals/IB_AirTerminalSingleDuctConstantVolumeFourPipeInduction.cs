@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -32,7 +33,10 @@ namespace Ironbug.HVAC
         }
         public void SetHeatingCoil(IB_CoilHeatingWater coil) => this.SetChild(coil);
 
-
+        [JsonConstructor]
+        private IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction(bool forDeserialization) : base(null)
+        {
+        }
         public IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction() : base(NewDefaultOpsObj(new Model()))
         {
             //optional if there is no child 

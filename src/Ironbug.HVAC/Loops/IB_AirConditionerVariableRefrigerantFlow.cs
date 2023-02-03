@@ -59,6 +59,7 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
+        public override bool Equals(object obj) => this.Equals(obj as IB_AirConditionerVariableRefrigerantFlow);
         public bool Equals(IB_AirConditionerVariableRefrigerantFlow other)
         {
             if (!base.Equals(other))

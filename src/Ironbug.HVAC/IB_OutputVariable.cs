@@ -26,14 +26,11 @@ namespace Ironbug.HVAC.BaseClass
             return success;
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_OutputVariable);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_OutputVariable);
         public bool Equals(IB_OutputVariable other)
         {
             if (other == null)
-                return this is null ? true : false;
+                return false;
             return this.VariableName == other.VariableName && this.TimeStep == other.TimeStep;
         }
 

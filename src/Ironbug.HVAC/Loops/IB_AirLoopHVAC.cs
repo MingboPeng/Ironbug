@@ -17,9 +17,6 @@ namespace Ironbug.HVAC
 
         public IB_AirLoopHVAC() : base(NewDefaultOpsObj(new Model()))
         {
-            //this.basePoint = new Point3d();
-            //this.osModel = new Model();
-            //this.ghostAirLoopHVAC = new AirLoopHVAC(new Model());
         }
 
         public void SetSizingSystem(IB_SizingSystem sizing)
@@ -151,6 +148,7 @@ namespace Ironbug.HVAC
             return newObj;
         }
 
+        public override bool Equals(object obj) => this.Equals(obj as IB_AirLoopHVAC);
         public bool Equals(IB_AirLoopHVAC other)
         {
             if (!base.Equals(other))

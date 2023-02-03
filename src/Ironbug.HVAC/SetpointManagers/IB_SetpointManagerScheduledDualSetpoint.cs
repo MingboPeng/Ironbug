@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -16,6 +17,11 @@ namespace Ironbug.HVAC
 
         private static SetpointManagerScheduledDualSetpoint NewDefaultOpsObj(Model model) 
             => new SetpointManagerScheduledDualSetpoint(model);
+
+        [JsonConstructor]
+        private IB_SetpointManagerScheduledDualSetpoint(bool forDeserialization) : base(null)
+        {
+        }
 
         public IB_SetpointManagerScheduledDualSetpoint(double lowTemperature, double highTemperature) : base(NewDefaultOpsObj(new Model()))
         {

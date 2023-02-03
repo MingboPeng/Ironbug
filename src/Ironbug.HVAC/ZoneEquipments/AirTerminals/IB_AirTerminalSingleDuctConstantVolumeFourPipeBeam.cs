@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -20,7 +21,10 @@ namespace Ironbug.HVAC
         public void SetCoolingCoil(IB_CoilCoolingFourPipeBeam coil) => this.SetChild(coil);
         public void SetHeatingCoil(IB_CoilHeatingFourPipeBeam coil) => this.SetChild(coil);
 
-
+        [JsonConstructor]
+        private IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam(bool forDeserialization) : base(null)
+        {
+        }
         public IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam() : base(NewDefaultOpsObj(new Model()))
         {
             //optional if there is no child 

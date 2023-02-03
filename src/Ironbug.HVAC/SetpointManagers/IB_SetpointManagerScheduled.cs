@@ -1,5 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using Ironbug.HVAC.Schedules;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -32,6 +33,7 @@ namespace Ironbug.HVAC
             this.IsTemperature = isTemperature;
         }
 
+        [JsonConstructor]
         public IB_SetpointManagerScheduled() : base(NewDefaultOpsObj(new Model(), -999))
         {
             this.Value = -999;

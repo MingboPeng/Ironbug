@@ -60,10 +60,7 @@ namespace Ironbug.HVAC.BaseClass
             return arg != null;
         }
 
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as IB_FieldArgumentSet);
-        }
+        public override bool Equals(object obj) => this.Equals(obj as IB_FieldArgumentSet);
         public bool Equals(IB_FieldArgumentSet other)
         {
             if (other is null)

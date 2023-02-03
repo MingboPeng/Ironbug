@@ -1,4 +1,5 @@
 ﻿using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 using System;
 
@@ -12,6 +13,10 @@ namespace Ironbug.HVAC
         private IB_CoilBasic HeatingCoil => this.GetChild<IB_CoilHeatingBasic>();
         private IB_Fan Fan => this.GetChild<IB_Fan>();
 
+        [JsonConstructor]
+        private IB_ZoneHVACUnitVentilator_HeatingOnly(bool forDeserialization) : base(null)
+        {
+        }
         public IB_ZoneHVACUnitVentilator_HeatingOnly() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(new IB_CoilHeatingWater());

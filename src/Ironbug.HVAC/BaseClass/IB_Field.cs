@@ -243,21 +243,15 @@ namespace Ironbug.HVAC.BaseClass
             }
             
         }
-    
+
+        public override bool Equals(object obj) => this.Equals(obj as IB_Field);
         public bool Equals(IB_Field other)
         {
             if (other == null)
                 return false;
             return this.FullName == other.FullName && this.DataType == other.DataType;
         }
-        public override bool Equals(object obj)
-        {
-            var y = obj as IB_Field;
-            if (y is null)
-                return this is null ? true : false;
-            return this.Equals(y);
-        }
-
+    
         public static bool operator ==(IB_Field x, IB_Field y)
         {
             if (x is null)

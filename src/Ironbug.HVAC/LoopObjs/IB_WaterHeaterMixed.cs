@@ -1,5 +1,6 @@
 ﻿using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -12,6 +13,11 @@ namespace Ironbug.HVAC
      
         private IB_ThermalZone _Zone => this.GetChild<IB_ThermalZone>();
         private IB_WaterHeaterSizing _Sizing => this.GetChild<IB_WaterHeaterSizing>();
+
+        [JsonConstructor]
+        private IB_WaterHeaterMixed(bool forDeserialization) : base(null)
+        {
+        }
         public IB_WaterHeaterMixed() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(null);
