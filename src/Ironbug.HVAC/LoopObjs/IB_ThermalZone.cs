@@ -66,6 +66,8 @@ namespace Ironbug.HVAC.BaseClass
 
         public void AddZoneEquipment(IIB_ZoneEquipment Equipment)
         {
+            if (Equipment is IB_AirTerminal)
+                throw new ArgumentException("Cannot add AirTerminal as a ZoneEquipment!");
             this.ZoneEquipments.Add(Equipment);
         }
 
