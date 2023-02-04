@@ -141,14 +141,26 @@ namespace Ironbug.HVAC.BaseClass
         [OnDeserialized]
         internal void OnDeserializedMethod(StreamingContext context)
         {
-            foreach (var item in this)
+            try
             {
-                if (item.Value is Newtonsoft.Json.Linq.JToken jt)
+                var checkedValues = this
+                    .Where(_ => _.Value is Newtonsoft.Json.Linq.JToken)
+                    .Select(_ => new { _.Key, Value = DeserializationHelper.Deserialize(_.Value as Newtonsoft.Json.Linq.JToken)  })
+                    .ToList();
+              
+                // update
+                foreach (var item in checkedValues)
                 {
-                    var o = DeserializationHelper.Deserialize(jt);
-                    this.SetByKey(item.Key, o);
+                    this.SetByKey(item.Key, item.Value);
                 }
             }
+            catch (Exception ex)
+            {
+                throw new ArgumentException("Failed to deserialize", ex);
+            }
+            
+
+
         }
 
 
