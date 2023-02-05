@@ -232,7 +232,7 @@ namespace Ironbug.HVAC
             }
         }
 
-        //This is due to how HB sets up the this type of construction
+        //This is due to how HB sets up the this type of construction 
         private static void CheckInternalSourceConstruction(OpenStudio.Model model)
         {
             var tempM_o = model.getMaterialByName("INTERNAL SOURCE");
@@ -311,6 +311,32 @@ namespace Ironbug.HVAC
             
         }
 
+        public override string ToString()
+        {
+            var s = "IB_HVACSystem";
+            if (AirLoops.Any())
+            {
+                var loops = this.AirLoops.GroupBy(_ => _ is HVAC.IB_NoAirLoop);
+                var noAir = loops.FirstOrDefault(_ => _.Key == true)?.OfType<HVAC.IB_NoAirLoop>();
+                if (noAir != null)
+                    s = $"{s}{Environment.NewLine}  - Zonal-system: {noAir.SelectMany(_=>_.ThermalZones).Count()}";
+                var airCount = loops.FirstOrDefault(_ => _.Key == false)?.Count();
+                if (airCount.HasValue)
+                    s = $"{s}{Environment.NewLine}  - Air loop: {airCount.GetValueOrDefault()}";
+            }
+
+            if (PlantLoops.Any())
+            {
+                s = $"{s}{Environment.NewLine}  - Plant loop: {PlantLoops.Count}";
+            }
+
+            if (VariableRefrigerantFlows.Any())
+            {
+                s = $"{s}{Environment.NewLine}  - VRF system: {VariableRefrigerantFlows.Count}";
+            }
+
+            return s;
+        }
 
         public override bool Equals(object obj)
         {
@@ -328,6 +354,16 @@ namespace Ironbug.HVAC
             same &= this.IBVersion== other.IBVersion;
             return same;
         }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1811681192;
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_AirLoopHVAC>>.Default.GetHashCode(AirLoops);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_PlantLoop>>.Default.GetHashCode(PlantLoops);
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<IB_AirConditionerVariableRefrigerantFlow>>.Default.GetHashCode(VariableRefrigerantFlows);
+            return hashCode;
+        }
+
         public static bool operator ==(IB_HVACSystem x, IB_HVACSystem y)
         {
             if (x is null)
