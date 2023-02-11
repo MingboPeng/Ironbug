@@ -54,6 +54,16 @@ namespace Ironbug.HVAC
 
         }
 
+        public virtual List<IB_ThermalZone> GetThermalZones()
+        {
+            return this.DemandComponents
+                .OfType<IB_AirLoopBranches>()
+                .SelectMany(_ => _.Branches)
+                .SelectMany(_ => _)
+                .OfType<IB_ThermalZone>()
+                ?.ToList();
+        }
+
 
         public override ModelObject ToOS(Model model)
         {

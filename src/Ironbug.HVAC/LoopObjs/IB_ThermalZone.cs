@@ -24,6 +24,8 @@ namespace Ironbug.HVAC.BaseClass
         public IB_ThermalZone ReturnPlenum { get; private set; }
 
         public bool IsAirTerminalBeforeZoneEquipments { get => Get(false); set => Set(value, false); }
+        public string ZoneName => this.CustomAttributes.TryGetValue(IB_ThermalZone_FieldSet.Value.Name, out var n) ? n.ToString() : null;
+
         public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
         {
             
