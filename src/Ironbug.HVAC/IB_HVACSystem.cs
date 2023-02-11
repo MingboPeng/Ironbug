@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using Ironbug.Core;
+using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json.Linq;
 
 namespace Ironbug.HVAC
 {
@@ -336,6 +338,22 @@ namespace Ironbug.HVAC
             }
 
             return s;
+        }
+
+        public List<IB_ThermalZone> GetThermalZones()
+        {
+            return this.AirLoops?
+                .SelectMany(_ => _.GetThermalZones())?
+                .ToList() ?? new List<IB_ThermalZone>();
+        }
+
+        public List<string> GetThermalZoneNames()
+        {
+            return this.GetThermalZones()?
+                .Select(_ => _?.ZoneName)?
+                .Where(_=> !string.IsNullOrEmpty(_))?
+                .ToList() ?? new List<string>();
+
         }
 
         public override bool Equals(object obj)

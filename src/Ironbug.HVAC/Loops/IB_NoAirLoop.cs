@@ -45,6 +45,10 @@ namespace Ironbug.HVAC
             return null;
         }
 
+        public override List<IB_ThermalZone> GetThermalZones()
+        {
+            return this.ThermalZones;
+        }
         public override string ToString()
         {
             return string.Format("{0} zones in this NoAirLoop", this.ThermalZones.Count);
