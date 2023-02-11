@@ -58,6 +58,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, this.filesList.SelectMany(_=>_));
 
             this.templateMenu = GetHVACMenu();
+            
         }
 
         private Size GetMoveVector(PointF FromLocation)
@@ -69,7 +70,7 @@ namespace Ironbug.Grasshopper.Component
             return new Size(loc);
         }
 
-        private void CreateTemplateFromXMLString(string FilePath, ref bool Run)
+        private void CreateTemplateFromFilePath(string FilePath, ref bool Run)
         {
             var canvasCurrent = GH.Instances.ActiveCanvas;
             var f = canvasCurrent.Focused;
@@ -97,7 +98,6 @@ namespace Ironbug.Grasshopper.Component
                 docTemp.TranslateObjects(vec ,true);
 
                 docTemp.ExpireSolution();
-                
                 var docCurrent = canvasCurrent.Document;
                 docCurrent.DeselectAll();
                 docCurrent.MergeDocument(docTemp);
@@ -166,7 +166,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     var a = sender as ToolStripDropDownItem;
                     var r = true;
-                    CreateTemplateFromXMLString(a.Tag.ToString(), ref r);
+                    CreateTemplateFromFilePath(a.Tag.ToString(), ref r);
                     this.ExpireSolution(true);
 
                 };
