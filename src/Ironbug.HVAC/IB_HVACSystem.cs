@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json.Linq;
+using System.Dynamic;
 
 namespace Ironbug.HVAC
 {
@@ -74,10 +75,18 @@ namespace Ironbug.HVAC
         public bool ShouldSerializeVariableRefrigerantFlows() => !this.VariableRefrigerantFlows.IsNullOrEmpty();
         #endregion
 
+        
+
         public string ToJson(bool indented = false)
         {
             var format = indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None;
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
+        }
+
+        public object ToExpandoObject()
+        {
+            var json = ToJson();
+            return JsonConvert.DeserializeObject<ExpandoObject>(json);
         }
 
         public string SaveAsJson(string path)

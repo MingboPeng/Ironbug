@@ -10,6 +10,7 @@ using Ironbug.Core;
 using Ironbug.HVAC.Schedules;
 using OpenStudio;
 using System.Runtime.Serialization;
+using System.Dynamic;
 
 namespace Ironbug.HVACTests
 {
@@ -79,7 +80,13 @@ namespace Ironbug.HVACTests
 
             var newHvac = IB_HVACSystem.FromJson(j);
             Assert.AreEqual(newHvac, hvac);
+            Assert.AreEqual(j, newHvac.ToJson());
 
+            // test ToExpandoObject
+            var expO = hvac.ToExpandoObject();
+            Assert.IsNotNull(expO);
+            var j2 = Newtonsoft.Json.JsonConvert.SerializeObject(expO);
+            Assert.AreEqual(j, j2);
         }
 
         IB_AirLoopHVAC BuildAirloop()
@@ -112,10 +119,10 @@ namespace Ironbug.HVACTests
             var vrf = new IB_AirConditionerVariableRefrigerantFlow();
             vrf.AddTerminal(BuildVrfTerminal());
 
-            var json = vrf.ToJson(true);
+            var json = vrf.ToJson();
             var newVrf = IB_ModelObject.FromJson<IB_AirConditionerVariableRefrigerantFlow>(json);
             Assert.IsTrue(newVrf == vrf);
-
+            Assert.AreEqual(json, newVrf.ToJson());
         }
 
         [Test]
@@ -468,6 +475,7 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(typeName == tp.FullName);
         }
 
+    
         //[Test]
         //public void IBProperties_pp_Test()
         //{
