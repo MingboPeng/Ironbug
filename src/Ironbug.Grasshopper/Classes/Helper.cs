@@ -7,61 +7,84 @@ namespace Ironbug.Grasshopper
     public static class Helper
     {
 
+        static Rhino.Runtime.PythonScript _pythonRuntime = null;
+        public static Rhino.Runtime.PythonScript GetPython()
+        {
+            _pythonRuntime = _pythonRuntime ?? Rhino.Runtime.PythonScript.Create();
+            return _pythonRuntime;
+        }
+
         public static IEnumerable<string> GetRoomNames(List<object> HBZonesOrNames)
         {
-            var firstItem = HBZonesOrNames?.FirstOrDefault();
-            var zoneNames = new List<string>();
+            return HBZonesOrNames?.Select(x => GetRoomName(x))?.ToList();
+        }
 
-            if (firstItem == null)
-                return zoneNames;
+        public static string GetRoomName(object HBObj)
+        {
+            if (HBObj is null)
+                return string.Empty;
 
-            if (firstItem is Types.OsZone)
+            if (HBObj is Types.OsZone z)
             {
-                zoneNames = HBZonesOrNames.Where(_ => _ is Types.OsZone).Select(_ => (_ as Types.OsZone).ZoneName).ToList<string>();
+                return z.ZoneName;
             }
-            else if (firstItem is GH_Brep)
+            else if (HBObj is GH_Brep b)
             {
                 // Legacy HBZones
-                var hbzones = HBZonesOrNames.SkipWhile(_ => _ is null || _ is Types.OsZone).Select(_ => _ as GH_Brep);
-                zoneNames = Helper.CallFromHBHive(hbzones).ToList();
+                throw new System.ArgumentException("Ironbug doesn't support HBZones from the legacy version anymore!");
             }
-            else if (firstItem is GH_String)
+            else if (HBObj is GH_String s)
             {
-                zoneNames = HBZonesOrNames.Select(_ => (_ as GH_String).Value).ToList<string>();
+                return s.Value.ToString();
             }
-            else if (firstItem is GH_ObjectWrapper wrapper)
+            else if (HBObj is GH_ObjectWrapper wrapper)
             {
                 // LBT Room
-                var isLBTRoom = wrapper.Value.ToString().StartsWith("Room:");
-                isLBTRoom &= wrapper.Value.GetType().ToString().StartsWith("IronPython.");
+                var pyObj = wrapper.Value;
+                var isLBTRoom = pyObj.ToString().StartsWith("Room:");
+                var tp = pyObj.GetType();
+                isLBTRoom &= tp.ToString().StartsWith("IronPython.");
 
-                if (isLBTRoom)
-                {
-                    zoneNames = Helper.FromLBTRooms(HBZonesOrNames).ToList();
-                }
+                if (isLBTRoom) 
+                    return GetLBTRoomName(pyObj);
 
             }
-            else if (firstItem.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
+            else if (HBObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
             {
-                var rm = HBZonesOrNames[0];
-                var tp = rm?.GetType();
+                var rm = HBObj;
+                var tp = HBObj?.GetType();
                 var type = tp?.GetProperty("POTypeName")?.GetValue(rm)?.ToString();
 
                 if (type == "Room")
                 {
-                    var pyObjs = HBZonesOrNames.Select(_ => tp.GetProperty("RefPythonObj")?.GetValue(rm)).Select(_ => new GH_ObjectWrapper(_));
-                    zoneNames = Helper.FromLBTRooms(pyObjs).ToList();
+                    var pyObj = tp.GetProperty("RefPythonObj")?.GetValue(rm);
+                    return GetLBTRoomName(pyObj);
                 }
             }
 
-            return zoneNames;
+
+            throw new System.ArgumentException("Invalid Room object!");
+
+        }
+
+        /// For new Honeybee
+        static string GetLBTRoomName(object lbtRoom)
+        {
+            var pyRun = GetPython();
+            pyRun.SetVariable("HBRoom", lbtRoom);
+            string pyScript = @"
+id = HBRoom.identifier
+";
+            pyRun.ExecuteScript(pyScript);
+            var name = pyRun.GetVariable("id") as string;
+            return name;
         }
 
         /// For new Honeybee
         public static IEnumerable<string> FromLBTRooms(IEnumerable<object> inRooms)
         {
             var rooms = inRooms.OfType<GH_ObjectWrapper>().Select(_ => _.Value);
-            var pyRun = Rhino.Runtime.PythonScript.Create();
+            var pyRun = GetPython();
             pyRun.SetVariable("HBRooms", rooms.ToArray());
             string pyScript = @"
 PyHBObjects=[];
@@ -101,7 +124,7 @@ for room in HBRooms:
 
         private static IList<dynamic> GetHBObjects(List<string> HBIDs)
         {
-            var pyRun = Rhino.Runtime.PythonScript.Create();
+            var pyRun = GetPython();
             pyRun.SetVariable("HBIDs", HBIDs.ToArray());
             string pyScript = @"
 import scriptcontext as sc;
