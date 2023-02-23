@@ -3,11 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Ironbug.Core;
-using Ironbug.HVAC;
 using System.Runtime.Serialization;
-using System.Collections;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -316,6 +313,21 @@ namespace Ironbug.HVAC.BaseClass
 
         public ModelObject GetOsmObjInModel(Model model)
         {
+            if (this.GhostOSObject == null)
+            {
+
+                ///NewDefaultOpsObj
+                //var tp = this.GetType();
+                //var initM = tp.GetMethod("NewDefaultOpsObj", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+                //this.GhostOSObject = initM?.Invoke(null, new object[] { model }) as ModelObject;
+                //this.GhostOSObject?.SetCustomAttributes(this.CustomAttributes);
+
+                var tpName = this.GetType().Name.Replace("IB_", "");
+                var tracking = this.GetTrackingID();
+                return ModelObjectExtensions.GetFromModel(tpName, tracking, model);
+            }
+
+
             return this.GhostOSObject.GetIfInModel(model);
         }
         //this is for override
