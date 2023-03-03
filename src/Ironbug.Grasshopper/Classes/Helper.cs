@@ -41,12 +41,17 @@ namespace Ironbug.Grasshopper
             {
                 // LBT Room
                 var pyObj = wrapper.Value;
-                var isLBTRoom = pyObj.ToString().StartsWith("Room:");
-                var tp = pyObj.GetType();
-                isLBTRoom &= tp.ToString().StartsWith("IronPython.");
+                var isPythonObj = pyObj.GetType().ToString().StartsWith("IronPython.");
+                if (!isPythonObj)
+                    throw new System.ArgumentException("Invalid Room object!");
 
-                if (isLBTRoom) 
+                var name = pyObj.ToString();
+                var isLBTRoom = name.StartsWith("Room:");
+                var isDFRoom2D = name.StartsWith("Room2D:");
+
+                if (isLBTRoom || isDFRoom2D)
                     return GetLBTRoomName(pyObj);
+
 
             }
             else if (HBObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
