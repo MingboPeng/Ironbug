@@ -18,7 +18,6 @@ namespace Ironbug
                     {
                         Converters = new List<JsonConverter>() {
                             IB_JsonConverter_FieldArgument.Instance,
-                            IB_JsonConverter_FieldArgumentSet.Instance,
                         },
                         TypeNameHandling = TypeNameHandling.Objects,
                         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
@@ -29,29 +28,6 @@ namespace Ironbug
                 return _setting;
 			}
 		}
-
-        private static JsonSerializerSettings _FieldArgumentSet_setting;
-        public static JsonSerializerSettings FieldArgumentSet_ConvertSetting
-        {
-            get
-            {
-
-                if (_FieldArgumentSet_setting == null)
-                {
-                    _FieldArgumentSet_setting = new JsonSerializerSettings
-                    {
-                        Converters = new List<JsonConverter>() {
-                            IB_JsonConverter_FieldArgument.Instance,
-                        },
-                        TypeNameHandling = TypeNameHandling.Objects,
-                        ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-                        ContractResolver = ContractResolver,
-                    };
-                }
-                return _FieldArgumentSet_setting;
-            }
-        }
-
 
         private static Newtonsoft.Json.Serialization.IContractResolver _contractResolver;
         public static Newtonsoft.Json.Serialization.IContractResolver ContractResolver

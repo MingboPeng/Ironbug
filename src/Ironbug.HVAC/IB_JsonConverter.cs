@@ -23,6 +23,7 @@ namespace Ironbug
         public override IB_FieldArgument ReadJson(JsonReader reader, Type objectType, IB_FieldArgument existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             JToken jToken = JToken.ReadFrom(reader);
+
             // Field
             var fieldTypeJson = jToken[nameof(existingValue.Field)].ToString();
             var field = JsonConvert.DeserializeObject<IB_Field>(fieldTypeJson);
@@ -36,71 +37,29 @@ namespace Ironbug
                 {
                     var typeName = prop.Value.ToString();
                     var type = Type.GetType(typeName);
-                    value = JsonConvert.DeserializeObject(valueToken.ToString(), type, IB_JsonConverter_FieldArgumentSet.Instance);
+                    //value = JsonConvert.DeserializeObject(valueToken.ToString(), type, Serializer);
+                    value = valueToken.ToObject(type, serializer);
                 }
             }
 
-            return  new IB_FieldArgument(field, value);
+            return new IB_FieldArgument(field, value);
         }
 
         public override void WriteJson(JsonWriter writer, IB_FieldArgument value, JsonSerializer serializer)
         {
+
             JToken t = JToken.FromObject(value);
             if (value.Value is IB_ModelObject obj)
             {
-                JToken tv = t["Value"];
-                tv["$type"] = obj.GetType().FullName;
+                t["Value"] = JObject.FromObject(obj, serializer);
             }
+
             t.WriteTo(writer);
-        }
-    }
 
-
-    /// <summary>
-    /// ModelObject will have a new tracking ID added upon its initialization. Have to use this converter to override the all field arguments
-    /// </summary>
-    public class IB_JsonConverter_FieldArgumentSet : JsonConverter<IB_FieldArgumentSet>
-    {
-        private static IB_JsonConverter_FieldArgumentSet _instance;
-        public static IB_JsonConverter_FieldArgumentSet Instance
-        {
-            get { return _instance ?? (_instance = new IB_JsonConverter_FieldArgumentSet()); }
-        }
-
-        public IB_JsonConverter_FieldArgumentSet()
-        {
-        }
-
-        public override IB_FieldArgumentSet ReadJson(JsonReader reader, Type objectType, IB_FieldArgumentSet existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            var array = JArray.Load(reader);
-            var obj = array.ToObject<IB_FieldArgumentSet>(Serializer);
-            
-            return obj;
-
-        }
-
-        public override void WriteJson(JsonWriter writer, IB_FieldArgumentSet value, JsonSerializer serializer)
-        {
-            JArray t = new JArray(value.Select(_ => JToken.FromObject(_, serializer)));
-            t.WriteTo(writer);
-        }
-
-        private static JsonSerializer _serializer;
-        public static JsonSerializer Serializer
-        {
-            get
-            {
-                if (_serializer == null)
-                {
-                    _serializer = JsonSerializer.Create(IB_JsonSetting.FieldArgumentSet_ConvertSetting);
-                }
-                return _serializer;
-
-            }
         }
 
     }
+
 
     public static class DeserializationHelper
     {
