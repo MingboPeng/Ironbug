@@ -80,7 +80,12 @@ namespace Ironbug.HVAC
         public string ToJson(bool indented = false)
         {
             var format = indented ? Newtonsoft.Json.Formatting.Indented : Newtonsoft.Json.Formatting.None;
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(this, format, IB_JsonSetting.ConvertSetting);
+            var dup = IB_HVACSystem.FromJson(json);
+            if (this != dup)
+                throw new ArgumentException("Failed to serialize IB_HVACSystem, please report this to the developer!");
+            return json;
+
         }
 
         public object ToExpandoObject()
