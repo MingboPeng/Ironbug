@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Ironbug.HVAC.Schedules;
 using Newtonsoft.Json;
@@ -85,8 +86,39 @@ namespace Ironbug.HVACTests
             //var readDis3 = JsonConvert.DeserializeObject<List<IB_ScheduleRule>>(json3, IB_JsonSetting.ConvertSetting);
             Assert.AreEqual(listobj, readDis3);
 
+        }
+
+        [Test]
+        public void SchduleRuleSet_Test()
+        {
+
+            var sch = new IB_ScheduleRule(new IB_ScheduleDay(12));
+            var schSet = new IB_ScheduleRuleset();
+            schSet.Rules.Add(sch);
+
+            var json = JsonConvert.SerializeObject(schSet, Formatting.Indented, IB_JsonSetting.ConvertSetting);
+            var readDis = JsonConvert.DeserializeObject<IB_ScheduleRuleset>(json, IB_JsonSetting.ConvertSetting);
+            Assert.AreEqual(schSet, readDis);
 
         }
+
+        [Test]
+        public void AirloopWithSch_Test()
+        {
+
+            var sch = new IB_ScheduleRule(new IB_ScheduleDay(12));
+            var schSet = new IB_ScheduleRuleset();
+            schSet.Rules.Add(sch);
+
+            var airLoop = new IB_AirLoopHVAC();
+            airLoop.AddCustomAttribute(new IB_Field("AvailabilitySchedule", ""), schSet);
+
+            var json2 = JsonConvert.SerializeObject(airLoop, Formatting.Indented, IB_JsonSetting.ConvertSetting);
+            var airloop2 = JsonConvert.DeserializeObject<IB_AirLoopHVAC>(json2, IB_JsonSetting.ConvertSetting);
+            Assert.AreEqual(airLoop, airloop2);
+
+        }
+
 
         [Test]
         public void IB_PropArgumentSet_Test()
@@ -108,6 +140,7 @@ namespace Ironbug.HVACTests
             var dup = pT.Duplicate();
             Assert.AreEqual(pT, dup);
             Assert.AreEqual(pT, readDis);
+
         }
 
         [Test]
