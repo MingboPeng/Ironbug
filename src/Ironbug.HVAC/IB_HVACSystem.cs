@@ -375,9 +375,13 @@ namespace Ironbug.HVAC
             if (other is null)
                 return this is null ? true : false;
             var same = this.AirLoops.SequenceEqual(other.AirLoops);
+            if (!same) return false;
             same &= this.PlantLoops.SequenceEqual(other.PlantLoops);
-            same &= this.VariableRefrigerantFlows.SequenceEqual(other.VariableRefrigerantFlows);
+            if (!same) return false;
+            same &= this.VariableRefrigerantFlows.SequenceEqual(other.VariableRefrigerantFlows); 
+            if (!same) return false;
             same &= this.GetType() == other.GetType();
+            if (!same) return false;
             same &= this.IBVersion== other.IBVersion;
             return same;
         }
