@@ -26,6 +26,8 @@ namespace Ironbug.HVACTests
                 var saveAsOsm = Path.Combine(Path.GetTempPath(), $"{fileName}.osm");
                 File.Copy(osm, saveAsOsm, true);
                 var done = IB_HVACSystem.SaveHVAC(saveAsOsm, hvac);
+                if (!done)
+                    Console.WriteLine($"Failed to save {hvac}");
                 Assert.True(done);
 
             }
