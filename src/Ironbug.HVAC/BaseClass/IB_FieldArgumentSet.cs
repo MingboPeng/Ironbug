@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -83,6 +82,14 @@ namespace Ironbug.HVAC.BaseClass
 
         public static bool operator !=(IB_FieldArgumentSet x, IB_FieldArgumentSet y) => !(x == y);
 
+
+        [OnDeserializing]
+        internal void OnDeserializingMethod(StreamingContext context)
+        {
+            // clear all args in case there is any init args are added by constructors
+            this.Clear();
+
+        }
 
     }
 
