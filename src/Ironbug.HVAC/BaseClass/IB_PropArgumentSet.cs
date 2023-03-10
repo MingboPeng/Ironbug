@@ -201,6 +201,7 @@ namespace Ironbug.HVAC.BaseClass
             foreach (var item in this)
             {
                 same &= other.TryGetValue(item.Key, out var o);
+                if (!same) return false;
                 same = same ? AreSame(item.Value, o) : false ;
             }
             return same;
