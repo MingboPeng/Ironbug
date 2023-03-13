@@ -19,6 +19,11 @@ namespace Ironbug.HVAC
 
         public IB_CoilCoolingDXTwoStageWithHumidityControlMode() : base(NewDefaultOpsObj(new Model()))
         {
+            // add placeholders
+            this.AddChild(null);
+            this.AddChild(null);
+            this.AddChild(null);
+            this.AddChild(null);
         }
         
         public void SetNormalModeStage1CoilPerformance(IB_CoilPerformanceDXCooling coil)
