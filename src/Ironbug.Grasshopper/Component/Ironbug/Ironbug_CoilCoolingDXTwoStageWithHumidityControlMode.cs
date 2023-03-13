@@ -45,8 +45,8 @@ namespace Ironbug.Grasshopper.Component
 
             if (DA.GetData(0, ref n1)) obj.SetNormalModeStage1CoilPerformance(n1);
             if (DA.GetData(1, ref n12)) obj.SetNormalModeStage1Plus2CoilPerformance(n12); 
-            if (DA.GetData(2, ref d1)) obj.SetNormalModeStage1CoilPerformance(d1);
-            if (DA.GetData(3, ref d12)) obj.SetNormalModeStage1Plus2CoilPerformance(d12);
+            if (DA.GetData(2, ref d1)) obj.SetDehumidificationMode1Stage1CoilPerformance(d1);
+            if (DA.GetData(3, ref d12)) obj.SetDehumidificationMode1Stage1Plus2CoilPerformance(d12);
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
