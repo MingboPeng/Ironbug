@@ -12,12 +12,12 @@ namespace Ironbug.HVAC
         public IB_PhotovoltaicPerformanceSimple() : base(NewDefaultOpsObj(new Model()))
         {
         }
-        public void setAmbientTemperatureThermalZone()
+        
+
+        public PhotovoltaicPerformanceSimple ToOS(Model model)
         {
-        }
-        public override IB_ModelObject ToOS(Model model)
-        {
-            return opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            return opsObj;
         }
     }
 
