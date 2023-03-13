@@ -8,9 +8,9 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_WaterHeaterHeatPump : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_WaterHeaterHeatPump()
-          : base("IB_WaterHeaterHeatPump", "WaterHeaterHeatPump",
+          : base("IB_WaterHeaterHeatPump", "WaterHeaterHP",
               "Description",
-              "Ironbug", "02:LoopComponents",
+              "Ironbug", "04:ZoneEquipments",
               typeof(HVAC.IB_WaterHeaterHeatPump_FieldSet))
         {
         }
@@ -47,30 +47,16 @@ namespace Ironbug.Grasshopper.Component
             var coilH = (IB_CoilWaterHeatingAirToWaterHeatPump)null;
             var fan = (IB_FanOnOff)null;
             
-            if (DA.GetData(0, ref waterHeater))
-            {
-                obj.SetTank(waterHeater);
-            }
-
-            if (DA.GetData(1, ref coilH))
-            {
-                obj.SetHeatingCoil(coilH);
-            }
-
-            if (DA.GetData(2, ref fan))
-            {
-                obj.SetFan(fan);
-            }
+            if (DA.GetData(0, ref waterHeater)) obj.SetTank(waterHeater);
+            if (DA.GetData(1, ref coilH)) obj.SetHeatingCoil(coilH);
+            if (DA.GetData(2, ref fan)) obj.SetFan(fan);
 
 
             this.SetObjParamsTo(obj);
             
-            // current:
             var objs = this.SetObjDupParamsTo(obj);
             DA.SetDataList(0, objs);
 
-            // or is this supposed to be:
-            // DA.SetData(0, obj)
         }
 
     }
