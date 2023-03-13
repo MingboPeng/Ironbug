@@ -5,14 +5,14 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_PhotovoltaicPerformanceSimple : Ironbug_DuplicableHVACWithParamComponent
     {
         public Ironbug_PhotovoltaicPerformanceSimple()
-          : base("IB_WaterHeaterMixed", "WaterHeaterMixed",
+          : base("IB_PhotovoltaicPerformanceSimple", "PV",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_PhotovoltaicPerformanceSimple_FieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.quarternary | GH_Exposure.hidden;
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
@@ -28,9 +28,9 @@ namespace Ironbug.Grasshopper.Component
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
         }
-        
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
-        
-        public override Guid ComponentGuid => new Guid("A202ED17-8359-4A2A-A0DD-D17515DCC5CF");
+
+        //protected override System.Drawing.Bitmap Icon => Properties.Resources.WaterHeaterMix;
+
+        public override Guid ComponentGuid => new Guid("AB4E0B97-78C3-4756-9285-D59F5DDF71A4");
     }
 }
