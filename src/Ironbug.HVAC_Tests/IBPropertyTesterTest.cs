@@ -98,6 +98,8 @@ namespace Ironbug.HVACTests
 
             var json = JsonConvert.SerializeObject(schSet, Formatting.Indented, IB_JsonSetting.ConvertSetting);
             var readDis = JsonConvert.DeserializeObject<IB_ScheduleRuleset>(json, IB_JsonSetting.ConvertSetting);
+            Assert.AreEqual(sch, readDis.Rules.First());
+            Assert.AreEqual(sch.IBProperties.FirstOrDefault(), readDis.Rules.First().IBProperties.FirstOrDefault());
             Assert.AreEqual(schSet, readDis);
 
         }
