@@ -202,7 +202,8 @@ namespace Ironbug.HVAC.BaseClass
             {
                 same &= other.TryGetValue(item.Key, out var o);
                 if (!same) return false;
-                same = same ? AreSame(item.Value, o) : false ;
+                same = AreSame(item.Value, o);
+                if (!same) return false;
             }
             return same;
         }
@@ -216,13 +217,21 @@ namespace Ironbug.HVAC.BaseClass
                 var o2m = (o2 as IEnumerable)?.Cast<object>();
                 if (!o1m.SequenceEqual(o2m))
                 {
-                    var zip = o1m.Cast<object>().Zip(o2m, (l, r) => new { l, r });
+                    var zip = o1m.Zip(o2m, (l, r) => new { l, r });
                     same &= zip.All(_ => AreSame(_.l, _.r));
                 }
             
             }
             else
-                same &= o1.Equals(o2);
+            {
+                same = o1.Equals(o2);
+                if (same) return true;
+
+                // try to match the type
+                o2 = Convert.ChangeType(o2, o1.GetType());
+                same = o1.Equals(o2);
+            }
+            
 
             return same;
         }

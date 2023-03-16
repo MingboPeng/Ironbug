@@ -5,6 +5,7 @@ using System.Linq;
 using Ironbug.Core;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
+using Ironbug.HVAC.Schedules;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -544,7 +545,7 @@ namespace Ironbug.HVAC.BaseClass
         public bool Equals(IB_ModelObject other)
         {
             if (other is null)
-                return DebugFalseMessage("Other is Null");
+                return false;
             if (this.GetType() != other.GetType()) 
                 return DebugFalseMessage($"Failed to compare type!");
             if (!this.CustomAttributes.Equals(other.CustomAttributes)) 
@@ -560,7 +561,7 @@ namespace Ironbug.HVAC.BaseClass
             if (!this.CustomActuators.SequenceEqual(other.CustomActuators)) 
                 return DebugFalseMessage($"Failed to compare CustomActuators!");
             if (!this.IBProperties.Equals(other.IBProperties)) 
-                return DebugFalseMessage($"Failed to compare IBProperties!");
+                return DebugFalseMessage($"Failed to compare {this.GetType()} IBProperties!");
          
             return true;
         }
@@ -591,7 +592,7 @@ namespace Ironbug.HVAC.BaseClass
         protected static bool DebugFalseMessage(string message)
         {
 #if DEBUG
-            if (string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(message))
                 Console.WriteLine(message);
 #endif
             return false;
@@ -599,7 +600,7 @@ namespace Ironbug.HVAC.BaseClass
         protected static bool DebugMessage(bool returnValue, string message)
         {
 #if DEBUG
-            if (string.IsNullOrEmpty(message))
+            if (!string.IsNullOrEmpty(message))
                 Console.WriteLine(message);
 #endif
             return returnValue;
