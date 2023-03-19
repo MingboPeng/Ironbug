@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemConstructionVariable()
           : base("IB_EMSConstructionVariable", "EMSConstructionVariable",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 

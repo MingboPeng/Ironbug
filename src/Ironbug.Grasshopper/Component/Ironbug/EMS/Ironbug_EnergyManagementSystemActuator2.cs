@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemActuator2()
           : base("IB_EMSActuator2", "EMSActuator2",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 

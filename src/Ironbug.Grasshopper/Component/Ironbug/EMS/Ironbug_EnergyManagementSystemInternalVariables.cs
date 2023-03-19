@@ -19,7 +19,7 @@
 //        public Ironbug_EnergyManagementSystemInternalVariables()
 //          : base("IB_EMSInternalVariables", "EmsInternalVariables",
 //              "Description",
-//              "Ironbug", "06:Sizing&Controller")
+//              "Ironbug", "06:Sizing & Controller")
 //        {
 //        }
 //        public override GH_Exposure Exposure => GH_Exposure.tertiary;

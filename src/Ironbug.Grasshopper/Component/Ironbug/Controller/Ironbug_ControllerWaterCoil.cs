@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_ControllerWaterCoil()
           : base("IB_ControllerWaterCoil", "ControllerWaterCoil",
               "Description",
-              "Ironbug", "06:Sizing&Controller",
+              "Ironbug", "06:Sizing & Controller",
               typeof(HVAC.IB_ControllerWaterCoil_FieldSet))
         {
         }

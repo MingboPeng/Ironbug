@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemSensor()
           : base("IB_EMSSensor", "EMSSensor",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 

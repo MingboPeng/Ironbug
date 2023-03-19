@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerSingleZoneHeating()
           : base("IB_SetpointManagerSingleZoneHeating", "SPM_SZCooling",
               "Description",
-              "Ironbug", "05:SetpointManager",
+              "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerSingleZoneHeating_FieldSet))
         {
         }

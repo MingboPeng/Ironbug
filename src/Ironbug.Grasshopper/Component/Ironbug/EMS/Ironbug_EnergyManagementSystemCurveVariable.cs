@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemCurveVariable()
           : base("IB_EMSCurveVariable", "EMSCurveVariable",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 

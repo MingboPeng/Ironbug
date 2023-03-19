@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_SizingSystem()
           : base("IB_SizingSystem", "SizingSystem",
               "Description",
-              "Ironbug", "06:Sizing&Controller",
+              "Ironbug", "06:Sizing & Controller",
               typeof(HVAC.IB_SizingSystem_FieldSet))
         {
         }

@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemProgramCallingManager()
           : base("IB_EMSProgramCallingManager", "EMSProgramCallingManager",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 

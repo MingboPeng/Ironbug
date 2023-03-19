@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AvailabilityManagerHybridVentilation()
           : base("IB_AvailabilityManagerHybridVentilation", "AM_HybridVent",
                  "Description",
-                 "Ironbug", "05:SetpointManager", typeof(IB_AvailabilityManagerHybridVentilation_FieldSet))
+                 "Ironbug", "05:SetpointManager & AvailabilityManager", typeof(IB_AvailabilityManagerHybridVentilation_FieldSet))
         {
         }
 
