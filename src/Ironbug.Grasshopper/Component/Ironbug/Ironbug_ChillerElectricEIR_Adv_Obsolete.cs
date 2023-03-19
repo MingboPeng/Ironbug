@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary | GH_Exposure.hidden ;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         public override bool Obsolete => true;
 

@@ -53,7 +53,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        //protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCDX2;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilDXwithH;
 
         public override Guid ComponentGuid => new Guid("9ACF588F-DAD7-4D6A-BB54-E8EC674B550A");
 

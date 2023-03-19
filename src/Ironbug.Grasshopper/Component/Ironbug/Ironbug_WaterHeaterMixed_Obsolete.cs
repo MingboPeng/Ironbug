@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.quarternary;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {

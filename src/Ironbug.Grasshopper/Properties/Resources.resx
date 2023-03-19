@@ -628,4 +628,43 @@
   <data name="WaterHeaterSizing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\WaterHeaterSizing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="AM_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AM_HV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_HV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AM_NC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_NC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AM_NV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_NV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AM_Off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_Off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AM_On" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\AM_On.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilDXwithH" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilDXwithH.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoilPerformance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilPerformance.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Coil_WHHP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Coil_WHHP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FromJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FromJson.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ToJson.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="VizCurve" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\VizCurve.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="WHHP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\WHHP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
