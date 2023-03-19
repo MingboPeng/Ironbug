@@ -245,6 +245,10 @@ namespace Ironbug.HVAC
                 {
                     value = sch.ToOS(md);
                 }
+                else if (value is BaseClass.IB_AvailabilityManager am)
+                {
+                    value = new AvailabilityManagerVector(new[] { am.ToOS(md) }.ToList());
+                }
 
                 var invokeResult = component.SetFieldValue(field, value);
 

@@ -39,7 +39,8 @@ namespace Ironbug.HVAC.BaseClass
                                 paramType == typeof(int) ||
                                 typeof(Curve).IsAssignableFrom(paramType) ||
                                 typeof(Schedule).IsAssignableFrom(paramType) ||
-                                typeof(ScheduleTypeLimits).IsAssignableFrom(paramType);
+                                typeof(ScheduleTypeLimits).IsAssignableFrom(paramType) ||
+                                typeof(OpenStudio.AvailabilityManagerVector) == paramType;
 
                                 return isValidType;
 
