@@ -16,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("AmbientTemperatureThermalZone", "AmbientTemperatureThermalZone_", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("zone_", "zone_", "AmbientTemperatureThermalZone", GH_ParamAccess.item);
             pManager[0].Optional = true;
             pManager.AddGenericParameter("sizing_", "sizing", "WaterHeaterSizing", GH_ParamAccess.item);
             pManager[1].Optional = true;

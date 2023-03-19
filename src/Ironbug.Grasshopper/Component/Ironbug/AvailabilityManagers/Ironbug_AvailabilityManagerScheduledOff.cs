@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.AM_Off;
 
         public override Guid ComponentGuid => new Guid("446B0555-E983-4FA7-9E09-DB126332AFD2");
     }

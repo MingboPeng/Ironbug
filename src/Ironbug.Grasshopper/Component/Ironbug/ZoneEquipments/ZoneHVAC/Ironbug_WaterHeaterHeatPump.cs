@@ -1,7 +1,6 @@
 using System;
 using Grasshopper.Kernel;
 using Ironbug.HVAC;
-using Ironbug.HVAC.BaseClass;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -17,7 +16,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override GH_Exposure Exposure => GH_Exposure.quarternary;
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.WHHP;
 
         public override Guid ComponentGuid => new Guid("61ACA84B-DAAF-4ECE-8271-5796FF8C3A0D");
 

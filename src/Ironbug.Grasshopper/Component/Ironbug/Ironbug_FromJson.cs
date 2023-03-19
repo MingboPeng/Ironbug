@@ -12,7 +12,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.septenary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetData(0, sys);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.FromJson;
 
         public override Guid ComponentGuid => new Guid("90AB41C5-F652-4B17-8B02-BA8CF8739821");
 

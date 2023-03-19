@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, objs);
         }
 
-        //protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCW;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilPerformance;
 
         public override Guid ComponentGuid => new Guid("A11C79B3-982D-41AF-9EC6-A93853694B74");
     }
