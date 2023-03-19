@@ -263,6 +263,10 @@ namespace Ironbug.HVAC.BaseClass
             {
                 realValue = sch.ToOS(this.GhostOSObject.model());
             }
+            else if (value is IB_AvailabilityManager am)
+            {
+                realValue = new AvailabilityManagerVector(new[] { am.ToOS(this.GhostOSObject.model()) }.ToList());
+            }
 
             this.CustomAttributes.TryAdd(field, value);
 
@@ -546,8 +550,8 @@ namespace Ironbug.HVAC.BaseClass
         {
             if (other is null)
                 return false;
-            if (this.GetType() != other.GetType()) 
-                return DebugFalseMessage($"Failed to compare type!");
+            if (this.GetType() != other.GetType())
+                return false;
             if (!this.CustomAttributes.Equals(other.CustomAttributes)) 
                 return DebugFalseMessage($"Failed to compare CustomAttributes!");
             if (!this.CustomOutputVariables.SequenceEqual(other.CustomOutputVariables)) 
