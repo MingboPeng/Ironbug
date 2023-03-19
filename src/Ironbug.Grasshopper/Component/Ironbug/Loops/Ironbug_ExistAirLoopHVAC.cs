@@ -16,9 +16,9 @@ namespace Ironbug.Grasshopper.Component
               "Ironbug", "01:Loops")
         {
         }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
-        
+
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("OsAirLoop", "OsAirLoop", "The existing air loop from Ironbug_ImportOSM component", GH_ParamAccess.item);
