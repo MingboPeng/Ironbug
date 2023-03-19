@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerSingleZoneHumidityMaximum()
           : base("IB_SetpointManagerSingleZoneHumidityMaximum", "SPM_SZHumidityMax",
               "Description",
-              "Ironbug", "05:SetpointManager",
+              "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerSingleZoneHumidityMaximum_FieldSet))
         {
         }

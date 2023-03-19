@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerFollowOutdoorAirTemperature()
           : base("IB_SetpointManagerFollowOutdoorAirTemperature", "SPM_FollowOATemp",
               "Description",
-              "Ironbug", "05:SetpointManager",
+              "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerFollowOutdoorAirTemperature_FieldSet))
         {
         }

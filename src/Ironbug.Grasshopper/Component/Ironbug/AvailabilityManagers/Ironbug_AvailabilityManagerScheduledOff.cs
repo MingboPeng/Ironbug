@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AvailabilityManagerScheduledOff()
           : base("IB_AvailabilityManagerScheduledOff", "AM_NightCycle",
                  "Description",
-                 "Ironbug", "05:SetpointManager", typeof(IB_AvailabilityManagerScheduledOff_FieldSet))
+                 "Ironbug", "05:SetpointManager & AvailabilityManager", typeof(IB_AvailabilityManagerScheduledOff_FieldSet))
         {
         }
 

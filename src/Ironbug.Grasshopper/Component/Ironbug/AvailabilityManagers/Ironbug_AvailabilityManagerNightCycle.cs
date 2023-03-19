@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_AvailabilityManagerNightCycle()
           : base("IB_AvailabilityManagerNightCycle", "AM_NightCycle",
                  "Description",
-                 "Ironbug", "05:SetpointManager", typeof(IB_AvailabilityManagerNightCycle_FieldSet))
+                 "Ironbug", "05:SetpointManager & AvailabilityManager", typeof(IB_AvailabilityManagerNightCycle_FieldSet))
         {
         }
 

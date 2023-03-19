@@ -19,7 +19,7 @@
 //        public Ironbug_EnergyManagementSystemSensors()
 //          : base("IB_EnergyManagementSystemSensors", "EmsSensors",
 //              "Description",
-//              "Ironbug", "06:Sizing&Controller")
+//              "Ironbug", "06:Sizing & Controller")
 //        {
 //        }
 //        public override GH_Exposure Exposure => GH_Exposure.tertiary;

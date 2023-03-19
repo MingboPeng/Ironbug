@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_EnergyManagementSystemMeteredOutputVariable()
           : base("IB_EMSMeteredOutputVariable", "EMSMeteredVariable",
               "Description",
-              "Ironbug", "06:Sizing&Controller",
+              "Ironbug", "06:Sizing & Controller",
               typeof(IB_EnergyManagementSystemMeteredOutputVariable_FieldSet))
         {
         }

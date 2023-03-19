@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerScheduledDualSetpoint()
           : base("IB_SetpointManagerScheduledDualSetpoint", "SPM_Dual",
               "Description",
-              "Ironbug", "05:SetpointManager",
+              "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerScheduledDualSetpoint_FieldSet))
         {
         }

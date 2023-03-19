@@ -8,7 +8,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_WaterHeaterSizing()
           : base("IB_WaterHeaterSizing", "WaterHeaterSizing",
               "Description",
-              "Ironbug", "06:Sizing&Controller",
+              "Ironbug", "06:Sizing & Controller",
               typeof(HVAC.IB_WaterHeaterSizing_FieldSet))
         {
         }

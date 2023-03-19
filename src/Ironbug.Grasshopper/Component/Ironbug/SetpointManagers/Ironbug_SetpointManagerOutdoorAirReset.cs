@@ -13,7 +13,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         public Ironbug_SetpointManagerOutdoorAirReset()
           : base("IB_SetpointManagerOutdoorAirReset", "SPM_OAReset",
               "Description",
-              "Ironbug", "05:SetpointManager",
+              "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerOutdoorAirReset_FieldSet))
         {
         }

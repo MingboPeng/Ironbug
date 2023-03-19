@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
         public Ironbug_PlantEquipmentOperationHeatingLoad()
           : base("IB_PlantEquipmentOperationHeatingLoad", "HtnLoadScheme",
               "Description",
-              "Ironbug", "06:Sizing&Controller")
+              "Ironbug", "06:Sizing & Controller")
         {
         }
 
