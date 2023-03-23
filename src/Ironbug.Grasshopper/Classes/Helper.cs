@@ -72,6 +72,24 @@ namespace Ironbug.Grasshopper
 
         }
 
+        public static int[] GetDateRange(object LBObj)
+        {
+            if (LBObj is null)
+                throw new System.ArgumentNullException();
+
+            if (LBObj is GH_ObjectWrapper wrapper)
+            {
+                // LBT Room
+                var pyObj = wrapper.Value;
+                var isPythonObj = pyObj.GetType().ToString().StartsWith("IronPython.");
+                if (!isPythonObj)
+                    throw new System.ArgumentException("Invalid LB Analysis Period!");
+
+                return GetLBTDateRange(pyObj);
+            }
+
+            throw new System.ArgumentException("Failed to convert LB Analysis Period!");
+        }
         /// For new Honeybee
         static string GetLBTRoomName(object lbtRoom)
         {
@@ -103,6 +121,18 @@ for room in HBRooms:
             return zoneIds;
         }
 
+        static int[] GetLBTDateRange(object lbtAnalysisPeriod)
+        {
+            var pyRun = GetPython();
+            pyRun.SetVariable("ap", lbtAnalysisPeriod);
+            string pyScript = @"
+dateRange = [ ap.st_month, ap.st_day, ap.end_month, ap.end_day]
+";
+            pyRun.ExecuteScript(pyScript);
+            var pyobj = pyRun.GetVariable("dateRange") as IList<dynamic>;
+            var dateRange = pyobj.OfType<int>().ToArray();
+            return dateRange;
+        }
         /// For legacy Honeybee
         public static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
         {
