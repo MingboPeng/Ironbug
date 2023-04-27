@@ -6,7 +6,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
-using Newtonsoft.Json.Linq;
 using System.Dynamic;
 
 namespace Ironbug.HVAC
