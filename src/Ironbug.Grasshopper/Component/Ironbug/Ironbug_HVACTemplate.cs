@@ -44,6 +44,8 @@ namespace Ironbug.Grasshopper.Component
             DA.GetDataList(0, dirs);
 
             dirs =  dirs.Where(_ => Directory.Exists(_)).ToList();
+            if (dirs.Count == 0)
+                throw new ArgumentException("No template folder was found!");
 
             foreach (var dir in dirs)
             {
