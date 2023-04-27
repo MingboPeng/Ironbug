@@ -50,7 +50,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.HVAC;
 
-        // Ensure to update the guid used in Pollinaiton Rhino plugin for finding this component
+        // Ensure to update the guid used in Pollination Rhino plugin for finding this component
         public override Guid ComponentGuid => new Guid("330C6DCC-EC73-49C7-96CB-B0EB522A1585");
 
 
