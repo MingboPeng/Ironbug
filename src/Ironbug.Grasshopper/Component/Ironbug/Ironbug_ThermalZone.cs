@@ -53,6 +53,9 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
+            this.Message = string.Empty;
+            if (this._allowMultiAirloops)
+                this.Message = "Allow Multi-AirLoops";
 
             var HBZones = new List<object>();
             if (!DA.GetDataList(0, HBZones)) return;
@@ -88,7 +91,7 @@ namespace Ironbug.Grasshopper.Component
         }
         
 
-        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, IB_SizingZone Sizing)
+        private List<IB_ThermalZone> CreateZones(List<object> HBZonesOrNames, List<IB_AirTerminal> AirTerminals, IB_SizingZone sizing)
         {
             var OSZones = new List<IB_ThermalZone>();
 
@@ -131,16 +134,19 @@ namespace Ironbug.Grasshopper.Component
             }
             
             
-            //add Sizing
-            var sizing = Sizing != null ? Sizing : new IB_SizingZone();
             
             foreach (var zone in OSZones)
             {
-                zone.SetSizingZone(sizing);
-                zone.IsAirTerminalBeforeZoneEquipments = this.IsAirTerminalPriorToZoneEquipments;
+                //add Sizing
+                var sz = sizing != null ? sizing : new IB_SizingZone();
+
+                zone.SetSizingZone((IB_SizingZone)sz);
+                zone.IsAirTerminalBeforeZoneEquipments = this._isAirTerminalPriorToZoneEquipments;
+                zone.AllowMultiAirLoops = this._allowMultiAirloops;
                 this.SetObjParamsTo(zone);
             }
             
+            //
             return OSZones;
         }
 
@@ -191,34 +197,44 @@ namespace Ironbug.Grasshopper.Component
             
         }
 
-
-
-        private bool IsAirTerminalPriorToZoneEquipments = true;
+        private bool _allowMultiAirloops = false;
+        private bool _isAirTerminalPriorToZoneEquipments = true;
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            Menu_AppendItem(menu, "Prioritize AirTerminal over ZoneEquipments", PrioritizeAirTerminal, true, this.IsAirTerminalPriorToZoneEquipments)
+            Menu_AppendItem(menu, "Prioritize AirTerminal over ZoneEquipments", PrioritizeAirTerminal_Clicked, true, this._isAirTerminalPriorToZoneEquipments)
                 .ToolTipText = "This will set the AirTerminal prior to all zone equipments";
+            Menu_AppendItem(menu, "Allow to be added to multiple Airloops", AllowMultiAirloops_Clicked, true, this._allowMultiAirloops)
+              .ToolTipText = "By default, one ThermalZone can only be added to one Airloop. Enabling this option will allow one ThermalZone to co-exist in multiple Airloops.";
             Menu_AppendSeparator(menu);
             base.AppendAdditionalComponentMenuItems(menu);
         }
 
-        private void PrioritizeAirTerminal(object sender, EventArgs e)
+        private void PrioritizeAirTerminal_Clicked(object sender, EventArgs e)
         {
-            this.IsAirTerminalPriorToZoneEquipments = !this.IsAirTerminalPriorToZoneEquipments;
+            this._isAirTerminalPriorToZoneEquipments = !this._isAirTerminalPriorToZoneEquipments;
             this.ExpireSolution(true);
         }
-
+        private void AllowMultiAirloops_Clicked(object sender, EventArgs e)
+        {
+            this._allowMultiAirloops = !this._allowMultiAirloops;
+            this.ExpireSolution(true);
+        }
 
         public override bool Read(GH_IReader reader)
         {
             if (reader.ItemExists("IsAirTerminalPriorToZoneEquipments"))
-                IsAirTerminalPriorToZoneEquipments = reader.GetBoolean("IsAirTerminalPriorToZoneEquipments");
-            
+                _isAirTerminalPriorToZoneEquipments = reader.GetBoolean("IsAirTerminalPriorToZoneEquipments");
+
+            if (reader.ItemExists(nameof(_allowMultiAirloops)))
+                _allowMultiAirloops = reader.GetBoolean(nameof(_allowMultiAirloops));
+
             return base.Read(reader);
         }
+
         public override bool Write(GH_IWriter writer)
         {
-            writer.SetBoolean("IsAirTerminalPriorToZoneEquipments", IsAirTerminalPriorToZoneEquipments);
+            writer.SetBoolean("IsAirTerminalPriorToZoneEquipments", _isAirTerminalPriorToZoneEquipments);
+            writer.SetBoolean(nameof(_allowMultiAirloops), _allowMultiAirloops);
             return base.Write(writer);
         }
 
