@@ -13,6 +13,11 @@ namespace Ironbug.HVAC
         [DataMember]
         public string Identifier { get; private set; }
 
+        private IB_HVACScenario()
+        {
+            this.HVACSystems = new List<IB_HVACSystem>();
+        }
+
         public IB_HVACScenario(string id, string name, List<IB_HVACSystem> systems )
         {
             this.Identifier = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString().Substring(0, 6) : id;
