@@ -23,6 +23,7 @@ namespace Ironbug.HVAC.BaseClass
         [DataMember]
         public IB_ThermalZone ReturnPlenum { get; private set; }
 
+        public bool AllowMultiAirLoops { get => this.Get(false); set => this.Set(value, false); }
         public bool IsAirTerminalBeforeZoneEquipments { get => Get(false); set => Set(value, false); }
         public string ZoneName => this.CustomAttributes.TryGetValue(IB_ThermalZone_FieldSet.Value.Name, out var n) ? n.ToString() : null;
 
@@ -33,7 +34,6 @@ namespace Ironbug.HVAC.BaseClass
         public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj(new Model()))
         {
             base.SetFieldValue(IB_ThermalZone_FieldSet.Value.Name, HBZoneName);
-
         }
 
         #region Serialization
@@ -43,11 +43,6 @@ namespace Ironbug.HVAC.BaseClass
         public bool ShouldSerializeSupplyPlenum() => this.SupplyPlenum != null; 
         public bool ShouldSerializeReturnPlenum() => this.ReturnPlenum != null;
         #endregion
-
-        public ModelObject GetModelObject()
-        {
-            return base.GhostOSObject;
-        }
 
         /// <summary>
         /// Do not use this 
@@ -87,9 +82,11 @@ namespace Ironbug.HVAC.BaseClass
             var newZone = (ThermalZone)this.ToOS(model);
             var airTerminal = this.AirTerminal.ToOS(model);
 
+            var addedToMultiAirLoop = this.AllowMultiAirLoops && newZone.airLoopHVACs().Any();
+
             if (this.IsAirTerminalBeforeZoneEquipments)
             {
-                if (!airLoop.addBranchForZone(newZone, airTerminal))
+                if (!AddToAirLoop(addedToMultiAirLoop, airLoop, newZone, airTerminal))
                     throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
 
                 foreach (var item in this.ZoneEquipments)
@@ -107,7 +104,7 @@ namespace Ironbug.HVAC.BaseClass
                     eqp.addToThermalZone(newZone);
                 }
 
-                if (!airLoop.addBranchForZone(newZone, airTerminal))
+                if (!AddToAirLoop(addedToMultiAirLoop, airLoop, newZone, airTerminal))
                     throw new ArgumentException($"Failed to add thermal zone to {airLoop.nameString()}!");
                 
             }
@@ -134,6 +131,11 @@ namespace Ironbug.HVAC.BaseClass
             if (this.ReturnPlenum != null) newZone.setReturnPlenum((ThermalZone)this.ReturnPlenum.ToOS(model));
 
             return newZone;
+
+            bool AddToAirLoop(bool multiLoop, AirLoopHVAC al, ThermalZone z, HVACComponent at)
+            {
+                return multiLoop ? al.multiAddBranchForZone(z, at) : al.addBranchForZone(z, at);
+            }
         }
 
         public ThermalZone ToOS_NoAirLoop(Model model)
@@ -182,12 +184,16 @@ namespace Ironbug.HVAC.BaseClass
                 }
                 newZone.setUseIdealAirLoads(false);
 
-                var aloop = newZone.airLoopHVAC();
-                if (aloop.is_initialized())
+                if (!this.AllowMultiAirLoops)
                 {
-                    aloop.get().removeBranchForZone(newZone);
+                    var aloops = newZone.airLoopHVACs();
+                    foreach (var item in aloops)
+                    {
+                        item.removeBranchForZone(newZone);
+                    }
                 }
-
+               
+                
                 var airT = newZone.airLoopHVACTerminal();
                 if (airT.is_initialized())
                 {
