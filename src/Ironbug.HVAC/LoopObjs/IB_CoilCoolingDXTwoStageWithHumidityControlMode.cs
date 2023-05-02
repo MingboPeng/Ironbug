@@ -1,5 +1,6 @@
 ﻿using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -16,6 +17,11 @@ namespace Ironbug.HVAC
         private IB_CoilPerformanceDXCooling _normalStage1p2 => this.GetChild<IB_CoilPerformanceDXCooling>(1);
         private IB_CoilPerformanceDXCooling _dehumidificationStage1 => this.GetChild<IB_CoilPerformanceDXCooling>(2);
         private IB_CoilPerformanceDXCooling _dehumidificationStage1p2 => this.GetChild<IB_CoilPerformanceDXCooling>(3);
+
+        [JsonConstructor]
+        private IB_CoilCoolingDXTwoStageWithHumidityControlMode(bool forDeserialization) : base(null)
+        {
+        }
 
         public IB_CoilCoolingDXTwoStageWithHumidityControlMode() : base(NewDefaultOpsObj(new Model()))
         {

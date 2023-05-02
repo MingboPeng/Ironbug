@@ -1,5 +1,6 @@
 ﻿using System;
 using Ironbug.HVAC.BaseClass;
+using Newtonsoft.Json;
 using OpenStudio;
 
 namespace Ironbug.HVAC
@@ -12,6 +13,11 @@ namespace Ironbug.HVAC
             => new ZoneHVACBaseboardRadiantConvectiveWater(model);
 
         private IB_CoilHeatingWaterBaseboardRadiant HeatingCoil => this.GetChild<IB_CoilHeatingWaterBaseboardRadiant>();
+
+        [JsonConstructor]
+        private IB_ZoneHVACBaseboardRadiantConvectiveWater(bool forDeserialization): base(null)
+        {
+        }
 
         public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(NewDefaultOpsObj(new Model()))
         {
@@ -26,7 +32,7 @@ namespace Ironbug.HVAC
         public override HVACComponent ToOS(Model model)
         {
             var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
+            if (this.HeatingCoil != null) opsObj.setHeatingCoil(this.HeatingCoil.ToOS(model));
             return opsObj;
         }
 
