@@ -111,7 +111,7 @@ namespace Ironbug.HVAC.BaseClass
                 this.SetByKey(propertyName, def);
                 return def;
             }
-            else if (prop is IEnumerable ls)
+            else if ((prop is IEnumerable ls) && !(prop is string)) // string is IEnumerable, so check and exclude it
             {
                 if (prop is List<T> lst)
                     return lst;
@@ -159,8 +159,6 @@ namespace Ironbug.HVAC.BaseClass
                 throw new ArgumentException("Failed to deserialize", ex);
             }
             
-
-
         }
 
 
@@ -176,16 +174,14 @@ namespace Ironbug.HVAC.BaseClass
 
         static object Duplicate(object obj)
         {
-            if (obj is IEnumerable enu)
-            {
-                return enu.Cast<object>().Select(_ => Duplicate(_));
-            }
+            if (obj is string st) 
+                return st;
+            else if(obj is IEnumerable enu) 
+                return enu.Cast<object>().Select(_ => Duplicate(_)).ToList();
             else if (obj is IB_ModelObject mo)
                 return mo.Duplicate();
-            else
-            {
+            else 
                 return obj;
-            }
         }
 
         public override bool Equals(object obj) => this.Equals(obj as IB_PropArgumentSet);
@@ -211,7 +207,11 @@ namespace Ironbug.HVAC.BaseClass
         static bool AreSame(object o1, object o2)
         {
             var same = true;
-            if (o1 is IEnumerable enu)
+            if (o1 is string o1s) // string is IEnumerable
+            {
+                return o1s.Equals(o2?.ToString());
+            }
+            else if(o1 is IEnumerable enu)
             {
                 var o1m = enu.Cast<object>();
                 var o2m = (o2 as IEnumerable)?.Cast<object>();

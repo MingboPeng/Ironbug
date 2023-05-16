@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Types;
 
 namespace Ironbug.Grasshopper.Component
 {
