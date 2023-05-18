@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -13,6 +14,9 @@ namespace Ironbug.HVAC
         [DataMember]
         public string Identifier { get; private set; }
 
+        [DataMember]
+        public string Info { get; private set; }
+
         private IB_HVACScenario()
         {
             this.HVACSystems = new List<IB_HVACSystem>();
@@ -23,6 +27,7 @@ namespace Ironbug.HVAC
             this.Identifier = string.IsNullOrEmpty(id) ? System.Guid.NewGuid().ToString().Substring(0, 6) : id;
             this.DisplayName = string.IsNullOrEmpty(name) ? this.Identifier : name;
             this.HVACSystems = systems.Where(_ => _ != null).ToList();
+            this.Info = GetInfo();
         }
 
         public IB_HVACSystem CombineToHVACSystem()
@@ -33,6 +38,40 @@ namespace Ironbug.HVAC
             var sys = new IB_HVACSystem(als, pls, vrfs);
             return sys;
 
+        }
+
+        public string GetInfo()
+        {
+            if (HVACSystems == null || !HVACSystems.Any()) return string.Empty;
+
+            var info = new List<string>();
+            info.Add($"HVAC Scenario: {this.Identifier} [{this.DisplayName}]");
+            for (int i = 0; i < HVACSystems.Count; i++)
+            {
+                var sys = HVACSystems[i];
+                // system name
+                var sysName = $"- {i + 1}: {sys.ToString()}";
+                info.Add(sysName);
+
+                // zone names
+                //var rooms = sys.GetThermalZoneNames().Select((_,i)=> $"{i+1}: [{_}]").ToList();
+                //if (!rooms.Any()) rooms.Add("No zone is assigned to this system!");
+                //else
+                //{
+                //    var zoneNames = $"- Zone names: {rooms.Count}";
+                //    info.Add(zoneNames.PadLeft(zoneNames.Length + 2));
+                //}
+                //rooms = rooms.Select(_ => _.PadLeft(_.Length + 4)).ToList();
+                //info.AddRange(rooms);
+            }
+
+            return string.Join(Environment.NewLine, info);
+        }
+
+        public override string ToString()
+        {
+
+            return this.Info?? base.ToString(); 
         }
     }
 }
