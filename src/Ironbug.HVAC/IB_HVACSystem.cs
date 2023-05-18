@@ -13,6 +13,9 @@ namespace Ironbug.HVAC
     public class IB_HVACSystem
     {
         [DataMember]
+        public string DisplayName { get; set; }
+
+        [DataMember]
         public List<IB_AirLoopHVAC> AirLoops { get; private set; }
         [DataMember]
         public List<IB_PlantLoop> PlantLoops { get; private set; }
@@ -138,7 +141,7 @@ namespace Ironbug.HVAC
             if (!System.IO.File.Exists(osm) || !osm.ToLower().EndsWith(".osm"))
                 throw new ArgumentException($"Invalid osm file: {osm}");
             if (!System.IO.File.Exists(hvac))
-                throw new ArgumentException($"Invalid hvac file: {hvac}");
+                throw new ArgumentException($"Invalid HVAC file: {hvac}");
 
             var hvacJson = System.IO.File.ReadAllText(hvac);
             var system = Ironbug.HVAC.IB_HVACSystem.FromJson(hvacJson);
@@ -328,7 +331,8 @@ namespace Ironbug.HVAC
 
         public override string ToString()
         {
-            var s = "IB_HVACSystem";
+            var info = new List<string>();
+            var s = $"HVAC System: [{this.DisplayName ?? "Unnamed"}]";
             if (AirLoops.Any())
             {
                 var loops = this.AirLoops.GroupBy(_ => _ is HVAC.IB_NoAirLoop);
@@ -350,6 +354,26 @@ namespace Ironbug.HVAC
                 s = $"{s}{Environment.NewLine}  - VRF system: {VariableRefrigerantFlows.Count}";
             }
 
+            // zone names
+            var sys = this;
+            var rooms = sys.GetThermalZoneNames().Select((_, i) => $"{i + 1}: [{_}]").ToList();
+            if (!rooms.Any()) rooms.Add("No zone is assigned to this system!");
+            else
+            {
+                var zoneNames = $"- Zone names: {rooms.Count}";
+                s = $"{s}{Environment.NewLine}  - VRF system: {VariableRefrigerantFlows.Count}";
+                info.Add(zoneNames.PadLeft(zoneNames.Length + 2));
+            }
+            if (rooms.Count > 3)
+            {
+                rooms = rooms.Take(3).ToList();
+                rooms.Add("...");
+            }
+            rooms = rooms.Select(_ => _.PadLeft(_.Length + 4)).ToList();
+
+            info.AddRange(rooms);
+            info.Insert(0, s);
+            s = string.Join(Environment.NewLine, info);
             return s;
         }
 
