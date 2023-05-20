@@ -374,6 +374,7 @@ namespace Ironbug.HVAC
             info.AddRange(rooms);
             info.Insert(0, s);
             s = string.Join(Environment.NewLine, info);
+            s = $"{s}{Environment.NewLine}";
             return s;
         }
 
