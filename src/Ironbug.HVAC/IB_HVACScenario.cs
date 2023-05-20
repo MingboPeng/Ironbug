@@ -37,7 +37,6 @@ namespace Ironbug.HVAC
             var vrfs = this.HVACSystems.SelectMany(_=>_.VariableRefrigerantFlows).ToList();
             var sys = new IB_HVACSystem(als, pls, vrfs);
             return sys;
-
         }
 
         public string GetInfo()
@@ -45,24 +44,13 @@ namespace Ironbug.HVAC
             if (HVACSystems == null || !HVACSystems.Any()) return string.Empty;
 
             var info = new List<string>();
-            info.Add($"HVAC Scenario: {this.Identifier} [{this.DisplayName}]");
+            info.Add($"HVAC Scenario: {this.DisplayName} [{this.Identifier}]");
             for (int i = 0; i < HVACSystems.Count; i++)
             {
                 var sys = HVACSystems[i];
                 // system name
                 var sysName = $"- {i + 1}: {sys.ToString()}";
                 info.Add(sysName);
-
-                // zone names
-                //var rooms = sys.GetThermalZoneNames().Select((_,i)=> $"{i+1}: [{_}]").ToList();
-                //if (!rooms.Any()) rooms.Add("No zone is assigned to this system!");
-                //else
-                //{
-                //    var zoneNames = $"- Zone names: {rooms.Count}";
-                //    info.Add(zoneNames.PadLeft(zoneNames.Length + 2));
-                //}
-                //rooms = rooms.Select(_ => _.PadLeft(_.Length + 4)).ToList();
-                //info.AddRange(rooms);
             }
 
             return string.Join(Environment.NewLine, info);
