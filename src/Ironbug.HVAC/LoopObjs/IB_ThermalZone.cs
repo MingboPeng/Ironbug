@@ -80,9 +80,22 @@ namespace Ironbug.HVAC.BaseClass
         public HVACComponent ToOS(Model model, AirLoopHVAC airLoop)
         {
             var newZone = (ThermalZone)this.ToOS(model);
-            var airTerminal = this.AirTerminal.ToOS(model);
-
             var addedToMultiAirLoop = this.AllowMultiAirLoops && newZone.airLoopHVACs().Any();
+            HVACComponent airTerminal = null;
+            if (addedToMultiAirLoop)
+            {
+                // duplicate air terminal
+                if (this.AirTerminal.Children.Any())
+                    throw new ArgumentException($"Cannot add {airTerminal.nameString()} to multiple airloop. For now you have to add this air terminal manually via OpenStudio!");
+
+                var dupAT = this.AirTerminal.Duplicate() as IB_AirTerminal;
+                dupAT.SetTrackingID();
+                airTerminal = dupAT.ToOS(model);
+            }
+            else
+            {
+                airTerminal = this.AirTerminal.ToOS(model);
+            }
 
             if (this.IsAirTerminalBeforeZoneEquipments)
             {
@@ -191,14 +204,16 @@ namespace Ironbug.HVAC.BaseClass
                     {
                         item.removeBranchForZone(newZone);
                     }
+
+                    var airT = newZone.airLoopHVACTerminal();
+                    if (airT.is_initialized())
+                    {
+                        airT.get().remove();
+                    }
                 }
                
                 
-                var airT = newZone.airLoopHVACTerminal();
-                if (airT.is_initialized())
-                {
-                    airT.get().remove();
-                }
+             
                 newZone.SetCustomAttributes(this.CustomAttributes);
             }
             else
