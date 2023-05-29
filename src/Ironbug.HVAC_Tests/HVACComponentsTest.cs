@@ -154,5 +154,63 @@ namespace Ironbug.HVACTests
             Assert.True(saved);
         }
 
+        [Test]
+        public void IB_ScheduleType()
+        {
+
+            try
+            {
+                // create an availability schedule 
+                var sch = new HVAC.Schedules.IB_ScheduleRuleset();
+
+                var values = new List<double>()
+                {
+                    0.1,0,0,0,0,0,0,0.2,0.5,1,2,2,2,1,1,1,1,0.2,0,0,0,0,0,0
+                };
+                var day = new HVAC.Schedules.IB_ScheduleDay(values);
+                var day2 = new HVAC.Schedules.IB_ScheduleDay(1);
+
+                var schRule = new HVAC.Schedules.IB_ScheduleRule(day2);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplyMonday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplyTuesday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplyWednesday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplyThursday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplyFriday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplySaturday, true);
+                //schRule.AddCustomAttribute(HVAC.Schedules.IB_ScheduleRule_FieldSet.Value.ApplySunday, true);
+                sch.Rules.Add(schRule);
+
+                var type = new HVAC.Schedules.IB_ScheduleTypeLimits();
+                type.AddCustomAttribute(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.UnitType, "Availability");
+                type.AddCustomAttribute(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.NumericType, "Discrete");
+                type.AddCustomAttribute(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.LowerLimitValue, 0);
+                type.AddCustomAttribute(HVAC.Schedules.IB_ScheduleTypeLimits_FieldSet.Value.UpperLimitValue, 1);
+                //type.set
+                sch.ScheduleTypeLimits = type;
+                
+
+                // create 
+                var bd = new HVAC.IB_ZoneHVACBaseboardConvectiveElectric();
+                var schField = new IB_Field("AvailabilitySchedule", "");
+                bd.AddCustomAttribute(schField, sch);
+
+                var md1 = new OpenStudio.Model();
+                //var bdops = new OpenStudio.ZoneHVACBaseboardConvectiveElectric(md1);
+                //bdops.setAvailabilitySchedule();
+
+                bd.ToOS(md1);
+
+                //string saveFile = GenFileName;
+                //var saved = md1.Save(saveFile);
+                //Assert.True(saved);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+          
+        }
+
     }
 }

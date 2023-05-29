@@ -35,7 +35,6 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-           
             var attributes = HVAC.Schedules.IB_ScheduleRuleset_FieldSet.Value;
             var objAttris = new Dictionary<IB_Field, object>() { };
             var name = string.Empty;
@@ -44,7 +43,7 @@ namespace Ironbug.Grasshopper.Component
                 objAttris.Add(attributes.Name, name);
             }
 
-           
+
             var ghObjs = new List<GH_ObjectWrapper>();
             DA.GetDataList(1, ghObjs);
             var sch = new HVAC.Schedules.IB_ScheduleRuleset();
@@ -55,17 +54,15 @@ namespace Ironbug.Grasshopper.Component
                 if (values.Count == 1)
                 {
                     sch = new HVAC.Schedules.IB_ScheduleRuleset(values[0]);
-                    sch.SetFieldValues(objAttris);
-                    DA.SetData(0, sch);
-                    return;
                 }
+                else
+                {
+                    if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
+                    var day = new HVAC.Schedules.IB_ScheduleDay(values);
+                    var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
 
-                if (values.Count != 24) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Need 24 valves");
-                var day = new HVAC.Schedules.IB_ScheduleDay(values);
-                var schRule = new HVAC.Schedules.IB_ScheduleRule(day);
-                
-                sch.Rules.Add(schRule);
-
+                    sch.Rules.Add(schRule);
+                }
             }
             else if (ghObjs[0].Value is HVAC.Schedules.IB_ScheduleRule)
             {
@@ -87,6 +84,7 @@ namespace Ironbug.Grasshopper.Component
 
             sch.SetFieldValues(objAttris);
             DA.SetData(0, sch);
+
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.Schedule;
