@@ -84,35 +84,40 @@ namespace Ironbug.HVAC.Schedules
                 else 
                 {
                     obj = new ScheduleRuleset(model);
-                    name = name.StartsWith("Constant Temperature") ? name : $"Constant value {this.constantNumber}";
+                    //name = name.StartsWith("Constant Temperature") ? name : $"Constant value {this.constantNumber}";
                     var defaultDay = obj.defaultDaySchedule();
+                    defaultDay.addValue(new Time(0, 24), this.constantNumber);
+
 
                     //Check Schedule type
-                    var optionalType = model.getScheduleTypeLimitsByName($"Dimensionless max {Math.Round(constantNumber) + 1}");
-                    if (optionalType.isNull())
+                    if (this.ScheduleTypeLimits == null)
                     {
-                        var type = new ScheduleTypeLimits(model);
-                        type.setUnitType("Dimensionless");
-                        type.setNumericType("Continuous");
-                        type.setName($"Dimensionless max {Math.Round(constantNumber) + 1}");
-                        type.setLowerLimitValue(0);
-                        type.setUpperLimitValue(Math.Round(constantNumber) + 1);
-                        obj.setScheduleTypeLimits(type);
+                        // create a new default dimensionless ScheduleTypeLimits
+                        var optionalType = model.getScheduleTypeLimitsByName($"Dimensionless max {Math.Round(constantNumber) + 1}");
+                        if (optionalType.isNull()) // create a new one
+                        {
+
+                            var type = new ScheduleTypeLimits(model);
+                            type.setUnitType("Dimensionless");
+                            type.setNumericType("Continuous");
+                            type.setName($"Dimensionless max {Math.Round(constantNumber) + 1}");
+                            type.setLowerLimitValue(0);
+                            type.setUpperLimitValue(Math.Round(constantNumber) + 1);
+                            obj.setScheduleTypeLimits(type);
+                        }
+                        else // use the previously created one
+                        {
+                            obj.setScheduleTypeLimits(optionalType.get());
+                        }
+
                     }
-                    else
+                    else // reset the type limits so that it can apply a new one later
                     {
-                        obj.setScheduleTypeLimits(optionalType.get());
+                        obj.resetScheduleTypeLimits();
                     }
-
-
-                    defaultDay.addValue(new Time(0, 24), this.constantNumber);
+                    
                 }
 
-                //obj = new ScheduleRuleset(model);
-               
-             
-              
-                //obj.setName(name);
             }
 
             if (this.ScheduleTypeLimits != null)
