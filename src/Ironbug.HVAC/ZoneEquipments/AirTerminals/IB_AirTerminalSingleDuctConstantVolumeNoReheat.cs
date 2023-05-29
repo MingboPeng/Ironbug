@@ -34,12 +34,10 @@ namespace Ironbug.HVAC
 
         }
         
-        private static StraightComponent NewDefaultOpsObj(Model model) {
+        private static StraightComponent NewDefaultOpsObj(Model model) 
+        {
             
-            var tp = GetRefOsType();
-
-            var instance = (StraightComponent)Activator.CreateInstance(tp, new Object[] { model, model.alwaysOnDiscreteSchedule()});
-            return instance;
+            return new AirTerminalSingleDuctConstantVolumeNoReheat(model, model.alwaysOnDiscreteSchedule());
           
         } 
 

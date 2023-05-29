@@ -162,6 +162,33 @@ namespace Ironbug.HVACTests
 
         }
 
+        [Test]
+        public void MultiAirloopsZoneTest()
+        {
+
+            var m = new OpenStudio.Model();
+            var z = new OpenStudio.ThermalZone(m);
+            var at1 = new OpenStudio.AirTerminalSingleDuctConstantVolumeNoReheat(m, m.alwaysOffDiscreteSchedule());
+            var at2 = new OpenStudio.AirTerminalSingleDuctConstantVolumeNoReheat(m, m.alwaysOffDiscreteSchedule());
+
+            var airloop1 = new OpenStudio.AirLoopHVAC(m);
+            var airloop2 = new OpenStudio.AirLoopHVAC(m);
+
+            airloop1.addBranchForZone(z, at1);
+            airloop2.multiAddBranchForZone(z, at2);
+
+            var al1 = at1.airLoopHVAC().get();
+            var al2 = at2.airLoopHVAC().get();
+            Assert.IsTrue(al1.handle().isEqual(airloop1.handle()));
+            Assert.IsTrue(al2.handle().isEqual(airloop2.handle()));
+
+
+            var root = System.IO.Path.GetDirectoryName(this.GetType().Assembly.Location);
+            var testOsm = System.IO.Path.Combine(root, "test.osm");
+            m.Save(testOsm);
+
+        }
+
 
         [Test]
         public void PlantComponentUserDefined()
@@ -517,6 +544,8 @@ SET {cap_opt_act.handle().__str__()} = 1 * Cap
             htg_op_scheme.addEquipment(1000000000, plant_comp);
             hot_water_loop.setPlantEquipmentOperationHeatingLoad(htg_op_scheme);
         }
+
+
 
     }
 }
