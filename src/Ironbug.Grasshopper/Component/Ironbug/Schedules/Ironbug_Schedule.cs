@@ -22,7 +22,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddTextParameter("ScheduleName", "name_", "Name for this schedule", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("ValuesOrRules", "_rules", "One value for all day or 24 value for each hour, or use a list of scheduleRules from Ironbug_ScheduleRules.\nThe last ScheduleRule will be set to the default (base) schedule.", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ValuesOrRules", "_rules", "One value for all day or 24 value for each hour, or use a list of scheduleRules from Ironbug_ScheduleRules.\nThe last ScheduleRule will be set to the default (base) schedule that applies to the whole year.", GH_ParamAccess.list);
             pManager.AddGenericParameter("ScheduleType", "type_", "Use Ironbug_ScheduleType", GH_ParamAccess.item);
             pManager[2].Optional = true;
         }
@@ -67,6 +67,8 @@ namespace Ironbug.Grasshopper.Component
             else if (ghObjs[0].Value is HVAC.Schedules.IB_ScheduleRule)
             {
                 var values = ghObjs.Select(_ => _.Value as HVAC.Schedules.IB_ScheduleRule);
+                if (values.Count() == 1)
+                    AddRuntimeMessage(GH_RuntimeMessageLevel.Remark, "Only one ScheduleRule is found and this will be used as a base ScheduleRule for the whole year!\nIf you want to set a ScheduleRule that only applies to partial of the year, add the new ScheduleRule before the base ScheduleRule.");
                 sch.Rules.AddRange(values);
             }
             else
