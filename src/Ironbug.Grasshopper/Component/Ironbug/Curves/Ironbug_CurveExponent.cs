@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component
           : base("IB_CurveExponent", "CurveExponent",
               "Description",
               "Ironbug", "07:Curve & Load",
-              typeof(HVAC.Curves.IB_CurveLinear_FieldSet))
+              typeof(HVAC.Curves.IB_CurveExponent_FieldSet))
         {
         }
 
