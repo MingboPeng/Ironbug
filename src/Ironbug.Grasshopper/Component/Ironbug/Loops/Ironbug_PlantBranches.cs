@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
     {
         private bool mapBranchToLoop = false;
         public Ironbug_PlantBranches()
-          : base("PlantBranches", "PlantBranches",
+          : base("IB_PlantBranches", "PlantBranches",
                "Description",
               "Ironbug", "01:Loops")
         {
