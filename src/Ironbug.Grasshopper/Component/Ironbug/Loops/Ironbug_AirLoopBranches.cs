@@ -14,7 +14,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AirLoopBranches : Ironbug_Component, IGH_VariableParameterComponent
     {
         public Ironbug_AirLoopBranches()
-          : base("AirLoopBranches", "AirLoopBranches",
+          : base("IB_AirLoopBranches", "AirLoopBranches",
               "Description",
               "Ironbug", "01:Loops")
         {
