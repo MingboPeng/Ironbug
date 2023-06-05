@@ -79,7 +79,7 @@ namespace Ironbug.HVAC.BaseClass
                 dec += Description;
                 dec += Environment.NewLine;
                 dec += Environment.NewLine;
-                dec += "Above content copyright © 1996-2020 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
+                dec += "Above content copyright © 1996-2023 EnergyPlus, all contributors. All rights reserved. EnergyPlus is a trademark of the US Department of Energy.";
                 
             }
             else
