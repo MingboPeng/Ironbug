@@ -23,9 +23,12 @@ namespace Ironbug.HVACTests
         public void OldOsmFile_Test()
         {
             var oldFile = System.IO.Path.Combine(TestHelper.TestSourceFolder, "OldVersion.osm");
-            var ex = Assert.Throws<ArgumentException>(() => IB_HVACSystem.GetOrNewModel(oldFile));
-         
-            Assert.IsTrue(ex.Message.StartsWith("Incompatible input OpenStudio file version"));
+            var oldModel = IB_HVACSystem.GetOrNewModel(oldFile);
+            var version = oldModel.version().str(); // updated to the current version
+
+            //var ex = Assert.Throws<ArgumentException>(() => IB_HVACSystem.GetOrNewModel(oldFile));
+            //Assert.IsTrue(ex.Message.StartsWith("Incompatible input OpenStudio file version"));
+            Assert.IsTrue(!version.StartsWith("2.4"));
         }
 
 
