@@ -219,35 +219,49 @@ namespace Ironbug.HVAC
 
 
             //save osm file
-            var osmPath = OpenStudio.OpenStudioUtilitiesCore.toPath(osmFile);
-            return model.save(osmPath, true);
+            return model.Save(osmFile);
             
         }
 
-        public static OpenStudio.Model GetOrNewModel(string opsModelFilePath)
+        public static OpenStudio.Model GetOrNewModel(string opsFilePath)
         {
-            var model =  new OpenStudio.Model();
-            if (File.Exists(opsModelFilePath))
+            OpenStudio.Model model = null;
+            var f= new FileInfo(opsFilePath);
+            
+            if (f.Exists &&
+                f.Length > 0 &&
+                f.Extension.ToLower().Equals(".osm"))
             {
-                var osmPath = opsModelFilePath.ToPath();
-                CheckIfOldVersion(osmPath);
-                var optionalModel = OpenStudio.Model.load(osmPath);
+                //var osmPath = opsModelFilePath.ToPath();
+                //CheckIfOldVersion(osmPath);
 
-                if(optionalModel.is_initialized()) model = optionalModel.get();
+                // works
+                var vt = new OpenStudio.VersionTranslator();
+                vt.setAllowNewerVersions(false);
+                var optionalModel = vt.loadModel(OpenStudio.OpenStudioUtilitiesCore.toPath(opsFilePath));
 
+                if (optionalModel.is_initialized())
+                {
+                    //var warnings = vTranslator.warnings().Select(_ => _.logMessage()).ToList();
+                    var errors = vt.errors().Select(_ => _.logMessage()).ToList();
+                    if (errors.Any())
+                        throw new ArgumentException($"Failed to load OpenStudio Model from {opsFilePath} because the following errors:{Environment.NewLine}{string.Join(Environment.NewLine, errors)}");
+             
+                    model = optionalModel.get();
+                   
+                }
+                else
+                    throw new ArgumentException($"Failed to load OpenStudio Model from {opsFilePath}");
+
+                if (!model.isValid()) 
+                    throw new ArgumentException($"Found an invalid OpenStudio Model from {opsFilePath}");
+
+            }
+            else
+            {
+                model = new OpenStudio.Model();
             }
             return model;
-
-            bool CheckIfOldVersion(OpenStudio.Path p)
-            {
-                var ts = new OpenStudio.VersionTranslator();
-                var m = ts.loadModel(p).get();
-                var v1 = ts.originalVersion().str();
-                var v2 = m.version().str();
-                if (v1 != v2)
-                    throw new ArgumentException($"Incompatible input OpenStudio file version {v1} which is different than what Ironbug is using ({v2})");
-                return true;
-            }
         }
 
         //This is due to how HB sets up the this type of construction 
