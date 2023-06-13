@@ -95,7 +95,7 @@ namespace Ironbug.HVAC
         private bool AddSupplyObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var spnd = AirLoopHVAC.supplyOutletNode();
-            var comps = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var comps = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
 
             foreach (var comp in comps)
             {
@@ -116,7 +116,7 @@ namespace Ironbug.HVAC
 
         private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
 
             //add objs before branch

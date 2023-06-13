@@ -63,7 +63,7 @@ namespace Ironbug.HVAC
             var oaNode = oa.outboardOANode().get();
             var oaObjs = this.OAStreamObjs.ToArray().Reverse();
 
-            var comps = oaObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var comps = oaObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             foreach (var item in comps)
             {
                 item.AddToNode(oaNode);
@@ -76,7 +76,7 @@ namespace Ironbug.HVAC
 
             var rfNode = oa.outboardReliefNode().get();
             var rfObjs = this.ReliefStreamObjs.ToArray().Reverse().ToList();
-            var rfcomps = rfObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var rfcomps = rfObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             foreach (var item in rfcomps)
             {
                 item.ToOS(model).addToNode(rfNode);
@@ -104,7 +104,7 @@ namespace Ironbug.HVAC
 
         protected bool AddSetPoints(IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
         {
-            var components = Components.Where(_ => !(_ is IB_Probe));
+            var components = Components.Where(_ => !(_ is IB_NodeProbe));
             var setPts = components.Where(_ => _ is IB_SetpointManager).Select(_ => _ as IB_SetpointManager);
             //check if there is set point
             if (setPts.Count() == 0) return true;
@@ -178,7 +178,7 @@ namespace Ironbug.HVAC
         protected bool AddNodeProbe(IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
         {
             var components = Components.Where(_ => !(_ is IB_SetpointManager));
-            var probes = components.Where(_ => _ is IB_Probe).Select(_ => _ as IB_Probe);
+            var probes = components.Where(_ => _ is IB_NodeProbe).Select(_ => _ as IB_NodeProbe);
             //check if there is probes
             if (!probes.Any()) return true;
             
@@ -204,8 +204,8 @@ namespace Ironbug.HVAC
             }
 
             //check if probes is at the first
-            IEnumerable<IB_Probe> remainingProbes = null;
-            if (components.First() is IB_Probe)
+            IEnumerable<IB_NodeProbe> remainingProbes = null;
+            if (components.First() is IB_NodeProbe)
             {
                 var item = probes.First();
                 AddProbeToNode(firstNode, item.CustomAttributes, item.CustomOutputVariables);
