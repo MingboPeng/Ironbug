@@ -48,7 +48,7 @@ namespace Ironbug.HVAC.BaseClass
 
         protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
-            var components = Components.Where(_ => !(_ is IB_Probe));
+            var components = Components.Where(_ => !(_ is IB_NodeProbe));
             var setPts = components.OfType<IB_SetpointManager>();
 
             //check if there is set point
@@ -149,7 +149,7 @@ namespace Ironbug.HVAC.BaseClass
         protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
             var components = Components.Where(_ => !(_ is IB_SetpointManager));
-            var probes = components.Where(_ => _ is IB_Probe).Select(_ => _ as IB_Probe);
+            var probes = components.Where(_ => _ is IB_NodeProbe).Select(_ => _ as IB_NodeProbe);
             //check if there is probes
             if (!probes.Any()) return true;
 
@@ -177,8 +177,8 @@ namespace Ironbug.HVAC.BaseClass
             }
 
             //check if probes is at the first
-            IEnumerable<IB_Probe> remainingProbes = null;
-            if (components.First() is IB_Probe)
+            IEnumerable<IB_NodeProbe> remainingProbes = null;
+            if (components.First() is IB_NodeProbe)
             {
                 var item = probes.First();
                 startingNode.SetCustomAttributes(item.CustomAttributes);

@@ -4,13 +4,13 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_Probe: IB_HVACObject, IIB_AirLoopObject, IIB_PlantLoopObjects
+    public class IB_NodeProbe: IB_HVACObject, IIB_AirLoopObject, IIB_PlantLoopObjects
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => ()=> new IB_Probe();
+        protected override Func<IB_ModelObject> IB_InitSelf => ()=> new IB_NodeProbe();
         
         private static Node NewDefaultOpsObj(Model model) => new Node(model);
         
-        public IB_Probe() : base(NewDefaultOpsObj(new Model()))
+        public IB_NodeProbe() : base(NewDefaultOpsObj(new Model()))
         {
         }
 
@@ -26,7 +26,7 @@ namespace Ironbug.HVAC
             return true;
         }
 
-        public override string ToString() => "Probe";
+        public override string ToString() => "NodeProbe";
      
     }
     

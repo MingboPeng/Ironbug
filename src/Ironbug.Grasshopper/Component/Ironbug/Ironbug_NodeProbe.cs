@@ -3,10 +3,10 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_Probe : Ironbug_DuplicableHVACWithParamComponent
+    public class Ironbug_NodeProbe : Ironbug_DuplicableHVACWithParamComponent
     {
-        public Ironbug_Probe()
-          : base("IB_Probe", "Probe",
+        public Ironbug_NodeProbe()
+          : base("IB_NodeProbe", "NodeProbe",
               "Use this component to measure variables like temperature, flow rate, etc, in the loop.\nPlace this between loopObjects.",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_Probe_FieldSet))
@@ -28,7 +28,7 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_Probe();
+            var obj = new HVAC.IB_NodeProbe();
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);

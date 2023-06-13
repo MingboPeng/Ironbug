@@ -103,7 +103,7 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverce the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
             
             var spInletNode = plant.supplyInletNode();
@@ -154,7 +154,7 @@ namespace Ironbug.HVAC
             //Find the branch object first, and mark it. 
             //Reverse the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
-            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_Probe));
+            var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(Components);
             //var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
 
