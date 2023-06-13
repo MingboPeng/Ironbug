@@ -20,7 +20,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
 
-            pManager.AddNumberParameter("Temperature", "_Temp", "SetpointTemperature", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Value", "_val", "Setpoint value", GH_ParamAccess.item);
             pManager.AddTextParameter("ControlVariable", "ctrlVar_", _fieldSet.ControlVariable.Description, GH_ParamAccess.item);
             pManager[1].Optional = true;
             
