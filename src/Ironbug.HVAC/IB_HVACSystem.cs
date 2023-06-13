@@ -105,6 +105,8 @@ namespace Ironbug.HVAC
 
         public static IB_HVACSystem FromJson(string json)
         {
+            if (string.IsNullOrEmpty(json))
+                throw new ArgumentNullException("json","Failed to deserialize the JSON to HVACSystem");
             try
             {
                 var hvac = JsonConvert.DeserializeObject<IB_HVACSystem>(json, IB_JsonSetting.ConvertSetting);
@@ -112,7 +114,6 @@ namespace Ironbug.HVAC
             }
             catch (Exception e)
             {
-                
                 throw e;
             }
            
