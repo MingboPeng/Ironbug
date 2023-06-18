@@ -485,13 +485,19 @@ namespace Ironbug.HVACTests
 
             var hvac = System.IO.Path.Combine(folder, @"VAV and Chilled Beams.json");
             var osm = System.IO.Path.Combine(folder, @"VAV and Chilled Beams.osm");
+            var f1 = new System.IO.FileInfo(osm);
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
 
             var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
+            watch.Stop();
+            Console.WriteLine($"Saving large model execution Time: {watch.ElapsedMilliseconds/1000} s");
             Assert.IsTrue(done);
 
             //var osm = @"C:\Users\mingo\simulation\Unnamed\openstudio\generated_files\VAV and Chilled Beams.osm";
-            var f = new System.IO.FileInfo(osm);
-            var size = f.Length / 1048576d;
+            var f2 = new System.IO.FileInfo(osm);
+            var size = f2.Length / 1048576d;
+            Console.WriteLine($"Saved large model size (MB): {f1.Length / 1048576d} to {f2.Length / 1048576d}");
             Assert.IsTrue(size > 32);
         }
 
