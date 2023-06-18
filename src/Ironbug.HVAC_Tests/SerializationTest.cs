@@ -475,7 +475,26 @@ namespace Ironbug.HVACTests
             Assert.IsTrue(typeName == tp.FullName);
         }
 
-    
+
+
+        [Test]
+        public void LargeModelTest()
+        {
+            // test a large model with 1000 zones
+            var folder = System.IO.Path.Combine(TestHelper.TestSourceFolder, "largeModel");
+
+            var hvac = System.IO.Path.Combine(folder, @"VAV and Chilled Beams.json");
+            var osm = System.IO.Path.Combine(folder, @"VAV and Chilled Beams.osm");
+
+            var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
+            Assert.IsTrue(done);
+
+            //var osm = @"C:\Users\mingo\simulation\Unnamed\openstudio\generated_files\VAV and Chilled Beams.osm";
+            var f = new System.IO.FileInfo(osm);
+            var size = f.Length / 1048576d;
+            Assert.IsTrue(size > 32);
+        }
+
         //[Test]
         //public void IBProperties_pp_Test()
         //{
@@ -492,7 +511,7 @@ namespace Ironbug.HVACTests
         //    Assert.AreEqual(pT, dup);
         //}
 
-   
+
 
     }
 }
