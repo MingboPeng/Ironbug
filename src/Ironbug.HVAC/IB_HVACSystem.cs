@@ -155,8 +155,11 @@ namespace Ironbug.HVAC
 
         }
 
+        internal static Dictionary<string, OpenStudio.UUID> OpsIdMapper = new Dictionary<string, OpenStudio.UUID>();
         public bool SaveHVAC(string osmFile)
-        {
+        {   
+            OpsIdMapper = new Dictionary<string, OpenStudio.UUID>();
+
             var airLoops = this.AirLoops;
             var plantLoops = this.PlantLoops;
             var vrfs = this.VariableRefrigerantFlows;
@@ -376,7 +379,6 @@ namespace Ironbug.HVAC
             else
             {
                 var zoneNames = $"- Zone names: {rooms.Count}";
-                s = $"{s}{Environment.NewLine}  - VRF system: {VariableRefrigerantFlows.Count}";
                 info.Add(zoneNames.PadLeft(zoneNames.Length + 2));
             }
             if (rooms.Count > 3)

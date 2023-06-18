@@ -351,9 +351,12 @@ namespace Ironbug.HVAC.BaseClass
             ModelObject realObj = null;
             if (this is IIB_DualLoopObj)
             {
-                var objInModel = this.GetIfInModel<T>(model, this.GetTrackingID());
-                realObj = objInModel is null ? InitAndSetAttributes(withAttributes) : objInModel;
-
+                var trackingID = this.GetTrackingID();
+                var objInModel = this.GetIfInModel<T>(model, trackingID );
+                if (objInModel != null)
+                    return objInModel;
+                realObj = InitAndSetAttributes(withAttributes);
+                IB_HVACSystem.OpsIdMapper.TryAdd(trackingID, realObj.handle());
             }
             else
             {
@@ -372,7 +375,6 @@ namespace Ironbug.HVAC.BaseClass
                 return obj;
             }
 
-           
         }
 
         protected T GetIfInModel<T>(Model model, string trackingID) where T : ModelObject
@@ -381,14 +383,20 @@ namespace Ironbug.HVAC.BaseClass
                 return null;
             var type = typeof(T);
             if (type.Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
-            var getmethodName = $"get{type.Name}s";
-            var methodInfo = typeof(Model).GetMethod(getmethodName);
-            if (methodInfo is null) throw new ArgumentNullException($"{getmethodName} is not available in OpenStuido.Model!");
-            
-            var objresults = methodInfo.Invoke(model, null);
-            var objList = (objresults as IEnumerable<T>).ToList();
-            var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
-            return matchObj;
+            if (!this.GetType().Name.Contains(type.Name)) throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
+
+            var found = IB_HVACSystem.OpsIdMapper.TryGetValue(trackingID, out var id);
+            if (!found)
+                return null;
+
+            var getMethodName = $"get{type.Name}";
+            var methodInfo = typeof(Model).GetMethod(getMethodName);
+            if (methodInfo is null) throw new ArgumentNullException($"{getMethodName} is not available in OpenStudio.Model!");
+            //model.getCoilHeatingElectric()
+            var optionalObj = methodInfo.Invoke(model, new[] { id });
+            var matchObj = optionalObj.GetType().GetMethod("get").Invoke(optionalObj, null);
+            return matchObj as T;
+
         }
 
         public void ApplyAttributesToObj(ModelObject osObj)
