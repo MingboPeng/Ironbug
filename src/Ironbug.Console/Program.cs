@@ -24,9 +24,7 @@ namespace Ironbug
                     return;
                 }
 
-                // set the current directory so that it can find all openstudio files on Linux
-                var currDir = System.IO.Path.GetDirectoryName(assembly.Location);
-                System.IO.Directory.SetCurrentDirectory(currDir);
+             
 
                 var osm = System.IO.Path.GetFullPath(commandArgs.FirstOrDefault());
                 var hvac = System.IO.Path.GetFullPath(commandArgs.LastOrDefault());
@@ -42,6 +40,10 @@ namespace Ironbug
                 System.IO.File.Copy(osm, osmIn, true);
                 if (System.IO.File.Exists(osmIn))
                     Console.WriteLine($"[INFO] Backup input file:\n {osmIn}");
+
+                // set the current directory so that it can find all OpenStudio files on Linux
+                var currDir = System.IO.Path.GetDirectoryName(assembly.Location);
+                System.IO.Directory.SetCurrentDirectory(currDir);
 
                 var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
                 if (done)
