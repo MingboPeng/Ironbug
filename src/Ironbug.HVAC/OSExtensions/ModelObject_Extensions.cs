@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
     {
         public static string OSType(this ModelObject component)
         {
-            return component.iddObjectType().valueDescription();
+            return component?.iddObjectType()?.valueDescription();
         }
 
         public static bool IsNode(this ModelObject component)
