@@ -23,24 +23,32 @@ namespace Ironbug
                     Console.WriteLine($"Hello, this is Ironbug Console app!{System.Environment.NewLine}v{version} ({date})");
                     return;
                 }
-                var osm = System.IO.Path.GetFullPath(commandArgs.FirstOrDefault());
-                var hvac = System.IO.Path.GetFullPath(commandArgs.LastOrDefault());
-
-                //var osm = @"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\TestSource\Integration Testing\FourOfficeBuilding - Copy.osm";
-                //var hvac = @"D:\Dev\Ironbug\src\Ironbug.HVAC_Tests\TestSource\Integration Testing\Sys02_PTHP_Advanced.json";
-
-                Console.WriteLine($"[INFO] Input osm file: {osm}");
-                Console.WriteLine($"[INFO] Input ironbug HVAC json file: {hvac}");
 
                 // set the current directory so that it can find all openstudio files on Linux
                 var currDir = System.IO.Path.GetDirectoryName(assembly.Location);
                 System.IO.Directory.SetCurrentDirectory(currDir);
 
+                var osm = System.IO.Path.GetFullPath(commandArgs.FirstOrDefault());
+                var hvac = System.IO.Path.GetFullPath(commandArgs.LastOrDefault());
+
+                //var osm = @"C:\Users\mingo\simulation\20230615_DetailedHVAC\openstudio\generated_files\VAV and Chilled Beams.osm";
+                //var hvac = @"C:\Users\mingo\simulation\20230615_DetailedHVAC\openstudio\generated_files\VAV and Chilled Beams.json";
+
+                Console.WriteLine($"[INFO] Input osm file:\n {osm}");
+                Console.WriteLine($"[INFO] Input ironbug HVAC json file:\n {hvac}");
+
+                // duplicate a copy
+                var osmIn = System.IO.Path.ChangeExtension(osm, "osm.backup");
+                System.IO.File.Copy(osm, osmIn, true);
+                if (System.IO.File.Exists(osmIn))
+                    Console.WriteLine($"[INFO] Backup input file:\n {osmIn}");
+
                 var done = HVAC.IB_HVACSystem.SaveHVAC(osm, hvac);
                 if (done)
-                    Console.WriteLine($"[INFO] HVAC is added to osm file:\n {osm}");
+                    Console.WriteLine($"[INFO] Done! HVAC is added to osm file:\n {osm}");
                 else
                     throw new ArgumentException("Failed to save HVAC to osm file");
+                
             }
             catch (Exception e)
             {
