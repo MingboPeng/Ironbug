@@ -155,10 +155,10 @@ namespace Ironbug.HVAC
 
         }
 
-        internal static Dictionary<string, OpenStudio.UUID> OpsIdMapper = new Dictionary<string, OpenStudio.UUID>();
+   
         public bool SaveHVAC(string osmFile)
-        {   
-            OpsIdMapper = new Dictionary<string, OpenStudio.UUID>();
+        {
+            OpsIDMapper.StartRecording();
 
             var airLoops = this.AirLoops;
             var plantLoops = this.PlantLoops;

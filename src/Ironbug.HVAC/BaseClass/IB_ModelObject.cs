@@ -356,7 +356,7 @@ namespace Ironbug.HVAC.BaseClass
                 if (objInModel != null)
                     return objInModel;
                 realObj = InitAndSetAttributes(withAttributes);
-                IB_HVACSystem.OpsIdMapper.TryAdd(trackingID, realObj.handle());
+                OpsIDMapper.TryAdd(trackingID, realObj.handle());
             }
             else
             {
@@ -385,7 +385,7 @@ namespace Ironbug.HVAC.BaseClass
             if (type.Name == "ModelObject") throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
             if (!this.GetType().Name.Contains(type.Name)) throw new ArgumentNullException($"GetIfInModel() doesn't work correctly!");
 
-            var found = IB_HVACSystem.OpsIdMapper.TryGetValue(trackingID, out var id);
+            var found = OpsIDMapper.TryGetValue(trackingID, out var id);
             if (!found)
                 return null;
 
@@ -394,9 +394,20 @@ namespace Ironbug.HVAC.BaseClass
             if (methodInfo is null) throw new ArgumentNullException($"{getMethodName} is not available in OpenStudio.Model!");
             //model.getCoilHeatingElectric()
             var optionalObj = methodInfo.Invoke(model, new[] { id });
-            var matchObj = optionalObj.GetType().GetMethod("get").Invoke(optionalObj, null);
-            return matchObj as T;
-
+            
+            // check if initialized
+            var optionalType = optionalObj.GetType();
+            var isInit = optionalType.GetMethod("is_initialized").Invoke(optionalObj, null);
+            if (isInit is bool isInitialized && isInitialized)
+            {
+                var matchObj = optionalType.GetMethod("get").Invoke(optionalObj, null);
+                return matchObj as T;
+            }
+            else
+            {
+                return null;
+            }
+            
         }
 
         public void ApplyAttributesToObj(ModelObject osObj)
