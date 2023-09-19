@@ -51,7 +51,9 @@ namespace Ironbug.HVAC
             foreach (var terminal in allTerms)
             {
                 var t = terminal.ToOS(model) as ZoneHVACTerminalUnitVariableRefrigerantFlow;
-                newObj.addTerminal(t);
+                var done = newObj.addTerminal(t);
+                if (!done)
+                    throw new ArgumentException("Failed to add ZoneHVACTerminalUnitVariableRefrigerantFlow");
                 
             }
             
