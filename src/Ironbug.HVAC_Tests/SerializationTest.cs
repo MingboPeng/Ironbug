@@ -477,7 +477,7 @@ namespace Ironbug.HVACTests
 
 
 
-        //[Test]
+        [Test]
         public void LargeModelTest()
         {
             // test a large model with 1000 zones
