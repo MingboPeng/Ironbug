@@ -9,10 +9,12 @@ namespace Ironbug.Grasshopper.Component
 {
     public abstract class Ironbug_Component: GH_Component
     {
+        private static bool _hasSunGlasses = GH.Instances.ComponentServer.Libraries.FirstOrDefault(_ => _.Id == Guid.Parse("194607e9-d4d6-4e5a-836f-a65774231315") || _.Name == "Sunglasses") != null;
 
-        public static int DisplayMode = 1;
+        public static int DisplayMode = _hasSunGlasses ? 0 : 1;
         public string InstanceVersion = string.Empty;
         private bool _isOldVersion = false;
+       
 
         public Ironbug_Component(string name, string nickname, string description, string category, string subCategory)
             : base(name, nickname, description, category, subCategory)
