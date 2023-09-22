@@ -40,14 +40,12 @@ namespace Ironbug.HVAC.Schedules
         {
             this.CustomAttributes.TryGetValue(IB_Field_Name.Instance, out object custName);
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
-            var name = custName!= null? custName.ToString():$"Schedule - {trackingId.ToString().Substring(12)}";
-
+            var name = custName != null ? custName.ToString() : $"Schedule - {trackingId.ToString().Substring(12)}";
+            var obj = this.GetIfInModel<ScheduleRuleset>(model, this.GetTrackingID());
             
-            var sch_o = model.getScheduleRulesetByName(name);
-            var obj = (ScheduleRuleset)null;
-            if (sch_o.is_initialized())
+            if (obj != null)
             {
-                obj = sch_o.get();
+                //do nothing
             }
             else if (this.Rules.Count>0)
             {
@@ -127,6 +125,9 @@ namespace Ironbug.HVAC.Schedules
           
            
             obj.SetCustomAttributes(this.CustomAttributes);
+
+            // schedule rule set can be shared within model
+            OpsIDMapper.TryAdd(this.GetTrackingID(), obj.handle());
             return obj;
 
 
