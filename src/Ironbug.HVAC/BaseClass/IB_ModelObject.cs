@@ -508,7 +508,7 @@ namespace Ironbug.HVAC.BaseClass
             newObj.Children.Clear();
             foreach (var child in this.Children)
             {
-                newObj.Children.Add(child.Duplicate());
+                newObj.Children.Add(child?.Duplicate());
             }
 
             newObj.IBProperties = this.IBProperties.Duplicate();
