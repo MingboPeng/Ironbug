@@ -9,31 +9,12 @@ namespace Ironbug.HVAC.Schedules
 {
     public class IB_ScheduleFile : IB_Schedule
     {
+        private string _filePath { get => this.Get(string.Empty); set => this.Set(value); }
+        private string _fileContent { get => this.Get(string.Empty); set => this.Set(value); }
         protected override Func<IB_ModelObject> IB_InitSelf
-            => () => new IB_ScheduleFile(this._FilePath);
+            => () => new IB_ScheduleFile(this._filePath);
 
-        //private static Type _refOsType;
 
-        //public static Type GetRefOsType()
-        //{
-        //    if (_refOsType != null) return _refOsType;
-
-        //    var v0 = typeof(Model).Assembly.GetName().Version;
-        //    var v1 = new System.Version("2.8.0");
-        //    var isOldVersion = v0.CompareTo(v1) < 0;
-
-        //    if (!isOldVersion)
-        //    {
-        //        _refOsType = typeof(Model).Assembly.GetType("OpenStudio.ScheduleFile");
-        //        return _refOsType;
-        //    }
-        //    else
-        //    {
-        //        return typeof(Node);
-        //        //throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
-        //    }
-            
-        //}
         private static ScheduleFile InitMethod(Model model, string path)
         {
             var tempFolder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Ironbug", "files");
@@ -64,39 +45,46 @@ namespace Ironbug.HVAC.Schedules
            
             throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}\n{workflow.oswDir().__str__()}");
         }
-        //private static ScheduleInterval InitMethod(Model model, string path)
-        //    => (ScheduleInterval)Activator.CreateInstance(GetRefOsType(), new Object[] { ExternalFile.getExternalFile(model, path).get() }); 
 
-        private string _FilePath;
+        
 
         private IB_ScheduleFile() : base(null) { }
-        public IB_ScheduleFile(string FilePath) : base(InitMethod(new Model(), FilePath))
+        public IB_ScheduleFile(string filePath) : base(InitMethod(new Model(), filePath))
         {
-            //if (_refOsType == typeof(Node))
-            //{
-            //    throw new ArgumentException("OpenStudio.ScheduleFile is only supported in 2.8 or newer version!");
-            //}
-         
-            this._FilePath = FilePath;
+            this._filePath = filePath;
         }
 
         
         public override ModelObject ToOS(Model model)
         {
-            return base.OnNewOpsObj((m) => InitMethod(m, this._FilePath), model);
+            if (!System.IO.File.Exists(this._filePath))
+            {
+                this._filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), $"{System.IO.Path.GetRandomFileName()}.csv");
+                System.IO.File.WriteAllText(this._filePath, this._fileContent);
+            }
+
+            return base.OnNewOpsObj((m) => InitMethod(m, this._filePath), model);
 
         }
 
         public override string ToJson(bool indented = false)
         {
-            throw new ArgumentException($"{this.GetType().Name} is not supported to be exported to Json now");
+            if (System.IO.File.Exists(this._filePath))
+            {
+                this._fileContent = System.IO.File.ReadAllText(this._filePath);
+            }
+
+            return base.ToJson(indented); 
         }
 
 
         [OnSerializing]
         internal void OnSerializingMethod(StreamingContext context)
         {
-            throw new ArgumentException($"{this.GetType().Name} is not supported to be exported to Json now");
+            if (System.IO.File.Exists(this._filePath))
+            {
+                this._fileContent = System.IO.File.ReadAllText(this._filePath);
+            }
         }
 
 
