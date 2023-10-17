@@ -14,39 +14,23 @@ namespace Ironbug.HVAC.Schedules
         protected override Func<IB_ModelObject> IB_InitSelf
             => () => new IB_ScheduleFile(this._filePath);
 
-
         private static ScheduleFile InitMethod(Model model, string path)
         {
+            
+            if (!File.Exists(path))
+                throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}");
+
             var tempFolder = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Ironbug", "files");
-            if (File.Exists(path))
-            { 
-                //Copy to temp folder
-                var targetFile =  System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetFileName(path));
-                File.Copy(path, targetFile, true);
-            }
+            Directory.CreateDirectory(tempFolder);
 
-            // Check if temp folder exist in current workflow paths
-            var workflow = model.workflowJSON();
-            var Paths = workflow.absoluteFilePaths().Select(_=>_.__str__());
-            if (!Paths.Contains(tempFolder))
-            {
-                workflow.addFilePath(OpenStudioUtilitiesCore.toPath(tempFolder));
-            }
+            //Copy to temp folder
+            var targetFile = System.IO.Path.Combine(tempFolder, System.IO.Path.GetFileName(path));
+            File.Copy(path, targetFile, true);
 
-            var extFile = ExternalFile.getExternalFile(model, path);
-
-            var paths = model.workflowJSON().filePaths()[0].__str__();
-
-            if (extFile.is_initialized())
-            {
-                var obj = new ScheduleFile(extFile.get());
-                return obj;
-            }
-           
-            throw new ArgumentException($"Invalid file path for ScheduleFile! \n{path}\n{workflow.oswDir().__str__()}");
+            var obj = new ScheduleFile(model, OpenStudioUtilitiesCore.toPath(targetFile));
+            return obj;
         }
-
-        
+    
 
         private IB_ScheduleFile() : base(null) { }
         public IB_ScheduleFile(string filePath) : base(InitMethod(new Model(), filePath))
