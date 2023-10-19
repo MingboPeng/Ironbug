@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
           : base("IB_CoilWaterHeatingAirToWaterHeatPump", "CoilWHHP",
               "Description",
               "Ironbug", "04:ZoneEquipments",
-              typeof(HVAC.IB_CoilWaterHeatingAirToWaterHeatPump))
+              typeof(HVAC.IB_CoilWaterHeatingAirToWaterHeatPump_FieldSet))
         {
         }
         public override GH_Exposure Exposure => GH_Exposure.quinary;
