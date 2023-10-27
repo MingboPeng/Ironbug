@@ -55,7 +55,7 @@ namespace Ironbug
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw e;
+                throw;
                 //Console.ReadLine();
             }
 
