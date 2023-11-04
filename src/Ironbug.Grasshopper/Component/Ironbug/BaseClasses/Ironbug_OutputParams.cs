@@ -20,7 +20,7 @@ namespace Ironbug.Grasshopper.Component
 
         public Ironbug_OutputParams()
           : base("IB_OutputParams", "OutputParams",
-              "Description",
+              "Use this component to list all EnergyPlus output variables of a connected downstream HVAC component, and set selected variables to true to request the EnergyPlus to collect data during the simulation.",
               "Ironbug", "00:Ironbug")
         {
         }
@@ -31,7 +31,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("OutputVariables", "vars", "TODO...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("OutputVariables", "vars", "Add EnergyPlus output variables to HVAC component's parameter inputs.", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
