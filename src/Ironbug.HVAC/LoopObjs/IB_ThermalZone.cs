@@ -158,6 +158,15 @@ namespace Ironbug.HVAC.BaseClass
             {
                 var eqp = (ZoneHVACComponent)item.ToOS(model);
                 eqp.addToThermalZone(newZone);
+
+                if (eqp is AirLoopHVACUnitarySystem usys)
+                {
+                    if (usys.controllingZoneorThermostatLocation().isNull())
+                    {
+                        usys.setControllingZoneorThermostatLocation(newZone);
+                    }
+                    
+                }
             }
 
             return newZone;
