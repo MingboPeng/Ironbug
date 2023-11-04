@@ -30,7 +30,7 @@ namespace Ironbug.Grasshopper.Component
             pManager[2].Optional = true;
             pManager.AddGenericParameter("SupplementalHeatingCoil", "spCoilH_", "SupplementalHeatingCoil. By default, no supplemental heating coil is included.", GH_ParamAccess.item);
             pManager[3].Optional = true;
-            pManager.AddGenericParameter("ControllingZone", "ctrlZone_", "The controlling zone for thermostat location", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ControllingZone", "ctrlZone_", "The controlling zone for thermostat location. It is required to set a valid when the unitary system is used within an air loop. When this unitary system is added as a zone equipment, the default zone is used for the controlling zone if it is unset.", GH_ParamAccess.item);
             pManager[4].Optional = true;
 
         }
