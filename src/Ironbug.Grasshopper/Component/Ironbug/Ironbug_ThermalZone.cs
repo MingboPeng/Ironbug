@@ -70,19 +70,19 @@ namespace Ironbug.Grasshopper.Component
             var zones = this.CreateZones(HBZones, airTerminals, sizing);
             
        
-            var zoneEquipsGoo = new List<GH_Goo<object>>();
+            var zoneEquipsGoo = new List<IIB_ZoneEquipment>();
             DA.GetDataList(2, zoneEquipsGoo);
 
-            var zoneEquipObj = zoneEquipsGoo.Select(_ => _.Value);
-            var zoneEquipmentGroups = zoneEquipObj.Where(_ => _ is IB_ZoneEquipmentGroup).Select(_=>_ as IB_ZoneEquipmentGroup);
-            var zoneEquipments = zoneEquipObj.Where(_ => _ is IB_ZoneEquipment).Select(_ => _ as IB_ZoneEquipment);
+            var eqpGps = zoneEquipsGoo.GroupBy(_ => _ is IB_ZoneEquipmentGroup);
 
-
-            if (zoneEquipmentGroups.Any())
+            var zoneEquipments = eqpGps.FirstOrDefault(_ => _.Key == false)?.OfType<IIB_ZoneEquipment>();
+            var zoneEquipmentGroups = eqpGps.FirstOrDefault(_=>_.Key == true)?.OfType<IB_ZoneEquipmentGroup>();
+            
+            if (zoneEquipmentGroups != null && zoneEquipmentGroups.Any())
             {
                 this.AddZoneEquipmentGroups(zones, zoneEquipmentGroups.ToList());
             }
-            else if (zoneEquipments.Any())
+            else if (zoneEquipments != null && zoneEquipments.Any())
             {
                 this.AddZoneEquipments(zones, zoneEquipments.ToList());
             }
@@ -176,7 +176,7 @@ namespace Ironbug.Grasshopper.Component
             }
            
         }
-        private void AddZoneEquipments(List<IB_ThermalZone> Zones, List<IB_ZoneEquipment> ZoneEquipments)
+        private void AddZoneEquipments(List<IB_ThermalZone> Zones, List<IIB_ZoneEquipment> ZoneEquipments)
         {
             var OSZones = Zones;
             var zEquips = ZoneEquipments;
