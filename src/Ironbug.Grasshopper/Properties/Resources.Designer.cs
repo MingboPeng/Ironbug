@@ -143,6 +143,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap AM_Dif {
+            get {
+                object obj = ResourceManager.GetObject("AM_Dif", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap AM_HV {
             get {
                 object obj = ResourceManager.GetObject("AM_HV", resourceCulture);
@@ -186,6 +196,16 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap AM_On {
             get {
                 object obj = ResourceManager.GetObject("AM_On", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap AM_Opt {
+            get {
+                object obj = ResourceManager.GetObject("AM_Opt", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
