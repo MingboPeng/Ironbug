@@ -20,6 +20,33 @@ namespace Ironbug.HVAC
             return component.OSType() == "OS:Node";
         }
 
+        public static Node GetNodeByTrackingID(this Model model, string trackingID)
+        {
+            Node node = null;
+            if (string.IsNullOrEmpty(trackingID))
+                return node;
+
+            if (!OpsIDMapper.TryGetValue(trackingID, out var id))
+                return node;
+
+            var optionalNode = model.getNode(id);
+            if (optionalNode.is_initialized()) node = optionalNode.get();
+            return node;
+
+        }
+
+        public static ThermalZone GetThermalZone(this Model model, string name)
+        {
+            ThermalZone newZone = null;
+            if (string.IsNullOrEmpty(name))
+                return newZone;
+
+            var optionalZone = model.getThermalZoneByName(name);
+            if (optionalZone.is_initialized()) newZone = optionalZone.get();
+            return newZone;
+
+        }
+
         public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
         {
             var type = component.GetType();
