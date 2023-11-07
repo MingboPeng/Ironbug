@@ -23,7 +23,7 @@ namespace Ironbug.HVACTests
         public void OldOsmFile_Test()
         {
             var oldFile = System.IO.Path.Combine(TestHelper.TestSourceFolder, "OldVersion.osm");
-            var oldModel = IB_HVACSystem.GetOrNewModel(oldFile);
+            var oldModel = IB_Utility.GetOrNewModel(oldFile);
             var version = oldModel.version().str(); // updated to the current version
 
             //var ex = Assert.Throws<ArgumentException>(() => IB_HVACSystem.GetOrNewModel(oldFile));
