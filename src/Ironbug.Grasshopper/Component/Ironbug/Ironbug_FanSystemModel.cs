@@ -15,7 +15,7 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary | GH_Exposure.obscure;
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
