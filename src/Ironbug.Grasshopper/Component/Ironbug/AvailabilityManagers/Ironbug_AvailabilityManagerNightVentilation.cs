@@ -17,7 +17,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("controlZone", "_ctrlZone", "A controlled zone served by the air loop defined. The air conditions in this zone are used to determine if natural ventilation should be provided.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("controlZone", "_ctrlZone", "A controlled zone served by the air loop defined. The air conditions in this zone are used to determine if natural ventilation should be provided.", GH_ParamAccess.item);
             pManager[0].Optional = true;
         }
 
