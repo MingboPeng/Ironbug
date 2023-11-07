@@ -5,7 +5,6 @@ using System.Linq;
 using Ironbug.Core;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
-using Ironbug.HVAC.Schedules;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -265,7 +264,10 @@ namespace Ironbug.HVAC.BaseClass
             }
             else if (value is IB_AvailabilityManager am)
             {
-                realValue = new AvailabilityManagerVector(new[] { am.ToOS(this.GhostOSObject.model()) }.ToList());
+                if (am is  IB_AvailabilityManagerList amList)
+                    realValue = amList.ToAMVector(this.GhostOSObject.model());
+                else
+                    realValue = new AvailabilityManagerVector(new[] { am.ToOS(this.GhostOSObject.model()) }.ToList());
             }
 
             this.CustomAttributes.TryAdd(field, value);
