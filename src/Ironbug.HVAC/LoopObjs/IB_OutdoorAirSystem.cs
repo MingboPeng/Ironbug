@@ -198,6 +198,8 @@ namespace Ironbug.HVAC
                 foreach (var item in probes)
                 {
                     AddProbeToNode(firstNode, item.CustomAttributes, item.CustomOutputVariables);
+                    // node can be shared within model for availability manager's sensor input
+                    OpsIDMapper.TryAdd(item.GetTrackingID(), firstNode.handle());
                     added++;
                 }
                 return true;
@@ -209,6 +211,8 @@ namespace Ironbug.HVAC
             {
                 var item = probes.First();
                 AddProbeToNode(firstNode, item.CustomAttributes, item.CustomOutputVariables);
+                // node can be shared within model for availability manager's sensor input
+                OpsIDMapper.TryAdd(item.GetTrackingID(), firstNode.handle());
                 added = 1;
 
                 remainingProbes = probes.Skip(1);
@@ -235,7 +239,10 @@ namespace Ironbug.HVAC
                 nodeWithProbe = currentComps.ElementAt(node_Index).to_Node();
 
                 //Add to the node
-                AddProbeToNode(nodeWithProbe.get(), item.CustomAttributes, item.CustomOutputVariables);
+                var midNode = nodeWithProbe.get();
+                AddProbeToNode(midNode, item.CustomAttributes, item.CustomOutputVariables);  
+                // node can be shared within model for availability manager's sensor input
+                OpsIDMapper.TryAdd(item.GetTrackingID(), midNode.handle());
                 added++;
             }
 
