@@ -39,8 +39,15 @@ namespace Ironbug.Grasshopper
             }
             else if (HBObj is GH_ObjectWrapper wrapper)
             {
-                // LBT Room
+                
                 var pyObj = wrapper.Value;
+                if (pyObj is Ironbug.HVAC.BaseClass.IB_ThermalZone ibZone)
+                {
+                    ibZone.CustomAttributes.TryGetValue(Ironbug.HVAC.BaseClass.IB_ThermalZone_FieldSet.Value.Name, out var ibName);
+                    return ibName?.ToString();
+                }
+
+                // LBT Room
                 var isPythonObj = pyObj.GetType().ToString().StartsWith("IronPython.");
                 if (!isPythonObj)
                     throw new System.ArgumentException("Invalid Room object!");
