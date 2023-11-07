@@ -25,24 +25,22 @@ namespace Ironbug.HVAC.AvailabilityManager
         public override OpenStudio.AvailabilityManager ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var zone = GetThermalZone(model, _controlZoneName);
-            if (zone != null)
-                obj.setControlZone(zone);
+            // this will be executed after all loops (nodes) are saved
+            Func<bool> func = () =>
+            {
+                var zone = model.GetThermalZone(_controlZoneName);
+                if (zone == null)
+                    return false;
+
+                return obj.setControlZone(zone);
+
+            };
+
+            IB_Utility.DelayAddSensorNode(func);
 
             return obj;
         }
 
-        private static ThermalZone GetThermalZone(Model model, string name)
-        {
-            ThermalZone newZone = null;
-            if (string.IsNullOrEmpty(name))
-                return newZone;
-
-            var optionalZone = model.getThermalZoneByName(name);
-            if (optionalZone.is_initialized()) newZone = optionalZone.get();
-            return newZone;
-
-        }
     }
 
     public sealed class IB_AvailabilityManagerNightVentilation_FieldSet
