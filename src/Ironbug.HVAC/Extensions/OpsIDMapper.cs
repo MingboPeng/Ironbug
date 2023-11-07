@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 namespace Ironbug.HVAC
 {
+    /// <summary>
+    /// Cache OpenStudio object Handle IDs along with Ironbug tracking IDs. 
+    /// Only the following types of objects are cached:
+    ///     - IIB_DualLoopObj
+    ///     - IB_ScheduleRuleset
+    ///     _ IB_NodeProbe (OpenStudio.Node)
+    /// </summary>
     internal static class OpsIDMapper
     {
         private static Dictionary<string, OpenStudio.UUID> _mapper;

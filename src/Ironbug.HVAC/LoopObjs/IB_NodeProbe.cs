@@ -14,16 +14,16 @@ namespace Ironbug.HVAC
         {
         }
 
-        //This will never be called, check IB_Loop.AddNodeProbe();
+
         public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(NewDefaultOpsObj, model);
+            throw new NotImplementedException("This will never be called, check IB_Loop.AddNodeProbe()");
         }
 
-        //This will never be called, check IB_Loop.AddNodeProbe();
+
         public override bool AddToNode(Node node)
         {
-            return true;
+            throw new NotImplementedException("This will never be called, check IB_Loop.AddNodeProbe()");
         }
 
         public override string ToString() => "NodeProbe";

@@ -146,6 +146,7 @@ namespace Ironbug.HVAC.BaseClass
             }
 
         }
+
         protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
             var components = Components.Where(_ => !(_ is IB_SetpointManager));
@@ -170,7 +171,10 @@ namespace Ironbug.HVAC.BaseClass
                 {
                     startingNode.SetCustomAttributes(item.CustomAttributes);
                     startingNode.SetOutputVariables(item.CustomOutputVariables);
-              
+
+                    // node can be shared within model for availability manager's sensor input
+                    OpsIDMapper.TryAdd(item.GetTrackingID(), startingNode.handle());
+
                     added++;
                 }
                 return true;
@@ -183,6 +187,10 @@ namespace Ironbug.HVAC.BaseClass
                 var item = probes.First();
                 startingNode.SetCustomAttributes(item.CustomAttributes);
                 startingNode.SetOutputVariables(item.CustomOutputVariables);
+
+                // node can be shared within model for availability manager's sensor input
+                OpsIDMapper.TryAdd(item.GetTrackingID(), startingNode.handle());
+
                 added = 1;
 
                 remainingProbes = probes.Skip(1);
@@ -230,6 +238,10 @@ namespace Ironbug.HVAC.BaseClass
                 var nd = nodeWithProbe.get();
                 nd.SetCustomAttributes(item.CustomAttributes);
                 nd.SetOutputVariables(item.CustomOutputVariables);
+
+                // node can be shared within model for availability manager's sensor input
+                OpsIDMapper.TryAdd(item.GetTrackingID(), nd.handle());
+
                 //var ndName = nd.nameString();
                 //AddOutputVariablesToModel(item.CustomOutputVariables, nd, model);
                 added++;
