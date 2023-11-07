@@ -1,6 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
@@ -31,13 +32,15 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var zones = new List<HVAC.BaseClass.IB_ThermalZone>();
-            DA.GetDataList(0, zones);
-            var zone = (HVAC.BaseClass.IB_ThermalZone)null;
-            if (zones.Count == 0) return;
+            List<HVAC.BaseClass.IB_ThermalZone> zones = null;
+          
+            if (!DA.GetDataList(0, zones) || zones?.FirstOrDefault() == null)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid control zone.");
+                return;
+            }
+            var zone = zones.FirstOrDefault();
 
-            if (zones.Count > 1) this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This is a setpointManager for the single zone, you have more than one zone as input. So it takes the first zone as the control zone.");
-            zone = zones[0];
             var obj = new HVAC.IB_SetpointManagerSingleZoneCooling(zone);
 
 
