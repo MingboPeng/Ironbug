@@ -1,6 +1,7 @@
 ﻿using Grasshopper.Kernel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
@@ -20,7 +21,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("ControlZone", "_Ctrlzone", "ControlZone", GH_ParamAccess.list);
+            pManager.AddGenericParameter("ControlZone", "_Ctrlzone", EPDoc.SetpointManagerSingleZoneHumidityMinimum.Field_ControlZoneAirNodeName, GH_ParamAccess.list);
             pManager[0].DataMapping = GH_DataMapping.Flatten;
         }
 
@@ -31,13 +32,14 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var zones = new List<HVAC.BaseClass.IB_ThermalZone>();
-            DA.GetDataList(0, zones);
-            var zone = (HVAC.BaseClass.IB_ThermalZone)null;
-            if (zones.Count == 0) return;
+            List<HVAC.BaseClass.IB_ThermalZone> zones = null;
 
-            if (zones.Count > 1) this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This is the setpointManager for the single zone, you have more than one zone as input. So it takes the first zone as the control zone.");
-            zone = zones[0];
+            if (!DA.GetDataList(0, zones) || zones?.FirstOrDefault() == null)
+            {
+                this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid control zone.");
+                return;
+            }
+            var zone = zones.FirstOrDefault();
             var obj = new HVAC.IB_SetpointManagerSingleZoneHumidityMinimum(zone);
 
 

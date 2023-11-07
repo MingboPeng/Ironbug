@@ -19,8 +19,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("HighTemperature", "_hiT", "High SetpointTemperature", GH_ParamAccess.item, 21.1);
-            pManager.AddNumberParameter("LowTemperature", "_lowT", "Low SetpointTemperature", GH_ParamAccess.item, 12.7778);
+            pManager.AddNumberParameter("HighTemperature", "_hiT", "High SetpointTemperature in C to create a constant schedule", GH_ParamAccess.item, 21.1);
+            pManager.AddNumberParameter("LowTemperature", "_lowT", "Low SetpointTemperature in C to create a constant schedule", GH_ParamAccess.item, 12.7778);
         }
         
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
