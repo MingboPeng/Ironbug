@@ -32,7 +32,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            List<HVAC.BaseClass.IB_ThermalZone> zones = null;
+            var zones = new List<HVAC.BaseClass.IB_ThermalZone>();
 
             if (!DA.GetDataList(0, zones) || zones?.FirstOrDefault() == null)
             {
