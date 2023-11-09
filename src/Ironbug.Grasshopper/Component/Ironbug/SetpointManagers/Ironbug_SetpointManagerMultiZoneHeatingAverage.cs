@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         private static HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet _fieldSet = HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet.Value;
         
         public Ironbug_SetpointManagerMultiZoneHeatingAverage()
-          : base("IB_SetpointManagerMultiZoneHeatingAverage", "SPM_HumidityAvg",
+          : base("IB_SetpointManagerMultiZoneHeatingAverage", "SPM_HtnAvg",
                "Description",
               "Ironbug", "05:SetpointManager & AvailabilityManager",
               typeof(HVAC.IB_SetpointManagerMultiZoneHeatingAverage_FieldSet))
