@@ -40,7 +40,7 @@ namespace Ironbug.HVAC.AvailabilityManager
 
             };
 
-            IB_Utility.DelayAddSensorNode(func);
+            IB_Utility.AddDelayFunc(func);
 
             return obj;
         }

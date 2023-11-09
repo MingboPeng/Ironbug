@@ -18,7 +18,7 @@ namespace Ironbug.HVAC.AvailabilityManager
         public void SetControlZone(string controlZoneName)
         {
             if (string.IsNullOrEmpty(controlZoneName))
-                return;
+                throw new ArgumentException("Invalid control zone");
             _controlZoneName = controlZoneName;
         }
 
@@ -37,7 +37,7 @@ namespace Ironbug.HVAC.AvailabilityManager
 
             };
 
-            IB_Utility.DelayAddSensorNode(func);
+            IB_Utility.AddDelayFunc(func);
 
 
             return obj;

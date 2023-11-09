@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
         /// Collect Funcs that need to be executed after all loops are saved.
         /// </summary>
         /// <param name="func"></param>
-        public static void DelayAddSensorNode(Func<bool> func)
+        public static void AddDelayFunc(Func<bool> func)
         {
             // This can only be called when saving the HVAC system to the OpenStudio model.
             if (_delaiedAMFuncs == null)
@@ -29,7 +29,7 @@ namespace Ironbug.HVAC
             foreach (var f in _delaiedAMFuncs)
             {
                 if (!(f?.Invoke()).GetValueOrDefault())
-                    throw new ArgumentException("Failed to set availability manager's node"); 
+                    throw new ArgumentException("Failed to set a reference node probe or a control zone, please ensure the probe or control zone is added to the loop."); 
             }
 
             // clear
