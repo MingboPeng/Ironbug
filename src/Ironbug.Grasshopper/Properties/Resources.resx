@@ -679,4 +679,34 @@
   <data name="AM_Group" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AM_Group.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CoilGasMultiStage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoilGasMultiStage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DXCoolingStageData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DXCoolingStageData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DXHeatingStageData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DXHeatingStageData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GasHeatingStageData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GasHeatingStageData.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPM_GroundTemp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPM_GroundTemp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPM_NodeFlow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPM_NodeFlow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPM_NodeHumidity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPM_NodeHumidity.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPM_NodeTemp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPM_NodeTemp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SPM_WarmestTempFlow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SPM_WarmestTempFlow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="UnitaryHP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\UnitaryHP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
