@@ -6,30 +6,40 @@ namespace Ironbug.HVAC
 {
     public class IB_SetpointManagerSingleZoneHumidityMinimum : IB_SetpointManager
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneHumidityMinimum(this.ControlZone);
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneHumidityMinimum();
 
         private static SetpointManagerSingleZoneHumidityMinimum NewDefaultOpsObj(Model model)
             => new SetpointManagerSingleZoneHumidityMinimum(model);
 
-        private IB_ThermalZone ControlZone => this.GetChild<IB_ThermalZone>();
-        private IB_SetpointManagerSingleZoneHumidityMinimum() : base(null) { }
-        public IB_SetpointManagerSingleZoneHumidityMinimum(IB_ThermalZone thermalZone) : base(NewDefaultOpsObj(new Model()))
+        private string _controlZoneName { get => this.Get(string.Empty); set => this.Set(value); }
+     
+        public IB_SetpointManagerSingleZoneHumidityMinimum() : base(NewDefaultOpsObj(new Model()))
         {
-            this.AddChild(thermalZone);
-            ((SetpointManagerSingleZoneHumidityMinimum)this.GhostOSObject).setControlZone((ThermalZone)thermalZone.ToOS(GhostOSObject.model()));
         }
 
-        public void SetControlZone(IB_ThermalZone zone)
+        public void SetControlZone(string controlZoneName)
         {
-            this.SetChild(zone);
+            if (string.IsNullOrEmpty(controlZoneName))
+                throw new ArgumentException("Invalid control zone");
+            _controlZoneName = controlZoneName;
         }
 
         public override HVACComponent ToOS(Model model)
         {
-            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var zone = (ThermalZone)this.ControlZone.ToOS(model);
-            newObj.setControlZone(zone);
-            return newObj;
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            // this will be executed after all loops (nodes) are saved
+            Func<bool> func = () =>
+            {
+                var zone = model.GetThermalZone(_controlZoneName);
+                if (zone == null)
+                    return false;
+
+                return obj.setControlZone(zone);
+
+            };
+
+            IB_Utility.AddDelayFunc(func);
+            return obj;
         }
     }
     public sealed class IB_SetpointManagerSingleZoneHumidityMinimum_FieldSet

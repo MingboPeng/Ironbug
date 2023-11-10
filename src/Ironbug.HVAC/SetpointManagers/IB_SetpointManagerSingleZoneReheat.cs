@@ -7,31 +7,39 @@ namespace Ironbug.HVAC
     public class IB_SetpointManagerSingleZoneReheat : IB_SetpointManager
     {
         
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneReheat(this.ControlZone);
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerSingleZoneReheat();
 
         private static SetpointManagerSingleZoneReheat NewDefaultOpsObj(Model model) 
             => new SetpointManagerSingleZoneReheat(model);
 
-        private IB_ThermalZone ControlZone => this.GetChild<IB_ThermalZone>();
-        private IB_SetpointManagerSingleZoneReheat() : base(null) { }
-        public IB_SetpointManagerSingleZoneReheat(IB_ThermalZone thermalZone) : base(NewDefaultOpsObj(new Model()))
-        {
-            this.AddChild(thermalZone);
-
-            ((SetpointManagerSingleZoneReheat)this.GhostOSObject).setControlZone((ThermalZone)thermalZone.ToOS(GhostOSObject.model()));
+        private string _controlZoneName { get => this.Get(string.Empty); set => this.Set(value); }
+        public IB_SetpointManagerSingleZoneReheat() : base(NewDefaultOpsObj(new Model()))
+        { 
         }
 
-        public void SetControlZone(IB_ThermalZone zone)
+        public void SetControlZone(string controlZoneName)
         {
-            this.SetChild(zone);
+            if (string.IsNullOrEmpty(controlZoneName))
+                throw new ArgumentException("Invalid control zone");
+            _controlZoneName = controlZoneName;
         }
 
         public override HVACComponent ToOS(Model model)
         {
-            var newObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            var zone = (ThermalZone)this.ControlZone.ToOS(model);
-            newObj.setControlZone(zone);
-            return newObj;
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            // this will be executed after all loops (nodes) are saved
+            Func<bool> func = () =>
+            {
+                var zone = model.GetThermalZone(_controlZoneName);
+                if (zone == null)
+                    return false;
+
+                return obj.setControlZone(zone);
+
+            };
+
+            IB_Utility.AddDelayFunc(func);
+            return obj;
         }
     }
     public sealed class IB_SetpointManagerSingleZoneReheat_FieldSet

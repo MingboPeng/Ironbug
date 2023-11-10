@@ -39,8 +39,11 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "Invalid control zone.");
                 return;
             }
+
             var zone = zones.FirstOrDefault();
-            var obj = new HVAC.IB_SetpointManagerSingleZoneHumidityMaximum(zone);
+            var zoneName = Helper.GetRoomName(zone);
+            var obj = new HVAC.IB_SetpointManagerSingleZoneHumidityMaximum();
+            obj.SetControlZone(zoneName);
 
 
             DA.SetData(0, obj);

@@ -40,9 +40,9 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 return;
             }
             var zone = zones.FirstOrDefault();
-
-            var obj = new HVAC.IB_SetpointManagerSingleZoneCooling(zone);
-
+            var zoneName = Helper.GetRoomName(zone);
+            var obj = new HVAC.IB_SetpointManagerSingleZoneCooling();
+            obj.SetControlZone(zoneName);
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
