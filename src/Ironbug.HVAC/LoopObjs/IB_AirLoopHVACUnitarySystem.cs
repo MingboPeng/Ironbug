@@ -24,7 +24,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_AirLoopHVACUnitarySystem(IB_ThermalZone ControllingZone) 
+        public IB_AirLoopHVACUnitarySystem() 
             : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(null);
