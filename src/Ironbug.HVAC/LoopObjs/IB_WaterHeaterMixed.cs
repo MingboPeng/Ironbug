@@ -10,8 +10,8 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterHeaterMixed();
 
         private static WaterHeaterMixed NewDefaultOpsObj(Model model) => new WaterHeaterMixed(model);
-     
-        private IB_ThermalZone _Zone => this.GetChild<IB_ThermalZone>();
+
+        private string _zone { get => this.Get(string.Empty); set => this.Set(value); }
         private IB_WaterHeaterSizing _Sizing => this.GetChild<IB_WaterHeaterSizing>();
 
         [JsonConstructor]
@@ -21,26 +21,43 @@ namespace Ironbug.HVAC
         public IB_WaterHeaterMixed() : base(NewDefaultOpsObj(new Model()))
         {
             this.AddChild(null);
-            this.AddChild(null);
         }
     
         public void SetSizing(IB_WaterHeaterSizing sizing)
         {
-            this.SetChild(1, sizing);
+            this.SetChild(0, sizing);
         }
-        public void setAmbientTemperatureThermalZone(IB_ThermalZone Zone)
+
+        public void setAmbientTemperatureThermalZone(string controlZoneName)
         {
-            this.SetChild(0, Zone);
+            if (string.IsNullOrEmpty(controlZoneName))
+                throw new ArgumentException("Invalid control zone");
+            _zone = controlZoneName;
         }
+
 
         public override HVACComponent ToOS(Model model)
         {
-            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            if (this._Zone != null)
-                opsObj.setAmbientTemperatureThermalZone(this._Zone.ToOS(model) as ThermalZone);
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+
+            if (!string.IsNullOrEmpty(_zone))
+            {
+                // this will be executed after all loops (nodes) are saved
+                Func<bool> func = () =>
+                {
+                    var zone = model.GetThermalZone(_zone);
+                    if (zone == null)
+                        return false;
+
+                    return obj.setAmbientTemperatureThermalZone(zone);
+
+                };
+
+                IB_Utility.AddDelayFunc(func);
+            }
             if (this._Sizing != null) 
-                this._Sizing.ToOS(opsObj);
-            return opsObj;
+                this._Sizing.ToOS(obj);
+            return obj;
         }
     }
 
