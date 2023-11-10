@@ -4,18 +4,18 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingGas : Ironbug_DuplicableHVACWithParamComponent
+    public class Ironbug_CoilHeatingGasMultiStageStageData : Ironbug_DuplicableHVACWithParamComponent
     {
         
-        public Ironbug_CoilHeatingGas()
-          : base("IB_CoilHeatingGas", "CoilHtnGas",
+        public Ironbug_CoilHeatingGasMultiStageStageData()
+          : base("IB_CoilHeatingGasMultiStageStageData", "CoilHtnGas_Stage",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(IB_CoilHeatingGas_FieldSet))
+              typeof(IB_CoilHeatingGasMultiStageStageData_FieldSet))
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
+        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -23,12 +23,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingGas", "Coil", "TODO:...", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoilHeatingGasMultiStageStageData", "Stage", "CoilHeatingGasMultiStageStageData", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_CoilHeatingGas();
+            var obj = new HVAC.IB_CoilHeatingGasMultiStageStageData();
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
@@ -38,6 +38,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHG;
 
-        public override Guid ComponentGuid => new Guid("87875bb8-840a-4a45-874e-07fef7ef156e");
+        public override Guid ComponentGuid => new Guid("BCD34B0A-53B5-4500-B21C-8A264BB685DF");
     }
 }
