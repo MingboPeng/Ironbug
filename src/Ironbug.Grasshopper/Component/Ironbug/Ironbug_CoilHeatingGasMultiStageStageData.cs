@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
 
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHG;
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.GasHeatingStageData;
 
         public override Guid ComponentGuid => new Guid("BCD34B0A-53B5-4500-B21C-8A264BB685DF");
     }
