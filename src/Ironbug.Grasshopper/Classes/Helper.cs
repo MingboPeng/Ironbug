@@ -18,6 +18,11 @@ namespace Ironbug.Grasshopper
         {
             return HBZonesOrNames?.Select(x => GetRoomName(x))?.ToList();
         }
+        public static string GetRoomName(Ironbug.HVAC.BaseClass.IB_ThermalZone zone)
+        {
+            zone.CustomAttributes.TryGetValue(Ironbug.HVAC.BaseClass.IB_ThermalZone_FieldSet.Value.Name, out var ibName);
+            return ibName?.ToString();
+        }
 
         public static string GetRoomName(object HBObj)
         {
@@ -43,8 +48,7 @@ namespace Ironbug.Grasshopper
                 var pyObj = wrapper.Value;
                 if (pyObj is Ironbug.HVAC.BaseClass.IB_ThermalZone ibZone)
                 {
-                    ibZone.CustomAttributes.TryGetValue(Ironbug.HVAC.BaseClass.IB_ThermalZone_FieldSet.Value.Name, out var ibName);
-                    return ibName?.ToString();
+                    return GetRoomName(ibZone);
                 }
 
                 // LBT Room
