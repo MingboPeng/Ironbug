@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using Grasshopper.Kernel;
-using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilCoolingDXMultiSpeed : Ironbug_HVACWithParamComponent
+    public class Ironbug_CoilCoolingDXMultiSpeed_Obsolete : Ironbug_DuplicableHVACWithParamComponent
     {
         
-        
-        public Ironbug_CoilCoolingDXMultiSpeed()
+        public Ironbug_CoilCoolingDXMultiSpeed_Obsolete()
           : base("IB_CoilCoolingDXMultiSpeed", "CoilClnDXM",
               "Description",
               "Ironbug", "02:LoopComponents",
@@ -17,11 +15,10 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilCoolingDXMultiSpeedStageData", "Stages", "A list of IB_CoilCoolingDXMultiSpeedStageData", GH_ParamAccess.list);
         }
 
         
@@ -32,23 +29,16 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
-            var stages = new List<IB_CoilCoolingDXMultiSpeedStageData>();
-            if (!DA.GetDataList(0, stages))
-                return;
-
             var obj = new HVAC.IB_CoilCoolingDXMultiSpeed();
-            obj.SetStages(stages);
-
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
             DA.SetDataList(0, objs);
-
+            this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This obj is not fully finished by OpenStudio, stay tuned!");
         }
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilCDXM;
 
 
-        public override Guid ComponentGuid => new Guid("43C457EB-5B33-49F2-9BC6-96FDCD9CF80A");
+        public override Guid ComponentGuid => new Guid("E76307B8-27F4-4C86-AB23-0864160B725E");
     }
 }
