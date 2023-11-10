@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component.Ironbug
 {
-    public class Ironbug_SetpointManagerFollowGroundTemperature : Ironbug_DuplicableHVACComponent
+    public class Ironbug_SetpointManagerFollowGroundTemperature : Ironbug_DuplicableHVACWithParamComponent
     {
         private static HVAC.IB_SetpointManagerFollowGroundTemperature_FieldSet _fieldSet = HVAC.IB_SetpointManagerFollowGroundTemperature_FieldSet.Value;
         
