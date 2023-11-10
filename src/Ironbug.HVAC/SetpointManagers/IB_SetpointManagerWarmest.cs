@@ -26,10 +26,10 @@ namespace Ironbug.HVAC
         private IB_SetpointManagerWarmest_FieldSet() { }
 
         public IB_Field MaximumSetpointTemperature { get; }
-            = new IB_TopField("MaximumSetpointTemperature", "maxTemp");
+            = new IB_TopField("MaximumSetpointTemperature", "maxT");
 
         public IB_Field MinimumSetpointTemperature { get; }
-            = new IB_TopField("MinimumSetpointTemperature", "minTemp");
+            = new IB_TopField("MinimumSetpointTemperature", "minT");
     }
 
 
