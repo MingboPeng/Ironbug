@@ -42,6 +42,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.SPM_NodeHumidity;
 
-        public override Guid ComponentGuid => new Guid("{E7111E46-447A-4379-9585-269109D344D0}");
+        public override Guid ComponentGuid => new Guid("{A33210F2-E276-4E43-B0A5-152041EFC881}");
     }
 }
