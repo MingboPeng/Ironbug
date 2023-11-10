@@ -44,21 +44,42 @@ namespace Ironbug.HVAC
 
         public void SetCoolingCoil(IB_CoilDX coolingCoil)
         {
+            // test if obj is valid
+            var ghostModel = this.GhostOSObject.model();
+            if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setCoolingCoil(coolingCoil.ToOS(ghostModel)))
+                throw new ArgumentException("Invalid cooling coil!");
+
             this.SetChild(0, coolingCoil);
         }
 
         public void SetHeatingCoil(IB_CoilDX heatingCoil)
         {
+            // test if obj is valid
+            var ghostModel = this.GhostOSObject.model();
+            if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setHeatingCoil(heatingCoil.ToOS(ghostModel)))
+                throw new ArgumentException("Invalid heating coil!");
+
             this.SetChild(1, heatingCoil);
+
         }
 
-        public void SetFan(IB_Fan Fan)
+        public void SetFan(IB_Fan fan)
         {
-            this.SetChild(2, Fan);
+            // test if obj is valid
+            var ghostModel = this.GhostOSObject.model();
+            if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setSupplyAirFan(fan.ToOS(ghostModel)))
+                throw new ArgumentException("Invalid supply fan!");
+
+            this.SetChild(2, fan);
         }
 
         public void SetSupplementalHeatingCoil(IB_CoilHeatingBasic heatingCoil)
         {
+            // test if obj is valid
+            var ghostModel = this.GhostOSObject.model();
+            if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setSupplementalHeatingCoil(heatingCoil.ToOS(ghostModel)))
+                throw new ArgumentException("Invalid SupplementalHeatingCoil!");
+
             this.SetChild(3, heatingCoil);
         }
 
