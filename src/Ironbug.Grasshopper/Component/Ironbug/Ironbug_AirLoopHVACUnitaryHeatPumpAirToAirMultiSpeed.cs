@@ -55,8 +55,8 @@ namespace Ironbug.Grasshopper.Component
             if (DA.GetData(2, ref fan)) obj.SetFan(fan);
             if (DA.GetData(3, ref spCoilH)) obj.SetSupplementalHeatingCoil(spCoilH);
 
-            if (DA.GetData(4, ref zone)) obj.SetControllingZone(zone);
-            
+            if (DA.GetData(4, ref zone)) obj.SetControlZone(zone.GetRoomName());
+
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);
         }

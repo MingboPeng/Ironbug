@@ -53,7 +53,8 @@ namespace Ironbug.Grasshopper.Component
             var obj = new HVAC.IB_AirLoopHVACUnitarySystem();
             if (DA.GetData(4, ref zone))
             {
-                obj = new IB_AirLoopHVACUnitarySystem(zone);
+                obj = new IB_AirLoopHVACUnitarySystem();
+                obj.SetControlZone(zone.GetRoomName());
             }
 
 

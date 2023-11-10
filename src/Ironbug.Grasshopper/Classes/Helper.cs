@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper
         {
             return HBZonesOrNames?.Select(x => GetRoomName(x))?.ToList();
         }
-        public static string GetRoomName(Ironbug.HVAC.BaseClass.IB_ThermalZone zone)
+        public static string GetRoomName(this Ironbug.HVAC.BaseClass.IB_ThermalZone zone)
         {
             zone.CustomAttributes.TryGetValue(Ironbug.HVAC.BaseClass.IB_ThermalZone_FieldSet.Value.Name, out var ibName);
             return ibName?.ToString();
