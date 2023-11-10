@@ -5,10 +5,10 @@ using System;
 
 namespace Ironbug.HVAC
 {
-    public class IB_AirLoopHVACUnitarySystem : IB_HVACObject, IIB_AirLoopObject, IIB_ZoneEquipment
+    public class IB_AirLoopHVACUnitarySystem : IB_AirLoopHVACUnitary, IIB_ZoneEquipment
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () 
-            => new IB_AirLoopHVACUnitarySystem(this._Zone);
+            => new IB_AirLoopHVACUnitarySystem();
 
         private static AirLoopHVACUnitarySystem NewDefaultOpsObj(Model m) 
             => new AirLoopHVACUnitarySystem(m);
@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
         private IB_Coil _heatingCoil => this.GetChild<IB_Coil>(1);
         private IB_Fan _fan => this.GetChild<IB_Fan>(2);
         private IB_Coil _supplementalHeatingCoil => this.GetChild<IB_Coil>(3);
-        private IB_ThermalZone _Zone => this.GetChild<IB_ThermalZone>();
+        private string _controlZoneName { get => this.Get(string.Empty); set => this.Set(value); }
 
         [JsonConstructor]
         private IB_AirLoopHVACUnitarySystem(bool forDeserialization) : base(null)
@@ -31,13 +31,6 @@ namespace Ironbug.HVAC
             this.AddChild(null);
             this.AddChild(null);
             this.AddChild(null);
-            this.AddChild(ControllingZone);
-        }
-
-        //constructor for no controlling zone option
-        public IB_AirLoopHVACUnitarySystem()
-            : this(null)
-        {
         }
 
         public void SetCoolingCoil(IB_Coil CoolingCoil)
@@ -59,24 +52,40 @@ namespace Ironbug.HVAC
         {
             this.SetChild(3, HeatingCoil);
         }
-        public void SetControllingZone(IB_ThermalZone Zone)
+
+        public void SetControlZone(string controlZoneName)
         {
-            this.SetChild(4, Zone);
+            if (string.IsNullOrEmpty(controlZoneName))
+                throw new ArgumentException("Invalid control zone");
+            _controlZoneName = controlZoneName;
         }
 
         public override HVACComponent ToOS(Model model)
         {
-            var opsObj = base.OnNewOpsObj(NewDefaultOpsObj, model);
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
-            if (this._coolingCoil != null) opsObj.setCoolingCoil(this._coolingCoil.ToOS(model));
-            if (this._heatingCoil != null) opsObj.setHeatingCoil(this._heatingCoil.ToOS(model));
-            if (this._fan != null) opsObj.setSupplyFan(this._fan.ToOS(model));
-            if (this._supplementalHeatingCoil != null) opsObj.setSupplementalHeatingCoil(this._supplementalHeatingCoil.ToOS(model));
+            if (this._coolingCoil != null) obj.setCoolingCoil(this._coolingCoil.ToOS(model));
+            if (this._heatingCoil != null) obj.setHeatingCoil(this._heatingCoil.ToOS(model));
+            if (this._fan != null) obj.setSupplyFan(this._fan.ToOS(model));
+            if (this._supplementalHeatingCoil != null) obj.setSupplementalHeatingCoil(this._supplementalHeatingCoil.ToOS(model));
 
-            if (this._Zone != null)
-                opsObj.setControllingZoneorThermostatLocation(this._Zone.ToOS(model) as ThermalZone);
+            if (!string.IsNullOrEmpty(_controlZoneName))
+            {
+                // this will be executed after all loops (nodes) are saved
+                Func<bool> func = () =>
+                {
+                    var zone = model.GetThermalZone(_controlZoneName);
+                    if (zone == null)
+                        return false;
 
-            return opsObj;
+                    return obj.setControllingZoneorThermostatLocation(zone);
+
+                };
+
+                IB_Utility.AddDelayFunc(func);
+            }
+
+            return obj;
 
         }
     }
