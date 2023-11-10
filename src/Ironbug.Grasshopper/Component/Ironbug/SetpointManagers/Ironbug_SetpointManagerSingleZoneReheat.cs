@@ -44,8 +44,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 return;
             }
             var zone = zones.FirstOrDefault();
+            var zoneName = Helper.GetRoomName(zone);
+            var obj = new HVAC.IB_SetpointManagerSingleZoneReheat();
+            obj.SetControlZone(zoneName);
 
-            var obj = new HVAC.IB_SetpointManagerSingleZoneReheat(zone);
             double minT = 10;
             double maxT = 50;
             
