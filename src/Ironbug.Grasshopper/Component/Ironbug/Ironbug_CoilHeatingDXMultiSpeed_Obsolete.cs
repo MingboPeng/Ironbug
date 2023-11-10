@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+
 using Grasshopper.Kernel;
-using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_CoilHeatingDXMultiSpeed : Ironbug_HVACWithParamComponent
+    public class Ironbug_CoilHeatingDXMultiSpeed_Obsolete : Ironbug_DuplicableHVACWithParamComponent
     {
-        public Ironbug_CoilHeatingDXMultiSpeed()
+        public Ironbug_CoilHeatingDXMultiSpeed_Obsolete()
           : base("IB_CoilHeatingDXMultiSpeed", "CoilHtn_DXM",
               "Description",
               "Ironbug", "02:LoopComponents",
@@ -15,12 +14,11 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        public override GH_Exposure Exposure => GH_Exposure.secondary | GH_Exposure.obscure;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
         
         
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("CoilHeatingDXMultiSpeedStageData", "Stages", "A list of IB_CoilHeatingDXMultiSpeedStageData", GH_ParamAccess.list);
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -31,22 +29,17 @@ namespace Ironbug.Grasshopper.Component
         
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-
-            var stages = new List<IB_CoilHeatingDXMultiSpeedStageData>();
-            if (!DA.GetDataList(0, stages))
-                return;
-
             var obj = new HVAC.IB_CoilHeatingDXMultiSpeed();
-            obj.SetStages(stages);
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
             DA.SetDataList(0, objs);
+            this.AddRuntimeMessage(GH_RuntimeMessageLevel.Warning, "This obj is not fully finished by OpenStudio, stay tuned!");
         }
 
 
         protected override System.Drawing.Bitmap Icon => Properties.Resources.CoilHDXM;
 
-        public override Guid ComponentGuid => new Guid("C378771E-CCBB-4672-AD2B-1B3F48159AED");
+        public override Guid ComponentGuid => new Guid("09283357-3680-4569-9149-980153F6A0E6");
     }
 }
