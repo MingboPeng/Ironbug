@@ -22,15 +22,29 @@ namespace Ironbug.HVAC.AvailabilityManager
             _controlZoneName = controlZoneName;
         }
 
+
+        private void UpdateFromOld()
+        {
+            var _oldZone = this.GetChild<IB_ThermalZone>();
+            if (_oldZone != null)
+            {
+                _controlZoneName = _oldZone.ZoneName;
+                this.SetChild<IB_ThermalZone>(null);
+            }
+        }
+
+
         public override OpenStudio.AvailabilityManager ToOS(Model model)
         {
+            UpdateFromOld();
+
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             // this will be executed after all loops (nodes) are saved
             Func<bool> func = () =>
             {
                 var zone = model.GetThermalZone(_controlZoneName);
                 if (zone == null)
-                    return false;
+                    throw new ArgumentException($"Invalid control zone ({_controlZoneName}) in {this.GetType().Name}");
 
                 return obj.setControlZone(zone);
 

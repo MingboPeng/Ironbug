@@ -35,9 +35,22 @@ namespace Ironbug.HVAC
             _zone = controlZoneName;
         }
 
+        private void UpdateFromOld()
+        {
+            var _oldZone = this.GetChild<IB_ThermalZone>();
+            if (_oldZone != null)
+            {
+                _zone = _oldZone.ZoneName;
+                this.SetChild<IB_ThermalZone>(null);
+            }
+        }
+
 
         public override HVACComponent ToOS(Model model)
         {
+
+            UpdateFromOld();
+
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
             if (!string.IsNullOrEmpty(_zone))
@@ -47,7 +60,7 @@ namespace Ironbug.HVAC
                 {
                     var zone = model.GetThermalZone(_zone);
                     if (zone == null)
-                        return false;
+                        throw new ArgumentException($"Invalid control zone ({_zone}) in {this.GetType().Name}");
 
                     return obj.setAmbientTemperatureThermalZone(zone);
 

@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
             {
                 var node = model.GetNodeByTrackingID(_nodeID);
                 if (node == null)
-                    return false;
+                    throw new ArgumentException($"Invalid sensor node ({_nodeID}) in {this.GetType().Name}");
 
                 return obj.setReferenceNode(node);
 
