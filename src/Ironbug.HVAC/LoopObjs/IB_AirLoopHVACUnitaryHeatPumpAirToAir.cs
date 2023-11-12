@@ -90,20 +90,8 @@ namespace Ironbug.HVAC
             _controlZoneName = controlZoneName;
         }
 
-        private void UpdateFromOld()
-        {
-            var _oldZone = this.GetChild<IB_ThermalZone>();
-            if (_oldZone != null)
-            {
-                _controlZoneName = _oldZone.ZoneName;
-                this.SetChild<IB_ThermalZone>(null);
-            }
-        }
-
         public override HVACComponent ToOS(Model model)
         {
-
-            UpdateFromOld();
 
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
