@@ -89,8 +89,20 @@ namespace Ironbug.HVAC
             _controlZoneName = controlZoneName;
         }
 
+        private void UpdateFromOld()
+        {
+            var _oldZone = this.GetChild<IB_ThermalZone>();
+            if (_oldZone != null)
+            {
+                _controlZoneName = _oldZone.ZoneName;
+                this.SetChild<IB_ThermalZone>(null);
+            }
+        }
+
         public override HVACComponent ToOS(Model model)
         {
+            UpdateFromOld();
+
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 
             if (this._coolingCoil != null) obj.setCoolingCoil(this._coolingCoil.ToOS(model));
@@ -105,7 +117,7 @@ namespace Ironbug.HVAC
                 {
                     var zone = model.GetThermalZone(_controlZoneName);
                     if (zone == null)
-                        return false;
+                        throw new ArgumentException($"Invalid control zone ({_controlZoneName}) in {this.GetType().Name}");
 
                     return obj.setControllingZoneorThermostatLocation(zone);
 

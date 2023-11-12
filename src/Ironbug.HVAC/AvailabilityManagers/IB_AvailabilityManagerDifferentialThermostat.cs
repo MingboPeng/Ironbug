@@ -34,7 +34,7 @@ namespace Ironbug.HVAC.AvailabilityManager
                 var nodeC = model.GetNodeByTrackingID(_nodeCID);
                 var nodeH = model.GetNodeByTrackingID(_nodeHID);
                 if (nodeC == null || nodeH == null)
-                    return false;
+                    throw new ArgumentException($"Invalid sensor node ({_nodeCID} or {_nodeHID}) in {this.GetType().Name}");
 
                 return obj.setColdNode(nodeC) && obj.setHotNode(nodeH);
 

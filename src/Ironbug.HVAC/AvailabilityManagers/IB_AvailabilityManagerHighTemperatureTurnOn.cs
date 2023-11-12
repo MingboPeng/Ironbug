@@ -31,7 +31,7 @@ namespace Ironbug.HVAC.AvailabilityManager
             {
                 var node = model.GetNodeByTrackingID(_nodeID);
                 if (node == null)
-                    return false;
+                    throw new ArgumentException($"Invalid sensor node ({_nodeID}) in {this.GetType().Name}");
 
                 return obj.setSensorNode(node);
                 
