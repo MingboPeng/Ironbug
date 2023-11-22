@@ -48,7 +48,8 @@ namespace Ironbug.Grasshopper.Component
            
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
-            DA.SetData(0, settingDatas);
+            var vars = new OutputVariables(settingDatas);
+            DA.SetData(0, vars);
 
         }
 
@@ -241,5 +242,25 @@ namespace Ironbug.Grasshopper.Component
         }
 
         
+    }
+
+    public class OutputVariables : List<IB_OutputVariable>
+    {
+        public OutputVariables(List<IB_OutputVariable> list): base(list)
+        {
+        }
+        public override string ToString()
+        {
+            var names = this?.Select(_=>_.VariableName)?.ToList();
+            if(names != null && names.Any())
+            {
+                return string.Join(Environment.NewLine, names);
+            }
+            else
+            {
+                return "No variable";
+            }
+        
+        }
     }
 }

@@ -103,7 +103,9 @@ namespace Ironbug.Grasshopper.Component
                     settingDatas.TryAdd(dataField, value);
                 }
             }
-            DA.SetData(0, settingDatas);
+
+            var inputParams = new InputParams(settingDatas);
+            DA.SetData(0, inputParams);
            
     
         }
@@ -485,5 +487,26 @@ namespace Ironbug.Grasshopper.Component
            
         }
 
+    }
+
+    public class InputParams : Dictionary<IB_Field, object>
+    {
+        public InputParams(Dictionary<IB_Field, object> list) : base(list)
+        {
+        }
+
+        public override string ToString()
+        {
+            var names = this?.Select(_ => $"{_.Key.FullName}:{_.Value}" )?.ToList();
+            if (names != null && names.Any())
+            {
+                return string.Join(Environment.NewLine, names);
+            }
+            else
+            {
+                return "No variable";
+            }
+
+        }
     }
 }
