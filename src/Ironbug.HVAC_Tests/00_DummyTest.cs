@@ -88,6 +88,29 @@ namespace Ironbug.HVACTests
         }
 
         [Test]
+        public void DOAS_Test()
+        {
+
+            var md1 = new OpenStudio.Model();
+            var ctrl = new ControllerOutdoorAir(md1);
+            var oa = new AirLoopHVACOutdoorAirSystem(md1 , ctrl);
+            var doas = new AirLoopHVACDedicatedOutdoorAirSystem(oa);
+
+            var airflow1 = new OpenStudio.AirLoopHVAC(md1);
+            var airflow2 = new OpenStudio.AirLoopHVAC(md1);
+            var done = doas.addAirLoop(airflow1);
+            done &= doas.addAirLoop(airflow2);
+
+            Assert.True(done);
+
+            string saveFile = $"{Guid.NewGuid().ToString().Substring(0, 5)}_.osm";
+            var success = md1.Save(saveFile);
+
+
+            Assert.True(success);
+        }
+
+        [Test]
         public void RetrunIfInModel_Test()
         {
             var md1 = new OpenStudio.Model();
