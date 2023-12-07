@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeatPumpPlantLoopEIRHeating_Air : Ironbug_HVACWithParamComponent
     {
         public Ironbug_HeatPumpPlantLoopEIRHeating_Air()
-          : base("IB_HeatPumpPlantLoopEIRHeating_AirCooled", "HtnHP_AirCooled",
+          : base("IB_HeatPumpPlantLoopEIRHeating_AirSource", "HtnHP_AirSource",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatPumpPlantLoopEIRHeating_FieldSet))
@@ -24,7 +24,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatPumpPlantLoopEIRHeating_AirCooled", "HtnHP", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatPumpPlantLoopEIRHeating", "HtnHP", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
         }
 
         
