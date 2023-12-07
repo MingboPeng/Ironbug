@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_HeatPumpPlantLoopEIRCooling_Air : Ironbug_HVACWithParamComponent
     {
         public Ironbug_HeatPumpPlantLoopEIRCooling_Air()
-          : base("IB_HeatPumpPlantLoopEIRCooling_AirCooled", "ClnHP_AirCooled",
+          : base("IB_HeatPumpPlantLoopEIRCooling_AirSource", "ClnHP_AirSource",
               "Description",
               "Ironbug", "02:LoopComponents",
               typeof(HVAC.IB_HeatPumpPlantLoopEIRCooling_FieldSet))
