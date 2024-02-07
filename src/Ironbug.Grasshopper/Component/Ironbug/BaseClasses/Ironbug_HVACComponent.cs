@@ -221,12 +221,8 @@ namespace Ironbug.Grasshopper.Component
                     num = Math.Max(ghInt.Value, 0);
                 }
 
-                for (int i = 0; i < num; i++)
-                {
-                    var newobj = IB_obj.Duplicate();
-                    newobj.SetTrackingID();
-                    objs.Add(newobj);
-                }
+
+                objs = IB_obj.Duplicate(num, renewIDs: true);
 
                 return objs;
 
