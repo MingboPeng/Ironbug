@@ -14,6 +14,49 @@ namespace Ironbug.HVACTests
     public class DummyTest
     {
         [Test]
+        public void DummyTest_CAD_Id()
+        {
+            var model = new Model();
+            var obj = new OpenStudio.CoilHeatingElectric(model);
+            obj.setCADObjectId("CAD ID");
+            var cadID = obj.cadObjectId().get();
+            Assert.AreEqual("CAD ID", cadID);
+
+            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "cadID.osm");
+            model.Save(tempFile);
+        }
+
+
+        [Test]
+        public void DummyTest_DOAS()
+        {
+            var model = new OpenStudio.Model();
+            var airloop = new OpenStudio.AirLoopHVAC(model);
+
+            var oaControler = new OpenStudio.ControllerOutdoorAir(model);
+            var oa = new OpenStudio.AirLoopHVACOutdoorAirSystem(model, oaControler);
+            var doas = new OpenStudio.AirLoopHVACDedicatedOutdoorAirSystem(oa);
+            doas.addAirLoop(airloop);
+
+            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "doas.osm");
+            model.Save(tempFile);
+
+
+        }
+
+        [Test]
+        public void DummyTest_ProfilePlant()
+        {
+            var model = new OpenStudio.Model();
+            var loop = new OpenStudio.PlantLoop(model);
+            var load = new OpenStudio.LoadProfilePlant(model);
+            //load.addToNode
+            loop.addDemandBranchForComponent(load);
+            var tempFile = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "profileLoad.osm");
+            model.Save(tempFile);
+        }
+
+        [Test]
         public void DummyTest_OS_Coil_Heating_WaterFields()
         {
             var tp = typeof(OpenStudio.OS_Coil_Heating_WaterFields);
@@ -567,6 +610,7 @@ SET {cap_opt_act.handle().__str__()} = 1 * Cap
             htg_op_scheme.addEquipment(1000000000, plant_comp);
             hot_water_loop.setPlantEquipmentOperationHeatingLoad(htg_op_scheme);
         }
+
 
 
 
