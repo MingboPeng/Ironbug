@@ -485,6 +485,35 @@ namespace Ironbug.HVAC.BaseClass
             return this.Duplicate(IB_InitSelf);
         }
 
+        public IB_ModelObject Duplicate(bool renewId)
+        {
+            var dup = this.Duplicate();
+
+            if (renewId)
+            {
+                dup.SetTrackingID();
+                foreach (var item in dup.Children)
+                {
+                    item.SetTrackingID();
+                }
+
+            }
+            
+            return dup;
+        }
+
+        public virtual List<IB_ModelObject> Duplicate(int number, bool renewIDs = true)
+        {
+            var dups = new List<IB_ModelObject>();
+            for (int i = 0; i < number; i++)
+            {
+                var newobj = this.Duplicate(renewIDs);
+                dups.Add(newobj);
+            }
+
+            return dups;
+        }
+
         
         protected T Duplicate<T>(Func<T> func) where T : IB_ModelObject
         {
