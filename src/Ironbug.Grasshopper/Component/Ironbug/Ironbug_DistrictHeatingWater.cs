@@ -3,14 +3,14 @@ using Grasshopper.Kernel;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_DistrictHeating : Ironbug_DuplicableHVACWithParamComponent
+    public class Ironbug_DistrictHeatingWater : Ironbug_DuplicableHVACWithParamComponent
     {
         
-        public Ironbug_DistrictHeating()
-          : base("IB_DistrictHeating", "DistrictHeating",
+        public Ironbug_DistrictHeatingWater()
+          : base("IB_DistrictHeatingWater", "DistrictHeatingWater",
               "Description",
               "Ironbug", "02:LoopComponents",
-              typeof(HVAC.IB_DistrictHeating_FieldSet))
+              typeof(HVAC.IB_DistrictHeatingWater_FieldSet))
         {
         }
 
@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_DistrictHeating();
+            var obj = new HVAC.IB_DistrictHeatingWater();
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
