@@ -15,7 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
-		<PackageReference Include="NREL.OpenStudio.win" Version="3.6.1.1" IncludeAssets="compile;build" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="3.7.0" IncludeAssets="compile;build" />
 	</ItemGroup>
 
 	<ItemGroup>
