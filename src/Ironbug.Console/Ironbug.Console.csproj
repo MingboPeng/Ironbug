@@ -5,6 +5,7 @@
 		<TargetFrameworks>NET48;NET7</TargetFrameworks>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<Platforms>x64</Platforms>
+		<Version>9.99.0</Version>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -18,7 +19,7 @@
 
 	<!-- for Windows -->
 	<ItemGroup Condition="'$(OS)' == 'Windows_NT'">
-		<PackageReference Include="NREL.OpenStudio.win" Version="3.6.1.1" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="3.7.0" />
 	</ItemGroup>
 
 	<!-- for Linux -->
