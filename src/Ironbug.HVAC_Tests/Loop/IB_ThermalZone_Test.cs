@@ -16,7 +16,7 @@ namespace Ironbug.HVACTests
             var m = new Model();
             var v = m.version().str();
             Console.WriteLine($"Loaded version: {v}");
-            Assert.IsTrue(v.StartsWith("3.6.1"));
+            Assert.IsTrue(v.StartsWith("3.7.0"));
         }
 
         [Test]
