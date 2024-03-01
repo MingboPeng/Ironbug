@@ -23,7 +23,7 @@
 
 	<!-- for Linux -->
 	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="3.6.1" IncludeAssets="compile;build" />
+		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="3.7.0" IncludeAssets="compile;build" />
 	</ItemGroup>
 
 	<ItemGroup>
