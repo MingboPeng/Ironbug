@@ -1583,6 +1583,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap SetpointMxAir {
+            get {
+                object obj = ResourceManager.GetObject("SetpointMxAir", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap SetpointOAReset {
             get {
                 object obj = ResourceManager.GetObject("SetpointOAReset", resourceCulture);
