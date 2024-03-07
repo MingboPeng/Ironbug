@@ -7,7 +7,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_AvailabilityManagerScheduledOff : Ironbug_HVACWithParamComponent
     {
         public Ironbug_AvailabilityManagerScheduledOff()
-          : base("IB_AvailabilityManagerScheduledOff", "AM_NightCycle",
+          : base("IB_AvailabilityManagerScheduledOff", "AM_ScheduledOff",
                  "Description",
                  "Ironbug", "05:SetpointManager & AvailabilityManager", typeof(IB_AvailabilityManagerScheduledOff_FieldSet))
         {
