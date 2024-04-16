@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
 
             var obj = new HVAC.IB_WaterHeaterMixed();
 
-            if (DA.GetData(0, ref zone)) obj.setAmbientTemperatureThermalZone(zone.GetRoomName());
+            if (DA.GetData(0, ref zone)) obj.SetAmbientTemperatureThermalZone(zone.GetRoomName());
             if (DA.GetData(1, ref sizing)) obj.SetSizing(sizing);
 
 

@@ -5,7 +5,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_WaterHeaterMixed : IB_HVACObject, IIB_PlantLoopObjects
+    public class IB_WaterHeaterMixed : IB_HVACObject, IIB_PlantLoopObjects, IIB_DualLoopObj
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_WaterHeaterMixed();
 
@@ -28,7 +28,7 @@ namespace Ironbug.HVAC
             this.SetChild(0, sizing);
         }
 
-        public void setAmbientTemperatureThermalZone(string controlZoneName)
+        public void SetAmbientTemperatureThermalZone(string controlZoneName)
         {
             if (string.IsNullOrEmpty(controlZoneName))
                 throw new ArgumentException("Invalid control zone");
