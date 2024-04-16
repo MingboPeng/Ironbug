@@ -28,7 +28,7 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("HeatingCoil", "_coilH_", "Heating coil to provide heating source. The only valid choice is CoilWaterHeatingAirToWaterHeatPump", GH_ParamAccess.item);
             pManager.AddGenericParameter("Fan", "_fan_", "Supply fan. By default, a FanOnOff is included.", GH_ParamAccess.item);
 
-            pManager[0].Optional = true;
+            //pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
         }
@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("WaterHeaterHeatPump", "HPWH", "Add to room's zone equipment", GH_ParamAccess.item);
-        }
+            }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
