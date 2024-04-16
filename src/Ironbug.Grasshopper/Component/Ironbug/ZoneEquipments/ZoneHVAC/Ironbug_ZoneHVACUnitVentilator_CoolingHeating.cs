@@ -20,7 +20,7 @@ namespace Ironbug.Grasshopper.Component
         {
             pManager.AddGenericParameter("HeatingCoil", "coilH_", "Heating coil to provide reheat source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. can be CoilHeatingWater, CoilHeatingElectirc, or CoilHeatingGas.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CoolingCoil", "coilC_", "Cooling coil to provide cooling source. It has to be CoilCoolingWater.", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager.AddGenericParameter("Fan", "fan_", "Can be FanConstantVolume or FanVariableVolume.", GH_ParamAccess.item);
             pManager[2].Optional = true;
