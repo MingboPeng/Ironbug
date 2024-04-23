@@ -212,5 +212,25 @@ namespace Ironbug.HVACTests
           
         }
 
+        [Test]
+        public void IB_WaterHeaterHP()
+        {
+
+            var obj = new HVAC.IB_WaterHeaterHeatPump();
+            obj.AddCustomAttribute("InletAirConfiguration", "OutdoorAirOnly");
+            obj.AddCustomAttribute("CompressorLocation", "Outdoors");
+
+            var md1 = new OpenStudio.Model();
+            obj.ToOS(md1);
+
+            var osObj = md1.getWaterHeaterHeatPumps().First();
+            Assert.AreEqual(osObj.inletAirConfiguration(), "OutdoorAirOnly");
+            Assert.AreEqual(osObj.compressorLocation(), "Outdoors");
+
+            string saveFile = GenFileName;
+            var saved = md1.Save(saveFile);
+            Assert.True(saved);
+        }
+
     }
 }
