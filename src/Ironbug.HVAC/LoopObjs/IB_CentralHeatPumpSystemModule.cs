@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
 
         private IB_ChillerHeaterPerformanceElectricEIR _chiller => this.GetChild<IB_ChillerHeaterPerformanceElectricEIR>();
 
-        public int NumberOfChillerHeaterModules { get => Get<int>(1); private set => Set(value, 1); }
+        //public int NumberOfChillerHeaterModules { get => Get<int>(1); private set => Set(value, 1); }
 
         [JsonConstructor]
         private IB_CentralHeatPumpSystemModule(bool forDeserialization) : base(null)
@@ -38,8 +38,8 @@ namespace Ironbug.HVAC
 
             var chillerHeater = this._chiller.ToOS(model) as ChillerHeaterPerformanceElectricEIR;
             newObj.setChillerHeaterModulesPerformanceComponent(chillerHeater);
-            newObj.setNumberofChillerHeaterModules(this.NumberOfChillerHeaterModules);
-            var count = model.getChillerHeaterPerformanceElectricEIRs().Count;
+            //newObj.setNumberofChillerHeaterModules(this.NumberOfChillerHeaterModules);
+            //var count = model.getChillerHeaterPerformanceElectricEIRs().Count;
           
             return newObj;
         }
