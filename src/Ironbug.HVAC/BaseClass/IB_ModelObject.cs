@@ -78,6 +78,7 @@ namespace Ironbug.HVAC.BaseClass
         public bool ShouldSerializeCustomActuators() => !this.CustomActuators.IsNullOrEmpty();
         public bool ShouldSerializeIBProperties() => !this.IBProperties.IsNullOrEmpty();
         #endregion
+        public void AddCustomAttribute(string fieldName, object value) => this.SetFieldValue(new IB_Field(fieldName), value);
 
         /// <summary>
         /// Same as SetFieldValue

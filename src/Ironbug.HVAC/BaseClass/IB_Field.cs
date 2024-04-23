@@ -53,6 +53,11 @@ namespace Ironbug.HVAC.BaseClass
             this.SetterMethod = otherField.SetterMethod;
             this.Description = otherField.Description;
         }
+
+        public IB_Field(string fullName): this(fullName, "")
+        {
+        }
+
         public IB_Field(string fullName, string nickName, Type valueType = default)
         {
 
