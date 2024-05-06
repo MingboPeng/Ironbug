@@ -24,33 +24,34 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddBrepParameter("Zones", "_zones", "objects to be picked", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Zones", "_zones", "objects to be picked", GH_ParamAccess.list);
             pManager[pManager.AddBrepParameter("Scopes", "scopes", "Scope breps for picking zone breps based on its centroid location.", GH_ParamAccess.list)].Optional = true;
             
         }
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddBrepParameter("Selected Zones", "zones", "Picked objects", GH_ParamAccess.list);
-            pManager.AddBrepParameter("Unselected Zones", "unSelected", "Unselected objects", GH_ParamAccess.list);
-            (pManager[1] as GH.Kernel.Parameters.Param_Brep).Hidden = true;
+            pManager.AddGenericParameter("Selected Zones", "zones", "Picked objects", GH_ParamAccess.list);
+            pManager.AddGenericParameter("Unselected Zones", "unSelected", "Unselected objects", GH_ParamAccess.list);
         }
 
-        List<GH_Brep> AllInputBreps = new List<GH_Brep>();
+        List<(object room, Point3d centroid)> AllInputBreps = new List<(object, Point3d)>();
         protected override void SolveInstance(IGH_DataAccess DA)
         {
 
-            var allBps = new List<GH_Brep>();
+            var allBps = new List<object>();
             if (!DA.GetDataList(0, allBps)) return;
-            AllInputBreps = allBps;
+
+            var cs = allBps.Select(_=> ( room : _, centroid : Helper.GetRoomCenter(_) )).ToList();
+            AllInputBreps = cs;
 
             var nodes = new List<GH_Brep>();
             DA.GetDataList(1, nodes);
 
-            var unselectedZones = new List<GH_Brep>();
+            var unselectedZones = new List<object>();
             if (nodes.Count > 0)
             {
-                var selectedZs = GetZoneFromNode(allBps, nodes, out unselectedZones);
+                var selectedZs = GetZoneFromNode(cs, nodes, out unselectedZones);
                 DA.SetDataList(0, selectedZs);
             }
             else
@@ -62,18 +63,21 @@ namespace Ironbug.Grasshopper.Component
 
         }
 
-        private static List<GH_Brep> GetZoneFromNode(List<GH_Brep> allBps, IEnumerable<GH_Brep> outBx, out List<GH_Brep> Unselected)
+        private static List<object> GetZoneFromNode(List<(object room, Point3d centroid)> allBps, IEnumerable<GH_Brep> outBx, out List<object> Unselected)
         {
-            var selectedZones = new List<GH_Brep>();
-            var unselectedZones = new List<GH_Brep>();
+            var selectedZones = new List<object>();
+            var unselectedZones = new List<object>();
             
 
-            var inputBrpsCenterPts = allBps.AsParallel().AsOrdered().Select(_ => VolumeMassProperties.Compute(_.Value).Centroid);
             var num = 0;
-            foreach (var pt in inputBrpsCenterPts)
+            foreach (var rmC in allBps)
             {
-                var isSel = outBx.AsParallel().FirstOrDefault(_ =>  _.Value.IsPointInside(pt,0.0001,true)) != null;
-                var currentItem = allBps[num];
+                var c = rmC.centroid;
+                if (c == Point3d.Unset)
+                    continue;
+
+                var isSel = outBx.AsParallel().FirstOrDefault(_ =>  _.Value.IsPointInside(c,0.0001,true)) != null;
+                var currentItem = allBps[num].room;
                 if (isSel)
                 {
                     selectedZones.Add(currentItem);
@@ -104,14 +108,10 @@ namespace Ironbug.Grasshopper.Component
             
             var allBps = this.AllInputBreps;
 
-            if (!allBps.Any())
-            {
-                return;
-            }
-            var zParm = this.Params.Input[0] as GH.Kernel.Parameters.Param_Brep;
-            zParm.Hidden = false;
+            if (!allBps.Any()) return;
+
             var nodeIds = new List<Guid>();
-            var centers = allBps.AsParallel().Select(_ => VolumeMassProperties.Compute(_.Value).Centroid);
+            var centers = allBps.Select(_ => _.centroid);
 
             foreach (var item in centers)
             {
@@ -145,14 +145,12 @@ namespace Ironbug.Grasshopper.Component
             foreach (var item in pickedZoneNodes)
             {
                 item.LoadGeometry(doc);
-                
             }
             doc.Objects.Delete(nodeIds, true);
           
             //var nds = pickedZoneNodes.Select(_ => new GH_Brep( GenZoneNode(_.Boundingbox.Center)));
             var nds = pickedZoneNodes.Select(_ => new GH_Brep(GenZoneNode(_.Boundingbox.Center).ToBrep()));
 
-            
             scopeParm.SetPersistentData(nds);
             ExpireSolution(true);
 

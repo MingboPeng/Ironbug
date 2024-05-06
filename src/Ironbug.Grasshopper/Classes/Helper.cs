@@ -1,4 +1,5 @@
 ﻿using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,6 +84,60 @@ namespace Ironbug.Grasshopper
 
         }
 
+        public static Point3d GetRoomCenter(object HBObj)
+        {
+            if (HBObj is null)
+                throw new System.ArgumentException("Invalid Room object!");
+
+            if (HBObj is Types.OsZone z)
+            {
+                return VolumeMassProperties.Compute(z.Value).Centroid;
+            }
+            else if (HBObj is GH_Brep b)
+            {
+                // Legacy HBZones
+                throw new System.ArgumentException("Ironbug doesn't support HBZones from the legacy version anymore!");
+            }
+            else if (HBObj is GH_ObjectWrapper wrapper)
+            {
+
+                var pyObj = wrapper.Value;
+                if (pyObj is Ironbug.HVAC.BaseClass.IB_ThermalZone)
+                    throw new System.ArgumentException("Invalid Room object!");
+
+                // LBT Room
+                var isPythonObj = pyObj.GetType().ToString().StartsWith("IronPython.");
+                if (!isPythonObj)
+                    throw new System.ArgumentException("Invalid Room object!");
+
+                var name = pyObj.ToString();
+                var isLBTRoom = name.StartsWith("Room:");
+                var isDFRoom2D = name.StartsWith("Room2D:");
+
+                if (isLBTRoom || isDFRoom2D)
+                    return GetLBTRoomCenter(pyObj);
+
+
+            }
+            else if (HBObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
+            {
+                var rm = HBObj;
+                var tp = HBObj?.GetType();
+                var type = tp?.GetProperty("POTypeName")?.GetValue(rm)?.ToString();
+
+                if (type == "Room")
+                {
+                    var pyObj = tp.GetProperty("RefPythonObj")?.GetValue(rm);
+                    return GetLBTRoomCenter(pyObj);
+                }
+            }
+
+
+            throw new System.ArgumentException("Invalid Room object!");
+
+        }
+
+
         public static int[] GetDateRange(object LBObj)
         {
             if (LBObj is null)
@@ -101,6 +156,7 @@ namespace Ironbug.Grasshopper
 
             throw new System.ArgumentException("Failed to convert LB Analysis Period!");
         }
+
         /// For new Honeybee
         static string GetLBTRoomName(object lbtRoom)
         {
@@ -132,6 +188,23 @@ for room in HBRooms:
             return zoneIds;
         }
 
+        public static Point3d GetLBTRoomCenter(object lbtRoom)
+        {
+            var pyRun = GetPython();
+            pyRun.SetVariable("HBRoom", lbtRoom);
+            string pyScript = @"
+xyz = HBRoom.geometry.center.to_array()
+";
+            pyRun.ExecuteScript(pyScript);
+            var list = pyRun.GetVariable("xyz") as IList<dynamic>;
+            if (list == null || list.Count() != 3)
+                throw new System.ArgumentException("Invalid Honeybee Room object");
+            var xyz = list.OfType<double>().ToArray();
+            var p = new Point3d(xyz[0], xyz[1], xyz[2]);
+            return p;
+
+        }
+
         static int[] GetLBTDateRange(object lbtAnalysisPeriod)
         {
             var pyRun = GetPython();
@@ -144,6 +217,7 @@ dateRange = [ ap.st_month, ap.st_day, ap.end_month, ap.end_day]
             var dateRange = pyobj.OfType<int>().ToArray();
             return dateRange;
         }
+
         /// For legacy Honeybee
         public static IEnumerable<string> CallFromHBHive(IEnumerable<GH_Brep> inBreps)
         {
