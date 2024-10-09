@@ -2,14 +2,13 @@ env:
   INSTALLBUILDER_DIR: ../ib
   INSTALLBUILDER_URL: https://storage.googleapis.com/pollination-public/plugins/installerAssets/installbuilder-enterprise-21.12.0-windows-x64-installer.exe
 
-
 name: CD
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   Build_windows:
@@ -21,19 +20,14 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup MSbuild
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      # this is for fixing semantic-release-action
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
+        uses: microsoft/setup-msbuild@v2
 
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v3
+        uses: cycjimmy/semantic-release-action@v4
         id: semantic
         with:
           dry_run: true
@@ -51,19 +45,18 @@ jobs:
         run: |
           echo "ReleaseVersion=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
 
-
       - name: MSBuild GH Plugin
         run: |
           echo ${{ env.ReleaseVersion }}
           msbuild src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=${{ env.ReleaseVersion }} /restore
           mkdir installer/plugin
-          
+
           mv src/Ironbug.Grasshopper/bin/x64/Release/* installer/plugin
           mkdir installer/HVACTemplates
           cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
 
           ls installer -r
-      
+
       - name: Build Ironbug.Console
         run: |
           dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj /p:Configuration=Release /p:Platform=x64 /p:TargetFramework=NET48 /p:Version=${{ env.ReleaseVersion }}
@@ -75,7 +68,7 @@ jobs:
       - name: Unit tests
         run: |
           dotnet test src\Ironbug.HVAC_Tests --arch x64
-      
+
       - name: Console test
         run: |
           echo "Test standalone console with sample model"
@@ -88,7 +81,6 @@ jobs:
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm"
           ./src/Ironbug.Console/bin/x64/Release/Ironbug.Console.exe "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
-
       - name: zip plugin
         shell: bash
         run: |
@@ -97,7 +89,6 @@ jobs:
           cp ./installer/HVACTemplates ./ironbug -r
           7z a -tzip ironbug.zip ./ironbug
           ls
-
 
       - name: Install the InstalBuilder
         shell: bash
@@ -108,7 +99,7 @@ jobs:
           ./ib.exe --mode unattended --prefix ${{ env.INSTALLBUILDER_DIR }}
           ${{ env.INSTALLBUILDER_DIR }}/bin/builder-cli.exe --version
           echo "$IB_LICENSE" > lic.xml
-          
+
       - name: Create installer package
         shell: bash
         run: |
@@ -121,7 +112,7 @@ jobs:
           ls -l
 
       - name: Upload Installer
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows
           path: |
@@ -129,33 +120,24 @@ jobs:
             installer.exe
             ironbug.console.win.zip
 
-
-      
-
-
   Build_ubuntu:
     name: "Build for ubuntu"
     runs-on: ubuntu-latest
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Unit tests
         run: |
           cd ./src/Ironbug.HVAC_Tests
           dotnet restore Ironbug.HVAC_Tests.csproj
           dotnet test Ironbug.HVAC_Tests.csproj --arch x64
-          ls 
-
-      # this is for fixing semantic-release-action
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
+          ls
 
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v3
+        uses: cycjimmy/semantic-release-action@v4
         id: semantic
         with:
           dry_run: true
@@ -176,7 +158,7 @@ jobs:
       - name: Build
         run: |
           dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj -a x64 /p:Configuration=Release /p:TargetFramework=NET7 /p:Version=${{ env.ReleaseVersion }}
-   
+
           ls ./src/Ironbug.Console/bin/Release/linux-x64
           zip -r ironbug.console.linux.zip ./src/Ironbug.Console/bin/Release/linux-x64
 
@@ -186,13 +168,11 @@ jobs:
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm"
           ./src/Ironbug.Console/bin/Release/linux-x64/Ironbug.Console "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
-
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: linux
           path: ironbug.console.linux.zip
-
 
   release:
     name: deploy installers
@@ -202,23 +182,18 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download all installers
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
 
       - name: list files
         run: |
           cp ./windows/* .
           cp ./linux/* .
           ls -l
-    
-      - uses: actions/setup-node@v3
-        if: github.ref == 'refs/heads/master'
-        with:
-          node-version: 14
 
-      - uses: cycjimmy/semantic-release-action@v3
+      - uses: cycjimmy/semantic-release-action@v4
         if: github.ref == 'refs/heads/master'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
