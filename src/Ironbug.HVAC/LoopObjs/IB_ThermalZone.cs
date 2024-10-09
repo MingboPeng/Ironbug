@@ -303,11 +303,10 @@ namespace Ironbug.HVAC.BaseClass
         
         private IB_ThermalZone_FieldSet() {}
 
-        public IB_Field Name { get; }
-            = new IB_BasicField("Name", "Name")
-            {
-                DetailedDescription = "A unique identifying name for each coil."
-            };
+        // need to disable the Name for thermal zone
+
+        public IB_TopField Name { get; }
+            = new IB_TopField("Name", "Name");
 
 
         public IB_Field Multiplier { get; }
