@@ -26,8 +26,8 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("CentralHeatPumpSystem", "ToDW_Demand", "connect to condenser water plantloop's demand side", GH_ParamAccess.item);
-            pManager.AddGenericParameter("CentralHeatPumpSystem", "ToCW_Supply", "connect to chilled water plantloop's supply side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CentralHeatPumpSystem", "ToCW_Demand", "connect to condenser water plantloop's demand side", GH_ParamAccess.item);
+            pManager.AddGenericParameter("CentralHeatPumpSystem", "ToCHW_Supply", "connect to chilled water plantloop's supply side", GH_ParamAccess.item);
             pManager.AddGenericParameter("CentralHeatPumpSystem", "ToHW_Supply", "connect to hot water plantloop's supply side", GH_ParamAccess.item);
             
         }

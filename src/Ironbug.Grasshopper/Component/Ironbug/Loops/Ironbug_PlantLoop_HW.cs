@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HotWaterPlantLoop", "hwLoop", "HotWaterPlantLoop", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HotWaterPlantLoop", "HWLoop", "HotWaterPlantLoop", GH_ParamAccess.item);
         }
 
         
