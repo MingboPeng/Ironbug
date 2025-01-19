@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFrameworks>NET48;NET9</TargetFrameworks>
+		<TargetFrameworks>NET48;NET8</TargetFrameworks>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<Platforms>x64</Platforms>
 		<Version>9.99.0</Version>
