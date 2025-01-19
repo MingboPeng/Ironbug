@@ -157,7 +157,7 @@ jobs:
 
       - name: Build
         run: |
-          dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj -a x64 /p:Configuration=Release /p:TargetFramework=NET7 /p:Version=${{ env.ReleaseVersion }}
+          dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj -a x64 /p:Configuration=Release /p:TargetFramework=NET8 /p:Version=${{ env.ReleaseVersion }}
 
           ls ./src/Ironbug.Console/bin/Release/linux-x64
           zip -r ironbug.console.linux.zip ./src/Ironbug.Console/bin/Release/linux-x64
