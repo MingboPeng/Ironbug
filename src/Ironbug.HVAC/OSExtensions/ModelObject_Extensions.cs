@@ -258,11 +258,25 @@ namespace Ironbug.HVAC
         public static List<string> SetCustomAttributes(this ModelObject component, BaseClass.IB_FieldArgumentSet fieldArgs)
         {
             var invokeResults = new List<string>();
-            var md = component.model();
+            OpenStudio.Model md = null;
+            var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
+            var isSavingToDummyPreviewModel = !isSavingToGlobalModel;
+            try
+            {
+                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : component.model();
+            }
+            catch (Exception)
+            {
+                //ignore error
+            }
+        
             foreach (var item in fieldArgs)
             {
                 var field = item.Field;
                 var value = item.Value;
+                if (md == null && isSavingToDummyPreviewModel)
+                    continue;
+
                 //check types
                 if (value is BaseClass.IB_Curve c)
                 {
