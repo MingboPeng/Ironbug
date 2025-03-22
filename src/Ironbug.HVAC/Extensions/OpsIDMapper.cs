@@ -22,6 +22,12 @@ namespace Ironbug.HVAC
             _isRecording = true;
         }
 
+        public static void EndRecording()
+        {
+            _mapper = null;
+            _isRecording = false;
+        }
+
         public static void TryAdd(string trackingID, OpenStudio.UUID uid)
         {
             if (!_isRecording) return;
