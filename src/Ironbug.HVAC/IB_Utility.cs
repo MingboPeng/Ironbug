@@ -52,11 +52,17 @@ namespace Ironbug.HVAC
 
         private static void EndSaving()
         {
-            _globalModel.Dispose();
-            OpsIDMapper.EndRecording();
+            try
+            {
+                _globalModel.Dispose();
+            }
+            finally
+            {
+                OpsIDMapper.EndRecording();
+                _delaiedAMFuncs = null;
+                _isSavingHVACSystem = false;
+            }
 
-            _delaiedAMFuncs = null;
-            _isSavingHVACSystem = false;
         }
 
 
