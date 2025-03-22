@@ -100,17 +100,19 @@ namespace Ironbug.HVACTests
             cwlp.AddToSupply(branches);
             cdlp.AddToDemand(branches2);
 
-            var md1 = new OpenStudio.Model();
-            cwlp.ToOS(md1);
-            cdlp.ToOS(md1);
+       
 
+            var sys = new IB_HVACSystem(
+                new List<IB_AirLoopHVAC>(),
+                new List<IB_PlantLoop> { cwlp, cdlp },
+                new List<IB_AirConditionerVariableRefrigerantFlow>()
+                );
             string saveFile = GenFileName;
-            md1.Save(saveFile);
+            sys.SaveHVAC(saveFile);
 
-            var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
-            var chillers = md2.getChillerElectricEIRs();
-            var findChiller = chillers.Count() == 1;
-            Assert.True(findChiller);
+            var md = OpenStudio.Model.load(saveFile.ToPath()).get();
+            var chillers = md.getChillerElectricEIRs();
+            Assert.That(chillers.Count, Is.EqualTo(1));
 
 
             var cwloopSz = chillers.First().plantLoop().get().sizingPlant();
