@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
         {
             var branches = this.Branches;
             var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.model();
+            var model = PlantLoop.TryGetObjectModel();
             foreach (var branch in branches)
             {
                 //add one branch
@@ -35,7 +35,7 @@ namespace Ironbug.HVAC
         {
             var branches = this.Branches;
             var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.model();
+            var model = PlantLoop.TryGetObjectModel();
             foreach (var branch in branches)
             {
                 //flatten the puppet structure 

@@ -232,7 +232,7 @@ namespace Ironbug.HVAC
 
         public static bool AddEmsSensors(this ModelObject component, ICollection<IB_EnergyManagementSystemSensor> sensors)
         {
-            var md = component.model();
+            var md = component.TryGetObjectModel();
             foreach (var item in sensors)
             {
                 var added = item.ToOS(md);
@@ -247,7 +247,7 @@ namespace Ironbug.HVAC
             var success = true;
             var vs = outputVariables;
             var keyName = component.nameString();
-            var md = component.model();
+            var md = component.TryGetObjectModel();
             foreach (var item in vs)
             {
                 success &= item.ToOS(md, keyName);
@@ -258,24 +258,10 @@ namespace Ironbug.HVAC
         public static List<string> SetCustomAttributes(this ModelObject component, BaseClass.IB_FieldArgumentSet fieldArgs)
         {
             var invokeResults = new List<string>();
-            OpenStudio.Model md = null;
+            var md = component.TryGetObjectModel();
             var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
             var isSavingToDummyPreviewModel = !isSavingToGlobalModel;
-            try
-            {
-                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : component.model();
-            }
-            catch (System.ApplicationException ex)
-            {
-                if (ex.Message == "bad_weak_ptr")
-                {
-                    //ignore error
-                }
-                else
-                    throw;
-
-            }
-        
+            
             foreach (var item in fieldArgs)
             {
                 var field = item.Field;
@@ -306,6 +292,27 @@ namespace Ironbug.HVAC
             }
 
             return invokeResults;
+        }
+
+        public static OpenStudio.Model TryGetObjectModel(this ModelObject component)
+        {
+            OpenStudio.Model md = null;
+            try
+            {
+                var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
+                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : component?.model();
+            }
+            catch (System.ApplicationException ex)
+            {
+                if (ex.Message == "bad_weak_ptr")
+                {
+                    //ignore error
+                }
+                else
+                    throw;
+
+            }
+            return md;
         }
 
         public static IEnumerable<string> GetUserFriendlyFieldInfo(this ModelObject component, bool ifIPUnits = false)
