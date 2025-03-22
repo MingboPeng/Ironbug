@@ -265,9 +265,15 @@ namespace Ironbug.HVAC
             {
                 md = isSavingToGlobalModel ? IB_Utility.GlobalModel : component.model();
             }
-            catch (Exception)
+            catch (System.ApplicationException ex)
             {
-                //ignore error
+                if (ex.Message == "bad_weak_ptr")
+                {
+                    //ignore error
+                }
+                else
+                    throw;
+
             }
         
             foreach (var item in fieldArgs)
