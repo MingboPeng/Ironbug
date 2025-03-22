@@ -44,8 +44,9 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(Configuration) != 'Release' AND $([MSBuild]::IsOSPlatform(Windows))">
-		<StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
+		<StartProgram>C:\Program Files\Rhino 8\System\Rhino.exe</StartProgram>
 		<StartAction>Program</StartAction>
+		<StartArguments>/nosplash /netfx</StartArguments>
 	</PropertyGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
