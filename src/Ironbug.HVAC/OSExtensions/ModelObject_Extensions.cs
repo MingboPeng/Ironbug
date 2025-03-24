@@ -258,32 +258,21 @@ namespace Ironbug.HVAC
         public static List<string> SetCustomAttributes(this ModelObject component, BaseClass.IB_FieldArgumentSet fieldArgs)
         {
             var invokeResults = new List<string>();
-            var md = component.TryGetObjectModel();
-            var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
-            var isSavingToDummyPreviewModel = !isSavingToGlobalModel;
             
             foreach (var item in fieldArgs)
             {
                 var field = item.Field;
                 var value = item.Value;
-                if (md == null && isSavingToDummyPreviewModel)
-                    continue;
-
-                //check types
-                if (value is BaseClass.IB_Curve c)
+                // check and convert IB_Curve IB_Schedule and IB_AvailabilityManager to OpenStudio object
+                if (!value.IsFieldValueRealType())
                 {
-                    value = c.ToOS(md);
-                }
-                else if(value is BaseClass.IB_Schedule sch)
-                {
-                    value = sch.ToOS(md);
-                }
-                else if (value is BaseClass.IB_AvailabilityManager am)
-                {
-                    if (am is BaseClass.IB_AvailabilityManagerList amList)
-                        value = amList.ToAMVector(md);
-                    else
-                        value = new AvailabilityManagerVector(new[] { am.ToOS(md) }.ToList());
+                    // only assign the real curve, schedule, and AvailabilityManager when model is being saved to the real OpenStudio Model.
+                    // this helps preventing crashing the application when constantly requesting the object's model at a large mount scale
+                    // especially memory leak issue on OpenStudio SDK side
+                    if (!IB_Utility.IsSavingHVACSystem)
+                        continue;
+                    var md = component.TryGetObjectModel();
+                    value = value.GetRealFieldValue(md);
                 }
 
                 var invokeResult = component.SetFieldValue(field, value);

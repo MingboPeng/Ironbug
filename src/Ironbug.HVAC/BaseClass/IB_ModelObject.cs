@@ -253,34 +253,45 @@ namespace Ironbug.HVAC.BaseClass
 
         public void SetFieldValue(IB_Field field, object value)
         {
-            var realValue = value;
-            //check types
-            if (value is IB_Curve c)
-            {
-                realValue = c.ToOS(this.GhostOSObject.model());
-            }
-            else if (value is IB_Schedule sch)
-            {
-                realValue = sch.ToOS(this.GhostOSObject.model());
-            }
-            else if (value is IB_AvailabilityManager am)
-            {
-                if (am is  IB_AvailabilityManagerList amList)
-                    realValue = amList.ToAMVector(this.GhostOSObject.model());
-                else
-                    realValue = new AvailabilityManagerVector(new[] { am.ToOS(this.GhostOSObject.model()) }.ToList());
-            }
-
             this.CustomAttributes.TryAdd(field, value);
 
             //apply the value to the ghost ops obj.
             //remember this ghost is only for preview purpose
             //meaning it will not be saved in real OpenStudio.Model, 
             //but it should have all the same field values as the real one, except handles.
-            this.GhostOSObject?.SetFieldValue(field, realValue);
-            
+            try
+            {
+                object realValue = value;
+                // check and convert IB_Curve IB_Schedule and IB_AvailabilityManager to OpenStudio object
+                if (!realValue.IsFieldValueRealType())
+                {
+                    // the GH file is opening, so no need to do a real-time type checks for users
+                    if (IB_Utility.SkipComponentLevelCheck)
+                        return;
+
+                    var md = this.GhostOSObject.TryGetObjectModel();
+                    realValue = value.GetRealFieldValue(md);
+                }
+
+                this.GhostOSObject?.SetFieldValue(field, realValue);
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.Contains("Schedule"))
+                {
+                    throw new ArgumentException($"Failed to set {field}! Please double check input data type, or schedule type! \n" +
+                        $"In most cases, some components only accepts \"Temperature\" schedule type instead of default \"Dimensionless\". \n" +
+                        $"If this is the case, please use ScheduleTypeLimits to set \"UnitType\" to an appropriate value.\n" +
+                        $"Detail error message:\n{ex.Message}");
+                }
+                else
+                {
+                    throw new ArgumentException($"Failed to set {field}! Please double check input data type, or typo! \nDetail error message:\n{ex.Message}");
+                }
+            }
 
         }
+
 
         public void SetFieldValues(Dictionary<IB_Field, object> DataFields)
         {
@@ -291,25 +302,7 @@ namespace Ironbug.HVAC.BaseClass
 
             foreach (var item in DataFields)
             {
-                try
-                {
-                    this.SetFieldValue(item.Key, item.Value);
-                }
-                catch (Exception ex)
-                {
-                    if (ex.Message.Contains("Schedule"))
-                    {
-                        throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or schedule type! \n" +
-                            $"In most cases, some components only accepts \"Temperature\" schedule type instead of default \"Dimensionless\". \n" +
-                            $"If this is the case, please use ScheduleTypeLimits to set \"UnitType\" to an appropriate value.\n" +
-                            $"Detail error message:\n{ex.Message}");
-                    }
-                    else
-                    {
-                        throw new ArgumentException($"Failed to set {item.Key}! Please double check input data type, or typo! \nDetail error message:\n{ex.Message}");
-                    }
-                    
-                }
+                this.SetFieldValue(item.Key, item.Value);
             }
             
         }
@@ -549,7 +542,15 @@ namespace Ironbug.HVAC.BaseClass
 
         protected void UpdateOSModelObjectWithCustomAttr()
         {
-            this.GhostOSObject.SetCustomAttributes(this.CustomAttributes);
+            try
+            {
+                this.GhostOSObject.SetCustomAttributes(this.CustomAttributes);
+            }
+            catch (Exception)
+            {
+                //throw;
+            }
+            
         }
         
         public override string ToString()

@@ -1,9 +1,9 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json.Linq;
+using OpenStudio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Ironbug.HVAC
 {
@@ -69,6 +69,42 @@ namespace Ironbug.HVAC
 
             var instance = Activator.CreateInstance(type);
             return fromObject.To(instance);
+        }
+
+        public static bool IsFieldValueRealType(this object value)
+        {
+            if (value is IB_Curve)
+                return false;
+            if (value is IB_Schedule)
+                return false;
+            if (value is IB_AvailabilityManager)
+                return false;
+            return true;
+        }
+
+        public static object GetRealFieldValue(this object value, OpenStudio.Model md)
+        {
+      
+            var realValue = value;
+            //var md = GhostOSObject?.TryGetObjectModel();
+            //check types
+            if (value is IB_Curve c)
+            {
+                realValue = c.ToOS(md);
+            }
+            else if (value is IB_Schedule sch)
+            {
+                realValue = sch.ToOS(md);
+            }
+            else if (value is IB_AvailabilityManager am)
+            {
+                if (am is IB_AvailabilityManagerList amList)
+                    realValue = amList.ToAMVector(md);
+                else
+                    realValue = new AvailabilityManagerVector(new[] { am.ToOS(md) }.ToList());
+            }
+
+            return realValue;
         }
     }
 }
