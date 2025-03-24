@@ -56,13 +56,11 @@ namespace Ironbug.Grasshopper.Component
 
             foreach (var item in supplyComs)
             {
-                var newItem = item.Duplicate() as IB_HVACObject;
-                plant.AddToSupply(newItem);
+                plant.AddToSupply(item);
             }
             foreach (var item in demandComs)
             {
-                var newItem = item.Duplicate() as IB_HVACObject;
-                plant.AddToDemand(newItem);
+                plant.AddToDemand(item);
             }
 
             
