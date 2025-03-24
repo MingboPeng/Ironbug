@@ -7,6 +7,8 @@ namespace Ironbug.HVAC
 {
     public class IB_Utility
     {
+        public static bool SkipComponentLevelCheck { get; set; }
+
         private static bool _isSavingHVACSystem = false;
         public static bool IsSavingHVACSystem => _isSavingHVACSystem;
 
