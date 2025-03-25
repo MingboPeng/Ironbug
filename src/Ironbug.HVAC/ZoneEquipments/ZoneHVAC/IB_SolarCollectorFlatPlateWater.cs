@@ -13,7 +13,7 @@
 //         private IB_ModelObject _surface => this.GetChild<IB_ModelObject>(0);
 //         private IB_ModelObject _scp => this.GetChild<IB_ModelObject>(1);
 
-//         public IB_SolarCollectorFlatPlateWater() : base(NewDefaultOpsObj(new Model()))
+//         public IB_SolarCollectorFlatPlateWater() : base(NewDefaultOpsObj)
 //         {
 //             this.AddChild(null);
 //             this.AddChild(null);

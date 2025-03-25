@@ -24,7 +24,7 @@ namespace Ironbug.HVAC
         [JsonConstructor]
         private IB_AirTerminalSingleDuctConstantVolumeReheat(bool forDeserialization) : base(null) { }
 
-        public IB_AirTerminalSingleDuctConstantVolumeReheat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeReheat() : base(NewDefaultOpsObj)
         {
             //optional if there is no child
             //Added child with action to Children list, for later automation

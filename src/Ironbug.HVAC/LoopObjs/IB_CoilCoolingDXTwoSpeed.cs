@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilCoolingDXTwoSpeed NewDefaultOpsObj(Model model) => new CoilCoolingDXTwoSpeed(model);
 
-        public IB_CoilCoolingDXTwoSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingDXTwoSpeed() : base(NewDefaultOpsObj)
         {
         }
         

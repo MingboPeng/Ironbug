@@ -1,8 +1,11 @@
-﻿namespace Ironbug.HVAC.BaseClass
+﻿using OpenStudio;
+using System;
+
+namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_Schedule : IB_ModelObject
     {
-        public IB_Schedule(OpenStudio.ModelObject GhostOSObject) : base(GhostOSObject)
+        public IB_Schedule(Func<OpenStudio.Model, ModelObject> ghostObjInit) : base(ghostObjInit)
         {
             //var a = OpenStudio.ScheduleRuleset
         }

@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         
         private static FanOnOff NewDefaultOpsObj(Model model) => new FanOnOff(model);
 
-        public IB_FanOnOff():base(NewDefaultOpsObj(new Model()))
+        public IB_FanOnOff():base(NewDefaultOpsObj)
         {
         }
         

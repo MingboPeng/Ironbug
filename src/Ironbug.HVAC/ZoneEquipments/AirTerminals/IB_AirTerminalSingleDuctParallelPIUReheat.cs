@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_AirTerminalSingleDuctParallelPIUReheat(bool forDeserialization) : base(null)
         {
         }
-        public IB_AirTerminalSingleDuctParallelPIUReheat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctParallelPIUReheat() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingElectric());
             this.AddChild(new IB_FanConstantVolume());

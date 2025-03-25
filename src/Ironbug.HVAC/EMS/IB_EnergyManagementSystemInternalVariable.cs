@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemInternalVariable();
 
         private static EnergyManagementSystemInternalVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemInternalVariable(model, "");
-        public IB_EnergyManagementSystemInternalVariable() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemInternalVariable() : base(NewDefaultOpsObj)
         {
         }
 
@@ -33,13 +33,13 @@ namespace Ironbug.HVAC
 
         }
 
-        public EnergyManagementSystemInternalVariable ToOS(ModelObject modelObject)
+        public EnergyManagementSystemInternalVariable ToOS(Model model, ModelObject modelObject)
         {
             var host = modelObject;
             if (host == null)
                 throw new ArgumentException("Failed to find the host object that this internal variable is associated with, you will have to add the host object to model first.");
           
-            var obj = base.OnNewOpsObj(NewDefaultOpsObj, host.model());
+            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             obj.setInternalDataIndexKeyName(host.handle().__str__());
             return obj;
 

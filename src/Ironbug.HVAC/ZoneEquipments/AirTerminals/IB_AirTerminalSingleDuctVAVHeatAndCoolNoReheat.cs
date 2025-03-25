@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
             new AirTerminalSingleDuctVAVHeatAndCoolNoReheat(model);
         
         
-        public IB_AirTerminalSingleDuctVAVHeatAndCoolNoReheat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctVAVHeatAndCoolNoReheat() : base(NewDefaultOpsObj)
         {
         }
 

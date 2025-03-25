@@ -82,7 +82,7 @@ namespace Ironbug.HVAC
             return true;
         }
 
-        public static object GetRealFieldValue(this object value, OpenStudio.Model md)
+        public static object TryGetRealFieldValue(this object value, OpenStudio.Model md)
         {
       
             var realValue = value;

@@ -11,18 +11,18 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemActuator();
 
         private static EnergyManagementSystemActuator NewDefaultOpsObj(ModelObject obj) => new EnergyManagementSystemActuator(obj, "", "");
-        public IB_EnergyManagementSystemActuator() : base(NewDefaultOpsObj(new Node(new Model())))
+        public IB_EnergyManagementSystemActuator() : base((Model m) => NewDefaultOpsObj(new Node(m)))
         {
         }
         private IB_ModelObject _actuatedObj => this.GetChild<IB_ModelObject>(0);
-        public IB_EnergyManagementSystemActuator(IB_ModelObject actuatedObj) : base(NewDefaultOpsObj(new Node(new Model())))
+        public IB_EnergyManagementSystemActuator(IB_ModelObject actuatedObj) : base((Model m) => NewDefaultOpsObj(new Node(m)))
         {
             this.AddChild(actuatedObj);
         }
 
         private string _nameID { get => Get<string>(); set => Set(value); }
 
-        public IB_EnergyManagementSystemActuator(string actuatedObjNameID) : base(NewDefaultOpsObj(new Node(new Model())))
+        public IB_EnergyManagementSystemActuator(string actuatedObjNameID) : base((Model m) => NewDefaultOpsObj(new Node(m)))
         {
             this._nameID = actuatedObjNameID;
         }
@@ -54,9 +54,8 @@ namespace Ironbug.HVAC
         }
 
 
-        public EnergyManagementSystemActuator ToOS(ModelObject actuatedObj)
+        public EnergyManagementSystemActuator ToOS(Model model, ModelObject actuatedObj)
         {
-            var model = actuatedObj.model();
             var obj = base.OnNewOpsObj(InitMethodWithChildren, model);
             return obj;
 

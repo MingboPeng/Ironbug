@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.AvailabilityManager
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerLowTemperatureTurnOn();
 
         private static AvailabilityManagerLowTemperatureTurnOn NewDefaultOpsObj(Model model) => new AvailabilityManagerLowTemperatureTurnOn(model);
-        public IB_AvailabilityManagerLowTemperatureTurnOn() : base(NewDefaultOpsObj(new Model()))
+        public IB_AvailabilityManagerLowTemperatureTurnOn() : base(NewDefaultOpsObj)
         {
         } 
 

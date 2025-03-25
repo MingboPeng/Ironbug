@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_DistrictCooling();
 
         private static DistrictCooling NewDefaultOpsObj(Model model) => new DistrictCooling(model);
-        public IB_DistrictCooling() : base(NewDefaultOpsObj(new Model()))
+        public IB_DistrictCooling() : base(NewDefaultOpsObj)
         {
         }
 

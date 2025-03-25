@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerMultiZoneCoolingAverage NewDefaultOpsObj(Model model)
             => new SetpointManagerMultiZoneCoolingAverage(model);
 
-        public IB_SetpointManagerMultiZoneCoolingAverage() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerMultiZoneCoolingAverage() : base(NewDefaultOpsObj)
         {
         }
 

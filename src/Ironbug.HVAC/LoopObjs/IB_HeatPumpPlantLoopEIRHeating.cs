@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
 
         private IB_HeatPumpPlantLoopEIRCooling _coolingHP => this.GetChild<IB_HeatPumpPlantLoopEIRCooling>(0);
 
-        public IB_HeatPumpPlantLoopEIRHeating() : base(NewDefaultOpsObj(new Model()))
+        public IB_HeatPumpPlantLoopEIRHeating() : base(NewDefaultOpsObj)
         {
         }
 

@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static FanConstantVolume NewDefaultOpsObj(Model model) => new FanConstantVolume(model);
 
-        public IB_FanConstantVolume():base(NewDefaultOpsObj(new Model()))
+        public IB_FanConstantVolume():base(NewDefaultOpsObj)
         {
         }
         

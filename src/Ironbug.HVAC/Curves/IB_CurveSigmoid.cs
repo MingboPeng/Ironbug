@@ -14,7 +14,7 @@ namespace Ironbug.HVAC.Curves
             => new CurveSigmoid(model);
         
 
-        public IB_CurveSigmoid():base(NewDefaultOpsObj(new Model()))
+        public IB_CurveSigmoid():base(NewDefaultOpsObj)
         {
         }
         public override Curve ToOS(Model model)

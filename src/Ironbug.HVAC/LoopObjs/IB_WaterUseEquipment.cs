@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
        
         [JsonConstructor]
         private IB_WaterUseEquipment() : base(null) { }
-        public IB_WaterUseEquipment(IB_WaterUseEquipmentDefinition waterUseLoad) : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterUseEquipment(IB_WaterUseEquipmentDefinition waterUseLoad) : base(NewDefaultOpsObj)
         {
             this.AddChild(waterUseLoad);
             

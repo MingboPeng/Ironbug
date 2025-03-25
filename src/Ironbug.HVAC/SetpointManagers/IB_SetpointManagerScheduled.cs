@@ -23,18 +23,18 @@ namespace Ironbug.HVAC
         private static SetpointManagerScheduled NewDefaultOpsObj(Model model, IB_ScheduleRuleset schedule)
             => new SetpointManagerScheduled(model, schedule.ToOS(model) as ScheduleRuleset);
 
-        public IB_SetpointManagerScheduled(double value) : base(NewDefaultOpsObj(new Model(), value))
+        public IB_SetpointManagerScheduled(double value) : base((Model m) => NewDefaultOpsObj(m, value))
         {
             this.Value = value;
         }
-        public IB_SetpointManagerScheduled(double value, bool isTemperature) : base(NewDefaultOpsObj(new Model(), value))
+        public IB_SetpointManagerScheduled(double value, bool isTemperature) : base((Model m) => NewDefaultOpsObj(m, value))
         {
             this.Value = value;
             this.IsTemperature = isTemperature;
         }
 
         [JsonConstructor]
-        public IB_SetpointManagerScheduled() : base(NewDefaultOpsObj(new Model(), -999))
+        public IB_SetpointManagerScheduled() : base((Model m) => NewDefaultOpsObj(m, -999))
         {
             this.Value = -999;
         }

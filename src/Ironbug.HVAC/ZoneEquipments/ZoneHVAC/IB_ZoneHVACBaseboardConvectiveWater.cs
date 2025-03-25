@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_ZoneHVACBaseboardConvectiveWater(bool forDeserialization) : base(null)
         {
         }
-        public IB_ZoneHVACBaseboardConvectiveWater() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACBaseboardConvectiveWater() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingWaterBaseboard());
         }

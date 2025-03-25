@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.AvailabilityManager
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerNightVentilation();
 
         private static AvailabilityManagerNightVentilation NewDefaultOpsObj(Model model) => new AvailabilityManagerNightVentilation(model);
-        public IB_AvailabilityManagerNightVentilation() : base(NewDefaultOpsObj(new Model()))
+        public IB_AvailabilityManagerNightVentilation() : base(NewDefaultOpsObj)
         {
         } 
 

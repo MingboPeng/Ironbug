@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
             => new LoadProfilePlant(model);
         
 
-        public IB_LoadProfilePlant():base(NewDefaultOpsObj(new Model()))
+        public IB_LoadProfilePlant():base(NewDefaultOpsObj)
         {
         }
         public override HVACComponent ToOS(Model model)

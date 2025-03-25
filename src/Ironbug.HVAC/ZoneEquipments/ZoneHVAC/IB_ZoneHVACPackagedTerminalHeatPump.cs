@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_Coil _supplementalHeatingCoil => this.GetChild<IB_Coil>(3);
         private IB_ZoneHVACPackagedTerminalHeatPump() : base(null) { }
         public IB_ZoneHVACPackagedTerminalHeatPump(IB_Fan SupplyFan, IB_Coil HeatingCoil, IB_Coil CoolingCoil, IB_Coil SupplementalHeatingCoil) 
-            : base(NewDefaultOpsObj(new Model(),SupplyFan, HeatingCoil, CoolingCoil, SupplementalHeatingCoil))
+            : base((Model m) => NewDefaultOpsObj(m,SupplyFan, HeatingCoil, CoolingCoil, SupplementalHeatingCoil))
         {
             this.AddChild(CoolingCoil);
             this.AddChild(HeatingCoil);

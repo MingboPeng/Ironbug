@@ -12,9 +12,9 @@ namespace Ironbug.HVAC.AvailabilityManager
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerDifferentialThermostat();
 
         private static AvailabilityManagerDifferentialThermostat NewDefaultOpsObj(Model model) => new AvailabilityManagerDifferentialThermostat(model);
-        public IB_AvailabilityManagerDifferentialThermostat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AvailabilityManagerDifferentialThermostat() : base(NewDefaultOpsObj)
         {
-        } 
+        }
 
         public void SetSensorNode(string coldProbeTrackingID, string hotProbeTrackingID)
         {
@@ -45,7 +45,7 @@ namespace Ironbug.HVAC.AvailabilityManager
             return obj;
         }
 
-       
+
     }
 
     public sealed class IB_AvailabilityManagerDifferentialThermostat_FieldSet

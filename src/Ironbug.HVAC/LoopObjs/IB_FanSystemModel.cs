@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
             private set => this.Set(value);
         }
 
-        public IB_FanSystemModel():base(NewDefaultOpsObj(new Model()))
+        public IB_FanSystemModel():base(NewDefaultOpsObj)
         {
         }
 

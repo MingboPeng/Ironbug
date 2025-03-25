@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         
 
         public IB_CoilHeatingWaterToAirHeatPumpEquationFit() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
         }
 

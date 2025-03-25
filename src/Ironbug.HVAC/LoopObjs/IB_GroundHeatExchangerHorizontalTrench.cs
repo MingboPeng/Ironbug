@@ -8,7 +8,7 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GroundHeatExchangerHorizontalTrench();
         private static GroundHeatExchangerHorizontalTrench NewDefaultOpsObj(Model model) => new GroundHeatExchangerHorizontalTrench(model);
-        public IB_GroundHeatExchangerHorizontalTrench():base(NewDefaultOpsObj(new Model()))
+        public IB_GroundHeatExchangerHorizontalTrench():base(NewDefaultOpsObj)
         {
         }
 

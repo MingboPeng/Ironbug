@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
 
         private static ChillerHeaterPerformanceElectricEIR NewDefaultOpsObj(Model model) => new ChillerHeaterPerformanceElectricEIR(model);
         
-        public IB_ChillerHeaterPerformanceElectricEIR() : base(NewDefaultOpsObj(new Model()))
+        public IB_ChillerHeaterPerformanceElectricEIR() : base(NewDefaultOpsObj)
         {
         }
 

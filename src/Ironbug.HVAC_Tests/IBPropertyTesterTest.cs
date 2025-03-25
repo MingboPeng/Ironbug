@@ -367,7 +367,7 @@ namespace Ironbug.HVACTests
             private set => Set(value);
         }
 
-        public IBPropertyTester(): base(new OpenStudio.Node(new OpenStudio.Model()))
+        public IBPropertyTester(): base((OpenStudio.Model m) => new OpenStudio.Node(m))
         {
            
         }

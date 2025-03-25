@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerMixedAir();
 
         private static SetpointManagerMixedAir NewDefaultOpsObj(Model model) => new SetpointManagerMixedAir(model);
-        public IB_SetpointManagerMixedAir() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerMixedAir() : base(NewDefaultOpsObj)
         {
             
         } 

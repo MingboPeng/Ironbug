@@ -19,7 +19,7 @@ namespace Ironbug.HVAC
 
         private IB_ZoneHVACLowTempRadiantConstFlow() : base(null) { }
         public IB_ZoneHVACLowTempRadiantConstFlow(IB_CoilHeatingLowTempRadiantConstFlow HeatingCoil, IB_CoilCoolingLowTempRadiantConstFlow CoolingCoil, double TubingLength) 
-            : base(NewDefaultOpsObj(new Model(), HeatingCoil, CoolingCoil, TubingLength))
+            : base((Model m) => NewDefaultOpsObj(m, HeatingCoil, CoolingCoil, TubingLength))
         {
 
             this.AddChild(HeatingCoil);

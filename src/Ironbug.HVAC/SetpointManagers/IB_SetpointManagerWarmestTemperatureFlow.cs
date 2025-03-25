@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SetpointManagerWarmestTemperatureFlow();
 
         private static SetpointManagerWarmestTemperatureFlow NewDefaultOpsObj(Model model) => new SetpointManagerWarmestTemperatureFlow(model);
-        public IB_SetpointManagerWarmestTemperatureFlow() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerWarmestTemperatureFlow() : base(NewDefaultOpsObj)
         {
             
         } 

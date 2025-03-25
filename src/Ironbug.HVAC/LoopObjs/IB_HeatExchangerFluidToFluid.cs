@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static HeatExchangerFluidToFluid NewDefaultOpsObj(Model model) => new HeatExchangerFluidToFluid(model);
 
-        public IB_HeatExchangerFluidToFluid() : base(NewDefaultOpsObj(new Model()))
+        public IB_HeatExchangerFluidToFluid() : base(NewDefaultOpsObj)
         {
             
         }

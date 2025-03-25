@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
 
 
         public IB_AirLoopHVACUnitaryHeatPumpAirToAirMultiSpeed() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilCoolingDXMultiSpeed());
             this.AddChild(new IB_CoilHeatingDXMultiSpeed());
@@ -45,7 +45,7 @@ namespace Ironbug.HVAC
         public void SetCoolingCoil(IB_Coil coolingCoil)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAirMultiSpeed).setCoolingCoil(coolingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid cooling coil!");
 
@@ -55,7 +55,7 @@ namespace Ironbug.HVAC
         public void SetHeatingCoil(IB_Coil heatingCoil)
         { 
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAirMultiSpeed).setHeatingCoil(heatingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid heating coil!");
 
@@ -65,7 +65,7 @@ namespace Ironbug.HVAC
         public void SetFan(IB_Fan fan)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAirMultiSpeed).setSupplyAirFan(fan.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid supply fan!");
 
@@ -75,7 +75,7 @@ namespace Ironbug.HVAC
         public void SetSupplementalHeatingCoil(IB_CoilHeatingBasic heatingCoil)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAirMultiSpeed).setSupplementalHeatingCoil(heatingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid SupplementalHeatingCoil!");
 

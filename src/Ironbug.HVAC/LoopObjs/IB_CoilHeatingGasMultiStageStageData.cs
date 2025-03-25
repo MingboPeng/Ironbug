@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilHeatingGasMultiStageStageData NewDefaultOpsObj(Model model) => new CoilHeatingGasMultiStageStageData(model);
 
-        public IB_CoilHeatingGasMultiStageStageData() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingGasMultiStageStageData() : base(NewDefaultOpsObj)
         {
         }
         

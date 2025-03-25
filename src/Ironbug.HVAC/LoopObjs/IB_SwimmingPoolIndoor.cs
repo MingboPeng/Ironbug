@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_SwimmingPoolIndoor();
 
         private static SwimmingPoolIndoor NewDefaultOpsObj(Model model) => new SwimmingPoolIndoor(model, new Surface(new Point3dVector(new List<Point3d>() { new Point3d(0,0,0), new Point3d(0,1,0), new Point3d(1,0,0)}), model));
-        public IB_SwimmingPoolIndoor() : base(NewDefaultOpsObj(new Model()))
+        public IB_SwimmingPoolIndoor() : base(NewDefaultOpsObj)
         {
         }
 

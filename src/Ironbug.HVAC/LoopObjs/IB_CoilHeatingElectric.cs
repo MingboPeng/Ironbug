@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilHeatingElectric NewDefaultOpsObj(Model model) => new CoilHeatingElectric(model);
 
-        public IB_CoilHeatingElectric() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingElectric() : base(NewDefaultOpsObj)
         {
         }
         

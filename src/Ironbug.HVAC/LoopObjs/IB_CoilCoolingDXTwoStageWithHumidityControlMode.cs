@@ -23,7 +23,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_CoilCoolingDXTwoStageWithHumidityControlMode() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingDXTwoStageWithHumidityControlMode() : base(NewDefaultOpsObj)
         {
             // add placeholders
             this.AddChild(null);

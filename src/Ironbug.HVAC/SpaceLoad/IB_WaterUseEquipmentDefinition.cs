@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
         private static WaterUseEquipmentDefinition NewDefaultOpsObj(Model model) => new WaterUseEquipmentDefinition(model);
 
         private IB_WaterUseEquipmentDefinition() : base(null) { }
-        public IB_WaterUseEquipmentDefinition(double PeakFlowRate = 0.000063) : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterUseEquipmentDefinition(double PeakFlowRate = 0.000063) : base(NewDefaultOpsObj)
         {
             this.PeakFlowRate = PeakFlowRate;
         }

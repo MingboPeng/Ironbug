@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         }
 
 
-        public IB_CoilHeatingDXMultiSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingDXMultiSpeed() : base(NewDefaultOpsObj)
         {
             
         }

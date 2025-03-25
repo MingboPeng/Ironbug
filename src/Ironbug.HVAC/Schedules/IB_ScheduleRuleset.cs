@@ -28,10 +28,10 @@ namespace Ironbug.HVAC.Schedules
             set => this.Set(value);
         }
 
-        public IB_ScheduleRuleset() : base(InitMethod(new Model()))
+        public IB_ScheduleRuleset() : base(InitMethod)
         {
         }
-        public IB_ScheduleRuleset(double value) : base(InitMethod(new Model()))
+        public IB_ScheduleRuleset(double value) : base(InitMethod)
         {
             this.Set(nameof(constantNumber), value);
         }
@@ -65,7 +65,7 @@ namespace Ironbug.HVAC.Schedules
                     }
                     else
                     {
-                        obj.setScheduleRuleIndex(r.ToOS(obj), (uint)i);
+                        obj.setScheduleRuleIndex(r.ToOS(model, obj), (uint)i);
 
                     }
                 
@@ -124,7 +124,7 @@ namespace Ironbug.HVAC.Schedules
             }
           
            
-            obj.SetCustomAttributes(this.CustomAttributes);
+            obj.SetCustomAttributes(model, this.CustomAttributes);
 
             // schedule rule set can be shared within model
             OpsIDMapper.TryAdd(this.GetTrackingID(), obj.handle());

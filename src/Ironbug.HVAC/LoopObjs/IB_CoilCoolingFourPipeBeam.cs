@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilCoolingFourPipeBeam NewDefaultOpsObj(Model model) => new CoilCoolingFourPipeBeam(model);
 
-        public IB_CoilCoolingFourPipeBeam() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingFourPipeBeam() : base(NewDefaultOpsObj)
         {
         }
         

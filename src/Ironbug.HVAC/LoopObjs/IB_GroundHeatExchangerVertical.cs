@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
             private set => Set(value); 
         } 
 
-        public IB_GroundHeatExchangerVertical():base(NewDefaultOpsObj(new Model()))
+        public IB_GroundHeatExchangerVertical():base(NewDefaultOpsObj)
         {
         }
 

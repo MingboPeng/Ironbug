@@ -16,7 +16,7 @@ namespace Ironbug.HVAC.BaseClass
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerList();
 
 
-        public IB_AvailabilityManagerList() : base(new Node(new Model()))
+        public IB_AvailabilityManagerList() : base((Model m) => new Node(m))
         {
         }
 

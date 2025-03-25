@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoilWaterHeatingAirToWaterHeatPump();
         private static CoilWaterHeatingAirToWaterHeatPump NewDefaultOpsObj(Model model) => new CoilWaterHeatingAirToWaterHeatPump(model);
 
-        public IB_CoilWaterHeatingAirToWaterHeatPump() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilWaterHeatingAirToWaterHeatPump() : base(NewDefaultOpsObj)
         {
         }
         

@@ -13,7 +13,7 @@ namespace Ironbug.HVAC
             new AirTerminalSingleDuctVAVNoReheat(model, model.alwaysOnDiscreteSchedule());
         
         
-        public IB_AirTerminalSingleDuctVAVNoReheat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctVAVNoReheat() : base(NewDefaultOpsObj)
         {
         }
 

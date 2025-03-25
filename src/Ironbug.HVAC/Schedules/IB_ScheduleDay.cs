@@ -18,11 +18,11 @@ namespace Ironbug.HVAC.Schedules
             => new ScheduleDay(model);
 
         private IB_ScheduleDay() : base(null) { }
-        public IB_ScheduleDay(double constantValue) : base(InitMethod(new Model()))
+        public IB_ScheduleDay(double constantValue) : base(InitMethod)
         {
             this.constantNumber = constantValue;
         }
-        public IB_ScheduleDay(List<double> valuesFor24Hrs) : base(InitMethod(new Model()))
+        public IB_ScheduleDay(List<double> valuesFor24Hrs) : base(InitMethod)
         {
             if (valuesFor24Hrs.Count != 24) throw new ArgumentException("24 values are needed");
             values = valuesFor24Hrs;

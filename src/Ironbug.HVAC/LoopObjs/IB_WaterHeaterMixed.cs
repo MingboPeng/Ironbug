@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_WaterHeaterMixed(bool forDeserialization) : base(null)
         {
         }
-        public IB_WaterHeaterMixed() : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterHeaterMixed() : base(NewDefaultOpsObj)
         {
             this.AddChild(null);
         }
@@ -69,7 +69,7 @@ namespace Ironbug.HVAC
                 IB_Utility.AddDelayFunc(func);
             }
             if (this._Sizing != null) 
-                this._Sizing.ToOS(obj);
+                this._Sizing.ToOS(model, obj);
             return obj;
         }
     }

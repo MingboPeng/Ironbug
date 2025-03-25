@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
         } 
         
         private static WaterUseConnections NewDefaultOpsObj(Model model) => new WaterUseConnections(model);
-        public IB_WaterUseConnections() : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterUseConnections() : base(NewDefaultOpsObj)
         {
         }
         

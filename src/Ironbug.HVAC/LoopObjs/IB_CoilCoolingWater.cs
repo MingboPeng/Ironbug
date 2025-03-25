@@ -11,10 +11,10 @@ namespace Ironbug.HVAC
         private static CoilCoolingWater NewDefaultOpsObj(Model model) => new CoilCoolingWater(model);
         private IB_ControllerWaterCoil Controller => this.GetChild<IB_ControllerWaterCoil>();
 
-        public IB_CoilCoolingWater() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingWater() : base(NewDefaultOpsObj)
         {
         }
-        public IB_CoilCoolingWater(IB_ControllerWaterCoil Controller) : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingWater(IB_ControllerWaterCoil Controller) : base(NewDefaultOpsObj)
         {
             AddChild(Controller);
         }
@@ -23,9 +23,8 @@ namespace Ironbug.HVAC
             return base.OnNewOpsObj(NewDefaultOpsObj, model);
         }
 
-        public override bool AddToNode(Node node)
+        public override bool AddToNode(Model model, Node node)
         {
-            var model = node.model();
             var obj = ToOS(model);
             var success = obj.addToNode(node);
             if (success && this.Controller != null)
@@ -33,7 +32,7 @@ namespace Ironbug.HVAC
                 var optionalCtrl = ((CoilCoolingWater)obj).controllerWaterCoil();
                 if (optionalCtrl.is_initialized())
                 {
-                    optionalCtrl.get().SetCustomAttributes(this.Controller.CustomAttributes);
+                    optionalCtrl.get().SetCustomAttributes(model, this.Controller.CustomAttributes);
                 }
             }
             return success;

@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
             => new PipeOutdoor(model);
         
 
-        public IB_PipeOutdoor():base(NewDefaultOpsObj(new Model()))
+        public IB_PipeOutdoor():base(NewDefaultOpsObj)
         {
         }
         public override HVACComponent ToOS(Model model)

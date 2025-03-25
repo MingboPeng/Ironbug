@@ -37,7 +37,7 @@ namespace Ironbug.HVAC
         private IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction(bool forDeserialization) : base(null)
         {
         }
-        public IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeFourPipeInduction() : base(NewDefaultOpsObj)
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation

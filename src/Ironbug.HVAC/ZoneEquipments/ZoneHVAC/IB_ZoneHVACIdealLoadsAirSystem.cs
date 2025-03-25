@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
             => new ZoneHVACIdealLoadsAirSystem(model);
         
 
-        public IB_ZoneHVACIdealLoadsAirSystem() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACIdealLoadsAirSystem() : base(NewDefaultOpsObj)
         {
         }
         

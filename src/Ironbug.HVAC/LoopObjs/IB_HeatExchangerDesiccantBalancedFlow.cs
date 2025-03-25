@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static HeatExchangerDesiccantBalancedFlow NewDefaultOpsObj(Model model) => new HeatExchangerDesiccantBalancedFlow(model);
 
-        public IB_HeatExchangerDesiccantBalancedFlow() : base(NewDefaultOpsObj(new Model()))
+        public IB_HeatExchangerDesiccantBalancedFlow() : base(NewDefaultOpsObj)
         {
 
         }

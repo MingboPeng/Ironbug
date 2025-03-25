@@ -44,7 +44,7 @@ namespace Ironbug.HVAC
             get => Get<IB_EnergyManagementSystemProgramCallingManager>(); 
             set => Set(value); }
 
-        public IB_PlantComponentUserDefined() : base(NewDefaultOpsObj(new Model()))
+        public IB_PlantComponentUserDefined() : base(NewDefaultOpsObj)
         {
         }
 
@@ -72,51 +72,51 @@ namespace Ironbug.HVAC
             var mapper = new Dictionary<IB_ModelObject, ModelObject>();
 
             var dvfr = obj.designVolumeFlowRateActuator().get();
-            _dvfrActuator.ApplyAttributesToObj(dvfr);
+            _dvfrActuator.ApplyAttributesToObj(model, dvfr);
             mapper.Add(_dvfrActuator, dvfr);
 
             var mfr = obj.massFlowRateActuator().get();
-            _mfrActuator.ApplyAttributesToObj(mfr);
+            _mfrActuator.ApplyAttributesToObj(model, mfr);
             mapper.Add(_mfrActuator, mfr);
 
             var mxlc = obj.maximumLoadingCapacityActuator().get();
-            _mxlcActuator.ApplyAttributesToObj(mxlc);
+            _mxlcActuator.ApplyAttributesToObj(model, mxlc);
             mapper.Add(_mxlcActuator, mxlc);
 
             var mxfr = obj.maximumMassFlowRateActuator().get();
-            _mxfrActuator.ApplyAttributesToObj(mxfr);
+            _mxfrActuator.ApplyAttributesToObj(model, mxfr);
             mapper.Add(_mxfrActuator, mxfr);
 
 
             var mlc = obj.minimumLoadingCapacityActuator().get();
-            _mlcActuator.ApplyAttributesToObj(mlc);
+            _mlcActuator.ApplyAttributesToObj(model, mlc);
             mapper.Add(_mlcActuator, mlc);
 
             var mmfr = obj.minimumMassFlowRateActuator().get();
-            _mmfrActuator.ApplyAttributesToObj(mmfr);
+            _mmfrActuator.ApplyAttributesToObj(model, mmfr);
             mapper.Add(_mmfrActuator, mmfr);
 
             var olc = obj.optimalLoadingCapacityActuator().get();
-            _olcActuator.ApplyAttributesToObj(olc);
+            _olcActuator.ApplyAttributesToObj(model, olc);
             mapper.Add(_olcActuator, olc);
 
             var ot = obj.outletTemperatureActuator().get();
-            _otActuator.ApplyAttributesToObj(ot);
+            _otActuator.ApplyAttributesToObj(model, ot);
             mapper.Add(_otActuator, ot);
 
             var idMapper = mapper.ToDictionary(_ =>  _.Key.GetTrackingTagID(), v=> v.Value.handle().__str__());
 
             var psp = obj.plantSimulationProgram().get();
-            _plantSimulationProgram.ApplyAttributesToObj(psp, idMapper);
+            _plantSimulationProgram.ApplyAttributesToObj(model, psp, idMapper);
 
             var pspm = obj.plantSimulationProgramCallingManager().get();
-            _plantSimulationProgramCallingManager.ApplyAttributesToObj(pspm);
+            _plantSimulationProgramCallingManager.ApplyAttributesToObj(model, pspm);
 
             var pip = obj.plantInitializationProgram().get();
-            _plantInitializationProgram.ApplyAttributesToObj(pip, idMapper);
+            _plantInitializationProgram.ApplyAttributesToObj(model, pip, idMapper);
 
             var pipm = obj.plantInitializationProgramCallingManager().get();
-            _plantInitializationProgramCallingManager.ApplyAttributesToObj(pipm);
+            _plantInitializationProgramCallingManager.ApplyAttributesToObj(model, pipm);
 
 
             return obj;

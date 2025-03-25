@@ -13,14 +13,14 @@ namespace Ironbug.HVAC
 
         private static SizingZone NewDefaultOpsObj(Model model) => new SizingZone(model, new ThermalZone(model));
         
-        public IB_SizingZone():base(NewDefaultOpsObj(new Model()))
+        public IB_SizingZone():base(NewDefaultOpsObj)
         {
         }
         
-        public ModelObject ToOS(ThermalZone thermalZone)
+        public ModelObject ToOS(Model model, ThermalZone thermalZone)
         {
             var sz = thermalZone.sizingZone();
-            sz.SetCustomAttributes(this.CustomAttributes);
+            sz.SetCustomAttributes(model, this.CustomAttributes);
             return sz;
         }
         

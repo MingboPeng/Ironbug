@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerFollowSystemNodeTemperature NewDefaultOpsObj(Model model) => new SetpointManagerFollowSystemNodeTemperature(model);
 
 
-        public IB_SetpointManagerFollowSystemNodeTemperature() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerFollowSystemNodeTemperature() : base(NewDefaultOpsObj)
         { 
         }
 

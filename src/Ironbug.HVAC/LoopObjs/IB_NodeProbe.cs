@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         
         private static Node NewDefaultOpsObj(Model model) => new Node(model);
         
-        public IB_NodeProbe() : base(NewDefaultOpsObj(new Model()))
+        public IB_NodeProbe() : base(NewDefaultOpsObj)
         {
         }
 
@@ -21,7 +21,7 @@ namespace Ironbug.HVAC
         }
 
 
-        public override bool AddToNode(Node node)
+        public override bool AddToNode(Model model, Node node)
         {
             throw new NotImplementedException("This will never be called, check IB_Loop.AddNodeProbe()");
         }

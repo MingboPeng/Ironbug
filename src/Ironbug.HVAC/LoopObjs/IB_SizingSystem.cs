@@ -10,20 +10,16 @@ namespace Ironbug.HVAC
 
         private static SizingSystem NewDefaultOpsObj(Model model) => new SizingSystem(model, new AirLoopHVAC(model));
 
-        public IB_SizingSystem() : base(NewDefaultOpsObj(new Model()))
+        public IB_SizingSystem() : base(NewDefaultOpsObj)
         {
         }
 
 
-        public ModelObject ToOS(AirLoopHVAC loop)
+        public ModelObject ToOS(Model model, AirLoopHVAC loop)
         {
             //create a new sizingPlant to target plant loop
-            //var targetModel = loop.model();
             var old = loop.sizingSystem();
-            old.SetCustomAttributes(this.CustomAttributes);
-            //this.CustomAttributes
-            //var obj = base.OnNewOpsObj((Model model) => new SizingSystem(model, loop), targetModel);
-            //old.remove();
+            old.SetCustomAttributes(model, this.CustomAttributes);
             return old;
         }
     }

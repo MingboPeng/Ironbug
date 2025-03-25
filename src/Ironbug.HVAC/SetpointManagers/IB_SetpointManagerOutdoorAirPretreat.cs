@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerOutdoorAirPretreat NewDefaultOpsObj(Model model) => new SetpointManagerOutdoorAirPretreat(model);
 
 
-        public IB_SetpointManagerOutdoorAirPretreat() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerOutdoorAirPretreat() : base(NewDefaultOpsObj)
         { 
         }
         

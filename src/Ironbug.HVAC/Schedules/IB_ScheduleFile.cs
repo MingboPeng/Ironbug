@@ -33,7 +33,7 @@ namespace Ironbug.HVAC.Schedules
     
 
         private IB_ScheduleFile() : base(null) { }
-        public IB_ScheduleFile(string filePath) : base(InitMethod(new Model(), filePath))
+        public IB_ScheduleFile(string filePath) : base((Model m) => InitMethod(m, filePath))
         {
             this._filePath = filePath;
         }

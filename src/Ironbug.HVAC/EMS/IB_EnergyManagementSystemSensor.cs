@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemSensor();
 
         private static EnergyManagementSystemSensor NewDefaultOpsObj(Model model) => new EnergyManagementSystemSensor(model, "");
-        public IB_EnergyManagementSystemSensor() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemSensor() : base(NewDefaultOpsObj)
         {
         }
       

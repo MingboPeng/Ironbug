@@ -21,7 +21,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_AirTerminalSingleDuctSeriesPIUReheat() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctSeriesPIUReheat() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingElectric());
             this.AddChild(new IB_FanConstantVolume());

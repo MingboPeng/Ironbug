@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerSystemNodeResetTemperature NewDefaultOpsObj(Model model) => new SetpointManagerSystemNodeResetTemperature(model);
 
 
-        public IB_SetpointManagerSystemNodeResetTemperature() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerSystemNodeResetTemperature() : base(NewDefaultOpsObj)
         { 
         }
 

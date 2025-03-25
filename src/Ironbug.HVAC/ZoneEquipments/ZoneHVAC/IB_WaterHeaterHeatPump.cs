@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_WaterHeaterHeatPump() : base(NewDefaultOpsObj(new Model()))
+        public IB_WaterHeaterHeatPump() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_WaterHeaterMixed());
             this.AddChild(new IB_CoilWaterHeatingAirToWaterHeatPump());

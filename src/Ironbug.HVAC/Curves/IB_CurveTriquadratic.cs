@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.Curves
             => new CurveTriquadratic(model);
         
 
-        public IB_CurveTriquadratic():base(NewDefaultOpsObj(new Model()))
+        public IB_CurveTriquadratic():base(NewDefaultOpsObj)
         {
         }
         public override Curve ToOS(Model model)

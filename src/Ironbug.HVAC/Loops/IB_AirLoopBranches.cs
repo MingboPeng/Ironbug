@@ -8,11 +8,10 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => ()=>new IB_AirLoopBranches();
 
-        public void ToOS_Demand(Loop AirLoop)
+        public void ToOS_Demand(Model model, Loop AirLoop)
         {
             var branches = this.Branches;
             var loop = AirLoop as AirLoopHVAC;
-            var model = AirLoop.model();
             foreach (var branch in branches)
             {
                 foreach (var item in branch)

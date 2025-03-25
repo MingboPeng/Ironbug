@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_BoilerHotWater();
 
         private static BoilerHotWater NewDefaultOpsObj(Model model) => new BoilerHotWater(model);
-        public IB_BoilerHotWater() : base(NewDefaultOpsObj(new Model()))
+        public IB_BoilerHotWater() : base(NewDefaultOpsObj)
         {
         }
         public override HVACComponent ToOS(Model model)

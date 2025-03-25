@@ -25,7 +25,7 @@ namespace Ironbug.HVAC
         private IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam(bool forDeserialization) : base(null)
         {
         }
-        public IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeFourPipeBeam() : base(NewDefaultOpsObj)
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation

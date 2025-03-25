@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
             => new FanZoneExhaust(model);
         
 
-        public IB_FanZoneExhaust() : base(NewDefaultOpsObj(new Model()))
+        public IB_FanZoneExhaust() : base(NewDefaultOpsObj)
         {
         }
         

@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_ZoneHVACUnitVentilator_CoolingHeating(bool forDeserialization) : base(null)
         {
         }
-        public IB_ZoneHVACUnitVentilator_CoolingHeating() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACUnitVentilator_CoolingHeating() : base(NewDefaultOpsObj)
         {
 
             this.AddChild(new IB_CoilCoolingWater());

@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.Curves
             => new CurveBicubic(model);
         
 
-        public IB_CurveBicubic():base(NewDefaultOpsObj(new Model()))
+        public IB_CurveBicubic():base(NewDefaultOpsObj)
         {
         }
 

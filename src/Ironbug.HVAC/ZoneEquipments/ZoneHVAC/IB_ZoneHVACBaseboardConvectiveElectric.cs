@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
             => new ZoneHVACBaseboardConvectiveElectric(model);
         
 
-        public IB_ZoneHVACBaseboardConvectiveElectric() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACBaseboardConvectiveElectric() : base(NewDefaultOpsObj)
         {
         }
 

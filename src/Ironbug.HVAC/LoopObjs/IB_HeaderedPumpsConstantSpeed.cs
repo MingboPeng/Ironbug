@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_HeaderedPumpsConstantSpeed();
 
         private static HeaderedPumpsConstantSpeed NewDefaultOpsObj(Model model) => new HeaderedPumpsConstantSpeed(model);
-        public IB_HeaderedPumpsConstantSpeed():base(NewDefaultOpsObj(new Model()))
+        public IB_HeaderedPumpsConstantSpeed():base(NewDefaultOpsObj)
         {
             
         }

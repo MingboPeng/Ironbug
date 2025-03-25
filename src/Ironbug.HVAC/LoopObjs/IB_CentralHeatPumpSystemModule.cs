@@ -21,7 +21,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_CentralHeatPumpSystemModule() : base(NewDefaultOpsObj(new Model()))
+        public IB_CentralHeatPumpSystemModule() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_ChillerHeaterPerformanceElectricEIR());
         }

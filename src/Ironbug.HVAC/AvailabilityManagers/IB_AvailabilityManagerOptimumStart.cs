@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.AvailabilityManager
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerOptimumStart();
 
         private static AvailabilityManagerOptimumStart NewDefaultOpsObj(Model model) => new AvailabilityManagerOptimumStart(model);
-        public IB_AvailabilityManagerOptimumStart() : base(NewDefaultOpsObj(new Model()))
+        public IB_AvailabilityManagerOptimumStart() : base(NewDefaultOpsObj)
         {
         } 
 

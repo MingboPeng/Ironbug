@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ControllerMechanicalVentilation();
 
         private static ControllerMechanicalVentilation NewDefaultOpsObj(Model model) => new ControllerMechanicalVentilation(model);
-        public IB_ControllerMechanicalVentilation() : base(NewDefaultOpsObj(new Model()))
+        public IB_ControllerMechanicalVentilation() : base(NewDefaultOpsObj)
         {
         }
         
