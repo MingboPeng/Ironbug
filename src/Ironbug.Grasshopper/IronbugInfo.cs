@@ -29,7 +29,6 @@ namespace Ironbug.Grasshopper.Component
         {
             try
             {
-                GH.Instances.DocumentServer.DocumentAdded += DocumentServer_DocumentAdded;
                 Action<string> logger = (string message) => Rhino.RhinoApp.WriteLine($"Ironbug {IronbugInfo.version} is loaded with {message}");
                 Core.OpenStudio.OpenStudioHelper.LoadAssemblies(logger);
             }
@@ -45,40 +44,6 @@ namespace Ironbug.Grasshopper.Component
             return GH_LoadingInstruction.Proceed;
         }
 
-        private void DocumentServer_DocumentAdded(GH_DocumentServer sender, GH_Document doc)
-        {
-            if (doc != null)
-            {
-                //Rhino.RhinoApp.WriteLine($"Document added. Doc Name: {doc.DisplayName} {System.DateTime.Now}");
-                // Hook into the document events
-                doc.SolutionStart += OnSolutionStart;
-                doc.SolutionEnd += Doc_SolutionEnd;
-            }
-        }
-
-        private void Doc_SolutionEnd(object sender, GH_SolutionEventArgs e)
-        {
-            if (e.Document is GH_Document doc)
-            {
-                doc.SolutionEnd -= Doc_SolutionEnd;
-                // Detect the start of document loading process
-                //Rhino.RhinoApp.WriteLine($"Document is Ending its solution. Doc Name: {doc.DisplayName} {System.DateTime.Now}");
-                IB_Utility.SkipComponentLevelCheck = false;
-
-            }
-        }
-
-        private void OnSolutionStart(object sender, GH_SolutionEventArgs e)
-        {
-         
-            if (e.Document is GH_Document doc)
-            {
-                doc.SolutionStart -= OnSolutionStart;
-                // Detect the start of document loading process
-                //Rhino.RhinoApp.WriteLine($"Document is starting its solution. Doc Name: {doc.DisplayName} {System.DateTime.Now}");
-                IB_Utility.SkipComponentLevelCheck = true;
-            }
-        }
 
     }
 }
