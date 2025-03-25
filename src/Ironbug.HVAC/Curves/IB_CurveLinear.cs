@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.Curves
             => new CurveLinear(model);
         
 
-        public IB_CurveLinear():base(NewDefaultOpsObj(new Model()))
+        public IB_CurveLinear():base(NewDefaultOpsObj)
         {
         }
         public override Curve ToOS(Model model)

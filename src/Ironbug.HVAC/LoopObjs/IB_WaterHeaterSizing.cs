@@ -10,14 +10,14 @@ namespace Ironbug.HVAC
 
         private static WaterHeaterSizing NewDefaultOpsObj(Model model) => new WaterHeaterMixed(model).waterHeaterSizing();
 
-        public IB_WaterHeaterSizing():base(NewDefaultOpsObj(new Model()))
+        public IB_WaterHeaterSizing():base(NewDefaultOpsObj)
         {
         }
         
-        public ModelObject ToOS(WaterHeaterMixed waterHeater)
+        public ModelObject ToOS(Model model, WaterHeaterMixed waterHeater)
         {
             var sz = waterHeater.waterHeaterSizing();
-            sz.SetCustomAttributes(this.CustomAttributes);
+            sz.SetCustomAttributes(model, this.CustomAttributes);
             return sz;
         }
         

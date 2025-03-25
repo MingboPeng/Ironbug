@@ -9,11 +9,11 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemMeteredOutputVariable();
 
         private static EnergyManagementSystemMeteredOutputVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemMeteredOutputVariable(model, "Elec");
-        public IB_EnergyManagementSystemMeteredOutputVariable() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemMeteredOutputVariable() : base(NewDefaultOpsObj)
         {
         }
         private IB_EnergyManagementSystemProgram _program => this.GetChild<IB_EnergyManagementSystemProgram>(0);
-        public IB_EnergyManagementSystemMeteredOutputVariable(IB_EnergyManagementSystemProgram program) : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemMeteredOutputVariable(IB_EnergyManagementSystemProgram program) : base(NewDefaultOpsObj)
         {
             this.AddChild(program);
         }

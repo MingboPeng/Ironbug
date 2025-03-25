@@ -25,7 +25,7 @@ namespace Ironbug.HVAC
         }
 
         public IB_AirLoopHVACUnitarySystem() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
             this.AddChild(null);
             this.AddChild(null);

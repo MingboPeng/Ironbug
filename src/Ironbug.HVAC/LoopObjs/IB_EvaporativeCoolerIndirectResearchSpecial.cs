@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EvaporativeCoolerIndirectResearchSpecial();
 
         private static EvaporativeCoolerIndirectResearchSpecial NewDefaultOpsObj(Model model) => new EvaporativeCoolerIndirectResearchSpecial(model);
-        public IB_EvaporativeCoolerIndirectResearchSpecial() : base(NewDefaultOpsObj(new Model()))
+        public IB_EvaporativeCoolerIndirectResearchSpecial() : base(NewDefaultOpsObj)
         {
         }
         

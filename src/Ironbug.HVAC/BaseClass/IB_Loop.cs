@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.BaseClass
         public List<IB_HVACObject> SupplyComponents { get; set; } = new List<IB_HVACObject>();
         [DataMember]
         public List<IB_HVACObject> DemandComponents { get; set; } = new List<IB_HVACObject>();
-        public IB_Loop(ModelObject GhostOSObject) : base(GhostOSObject)
+        public IB_Loop(Func<OpenStudio.Model, ModelObject> ghostObjInit) : base(ghostObjInit)
         {
         }
 
@@ -46,7 +46,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public abstract ModelObject ToOS(Model model);
 
-        protected bool AddSetPoints(Node startingNode, IEnumerable<IB_HVACObject> Components)
+        protected bool AddSetPoints(Model model, Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
             var components = Components.Where(_ => !(_ is IB_NodeProbe));
             var setPts = components.OfType<IB_SetpointManager>();
@@ -54,8 +54,8 @@ namespace Ironbug.HVAC.BaseClass
             //check if there is set point
             if (setPts.Count() == 0) return true;
 
-            var Loop = startingNode.loop().get();
-            var currentComps = Loop.components();
+            var loop = startingNode.loop().get();
+            var currentComps = loop.components();
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
 
@@ -67,7 +67,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 foreach (var item in setPts)
                 {
-                    added = item.AddToNode(startingNode) ? added + 1 : added;
+                    added = item.AddToNode(model, startingNode) ? added + 1 : added;
                 }
                 return true;
             }
@@ -76,7 +76,7 @@ namespace Ironbug.HVAC.BaseClass
             IEnumerable<IB_HVACObject> remainingSetPts = null;
             if (components.First() is IB_SetpointManager)
             {
-                added = setPts.First().AddToNode(startingNode) ? added + 1 : added;
+                added = setPts.First().AddToNode(model, startingNode) ? added + 1 : added;
                 remainingSetPts = setPts.Skip(1);
             }
             else
@@ -119,7 +119,7 @@ namespace Ironbug.HVAC.BaseClass
                 }
 
                 //Add to the node
-                added = item.AddToNode(nodeWithSetPt.get()) ? added + 1 : added;
+                added = item.AddToNode(model, nodeWithSetPt.get()) ? added + 1 : added;
             }
 
             var allcopied = added == setPts.Count();
@@ -147,7 +147,7 @@ namespace Ironbug.HVAC.BaseClass
 
         }
 
-        protected bool AddNodeProbe(Node startingNode, IEnumerable<IB_HVACObject> Components)
+        protected bool AddNodeProbe(Model model, Node startingNode, IEnumerable<IB_HVACObject> Components)
         {
             var components = Components.Where(_ => !(_ is IB_SetpointManager));
             var probes = components.Where(_ => _ is IB_NodeProbe).Select(_ => _ as IB_NodeProbe);
@@ -163,14 +163,13 @@ namespace Ironbug.HVAC.BaseClass
             int added = 0;
 
             var nodeName = startingNode.nameString();
-            var model = startingNode.model();
             //check if there is only one component and it is probes.
             if (probes.Count() == components.Count())
             {
                 foreach (var item in probes)
                 {
-                    startingNode.SetCustomAttributes(item.CustomAttributes);
-                    startingNode.SetOutputVariables(item.CustomOutputVariables);
+                    startingNode.SetCustomAttributes(model, item.CustomAttributes);
+                    startingNode.SetOutputVariables(model, item.CustomOutputVariables);
 
                     // node can be shared within model for availability manager's sensor input
                     OpsIDMapper.TryAdd(item.GetTrackingID(), startingNode.handle());
@@ -185,8 +184,8 @@ namespace Ironbug.HVAC.BaseClass
             if (components.First() is IB_NodeProbe)
             {
                 var item = probes.First();
-                startingNode.SetCustomAttributes(item.CustomAttributes);
-                startingNode.SetOutputVariables(item.CustomOutputVariables);
+                startingNode.SetCustomAttributes(model, item.CustomAttributes);
+                startingNode.SetOutputVariables(model, item.CustomOutputVariables);
 
                 // node can be shared within model for availability manager's sensor input
                 OpsIDMapper.TryAdd(item.GetTrackingID(), startingNode.handle());
@@ -236,8 +235,8 @@ namespace Ironbug.HVAC.BaseClass
 
                 //Add to the node
                 var nd = nodeWithProbe.get();
-                nd.SetCustomAttributes(item.CustomAttributes);
-                nd.SetOutputVariables(item.CustomOutputVariables);
+                nd.SetCustomAttributes(model, item.CustomAttributes);
+                nd.SetOutputVariables(model, item.CustomOutputVariables);
 
                 // node can be shared within model for availability manager's sensor input
                 OpsIDMapper.TryAdd(item.GetTrackingID(), nd.handle());

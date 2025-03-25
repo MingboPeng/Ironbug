@@ -25,7 +25,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_AirTerminalSingleDuctConstantVolumeCooledBeam() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeCooledBeam() : base(NewDefaultOpsObj)
         {
             //optional if there is no child 
             //Added child with action to Children list, for later automation

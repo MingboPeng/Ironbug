@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
             private set => this.Set(value);
         }
 
-        public IB_CoilCoolingDXMultiSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilCoolingDXMultiSpeed() : base(NewDefaultOpsObj)
         {
         }
 

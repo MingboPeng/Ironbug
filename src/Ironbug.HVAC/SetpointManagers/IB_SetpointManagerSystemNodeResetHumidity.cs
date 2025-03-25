@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerSystemNodeResetHumidity NewDefaultOpsObj(Model model) => new SetpointManagerSystemNodeResetHumidity(model);
 
 
-        public IB_SetpointManagerSystemNodeResetHumidity() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerSystemNodeResetHumidity() : base(NewDefaultOpsObj)
         { 
         }
 

@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
             private set => Set(value); 
         }
 
-        public IB_CentralHeatPumpSystem():base(NewDefaultOpsObj(new Model()))
+        public IB_CentralHeatPumpSystem():base(NewDefaultOpsObj)
         {
         }
 
@@ -41,9 +41,8 @@ namespace Ironbug.HVAC
             return newObj;
         }
         
-        public override bool AddToNode(Node node)
+        public override bool AddToNode(Model model, Node node)
         {
-            var model = node.model();
             var newObj = ToOS(model) as CentralHeatPumpSystem;
 
             var isInCW = newObj.coolingPlantLoop().is_initialized();

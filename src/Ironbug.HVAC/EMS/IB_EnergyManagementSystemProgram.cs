@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemProgram();
 
         private static EnergyManagementSystemProgram NewDefaultOpsObj(Model model) => new EnergyManagementSystemProgram(model);
-        public IB_EnergyManagementSystemProgram() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemProgram() : base(NewDefaultOpsObj)
         {
         }
        
@@ -41,9 +41,9 @@ namespace Ironbug.HVAC
             return obj;
         }
 
-        public void ApplyAttributesToObj(ModelObject osObj, Dictionary<string, string> idMapper)
+        public void ApplyAttributesToObj(Model model, ModelObject osObj, Dictionary<string, string> idMapper)
         {
-            base.ApplyAttributesToObj(osObj);
+            base.ApplyAttributesToObj(model, osObj);
             var obj = osObj as EnergyManagementSystemProgram;
             // replace mapper
             var mappedBody = obj.body();

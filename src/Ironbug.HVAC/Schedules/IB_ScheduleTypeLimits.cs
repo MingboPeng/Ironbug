@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.Schedules
             => new ScheduleTypeLimits(model);
         
 
-        public IB_ScheduleTypeLimits() : base(InitMethod(new Model()))
+        public IB_ScheduleTypeLimits() : base(InitMethod)
         {
         }
         

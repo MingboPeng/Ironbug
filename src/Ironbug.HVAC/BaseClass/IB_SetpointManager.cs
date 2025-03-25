@@ -9,7 +9,7 @@ namespace Ironbug.HVAC.BaseClass
     public abstract class IB_SetpointManager : IB_HVACObject, IIB_AirLoopObject, IIB_PlantLoopObjects
     {
 
-        public IB_SetpointManager(SetpointManager GhostOSObject) : base(GhostOSObject)
+        public IB_SetpointManager(Func<OpenStudio.Model, SetpointManager> ghostObjInit) : base(ghostObjInit)
         {
             
         }

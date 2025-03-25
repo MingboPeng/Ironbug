@@ -33,7 +33,7 @@ namespace Ironbug.HVAC
         }
 
         public IB_AirLoopHVACUnitaryHeatPumpAirToAir() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilCoolingDXSingleSpeed());
             this.AddChild(new IB_CoilHeatingDXSingleSpeed());
@@ -45,7 +45,7 @@ namespace Ironbug.HVAC
         public void SetCoolingCoil(IB_CoilDX coolingCoil)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setCoolingCoil(coolingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid cooling coil!");
 
@@ -55,7 +55,7 @@ namespace Ironbug.HVAC
         public void SetHeatingCoil(IB_CoilDX heatingCoil)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setHeatingCoil(heatingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid heating coil!");
 
@@ -66,7 +66,7 @@ namespace Ironbug.HVAC
         public void SetFan(IB_Fan fan)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setSupplyAirFan(fan.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid supply fan!");
 
@@ -76,7 +76,7 @@ namespace Ironbug.HVAC
         public void SetSupplementalHeatingCoil(IB_CoilHeatingBasic heatingCoil)
         {
             // test if obj is valid
-            var ghostModel = this.GhostOSObject.model();
+            var ghostModel = this.GhostOSModel;
             if (!(this.GhostOSObject as AirLoopHVACUnitaryHeatPumpAirToAir).setSupplementalHeatingCoil(heatingCoil.ToOS(ghostModel)))
                 throw new ArgumentException("Invalid SupplementalHeatingCoil!");
 

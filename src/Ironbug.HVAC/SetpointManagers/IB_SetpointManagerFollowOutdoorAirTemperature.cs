@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerFollowOutdoorAirTemperature NewDefaultOpsObj(Model model) => new SetpointManagerFollowOutdoorAirTemperature(model);
 
 
-        public IB_SetpointManagerFollowOutdoorAirTemperature() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerFollowOutdoorAirTemperature() : base(NewDefaultOpsObj)
         { 
         }
         

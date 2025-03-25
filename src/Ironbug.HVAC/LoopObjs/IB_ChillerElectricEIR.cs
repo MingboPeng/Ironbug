@@ -30,13 +30,13 @@ namespace Ironbug.HVAC
         private IB_CurveBiquadratic _EItoCORFofT => this.GetChild<IB_CurveBiquadratic>(1);
         private IB_CurveQuadratic _EItoCORFofPLR => this.GetChild<IB_CurveQuadratic>(2);
 
-        public IB_ChillerElectricEIR() : base(NewDefaultOpsObj(new Model()))
+        public IB_ChillerElectricEIR() : base(NewDefaultOpsObj)
         {
             
         }
 
         public IB_ChillerElectricEIR(IB_CurveBiquadratic CCFofT, IB_CurveBiquadratic EItoCORFofT, IB_CurveQuadratic EItoCORFofPLR) 
-            : base(NewDefaultOpsObj(new Model(), CCFofT, EItoCORFofT, EItoCORFofPLR))
+            : base((Model m) => NewDefaultOpsObj(m, CCFofT, EItoCORFofT, EItoCORFofPLR))
         {
             this.AddChild(CCFofT);
             this.AddChild(EItoCORFofT);
@@ -44,7 +44,7 @@ namespace Ironbug.HVAC
 
             // add a fake condenser loop for water cooled chiller to be added to the demand side
             var ghost = this.GhostOSObject as ChillerElectricEIR;
-            var ghostModel = ghost.TryGetObjectModel();
+            var ghostModel = ghost.TryGetObjectModel(this.GhostOSModel);
             var addGhostCondenserLoop = new PlantLoop(ghostModel);
             addGhostCondenserLoop.addDemandBranchForComponent(ghost);
 
@@ -82,7 +82,7 @@ namespace Ironbug.HVAC
             var obj = ToOS(model, false);
             //CondenserType will be adjusted automatically by OpenStudio
             this.CustomAttributes.RemoveAll(_ => _.Field == IB_ChillerElectricEIR_FieldSet.Value.CondenserType);
-            this.ApplyAttributesToObj(obj);
+            this.ApplyAttributesToObj(model, obj);
             return obj;
         }
         

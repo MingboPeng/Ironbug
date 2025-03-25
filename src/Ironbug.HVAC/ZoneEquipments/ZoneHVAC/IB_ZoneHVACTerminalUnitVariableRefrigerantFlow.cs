@@ -27,11 +27,11 @@ namespace Ironbug.HVAC
         private IB_CoilHeatingDXVariableRefrigerantFlow _heatingCoil => this.GetChild<IB_CoilHeatingDXVariableRefrigerantFlow>();
         private IB_FanOnOff _fan => this.GetChild<IB_FanOnOff>();
 
-        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow() : base(NewDefaultOpsObj)
         {
         }
 
-        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(IB_CoilCoolingDXVariableRefrigerantFlow CoolingCoil, IB_CoilHeatingDXVariableRefrigerantFlow HeatingCoil, IB_FanOnOff Fan) : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(IB_CoilCoolingDXVariableRefrigerantFlow CoolingCoil, IB_CoilHeatingDXVariableRefrigerantFlow HeatingCoil, IB_FanOnOff Fan) : base(NewDefaultOpsObj)
         {
             this.AddChild(CoolingCoil);
             this.AddChild(HeatingCoil);

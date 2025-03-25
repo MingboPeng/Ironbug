@@ -1,4 +1,5 @@
 ﻿using OpenStudio;
+using System;
 using System.Collections.Generic;
 
 namespace Ironbug.HVAC.BaseClass
@@ -7,7 +8,7 @@ namespace Ironbug.HVAC.BaseClass
     {
         // runtime cached data
         protected List<double> _coefficients;
-        public IB_Curve(ModelObject ghostOSObject) : base(ghostOSObject)
+        public IB_Curve(Func<OpenStudio.Model, ModelObject> ghostObjInit) : base(ghostObjInit)
         {
         }
 

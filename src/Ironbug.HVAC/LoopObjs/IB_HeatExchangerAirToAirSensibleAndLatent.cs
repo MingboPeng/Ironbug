@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static HeatExchangerAirToAirSensibleAndLatent NewDefaultOpsObj(Model model) => new HeatExchangerAirToAirSensibleAndLatent(model);
 
-        public IB_HeatExchangerAirToAirSensibleAndLatent() : base(NewDefaultOpsObj(new Model()))
+        public IB_HeatExchangerAirToAirSensibleAndLatent() : base(NewDefaultOpsObj)
         {
         }
          

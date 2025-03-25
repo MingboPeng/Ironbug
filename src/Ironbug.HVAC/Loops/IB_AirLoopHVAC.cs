@@ -15,14 +15,14 @@ namespace Ironbug.HVAC
 
         private static AirLoopHVAC NewDefaultOpsObj(Model model) => new AirLoopHVAC(model);
 
-        public IB_AirLoopHVAC() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirLoopHVAC() : base(NewDefaultOpsObj)
         {
         }
 
         public void SetSizingSystem(IB_SizingSystem sizing)
         {
             this.SizingSystem = sizing;
-            this.SizingSystem.ToOS(this.GhostOSObject as AirLoopHVAC);
+            this.SizingSystem.ToOS(this.GhostOSModel, this.GhostOSObject as AirLoopHVAC);
         }
 
 
@@ -70,10 +70,10 @@ namespace Ironbug.HVAC
             this.CheckSupplySide(this.SupplyComponents);
             
             var airLoopHVAC = base.OnNewOpsObj(NewDefaultOpsObj, model);
-            this.SizingSystem.ToOS(airLoopHVAC);
+            this.SizingSystem.ToOS(model, airLoopHVAC);
             
-            this.AddSupplyObjects(airLoopHVAC, this.SupplyComponents);
-            this.AddDemandObjects(airLoopHVAC, this.DemandComponents);
+            this.AddSupplyObjects(model, airLoopHVAC, this.SupplyComponents);
+            this.AddDemandObjects(model, airLoopHVAC, this.DemandComponents);
             
             return airLoopHVAC;
         }
@@ -92,46 +92,46 @@ namespace Ironbug.HVAC
             
 
         }
-        private bool AddSupplyObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
+        private bool AddSupplyObjects(Model model, AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var spnd = AirLoopHVAC.supplyOutletNode();
             var comps = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
 
             foreach (var comp in comps)
             {
-                var added = comp.AddToNode(spnd);
+                var added = comp.AddToNode(model, spnd);
                 if (!added)
                     throw new ArgumentException($"Warning: Failed to add {comp.GetType()} to air loop supply side!");
 
             }
 
 
-            if (!this.AddSetPoints(AirLoopHVAC.supplyInletNode(), Components))
+            if (!this.AddSetPoints(model, AirLoopHVAC.supplyInletNode(), Components))
                 throw new ArgumentException("Warning: Failed to add all set point managers to air loop supply side!");
-            if (!this.AddNodeProbe(AirLoopHVAC.supplyInletNode(), Components))
+            if (!this.AddNodeProbe(model, AirLoopHVAC.supplyInletNode(), Components))
                 throw new ArgumentException("Warning: Failed to add all node probes to air loop supply side!");
 
             return true;
         }
 
-        private bool AddDemandObjects(AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
+        private bool AddDemandObjects(Model model, AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
 
             //add objs before branch
             var dmInNd = AirLoopHVAC.demandInletNode();
-            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(dmInNd));
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(model, dmInNd));
 
             //add branch
             if (branchObj != null)
             {
-                ((IB_AirLoopBranches)branchObj).ToOS_Demand(AirLoopHVAC);
+                ((IB_AirLoopBranches)branchObj).ToOS_Demand(model, AirLoopHVAC);
             }
 
             //add objs after branch
             var dmOutNd = AirLoopHVAC.demandOutletNode();
-            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(dmOutNd));
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(model, dmOutNd));
             
 
             var addObjs = AirLoopHVAC.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
@@ -140,10 +140,10 @@ namespace Ironbug.HVAC
                 throw new ArgumentException("Failed to add all airloop demand components!");
 
             //TODO: might need to double check the set point order.
-            if (!this.AddSetPoints(dmInNd, Components))
+            if (!this.AddSetPoints(model, dmInNd, Components))
                 throw new ArgumentException("Failed to add all set point managers to airloop demand side!");
 
-            if (!this.AddNodeProbe(dmInNd, Components))
+            if (!this.AddNodeProbe(model, dmInNd, Components))
                 throw new ArgumentException("Failed to add all node probes to airloop demand side!");
 
             return allcopied;

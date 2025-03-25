@@ -1,10 +1,11 @@
 ﻿using OpenStudio;
+using System;
 
 namespace Ironbug.HVAC.BaseClass
 {
     public abstract class IB_ZoneEquipment : IB_HVACObject, IIB_ZoneEquipment
     {
-        public IB_ZoneEquipment(HVACComponent GhostOSObject) : base(GhostOSObject)
+        public IB_ZoneEquipment(Func<OpenStudio.Model, HVACComponent> ghostObjInit) : base(ghostObjInit)
         {
         }
 

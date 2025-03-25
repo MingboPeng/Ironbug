@@ -5,6 +5,7 @@ using System.Linq;
 using Ironbug.Core;
 using System.Runtime.Serialization;
 using System.Runtime.CompilerServices;
+using System.ComponentModel;
 
 namespace Ironbug.HVAC.BaseClass
 {
@@ -40,8 +41,13 @@ namespace Ironbug.HVAC.BaseClass
         [DataMember]
         public IB_PropArgumentSet IBProperties { get; private set; } = new IB_PropArgumentSet();
 
-
+        /// <summary>
+        /// The OpenStudio for hosting GhostOSObject and its related resource objects.
+        /// This object is only for preview purpose.
+        /// </summary>
+        protected OpenStudio.Model GhostOSModel { get; private set; } = new Model();
         protected ModelObject GhostOSObject { get; private set; }
+
         [DataMember]
         public List<IB_OutputVariable> CustomOutputVariables { get; private set; } = new List<IB_OutputVariable>();
         [DataMember]
@@ -53,20 +59,20 @@ namespace Ironbug.HVAC.BaseClass
 
         private IList<string> RefObjects { get; set; } = new List<string>();
 
-        public IB_ModelObject(ModelObject ghostOpsObj)
+        public IB_ModelObject(Func<OpenStudio.Model, ModelObject> ghostObjInit)
         {
-          
-            if (ghostOpsObj != null)
-            {
-                this.GhostOSObject = ghostOpsObj;
+            if (ghostObjInit == null)
+                return;
 
-                this.SetTrackingID();
+            this.GhostOSObject = ghostObjInit?.Invoke(GhostOSModel);
+            //this.GhostOSModel = ghostModel;
 
-                this.SimulationOutputVariables = ghostOpsObj.outputVariableNames();
-                //this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
-                this.EmsInternalVariables = ghostOpsObj.emsInternalVariableNames();
-            }
-            
+            this.SetTrackingID();
+
+            this.SimulationOutputVariables = this.GhostOSObject.outputVariableNames();
+            //this.EmsActuators = GhostOSObject.emsActuatorNames().ToDictionary(_ => _.componentTypeName(), v => v.controlTypeName());
+            this.EmsInternalVariables = this.GhostOSObject.emsInternalVariableNames();
+
         }
 
         #region Serialization
@@ -247,7 +253,7 @@ namespace Ironbug.HVAC.BaseClass
         public void SetRefObject(IList<string> RefObjectStrs)
         {
             if (RefObjectStrs is null) return;
-            GhostOSObject = this.InitFromRefObj(GhostOSObject?.model(), RefObjectStrs);
+            GhostOSObject = this.InitFromRefObj(GhostOSModel, RefObjectStrs);
             this.RefObjects = RefObjectStrs;
         }
 
@@ -269,8 +275,8 @@ namespace Ironbug.HVAC.BaseClass
                     if (IB_Utility.SkipComponentLevelCheck)
                         return;
 
-                    var md = this.GhostOSObject.TryGetObjectModel();
-                    realValue = value.GetRealFieldValue(md);
+                    var md = this.GhostOSObject.TryGetObjectModel(this.GhostOSModel);
+                    realValue = value.TryGetRealFieldValue(md);
                 }
 
                 this.GhostOSObject?.SetFieldValue(field, realValue);
@@ -367,7 +373,7 @@ namespace Ironbug.HVAC.BaseClass
 
                 var obj = this.RefObjects.Any() ? InitFromRefObj(model, this.RefObjects) : InitMethodHandler(model);
                 if (withAtt)
-                    ApplyAttributesToObj(obj);
+                    ApplyAttributesToObj(model, obj);
                 return obj;
             }
 
@@ -406,15 +412,16 @@ namespace Ironbug.HVAC.BaseClass
             
         }
 
-        public void ApplyAttributesToObj(ModelObject osObj)
+        public void ApplyAttributesToObj(Model model, ModelObject osObj)
         {
             if (this.GhostOSObject != null && this.GhostOSObject.GetType() != osObj.GetType())
                 throw new ArgumentException($"You cannot apply attributes of {this.GhostOSObject.GetType()} to {osObj.GetType()}");
-            osObj.SetCustomAttributes(this.CustomAttributes);
-            osObj.SetOutputVariables(this.CustomOutputVariables);
-            osObj.AddEmsInternalVariables(this.CustomInternalVariables);
-            osObj.AddEmsActuators(this.CustomActuators);
-            osObj.AddEmsSensors(this.CustomSensors);
+         
+            osObj.SetCustomAttributes(model, this.CustomAttributes);
+            osObj.SetOutputVariables(model, this.CustomOutputVariables);
+            osObj.AddEmsInternalVariables(model, this.CustomInternalVariables);
+            osObj.AddEmsActuators(model, this.CustomActuators);
+            osObj.AddEmsSensors(model, this.CustomSensors);
         }
         ModelObject InitFromRefObj(Model model, IList<string> ParamSource)
         {
@@ -544,7 +551,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             try
             {
-                this.GhostOSObject.SetCustomAttributes(this.CustomAttributes);
+                this.GhostOSObject.SetCustomAttributes(this.GhostOSModel, this.CustomAttributes);
             }
             catch (Exception)
             {

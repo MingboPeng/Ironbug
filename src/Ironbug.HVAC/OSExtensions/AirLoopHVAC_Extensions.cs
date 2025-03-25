@@ -49,11 +49,11 @@ namespace Ironbug.HVAC
             
         //}
 
-        public static Dictionary<string, SetpointManager> SetPointManagersWithNodeName(this Loop fromLoop)
+        public static Dictionary<string, SetpointManager> SetPointManagersWithNodeName(this Loop fromLoop, Model model)
         {
             var node_spm = new Dictionary<string, SetpointManager>();
 
-            var sps = fromLoop.SetPointManagers();
+            var sps = fromLoop.SetPointManagers(model);
 
             foreach (var sp in sps)
             {
@@ -64,9 +64,9 @@ namespace Ironbug.HVAC
             return node_spm;
         }
 
-        public static IEnumerable<SetpointManager> SetPointManagers(this Loop fromLoop)
+        public static IEnumerable<SetpointManager> SetPointManagers(this Loop fromLoop, Model model)
         {
-            var sps = fromLoop.model().getSetpointManagers()
+            var sps = model.getSetpointManagers()
                         .Where(_ =>
                             _.loop().get().EqualEqual(fromLoop)
                          );

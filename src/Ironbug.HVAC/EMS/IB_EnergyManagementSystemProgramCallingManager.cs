@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemProgramCallingManager();
 
         private static EnergyManagementSystemProgramCallingManager NewDefaultOpsObj(Model model) => new EnergyManagementSystemProgramCallingManager(model);
-        public IB_EnergyManagementSystemProgramCallingManager() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemProgramCallingManager() : base(NewDefaultOpsObj)
         {
         }
     

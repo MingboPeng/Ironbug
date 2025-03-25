@@ -23,14 +23,14 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_SetpointManagerScheduledDualSetpoint(double lowTemperature, double highTemperature) : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerScheduledDualSetpoint(double lowTemperature, double highTemperature) : base(NewDefaultOpsObj)
         {
             (this.GhostOSObject as SetpointManagerScheduledDualSetpoint).setControlVariable("Temperature");
             this.LowT = lowTemperature;
             this.HighT = highTemperature;
         }
 
-        public IB_SetpointManagerScheduledDualSetpoint() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerScheduledDualSetpoint() : base(NewDefaultOpsObj)
         {
             this.LowT = -999;
             this.HighT = -999;

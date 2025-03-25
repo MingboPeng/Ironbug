@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_EnergyManagementSystemConstructionIndexVariable();
 
         private static EnergyManagementSystemConstructionIndexVariable NewDefaultOpsObj(Model model) => new EnergyManagementSystemConstructionIndexVariable(model);
-        public IB_EnergyManagementSystemConstructionIndexVariable() : base(NewDefaultOpsObj(new Model()))
+        public IB_EnergyManagementSystemConstructionIndexVariable() : base(NewDefaultOpsObj)
         {
         }
 

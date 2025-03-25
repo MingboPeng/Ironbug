@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_CoolingTowerVariableSpeed();
 
         private static CoolingTowerVariableSpeed NewDefaultOpsObj(Model model) => new CoolingTowerVariableSpeed(model);
-        public IB_CoolingTowerVariableSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoolingTowerVariableSpeed() : base(NewDefaultOpsObj)
         {
         }
 

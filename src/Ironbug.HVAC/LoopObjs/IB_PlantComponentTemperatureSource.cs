@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantComponentTemperatureSource();
 
         private static PlantComponentTemperatureSource NewDefaultOpsObj(Model model) => new PlantComponentTemperatureSource(model);
-        public IB_PlantComponentTemperatureSource() : base(NewDefaultOpsObj(new Model()))
+        public IB_PlantComponentTemperatureSource() : base(NewDefaultOpsObj)
         {
         }
 

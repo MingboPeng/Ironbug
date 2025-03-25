@@ -10,7 +10,7 @@ namespace Ironbug.HVAC.AvailabilityManager
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_AvailabilityManagerScheduled();
 
         private static AvailabilityManagerScheduled NewDefaultOpsObj(Model model) => new AvailabilityManagerScheduled(model);
-        public IB_AvailabilityManagerScheduled() : base(NewDefaultOpsObj(new Model()))
+        public IB_AvailabilityManagerScheduled() : base(NewDefaultOpsObj)
         {
         } 
 

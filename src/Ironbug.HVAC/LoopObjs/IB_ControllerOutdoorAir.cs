@@ -13,11 +13,11 @@ namespace Ironbug.HVAC
         private IB_ControllerMechanicalVentilation ControllerMechanicalVentilation => this.GetChild<IB_ControllerMechanicalVentilation>();
 
         [JsonConstructor]
-        private IB_ControllerOutdoorAir(bool forDerialization) : base(NewDefaultOpsObj(new Model()))
+        private IB_ControllerOutdoorAir(bool forDerialization) : base(NewDefaultOpsObj)
         {
         }
 
-        public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj(new Model()))
+        public IB_ControllerOutdoorAir() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_ControllerMechanicalVentilation());
         }

@@ -14,7 +14,7 @@ namespace Ironbug.HVAC
         public IB_ZoneEquipment MixedZoneEquip => this.GetChild<IB_ZoneEquipment>();
         [JsonConstructor]
         private IB_AirTerminalSingleDuctInletSideMixer() : base(null) { }
-        public IB_AirTerminalSingleDuctInletSideMixer(IB_ZoneEquipment ZoneEquipMixedWith) : base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctInletSideMixer(IB_ZoneEquipment ZoneEquipMixedWith) : base(NewDefaultOpsObj)
         {
             this.AddChild(ZoneEquipMixedWith);
         }

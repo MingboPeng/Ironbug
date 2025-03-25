@@ -25,7 +25,7 @@ namespace Ironbug.HVACTests
             var testValue = 0.01;
             ctrl.SetFieldValue(HVAC.IB_ControllerOutdoorAir_FieldSet.Value.MinimumOutdoorAirFlowRate, testValue);
             obj.SetController(ctrl);
-            obj.AddToNode(loop.supplyOutletNode());
+            obj.AddToNode(model, loop.supplyOutletNode());
 
             var stp = new HVAC.IB_SetpointManagerScheduled(13.6);
             obj.OAStreamObjs.Add(stp);
@@ -83,7 +83,7 @@ namespace Ironbug.HVACTests
             var testValue = 0.01;
             ctrl.SetFieldValue(HVAC.IB_ControllerOutdoorAir_FieldSet.Value.MinimumOutdoorAirFlowRate, testValue);
             obj.SetController(ctrl);
-            obj.AddToNode(loop.supplyOutletNode());
+            obj.AddToNode(model, loop.supplyOutletNode());
 
             var inSysCtrl = model.getAirLoopHVACOutdoorAirSystems().First().getControllerOutdoorAir();
             var att = inSysCtrl.minimumOutdoorAirFlowRate();

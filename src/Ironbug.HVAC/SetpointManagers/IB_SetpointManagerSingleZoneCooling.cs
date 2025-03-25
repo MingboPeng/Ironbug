@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerSingleZoneCooling NewDefaultOpsObj(Model model) 
             => new SetpointManagerSingleZoneCooling(model);
 
-        public IB_SetpointManagerSingleZoneCooling() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerSingleZoneCooling() : base(NewDefaultOpsObj)
         {
         }
 

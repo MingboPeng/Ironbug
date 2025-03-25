@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_FanVariableVolume();
 
         private static FanVariableVolume NewDefaultOpsObj(Model model) => new FanVariableVolume(model);
-        public IB_FanVariableVolume() : base(NewDefaultOpsObj(new Model()))
+        public IB_FanVariableVolume() : base(NewDefaultOpsObj)
         {
             
         }

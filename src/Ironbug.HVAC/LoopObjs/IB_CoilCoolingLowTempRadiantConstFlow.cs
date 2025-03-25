@@ -35,7 +35,7 @@ namespace Ironbug.HVAC
         private IB_CoilCoolingLowTempRadiantConstFlow():base(null) { }
 
         public IB_CoilCoolingLowTempRadiantConstFlow(double waterHiT, double waterLoT, double airHiT, double airLoT) 
-            : base(NewDefaultOpsObj(new Model(), waterHiT, waterLoT, airHiT, airLoT))
+            : base((Model m) => NewDefaultOpsObj(m, waterHiT, waterLoT, airHiT, airLoT))
         {
             this.AirHiT = airHiT;
             this.AirLoT = airLoT;

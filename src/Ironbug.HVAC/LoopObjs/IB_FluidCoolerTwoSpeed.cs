@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_FluidCoolerTwoSpeed();
 
         private static FluidCoolerTwoSpeed NewDefaultOpsObj(Model model) => new FluidCoolerTwoSpeed(model);
-        public IB_FluidCoolerTwoSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_FluidCoolerTwoSpeed() : base(NewDefaultOpsObj)
         {
         }
         

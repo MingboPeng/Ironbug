@@ -10,11 +10,11 @@ namespace Ironbug.HVAC
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PlantLoopBranches();
 
-        public void ToOS_Supply(Loop PlantLoop)
+        public void ToOS_Supply(Model model, Loop plantLoop)
         {
             var branches = this.Branches;
-            var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.TryGetObjectModel();
+            var plant = plantLoop as PlantLoop;
+
             foreach (var branch in branches)
             {
                 //add one branch
@@ -24,18 +24,17 @@ namespace Ironbug.HVAC
                 foreach (var item in restChild)
                 {
                     var node = plant.supplyMixer().inletModelObjects().Last().to_Node().get();
-                    if (!item.AddToNode(node))
+                    if (!item.AddToNode(model, node))
                         throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
                     
                 }
             }
         }
 
-        public void ToOS_Demand(Loop PlantLoop)
+        public void ToOS_Demand(Model model, Loop PlantLoop)
         {
             var branches = this.Branches;
             var plant = PlantLoop as PlantLoop;
-            var model = PlantLoop.TryGetObjectModel();
             foreach (var branch in branches)
             {
                 //flatten the puppet structure 
@@ -50,7 +49,7 @@ namespace Ironbug.HVAC
                     var node = plant.demandMixer().inletModelObjects().Last().to_Node().get();
                     foreach (var item in restChild)
                     {
-                        if (!item.AddToNode(node))
+                        if (!item.AddToNode(model, node))
                             throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
                     }
                 }

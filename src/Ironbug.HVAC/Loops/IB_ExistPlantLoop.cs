@@ -56,7 +56,7 @@ namespace Ironbug.HVAC
                 foreach (var item in restChild)
                 {
                     var node = plant.supplyMixer().inletModelObjects().Last().to_Node().get();
-                    if (!item.AddToNode(node))
+                    if (!item.AddToNode(model, node))
                         throw new ArgumentException($"Failed to add {item.GetType()} to {this.GetType()}!");
 
                 }

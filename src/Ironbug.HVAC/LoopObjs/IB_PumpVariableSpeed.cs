@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PumpVariableSpeed();
 
         private static PumpVariableSpeed NewDefaultOpsObj(Model model) => new PumpVariableSpeed(model);
-        public IB_PumpVariableSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_PumpVariableSpeed() : base(NewDefaultOpsObj)
         {
 
         } 

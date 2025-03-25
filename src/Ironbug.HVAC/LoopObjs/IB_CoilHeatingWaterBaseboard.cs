@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilHeatingWaterBaseboard NewDefaultOpsObj(Model model) => new CoilHeatingWaterBaseboard(model);
         
-        public IB_CoilHeatingWaterBaseboard() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingWaterBaseboard() : base(NewDefaultOpsObj)
         {
         }
         

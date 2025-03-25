@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
         [JsonConstructor]
         private IB_CoilHeatingLowTempRadiantVarFlow() : base(null) { }
         public IB_CoilHeatingLowTempRadiantVarFlow(double airLoT) 
-            : base(NewDefaultOpsObj(new Model(), airLoT))
+            : base((Model m) => NewDefaultOpsObj(m, airLoT))
         {
             this.AirLoT = airLoT;
         }

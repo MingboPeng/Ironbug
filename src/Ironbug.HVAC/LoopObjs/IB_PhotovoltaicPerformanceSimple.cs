@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_PhotovoltaicPerformanceSimple();
 
         private static PhotovoltaicPerformanceSimple NewDefaultOpsObj(Model model) => new PhotovoltaicPerformanceSimple(model);
-        public IB_PhotovoltaicPerformanceSimple() : base(NewDefaultOpsObj(new Model()))
+        public IB_PhotovoltaicPerformanceSimple() : base(NewDefaultOpsObj)
         {
         }
         

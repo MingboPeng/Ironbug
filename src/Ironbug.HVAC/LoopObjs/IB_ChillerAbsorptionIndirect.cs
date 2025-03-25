@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
 
         private static ChillerAbsorptionIndirect NewDefaultOpsObj(Model model) => new ChillerAbsorptionIndirect(model);
 
-        public IB_ChillerAbsorptionIndirect() : base(NewDefaultOpsObj(new Model()))
+        public IB_ChillerAbsorptionIndirect() : base(NewDefaultOpsObj)
         {
         }
 

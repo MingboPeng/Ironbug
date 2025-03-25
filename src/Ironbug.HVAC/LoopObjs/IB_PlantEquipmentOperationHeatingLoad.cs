@@ -11,13 +11,12 @@ namespace Ironbug.HVAC
 
         private static PlantEquipmentOperationHeatingLoad NewDefaultOpsObj(Model model) => new PlantEquipmentOperationHeatingLoad(model);
 
-        public IB_PlantEquipmentOperationHeatingLoad() : base(NewDefaultOpsObj(new Model()))
+        public IB_PlantEquipmentOperationHeatingLoad() : base(NewDefaultOpsObj)
         {
         }
     
-        public override ModelObject ToOS(PlantLoop loop)
+        public override ModelObject ToOS(Model model, PlantLoop loop)
         {
-            var model = loop.model();
             var htg_op_scheme = NewDefaultOpsObj(model);
 
             foreach (var item in this._equipments)

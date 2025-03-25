@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
 
         
         public IB_ZoneHVACLowTemperatureRadiantElectric() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
         }
         

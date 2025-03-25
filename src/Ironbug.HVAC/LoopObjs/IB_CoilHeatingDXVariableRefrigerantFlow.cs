@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
         
 
         public IB_CoilHeatingDXVariableRefrigerantFlow() 
-            : base(NewDefaultOpsObj(new Model()))
+            : base(NewDefaultOpsObj)
         {
         }
 

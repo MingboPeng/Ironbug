@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
         private IB_ZoneHVACUnitHeater(bool forDeserialization) : base(null)
         {
         }
-        public IB_ZoneHVACUnitHeater(): base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACUnitHeater(): base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingElectric());
             this.AddChild(new IB_FanConstantVolume());

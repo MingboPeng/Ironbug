@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerFollowGroundTemperature NewDefaultOpsObj(Model model) => new SetpointManagerFollowGroundTemperature(model);
 
 
-        public IB_SetpointManagerFollowGroundTemperature() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerFollowGroundTemperature() : base(NewDefaultOpsObj)
         { 
         }
 

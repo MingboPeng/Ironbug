@@ -18,7 +18,7 @@ namespace Ironbug.HVAC
             return dummyCoil.controllerWaterCoil().get();
         }
 
-        public IB_ControllerWaterCoil() : base(NewDefaultOpsObj(new Model()))
+        public IB_ControllerWaterCoil() : base(NewDefaultOpsObj)
         {
 
         }

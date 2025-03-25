@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
             => new PipeAdiabatic(model);
         
 
-        public IB_PipeAdiabatic():base(NewDefaultOpsObj(new Model()))
+        public IB_PipeAdiabatic():base(NewDefaultOpsObj)
         {
         }
         public override HVACComponent ToOS(Model model)

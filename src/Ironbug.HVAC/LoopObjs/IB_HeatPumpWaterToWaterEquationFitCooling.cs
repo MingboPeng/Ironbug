@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static HeatPumpWaterToWaterEquationFitCooling NewDefaultOpsObj(Model model) => new HeatPumpWaterToWaterEquationFitCooling(model);
 
-        public IB_HeatPumpWaterToWaterEquationFitCooling():base(NewDefaultOpsObj(new Model()))
+        public IB_HeatPumpWaterToWaterEquationFitCooling():base(NewDefaultOpsObj)
         {
         }
 

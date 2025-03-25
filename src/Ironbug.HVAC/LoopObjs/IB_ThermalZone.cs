@@ -27,11 +27,11 @@ namespace Ironbug.HVAC.BaseClass
         public bool IsAirTerminalBeforeZoneEquipments { get => Get(false); set => Set(value, false); }
         public string ZoneName => this.CustomAttributes.TryGetValue(IB_ThermalZone_FieldSet.Value.Name, out var n) ? n.ToString() : null;
 
-        public IB_ThermalZone():base(NewDefaultOpsObj(new Model()))
+        public IB_ThermalZone():base(NewDefaultOpsObj)
         {
             
         }
-        public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj(new Model()))
+        public IB_ThermalZone(string HBZoneName) : base(NewDefaultOpsObj)
         {
             base.SetFieldValue(IB_ThermalZone_FieldSet.Value.Name, HBZoneName);
         }
@@ -223,7 +223,7 @@ namespace Ironbug.HVAC.BaseClass
                
                 
              
-                newZone.SetCustomAttributes(this.CustomAttributes);
+                newZone.SetCustomAttributes(model, this.CustomAttributes);
             }
             else
             {
@@ -232,7 +232,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
             //add child to newZone
-            this.SizingZone.ToOS(newZone);
+            this.SizingZone.ToOS(model, newZone);
 
           
             return newZone;

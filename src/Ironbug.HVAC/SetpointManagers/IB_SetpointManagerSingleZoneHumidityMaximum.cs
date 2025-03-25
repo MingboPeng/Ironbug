@@ -12,7 +12,7 @@ namespace Ironbug.HVAC
             => new SetpointManagerSingleZoneHumidityMaximum(model);
 
         private string _controlZoneName { get => this.Get(string.Empty); set => this.Set(value); } 
-        public IB_SetpointManagerSingleZoneHumidityMaximum() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerSingleZoneHumidityMaximum() : base(NewDefaultOpsObj)
         {
         }
 

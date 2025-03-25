@@ -41,7 +41,7 @@ namespace Ironbug.HVAC
           
         } 
 
-        public IB_AirTerminalSingleDuctConstantVolumeNoReheat():base(NewDefaultOpsObj(new Model()))
+        public IB_AirTerminalSingleDuctConstantVolumeNoReheat():base(NewDefaultOpsObj)
         {
         }
 

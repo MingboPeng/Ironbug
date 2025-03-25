@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ironbug.Core;
 using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json;
 using OpenStudio;
@@ -29,11 +28,11 @@ namespace Ironbug.HVAC
 
 
         [JsonConstructor]
-        private IB_OutdoorAirSystem(bool forDerialization) : base(NewDefaultOpsObj(new Model()))
+        private IB_OutdoorAirSystem(bool forDerialization) : base(NewDefaultOpsObj)
         {
         }
 
-        public IB_OutdoorAirSystem():base(NewDefaultOpsObj(new Model()))
+        public IB_OutdoorAirSystem():base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_ControllerOutdoorAir());
             
@@ -49,7 +48,7 @@ namespace Ironbug.HVAC
             this.SetChild(0, ControllerOutdoorAir);
         }
 
-        public override bool AddToNode(Node node)
+        public override bool AddToNode(Model model, Node node)
         {
             IB_HeatExchangerAirToAirSensibleAndLatent hx = null;
             if (this.OAStreamObjs.FirstOrDefault() is IB_HeatExchangerAirToAirSensibleAndLatent heatEx)
@@ -57,7 +56,6 @@ namespace Ironbug.HVAC
                 hx = heatEx;
             }
 
-            var model = node.model();
             var oa = ((AirLoopHVACOutdoorAirSystem)this.ToOS(model));
             oa.addToNode(node);
             var oaNode = oa.outboardOANode().get();
@@ -66,12 +64,12 @@ namespace Ironbug.HVAC
             var comps = oaObjs.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             foreach (var item in comps)
             {
-                item.AddToNode(oaNode);
+                item.AddToNode(model, oaNode);
             };
             var osComs = oa.oaComponents();
             oaObjs = oaObjs.Reverse();
-            AddSetPoints(oaObjs, osComs);
-            AddNodeProbe(oaObjs, osComs);
+            AddSetPoints(model, oaObjs, osComs);
+            AddNodeProbe(model, oaObjs, osComs);
 
 
             var rfNode = oa.outboardReliefNode().get();
@@ -86,8 +84,8 @@ namespace Ironbug.HVAC
             {
                 rfObjs.Insert(0, hx);
             }
-            AddSetPoints(rfObjs, reComs);
-            AddNodeProbe(rfObjs, reComs);
+            AddSetPoints(model, rfObjs, reComs);
+            AddNodeProbe(model, rfObjs, reComs);
 
             return true;
         }
@@ -102,22 +100,18 @@ namespace Ironbug.HVAC
 
        
 
-        protected bool AddSetPoints(IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
+        protected bool AddSetPoints(Model model, IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
         {
             var components = Components.Where(_ => !(_ is IB_NodeProbe));
             var setPts = components.Where(_ => _ is IB_SetpointManager).Select(_ => _ as IB_SetpointManager);
             //check if there is set point
             if (setPts.Count() == 0) return true;
 
-
             var currentComps = CurrentAddedObj;
             var firstNode = currentComps.First().to_Node().get();
-            var model = firstNode.model();
             
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
 
-            
-            
 
             int added = 0;
 
@@ -126,7 +120,7 @@ namespace Ironbug.HVAC
             {
                 foreach (var item in setPts)
                 {
-                    added = item.AddToNode(firstNode) ? added + 1 : added;
+                    added = item.AddToNode(model, firstNode) ? added + 1 : added;
                 }
                 return true;
             }
@@ -136,7 +130,7 @@ namespace Ironbug.HVAC
             IEnumerable<IB_HVACObject> remainingSetPts = null;
             if (components.First() is IB_SetpointManager)
             {
-                added = setPts.First().AddToNode(firstNode) ? added + 1 : added;
+                added = setPts.First().AddToNode(model, firstNode) ? added + 1 : added;
                 remainingSetPts = setPts.Skip(1);
             }
             else
@@ -163,7 +157,7 @@ namespace Ironbug.HVAC
               
 
                 //Add to the node
-                added = item.AddToNode(nodeWithSetPt.get()) ? added + 1 : added;
+                added = item.AddToNode(model, nodeWithSetPt.get()) ? added + 1 : added;
             }
 
             var allcopied = added == setPts.Count();
@@ -175,7 +169,7 @@ namespace Ironbug.HVAC
 
             return allcopied;
         }
-        protected bool AddNodeProbe(IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
+        protected bool AddNodeProbe(Model model, IEnumerable<IB_HVACObject> Components, IEnumerable<ModelObject> CurrentAddedObj)
         {
             var components = Components.Where(_ => !(_ is IB_SetpointManager));
             var probes = components.Where(_ => _ is IB_NodeProbe).Select(_ => _ as IB_NodeProbe);
@@ -184,7 +178,6 @@ namespace Ironbug.HVAC
             
             var currentComps = CurrentAddedObj;
             var firstNode = currentComps.First().to_Node().get();
-            var model = firstNode.model();
             
             var allTrackingIDs = currentComps.Select(_ => _.comment()).ToList();
             
@@ -257,8 +250,8 @@ namespace Ironbug.HVAC
 
             bool AddProbeToNode(Node Node, IB_FieldArgumentSet CustomAttributes, List<IB_OutputVariable> CustomOutputVariables)
             {
-                Node.SetCustomAttributes(CustomAttributes);
-                return Node.SetOutputVariables(this.CustomOutputVariables);
+                Node.SetCustomAttributes(model, CustomAttributes);
+                return Node.SetOutputVariables(model, this.CustomOutputVariables);
 
             }
         }

@@ -36,7 +36,7 @@ namespace Ironbug.HVAC
             throw new System.NotImplementedException();
         }
 
-        public bool AddToNode(Node node)
+        public bool AddToNode(Model model, Node node)
         {
             throw new System.NotImplementedException();
         }

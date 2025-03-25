@@ -22,11 +22,11 @@ namespace Ironbug.HVAC.Schedules
             set => this.Set(value); 
         }
         private (int sMonth, int sDay, int eMonth, int eDay) dateRange => (_dateRange[0], _dateRange[1], _dateRange[2], _dateRange[3]);
-        public IB_ScheduleRule() : base(InitMethod(new Model()))
+        public IB_ScheduleRule() : base(InitMethod)
         {
         }
 
-        public IB_ScheduleRule(IB_ScheduleDay SchDay) : base(InitMethod(new Model()))
+        public IB_ScheduleRule(IB_ScheduleDay SchDay) : base(InitMethod)
         {
             AddChild(SchDay);
         }
@@ -41,18 +41,17 @@ namespace Ironbug.HVAC.Schedules
             throw new ArgumentException(@"Use 'public ScheduleRule ToOS(ScheduleRuleset Ruleset)' instead!");
         }
 
-        public ScheduleRule ToOS(ScheduleRuleset Ruleset)
+        public ScheduleRule ToOS(Model model, ScheduleRuleset ruleset)
         {
-            var model = Ruleset.model();
             this.CustomAttributes.TryGetValue(IB_Field_Comment.Instance, out object trackingId);
             var name = $"ScheduleRule - {trackingId.ToString().Substring(12)}";
 
            
             //There is a bug in ScheduleRule when it is initialized with ScheduleDay, it recreates a new ScheduleDay
             var day = this.ScheduleDay.ToOS(new Model()) as ScheduleDay;
-            var obj = new ScheduleRule(Ruleset, day);
+            var obj = new ScheduleRule(ruleset, day);
             obj.setName(name);
-            obj.SetCustomAttributes(this.CustomAttributes);
+            obj.SetCustomAttributes(model, this.CustomAttributes);
             var dateRange = this.dateRange;
             obj.setStartDate(new Date(new MonthOfYear(dateRange.sMonth), (uint)dateRange.sDay));
             obj.setEndDate(new Date(new MonthOfYear(dateRange.eMonth), (uint)dateRange.eDay));

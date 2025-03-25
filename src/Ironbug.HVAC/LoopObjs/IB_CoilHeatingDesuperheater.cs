@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
 
         [JsonConstructor]
         private IB_CoilHeatingDesuperheater() : base(null) { }
-        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingDesuperheater(IB_CoilDX heatingSource) : base(NewDefaultOpsObj)
         {
             this.AddChild(heatingSource);
         }
@@ -25,9 +25,8 @@ namespace Ironbug.HVAC
             this.SetChild(heatingSource);
         }
 
-        public override bool AddToNode(Node node)
+        public override bool AddToNode(Model model, Node node)
         {
-            var model = node.model();
             var newObj = (CoilHeatingDesuperheater)this.ToOS(model);
             var htSource = newObj.heatingSource().get();
             

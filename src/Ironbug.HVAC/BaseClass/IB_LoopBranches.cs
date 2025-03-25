@@ -11,7 +11,7 @@ namespace Ironbug.HVAC.BaseClass
         [DataMember]
         public List<List<IB_HVACObject>> Branches { get; private set; } = new List<List<IB_HVACObject>>();
 
-        public IB_LoopBranches() : base(new Node(new Model()))
+        public IB_LoopBranches() : base((Model m) => new Node(m))
         {
         }
 

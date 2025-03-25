@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_HumidifierSteamElectric();
         private static HumidifierSteamElectric NewDefaultOpsObj(Model model) => new HumidifierSteamElectric(model);
 
-        public IB_HumidifierSteamElectric() : base(NewDefaultOpsObj(new Model()))
+        public IB_HumidifierSteamElectric() : base(NewDefaultOpsObj)
         {
         }
 

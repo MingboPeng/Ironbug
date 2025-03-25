@@ -13,7 +13,7 @@ namespace Ironbug.HVAC.Curves
             => new CurveQuadratic(model);
         
 
-        public IB_CurveQuadratic():base(NewDefaultOpsObj(new Model()))
+        public IB_CurveQuadratic():base(NewDefaultOpsObj)
         {
         }
         public override Curve ToOS(Model model)

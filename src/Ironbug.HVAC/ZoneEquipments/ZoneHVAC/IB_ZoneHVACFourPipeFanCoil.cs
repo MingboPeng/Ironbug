@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         private IB_ZoneHVACFourPipeFanCoil(bool forDeserialization) : base(null)
         {
         }
-        public IB_ZoneHVACFourPipeFanCoil() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACFourPipeFanCoil() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingWater());
             this.AddChild(new IB_CoilCoolingWater());

@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
 
         private IB_ZoneHVACPackagedTerminalAirConditioner() : base(null) { }
         public IB_ZoneHVACPackagedTerminalAirConditioner(IB_Fan SupplyFan, IB_CoilHeatingBasic HeatingCoil, IB_Coil CoolingCoil) 
-            : base(NewDefaultOpsObj(new Model(),SupplyFan, HeatingCoil, CoolingCoil))
+            : base((Model m) => NewDefaultOpsObj(m,SupplyFan, HeatingCoil, CoolingCoil))
         {
             this.AddChild(CoolingCoil);
             this.AddChild(HeatingCoil);

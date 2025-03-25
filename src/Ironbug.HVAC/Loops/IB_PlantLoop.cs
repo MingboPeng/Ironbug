@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
         public IB_PlantEquipmentOperationSchemeBase OperationScheme { get; private set; }
 
         private static PlantLoop NewDefaultOpsObj(Model model) => new PlantLoop(model);
-        public IB_PlantLoop() : base(NewDefaultOpsObj(new Model()))
+        public IB_PlantLoop() : base(NewDefaultOpsObj)
         {
         }
         public void SetSizingPlant(IB_SizingPlant sizing)
@@ -64,12 +64,12 @@ namespace Ironbug.HVAC
         {
             var plant = base.OnNewOpsObj(NewDefaultOpsObj, model).to_PlantLoop().get();
 
-            SizingPlant.ToOS(plant);
+            SizingPlant.ToOS(model, plant);
 
-            this.AddSupplyObjects(plant, this.SupplyComponents);
-            this.AddDemandObjects(plant, this.DemandComponents);
+            this.AddSupplyObjects(model, plant, this.SupplyComponents);
+            this.AddDemandObjects(model, plant, this.DemandComponents);
 
-            this.OperationScheme?.ToOS(plant);
+            this.OperationScheme?.ToOS(model, plant);
             return plant;
         }
 
@@ -97,11 +97,11 @@ namespace Ironbug.HVAC
         }
 
 
-        private bool AddSupplyObjects(PlantLoop plant, List<IB_HVACObject> Components)
+        private bool AddSupplyObjects(Model model, PlantLoop plant, List<IB_HVACObject> Components)
         {
 
             //Find the branch object first, and mark it. 
-            //Reverce the objects order before the mark (supplyInletNode)
+            //Revere the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
             (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
@@ -110,7 +110,7 @@ namespace Ironbug.HVAC
             //objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
             objsBeforeBranch.ToList().ForEach(_ => 
             {
-                if (!_.AddToNode(spInletNode))
+                if (!_.AddToNode(model, spInletNode))
                 {
                     throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
                 }
@@ -118,14 +118,14 @@ namespace Ironbug.HVAC
 
             if (branchObj != null)
             {
-                ((IB_PlantLoopBranches)branchObj).ToOS_Supply(plant);
+                ((IB_PlantLoopBranches)branchObj).ToOS_Supply(model, plant);
             }
             
             var spOutLetNode = plant.supplyOutletNode();
             //objsAfterBranch.ToList().ForEach(_ => _.AddToNode(spOutLetNode));
             objsAfterBranch.ToList().ForEach(_ => 
             {
-                if (!_.AddToNode(spOutLetNode))
+                if (!_.AddToNode(model, spOutLetNode))
                 {
                     throw new ArgumentException($"Failed to add {_.GetType()} to {this.GetType()}!");
                 }
@@ -135,8 +135,8 @@ namespace Ironbug.HVAC
             var allcopied = addedObjs.Count() == filteredObjs.CountWithBranches();
             
             //TODO: might need to double check the set point order.
-            allcopied &= this.AddSetPoints(spInletNode, Components);
-            allcopied &= this.AddNodeProbe(spInletNode, Components);
+            allcopied &= this.AddSetPoints(model, spInletNode, Components);
+            allcopied &= this.AddNodeProbe(model, spInletNode, Components);
 
             if (!allcopied)
             {
@@ -148,7 +148,7 @@ namespace Ironbug.HVAC
 
         
 
-        private bool AddDemandObjects(PlantLoop plant, List<IB_HVACObject> Components)
+        private bool AddDemandObjects(Model model, PlantLoop plant, List<IB_HVACObject> Components)
         {
 
             //Find the branch object first, and mark it. 
@@ -161,15 +161,15 @@ namespace Ironbug.HVAC
 
             //
             var deInletNode = plant.demandInletNode();
-            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(deInletNode));
+            objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(model, deInletNode));
 
             if (branchObj != null)
             {
-                ((IB_PlantLoopBranches)branchObj).ToOS_Demand(plant);
+                ((IB_PlantLoopBranches)branchObj).ToOS_Demand(model, plant);
             }
 
             var deOutLetNode = plant.demandOutletNode();
-            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(deOutLetNode));
+            objsAfterBranch.ToList().ForEach(_ => _.AddToNode(model, deOutLetNode));
 
             
             var addedObjs = plant.demandComponents().Where(_ => _.comment().Contains("TrackingID"));
@@ -178,8 +178,8 @@ namespace Ironbug.HVAC
 
 
             //TODO: might need to double check the setpoint order.
-            var allcopied = this.AddSetPoints(deInletNode, Components);
-            allcopied &= this.AddNodeProbe(deInletNode, Components);
+            var allcopied = this.AddSetPoints(model, deInletNode, Components);
+            allcopied &= this.AddNodeProbe(model, deInletNode, Components);
 
             if (!allcopied)
             {

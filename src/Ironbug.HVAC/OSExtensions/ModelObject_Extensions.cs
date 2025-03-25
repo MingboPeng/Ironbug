@@ -47,7 +47,7 @@ namespace Ironbug.HVAC
 
         }
 
-        public static T GetIfInModel<T>(this T component, Model model) where T: ModelObject
+        public static T GetIfInModel<T>(this T component, Model model) where T : ModelObject
         {
             var type = component.GetType();
             return GetFromModel(type.Name, component.comment(), model) as T;
@@ -63,7 +63,7 @@ namespace Ironbug.HVAC
             var objresults = methodInfo.Invoke(model, null);
             var objList = (objresults as IEnumerable<ModelObject>).ToList();
             var matchObj = objList.FirstOrDefault(_ => _.comment() == trackingID);
-            
+
             return matchObj;
         }
 
@@ -77,7 +77,7 @@ namespace Ironbug.HVAC
 
             return invokeResult;
         }
-        
+
         public static object SetFieldValue(this ModelObject component, BaseClass.IB_Field iB_Field, object value)
         {
             //Autosize 
@@ -97,7 +97,7 @@ namespace Ironbug.HVAC
             {
                 return InvokeMethod(component, iB_Field.SetterMethod, value);
             }
-            
+
         }
 
         private static object SetFieldValue(this ModelObject component, string setterMethodName, object value, Type paramType = default)
@@ -106,7 +106,7 @@ namespace Ironbug.HVAC
             var methodInfo = component.GetType().GetMethod(setterMethodName, new[] { tp });
 
             //try to look and match all methods
-            if (methodInfo is null) 
+            if (methodInfo is null)
             {
                 var lowerCase = setterMethodName.ToLower();
                 methodInfo = component.GetType().GetMethods().FirstOrDefault(_ => _.Name.ToLower() == lowerCase);
@@ -115,7 +115,7 @@ namespace Ironbug.HVAC
             if (methodInfo is null)
                 throw new Exception($"{setterMethodName} method is not available in {component}!");
             return InvokeMethod(component, methodInfo, value);
-            
+
         }
 
         private static object AutosizeFieldValue(this ModelObject component, string FieldName)
@@ -132,7 +132,7 @@ namespace Ironbug.HVAC
         private static object InvokeMethod(ModelObject component, MethodInfo methodInfo, object value)
         {
             var method = methodInfo;
-            
+
             bool lockWasTaken = false;
             var tempComp = component;
             object invokeResult = null;
@@ -141,7 +141,7 @@ namespace Ironbug.HVAC
 
             try
             {
-               
+
                 Monitor.Enter(tempComp, ref lockWasTaken);
                 while (tryRunCount < tryFinallyCount)
                 {
@@ -157,7 +157,7 @@ namespace Ironbug.HVAC
                     }
                     catch (Exception e)
                     {
-                       
+
                         // try 5 times
                         if (e.InnerException != null)
                         {
@@ -173,7 +173,7 @@ namespace Ironbug.HVAC
                             throw;
                     }
                     finally { tryRunCount++; }
-                    
+
                 }
 
             }
@@ -194,7 +194,7 @@ namespace Ironbug.HVAC
                 {
                     throw e;
                 }
-                
+
             }
             finally
             {
@@ -208,57 +208,55 @@ namespace Ironbug.HVAC
             return invokeResult;
 
         }
-        public static bool AddEmsInternalVariables(this ModelObject component, IEnumerable<IB_EnergyManagementSystemInternalVariable> inVariables)
+        public static bool AddEmsInternalVariables(this ModelObject component, Model model, IEnumerable<IB_EnergyManagementSystemInternalVariable> inVariables)
         {
             foreach (var item in inVariables)
             {
-                var added = item.ToOS(component);
+                var added = item.ToOS(model, component);
                 if (added == null)
                     throw new ArgumentNullException("Failed to add EnergyManagementSystemInternalVariable");
             }
             return true;
 
         }
-        public static bool AddEmsActuators(this ModelObject component, ICollection<IB_EnergyManagementSystemActuator> actuators)
+        public static bool AddEmsActuators(this ModelObject component, Model model, ICollection<IB_EnergyManagementSystemActuator> actuators)
         {
             foreach (var item in actuators)
             {
-                var added = item.ToOS(component);
+                var added = item.ToOS(model, component);
                 if (added == null)
                     throw new ArgumentNullException("Failed to add EnergyManagementSystemActuator");
             }
             return true;
         }
 
-        public static bool AddEmsSensors(this ModelObject component, ICollection<IB_EnergyManagementSystemSensor> sensors)
+        public static bool AddEmsSensors(this ModelObject component, Model model, ICollection<IB_EnergyManagementSystemSensor> sensors)
         {
-            var md = component.TryGetObjectModel();
             foreach (var item in sensors)
             {
-                var added = item.ToOS(md);
+                var added = item.ToOS(model);
                 if (added == null)
                     throw new ArgumentNullException("Failed to add EnergyManagementSystemSensor");
             }
             return true;
 
         }
-        public static bool SetOutputVariables(this ModelObject component, ICollection<BaseClass.IB_OutputVariable> outputVariables)
+        public static bool SetOutputVariables(this ModelObject component, Model model, ICollection<BaseClass.IB_OutputVariable> outputVariables)
         {
             var success = true;
             var vs = outputVariables;
             var keyName = component.nameString();
-            var md = component.TryGetObjectModel();
             foreach (var item in vs)
             {
-                success &= item.ToOS(md, keyName);
+                success &= item.ToOS(model, keyName);
             }
             return success;
 
         }
-        public static List<string> SetCustomAttributes(this ModelObject component, BaseClass.IB_FieldArgumentSet fieldArgs)
+        public static List<string> SetCustomAttributes(this ModelObject component, Model model, BaseClass.IB_FieldArgumentSet fieldArgs)
         {
             var invokeResults = new List<string>();
-            
+
             foreach (var item in fieldArgs)
             {
                 var field = item.Field;
@@ -271,8 +269,8 @@ namespace Ironbug.HVAC
                     // especially memory leak issue on OpenStudio SDK side
                     if (!IB_Utility.IsSavingHVACSystem)
                         continue;
-                    var md = component.TryGetObjectModel();
-                    value = value.GetRealFieldValue(md);
+                    var md = component.TryGetObjectModel(model);
+                    value = value.TryGetRealFieldValue(md);
                 }
 
                 var invokeResult = component.SetFieldValue(field, value);
@@ -283,13 +281,13 @@ namespace Ironbug.HVAC
             return invokeResults;
         }
 
-        public static OpenStudio.Model TryGetObjectModel(this ModelObject component)
+        public static OpenStudio.Model TryGetObjectModel(this ModelObject component, Model defaultModel)
         {
             OpenStudio.Model md = null;
             try
             {
                 var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
-                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : component?.model();
+                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : defaultModel;
             }
             catch (System.ApplicationException ex)
             {
@@ -308,7 +306,7 @@ namespace Ironbug.HVAC
         {
             var com = component.idfObject();
             IddObject iddObject = com.iddObject();
-            
+
             var valueWithInfo = new List<string>();
             var fieldCount = com.numFields();
 
@@ -318,7 +316,7 @@ namespace Ironbug.HVAC
 
                 uint index = (uint)i;
                 var field = iddObject.getField(index).get();
-                
+
                 if (!field.IsWorkableField()) continue;
                 var fieldProp = field.properties();
                 var valueStr = com.getString(index).get();
@@ -444,7 +442,7 @@ namespace Ironbug.HVAC
             {
                 throw e;
             }
-           
+
         }
     }
 }

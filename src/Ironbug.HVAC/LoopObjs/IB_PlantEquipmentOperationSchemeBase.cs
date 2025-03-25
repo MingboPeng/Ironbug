@@ -1,5 +1,6 @@
 ﻿using Ironbug.HVAC.BaseClass;
 using OpenStudio;
+using System;
 using System.Collections.Generic;
 
 namespace Ironbug.HVAC
@@ -7,7 +8,7 @@ namespace Ironbug.HVAC
     public abstract class IB_PlantEquipmentOperationSchemeBase : IB_ModelObject
     {
         
-        public IB_PlantEquipmentOperationSchemeBase(ModelObject obj) : base(obj)
+        public IB_PlantEquipmentOperationSchemeBase(Func<OpenStudio.Model, ModelObject> ghostObjInit) : base(ghostObjInit)
         {
         }
         protected List<(int limit, IB_HVACObject obj)> _equipments 
@@ -21,7 +22,7 @@ namespace Ironbug.HVAC
             this._equipments.Add((limit, obj));
         }
 
-        public abstract ModelObject ToOS(PlantLoop loop);
+        public abstract ModelObject ToOS(Model model, PlantLoop loop);
 
     }
 

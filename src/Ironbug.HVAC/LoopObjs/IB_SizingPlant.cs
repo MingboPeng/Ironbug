@@ -10,19 +10,16 @@ namespace Ironbug.HVAC
 
         private static SizingPlant NewDefaultOpsObj(Model model) => new SizingPlant(model, new PlantLoop(model));
 
-        public IB_SizingPlant() : base(NewDefaultOpsObj(new Model()))
+        public IB_SizingPlant() : base(NewDefaultOpsObj)
         {
         }
         
 
-        public ModelObject ToOS(PlantLoop loop)
+        public ModelObject ToOS(Model model, PlantLoop loop)
         {
             var sz = loop.sizingPlant();
-            sz.SetCustomAttributes(this.CustomAttributes);
+            sz.SetCustomAttributes(model, this.CustomAttributes);
             return sz;
-            //create a new sizingPlant to target plant loop
-            //var targetModel = loop.model();
-            //return base.OnNewOpsObj((Model model) => new SizingPlant(model, loop), targetModel);
         }
         
     }

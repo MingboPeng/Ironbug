@@ -9,7 +9,7 @@ namespace Ironbug.HVAC
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_FluidCoolerSingleSpeed();
 
         private static FluidCoolerSingleSpeed NewDefaultOpsObj(Model model) => new FluidCoolerSingleSpeed(model);
-        public IB_FluidCoolerSingleSpeed() : base(NewDefaultOpsObj(new Model()))
+        public IB_FluidCoolerSingleSpeed() : base(NewDefaultOpsObj)
         {
         }
         

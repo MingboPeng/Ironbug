@@ -10,7 +10,7 @@ namespace Ironbug.HVAC
 
         private static CoilPerformanceDXCooling NewDefaultOpsObj(Model model) => new CoilPerformanceDXCooling(model);
 
-        public IB_CoilPerformanceDXCooling() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilPerformanceDXCooling() : base(NewDefaultOpsObj)
         {
             
         }

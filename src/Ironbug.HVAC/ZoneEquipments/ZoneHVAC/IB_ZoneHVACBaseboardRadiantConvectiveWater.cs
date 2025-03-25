@@ -19,7 +19,7 @@ namespace Ironbug.HVAC
         {
         }
 
-        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(NewDefaultOpsObj(new Model()))
+        public IB_ZoneHVACBaseboardRadiantConvectiveWater() : base(NewDefaultOpsObj)
         {
             this.AddChild(new IB_CoilHeatingWaterBaseboardRadiant());
         }

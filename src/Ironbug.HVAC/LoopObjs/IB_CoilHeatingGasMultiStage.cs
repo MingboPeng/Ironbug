@@ -17,7 +17,7 @@ namespace Ironbug.HVAC
             set => this.Set(value);
         }
 
-        public IB_CoilHeatingGasMultiStage() : base(NewDefaultOpsObj(new Model()))
+        public IB_CoilHeatingGasMultiStage() : base(NewDefaultOpsObj)
         {
         }
 

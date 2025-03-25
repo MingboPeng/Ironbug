@@ -20,7 +20,7 @@ namespace Ironbug.HVAC
         private static AirConditionerVariableRefrigerantFlow NewDefaultOpsObj(Model model) 
             => new AirConditionerVariableRefrigerantFlow(model);
 
-        public IB_AirConditionerVariableRefrigerantFlow() : base(NewDefaultOpsObj(new Model()))
+        public IB_AirConditionerVariableRefrigerantFlow() : base(NewDefaultOpsObj)
         {
         }
 

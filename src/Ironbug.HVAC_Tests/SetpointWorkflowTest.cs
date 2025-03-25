@@ -30,7 +30,7 @@ namespace Ironbug.HVACTests
             var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
             var loop = md2.getAirLoopHVACs()[0];
 
-            var addedSetPt = loop.SetPointManagers().First();
+            var addedSetPt = loop.SetPointManagers(md2).First();
             var stp = loop.supplyInletNode().setpointManagers().First();
             Assert.True(stp.comment() == setPt.GetTrackingID());
 
@@ -170,7 +170,7 @@ namespace Ironbug.HVACTests
 
 
             var md2 = OpenStudio.Model.load(saveFile.ToPath()).get();
-            var addedSetPt = md2.getPlantLoops()[0].SetPointManagers().First();
+            var addedSetPt = md2.getPlantLoops()[0].SetPointManagers(md2).First();
             var objAfterSetp = addedSetPt.setpointNode().get().inletModelObject().get();
             success &= objAfterSetp.comment() == pump.GetTrackingID();
             

@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
         private static SetpointManagerMultiZoneMaximumHumidityAverage NewDefaultOpsObj(Model model)
             => new SetpointManagerMultiZoneMaximumHumidityAverage(model);
 
-        public IB_SetpointManagerMultiZoneMaximumHumidityAverage() : base(NewDefaultOpsObj(new Model()))
+        public IB_SetpointManagerMultiZoneMaximumHumidityAverage() : base(NewDefaultOpsObj)
         {
         }
 

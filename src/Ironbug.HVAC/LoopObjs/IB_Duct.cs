@@ -11,7 +11,7 @@ namespace Ironbug.HVAC
             => new Duct(model);
         
 
-        public IB_Duct():base(NewDefaultOpsObj(new Model()))
+        public IB_Duct():base(NewDefaultOpsObj)
         {
         }
         public override HVACComponent ToOS(Model model)
