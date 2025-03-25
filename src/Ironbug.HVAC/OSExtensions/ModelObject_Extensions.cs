@@ -262,16 +262,7 @@ namespace Ironbug.HVAC
                 var field = item.Field;
                 var value = item.Value;
                 // check and convert IB_Curve IB_Schedule and IB_AvailabilityManager to OpenStudio object
-                if (!value.IsFieldValueRealType())
-                {
-                    // only assign the real curve, schedule, and AvailabilityManager when model is being saved to the real OpenStudio Model.
-                    // this helps preventing crashing the application when constantly requesting the object's model at a large mount scale
-                    // especially memory leak issue on OpenStudio SDK side
-                    if (!IB_Utility.IsSavingHVACSystem)
-                        continue;
-                    var md = component.TryGetObjectModel(model);
-                    value = value.TryGetRealFieldValue(md);
-                }
+                value = value.TryGetRealFieldValue(model);
 
                 var invokeResult = component.SetFieldValue(field, value);
 
@@ -281,26 +272,6 @@ namespace Ironbug.HVAC
             return invokeResults;
         }
 
-        public static OpenStudio.Model TryGetObjectModel(this ModelObject component, Model defaultModel)
-        {
-            OpenStudio.Model md = null;
-            try
-            {
-                var isSavingToGlobalModel = IB_Utility.IsSavingHVACSystem;
-                md = isSavingToGlobalModel ? IB_Utility.GlobalModel : defaultModel;
-            }
-            catch (System.ApplicationException ex)
-            {
-                if (ex.Message == "bad_weak_ptr")
-                {
-                    //ignore error
-                }
-                else
-                    throw;
-
-            }
-            return md;
-        }
 
         public static IEnumerable<string> GetUserFriendlyFieldInfo(this ModelObject component, bool ifIPUnits = false)
         {

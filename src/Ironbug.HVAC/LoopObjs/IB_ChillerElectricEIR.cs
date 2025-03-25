@@ -44,9 +44,10 @@ namespace Ironbug.HVAC
 
             // add a fake condenser loop for water cooled chiller to be added to the demand side
             var ghost = this.GhostOSObject as ChillerElectricEIR;
-            var ghostModel = ghost.TryGetObjectModel(this.GhostOSModel);
-            var addGhostCondenserLoop = new PlantLoop(ghostModel);
-            addGhostCondenserLoop.addDemandBranchForComponent(ghost);
+            var addGhostCondenserLoop = new PlantLoop(this.GhostOSModel);
+            var done = addGhostCondenserLoop.addDemandBranchForComponent(ghost);
+            if (!done)
+                throw new ArgumentException("Something when wrong, please provide this sample file to developers!");
 
         }
 

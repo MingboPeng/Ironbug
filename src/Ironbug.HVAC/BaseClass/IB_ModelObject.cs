@@ -267,18 +267,8 @@ namespace Ironbug.HVAC.BaseClass
             //but it should have all the same field values as the real one, except handles.
             try
             {
-                object realValue = value;
                 // check and convert IB_Curve IB_Schedule and IB_AvailabilityManager to OpenStudio object
-                if (!realValue.IsFieldValueRealType())
-                {
-                    // the GH file is opening, so no need to do a real-time type checks for users
-                    if (IB_Utility.SkipComponentLevelCheck)
-                        return;
-
-                    var md = this.GhostOSObject.TryGetObjectModel(this.GhostOSModel);
-                    realValue = value.TryGetRealFieldValue(md);
-                }
-
+                var realValue = value.TryGetRealFieldValue(this.GhostOSModel);
                 this.GhostOSObject?.SetFieldValue(field, realValue);
             }
             catch (Exception ex)

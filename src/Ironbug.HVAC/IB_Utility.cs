@@ -7,13 +7,6 @@ namespace Ironbug.HVAC
 {
     public class IB_Utility
     {
-        public static bool SkipComponentLevelCheck { get; set; }
-
-        private static bool _isSavingHVACSystem = false;
-        public static bool IsSavingHVACSystem => _isSavingHVACSystem;
-
-        private static OpenStudio.Model _globalModel;
-        public static OpenStudio.Model GlobalModel => _globalModel;
 
         private static List<Func<bool>> _delaiedAMFuncs;
 
@@ -47,24 +40,13 @@ namespace Ironbug.HVAC
         private static void StartSaving()
         {
             OpsIDMapper.StartRecording();
-
             _delaiedAMFuncs = new();
-            _isSavingHVACSystem = true;
         }
 
         private static void EndSaving()
         {
-            try
-            {
-                _globalModel.Dispose();
-            }
-            finally
-            {
-                OpsIDMapper.EndRecording();
-                _delaiedAMFuncs = null;
-                _isSavingHVACSystem = false;
-            }
-
+            OpsIDMapper.EndRecording();
+            _delaiedAMFuncs = null;
         }
 
 
@@ -79,8 +61,7 @@ namespace Ironbug.HVAC
 
 
             //get Model from file if exists
-            _globalModel = GetOrNewModel(osmFile);
-            var model = _globalModel;
+            var model = GetOrNewModel(osmFile);
 
             //Add outdoor air temperature output variable
             var outT = new OpenStudio.OutputVariable("Site Outdoor Air Drybulb Temperature", model);
