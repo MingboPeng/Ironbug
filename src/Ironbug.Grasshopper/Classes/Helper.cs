@@ -25,25 +25,25 @@ namespace Ironbug.Grasshopper
             return zone.ZoneName;
         }
 
-        public static string GetRoomName(object HBObj)
+        public static string GetRoomName(object hbObj)
         {
-            if (HBObj is null)
+            if (hbObj is null)
                 return string.Empty;
 
-            if (HBObj is Types.OsZone z)
+            if (hbObj is Types.OsZone z)
             {
                 return z.ZoneName;
             }
-            else if (HBObj is GH_Brep b)
+            else if (hbObj is GH_Brep b)
             {
                 // Legacy HBZones
                 throw new System.ArgumentException("Ironbug doesn't support HBZones from the legacy version anymore!");
             }
-            else if (HBObj is GH_String s)
+            else if (hbObj is GH_String s)
             {
                 return s.Value.ToString();
             }
-            else if (HBObj is GH_ObjectWrapper wrapper)
+            else if (hbObj is GH_ObjectWrapper wrapper)
             {
                 
                 var pyObj = wrapper.Value;
@@ -62,25 +62,70 @@ namespace Ironbug.Grasshopper
                 var isDFRoom2D = name.StartsWith("Room2D:");
 
                 if (isLBTRoom || isDFRoom2D)
-                    return GetLBTRoomName(pyObj);
+                    return GetHBObjName(pyObj);
 
 
             }
-            else if (HBObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
+            else if (hbObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
             {
-                var rm = HBObj;
-                var tp = HBObj?.GetType();
+                var rm = hbObj;
+                var tp = hbObj?.GetType();
                 var type = tp?.GetProperty("POTypeName")?.GetValue(rm)?.ToString();
 
                 if (type == "Room")
                 {
                     var pyObj = tp.GetProperty("RefPythonObj")?.GetValue(rm);
-                    return GetLBTRoomName(pyObj);
+                    return GetHBObjName(pyObj);
                 }
             }
 
 
             throw new System.ArgumentException("Invalid Room object!");
+
+        }
+
+        public static string GetShadeName(object hbObj)
+        {
+            if (hbObj is null)
+                return string.Empty;
+
+            if (hbObj is GH_String s)
+            {
+                return s.Value.ToString();
+            }
+            else if (hbObj is GH_ObjectWrapper wrapper)
+            {
+
+                var pyObj = wrapper.Value;
+          
+                // LBT Shade
+                var isPythonObj = pyObj.GetType().ToString().StartsWith("IronPython.");
+                if (!isPythonObj)
+                    throw new System.ArgumentException("Invalid Room object!");
+
+                var name = pyObj.ToString();
+                var isLBTShade = name.StartsWith("Shade:");
+                var isShadeMesh = name.StartsWith("ShadeMesh:"); //To be verified
+
+                if (isLBTShade || isShadeMesh)
+                    return GetHBObjName(pyObj);
+
+            }
+            else if (hbObj.GetType().Name == "GH_HBPythonObjectGoo") //Pollination Honeybee components
+            {
+                var rm = hbObj;
+                var tp = hbObj?.GetType();
+                var type = tp?.GetProperty("POTypeName")?.GetValue(rm)?.ToString();
+
+                if (type == "Shade" || type == "ShadeMesh")
+                {
+                    var pyObj = tp.GetProperty("RefPythonObj")?.GetValue(rm);
+                    return GetHBObjName(pyObj);
+                }
+            }
+
+
+            throw new System.ArgumentException("Invalid Shade object!");
 
         }
 
@@ -158,12 +203,12 @@ namespace Ironbug.Grasshopper
         }
 
         /// For new Honeybee
-        static string GetLBTRoomName(object lbtRoom)
+        static string GetHBObjName(object lbtRoom)
         {
             var pyRun = GetPython();
-            pyRun.SetVariable("HBRoom", lbtRoom);
+            pyRun.SetVariable("HBObj", lbtRoom);
             string pyScript = @"
-id = HBRoom.identifier
+id = HBObj.identifier
 ";
             pyRun.ExecuteScript(pyScript);
             var name = pyRun.GetVariable("id") as string;

@@ -6,11 +6,7 @@ using Ironbug.HVAC;
 using Ironbug.HVAC.BaseClass;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Ironbug.Core;
-using Ironbug.HVAC.Schedules;
-using OpenStudio;
-using System.Runtime.Serialization;
-using System.Dynamic;
+
 
 namespace Ironbug.HVACTests
 {
@@ -58,6 +54,20 @@ namespace Ironbug.HVACTests
             newHvac.SaveHVAC(osmP);
             //Assert.IsTrue(newHvac == hvac);
 
+        }
+
+        [Test]
+        public void SerializeSCFP_Test()
+        {
+           
+            var sc = new IB_SolarCollectorFlatPlateWater();
+            sc.SetSurface("My Srf");
+            var json = sc.ToJson(true);
+
+            var dup = IB_SolarCollectorFlatPlateWater.FromJson<IB_SolarCollectorFlatPlateWater>(json);
+            var dupJson = dup.ToJson(true);
+            Assert.AreEqual(sc, dup);
+            Assert.AreEqual(json, dupJson);
         }
 
 
