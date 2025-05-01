@@ -15,12 +15,12 @@
 	
 	<!-- for Windows -->
 	<ItemGroup Condition="'$(OS)' == 'Windows_NT'">
-		<PackageReference Include="NREL.OpenStudio.win" Version="3.7.0" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="3.9.0.1" />
 	</ItemGroup>
 
 	<!-- for Linux -->
 	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="3.7.0" />
+		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="3.9.0.1" />
 	</ItemGroup>
 	
 	<ItemGroup>

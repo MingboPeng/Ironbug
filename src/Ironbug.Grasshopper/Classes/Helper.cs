@@ -25,6 +25,12 @@ namespace Ironbug.Grasshopper
             return zone.ZoneName;
         }
 
+        /// <summary>
+        /// Get room or room2d 's zone value if exist otherwise use room identifier
+        /// </summary>
+        /// <param name="hbObj"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException"></exception>
         public static string GetRoomName(object hbObj)
         {
             if (hbObj is null)
@@ -208,7 +214,7 @@ namespace Ironbug.Grasshopper
             var pyRun = GetPython();
             pyRun.SetVariable("HBObj", lbtRoom);
             string pyScript = @"
-id = HBObj.identifier
+id = getattr(HBObj, ""zone"", None) or getattr(HBObj, ""identifier"", None)
 ";
             pyRun.ExecuteScript(pyScript);
             var name = pyRun.GetVariable("id") as string;
