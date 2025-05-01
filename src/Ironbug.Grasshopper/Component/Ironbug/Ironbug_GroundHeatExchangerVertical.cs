@@ -22,7 +22,6 @@ namespace Ironbug.Grasshopper.Component
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddTextParameter("GFunctions", "GFunc", "A list of values for gFunctions. This list has to be even count. The odd item has to be gFunctionLN, and its value the next item", GH_ParamAccess.list);
-            pManager[0].Optional = true;
         }
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
