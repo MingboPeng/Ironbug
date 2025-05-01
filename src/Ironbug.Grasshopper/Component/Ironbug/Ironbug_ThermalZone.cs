@@ -96,7 +96,8 @@ namespace Ironbug.Grasshopper.Component
             var OSZones = new List<IB_ThermalZone>();
 
             var zoneNames = Helper.GetRoomNames(HBZonesOrNames);
-
+            // check if there are rooms in the same zone
+            zoneNames = zoneNames.Distinct().ToList();
 
             if (!zoneNames.Any())
             {
