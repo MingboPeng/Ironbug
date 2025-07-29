@@ -24,10 +24,10 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("HeatPumpPlantLoopEIRCooling", "ClnHP", "Connect to hot water loop's supply side.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("HeatPumpPlantLoopEIRCooling", "ClnHP", "Connect to chilled water loop's supply side.", GH_ParamAccess.item);
         }
 
-        
+
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             IB_HeatPumpPlantLoopEIRHeating hp = null;
