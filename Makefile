@@ -5,7 +5,7 @@ build-Grasshopper:
 	dotnet build ./src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=$(NEW_RELEASE_VERSION) /restore
 	mkdir -p installer/plugin
 	mv src/Ironbug.Grasshopper/bin/x64/Release/net8-windows/* installer/plugin/
-	mv src/Ironbug.Grasshopper/bin/x64/Release/net48/* installer/plugin/net48/
+	mv src/Ironbug.Grasshopper/bin/x64/Release/net48 installer/plugin/
 	mkdir -p installer/HVACTemplates
 	cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
 
