@@ -152,7 +152,7 @@ jobs:
         run: |
           echo "Test standalone console with sample model"
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm"
-          ./src/Ironbug.Console/bin/Release/linux-x64/net8/Ironbug.Console "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
+          ./src/Ironbug.Console/bin/Release/net8/linux-x64/Ironbug.Console "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
