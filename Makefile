@@ -18,8 +18,8 @@ build-console-win:
 	
 	cp ./src/Ironbug.Console/bin/x64/Release/net8/* installer/plugin
 	cp ./src/Ironbug.Console/bin/x64/Release/net48/* installer/plugin/net48/
-	rm ./installer/plugin/openstudio* -r
-	rm ./installer/plugin/net48/openstudio* -r
+	rm ./installer/plugin/openstudio* ./installer/plugin/OpenStudio* -r
+	rm ./installer/plugin/net48/openstudio* ./installer/plugin/net48/OpenStudio* -r
 
 	7z a -tzip installer/plugin/net48.zip ./installer/plugin/net48/*
 	rm -r installer/plugin/net48
