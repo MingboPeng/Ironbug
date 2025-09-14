@@ -82,7 +82,7 @@ jobs:
       - name: zip plugin - net8
         shell: bash
         run: |
-          mkdir ./ironbug-rhino7
+          mkdir ./ironbug-net8
           cp ./installer/plugin-net8/* ./ironbug-net8 -r
           cp ./installer/HVACTemplates ./ironbug-net8 -r
           7z a -tzip ironbug-net8.zip ./ironbug-net8
