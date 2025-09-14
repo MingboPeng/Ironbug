@@ -117,7 +117,7 @@ namespace Ironbug.HVAC
         private bool AddDemandObjects(Model model, AirLoopHVAC AirLoopHVAC, IEnumerable<IB_HVACObject> Components)
         {
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
-            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
+            var branchObj = base.GetObjsBeforeAndAfterBranch(filteredObjs, out var objsBeforeBranch, out var objsAfterBranch);
 
             //add objs before branch
             var dmInNd = AirLoopHVAC.demandInletNode();

@@ -22,17 +22,17 @@ namespace Ironbug.HVAC.BaseClass
         public bool ShouldSerializedemandComponents() => !this.DemandComponents.IsNullOrEmpty();
         #endregion
 
-        protected (IEnumerable<IB_HVACObject> before, IB_LoopBranches branch, IEnumerable<IB_HVACObject> after) GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs)
+        protected IB_LoopBranches GetObjsBeforeAndAfterBranch(IEnumerable<IB_HVACObject> SupplyOrDemandObjs, out IEnumerable<IB_HVACObject> beforeBranch, out IEnumerable<IB_HVACObject> afterBranch)
         {
             int branchIndex = SupplyOrDemandObjs.ToList().FindIndex(_ => _ is IB_LoopBranches);
 
             branchIndex = branchIndex == -1 ? SupplyOrDemandObjs.Count() : branchIndex;
-            var beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
-            var afterBranch = SupplyOrDemandObjs.Skip(branchIndex + 1);
+            beforeBranch = SupplyOrDemandObjs.Take(branchIndex);
+            afterBranch = SupplyOrDemandObjs.Skip(branchIndex + 1);
 
             IB_LoopBranches branch = SupplyOrDemandObjs.OfType<IB_LoopBranches>().FirstOrDefault();
 
-            return (beforeBranch, branch, afterBranch);
+            return branch;
         }
 
         public override IB_ModelObject Duplicate()

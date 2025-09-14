@@ -98,7 +98,7 @@ namespace Ironbug.HVAC.BaseClass
         public IB_Field UpdateFromIddField(IddField field)
         {
             var prop = field.properties();
-            (var validDataItems, var validDataStr) = GetValidData(field);
+            var validDataItems = GetValidData(field, out var validDataStr);
 
 
             //var description = prop.note;
@@ -113,14 +113,14 @@ namespace Ironbug.HVAC.BaseClass
 
             return this;
 
-            (IEnumerable<string> Items, string JoinedString) GetValidData(IddField f)
+            IEnumerable<string> GetValidData(IddField f, out string strTobeShown)
             {
-                var strTobeShown = string.Empty;
+                strTobeShown = string.Empty;
                 var items = new List<string>();
                 var keys = f.keys();
                 if (keys.Count == 0)
                 {
-                    return (items, strTobeShown);
+                    return items;
                 }
 
                 foreach (var item in keys)
@@ -131,8 +131,8 @@ namespace Ironbug.HVAC.BaseClass
                     items.Add(keyValue);
 
                 }
-
-                return (items, "\r\nValid Options:" + strTobeShown);
+                strTobeShown = "\r\nValid Options:" + strTobeShown;
+                return items;
 
 
             }

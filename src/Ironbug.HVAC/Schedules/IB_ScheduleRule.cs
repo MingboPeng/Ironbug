@@ -21,7 +21,11 @@ namespace Ironbug.HVAC.Schedules
             get => this.GetList(initDefault: () => new List<int> { 1, 1, 12, 31 });
             set => this.Set(value); 
         }
-        private (int sMonth, int sDay, int eMonth, int eDay) dateRange => (_dateRange[0], _dateRange[1], _dateRange[2], _dateRange[3]);
+        //private (int sMonth, int sDay, int eMonth, int eDay) dateRange => (_dateRange[0], _dateRange[1], _dateRange[2], _dateRange[3]);
+        private int dateRangeMonthStart => _dateRange[0];
+        private int dateRangeDayStart => _dateRange[1];
+        private int dateRangeMonthEnd => _dateRange[2];
+        private int dateRangeDayEnd => _dateRange[3];
         public IB_ScheduleRule() : base(InitMethod)
         {
         }
@@ -52,9 +56,8 @@ namespace Ironbug.HVAC.Schedules
             var obj = new ScheduleRule(ruleset, day);
             obj.setName(name);
             obj.SetCustomAttributes(model, this.CustomAttributes);
-            var dateRange = this.dateRange;
-            obj.setStartDate(new Date(new MonthOfYear(dateRange.sMonth), (uint)dateRange.sDay));
-            obj.setEndDate(new Date(new MonthOfYear(dateRange.eMonth), (uint)dateRange.eDay));
+            obj.setStartDate(new Date(new MonthOfYear(dateRangeMonthStart), (uint)dateRangeDayStart));
+            obj.setEndDate(new Date(new MonthOfYear(dateRangeMonthEnd), (uint)dateRangeDayEnd));
             return obj;
         }
         

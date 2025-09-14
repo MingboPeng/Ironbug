@@ -98,7 +98,7 @@ namespace Ironbug.HVAC.BaseClass
 
         public List<T> GetListByKey<T>(string propertyName, List<T> defaultList)
         {
-            return GetListByKeyInit(propertyName, ()=> defaultList);
+            return GetListByKeyInit(propertyName, () => defaultList);
         }
 
         public List<T> GetListByKeyInit<T>(string propertyName, Func<List<T>> initDefault)
@@ -145,9 +145,9 @@ namespace Ironbug.HVAC.BaseClass
             {
                 var checkedValues = this
                     .Where(_ => _.Value is Newtonsoft.Json.Linq.JToken)
-                    .Select(_ => new { _.Key, Value = DeserializationHelper.Deserialize(_.Value as Newtonsoft.Json.Linq.JToken)  })
+                    .Select(_ => new { _.Key, Value = DeserializationHelper.Deserialize(_.Value as Newtonsoft.Json.Linq.JToken) })
                     .ToList();
-              
+
                 // update
                 foreach (var item in checkedValues)
                 {
@@ -158,7 +158,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 throw new ArgumentException("Failed to deserialize", ex);
             }
-            
+
         }
 
 
@@ -174,13 +174,13 @@ namespace Ironbug.HVAC.BaseClass
 
         static object Duplicate(object obj)
         {
-            if (obj is string st) 
+            if (obj is string st)
                 return st;
-            else if(obj is IEnumerable enu) 
+            else if (obj is IEnumerable enu)
                 return enu.Cast<object>().Select(_ => Duplicate(_)).ToList();
             else if (obj is IB_ModelObject mo)
                 return mo.Duplicate();
-            else 
+            else
                 return obj;
         }
 
@@ -211,7 +211,7 @@ namespace Ironbug.HVAC.BaseClass
             {
                 return o1s.Equals(o2?.ToString());
             }
-            else if(o1 is IEnumerable enu)
+            else if (o1 is IEnumerable enu)
             {
                 var o1m = enu.Cast<object>();
                 var o2m = (o2 as IEnumerable)?.Cast<object>();
@@ -220,7 +220,7 @@ namespace Ironbug.HVAC.BaseClass
                     var zip = o1m.Zip(o2m, (l, r) => new { l, r });
                     same &= zip.All(_ => AreSame(_.l, _.r));
                 }
-            
+
             }
             else
             {
@@ -231,7 +231,7 @@ namespace Ironbug.HVAC.BaseClass
                 o2 = Convert.ChangeType(o2, o1.GetType());
                 same = o1.Equals(o2);
             }
-            
+
 
             return same;
         }

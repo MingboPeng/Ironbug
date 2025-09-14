@@ -12,7 +12,7 @@ namespace Ironbug.HVAC.BaseClass
         {
             //var name = iddField.name();
             var prop = field.properties();
-            (var validDataItems, var validDataStr) = GetValidData(field);
+            var validDataItems = GetValidData(field, out var validDataStr);
             
 
             var description = prop.note;
@@ -100,26 +100,25 @@ namespace Ironbug.HVAC.BaseClass
             }
         }
 
-        private static (IEnumerable<string> Items, string JoinedString) GetValidData(IddField field)
+        private static IEnumerable<string> GetValidData(IddField field, out string joinedString)
         {
-            var strTobeShown = string.Empty;
+            joinedString = string.Empty;
             var items = new List<string>();
             var keys = field.keys();
             if (keys.Count ==0)
             {
-                return (items, strTobeShown);
+                return items;
             }
 
             foreach (var item in keys)
             {
                 //TODO: check letter cases, or item.__str__
                 var keyValue = item.name();
-                strTobeShown += "\r\n    -" + keyValue;
+                joinedString += "\r\n    -" + keyValue;
                 items.Add(keyValue);
-                
             }
-
-            return (items, "\r\nValid Options:" + strTobeShown);
+            joinedString = "\r\nValid Options:" + joinedString;
+            return items;
 
             
         }
