@@ -104,8 +104,8 @@ namespace Ironbug.HVAC
             //Revere the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
-            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(filteredObjs);
-            
+            var branchObj = base.GetObjsBeforeAndAfterBranch(filteredObjs, out var objsBeforeBranch, out var objsAfterBranch);
+
             var spInletNode = plant.supplyInletNode();
             //objsBeforeBranch.ToList().ForEach(_ => _.AddToNode(spInletNode));
             objsBeforeBranch.ToList().ForEach(_ => 
@@ -155,7 +155,7 @@ namespace Ironbug.HVAC
             //Reverse the objects order before the mark (supplyInletNode)
             //keep the order (supplyOutletNode);
             var filteredObjs = Components.Where(_ => !(_ is IB_SetpointManager) && !(_ is IB_NodeProbe));
-            (var objsBeforeBranch, var branchObj, var objsAfterBranch) = base.GetObjsBeforeAndAfterBranch(Components);
+            var branchObj = base.GetObjsBeforeAndAfterBranch(Components, out var objsBeforeBranch, out var objsAfterBranch);
             //var branchObj = (IB_PlantLoopBranches)Components.Find(_ => _ is IB_PlantLoopBranches);
 
 
@@ -205,7 +205,15 @@ namespace Ironbug.HVAC
         public bool Equals(IB_PlantLoop other)
         {
             if (!base.Equals(other))
+            {
+                //var otherJ = other?.ToJson();
+                //var thisJ = this?.ToJson();
+
                 return false;
+                //var same = this.Equals(other);
+                //return false;
+            }
+              
 
             if (this.SizingPlant != other.SizingPlant)
                 return false;
