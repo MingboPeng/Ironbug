@@ -62,13 +62,13 @@ jobs:
         run: |
           echo "Test standalone console with sample model"
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm"
-          ./src/Ironbug.Console/bin/x64/Release/net8/Ironbug.Console.exe "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
+          ./src/Ironbug.Console/bin/x64/Release/net48/Ironbug.Console.exe "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
           echo "Test console with GH plugin"
           mkdir "C:/Program Files/ladybug_tools/openstudio/CSharp/openstudio"
           cp ./src/Ironbug.Console/bin/x64/Release/openstudio* "C:/Program Files/ladybug_tools/openstudio/CSharp/openstudio"
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm"
-          ./src/Ironbug.Console/bin/x64/Release/net8/Ironbug.Console.exe "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
+          ./src/Ironbug.Console/bin/x64/Release/net48/Ironbug.Console.exe "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
       - name: zip plugin
         shell: bash
@@ -77,6 +77,15 @@ jobs:
           cp ./installer/plugin/* ./ironbug -r
           cp ./installer/HVACTemplates ./ironbug -r
           7z a -tzip ironbug.zip ./ironbug
+          ls
+
+      - name: zip plugin - net8
+        shell: bash
+        run: |
+          mkdir ./ironbug-rhino7
+          cp ./installer/plugin-net8/* ./ironbug-net8 -r
+          cp ./installer/HVACTemplates ./ironbug-net8 -r
+          7z a -tzip ironbug-net8.zip ./ironbug-net8
           ls
 
       - name: Install the InstalBuilder
@@ -92,12 +101,15 @@ jobs:
       - name: Create installer package
         shell: bash
         run: |
+          rm -r ./installer/plugin-net8
+          ls -l ./installer/plugin
           ${{ env.INSTALLBUILDER_DIR }}/bin/builder-cli.exe build installer/Ironbug.xml \
               --license lic.xml \
               --setvars project.outputDirectory=$(pwd) \
               --setvars project.version=${{ env.ReleaseVersion }} \
               --verbose
           cp ./*-installer.exe ./installer.exe
+          rm ./*-installer.exe
           ls -l
 
       - name: Upload Installer
@@ -106,6 +118,7 @@ jobs:
           name: windows
           path: |
             ironbug.zip
+            ironbug-net8.zip
             installer.exe
             ironbug.console.win.zip
 
