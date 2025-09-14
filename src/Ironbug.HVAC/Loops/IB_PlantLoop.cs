@@ -205,15 +205,8 @@ namespace Ironbug.HVAC
         public bool Equals(IB_PlantLoop other)
         {
             if (!base.Equals(other))
-            {
-                //var otherJ = other?.ToJson();
-                //var thisJ = this?.ToJson();
-
                 return false;
-                //var same = this.Equals(other);
-                //return false;
-            }
-              
+
 
             if (this.SizingPlant != other.SizingPlant)
                 return false;
