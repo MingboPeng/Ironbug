@@ -21,14 +21,14 @@ namespace Ironbug.HVAC
 
             foreach (var item in this._equipments)
             {
-                var obj = item.obj.GetOsmObjInModel(model);
+                var obj = item.Obj.GetOsmObjInModel(model);
                 if (obj == null)
                     continue;
                 var hvacObj = obj.to_HVACComponent();
                 if (hvacObj.isNull())
                     continue;
 
-                htg_op_scheme.addEquipment(item.limit, hvacObj.get());
+                htg_op_scheme.addEquipment(item.Limit, hvacObj.get());
             }
 
             loop.setPlantEquipmentOperationHeatingLoad(htg_op_scheme);
