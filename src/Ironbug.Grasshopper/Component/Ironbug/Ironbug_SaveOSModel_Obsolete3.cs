@@ -8,14 +8,16 @@ using System.Linq;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_SaveOSModel : Ironbug_Component
+    public class Ironbug_SaveOSModel_Obsolete3 : Ironbug_Component
     {
+        public override bool Obsolete => true;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
         protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
-        public override Guid ComponentGuid => new Guid("D9F1F837-B2D0-41C7-88D8-D20303FB93A8");
+        public override Guid ComponentGuid => new Guid("2AA7B0D0-1BC9-49EE-9C5F-4A9999439161");
 
         bool _overrideMode = false;
         int _writeMode = 0;
-        public Ironbug_SaveOSModel()
+        public Ironbug_SaveOSModel_Obsolete3()
           : base("IB_SaveToFile", "SaveToFile",
               "Save HVACSystem to OpenStudio (.osm) file",
               "Ironbug", "HVAC")
@@ -27,12 +29,10 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddTextParameter("NewFilePath", "_OSMpath", "New OSM file path. This file will be deleted first if it is existed when the component is on override mode.", GH_ParamAccess.item);
             pManager.AddGenericParameter("HVACSystem", "HVAC", "A HVAC system from Ironbug_HVACSystem", GH_ParamAccess.item);
             pManager.AddGenericParameter("EnergyManagementSystem", "EMS", "EnergyManagementSystem", GH_ParamAccess.item);
-            pManager.AddGenericParameter("ElectricLoadCenter", "ELC", "ElectricLoadCenter", GH_ParamAccess.item);
             pManager.AddBooleanParameter("Write", "_write", "Write the OpenStudio file.", GH_ParamAccess.item, false);
 
             pManager[1].Optional = true;
             pManager[2].Optional = true;
-            pManager[3].Optional = true;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -46,14 +46,12 @@ namespace Ironbug.Grasshopper.Component
             string filepath = string.Empty;
             HVAC.IB_HVACSystem hvac = null;
             HVAC.IB_EnergyManagementSystem ems = null;
-            HVAC.IB_ElectricLoadCenter elc = null;
             bool write = false;
 
             DA.GetData(0, ref filepath);
             DA.GetData(1, ref hvac);
             DA.GetData(2, ref ems);
-            DA.GetData(3, ref elc);
-            DA.GetData(4, ref write);
+            DA.GetData(3, ref write);
 
             if (!write) return;
             
@@ -75,11 +73,9 @@ namespace Ironbug.Grasshopper.Component
 
             var saved = false;
             if (hvac != null)
-                saved |= hvac.SaveHVAC(filepath);
+                saved = hvac.SaveHVAC(filepath);
             if (ems != null)
-                saved |= ems.SaveEMS(filepath);
-            if (elc != null)
-                saved |= elc.SaveELC(filepath);
+                saved = ems.SaveEMS(filepath);
 
             if (saved)
             {
