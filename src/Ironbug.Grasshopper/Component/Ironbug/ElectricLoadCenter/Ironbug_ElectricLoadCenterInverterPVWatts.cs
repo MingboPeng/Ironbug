@@ -4,16 +4,17 @@ using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ElectricLoadCenterTransformer : Ironbug_HVACWithParamComponent
+    public class Ironbug_ElectricLoadCenterInverterPVWatts : Ironbug_HVACWithParamComponent
     {
-        public Ironbug_ElectricLoadCenterTransformer()
-          : base("IB_ElectricLoadCenterTransformer", "Transformer",
+        public Ironbug_ElectricLoadCenterInverterPVWatts()
+          : base("IB_ElectricLoadCenterInverterPVWatts", "InverterPVWatts",
               "Description",
               "Ironbug", "08:ElectricLoadCenter",
-              typeof(HVAC.IB_ElectricLoadCenterTransformer_FieldSet))
+              typeof(HVAC.IB_ElectricLoadCenterInverterPVWatts_FieldSet))
         {
-            
+
         }
+
         public override GH_Exposure Exposure => GH_Exposure.secondary;
 
 
@@ -23,12 +24,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Transformer", "Transformer", "Transformer", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Inverter", "Inverter", "Inverter", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_ElectricLoadCenterTransformer();
+            var obj = new HVAC.IB_ElectricLoadCenterInverterPVWatts();
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
@@ -37,10 +38,10 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => null;
 
-        public override Guid ComponentGuid => new Guid("826B1B36-D27A-4096-ACB1-9D9DC56D199C");
+        public override Guid ComponentGuid => new Guid("CB67FE63-AEB7-4D95-B50D-AA293F606DDD");
 
 
     }
 
-   
+
 }

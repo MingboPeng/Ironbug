@@ -1,21 +1,21 @@
-﻿using System;
+using System;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ElectricLoadCenterTransformer : Ironbug_HVACWithParamComponent
+    public class Ironbug_GeneratorPhotovoltaicSimple : Ironbug_HVACWithParamComponent
     {
-        public Ironbug_ElectricLoadCenterTransformer()
-          : base("IB_ElectricLoadCenterTransformer", "Transformer",
+        public Ironbug_GeneratorPhotovoltaicSimple()
+          : base("IB_GeneratorPhotovoltaicSimple", "PVSimple",
               "Description",
               "Ironbug", "08:ElectricLoadCenter",
-              typeof(HVAC.IB_ElectricLoadCenterTransformer_FieldSet))
+              typeof(HVAC.IB_GeneratorPhotovoltaic_FieldSet))
         {
-            
-        }
-        public override GH_Exposure Exposure => GH_Exposure.secondary;
 
+        }
+
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -23,12 +23,12 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Transformer", "Transformer", "Transformer", GH_ParamAccess.item);
+            pManager.AddGenericParameter("Generator", "Generator", "Generator", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var obj = new HVAC.IB_ElectricLoadCenterTransformer();
+            var obj = new HVAC.IB_GeneratorPhotovoltaicSimple();
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
@@ -37,10 +37,6 @@ namespace Ironbug.Grasshopper.Component
 
         protected override System.Drawing.Bitmap Icon => null;
 
-        public override Guid ComponentGuid => new Guid("826B1B36-D27A-4096-ACB1-9D9DC56D199C");
-
-
+        public override Guid ComponentGuid => new Guid("C9D0E1F2-A3B4-5678-9012-DEF123456789");
     }
-
-   
 }
