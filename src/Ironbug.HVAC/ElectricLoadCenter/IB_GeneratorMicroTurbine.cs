@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_GeneratorMicroTurbine : IB_ModelObject
+    public class IB_GeneratorMicroTurbine : IB_Generator
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GeneratorMicroTurbine();
 
@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
         {
         }
        
-        public GeneratorMicroTurbine ToOS(Model model)
+        public override Generator ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;

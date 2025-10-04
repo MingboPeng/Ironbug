@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_GeneratorWindTurbine : IB_ModelObject
+    public class IB_GeneratorWindTurbine : IB_Generator
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GeneratorWindTurbine();
 
@@ -15,8 +15,8 @@ namespace Ironbug.HVAC
         public IB_GeneratorWindTurbine() : base(NewDefaultOpsObj)
         {
         }
-       
-        public GeneratorWindTurbine ToOS(Model model)
+
+        public override Generator ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;

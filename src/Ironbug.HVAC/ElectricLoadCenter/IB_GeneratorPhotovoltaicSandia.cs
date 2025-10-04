@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_GeneratorPhotovoltaicSandia : IB_ModelObject
+    public class IB_GeneratorPhotovoltaicSandia : IB_Generator
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GeneratorPhotovoltaicSandia();
 
@@ -15,8 +15,8 @@ namespace Ironbug.HVAC
         public IB_GeneratorPhotovoltaicSandia() : base(NewDefaultOpsObj)
         {
         }
-       
-        public GeneratorPhotovoltaic ToOS(Model model)
+
+        public override Generator ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             var perf = (obj.photovoltaicPerformance() as PhotovoltaicPerformanceSandia);

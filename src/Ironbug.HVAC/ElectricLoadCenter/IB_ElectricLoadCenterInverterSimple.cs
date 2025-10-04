@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ElectricLoadCenterInverterSimple : IB_ModelObject
+    public class IB_ElectricLoadCenterInverterSimple : IB_ElecInverter
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ElectricLoadCenterInverterSimple();
 
@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
         {
         }
        
-        public ElectricLoadCenterInverterSimple ToOS(Model model)
+        public override Inverter ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;

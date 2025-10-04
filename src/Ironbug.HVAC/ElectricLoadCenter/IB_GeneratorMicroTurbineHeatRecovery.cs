@@ -6,7 +6,7 @@
 
 //namespace Ironbug.HVAC
 //{
-//    public class IB_GeneratorMicroTurbineHeatRecovery : IB_ModelObject
+//    public class IB_GeneratorMicroTurbineHeatRecovery : IB_Generator
 //    {
 //        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GeneratorMicroTurbineHeatRecovery();
 
@@ -15,8 +15,8 @@
 //        public IB_GeneratorMicroTurbineHeatRecovery() : base(NewDefaultOpsObj)
 //        {
 //        }
-       
-//        public GeneratorMicroTurbineHeatRecovery ToOS(Model model)
+
+//         public override Generator ToOS(Model model)
 //        {
 //            var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
 //            return obj;

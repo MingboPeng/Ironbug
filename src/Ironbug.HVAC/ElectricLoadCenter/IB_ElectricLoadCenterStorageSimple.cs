@@ -6,7 +6,7 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ElectricLoadCenterStorageSimple : IB_ModelObject
+    public class IB_ElectricLoadCenterStorageSimple : IB_ElecStorage
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ElectricLoadCenterStorageSimple();
 
@@ -16,7 +16,7 @@ namespace Ironbug.HVAC
         {
         }
        
-        public ElectricLoadCenterStorageSimple ToOS(Model model)
+        public override ElectricalStorage ToOS(Model model)
         {
             var obj = base.OnNewOpsObj(NewDefaultOpsObj, model);
             return obj;
