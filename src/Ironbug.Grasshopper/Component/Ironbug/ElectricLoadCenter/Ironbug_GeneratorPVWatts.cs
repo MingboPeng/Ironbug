@@ -1,6 +1,7 @@
-using System;
 using Grasshopper.Kernel;
 using Ironbug.Grasshopper.Properties;
+using Ironbug.HVAC.BaseClass;
+using System;
 
 namespace Ironbug.Grasshopper.Component
 {
@@ -19,7 +20,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("SurfaceID", "SurfaceID", "The name of a Surface or ShadingSurface object.", GH_ParamAccess.item);
+            pManager.AddGenericParameter("ShadeSurface", "_surface", "A Honeybee Shade", GH_ParamAccess.item);
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
@@ -30,9 +31,12 @@ namespace Ironbug.Grasshopper.Component
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var obj = new HVAC.IB_GeneratorPVWatts();
-            string surfaceId = string.Empty;
-            DA.GetData(0, ref surfaceId);
-            obj.SetSurface(surfaceId);
+            var surface = (object)null;
+            if (DA.GetData(0, ref surface))
+            {
+                var shadeID = Helper.GetShadeName(surface);
+                obj.SetSurface(shadeID);
+            }
 
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
