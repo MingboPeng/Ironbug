@@ -60,7 +60,7 @@ namespace Ironbug.HVAC
             var osmFile = filepath;
 
             //get Model from file if exists
-            var model = GetOrNewModel(osmFile);
+            var model = IB_Utility.GetOrNewModel(osmFile);
 
             var mapper = new Dictionary<string, string>();
             foreach (var item in actuators)
@@ -130,34 +130,6 @@ namespace Ironbug.HVAC
         }
 
 
-
-        public static OpenStudio.Model GetOrNewModel(string opsModelFilePath)
-        {
-            var model =  new OpenStudio.Model();
-            if (File.Exists(opsModelFilePath))
-            {
-                var osmPath = opsModelFilePath.ToPath();
-                CheckIfOldVersion(osmPath);
-                var optionalModel = OpenStudio.Model.load(osmPath);
-
-                if(optionalModel.is_initialized()) model = optionalModel.get();
-
-            }
-            return model;
-
-            bool CheckIfOldVersion(OpenStudio.Path p)
-            {
-                var ts = new OpenStudio.VersionTranslator();
-                var m = ts.loadModel(p).get();
-                var v1 = ts.originalVersion().str();
-                var v2 = m.version().str();
-                if (v1 != v2)
-                    throw new ArgumentException($"Incompatible OpenStudio file version {v1} which is different than what Ironbug is using ({v2})");
-                return true;
-            }
-        }
-
-       
         
     }
 }

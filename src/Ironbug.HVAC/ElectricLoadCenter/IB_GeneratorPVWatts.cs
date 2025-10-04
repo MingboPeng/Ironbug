@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 
 namespace Ironbug.HVAC
 {
-    public class IB_GeneratorPVWatts : IB_ModelObject
+    public class IB_GeneratorPVWatts : IB_Generator
     {
         protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_GeneratorPVWatts();
 
@@ -22,7 +22,7 @@ namespace Ironbug.HVAC
         {
             SurfaceID = surfaceID;
         }
-        public GeneratorPVWatts ToOS(Model model)
+        public override Generator ToOS(Model model)
         {
             if (string.IsNullOrEmpty(SurfaceID))
                 throw new ArgumentException("Invalid PV surface ID");
