@@ -16,9 +16,9 @@ namespace Ironbug.Grasshopper.Component
         {
         }
 
-        //public override GH_Exposure Exposure => GH_Exposure.septenary;
+        public override GH_Exposure Exposure => GH_Exposure.primary;
 
-        
+
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("subPanels", "subPanels", "A list of ElectricLoadCenters", GH_ParamAccess.list);
