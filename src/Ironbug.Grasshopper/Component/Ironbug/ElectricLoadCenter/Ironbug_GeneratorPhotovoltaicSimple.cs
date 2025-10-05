@@ -1,4 +1,5 @@
 using Grasshopper.Kernel;
+using Ironbug.Grasshopper.Properties;
 using Ironbug.HVAC.BaseClass;
 using System;
 
@@ -51,7 +52,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, objs);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Resources.PV;
 
         public override Guid ComponentGuid => new Guid("C9D0E1F2-A3B4-5678-9012-DEF123456789");
     }
