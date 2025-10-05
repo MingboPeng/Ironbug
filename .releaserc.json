@@ -17,11 +17,6 @@
             "label": "ironbug-${nextRelease.version}.zip"
           },
           {
-            "path": "ironbug-net8.zip",
-            "name": "ironbug-net8-${nextRelease.version}.zip",
-            "label": "ironbug-net8-${nextRelease.version}.zip"
-          },
-          {
             "path": "ironbug.console.win.zip",
             "name": "ironbug.console.win-${nextRelease.version}.zip",
             "label": "ironbug.console.win-${nextRelease.version}.zip"
