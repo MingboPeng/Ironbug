@@ -36,7 +36,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, objs);
         }
 
-        protected override System.Drawing.Bitmap Icon => null;
+        protected override System.Drawing.Bitmap Icon => Resources.InverterPVWatts;
 
         public override Guid ComponentGuid => new Guid("CB67FE63-AEB7-4D95-B50D-AA293F606DDD");
 
