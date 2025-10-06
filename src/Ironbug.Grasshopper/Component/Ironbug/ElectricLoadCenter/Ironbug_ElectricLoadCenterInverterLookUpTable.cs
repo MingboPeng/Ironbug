@@ -23,7 +23,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddGenericParameter("Inverter", "Inverter", "Inverter", GH_ParamAccess.item);
+            pManager.AddGenericParameter("inverter", "inverter", "inverter", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -35,7 +35,7 @@ namespace Ironbug.Grasshopper.Component
             DA.SetDataList(0, objs);
         }
 
-        protected override System.Drawing.Bitmap Icon => Resources.Inverter;
+        protected override System.Drawing.Bitmap Icon => Resources.InverterTable;
 
         public override Guid ComponentGuid => new Guid("A1B2C3D4-E5F6-7890-1234-567890ABCDEF");
     }

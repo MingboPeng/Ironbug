@@ -9,7 +9,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ElectricLoadCenter : Ironbug_Component
     {
         public Ironbug_ElectricLoadCenter()
-          : base("IB_ElectricLoadCenter", "ElectricLoadCenter",
+          : base("IB_ElectricLoadCenter", "ELC MainPanel",
               "The main panel of the ElectricLoadCenter",
               "Ironbug", "08:ElectricLoadCenter"
               )
@@ -21,9 +21,9 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("subPanels", "subPanels", "A list of ElectricLoadCenters", GH_ParamAccess.list);
-            pManager.AddGenericParameter("_powerInTransformer", "_powerInTransformer", "An optional input for a transformer for transferring electricity from the grid to a building (as distribution transformers) when applicable", GH_ParamAccess.item);
-            pManager.AddGenericParameter("_powerOutTransformer", "_powerOutTransformer", "An optional input for a transformer for transferring electricity from onsite generators to the grid when applicable", GH_ParamAccess.item);
+            pManager.AddGenericParameter("_subPanels", "_subPanels", "A list of ElectricLoadCenters", GH_ParamAccess.list);
+            pManager.AddGenericParameter("powerInTransformer", "transformerIn", "An optional input for a transformer for transferring electricity from the grid to a building (as distribution transformers) when applicable", GH_ParamAccess.item);
+            pManager.AddGenericParameter("powerOutTransformer", "transformerOut", "An optional input for a transformer for transferring electricity from onsite generators to the grid when applicable", GH_ParamAccess.item);
 
             pManager[0].DataMapping = GH_DataMapping.Flatten;
             pManager[1].Optional = true;

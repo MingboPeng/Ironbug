@@ -1,0 +1,42 @@
+{"skeleton":{"images":""},
+"bones":[{"name":"root"}],
+"slots":[
+	{"name":"MainPanel","bone":"root","attachment":"MainPanel"},
+	{"name":"Converter","bone":"root","attachment":"Converter"},
+	{"name":"Inverter","bone":"root","attachment":"Inverter"},
+	{"name":"InverterPVWatts","bone":"root","attachment":"InverterPVWatts"},
+	{"name":"InverterTable","bone":"root","attachment":"InverterTable"},
+	{"name":"Transformer","bone":"root","attachment":"Transformer"},
+	{"name":"StorageNMCBattery","bone":"root","attachment":"StorageNMCBattery"},
+	{"name":"StorageSimple","bone":"root","attachment":"StorageSimple"},
+	{"name":"MicroTurbine","bone":"root","attachment":"MicroTurbine"},
+	{"name":"WindTurbine","bone":"root","attachment":"WindTurbine"},
+	{"name":"PV","bone":"root","attachment":"PV"},
+	{"name":"PVWatts","bone":"root","attachment":"PVWatts"},
+	{"name":"PVPerfSimple","bone":"root","attachment":"PVPerfSimple"},
+	{"name":"PVPerfSandia","bone":"root","attachment":"PVPerfSandia"},
+	{"name":"PVPerfSDM","bone":"root","attachment":"PVPerfSDM"},
+	{"name":"SubPanel","bone":"root","attachment":"SubPanel"}
+],
+"skins":{
+	"default":{
+		"MainPanel":{"MainPanel":{"x":1198.5,"y":4349.5,"width":241,"height":241}},
+		"Converter":{"Converter":{"x":923.5,"y":4349.5,"width":241,"height":241}},
+		"Inverter":{"Inverter":{"x":923.5,"y":4608.5,"width":241,"height":241}},
+		"InverterPVWatts":{"InverterPVWatts":{"x":636.5,"y":4608.5,"width":241,"height":241}},
+		"InverterTable":{"InverterTable":{"x":636.5,"y":4880.5,"width":241,"height":241}},
+		"Transformer":{"Transformer":{"x":923.5,"y":4086.5,"width":241,"height":241}},
+		"StorageNMCBattery":{"StorageNMCBattery":{"x":1197.5,"y":3817.5,"width":241,"height":241}},
+		"StorageSimple":{"StorageSimple":{"x":925.5,"y":3817.5,"width":241,"height":241}},
+		"MicroTurbine":{"MicroTurbine":{"x":632.5,"y":3817.5,"width":241,"height":241}},
+		"WindTurbine":{"WindTurbine":{"x":632.5,"y":4082.5,"width":241,"height":241}},
+		"PV":{"PV":{"x":632.5,"y":4352.5,"width":241,"height":241}},
+		"PVWatts":{"PVWatts":{"x":381.5,"y":4352.5,"width":241,"height":241}},
+		"PVPerfSimple":{"PVPerfSimple":{"x":120,"y":4352.5,"width":240,"height":241}},
+		"PVPerfSandia":{"PVPerfSandia":{"x":120,"y":4073.5,"width":240,"height":241}},
+		"PVPerfSDM":{"PVPerfSDM":{"x":120,"y":3797.5,"width":240,"height":241}},
+		"SubPanel":{"SubPanel":{"x":1198.5,"y":4085.5,"width":241,"height":241}}
+	}
+},
+"animations":{"animation":{}}
+}

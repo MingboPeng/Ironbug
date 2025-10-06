@@ -1183,6 +1183,16 @@ namespace Ironbug.Grasshopper.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap InverterTable {
+            get {
+                object obj = ResourceManager.GetObject("InverterTable", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Ironbug {
             get {
                 object obj = ResourceManager.GetObject("Ironbug", resourceCulture);
@@ -1486,6 +1496,36 @@ namespace Ironbug.Grasshopper.Properties {
         internal static System.Drawing.Bitmap PV {
             get {
                 object obj = ResourceManager.GetObject("PV", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PVPerfSandia {
+            get {
+                object obj = ResourceManager.GetObject("PVPerfSandia", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PVPerfSDM {
+            get {
+                object obj = ResourceManager.GetObject("PVPerfSDM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PVPerfSimple {
+            get {
+                object obj = ResourceManager.GetObject("PVPerfSimple", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
