@@ -14,6 +14,10 @@ namespace Ironbug.HVAC.BaseClass
         {
         }
 
+        public IB_Children(int capacity):base(capacity)
+        {
+            this.AddRange(Enumerable.Repeat<IB_ModelObject>(null, capacity));
+        }
 
         internal void SetChild<T>(T ChildObj) where T : IB_ModelObject
         {

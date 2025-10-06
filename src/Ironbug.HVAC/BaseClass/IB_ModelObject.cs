@@ -24,7 +24,7 @@ namespace Ironbug.HVAC.BaseClass
 
 
         [DataMember]
-        public IB_Children Children { get; private set; } = new IB_Children();
+        public IB_Children Children { get; protected set; } = new IB_Children();
 
         /// <summary>
         /// Custom attributes for setting OpenStudio object fields
