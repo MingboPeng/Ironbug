@@ -6,13 +6,13 @@ using OpenStudio;
 
 namespace Ironbug.HVAC
 {
-    public class IB_ElectricLoadCenterInverterPVWatts : IB_ElecInverter
+    public class IB_ElectricLoadCenterInverterLookUpTable : IB_ElecInverter
     {
-        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ElectricLoadCenterInverterPVWatts();
+        protected override Func<IB_ModelObject> IB_InitSelf => () => new IB_ElectricLoadCenterInverterLookUpTable();
 
-        private static ElectricLoadCenterInverterPVWatts NewDefaultOpsObj(Model model) => new ElectricLoadCenterInverterPVWatts(model);
+        private static ElectricLoadCenterInverterLookUpTable NewDefaultOpsObj(Model model) => new ElectricLoadCenterInverterLookUpTable(model);
 
-        public IB_ElectricLoadCenterInverterPVWatts() : base(NewDefaultOpsObj)
+        public IB_ElectricLoadCenterInverterLookUpTable() : base(NewDefaultOpsObj)
         {
         }
        
@@ -24,11 +24,11 @@ namespace Ironbug.HVAC
 
     }
 
-    public sealed class IB_ElectricLoadCenterInverterPVWatts_FieldSet
-       : IB_FieldSet<IB_ElectricLoadCenterInverterPVWatts_FieldSet, ElectricLoadCenterInverterPVWatts>
+    public sealed class IB_ElectricLoadCenterInverterLookUpTable_FieldSet
+       : IB_FieldSet<IB_ElectricLoadCenterInverterLookUpTable_FieldSet, ElectricLoadCenterInverterLookUpTable>
     {
 
-        private IB_ElectricLoadCenterInverterPVWatts_FieldSet() { }
+        private IB_ElectricLoadCenterInverterLookUpTable_FieldSet() { }
 
     }
 
