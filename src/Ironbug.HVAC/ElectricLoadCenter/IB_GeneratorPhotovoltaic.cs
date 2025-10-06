@@ -58,21 +58,26 @@ namespace Ironbug.HVAC
             }
             else if (_performance is IB_PhotovoltaicPerformanceSimple simple)
             {
-                obj = base.OnNewOpsObj((m) => GeneratorPhotovoltaic.sandia(m), model);
-                var perf = (obj.photovoltaicPerformance() as PhotovoltaicPerformanceSimple);
-                simple.ApplyAttributesToObj(model, perf);
+                obj = base.OnNewOpsObj((m) => GeneratorPhotovoltaic.simple(m), model);
+                var perf = obj.photovoltaicPerformance()?.to_PhotovoltaicPerformanceSimple();
+                if (perf.is_initialized())
+                    simple.ApplyAttributesToObj(model, perf.get());
+
             }
             else if(_performance is IB_PhotovoltaicPerformanceSandia sandia)
             {
                 obj = base.OnNewOpsObj((m) => GeneratorPhotovoltaic.sandia(m), model);
-                var perf = (obj.photovoltaicPerformance() as PhotovoltaicPerformanceSimple);
-                sandia.ApplyAttributesToObj(model, perf);
+                var perf = obj.photovoltaicPerformance()?.to_PhotovoltaicPerformanceSandia();
+                if (perf.is_initialized())
+                    sandia.ApplyAttributesToObj(model, perf.get());
+
             }
             else if (_performance is IB_PhotovoltaicPerformanceEquivalentOneDiode oneDiode)
             {
                 obj = base.OnNewOpsObj((m) => GeneratorPhotovoltaic.equivalentOneDiode(m), model);
-                var perf = (obj.photovoltaicPerformance() as PhotovoltaicPerformanceEquivalentOneDiode);
-                oneDiode.ApplyAttributesToObj(model, perf);
+                var perf = obj.photovoltaicPerformance()?.to_PhotovoltaicPerformanceEquivalentOneDiode();
+                if (perf.is_initialized())
+                    oneDiode.ApplyAttributesToObj(model, perf.get());
             }
             else
             {
