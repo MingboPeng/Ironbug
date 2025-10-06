@@ -751,4 +751,16 @@
   <data name="MicroTurbine" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MicroTurbine.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PVPerfSimple" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PVPerfSimple.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PVPerfSandia" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PVPerfSandia.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PVPerfSDM" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PVPerfSDM.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="InverterTable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\InverterTable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

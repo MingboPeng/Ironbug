@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
     public class Ironbug_ElectricLoadCenterDistribution : Ironbug_HVACWithParamComponent
     {
         public Ironbug_ElectricLoadCenterDistribution()
-          : base("IB_ElectricLoadCenterDistribution", "SubPanel",
+          : base("IB_ElectricLoadCenterDistribution", "ELC Distribution (SubPanel)",
               "Description",
               "Ironbug", "08:ElectricLoadCenter",
               typeof(HVAC.IB_ElectricLoadCenterDistribution_FieldSet))
@@ -24,11 +24,11 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddGenericParameter("_generators", "_generators", "A list of IB_Generator", GH_ParamAccess.list);
-            pManager.AddGenericParameter("_inverter", "_inverter", "", GH_ParamAccess.item);
-            pManager.AddGenericParameter("_transformer", "_transformer", "", GH_ParamAccess.item);
-            pManager.AddGenericParameter("_electricalStorage", "_electricalStorage", "", GH_ParamAccess.item);
-            pManager.AddGenericParameter("_storageConverter", "_storageConverter", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("generators", "generators", "A list of IB_Generator", GH_ParamAccess.list);
+            pManager.AddGenericParameter("inverter", "inverter", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("transformer", "transformer", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("electricalStorage", "electricalStorage", "", GH_ParamAccess.item);
+            pManager.AddGenericParameter("storageConverter", "storageConverter", "", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[0].DataMapping = GH_DataMapping.Flatten;
