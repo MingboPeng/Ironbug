@@ -26,6 +26,7 @@ namespace Ironbug.HVAC
 
         public IB_ElectricLoadCenterDistribution() : base(NewDefaultOpsObj)
         {
+            this.Children = new IB_Children(4);
         }
 
 
