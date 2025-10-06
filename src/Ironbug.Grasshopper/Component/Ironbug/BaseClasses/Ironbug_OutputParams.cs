@@ -99,7 +99,8 @@ namespace Ironbug.Grasshopper.Component
 
         public bool DestroyParameter(GH_ParameterSide side, int index)
         {
-            throw new NotImplementedException();
+            return true;
+            //throw new NotImplementedException();
         }
 
         public void VariableParameterMaintenance()
