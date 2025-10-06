@@ -27,7 +27,7 @@ namespace Ironbug.HVAC
             if (string.IsNullOrEmpty(SurfaceID))
                 throw new ArgumentException("Invalid PV surface ID");
 
-            var oShade = model.getSurfaceByName(SurfaceID);
+            var oShade = model.getShadingSurfaceByName(SurfaceID);
             if (oShade == null || oShade.isNull())
                 throw new ArgumentException($"Invalid PV surface ID: {SurfaceID}");
             if (!oShade.is_initialized())
