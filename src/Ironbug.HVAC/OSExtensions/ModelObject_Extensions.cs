@@ -296,9 +296,16 @@ namespace Ironbug.HVAC
                 var customStr = String.Empty;
                 if (field.IsRealType())
                 {
-                    //try to convert the unit and value
-                    oQuantity = com.getQuantity(index, true, ifIPUnit);
-                    customStr = oQuantity.isSet() ? oQuantity.get().value().ToString() : valueStr;
+                    try
+                    {
+                        //try to convert the unit and value
+                        oQuantity = com.getQuantity(index, true, ifIPUnit);
+                        customStr = oQuantity.isSet() ? oQuantity.get().value().ToString() : valueStr;
+                    }
+                    catch (Exception)
+                    {
+                        customStr = valueStr;
+                    }
                 }
                 else
                 {
