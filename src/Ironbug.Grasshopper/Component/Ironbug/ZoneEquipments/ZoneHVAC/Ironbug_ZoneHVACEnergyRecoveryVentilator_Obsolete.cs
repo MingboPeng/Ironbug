@@ -4,10 +4,10 @@ using Ironbug.HVAC;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public class Ironbug_ZoneHVACEnergyRecoveryVentilator : Ironbug_HVACWithParamComponent
+    public class Ironbug_ZoneHVACEnergyRecoveryVentilator_Obsolete : Ironbug_HVACWithParamComponent
     {
         
-        public Ironbug_ZoneHVACEnergyRecoveryVentilator()
+        public Ironbug_ZoneHVACEnergyRecoveryVentilator_Obsolete()
           : base("IB_ZoneHVACEnergyRecoveryVentilator", "ZoneERV",
               "Description",
               "Ironbug", "04:ZoneEquipments",
@@ -16,21 +16,21 @@ namespace Ironbug.Grasshopper.Component
         }
         protected override System.Drawing.Bitmap Icon => Properties.Resources.zoneERV;
 
-        public override Guid ComponentGuid => new Guid("ECC245DB-2D57-4D88-A60A-CC073C3668D6");
+        public override Guid ComponentGuid => new Guid("B117A73D-597E-4922-9E34-F93F081EBE2F");
 
-        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+        public override bool Obsolete => true;
+        public override GH_Exposure Exposure => GH_Exposure.hidden;
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("HeatingExchanger", "_HeatEx", "Must be HeatExchangerAirToAirSensibleAndLatent.", GH_ParamAccess.item);
             pManager.AddGenericParameter("SupplyFan", "_spFan", "Fan:OnOff.", GH_ParamAccess.item);
             pManager.AddGenericParameter("ExhaustFan", "_exFan", "Fan:OnOff.", GH_ParamAccess.item);
-            pManager.AddGenericParameter("Controller", "_ctrl_", "IB_ZoneHVACEnergyRecoveryVentilatorController", GH_ParamAccess.item);
 
             pManager[0].Optional = true;
             pManager[1].Optional = true;
             pManager[2].Optional = true;
-            pManager[3].Optional = true;
+
         }
         
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
@@ -44,17 +44,14 @@ namespace Ironbug.Grasshopper.Component
             var heatingEx = new IB_HeatExchangerAirToAirSensibleAndLatent();
             var spFan = new IB_FanOnOff();
             var exFan = new IB_FanOnOff();
-            IB_ZoneHVACEnergyRecoveryVentilatorController ctrl = null;
 
             DA.GetData(0, ref heatingEx);
             DA.GetData(1, ref spFan);
             DA.GetData(2, ref exFan);
 
+            
             var obj = new HVAC.IB_ZoneHVACEnergyRecoveryVentilator(heatingEx, spFan, exFan);
-
-            if (DA.GetData(3, ref ctrl) && obj != null) {
-                obj.SetController(ctrl);
-            }
+            
 
             this.SetObjParamsTo(obj);
             DA.SetData(0, obj);

@@ -14,6 +14,8 @@ namespace Ironbug.HVAC
         private IB_HeatExchangerAirToAirSensibleAndLatent _heatingExchanger => this.GetChild<IB_HeatExchangerAirToAirSensibleAndLatent>();
         private IB_Fan _supplyFan => this.GetChild<IB_Fan>(1);
         private IB_Fan _exhaustFan => this.GetChild<IB_Fan>(2);
+        private IB_ZoneHVACEnergyRecoveryVentilatorController _controller => this.GetChild<IB_ZoneHVACEnergyRecoveryVentilatorController>(3);
+        
         private IB_ZoneHVACEnergyRecoveryVentilator() : base(null) { }
         public IB_ZoneHVACEnergyRecoveryVentilator(IB_HeatExchangerAirToAirSensibleAndLatent HeExchanger, IB_Fan SupplyFan, IB_Fan ExhaustFan) 
             : base((Model m) => NewDefaultOpsObj(m, HeExchanger, SupplyFan, ExhaustFan))
@@ -21,12 +23,25 @@ namespace Ironbug.HVAC
             this.AddChild(HeExchanger);
             this.AddChild(SupplyFan);
             this.AddChild(ExhaustFan);
+            this.AddChild(null);
+        }
+
+        public void SetController(IB_ZoneHVACEnergyRecoveryVentilatorController controller)
+        {
+            this.SetChild(3, controller);
         }
         
 
         public override HVACComponent ToOS(Model model)
         {
-            return base.OnNewOpsObj(LocalInitMethod, model);
+            var obj = base.OnNewOpsObj(LocalInitMethod, model);
+            if (_controller is not null)
+            {
+                var controller = _controller.ToOS(model);
+                obj.setController(controller);
+            }
+
+            return obj;
 
             ZoneHVACEnergyRecoveryVentilator LocalInitMethod(Model m)
             => new ZoneHVACEnergyRecoveryVentilator(
