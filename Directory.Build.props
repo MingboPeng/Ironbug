@@ -1,0 +1,8 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- OpenStudio version for the platform-specific NREL.OpenStudio.* packages (win, linux-x64, macOS-arm64) -->
+    <OpenStudioVersion>3.10.0</OpenStudioVersion>
+  </PropertyGroup>
+
+</Project>

@@ -19,12 +19,17 @@
 
 	<!-- for Windows -->
 	<ItemGroup Condition="'$(OS)' == 'Windows_NT'">
-		<PackageReference Include="NREL.OpenStudio.win" Version="3.10.0" />
+		<PackageReference Include="NREL.OpenStudio.win" Version="$(OpenStudioVersion)" />
 	</ItemGroup>
 
 	<!-- for Linux -->
 	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="3.10.0" />
+		<PackageReference Include="NREL.OpenStudio.linux-x64" Version="$(OpenStudioVersion)" />
+	</ItemGroup>
+
+	<!-- for macOS (Apple Silicon) -->
+	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+		<PackageReference Include="NREL.OpenStudio.macOS-arm64" Version="$(OpenStudioVersion)" />
 	</ItemGroup>
 
 	<!-- <Target Name="PostBuild" AfterTargets="PostBuildEvent">
