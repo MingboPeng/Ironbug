@@ -8,13 +8,18 @@
         "assets": [
           {
             "path": "installer.exe",
-            "name": "IronbugInstaller-${nextRelease.version}.exe",
-            "label": "IronbugInstaller-${nextRelease.version}.exe"
+            "name": "IronbugInstaller-win-${nextRelease.version}.exe",
+            "label": "IronbugInstaller-win-${nextRelease.version}.exe"
           },
           {
             "path": "ironbug.zip",
-            "name": "ironbug-${nextRelease.version}.zip",
-            "label": "ironbug-${nextRelease.version}.zip"
+            "name": "ironbug-win-${nextRelease.version}.zip",
+            "label": "ironbug-win-${nextRelease.version}.zip"
+          },
+          {
+            "path": "ironbug.macos.zip",
+            "name": "ironbug.macos-${nextRelease.version}.zip",
+            "label": "ironbug.macos-${nextRelease.version}.zip"
           },
           {
             "path": "ironbug.console.win.zip",
@@ -25,6 +30,11 @@
             "path": "ironbug.console.linux.zip",
             "name": "ironbug.console.linux-${nextRelease.version}.zip",
             "label": "ironbug.console.linux-${nextRelease.version}.zip"
+          },
+          {
+            "path": "ironbug.console.macos.zip",
+            "name": "ironbug.console.macos-${nextRelease.version}.zip",
+            "label": "ironbug.console.macos-${nextRelease.version}.zip"
           }
         ]
       }
