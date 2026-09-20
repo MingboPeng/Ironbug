@@ -48,5 +48,5 @@ build-console-mac:
 	zip -r ironbug.console.macos.zip ./src/Ironbug.Console/bin/Release/net8/osx-arm64
 
 	cp ./src/Ironbug.Console/bin/Release/net8/osx-arm64/* installer/plugin-mac/
-	rm -r ./installer/plugin-mac/openstudio* ./installer/plugin-mac/OpenStudio*
+	find ./installer/plugin-mac -iname "*openstudio*" -exec rm -rf {} \;
 
