@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
 {
     public class Ironbug_OutputParams : Ironbug_Component, IGH_VariableParameterComponent
     {
-        private IB_OutputVariable.TimeSteps _outputFrequency = IB_OutputVariable.TimeSteps.Hourly; 
+        private IB_OutputVariable.TimeSteps _outputFrequency = IB_OutputVariable.TimeSteps.Hourly;
         protected override System.Drawing.Bitmap Icon => Properties.Resources.OutputVariable;
 
         public override Guid ComponentGuid => new Guid("03687964-1876-4593-B038-23905C85D5CC");
@@ -44,8 +44,8 @@ namespace Ironbug.Grasshopper.Component
             {
                 this.Message = "Right click to add!";
             }
-            
-           
+
+
             var settingDatas = new List<IB_OutputVariable>();
             settingDatas = CollectOutputVariable();
             var vars = new OutputVariables(settingDatas);
@@ -83,7 +83,7 @@ namespace Ironbug.Grasshopper.Component
 
         public bool CanInsertParameter(GH_ParameterSide side, int index)
         {
-            return false ;
+            return false;
         }
 
         public bool CanRemoveParameter(GH_ParameterSide side, int index)
@@ -117,38 +117,39 @@ namespace Ironbug.Grasshopper.Component
             var t = new ToolStripMenuItem("OutputVariables");
             this.GetEPOutputVariables(this, EventArgs.Empty);
             var allParams = this.OutputVariables.ToList();
-            
+
             var inputParams = this.Params.Input.Select(_ => _.Name).ToList();
             allParams.Sort();
             foreach (var item in allParams)
             {
                 var mitem = Menu_AppendItem(t.DropDown, item, OnClickParam, true, inputParams.Any(_ => _ == item));
             }
-            if (allParams.Any()) {
+            if (allParams.Any())
+            {
                 menu.Items.Add(t);
             }
-            
+
             Menu_AppendSeparator(menu);
             Menu_AppendItem(menu, "Hourly", ChangeReportRrequencyHourly, true, this._outputFrequency == IB_OutputVariable.TimeSteps.Hourly)
                     .ToolTipText = "Report selected variables hourly";
-            Menu_AppendItem(menu, "Daily", ChangeReportRrequencyDaily, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.Daily)
+            Menu_AppendItem(menu, "Daily", ChangeReportRrequencyDaily, true, this._outputFrequency == IB_OutputVariable.TimeSteps.Daily)
                     .ToolTipText = "Report selected variables daily";
-            Menu_AppendItem(menu, "Monthly", ChangeReportRrequencyMonthly, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.Monthly)
+            Menu_AppendItem(menu, "Monthly", ChangeReportRrequencyMonthly, true, this._outputFrequency == IB_OutputVariable.TimeSteps.Monthly)
                     .ToolTipText = "Report selected variables monthly";
-            Menu_AppendItem(menu, "RunPeriod", ChangeReportRrequencyAnnually, true, this._outputFrequency ==  IB_OutputVariable.TimeSteps.RunPeriod)
+            Menu_AppendItem(menu, "RunPeriod", ChangeReportRrequencyAnnually, true, this._outputFrequency == IB_OutputVariable.TimeSteps.RunPeriod)
                     .ToolTipText = "Report selected variables for entire run period";
             Menu_AppendSeparator(menu);
         }
 
         private void ChangeReportRrequencyDaily(object sender, EventArgs e)
         {
-            this._outputFrequency =  IB_OutputVariable.TimeSteps.Daily;
+            this._outputFrequency = IB_OutputVariable.TimeSteps.Daily;
             this.ExpireSolution(true);
         }
 
         private void ChangeReportRrequencyAnnually(object sender, EventArgs e)
         {
-            this._outputFrequency =  IB_OutputVariable.TimeSteps.RunPeriod;
+            this._outputFrequency = IB_OutputVariable.TimeSteps.RunPeriod;
             this.ExpireSolution(true);
         }
 
@@ -180,7 +181,7 @@ namespace Ironbug.Grasshopper.Component
         {
             var clickedItem = sender as ToolStripMenuItem;
             if (clickedItem == null) return;
-            
+
             //var name = clickedItem.Text;
             if (!clickedItem.Checked)
             {
@@ -207,10 +208,10 @@ namespace Ironbug.Grasshopper.Component
             if (recs.Count == 0) return;
 
             var rec = recs[0].Attributes.GetTopLevel.DocObject as Ironbug_HVACComponent;
-            if (rec is null) AddRuntimeMessage( GH_RuntimeMessageLevel.Error, $"{recs[0].Attributes.GetTopLevel.DocObject.Name} is not a valid Ironbug HVAC component.");
+            if (rec is null) AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"{recs[0].Attributes.GetTopLevel.DocObject.Name} is not a valid Ironbug HVAC component.");
             var obj = rec.IB_ModelObject;
             if (obj is null) return;
-            
+
             if (obj is IB_ModelObject ibObj)
             {
                 this.OutputVariables = ibObj.SimulationOutputVariables;
@@ -242,18 +243,18 @@ namespace Ironbug.Grasshopper.Component
             Params.RegisterInputParam(newParam, index);
         }
 
-        
+
     }
 
     public class OutputVariables : List<IB_OutputVariable>
     {
-        public OutputVariables(List<IB_OutputVariable> list): base(list)
+        public OutputVariables(List<IB_OutputVariable> list) : base(list)
         {
         }
         public override string ToString()
         {
-            var names = this?.Select(_=>_.VariableName)?.ToList();
-            if(names != null && names.Any())
+            var names = this?.Select(_ => _.VariableName)?.ToList();
+            if (names != null && names.Any())
             {
                 return string.Join(Environment.NewLine, names);
             }
@@ -261,7 +262,7 @@ namespace Ironbug.Grasshopper.Component
             {
                 return "No variable";
             }
-        
+
         }
     }
 }

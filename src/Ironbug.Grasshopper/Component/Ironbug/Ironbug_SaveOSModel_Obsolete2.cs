@@ -11,7 +11,7 @@ namespace Ironbug.Grasshopper.Component
     {
         public override bool Obsolete => true;
         public override GH_Exposure Exposure => GH_Exposure.hidden;
-        protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC; 
+        protected override System.Drawing.Bitmap Icon => Properties.Resources.saveHVAC;
         public override Guid ComponentGuid => new Guid("{2B473359-4DFC-4DE7-BD3E-79C119C64250}");
 
         bool _overrideMode = false;
@@ -51,9 +51,9 @@ namespace Ironbug.Grasshopper.Component
             DA.GetData(2, ref write);
 
             if (!write) return;
-            
+
             if (string.IsNullOrEmpty(filepath)) return;
-           
+
             if (File.Exists(filepath))
             {
                 if (this._overrideMode)
@@ -86,7 +86,7 @@ namespace Ironbug.Grasshopper.Component
 
                     throw;
                 }
-               
+
             }
 
             void OpenOPS(string FilePath)
@@ -106,7 +106,7 @@ namespace Ironbug.Grasshopper.Component
                 {
                     Process.Start(FilePath);
                 }
-               
+
             }
 
         }
@@ -114,7 +114,7 @@ namespace Ironbug.Grasshopper.Component
 
         protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
-            
+
             Menu_AppendItem(menu, "Override", ChangeOverrideModel, true, _overrideMode)
                .ToolTipText = "This will remove the osm file first if exists.";
             Menu_AppendItem(menu, "Write&Open", ChangeWriteMode, true, _writeMode == 1)
@@ -151,7 +151,7 @@ namespace Ironbug.Grasshopper.Component
 
         public override bool Write(GH_IWriter writer)
         {
-            writer.SetBoolean ("OverrideMode", this._overrideMode);
+            writer.SetBoolean("OverrideMode", this._overrideMode);
             writer.SetInt32("_writeMode", this._writeMode);
             return base.Write(writer);
         }

@@ -11,8 +11,8 @@ namespace Ironbug.Grasshopper.Component.Ironbug
     {
 
         /// Initializes a new instance of the Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow class.
-        
-        
+
+
         public Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow()
           : base("IB_ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFTerminal",
               "Description",
@@ -27,7 +27,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
         }
 
-        
+
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit", "Connect to Zone's equipment", GH_ParamAccess.item);
@@ -38,10 +38,10 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         {
             this.Message = this._airloop ? "Airloop obj" : null;
             var obj = new HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow();
-            
+
             this.SetObjParamsTo(obj);
             var objs = this.SetObjDupParamsTo(obj);
- 
+
             for (int i = 0; i < this.Params.Output.Count; i++)
             {
                 DA.SetDataList(i, objs);

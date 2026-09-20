@@ -86,7 +86,7 @@ namespace Ironbug.Grasshopper.Component
 
                 if (!success)
                 {
-                    MessageBox.Show("Failed to add template.");
+                    Eto.Forms.MessageBox.Show("Failed to add template.");
                     return;
                 }
                 var docTemp = io.Document;
