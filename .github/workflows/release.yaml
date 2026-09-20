@@ -180,6 +180,12 @@ jobs:
         run: |
           make build-console-mac NEW_RELEASE_VERSION=${{ env.ReleaseVersion }}
 
+      - name: Setup .NET 8 (arm64)
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: "8.0.x"
+          architecture: arm64
+
       - name: Console test
         run: |
           echo "Test standalone console with sample model"
