@@ -1,0 +1,25 @@
+{
+  // Ironbug Grasshopper plugin - launch Rhino 8 to debug the plugin (net8).
+  // Rhino 7 (net48) can only be debugged with Visual Studio - see Properties/launchSettings.json.
+  // Note: build outputs (bin/...) must be registered in Grasshopper's
+  // Developer Settings (or copied to the GH Libraries folder) for Rhino to load them.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Rhino 8 - Windows (net8)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build Grasshopper (net8)"
+    },
+    {
+      "name": "Rhino 8 - macOS (net8)",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "/Applications/Rhino 8.app/Contents/MacOS/Rhinoceros",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "build Grasshopper (net8)"
+    }
+  ]
+}

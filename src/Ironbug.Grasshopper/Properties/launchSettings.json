@@ -1,8 +1,16 @@
 {
   "profiles": {
-    "Rhino8": {
+    "Rhino 7 - Windows (net48)": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Rhino 7\\System\\Rhino.exe"
+    },
+    "Rhino 8 - Windows (net8)": {
       "commandName": "Executable",
       "executablePath": "C:\\Program Files\\Rhino 8\\System\\Rhino.exe"
+    },
+    "Rhino 8 - macOS (net8)": {
+      "commandName": "Executable",
+      "executablePath": "/Applications/Rhino 8.app/Contents/MacOS/Rhinoceros"
     }
   }
 }
