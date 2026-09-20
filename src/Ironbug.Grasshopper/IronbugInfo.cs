@@ -18,7 +18,7 @@ namespace Ironbug.Grasshopper.Component
         public override string AuthorName => "Mingbo Peng";
         public override string AuthorContact => "Mingbo@alumni.upenn.edu";
         //public override string AssemblyVersion => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-        
+
         public override GH_LibraryLicense License => GH_LibraryLicense.opensource;
         public static string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
     }
@@ -34,13 +34,13 @@ namespace Ironbug.Grasshopper.Component
             }
             catch (System.IO.FileNotFoundException loadError)
             {
-                System.Windows.Forms.MessageBox.Show(loadError.Message);
+                Eto.Forms.MessageBox.Show(loadError.Message);
             }
 
             GH.Instances.ComponentServer.AddCategoryIcon("Ironbug", Properties.Resources.Ironbug);
             GH.Instances.ComponentServer.AddCategoryShortName("Ironbug", "IB");
             GH.Instances.ComponentServer.AddCategorySymbolName("Ironbug", 'I');
-            
+
             return GH_LoadingInstruction.Proceed;
         }
 

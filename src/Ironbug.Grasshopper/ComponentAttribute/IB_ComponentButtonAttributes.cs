@@ -38,8 +38,8 @@ namespace Ironbug.Grasshopper.Component
 
             if (channel == GH_CanvasChannel.Objects)
             {
-                GH_Capsule button = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, ButtonText , 2, 0);
-                button.Render(graphics, Selected,false, false);
+                GH_Capsule button = GH_Capsule.CreateTextCapsule(ButtonBounds, ButtonBounds, GH_Palette.Black, ButtonText, 2, 0);
+                button.Render(graphics, Selected, false, false);
                 button.Dispose();
             }
         }
@@ -51,7 +51,7 @@ namespace Ironbug.Grasshopper.Component
                 RectangleF rec = ButtonBounds;
                 if (rec.Contains(e.CanvasLocation))
                 {
-                    var aa = sender.Location ;
+                    var aa = sender.Location;
                     this.MouseDownEvent(sender);
                     return GH_ObjectResponse.Handled;
                 }
@@ -60,5 +60,5 @@ namespace Ironbug.Grasshopper.Component
         }
 
     }
-    
+
 }

@@ -233,7 +233,7 @@ namespace Ironbug.Grasshopper.Component
                 return new List<IB_ModelObject>() { IB_obj };
             }
 
-            
+
 
         }
 
@@ -316,13 +316,13 @@ namespace Ironbug.Grasshopper.Component
 
     public abstract class Ironbug_HVACWithParamComponent : Ironbug_HVACComponent
     {
-      
-        public Ironbug_HVACWithParamComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType) 
-            :base(name, nickname, description, category, subCategory,DataFieldType, 
-                 hasParam:true)
+
+        public Ironbug_HVACWithParamComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
+            : base(name, nickname, description, category, subCategory, DataFieldType,
+                 hasParam: true)
         {
         }
-        
+
     }
     public abstract class Ironbug_DuplicableHVACComponent : Ironbug_HVACComponent
     {
@@ -342,9 +342,9 @@ namespace Ironbug.Grasshopper.Component
     public abstract class Ironbug_DuplicableHVACWithParamComponent : Ironbug_HVACComponent
     {
         public Ironbug_DuplicableHVACWithParamComponent(string name, string nickname, string description, string category, string subCategory, Type DataFieldType)
-            : base(name, nickname, description, category, subCategory, DataFieldType, 
-                  hasParam: true, 
-                  hasDup:true)
+            : base(name, nickname, description, category, subCategory, DataFieldType,
+                  hasParam: true,
+                  hasDup: true)
         {
         }
         public override void CreateAttributes()

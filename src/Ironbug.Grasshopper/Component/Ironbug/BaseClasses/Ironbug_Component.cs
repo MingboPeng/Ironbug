@@ -7,14 +7,14 @@ using GH = Grasshopper;
 
 namespace Ironbug.Grasshopper.Component
 {
-    public abstract class Ironbug_Component: GH_Component
+    public abstract class Ironbug_Component : GH_Component
     {
         private static bool _hasSunGlasses = GH.Instances.ComponentServer.Libraries.FirstOrDefault(_ => _.Id == Guid.Parse("194607e9-d4d6-4e5a-836f-a65774231315") || _.Name == "Sunglasses") != null;
 
         public static int DisplayMode = _hasSunGlasses ? 0 : 1;
         public string InstanceVersion = string.Empty;
         private bool _isOldVersion = false;
-       
+
 
         public Ironbug_Component(string name, string nickname, string description, string category, string subCategory)
             : base(name, nickname, description, category, subCategory)
@@ -41,10 +41,10 @@ namespace Ironbug.Grasshopper.Component
             Menu_AppendItem(t.DropDown, "Icon + NickName", SetMode1, true, DisplayMode == 1);
             Menu_AppendItem(t.DropDown, "Icon + FullName", SetMode2, true, DisplayMode == 2);
             menu.Items.Add(t);
-            
-            Menu_AppendItem(menu, $"VER {InstanceVersion}").ToolTipText= "Source: https://github.com/MingboPeng/Ironbug";
 
-            
+            Menu_AppendItem(menu, $"VER {InstanceVersion}").ToolTipText = "Source: https://github.com/MingboPeng/Ironbug";
+
+
         }
 
         private void SetMode0(object sender, EventArgs e)
@@ -88,13 +88,13 @@ namespace Ironbug.Grasshopper.Component
         private bool IsVersionCheckOk()
         {
             var v1 = new Version(IronbugInfo.version); //0.0.0.13 plugin version
-            var v0 = this.InstanceVersion == "[unknown version]"? new Version(): new Version(this.InstanceVersion); // component instance version
+            var v0 = this.InstanceVersion == "[unknown version]" ? new Version() : new Version(this.InstanceVersion); // component instance version
 
             var isOldVersion = v1.Build - v0.Build > 2;
-            if (v0>v1)
+            if (v0 > v1)
             {
                 this.AddRuntimeMessage(GH_RuntimeMessageLevel.Error, $"This component is from a newer version {v0}, but you have installed Ironbug {v1}, which might cause issues. \nPlease update to the most updated Ironbug");
-        
+
             }
             return isOldVersion;
         }
@@ -122,7 +122,7 @@ namespace Ironbug.Grasshopper.Component
         {
             HVAC.BaseClass.IB_ModelObject.IPUnit = !HVAC.BaseClass.IB_ModelObject.IPUnit;
 
-            MessageBox.Show("This only applies to ObjParams component for unit conversions for your convenience!\rKeep in mind, the rest of world is still using SI unit, such as in setpointmanagers, and all Ladybug/Honeybee components!");
+            Eto.Forms.MessageBox.Show("This only applies to ObjParams component for unit conversions for your convenience!\rKeep in mind, the rest of world is still using SI unit, such as in setpointmanagers, and all Ladybug/Honeybee components!");
             //TODO: maybe need recompute all??
             //Only Panel
             //But is it necessary, the unit is only for representation

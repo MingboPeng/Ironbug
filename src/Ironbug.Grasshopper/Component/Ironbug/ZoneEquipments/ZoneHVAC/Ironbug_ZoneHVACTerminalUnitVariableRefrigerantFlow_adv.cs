@@ -10,7 +10,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
 {
     public class Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv : Ironbug_HVACWithParamComponent
     {
-        
+
         public Ironbug_ZoneHVACTerminalUnitVariableRefrigerantFlow_Adv()
           : base("IB_ZoneHVACTerminalUnitVariableRefrigerantFlow+", "VRFTerminal+",
               "Use this component to set customized cooling coil, heating coil, or fan for VRF terminal unit.",
@@ -33,7 +33,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
                 "Optional input, but use FanOnOff only", GH_ParamAccess.item)].Optional = true;
         }
 
-        
+
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddGenericParameter("ZoneHVACTerminalUnitVariableRefrigerantFlow", "VRFUnit", "Connect to Zone's equipment or airloop supply side", GH_ParamAccess.item);
@@ -43,7 +43,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             this.Message = this._airloop ? "Airloop obj" : null;
-            IB_CoilCoolingDXVariableRefrigerantFlow cCoil= null;
+            IB_CoilCoolingDXVariableRefrigerantFlow cCoil = null;
             IB_CoilHeatingDXVariableRefrigerantFlow hCoil = null;
             IB_FanOnOff fan = null;
 
@@ -52,7 +52,7 @@ namespace Ironbug.Grasshopper.Component.Ironbug
             if (!DA.GetData(2, ref fan)) fan = new IB_FanOnOff();
 
             var obj = new HVAC.IB_ZoneHVACTerminalUnitVariableRefrigerantFlow(cCoil, hCoil, fan);
-            
+
             this.SetObjParamsTo(obj);
 
             for (int i = 0; i < this.Params.Output.Count; i++)

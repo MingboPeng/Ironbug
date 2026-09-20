@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
@@ -22,7 +23,7 @@ namespace Ironbug.Grasshopper.Component
         }
 
         public override GH_Exposure Exposure => GH_Exposure.tertiary;
-        
+
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddGenericParameter("Branch1", "B1", "Items to be added to a branch. Tree structured objects will be automatically converted to branches, instead of one branch.", GH_ParamAccess.tree);
@@ -36,10 +37,10 @@ namespace Ironbug.Grasshopper.Component
             pManager.AddGenericParameter("PlantLoopBranches", "Branches", "use this in plantloop", GH_ParamAccess.tree);
         }
 
-        
+
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            
+
             var branches = this.CollectBranches();
             this.Message = this.CountBranches(branches);
 
@@ -82,8 +83,8 @@ namespace Ironbug.Grasshopper.Component
             foreach (var param in Params.Input)
             {
                 inputI++;
-                param.NickName = $"B{ inputI }";
-                
+                param.NickName = $"B{inputI}";
+
             }
         }
 
@@ -92,7 +93,7 @@ namespace Ironbug.Grasshopper.Component
         public override Guid ComponentGuid => new Guid("2d545ece-6191-4b87-980b-42b76efd9d0c");
 
 
-        
+
 
         private string CountBranches(DataTree<HVAC.IB_PlantLoopBranches> TreeLoops)
         {
@@ -106,7 +107,7 @@ namespace Ironbug.Grasshopper.Component
                 totalB += loop.First().Branches.Count;
             }
 
-            if (totalB > 0) messages = totalB==1? $"{totalB} branch": $"{totalB} branches";
+            if (totalB > 0) messages = totalB == 1 ? $"{totalB} branch" : $"{totalB} branches";
             if (TreeLoops.BranchCount > 1) messages += $"/{TreeLoops.BranchCount} Loops";
 
             return messages;
@@ -126,18 +127,18 @@ namespace Ironbug.Grasshopper.Component
                 }
 
                 var tree = new List<List<IB_HVACObject>>();
-                
+
                 if (!param.VolatileData.IsEmpty)
                 {
                     MapBranchToBranch(ref treeLoops, (GH_Structure<IGH_Goo>)param.VolatileData);
-                    
+
                 }
 
             }
 
             return treeLoops;
 
-            void MapBranchToBranch(ref DataTree<HVAC.IB_PlantLoopBranches> loops, GH_Structure< IGH_Goo> ghTrees)
+            void MapBranchToBranch(ref DataTree<HVAC.IB_PlantLoopBranches> loops, GH_Structure<IGH_Goo> ghTrees)
             {
                 //DataTree<HVAC.IB_PlantLoopBranches> loops = new DataTree<HVAC.IB_PlantLoopBranches>();
                 //var tempLoop = new HVAC.IB_PlantLoopBranches();
@@ -164,7 +165,7 @@ namespace Ironbug.Grasshopper.Component
                     }
                     else
                     {
-                        if (loops.BranchCount ==0)
+                        if (loops.BranchCount == 0)
                         {
                             loops.Add(new HVAC.IB_PlantLoopBranches());
                         }
@@ -193,7 +194,7 @@ namespace Ironbug.Grasshopper.Component
             if (Params.Input.Last().Sources.Any())
             {
                 IGH_Param newParam = CreateParameter(GH_ParameterSide.Input, Params.Input.Count);
-               
+
                 Params.RegisterInputParam(newParam, Params.Input.Count);
                 VariableParameterMaintenance();
                 Params.OnParametersChanged();
@@ -216,7 +217,7 @@ namespace Ironbug.Grasshopper.Component
             return base.Read(reader);
         }
 
-        protected override void AppendAdditionalComponentMenuItems(System.Windows.Forms.ToolStripDropDown menu)
+        protected override void AppendAdditionalComponentMenuItems(ToolStripDropDown menu)
         {
 
             Menu_AppendItem(menu, "Map branch to Loop", ChangeMapping, true, this.mapBranchToLoop)
