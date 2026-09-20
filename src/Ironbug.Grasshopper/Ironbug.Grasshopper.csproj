@@ -1,14 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net48;net8-windows</TargetFrameworks>
+		<!-- Rhino 7 (Windows): net48 | Rhino 8 (Windows + macOS): net8.0 -->
+		<TargetFrameworks>net48;net8.0</TargetFrameworks>
 		<Platforms>x64</Platforms>
 		<TargetExt>.gha</TargetExt>
 		<AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
 		<Version>1.0.1</Version>
-		<UseWindowsForms>true</UseWindowsForms>
 		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<NoWarn>NU1701;NETSDK1086</NoWarn>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 	</PropertyGroup>
+	
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
 		<DebugType>none</DebugType>
@@ -16,25 +20,37 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Grasshopper" Version="6.23.20055.13111" IncludeAssets="compile;build" />
-		<PackageReference Include="NREL.OpenStudio.win" Version="$(OpenStudioVersion)" IncludeAssets="compile;build" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<!-- References specific to .NET Framework 4.8 -->
+		<PackageReference Include="Grasshopper" Version="7.0.20314.3001" Condition="$(TargetFramework) == 'net48'" ExcludeAssets="runtime" />
+		<PackageReference Include="Grasshopper" Version="8.12.24282.7001" Condition="$(TargetFramework) != 'net48'" ExcludeAssets="runtime" />
+		<!-- non-string (Bitmap) resources in the resx files require System.Resources.Extensions at runtime on both targets -->
 		<PackageReference Include="System.Resources.Extensions" Version="8.0.0" />
 	</ItemGroup>
 
+	<!-- for Windows Packages-->
+	<ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+		<PackageReference Include="NREL.OpenStudio.win" Version="$(OpenStudioVersion)" IncludeAssets="compile;build" />
+	</ItemGroup>
+
+	<!-- for macOS (Apple Silicon): Rhino 8 for Mac -->
+	<ItemGroup Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' ">
+		<PackageReference Include="NREL.OpenStudio.macOS-arm64" Version="$(OpenStudioVersion)" IncludeAssets="compile;build" />
+	</ItemGroup>
+
+	<!-- for Rhino 8 with net 8.0 (Windows + macOS) -->
+	<ItemGroup Condition="$(TargetFramework) != 'net48'">
+		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
+	</ItemGroup>
+
+	<!-- for Rhino 7 Windows -->
+	<PropertyGroup Condition="$(TargetFramework) == 'net48'">
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Ironbug.Core\Ironbug.Core.csproj" />
 		<ProjectReference Include="..\Ironbug.HVAC\Ironbug.HVAC.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Reference Include="System.Windows" />
-		<Reference Include="System.Windows.Forms" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Update="Properties\Resources.Designer.cs">
@@ -52,7 +68,8 @@
 	</ItemGroup>
 
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<!-- on Windows the OpenStudio files are removed from the output: they are loaded at runtime from the Ladybug Tools installation -->
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(OS)' == 'Windows_NT'">
 	  <Exec Command="Del $(TargetDir)OpenStudio*" />
 	</Target>
 
