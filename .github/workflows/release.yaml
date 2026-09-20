@@ -188,9 +188,9 @@ jobs:
 
           echo "Test console with GH plugin"
           mkdir -p ~/ladybug_tools/openstudio/CSharp/openstudio
-          cp ./src/Ironbug.Console/bin/Release/net8/osx-arm64/* ~/ladybug_tools/openstudio/CSharp/openstudio -r
+          cp -r ./src/Ironbug.Console/bin/Release/net8/osx-arm64/* ~/ladybug_tools/openstudio/CSharp/openstudio
           mkdir -p ~/ladybug_tools/grasshopper/ironbug
-          cp ./installer/plugin-mac/* ~/ladybug_tools/grasshopper/ironbug -r
+          cp -r ./installer/plugin-mac/* ~/ladybug_tools/grasshopper/ironbug
           cp "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/FourOfficeBuilding.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm"
           ~/ladybug_tools/grasshopper/ironbug/Ironbug.Console "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test2.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
@@ -199,8 +199,8 @@ jobs:
           # remove OpenStudio files - they are loaded from the Ladybug Tools installation at runtime
           find ./installer/plugin-mac -iname "*openstudio*" -exec rm -rf {} \;
           mkdir ./ironbug
-          cp ./installer/plugin-mac/* ./ironbug -r
-          cp ./installer/HVACTemplates ./ironbug -r
+          cp -r ./installer/plugin-mac/* ./ironbug
+          cp -r ./installer/HVACTemplates ./ironbug
           zip -r ironbug.macos.zip ironbug
           ls -l
 

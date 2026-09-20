@@ -8,9 +8,9 @@ build-Grasshopper:
 	mkdir -p installer/plugin
 	mv src/Ironbug.Grasshopper/bin/x64/Release/net48/* installer/plugin/
 	mkdir -p installer/HVACTemplates
-	cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
+	cp -r doc/HVAC_GHTemplates/* installer/HVACTemplates
 
-	ls installer -r
+	ls -r installer
 
 # run on macOS (Apple Silicon)
 # restore is done separately: a build with "-f" + "/restore" would restore the referenced
@@ -21,9 +21,9 @@ build-Grasshopper-mac:
 	mkdir -p installer/plugin-mac
 	mv src/Ironbug.Grasshopper/bin/Release/net8.0/* installer/plugin-mac/
 	mkdir -p installer/HVACTemplates
-	cp doc/HVAC_GHTemplates/* installer/HVACTemplates -r
+	cp -r doc/HVAC_GHTemplates/* installer/HVACTemplates
 
-	ls installer -r
+	ls -r installer
 
 build-console-win:
 	dotnet build ./src/Ironbug.Console/Ironbug.Console.csproj /p:Configuration=Release /p:Platform=x64 /p:Version=$(NEW_RELEASE_VERSION) /restore
@@ -32,8 +32,8 @@ build-console-win:
 	
 	cp ./src/Ironbug.Console/bin/x64/Release/net8/* installer/plugin-net8
 	cp ./src/Ironbug.Console/bin/x64/Release/net48/* installer/plugin/
-	rm ./installer/plugin-net8/openstudio* ./installer/plugin-net8/OpenStudio* -r
-	rm ./installer/plugin/openstudio* ./installer/plugin/OpenStudio* -r
+	rm -r ./installer/plugin-net8/openstudio* ./installer/plugin-net8/OpenStudio*
+	rm -r ./installer/plugin/openstudio* ./installer/plugin/OpenStudio*
 
 
 build-console-linux:
@@ -48,5 +48,5 @@ build-console-mac:
 	zip -r ironbug.console.macos.zip ./src/Ironbug.Console/bin/Release/net8/osx-arm64
 
 	cp ./src/Ironbug.Console/bin/Release/net8/osx-arm64/* installer/plugin-mac/
-	rm ./installer/plugin-mac/openstudio* ./installer/plugin-mac/OpenStudio* -r
+	rm -r ./installer/plugin-mac/openstudio* ./installer/plugin-mac/OpenStudio*
 
