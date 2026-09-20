@@ -3,6 +3,9 @@
   <PropertyGroup>
     <!-- OpenStudio version for the platform-specific NREL.OpenStudio.* packages (win, linux-x64, macOS-arm64) -->
     <OpenStudioVersion>3.10.0</OpenStudioVersion>
+    <!-- Rhino 8 runs natively on both Apple Silicon and Intel, so all managed assemblies must be AnyCPU
+         (McNeel plugin guidance). Platform differences are handled via TargetFramework and platform-specific packages. -->
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
 </Project>
