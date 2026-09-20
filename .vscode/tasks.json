@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build Grasshopper (net48)",
+      "type": "shell",
+      "command": "dotnet build src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj -f net48",
+      "problemMatcher": "$msCompile",
+      "group": "build"
+    },
+    {
+      "label": "build Grasshopper (net8)",
+      "type": "shell",
+      "command": "dotnet build src/Ironbug.Grasshopper/Ironbug.Grasshopper.csproj -f net8.0",
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
