@@ -20,14 +20,14 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup MSbuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@v3
 
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6
         id: semantic
         with:
           dry_run: true
@@ -113,7 +113,7 @@ jobs:
           ls -l
 
       - name: Upload Installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: windows
           path: |
@@ -128,7 +128,7 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Unit tests
         run: |
@@ -139,7 +139,7 @@ jobs:
 
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6
         id: semantic
         with:
           dry_run: true
@@ -168,7 +168,7 @@ jobs:
           ./src/Ironbug.Console/bin/Release/net8/linux-x64/Ironbug.Console "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/test.osm" "./src/Ironbug.HVAC_Tests/TestSource/Integration Testing/Sys01_PTAC_AllElec.json"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: linux
           path: ironbug.console.linux.zip
@@ -179,11 +179,11 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Semantic Release - dry run for getting version
         if: github.ref == 'refs/heads/master'
-        uses: cycjimmy/semantic-release-action@v4
+        uses: cycjimmy/semantic-release-action@v6
         id: semantic
         with:
           dry_run: true
@@ -234,7 +234,7 @@ jobs:
           ls -l
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: macos
           path: |
@@ -249,10 +249,10 @@ jobs:
 
     steps:
       - name: "Checkout Master Branch"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download all installers
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
 
       - name: list files
         run: |
@@ -261,7 +261,7 @@ jobs:
           cp ./macos/* .
           ls -l
 
-      - uses: cycjimmy/semantic-release-action@v4
+      - uses: cycjimmy/semantic-release-action@v6
         if: github.ref == 'refs/heads/master'
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
